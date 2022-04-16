@@ -7,10 +7,6 @@
 !Engine/
 Engine/*
 !Engine/*.cs
-Engine/Components/*
-!Engine/Components/*.cs
-Engine/Systems/*
-!Engine/Systems/*.cs
 !Content/
 Content/*
 !Content/*
