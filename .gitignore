@@ -1,0 +1,10 @@
+*
+!.gitignore
+!*.cs
+!Icon.*
+!Engine/
+Engine/*
+!Engine/*.cs
+!Content/
+Content/*
+!Content/*
