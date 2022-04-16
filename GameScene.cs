@@ -47,10 +47,18 @@ namespace AdventureGame
             Engine.AnimationComponent ac = e.GetComponent<Engine.AnimationComponent>();
             ac.animation = new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()));
             ac.state = "idle";
-            
-            entities.Add(
-                e
-            );
+
+            entities.Add(e);
+
+            Entity l = new Entity();
+            l.AddComponent(new Engine.TransformComponent());
+            Engine.TransformComponent tc = l.GetComponent<Engine.TransformComponent>();
+            tc.position.X = 50;
+            tc.position.Y = 50;
+            l.AddComponent(new Engine.LightComponent());
+            Engine.LightComponent lc = l.GetComponent<Engine.LightComponent>();
+            lc.radius = 100;
+            entities.Add(l);
 
             playerCam.trackedEntity = e;
 

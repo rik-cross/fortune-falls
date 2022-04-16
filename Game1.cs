@@ -36,7 +36,26 @@ namespace AdventureGame
         {
             Globals.content = this.Content;
             Globals.graphicsDevice = GraphicsDevice;
+            
             Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Globals.sceneRenderTarget = new RenderTarget2D(
+                Globals.graphicsDevice,
+                Globals.graphicsDevice.PresentationParameters.BackBufferWidth,
+                Globals.graphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                Globals.graphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
+            );
+
+            Globals.lightRenderTarget = new RenderTarget2D(
+                Globals.graphicsDevice,
+                Globals.graphicsDevice.PresentationParameters.BackBufferWidth,
+                Globals.graphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                Globals.graphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
+            );
 
             EngineGlobals.systems.Add(new InputSystem());
             EngineGlobals.systems.Add(new SpriteSystem());

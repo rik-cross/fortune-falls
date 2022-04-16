@@ -6,7 +6,7 @@ namespace AdventureGame.Engine
 {
     public class EngineGlobals
     {
-        public static List<ECSSystem> systems = new List<ECSSystem>();
+        public static List<System> systems = new List<System>();
     }
 
 }

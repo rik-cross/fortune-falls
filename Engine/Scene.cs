@@ -22,6 +22,7 @@ namespace AdventureGame.Engine
 
         public List<Camera> cameraList;
         public List<Entity> entities = new List<Entity>();
+        public float lightLevel = 0.6f;
 
         public Scene()
         {
@@ -38,21 +39,38 @@ namespace AdventureGame.Engine
         public virtual void UnloadContent() { }
 
         public virtual void _Update(GameTime gameTime) {
-            foreach(Camera c in cameraList)
-            {
-                c.Update();
-            }
 
-            foreach (ECSSystem s in EngineGlobals.systems)
+            // update cameras
+            foreach(Camera c in cameraList)
+                c.Update();
+
+            // update each system
+            foreach (System s in EngineGlobals.systems)
             {
-                s._Update(gameTime, this);
+                // main system update
+                s.Update(gameTime, this);
+
+                // entity-specific update
+                foreach (Entity e in entities)
+                    s.UpdateEntity(gameTime, this, e);
             }
+                
+            // update the scene
             Update(gameTime);
         }
 
         public virtual void Update(GameTime gameTime) { }
 
         public void _Draw(GameTime gameTime) {
+
+            var blend = new BlendState
+            {
+                AlphaBlendFunction = BlendFunction.ReverseSubtract,
+                AlphaSourceBlend = Blend.One,
+                AlphaDestinationBlend = Blend.One,
+            };
+
+            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
 
             Texture2D bg = Globals.content.Load<Texture2D>("map");
 
@@ -62,7 +80,7 @@ namespace AdventureGame.Engine
                 // draw camera background
                 Globals.graphicsDevice.Viewport = c.getViewport();
                 Globals.spriteBatch.Begin();
-                Globals.spriteBatch.FillRectangle(0,0, c.size.X, c.size.Y, c.backgroundColour);
+                Globals.spriteBatch.FillRectangle(0, 0, c.size.X, c.size.Y, c.backgroundColour);
 
                 Globals.spriteBatch.End();
 
@@ -70,16 +88,60 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
                 Globals.spriteBatch.Draw(bg, new Rectangle(0, 0, 2048, 2048), Color.White);
 
-                // draw each entity
-                foreach (ECSSystem s in EngineGlobals.systems)
+                // draw each system
+                foreach (System s in EngineGlobals.systems)
                 {
+                    // entity-specific draw
                     foreach (Entity e in entities)
-                    {
                         s.DrawEntity(gameTime, this, e);
+
+                }
+                Globals.spriteBatch.End();
+
+                // scene light level
+                Globals.graphicsDevice.SetRenderTarget(Globals.lightRenderTarget);
+                Globals.graphicsDevice.Viewport = c.getViewport();
+                Globals.graphicsDevice.Clear(Color.Transparent);
+                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.FillRectangle(
+                    0 - c.worldPosition.X - c.size.X/2,
+                    0 - c.worldPosition.Y - c.size.Y/2,
+                    c.size.X, c.size.Y,
+                    new Color(0, 0, 0, (int)(255*(1-lightLevel)))
+                );
+                Globals.spriteBatch.End();
+
+                // scene lighting
+                // (currently not a system, as lights need to be rendered at a specific time)
+                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix(), blendState: blend);
+                var alphaMask = Globals.content.Load<Texture2D>("light");
+                foreach (Entity e in entities)
+                {
+                    LightComponent lightComponent = e.GetComponent<LightComponent>();
+                    TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+                    if (lightComponent != null && transformComponent != null)
+                    {
+                        Globals.spriteBatch.Draw(alphaMask,
+                            new Rectangle(
+                                (int)transformComponent.position.X - lightComponent.radius,
+                                (int)transformComponent.position.Y - lightComponent.radius,
+                                lightComponent.radius * 2,
+                                lightComponent.radius * 2
+                            ),
+                            Color.White
+                        );
                     }
                 }
                 Globals.spriteBatch.End();
 
+                Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
+                Globals.spriteBatch.Begin();
+                Globals.spriteBatch.Draw(Globals.lightRenderTarget, Globals.lightRenderTarget.Bounds, Color.White);
+                Globals.spriteBatch.End();
+
+                Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
+                Globals.graphicsDevice.Viewport = c.getViewport();
+                
                 // draw the camera border
                 if (c.borderThickness > 0)
                 {
@@ -91,14 +153,22 @@ namespace AdventureGame.Engine
             }
 
             // draw each system
-            foreach (ECSSystem s in EngineGlobals.systems)
+            foreach (System s in EngineGlobals.systems)
             {
+                // main system draw
                 s.Draw(gameTime, this);
             }
 
             // draw the scene
             Draw(gameTime);
-            
+
+            // switch back to the main backbuffer
+            // and draw the scene
+            Globals.graphicsDevice.SetRenderTarget(null);
+            Globals.spriteBatch.Begin();
+            Globals.spriteBatch.Draw(Globals.sceneRenderTarget, Globals.sceneRenderTarget.Bounds, Color.White);
+            Globals.spriteBatch.End();
+
         }
 
         public virtual void Draw(GameTime gameTime) { }
