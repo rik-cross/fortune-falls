@@ -21,12 +21,13 @@ namespace AdventureGame.Engine
     {
 
         public List<Camera> cameraList;
-        public List<Entity> entities = new List<Entity>();
+        public List<Entity> entities;
         public float lightLevel = 0.6f;
 
         public Scene()
         {
             cameraList = new List<Camera>();
+            entities = new List<Entity>();
         }
 
         public void AddCamera(Camera camera)
