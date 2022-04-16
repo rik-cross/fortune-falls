@@ -1,5 +1,7 @@
 *
 !.gitignore
+!LICENSE
+!README.md
 !*.cs
 !Icon.*
 !Engine/
