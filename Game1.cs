@@ -29,6 +29,7 @@ namespace AdventureGame
         protected override void Initialize()
         {
             Globals.font = Content.Load<SpriteFont>("File");
+            Globals.fontSmall = Content.Load<SpriteFont>("small");
             base.Initialize();
         }
 

@@ -25,6 +25,7 @@ namespace AdventureGame.Engine
         }
         public void Update(GameTime gameTime) {
             sceneStack.Peek()._Update(gameTime);
+            DayNightCycle.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime) {

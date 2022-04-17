@@ -161,7 +161,10 @@ namespace AdventureGame.Engine
             }
 
             // draw the scene
+            Globals.graphicsDevice.Viewport = new Viewport(0, 0, 800, 480);
+            Globals.spriteBatch.Begin();
             Draw(gameTime);
+            Globals.spriteBatch.End();
 
             // switch back to the main backbuffer
             // and draw the scene

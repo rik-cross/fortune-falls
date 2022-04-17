@@ -53,11 +53,11 @@ namespace AdventureGame
             Entity l = new Entity();
             l.AddComponent(new Engine.TransformComponent());
             Engine.TransformComponent tc = l.GetComponent<Engine.TransformComponent>();
-            tc.position.X = 50;
-            tc.position.Y = 50;
+            tc.position.X = 250;
+            tc.position.Y = 250;
             l.AddComponent(new Engine.LightComponent());
             Engine.LightComponent lc = l.GetComponent<Engine.LightComponent>();
-            lc.radius = 100;
+            lc.radius = 200;
             entities.Add(l);
 
             playerCam.trackedEntity = e;
@@ -71,11 +71,19 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
-
+            lightLevel = (float)DayNightCycle.GetLightLevel();
         }
         public override void Draw(GameTime gameTime)
         {
-
+            if (Globals.font != null)
+            {
+                Texture2D dayNight = Globals.content.Load<Texture2D>("daynight");
+                Texture2D dayNightOverlay = Globals.content.Load<Texture2D>("daynightoverlay");
+                Globals.spriteBatch.Draw(dayNightOverlay, new Rectangle(740, 10, 50, 50), Color.White);
+                Globals.spriteBatch.Draw(dayNight, new Vector2(765,35), null, Color.White, (float)((Math.PI*2)/100*DayNightCycle.GetPercentage()), new Vector2(25, 25), 1, SpriteEffects.None, 0);
+                Globals.spriteBatch.DrawString(Globals.fontSmall, "Day " + Engine.DayNightCycle.day.ToString(), new Vector2(740, 65), Color.White);
+            }
+                
         }
 
     }

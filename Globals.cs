@@ -16,6 +16,7 @@ namespace AdventureGame
         public static GraphicsDeviceManager graphics;
         public static GraphicsDevice graphicsDevice;
         public static SpriteFont font;
+        public static SpriteFont fontSmall;
         public static RenderTarget2D sceneRenderTarget;
         public static RenderTarget2D lightRenderTarget;
     }
