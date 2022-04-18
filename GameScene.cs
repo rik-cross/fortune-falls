@@ -20,13 +20,16 @@ namespace AdventureGame
             // player entity
             Entity playerEntity = new Entity();
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(150, 150), new Vector2(52, 72)));
-            playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader())), "idle"));
+            playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
+            playerEntity.AddComponent(new Engine.InputComponent());
             entities.Add(playerEntity);
 
             // light source entity
             Entity lightSourceEntity = new Entity();
             lightSourceEntity.AddComponent(new Engine.TransformComponent(250, 250));
-            lightSourceEntity.AddComponent(new Engine.LightComponent(200));
+            lightSourceEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("candleTest.sf", new JsonContentLoader()))));
+            lightSourceEntity.AddComponent(new Engine.LightComponent(50));
+
             entities.Add(lightSourceEntity);
 
             //
@@ -51,8 +54,9 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
+            // update scene time and set light level
             DayNightCycle.Update(gameTime);
-            lightLevel = (float)DayNightCycle.GetLightLevel();
+            lightLevel = DayNightCycle.GetLightLevel();
         }
 
         public override void Draw(GameTime gameTime)

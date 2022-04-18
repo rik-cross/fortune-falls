@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using MonoGame.Extended;
 
 namespace AdventureGame.Engine
@@ -12,7 +10,7 @@ namespace AdventureGame.Engine
 
         public List<Camera> cameraList;
         public List<Entity> entities;
-        public float lightLevel = 0.6f;
+        public double lightLevel = 0.6f;
 
         public Scene()
         {

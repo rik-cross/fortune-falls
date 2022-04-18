@@ -1,35 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-using MonoGame.Extended;
-
-using MonoGame.Extended.Content;
-using MonoGame.Extended.ViewportAdapters;
-using MonoGame.Extended.Animations;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Serialization;
-using MonoGame.Extended.Shapes;
 
 namespace AdventureGame.Engine
 {
     public static class DayNightCycle
     {
+
         public static int day;
+        public static int month;
+        public static int year;
+
+        public static bool countMonths;
+        public static bool countYears;
+
         public static double secondsPerDay;
         public static double currentSeconds;
+        public static int daysPerMonth;
+        public static int monthsPerYear;
+        
         public static List<int> lightTimes;
         public static Dictionary<int, double> lightLevels;
+        
         static DayNightCycle()
         {
             day = 1;
-            secondsPerDay = 10.0f;
+            secondsPerDay = 100.0f;
             currentSeconds = 0.0f;
+            month = 1;
+            year = 1;
+
+            countMonths = true;
+            daysPerMonth = 2;
+
+            countYears = true;
+            monthsPerYear = 3;
 
             lightTimes = new List<int>();
             lightTimes.Add(0);
@@ -65,6 +72,16 @@ namespace AdventureGame.Engine
             {
                 day++;
                 currentSeconds = 0.0f;
+                if (countMonths && day > daysPerMonth)
+                {
+                    day = 1;
+                    month++;
+                    if (countYears && month > monthsPerYear)
+                    {
+                        month = 1;
+                        year++;
+                    }
+                }
             }
 
         }
@@ -101,7 +118,21 @@ namespace AdventureGame.Engine
             Texture2D dayNightOverlay = Globals.content.Load<Texture2D>("daynightoverlay");
             Globals.spriteBatch.Draw(dayNightOverlay, new Rectangle(740, 10, 50, 50), Color.White);
             Globals.spriteBatch.Draw(dayNight, new Vector2(765, 35), null, Color.White, (float)((Math.PI * 2) / 100 * DayNightCycle.GetPercentage()), new Vector2(25, 25), 1, SpriteEffects.None, 0);
-            Globals.spriteBatch.DrawString(Globals.fontSmall, "Day " + Engine.DayNightCycle.day.ToString(), new Vector2(740, 65), Color.White);
+            
+            // build date string
+            string date = Engine.DayNightCycle.day.ToString().PadLeft(2, '0');
+            int pos = 755;
+            if (countMonths)
+            {
+                date = date + " / " + Engine.DayNightCycle.month.ToString().PadLeft(2, '0');
+                pos -= 20;
+                if (countYears)
+                {
+                    date = date + " / " + Engine.DayNightCycle.year.ToString().PadLeft(2, '0');
+                    pos -= 20;
+                }
+            }
+            Globals.spriteBatch.DrawString(Globals.fontSmall, date, new Vector2(pos, 65), Color.White);
         }
 
 

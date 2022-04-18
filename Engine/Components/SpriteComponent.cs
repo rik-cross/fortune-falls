@@ -9,6 +9,14 @@ namespace AdventureGame.Engine
     public class SpriteComponent : Component
     {
         public Texture2D sprite;
+        public SpriteComponent()
+        {
+
+        }
+        public SpriteComponent(Texture2D sprite)
+        {
+            this.sprite = sprite;
+        }
     }
 
 }

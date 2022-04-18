@@ -18,8 +18,9 @@ namespace AdventureGame.Engine
         {
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             AnimationComponent animationComponent = entity.GetComponent<AnimationComponent>();
+            InputComponent inputComponent = entity.GetComponent<InputComponent>();
 
-            if (transformComponent == null || animationComponent == null)
+            if (inputComponent == null || transformComponent == null || animationComponent == null)
                 return;
 
             entity.state = "idle";
