@@ -60,7 +60,6 @@ namespace AdventureGame
 
             EngineGlobals.systems.Add(new InputSystem());
             EngineGlobals.systems.Add(new SpriteSystem());
-            EngineGlobals.systems.Add(new TransformSystem());
             EngineGlobals.systems.Add(new AnimationSystem());
             
             sceneManager = new SceneManager();

@@ -1,10 +1,20 @@
 ﻿using System;
-using System.Diagnostics.Tracing;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
+using MonoGame.Extended;
+
+using MonoGame.Extended.Content;
+using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended.Animations;
+using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Serialization;
+using MonoGame.Extended.Shapes;
 
 namespace AdventureGame.Engine
 {
@@ -18,8 +28,8 @@ namespace AdventureGame.Engine
         static DayNightCycle()
         {
             day = 1;
-            secondsPerDay = 60.0f;
-            currentSeconds = 15.0f;
+            secondsPerDay = 10.0f;
+            currentSeconds = 0.0f;
 
             lightTimes = new List<int>();
             lightTimes.Add(0);
@@ -83,6 +93,15 @@ namespace AdventureGame.Engine
                 }
             }
             return 1.0f;
+        }
+
+        public static void Draw(GameTime gameTime)
+        {
+            Texture2D dayNight = Globals.content.Load<Texture2D>("daynight");
+            Texture2D dayNightOverlay = Globals.content.Load<Texture2D>("daynightoverlay");
+            Globals.spriteBatch.Draw(dayNightOverlay, new Rectangle(740, 10, 50, 50), Color.White);
+            Globals.spriteBatch.Draw(dayNight, new Vector2(765, 35), null, Color.White, (float)((Math.PI * 2) / 100 * DayNightCycle.GetPercentage()), new Vector2(25, 25), 1, SpriteEffects.None, 0);
+            Globals.spriteBatch.DrawString(Globals.fontSmall, "Day " + Engine.DayNightCycle.day.ToString(), new Vector2(740, 65), Color.White);
         }
 
 

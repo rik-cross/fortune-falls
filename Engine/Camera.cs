@@ -24,7 +24,7 @@ namespace AdventureGame.Engine
         // ...
         public Camera(int worldX=0, int worldY=0, int x=0, int y=0, int width = 800, int height = 480, float z =1.0f, int rot=0, int bt=0)
         {
-            worldPosition = new Vector2(worldX, worldY);
+            worldPosition = new Vector2(-worldX, -worldY);
             screenPosition = new Vector2(x, y);
             size = new Vector2(width, height);
             zoom = z;
@@ -36,8 +36,8 @@ namespace AdventureGame.Engine
 
         public void SetWorldPos(int x, int y)
         {
-            worldPosition.X = x * -1;
-            worldPosition.Y = y * -1;
+            worldPosition.X = -x;
+            worldPosition.Y = -y;
         }
 
         // ...

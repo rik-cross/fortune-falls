@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AdventureGame.Engine
+﻿namespace AdventureGame.Engine
 {
     public class Component
     {
