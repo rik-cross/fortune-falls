@@ -14,3 +14,8 @@ Engine/*
 !Content/
 Content/*
 !Content/*
+Content/Content.mgcb
+Content/obj
+Content/obj/*
+Content/bin
+Content/bin/*
