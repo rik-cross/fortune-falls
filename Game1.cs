@@ -20,8 +20,6 @@ namespace AdventureGame
 
         protected override void Initialize()
         {
-            Globals.font = Content.Load<SpriteFont>("File");
-            Globals.fontSmall = Content.Load<SpriteFont>("small");
             base.Initialize();
         }
 
@@ -31,6 +29,10 @@ namespace AdventureGame
             Globals.graphicsDevice = GraphicsDevice;
             
             Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // load the fonts
+            Globals.font = Content.Load<SpriteFont>("File");
+            Globals.fontSmall = Content.Load<SpriteFont>("small");
 
             Globals.sceneRenderTarget = new RenderTarget2D(
                 Globals.graphicsDevice,
