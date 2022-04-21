@@ -1,5 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
 using MonoGame.Extended.Content;
+using System.Collections;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 
@@ -7,8 +12,53 @@ using AdventureGame.Engine;
 
 namespace AdventureGame
 {
+
     public class GameScene : Scene
     {
+
+        public void PlayerInputController(Entity entity)
+        {
+
+            InputComponent inputComponent = entity.GetComponent<InputComponent>();
+            IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
+
+            // up keys
+            if (inputComponent.IsKeyDown(inputComponent.upKeys))
+                intentionComponent.up = true;
+            else
+                intentionComponent.up = false;
+
+            // down keys
+            if (inputComponent.IsKeyDown(inputComponent.downKeys))
+                intentionComponent.down = true;
+            else
+                intentionComponent.down = false;
+
+            // left keys
+            if (inputComponent.IsKeyDown(inputComponent.leftKeys))
+                intentionComponent.left = true;
+            else
+                intentionComponent.left = false;
+
+            // right keys
+            if (inputComponent.IsKeyDown(inputComponent.rightKeys))
+                intentionComponent.right = true;
+            else
+                intentionComponent.right = false;
+
+            // button 1 keys
+            if (inputComponent.IsKeyDown(inputComponent.button1Keys))
+                intentionComponent.button1 = true;
+            else
+                intentionComponent.button1 = false;
+
+            // button 2 keys
+            if (inputComponent.IsKeyDown(inputComponent.button2Keys))
+                intentionComponent.button2 = true;
+            else
+                intentionComponent.button2 = false;
+
+        }
 
         public override void Init()
         {
@@ -19,9 +69,18 @@ namespace AdventureGame
 
             // player entity
             Entity playerEntity = new Entity();
+            playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(150, 150), new Vector2(52, 72)));
             playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
-            playerEntity.AddComponent(new Engine.InputComponent());
+            playerEntity.AddComponent(new Engine.InputComponent(
+                new List<Keys>() { Keys.W, Keys.Up },
+                new List<Keys>() { Keys.S, Keys.Down },
+                new List<Keys>() { Keys.A, Keys.Left },
+                new List<Keys>() { Keys.D, Keys.Right },
+                new List<Keys>(),
+                new List<Keys>(),
+                PlayerInputController
+            ));
             entities.Add(playerEntity);
 
             // light source entity

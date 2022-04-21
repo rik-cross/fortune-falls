@@ -5,7 +5,6 @@ namespace AdventureGame.Engine
     public class Entity
     {
         public int ID;
-        public string state = "idle";
         public List<Component> components = new List<Component>();
         public void AddComponent(Component component)
         {
