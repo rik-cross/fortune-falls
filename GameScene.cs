@@ -22,6 +22,9 @@ namespace AdventureGame
             InputComponent inputComponent = entity.GetComponent<InputComponent>();
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
 
+            // default state
+            entity.state = "idle";
+
             // up keys
             if (inputComponent.IsKeyDown(inputComponent.upKeys))
             {
