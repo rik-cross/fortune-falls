@@ -8,25 +8,12 @@ namespace AdventureGame.Engine
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 
-            IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
             AnimationComponent animationComponent = entity.GetComponent<AnimationComponent>();
 
-            if (intentionComponent == null || animationComponent == null)
+            if (animationComponent == null)
                 return;
 
-            string animationState = "idle";
-
-            if (intentionComponent.up)
-                animationState = "walkNorth";
-
-            if (intentionComponent.down)
-                animationState = "walkSouth";
-
-            if (intentionComponent.left)
-                animationState = "walkWest";
-
-            if (intentionComponent.right)
-                animationState = "walkEast";
+            string animationState = entity.state;
 
             animationComponent.animation.Play(animationState);
             animationComponent.animation.Update(gameTime);
