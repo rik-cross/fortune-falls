@@ -7,14 +7,19 @@ namespace AdventureGame.Engine
     {
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+
             AnimationComponent animationComponent = entity.GetComponent<AnimationComponent>();
 
             if (animationComponent == null)
                 return;
 
-            animationComponent.animation.Play(entity.state);
+            string animationState = entity.state;
+
+            animationComponent.animation.Play(animationState);
             animationComponent.animation.Update(gameTime);
+
         }
+
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             AnimationComponent animationComponent = entity.GetComponent<AnimationComponent>();

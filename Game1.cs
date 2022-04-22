@@ -55,7 +55,8 @@ namespace AdventureGame
             EngineGlobals.systems.Add(new InputSystem());
             EngineGlobals.systems.Add(new SpriteSystem());
             EngineGlobals.systems.Add(new AnimationSystem());
-            
+            EngineGlobals.systems.Add(new PhysicsSystem());
+
             sceneManager = new SceneManager();
             sceneManager.PushScene(new GameScene());
         }
