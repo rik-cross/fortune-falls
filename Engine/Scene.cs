@@ -10,7 +10,7 @@ namespace AdventureGame.Engine
 
         public List<Camera> cameraList;
         public List<Entity> entities;
-        public double lightLevel = 0.6f;
+        public double lightLevel = 1.0f; // 0.6f;  changed for testing
 
         public Scene()
         {
