@@ -53,9 +53,14 @@ namespace AdventureGame
             );
 
             EngineGlobals.systems.Add(new InputSystem());
+            //EngineGlobals.systems.Add(new ControlSystem()); // broken: needs ref to input action
             EngineGlobals.systems.Add(new SpriteSystem());
             EngineGlobals.systems.Add(new AnimationSystem());
             EngineGlobals.systems.Add(new PhysicsSystem());
+            EngineGlobals.systems.Add(new HitboxSystem());
+            EngineGlobals.systems.Add(new HurtboxSystem());
+            EngineGlobals.systems.Add(new DamageSystem());
+            EngineGlobals.systems.Add(new CollisionSystem());
 
             sceneManager = new SceneManager();
             sceneManager.PushScene(new GameScene());

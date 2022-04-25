@@ -8,22 +8,40 @@ namespace AdventureGame.Engine
         {
 
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            if (intentionComponent == null || transformComponent == null)
+            if (intentionComponent == null || physicsComponent == null || transformComponent == null)
                 return;
 
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+
             if (intentionComponent.up)
-                transformComponent.position.Y -= 1;
+                transformComponent.position.Y -= physicsComponent.velocity;
 
             if (intentionComponent.down)
-                transformComponent.position.Y += 1;
+                transformComponent.position.Y += physicsComponent.velocity;
 
             if (intentionComponent.left)
-                transformComponent.position.X -= 1;
+                transformComponent.position.X -= physicsComponent.velocity;
 
             if (intentionComponent.right)
-                transformComponent.position.X += 1;
+            {
+                // check for collision, hit, damage?
+                if (colliderComponent != null)
+                {
+                    if (colliderComponent.collidedEntityID != -1)
+                    {
+                        // get entity based on collidedEntityID
+                        // get position of the entity
+                        // get position of the collided entity
+                        // check if collided entity is to the right of entity
+                        // if so, move entity to the left edge of collided entity
+                        //return;
+                    }
+                }
+                transformComponent.position.X += physicsComponent.velocity;
+            }
 
         }
     }

@@ -17,6 +17,7 @@ namespace AdventureGame.Engine
 
             SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            // ColliderComponent?
 
             if (spriteComponent == null || transformComponent == null)
                 return;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended.Content;
@@ -93,16 +94,36 @@ namespace AdventureGame
 
         public override void Init()
         {
-
             //
             // entities
             //
 
             // player entity
+            // should these values be set / stored elsewhere?
+            int playerStartX = 150;
+            int playerStartY = 150;
+            int playerWidth = 52;
+            int playerHeight = 72;
+
+            int playerColliderWidth = playerWidth/ 2;
+            int playerColliderHeight = playerHeight / 3;
+
+            // calculate x and y offset here? pass to collider somehow as static / consts?
+            // change to set values?
+            // CHECK does transform set X/Y from center??
+            int playerColliderX = playerStartX - (int)(playerColliderWidth / 2);
+            int playerColliderY = playerStartY - (int)(playerColliderHeight / 2);
+            int playerColliderOffsetY = (int)(playerHeight * 0.3);
+
             Entity playerEntity = new Entity();
             playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(150, 150), new Vector2(52, 72)));
+            //playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(150, 150), new Vector2(52, 72)));
+            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(playerStartX, playerStartY), new Vector2(playerWidth, playerHeight)));
+            playerEntity.AddComponent(new Engine.PhysicsComponent(1));
             playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
+            //playerEntity.AddComponent(new Engine.ColliderComponent(150, 150, 52, 72));
+            playerEntity.AddComponent(new Engine.ColliderComponent(playerColliderX, playerColliderY, playerColliderWidth, playerColliderHeight, 0, playerColliderOffsetY));
+            playerEntity.AddComponent(new Engine.HurtboxComponent(playerColliderX, playerColliderY, playerWidth, playerHeight));
             playerEntity.AddComponent(new Engine.InputComponent(
                 new List<Keys>() { Keys.W, Keys.Up },
                 new List<Keys>() { Keys.S, Keys.Down },
@@ -114,10 +135,31 @@ namespace AdventureGame
             ));
             entities.Add(playerEntity);
 
+            // enemy entity
+            // variables for enemyWidth, enemyHeight?
+            // values based off X / Y and width / height
+            int enemyColliderX = 250 - (int)(65 / 2);
+            int enemyColliderY = 150 - (int)(50 / 2);
+
+            Entity enemyEntity = new Entity();
+            enemyEntity.AddComponent(new Engine.IntentionComponent());
+            enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(250, 150), new Vector2(65, 50)));
+            enemyEntity.AddComponent(new Engine.SpriteComponent(Globals.content.Load<Texture2D>("spriteenemy")));
+            enemyEntity.AddComponent(new Engine.ColliderComponent(enemyColliderX, enemyColliderY, 65, 50));
+            enemyEntity.AddComponent(new Engine.HitboxComponent(enemyColliderX, enemyColliderY, 65, 50));
+            // AI component?
+            entities.Add(enemyEntity);
+
             // light source entity
+            // values based off X / Y and width / height
+            int lightColliderX = 250 - (int)(50 / 2);
+            int lightColliderY = 250 - (int)(50 / 2);
+
             Entity lightSourceEntity = new Entity();
             lightSourceEntity.AddComponent(new Engine.TransformComponent(250, 250));
             lightSourceEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("candleTest.sf", new JsonContentLoader()))));
+            //lightSourceEntity.AddComponent(new Engine.ColliderComponent(250, 250, 50, 50));
+            lightSourceEntity.AddComponent(new Engine.ColliderComponent(lightColliderX, lightColliderY, 50, 50));
             lightSourceEntity.AddComponent(new Engine.LightComponent(50));
 
             entities.Add(lightSourceEntity);
