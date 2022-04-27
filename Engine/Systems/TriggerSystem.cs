@@ -77,6 +77,10 @@ namespace AdventureGame.Engine
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+
+            if (!EngineGlobals.DEBUG)
+                return;
+
             TriggerComponent triggerComponent = entity.GetComponent<TriggerComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
