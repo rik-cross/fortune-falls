@@ -12,6 +12,13 @@ namespace AdventureGame.Engine
             components.Add(component);
             component.entity = this;
         }
+
+        public void RemoveComponent<T>() where T : Component
+        {
+            Component c = GetComponent<T>();
+            components.Remove(c);
+        }
+
         public T GetComponent<T>() where T : Component
         {
             foreach (Component c in components)

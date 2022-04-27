@@ -61,6 +61,8 @@ namespace AdventureGame
             EngineGlobals.systems.Add(new HurtboxSystem());
             EngineGlobals.systems.Add(new DamageSystem());
             EngineGlobals.systems.Add(new CollisionSystem());
+            EngineGlobals.systems.Add(new TriggerSystem());
+            EngineGlobals.systems.Add(new TextSystem());
 
             sceneManager = new SceneManager();
             sceneManager.PushScene(new GameScene());

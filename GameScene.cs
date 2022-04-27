@@ -92,6 +92,15 @@ namespace AdventureGame
 
         }
 
+        public void lightOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
+        {
+            otherEntity.AddComponent(new Engine.TextComponent("Hello! Here is some text, hopefully split over a few lines!"));
+        }
+        public void lightOnCollisionExit(Entity thisEntity, Entity otherEntity, float distance)
+        {
+            otherEntity.RemoveComponent<Engine.TextComponent>();
+        }
+
         public override void Init()
         {
             //
@@ -133,6 +142,12 @@ namespace AdventureGame
                 new List<Keys>(),
                 PlayerInputController
             ));
+            playerEntity.AddComponent(new Engine.TriggerComponent(
+                new Vector2(-10, -10), new Vector2(72, 92),
+                null,
+                null,
+                null
+            ));
             entities.Add(playerEntity);
 
             // enemy entity
@@ -156,11 +171,17 @@ namespace AdventureGame
             int lightColliderY = 250 - (int)(50 / 2);
 
             Entity lightSourceEntity = new Entity();
-            lightSourceEntity.AddComponent(new Engine.TransformComponent(250, 250));
+            lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(250, 250), new Vector2(32, 32)));
             lightSourceEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("candleTest.sf", new JsonContentLoader()))));
             //lightSourceEntity.AddComponent(new Engine.ColliderComponent(250, 250, 50, 50));
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(lightColliderX, lightColliderY, 50, 50));
             lightSourceEntity.AddComponent(new Engine.LightComponent(50));
+            lightSourceEntity.AddComponent(new Engine.TriggerComponent(
+                new Vector2(-20, -20), new Vector2(72, 72),
+                lightOnCollisionEnter,
+                null,
+                lightOnCollisionExit
+            ));
 
             entities.Add(lightSourceEntity);
 
@@ -194,7 +215,7 @@ namespace AdventureGame
 
         public override void Draw(GameTime gameTime)
         {
-            DayNightCycle.Draw(gameTime);
+            //DayNightCycle.Draw(gameTime);
         }
 
     }
