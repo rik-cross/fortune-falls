@@ -15,6 +15,14 @@ namespace AdventureGame.Engine
         public int outerMargin;
         public int textWidth;
 
+        public int currentCol;
+        public int currentRow;
+
+        public int delay;
+        public int timer;
+
+        public int alpha;
+
         public Color textColour;
         public Color backgroundColour;
 
@@ -39,6 +47,12 @@ namespace AdventureGame.Engine
                 if (Globals.fontSmall.MeasureString(line).X > this.textWidth)
                     this.textWidth = (int)Globals.fontSmall.MeasureString(line).X;
             }
+
+            this.currentRow = 0;
+            this.currentCol = 1;
+
+            this.delay = 10;
+            this.timer = 0;
 
         }
 
