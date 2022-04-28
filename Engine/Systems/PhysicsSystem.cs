@@ -30,7 +30,7 @@ namespace AdventureGame.Engine
                 // check for collision, hit, damage?
                 if (colliderComponent != null)
                 {
-                    if (colliderComponent.collidedEntityID != -1)
+                    if (colliderComponent.collidedEntityId != -1)
                     {
                         // get entity based on collidedEntityID
                         // get position of the entity

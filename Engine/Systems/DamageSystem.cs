@@ -29,6 +29,7 @@ namespace AdventureGame.Engine
                             eHurtboxComponent.color = Color.Gray;
 
                             // set both entity states to hit / hurt
+                            eHurtboxComponent.active = false;
                         }
                 }
             }

@@ -16,6 +16,12 @@ namespace AdventureGame
 
     public class GameScene : Scene
     {
+        public EntityManager entityManager;
+
+        public GameScene(EntityManager entityManager)
+        {
+            this.entityManager = entityManager;
+        }
 
         public void PlayerInputController(Entity entity)
         {
@@ -124,7 +130,8 @@ namespace AdventureGame
             int playerColliderY = playerStartY - (int)(playerColliderHeight / 2);
             int playerColliderOffsetY = (int)(playerHeight * 0.3);
 
-            Entity playerEntity = new Entity();
+            //Entity playerEntity = new Entity();
+            Entity playerEntity = entityManager.CreateEntity();
             playerEntity.AddComponent(new Engine.IntentionComponent());
             //playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(150, 150), new Vector2(52, 72)));
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(playerStartX, playerStartY), new Vector2(playerWidth, playerHeight)));
@@ -156,7 +163,8 @@ namespace AdventureGame
             int enemyColliderX = 250 - (int)(65 / 2);
             int enemyColliderY = 150 - (int)(50 / 2);
 
-            Entity enemyEntity = new Entity();
+            //Entity enemyEntity = new Entity();
+            Entity enemyEntity = entityManager.CreateEntity();
             enemyEntity.AddComponent(new Engine.IntentionComponent());
             enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(250, 150), new Vector2(65, 50)));
             enemyEntity.AddComponent(new Engine.SpriteComponent(Globals.content.Load<Texture2D>("spriteenemy")));
@@ -170,8 +178,9 @@ namespace AdventureGame
             int lightColliderX = 250 - (int)(50 / 2);
             int lightColliderY = 250 - (int)(50 / 2);
 
-            Entity lightSourceEntity = new Entity();
-            lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(250, 250), new Vector2(32, 32)));
+            //Entity lightSourceEntity = new Entity();
+            Entity lightSourceEntity = entityManager.CreateEntity();
+            lightSourceEntity.AddComponent(new Engine.TransformComponent(250, 250));
             lightSourceEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("candleTest.sf", new JsonContentLoader()))));
             //lightSourceEntity.AddComponent(new Engine.ColliderComponent(250, 250, 50, 50));
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(lightColliderX, lightColliderY, 50, 50));

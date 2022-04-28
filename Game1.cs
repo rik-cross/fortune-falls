@@ -8,6 +8,7 @@ namespace AdventureGame
 {
     public class Game1 : Game
     {
+        public EntityManager entityManager;
         public SceneManager sceneManager;
 
         public Game1()
@@ -64,8 +65,11 @@ namespace AdventureGame
             EngineGlobals.systems.Add(new TriggerSystem());
             EngineGlobals.systems.Add(new TextSystem());
 
+            entityManager = new EntityManager();
+
             sceneManager = new SceneManager();
-            sceneManager.PushScene(new GameScene());
+            //sceneManager.PushScene(new GameScene());
+            sceneManager.PushScene(new GameScene(entityManager));
         }
 
         protected override void Update(GameTime gameTime)

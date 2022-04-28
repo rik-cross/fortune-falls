@@ -7,7 +7,8 @@ namespace AdventureGame.Engine
         public Rectangle rectangle;
         public int xOffset;
         public int yOffset;
-        public int lifetime;
+
+        public int lifetime; // here or in a timer / lifetime system / component?
         public bool active;
         public Color color = Color.Blue; // TESTING rectangle outline
 

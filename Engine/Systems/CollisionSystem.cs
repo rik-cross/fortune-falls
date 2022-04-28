@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -38,10 +39,19 @@ namespace AdventureGame.Engine
                             colliderComponent.color = Color.Orange;
                             eColliderComponent.color = Color.Orange;
 
-                            // set both entities states to collide
-                            colliderComponent.collidedEntityID = e.ID;
-                            eColliderComponent.collidedEntityID = entity.ID;
-                            // return; or keep checking & handle multiple collisions
+                            if (colliderComponent.active)
+                            {
+                                // set both entities states to collide
+                                colliderComponent.collidedEntityId = e.Id; // or list or Guid?
+                                eColliderComponent.collidedEntityId = entity.Id;
+                                Console.WriteLine($"Entity {entity.Id} collided with {e.Id}");
+
+                                // change to OnCollisionEnter / OnCollision / OnCollisionExit?
+                                colliderComponent.active = false;
+                                colliderComponent.active = false;
+
+                                // return; or keep checking & handle multiple collisions?
+                            }
                         }
                 }
             }
