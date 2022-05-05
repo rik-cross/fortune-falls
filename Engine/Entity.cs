@@ -7,16 +7,16 @@ namespace AdventureGame.Engine
     {
         public Guid Guid { get; set; }
         public int Id { get; set; }
+        public ulong Signature { get; set; }
 
-        //public Game1 game1;
         public EntityManager entityManager;
+        public ComponentManager componentManager = EngineGlobals.componentManager;
 
         public List<Component> components = new List<Component>(); // dictionary?
         public string state = "idle"; // should this be in a component / messaging system?
 
-        public Entity(int id) // parameters for game1 and id?
+        public Entity(int id)
         {
-            // set game1, id, entityManager?
             this.Id = id;
             GenerateGuid();
         }
@@ -30,12 +30,22 @@ namespace AdventureGame.Engine
         {
             components.Add(component);
             component.entity = this;
+
+            string componentName = componentManager.GetComponentName(component);
+            Signature = componentManager.AddToSignature(Signature, componentName);
+            Console.WriteLine(componentName);
+            Console.WriteLine(Signature);
+            Console.WriteLine(Convert.ToString((long)Signature, 2));
         }
 
         public void RemoveComponent<T>() where T : Component
         {
             Component c = GetComponent<T>();
             components.Remove(c);
+
+            // needs testing
+            string componentName = componentManager.GetComponentName(c);
+            Signature = componentManager.RemoveFromSignature(Signature, componentName);
         }
 
         public T GetComponent<T>() where T : Component

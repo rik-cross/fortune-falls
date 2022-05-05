@@ -4,6 +4,7 @@ namespace AdventureGame.Engine
 {
     public abstract class System
     {
+        public ulong systemSignature; // rename to signature?
 
         // Update is called once per frame
         public virtual void Update(GameTime gameTime, Scene scene) { }

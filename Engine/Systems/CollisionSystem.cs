@@ -1,15 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections;
 
 namespace AdventureGame.Engine
 {
     public class CollisionSystem : System
     {
-        //public Color color = Color.Blue; // testing
+        readonly ComponentManager componentManager;
+        readonly EntitySystem entitySystem;
+
+        public CollisionSystem()
+        {
+            componentManager = EngineGlobals.componentManager;
+            entitySystem = EngineGlobals.entitySystem;
+
+            // Create a signature that flags which components the system requires
+            string[] requiredComponents = {
+                "ColliderComponent",
+                "TransformComponent"};
+
+            systemSignature = componentManager.CreateSignature(requiredComponents);
+        }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+            // get entity signature and compare to system signature
+            if (!entitySystem.CheckComponents(entity.Signature, systemSignature))
+                return;
+
+            //Console.WriteLine(entity.Id + "   " + entity.Signature);
 
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
@@ -49,6 +69,9 @@ namespace AdventureGame.Engine
                                 // change to OnCollisionEnter / OnCollision / OnCollisionExit?
                                 colliderComponent.active = false;
                                 colliderComponent.active = false;
+
+                                Console.WriteLine(systemSignature);
+                                Console.WriteLine(Convert.ToString((long)systemSignature, 2));
 
                                 // return; or keep checking & handle multiple collisions?
                             }

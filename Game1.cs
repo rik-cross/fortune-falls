@@ -53,6 +53,9 @@ namespace AdventureGame
                 DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
             );
 
+            EngineGlobals.componentManager = new ComponentManager();
+            EngineGlobals.entitySystem = new EntitySystem();
+
             EngineGlobals.systems.Add(new InputSystem());
             //EngineGlobals.systems.Add(new ControlSystem()); // broken: needs ref to input action
             EngineGlobals.systems.Add(new SpriteSystem());
