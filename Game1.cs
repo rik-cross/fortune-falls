@@ -8,7 +8,7 @@ namespace AdventureGame
 {
     public class Game1 : Game
     {
-        public EntityManager entityManager;
+        public EntityManager entityManager; // REMOVE? reference from EngineGlobals
         public SceneManager sceneManager;
 
         public Game1()
@@ -54,7 +54,6 @@ namespace AdventureGame
             );
 
             EngineGlobals.componentManager = new ComponentManager();
-            EngineGlobals.entitySystem = new EntitySystem();
 
             EngineGlobals.systems.Add(new InputSystem());
             //EngineGlobals.systems.Add(new ControlSystem()); // broken: needs ref to input action
@@ -68,11 +67,11 @@ namespace AdventureGame
             EngineGlobals.systems.Add(new TriggerSystem());
             EngineGlobals.systems.Add(new TextSystem());
 
-            entityManager = new EntityManager();
+            EngineGlobals.entityManager = new EntityManager();
 
             sceneManager = new SceneManager();
             //sceneManager.PushScene(new GameScene());
-            sceneManager.PushScene(new GameScene(entityManager));
+            sceneManager.PushScene(new GameScene());
         }
 
         protected override void Update(GameTime gameTime)

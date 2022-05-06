@@ -7,7 +7,7 @@ namespace AdventureGame.Engine
     public class EngineGlobals
     {
         public static ComponentManager componentManager;
-        public static EntitySystem entitySystem;
+        public static EntityManager entityManager;
         public static List<System> systems = new List<System>();
         public static bool DEBUG = true;
     }

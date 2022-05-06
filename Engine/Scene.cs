@@ -39,6 +39,9 @@ namespace AdventureGame.Engine
                 // main system update
                 s.Update(gameTime, this);
 
+                // CHANGE to only update relevant entities of the system
+                // either using a list stored in SystemManager(?)
+                // or using e.CheckComponents() directly
                 // entity-specific update
                 foreach (Entity e in entities)
                     s.UpdateEntity(gameTime, this, e);

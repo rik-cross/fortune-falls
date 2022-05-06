@@ -18,9 +18,9 @@ namespace AdventureGame
     {
         public EntityManager entityManager;
 
-        public GameScene(EntityManager entityManager)
+        public GameScene()
         {
-            this.entityManager = entityManager;
+            entityManager = EngineGlobals.entityManager;
         }
 
         public void PlayerInputController(Entity entity)

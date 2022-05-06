@@ -28,24 +28,24 @@ namespace AdventureGame.Engine
 
         public void AddEntity(Entity e)
         {
-            entities.Add(e.Id, e);
+            entities.Add(e.id, e);
         }
 
         public void EnableEntity(Entity e)
         {
-            disabled.Remove(e.Id);
+            disabled.Remove(e.id);
         }
 
         public void DisableEntity(Entity e)
         {
-            disabled.Add(e.Id, e);
+            disabled.Add(e.id, e);
         }
 
         public void DeleteEntity(Entity e)
         {
-            entities[e.Id] = null;
-            disabled.Remove(e.Id);
-            CheckInId(e.Id);
+            entities[e.id] = null;
+            disabled.Remove(e.id);
+            CheckInId(e.id);
         }
 
         public bool IsActive(int entityId)

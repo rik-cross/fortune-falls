@@ -7,14 +7,13 @@ namespace AdventureGame.Engine
 {
     public class CollisionSystem : System
     {
-        readonly ComponentManager componentManager;
-        readonly EntitySystem entitySystem;
+        readonly ComponentManager componentManager; // REMOVE once SystemManager handles the relevant entity lists?
 
         public CollisionSystem()
         {
             componentManager = EngineGlobals.componentManager;
-            entitySystem = EngineGlobals.entitySystem;
 
+            // MOVE to SystemManager?
             // Create a signature that flags which components the system requires
             string[] requiredComponents = {
                 "ColliderComponent",
@@ -25,8 +24,11 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            // get entity signature and compare to system signature
-            if (!entitySystem.CheckComponents(entity.Signature, systemSignature))
+            // CHANGE to a list of all relevant entitys (from SystemManager?)
+            // and perform the check there and/or in Scene._update()
+
+            // Compare the entity signature to system signature
+            if (!entity.CheckComponents(entity.signature, systemSignature))
                 return;
 
             //Console.WriteLine(entity.Id + "   " + entity.Signature);
@@ -34,10 +36,12 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            /*
             if (colliderComponent == null || transformComponent == null)
                 return;
+            */
 
-            // track entity here or elsewhere?
+            // track entity here or elsewhere? - EngineGlobals DEBUG?
             // CHECK why can't components be passed as parameters? Eg TrackEntity(ColliderComponent colliderComponent, TransformComponent transformComponent)
             Vector2 newPosition = transformComponent.position;
             int w = colliderComponent.rectangle.Width;
@@ -62,16 +66,14 @@ namespace AdventureGame.Engine
                             if (colliderComponent.active)
                             {
                                 // set both entities states to collide
-                                colliderComponent.collidedEntityId = e.Id; // or list or Guid?
-                                eColliderComponent.collidedEntityId = entity.Id;
-                                Console.WriteLine($"Entity {entity.Id} collided with {e.Id}");
+                                colliderComponent.collidedEntityId = e.id; // or list or Guid?
+                                eColliderComponent.collidedEntityId = entity.id;
+                                Console.WriteLine($"Entity {entity.id} collided with {e.id}"); // Testing
 
                                 // change to OnCollisionEnter / OnCollision / OnCollisionExit?
                                 colliderComponent.active = false;
                                 colliderComponent.active = false;
-
-                                Console.WriteLine(systemSignature);
-                                Console.WriteLine(Convert.ToString((long)systemSignature, 2));
+                                // FIX currently collision with entity 2 only registers one way
 
                                 // return; or keep checking & handle multiple collisions?
                             }

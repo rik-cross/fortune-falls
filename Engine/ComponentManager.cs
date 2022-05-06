@@ -14,6 +14,10 @@ namespace AdventureGame.Engine
         {
             // MOVE to ComponentMapper?
 
+            // CHANGE to use reflection and get each object name from a
+            // list of registered components e.g.
+            // componentManager.RegisterComponent(CollisionSystem)
+
             // Get an array of all the component file names
             string projectSourcePath = ProjectSourcePath.Value;
             //Console.WriteLine(projectSourcePath);
