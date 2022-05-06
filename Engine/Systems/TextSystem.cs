@@ -17,6 +17,7 @@ namespace AdventureGame.Engine
 
             int rowHeight = textComponent.totalHeight;
 
+            // draw the background rectangle
             Globals.spriteBatch.FillRectangle(
                 new Rectangle(
                     (int)(transformComponent.position.X - transformComponent.size.X / 2),
@@ -27,6 +28,7 @@ namespace AdventureGame.Engine
                 textComponent.backgroundColour
             );
 
+            // draw the border rectangle
             Globals.spriteBatch.DrawRectangle(
                 new Rectangle(
                     (int)(transformComponent.position.X - transformComponent.size.X / 2),
@@ -37,46 +39,90 @@ namespace AdventureGame.Engine
                 textComponent.textColour
             );
 
-            int r = 0;
-            foreach (string line in textComponent.splitText) {
+            //
+            // draw the text
+            //
 
-                if (r > textComponent.currentRow)
-                    continue;
+            if (textComponent.type == "tick") {
+                int r = 0;
+                foreach (string line in textComponent.text) {
 
-                string t;
-                if (r == textComponent.currentRow)
-                    t = line.Substring(0, Math.Min(textComponent.currentCol, line.Length));
-                else
-                    t = line;
+                    if (r > textComponent.currentRow)
+                        continue;
 
-                Globals.spriteBatch.DrawString(
-                    Globals.fontSmall,
-                    t,
-                    new Vector2(
-                        transformComponent.position.X - transformComponent.size.X / 2 + textComponent.outerMargin,
-                        transformComponent.position.Y - transformComponent.size.Y / 2 - rowHeight - (textComponent.outerMargin)
-                    ), textComponent.textColour
-                );
-                rowHeight -= textComponent.singleRowheight;
-                r += 1;
-            }
+                    string t;
+                    if (r == textComponent.currentRow)
+                        t = line.Substring(0, Math.Min(textComponent.currentCol, line.Length));
+                    else
+                        t = line;
 
-            textComponent.timer += 1;
-            if (textComponent.timer >= textComponent.delay)
-            {
-                textComponent.timer = 0;
-                textComponent.currentCol += 1;
-                if (textComponent.currentCol >= textComponent.splitText[textComponent.currentRow].Length)
-                {
-                    
-                    if (textComponent.currentRow < textComponent.splitText.Count - 1)
-                    {
-                        textComponent.currentCol = 0;
-                        textComponent.currentRow += 1;
-                    }
+                    Globals.spriteBatch.DrawString(
+                        Globals.fontSmall,
+                        t,
+                        new Vector2(
+                            transformComponent.position.X - transformComponent.size.X / 2 + textComponent.outerMargin,
+                            transformComponent.position.Y - transformComponent.size.Y / 2 - rowHeight - (textComponent.outerMargin)
+                        ), textComponent.textColour
+                    );
+                    rowHeight -= textComponent.singleRowheight;
+                    r += 1;
                 }
             }
 
+            if (textComponent.type == "fade")
+            {
+                foreach (string line in textComponent.text)
+                {
+                    Globals.spriteBatch.DrawString(
+                        Globals.fontSmall,
+                        line,
+                        new Vector2(
+                            transformComponent.position.X - transformComponent.size.X / 2 + textComponent.outerMargin,
+                            transformComponent.position.Y - transformComponent.size.Y / 2 - rowHeight - (textComponent.outerMargin)
+                        ), new Color((int)textComponent.textColour.R, (int)textComponent.textColour.G, (int)textComponent.textColour.B, textComponent.timer)
+                    );
+                    rowHeight -= textComponent.singleRowheight;
+                }
+            }
+
+            if (textComponent.type == "show")
+            {
+                foreach (string line in textComponent.text)
+                {
+                    Globals.spriteBatch.DrawString(
+                        Globals.fontSmall,
+                        line,
+                        new Vector2(
+                            transformComponent.position.X - transformComponent.size.X / 2 + textComponent.outerMargin,
+                            transformComponent.position.Y - transformComponent.size.Y / 2 - rowHeight - (textComponent.outerMargin)
+                        ), textComponent.textColour
+                    );
+                    rowHeight -= textComponent.singleRowheight;
+                }
+            }
+
+            // update the timer (if needed)
+            if (textComponent.type == "tick") {
+                textComponent.timer += 1;
+                if (textComponent.timer >= textComponent.delay)
+                {
+                    textComponent.timer = 0;
+                    textComponent.currentCol += 1;
+                    if (textComponent.currentCol >= textComponent.text[textComponent.currentRow].Length)
+                    {
+
+                        if (textComponent.currentRow < textComponent.text.Count - 1)
+                        {
+                            textComponent.currentCol = 0;
+                            textComponent.currentRow += 1;
+                        }
+                    }
+                }
+            }
+            if (textComponent.type == "fade" && textComponent.timer < 255)
+            {
+                textComponent.timer += 1;
+            }
         }
     }
 }
