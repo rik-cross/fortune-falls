@@ -5,6 +5,12 @@ namespace AdventureGame.Engine
 {
     public class HurtboxSystem : System
     {
+        public HurtboxSystem()
+        {
+            RequiredComponent<HurtboxComponent>();
+            RequiredComponent<TransformComponent>();
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             HurtboxComponent hurtBoxComponent = entity.GetComponent<HurtboxComponent>();

@@ -5,6 +5,11 @@ namespace AdventureGame.Engine
 {
     public class AnimationSystem : System
     {
+        public AnimationSystem()
+        {
+            RequiredComponent<AnimationComponent>();
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 

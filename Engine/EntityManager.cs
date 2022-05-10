@@ -6,7 +6,7 @@ namespace AdventureGame.Engine
     public class EntityManager
     {
         private Dictionary<int, Entity> entities;
-        private Dictionary<int, Entity> disabled;
+        private Dictionary<int, Entity> disabled; // added, deleted?
 
         private List<int> idPool; // change to ConcurrentBag<T>?
         private int nextAvailableId;
@@ -20,8 +20,6 @@ namespace AdventureGame.Engine
 
         public Entity CreateEntity() // protected?
         {
-            //Entity e = new Entity();
-            //Entity e = new Entity(game1, CheckOutId());
             Entity e = new Entity(CheckOutId());
             return e;
         }

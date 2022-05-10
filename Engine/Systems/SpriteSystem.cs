@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Microsoft.Xna.Framework;
-
-using MonoGame.Extended;
-using MonoGame.Extended.Graphics;
+﻿using Microsoft.Xna.Framework;
 
 namespace AdventureGame.Engine
 {
     public class SpriteSystem : System
     {
+        public SpriteSystem()
+        {
+            RequiredComponent<SpriteComponent>();
+            RequiredComponent<TransformComponent>();
+        }
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {

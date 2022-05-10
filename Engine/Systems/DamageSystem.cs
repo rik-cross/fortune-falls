@@ -1,10 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
 {
     public class DamageSystem : System
     {
+        public DamageSystem()
+        {
+            RequiredComponent<HitboxComponent>();
+            RequiredComponent<TransformComponent>();
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             HitboxComponent hitboxComponent = entity.GetComponent<HitboxComponent>();

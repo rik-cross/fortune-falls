@@ -4,6 +4,13 @@ namespace AdventureGame.Engine
 {
     class PhysicsSystem : System
     {
+        public PhysicsSystem()
+        {
+            RequiredComponent<IntentionComponent>();
+            RequiredComponent<PhysicsComponent>();
+            RequiredComponent<TransformComponent>();
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 

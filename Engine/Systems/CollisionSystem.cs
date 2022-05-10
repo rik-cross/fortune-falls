@@ -1,25 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections;
 
 namespace AdventureGame.Engine
 {
     public class CollisionSystem : System
     {
-        readonly ComponentManager componentManager; // REMOVE once SystemManager handles the relevant entity lists?
-
         public CollisionSystem()
         {
-            componentManager = EngineGlobals.componentManager;
-
-            // MOVE to SystemManager?
-            // Create a signature that flags which components the system requires
-            string[] requiredComponents = {
-                "ColliderComponent",
-                "TransformComponent"};
-
-            systemSignature = componentManager.CreateSignature(requiredComponents);
+            RequiredComponent<ColliderComponent>();
+            RequiredComponent<TransformComponent>();
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
@@ -51,6 +41,8 @@ namespace AdventureGame.Engine
 
             // check for collider intersects
             foreach (Entity e in scene.entities)
+            //foreach (Entity e in entityList)
+            //for (int i = 0; i < entityList.Count; i++)
             {
                 if (entity != e)
                 {
@@ -68,12 +60,12 @@ namespace AdventureGame.Engine
                                 // set both entities states to collide
                                 colliderComponent.collidedEntityId = e.id; // or list or Guid?
                                 eColliderComponent.collidedEntityId = entity.id;
-                                Console.WriteLine($"Entity {entity.id} collided with {e.id}"); // Testing
+                                Console.WriteLine($"\nEntity {entity.id} collided with {e.id}"); // Testing
 
                                 // change to OnCollisionEnter / OnCollision / OnCollisionExit?
                                 colliderComponent.active = false;
                                 colliderComponent.active = false;
-                                // FIX currently collision with entity 2 only registers one way
+                                // TO FIX currently collision with entity 2 only registers one way
 
                                 // return; or keep checking & handle multiple collisions?
                             }

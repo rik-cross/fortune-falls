@@ -40,7 +40,7 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // CHANGE to only update relevant entities of the system
-                // either using a list stored in SystemManager(?)
+                // either using a list stored in SystemManager / System(?)
                 // or using e.CheckComponents() directly
                 // entity-specific update
                 foreach (Entity e in entities)
@@ -105,8 +105,11 @@ namespace AdventureGame.Engine
 
                 // scene lighting
                 // (currently not a system, as lights need to be rendered at a specific time)
+                // UPDATE LightSystem created to register LightComponent
                 Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix(), blendState: blend);
                 var alphaMask = Globals.content.Load<Texture2D>("light");
+
+                // Could use a list of relevant entities from LightSystem instead
                 foreach (Entity e in entities)
                 {
                     LightComponent lightComponent = e.GetComponent<LightComponent>();

@@ -8,55 +8,14 @@ namespace AdventureGame.Engine
     public class ComponentManager
     {
         private Dictionary<string, ulong> componentsByName;
-        private readonly ulong allComponentsSignature; // change to uint (32 bits?)
+        private ulong allComponentsSignature; // Remove?
+        private ulong bitFlag;
 
         public ComponentManager()
         {
-            // MOVE to ComponentMapper?
-
-            // CHANGE to use reflection and get each object name from a
-            // list of registered components e.g.
-            // componentManager.RegisterComponent(CollisionSystem)
-
-            // Get an array of all the component file names
-            string projectSourcePath = ProjectSourcePath.Value;
-            //Console.WriteLine(projectSourcePath);
-            string componentsPath = projectSourcePath + "/Engine/Components";
-            string[] fileArray = Directory.GetFiles(componentsPath, "*.cs");
-
             // Create a dictionary of component names and bit flags
             componentsByName = new Dictionary<string, ulong>() { { "None", 0 } };
-            ulong flagInt = 1;
-
-            foreach (string file in fileArray)
-            {
-                string componentFileName = Path.GetFileNameWithoutExtension(file);
-                Console.WriteLine(componentFileName); // Testing
-
-                componentsByName.Add(componentFileName, flagInt);
-
-                flagInt *= 2;
-            }
-
-            // Testing - output dictionary key-value pairs
-            foreach (var pair in componentsByName)
-                Console.WriteLine($"Key:{pair.Key} Value:{pair.Value}");
-
-            // Set the bit signature for all of the components
-            allComponentsSignature = flagInt - 1;
-            Console.WriteLine($"\nAll components signature: {allComponentsSignature}");
-            Console.WriteLine(Convert.ToString((long)allComponentsSignature, 2));
-
-            // Testing - hardcoded dictionary
-            /*
-            componentsByName = new Dictionary<string, ulong>()
-            {
-                {"None", 0}, {"AnimationComponent", 1},
-                {"ColliderComponent", 2}, {"DamageComponent", 4},
-                {"HitboxComponent", 8}, {"HurtboxComponent", 16 },
-                {"TransformComponent", 32}
-            };
-            */
+            bitFlag = 1;
         }
 
         // Get the component id using the component name
@@ -73,19 +32,44 @@ namespace AdventureGame.Engine
             return str.Substring(lastPeriod, str.Length - lastPeriod);
         }
 
-        // MOVE to EntitySystem or System?
-        // NEEDS access to GetComponentId()
-        // Create a signature from the components provided 
-        public ulong CreateSignature(string[] components)
+        // Generate system signature based on components list
+        public ulong SystemComponents(List<string> components)
+        {
+            if (components == null)
+                return 0;
+
+            // Add the component if it isn't registered
+            foreach (string c in components)
+                if (!componentsByName.ContainsKey(c))
+                    RegisterComponent(c);
+
+            return CreateSignature(components);
+        }
+
+        // Register the component name and bit flag to the dictionary
+        public void RegisterComponent(string componentName)
+        {
+            componentsByName.Add(componentName, bitFlag);
+
+            // Testing
+            Console.WriteLine($"Register: {componentName}  Signature: {bitFlag}");
+            Console.WriteLine(Convert.ToString((long)bitFlag, 2));
+
+            // Set the next bit and bit signature for all of the components
+            bitFlag *= 2;
+            allComponentsSignature = bitFlag - 1;
+        }
+
+        // Create a signature from the components provided
+        public ulong CreateSignature(List<string> components)
         {
             ulong signature = 0;
-            for (int i = 0; i < components.Length; i++)
+            for (int i = 0; i < components.Count; i++)
                 signature += GetComponentId(components[i]);
             return signature;
         }
 
         // MOVE to Entity or EntityManager?
-        // NEEDS access to GetComponentId()
         // Performs a bitwise OR to add the componentId flag to the bit signature
         public ulong AddToSignature(ulong signature, string componentName)
         {

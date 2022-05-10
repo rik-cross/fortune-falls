@@ -4,6 +4,12 @@ namespace AdventureGame.Engine
 {
     public class InputSystem : System
     {
+        public InputSystem()
+        {
+            RequiredComponent<InputComponent>();
+            RequiredComponent<IntentionComponent>();
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 

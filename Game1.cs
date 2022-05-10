@@ -53,20 +53,9 @@ namespace AdventureGame
                 DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
             );
 
+            // Instantiate the managers
             EngineGlobals.componentManager = new ComponentManager();
-
-            EngineGlobals.systems.Add(new InputSystem());
-            //EngineGlobals.systems.Add(new ControlSystem()); // broken: needs ref to input action
-            EngineGlobals.systems.Add(new SpriteSystem());
-            EngineGlobals.systems.Add(new AnimationSystem());
-            EngineGlobals.systems.Add(new PhysicsSystem());
-            EngineGlobals.systems.Add(new HitboxSystem());
-            EngineGlobals.systems.Add(new HurtboxSystem());
-            EngineGlobals.systems.Add(new DamageSystem());
-            EngineGlobals.systems.Add(new CollisionSystem());
-            EngineGlobals.systems.Add(new TriggerSystem());
-            EngineGlobals.systems.Add(new TextSystem());
-
+            EngineGlobals.systemManager = new SystemManager();
             EngineGlobals.entityManager = new EntityManager();
 
             sceneManager = new SceneManager();

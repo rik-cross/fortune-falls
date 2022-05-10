@@ -1,11 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using System;
 
 namespace AdventureGame.Engine
 {
     public class TextSystem : System
     {
+        public TextSystem()
+        {
+            RequiredComponent<TextComponent>();
+            RequiredComponent<TransformComponent>();
+        }
+
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 

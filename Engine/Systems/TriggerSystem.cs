@@ -1,11 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using System;
 
 namespace AdventureGame.Engine
 {
     public class TriggerSystem : System
     {
+        public TriggerSystem()
+        {
+            RequiredComponent<TriggerComponent>();
+            RequiredComponent<TransformComponent>();
+        }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
