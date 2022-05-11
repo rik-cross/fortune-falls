@@ -9,11 +9,10 @@ namespace AdventureGame.Engine
         public int id;
         public ulong signature;
 
-        public ComponentManager componentManager;
-        private SystemManager systemManager;
-
         public List<Component> components = new List<Component>(); // dictionary?
         public string state = "idle"; // should this be in a component / messaging / player system?
+
+        public ComponentManager componentManager;
 
         public Entity(int id)
         {
@@ -21,7 +20,6 @@ namespace AdventureGame.Engine
             GenerateGuid();
 
             componentManager = EngineGlobals.componentManager;
-            systemManager = EngineGlobals.systemManager;
         }
 
         // Generates a unique GUID
@@ -30,44 +28,17 @@ namespace AdventureGame.Engine
             guid = Guid.NewGuid();
         }
 
-        // Adds a component to the entity and updates the systems
-        // Warning: does not check that the component exists
+        // Adds a component to the entity
         public void AddComponent(Component component)
         {
-            // Add component object to the list and entity to the component
-            components.Add(component);
-            component.entity = this;
-
-            // Add component to signature
-            string componentName = componentManager.GetComponentName(component);
-            signature = componentManager.AddToSignature(signature, componentName);
-
-            // Update all the system's lists of entities
-            systemManager.ComponentAdded(this);
-
-            // Testing
-            Console.WriteLine($"\nEntity {id} added component {componentName}");
-            Console.WriteLine($"Entity signature: {signature}");
-            Console.WriteLine(Convert.ToString((long)signature, 2));
+            componentManager.AddComponent(this, component);
         }
 
-        // Removes a component from the entity and updates the systems
+        // Removes a component from the entity
         public void RemoveComponent<T>() where T : Component
         {
-            Component c = GetComponent<T>();
-            components.Remove(c);
-
-            // Remove component from signature
-            string componentName = componentManager.GetComponentName(c);
-            signature = componentManager.RemoveFromSignature(signature, componentName);
-
-            // Update all the system's lists of entities
-            systemManager.ComponentRemoved(this);
-
-            // Testing
-            Console.WriteLine($"\nEntity {id} removed component {componentName}");
-            Console.WriteLine($"Entity signature: {signature}");
-            Console.WriteLine(Convert.ToString((long)signature, 2));
+            Component component = GetComponent<T>();
+            componentManager.RemoveComponent(this, component);
         }
 
         // Fastest way to check if an entity has the components a system requires

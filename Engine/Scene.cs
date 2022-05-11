@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -12,10 +13,14 @@ namespace AdventureGame.Engine
         public List<Entity> entities;
         public double lightLevel = 1.0f; // 0.6f;  changed for testing
 
+        public ComponentManager componentManager;
+
         public Scene()
         {
             cameraList = new List<Camera>();
             entities = new List<Entity>();
+
+            componentManager = EngineGlobals.componentManager;
         }
 
         public void AddCamera(Camera camera)
@@ -33,6 +38,11 @@ namespace AdventureGame.Engine
             foreach(Camera c in cameraList)
                 c.Update();
 
+            // update component lists of changed entities for each system
+            foreach (Entity e in componentManager.changedEntities)
+                EngineGlobals.systemManager.UpdateEntityLists(e);
+            componentManager.changedEntities.Clear();
+
             // update each system
             foreach (System s in EngineGlobals.systems)
             {
@@ -43,8 +53,8 @@ namespace AdventureGame.Engine
                 // either using a list stored in System
                 // or using e.CheckComponents() directly
                 // entity-specific update
-                foreach (Entity e in entities)
-                //foreach (Entity e in s.entityList) // do not modify the lists during a tick - use a queue to handle components added / removed?
+                //foreach (Entity e in entities)
+                foreach (Entity e in s.entityList) // do not modify the lists during a tick - use a queue to handle components added / removed?
                     s.UpdateEntity(gameTime, this, e);
             }
                 
