@@ -40,10 +40,11 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // CHANGE to only update relevant entities of the system
-                // either using a list stored in SystemManager / System(?)
+                // either using a list stored in System
                 // or using e.CheckComponents() directly
                 // entity-specific update
                 foreach (Entity e in entities)
+                //foreach (Entity e in s.entityList) // do not modify the lists during a tick - use a queue to handle components added / removed?
                     s.UpdateEntity(gameTime, this, e);
             }
                 
@@ -85,6 +86,7 @@ namespace AdventureGame.Engine
                 {
                     // entity-specific draw
                     foreach (Entity e in entities)
+                    //foreach (Entity e in s.entityList)
                         s.DrawEntity(gameTime, this, e);
 
                 }

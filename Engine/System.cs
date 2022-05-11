@@ -9,7 +9,7 @@ namespace AdventureGame.Engine
         public ulong systemSignature;
         public List<string> requiredComponents = new List<string>(); // instantiate elsewhere?
         public Dictionary<int, int> entityMapper = new Dictionary<int, int>();
-        public List<int> entityList = new List<int>();
+        public List<Entity> entityList = new List<Entity>();
 
 
         // Update is called once per frame
@@ -40,7 +40,7 @@ namespace AdventureGame.Engine
                 return;
 
             // Add entity to the list and mapper
-            entityList.Add(e.id);
+            entityList.Add(e);
             entityMapper[e.id] = entityList.Count - 1;
 
             OutputTest(); // Testing
@@ -66,8 +66,8 @@ namespace AdventureGame.Engine
             foreach (var pair in entityMapper)
                 Console.WriteLine($"Key:{pair.Key} Value:{pair.Value}");
 
-            foreach (int i in entityList)
-                Console.WriteLine($"Element:{i}");
+            foreach (Entity e in entityList)
+                Console.WriteLine($"Element:{e}");
         }
     
     }

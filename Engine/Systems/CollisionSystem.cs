@@ -17,7 +17,7 @@ namespace AdventureGame.Engine
             // CHANGE to a list of all relevant entitys (from SystemManager?)
             // and perform the check there and/or in Scene._update()
 
-            // Compare the entity signature to system signature
+            // Return if the entity does not have the required components
             if (!entity.CheckComponents(entity.signature, systemSignature))
                 return;
 
@@ -40,9 +40,8 @@ namespace AdventureGame.Engine
             colliderComponent.rectangle.Y = (int)newPosition.Y - (int)(h / 2) + colliderComponent.yOffset;
 
             // check for collider intersects
-            foreach (Entity e in scene.entities)
-            //foreach (Entity e in entityList)
-            //for (int i = 0; i < entityList.Count; i++)
+            //foreach (Entity e in scene.entities)
+            foreach (Entity e in entityList)
             {
                 if (entity != e)
                 {
