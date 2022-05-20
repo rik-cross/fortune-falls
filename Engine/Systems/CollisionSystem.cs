@@ -14,22 +14,13 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            // CHANGE to a list of all relevant entitys (from SystemManager?)
-            // and perform the check there and/or in Scene._update()
-
             // Return if the entity does not have the required components
-            if (!entity.CheckComponents(entity.signature, systemSignature))
+            /*if (!entity.CheckComponents(entity.signature, systemSignature))
                 return;
-
-            //Console.WriteLine(entity.Id + "   " + entity.Signature);
+            */
 
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            /*
-            if (colliderComponent == null || transformComponent == null)
-                return;
-            */
 
             // track entity here or elsewhere? - EngineGlobals DEBUG?
             // CHECK why can't components be passed as parameters? Eg TrackEntity(ColliderComponent colliderComponent, TransformComponent transformComponent)
@@ -40,7 +31,6 @@ namespace AdventureGame.Engine
             colliderComponent.rectangle.Y = (int)newPosition.Y - (int)(h / 2) + colliderComponent.yOffset;
 
             // check for collider intersects
-            //foreach (Entity e in scene.entities)
             foreach (Entity e in entityList)
             {
                 if (entity != e)
@@ -77,9 +67,6 @@ namespace AdventureGame.Engine
         {
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            if (colliderComponent == null || transformComponent == null)
-                return;
 
             // TESTING draw collider rectangle outline
             Rectangle rectangle = colliderComponent.rectangle;

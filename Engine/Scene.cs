@@ -95,8 +95,8 @@ namespace AdventureGame.Engine
                 foreach (System s in EngineGlobals.systems)
                 {
                     // entity-specific draw
-                    foreach (Entity e in entities)
-                    //foreach (Entity e in s.entityList)
+                    //foreach (Entity e in entities)
+                    foreach (Entity e in s.entityList)
                         s.DrawEntity(gameTime, this, e);
 
                 }

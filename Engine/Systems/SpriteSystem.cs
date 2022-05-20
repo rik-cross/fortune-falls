@@ -12,13 +12,8 @@ namespace AdventureGame.Engine
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            // ColliderComponent?
-
-            if (spriteComponent == null || transformComponent == null)
-                return;
 
             Globals.spriteBatch.Draw(
                 spriteComponent.sprite,
@@ -28,7 +23,6 @@ namespace AdventureGame.Engine
                     (int)transformComponent.size.X,
                     (int)transformComponent.size.Y
                 ), Color.White);
-
         }
 
     }

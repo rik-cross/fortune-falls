@@ -17,9 +17,6 @@ namespace AdventureGame.Engine
             //HurtboxComponent hurtBoxComponent = entity.GetComponent<HurtboxComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            if (hitboxComponent == null || transformComponent == null)
-                return;
-
             // move the hitbox based on the entity position
             Vector2 newPosition = transformComponent.position;
             int w = hitboxComponent.rectangle.Width;
@@ -32,9 +29,6 @@ namespace AdventureGame.Engine
         {
             HitboxComponent hitboxComponent = entity.GetComponent<HitboxComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            if (hitboxComponent == null || transformComponent == null)
-                return;
 
             // TESTING draw hitbox rectangle outline
             Rectangle rectangle = hitboxComponent.rectangle;

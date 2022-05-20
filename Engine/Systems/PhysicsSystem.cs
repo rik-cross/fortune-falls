@@ -13,14 +13,11 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            if (intentionComponent == null || physicsComponent == null || transformComponent == null)
-                return;
-
+            // should all the collider code be in ColliderSystem?
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
 
             if (intentionComponent.up)

@@ -6,12 +6,13 @@ namespace AdventureGame.Engine
     public class EntityManager
     {
         private Dictionary<int, Entity> entities;
-        private Dictionary<int, Entity> disabled; // added, deleted?
+        private Dictionary<int, Entity> disabled;
+        // added, deleted lists or dictionaries?
 
         private List<int> idPool; // change to ConcurrentBag<T>?
         private int nextAvailableId;
 
-        public EntityManager() // change to private internal class IdentifierPool?
+        public EntityManager()
         {
             entities = new Dictionary<int, Entity>();
             disabled = new Dictionary<int, Entity>();

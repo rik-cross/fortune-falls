@@ -14,12 +14,8 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             TriggerComponent triggerComponent = entity.GetComponent<TriggerComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            if (triggerComponent == null || transformComponent == null)
-                return;
 
             // create trigger rectangle
             Rectangle thisTrigger = new Rectangle(
@@ -29,7 +25,7 @@ namespace AdventureGame.Engine
                 (int)(triggerComponent.size.Y)
             );
 
-            foreach (Entity e in scene.entities)
+            foreach (Entity e in entityList)
             {
                 if (e != entity)
                 {
@@ -82,15 +78,11 @@ namespace AdventureGame.Engine
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             if (!EngineGlobals.DEBUG)
                 return;
 
             TriggerComponent triggerComponent = entity.GetComponent<TriggerComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            if (triggerComponent == null || transformComponent == null)
-                return;
 
             Globals.spriteBatch.DrawRectangle(new Rectangle(
                 (int)(transformComponent.position.X - transformComponent.size.X / 2 + triggerComponent.offset.X),

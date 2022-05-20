@@ -66,6 +66,9 @@ namespace AdventureGame.Engine
                         // Remove entity from the list and mapper
                         s.entityList.RemoveAt(s.entityMapper[e.id]);
                         s.entityMapper.Remove(e.id);
+                        //CHECK
+                        //Does the index change of items after they are removed?
+                        //Can entity be moved from last position to current index??
                     }
                 }
             }

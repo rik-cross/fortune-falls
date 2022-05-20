@@ -14,12 +14,8 @@ namespace AdventureGame.Engine
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             TextComponent textComponent = entity.GetComponent<TextComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            if (textComponent == null || transformComponent == null)
-                return;
 
             int rowHeight = textComponent.totalHeight;
 
