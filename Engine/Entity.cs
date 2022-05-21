@@ -5,7 +5,7 @@ namespace AdventureGame.Engine
 {
     public class Entity
     {
-        public Guid guid; // delete?
+        public Guid guid;
         public int id;
         public ulong signature;
 
@@ -22,7 +22,7 @@ namespace AdventureGame.Engine
             componentManager = EngineGlobals.componentManager;
         }
 
-        // Generates a unique GUID
+        // Generates a unique GUID for the entity
         public void GenerateGuid()
         {
             guid = Guid.NewGuid();
@@ -44,7 +44,6 @@ namespace AdventureGame.Engine
         // Fastest way to check if an entity has the components a system requires
         public bool CheckComponents(ulong entitySignature, ulong systemSignature)
         {
-            //Console.WriteLine(entitySignature & systemSignature);
             return (entitySignature & systemSignature) == systemSignature;
         }
 

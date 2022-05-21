@@ -38,9 +38,17 @@ namespace AdventureGame.Engine
             foreach(Camera c in cameraList)
                 c.Update();
 
-            // update component lists of changed entities for each system
+            // Repeats for each entity whose components have changed
             foreach (Entity e in componentManager.changedEntities)
+            {
+                // Remove queued components from entities
+                componentManager.RemoveQueuedComponents();
+
+                // Update the entity lists in each system
                 EngineGlobals.systemManager.UpdateEntityLists(e);
+            }
+            // Clear the queue and set from ComponentManager
+            componentManager.removedComponents.Clear();
             componentManager.changedEntities.Clear();
 
             // update each system
@@ -49,12 +57,8 @@ namespace AdventureGame.Engine
                 // main system update
                 s.Update(gameTime, this);
 
-                // CHANGE to only update relevant entities of the system
-                // either using a list stored in System
-                // or using e.CheckComponents() directly
-                // entity-specific update
-                //foreach (Entity e in entities)
-                foreach (Entity e in s.entityList) // do not modify the lists during a tick - use a queue to handle components added / removed?
+                // update each relevant entity of a system
+                foreach (Entity e in s.entityList)
                     s.UpdateEntity(gameTime, this, e);
             }
                 
@@ -95,7 +99,6 @@ namespace AdventureGame.Engine
                 foreach (System s in EngineGlobals.systems)
                 {
                     // entity-specific draw
-                    //foreach (Entity e in entities)
                     foreach (Entity e in s.entityList)
                         s.DrawEntity(gameTime, this, e);
 

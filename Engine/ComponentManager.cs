@@ -12,7 +12,6 @@ namespace AdventureGame.Engine
         private ulong allComponentsSignature; // Remove?
         private ulong bitFlag;
 
-        public ConcurrentQueue<Tuple<Entity, Component>> addedComponents;
         public ConcurrentQueue<Tuple<Entity, Component>> removedComponents;
         public HashSet<Entity> changedEntities;
 
@@ -22,14 +21,14 @@ namespace AdventureGame.Engine
             componentsByName = new Dictionary<string, ulong>() { { "None", 0 } };
             bitFlag = 1;
 
-            // Initialise the queues and set for updating the systems
-            addedComponents = new ConcurrentQueue<Tuple<Entity, Component>>();
+            // Queues components to be removed
             removedComponents = new ConcurrentQueue<Tuple<Entity, Component>>();
+
+            // Used to update the entity lists in each system
             changedEntities = new HashSet<Entity>();
         }
 
-        // Adds a component to an entity and updates the systems
-        // Warning: does not check that the component exists
+        // Adds a component to an entity and updates the entity signature
         public void AddComponent(Entity e, Component component)
         {
             // Add component object to the list and entity to the component
@@ -39,13 +38,12 @@ namespace AdventureGame.Engine
             // Add component to entity signature
             string componentName = GetComponentName(component);
             e.signature = AddToSignature(e.signature, componentName);
-
+            
             // Pushes the entity and component to the added queue
-            addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
-            changedEntities.Add(e);
+            //addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
 
-            // Update all the system's lists of entities
-            //systemManager.ComponentAdded(e, component);
+            // Add entity to the changed entities set
+            changedEntities.Add(e);
 
             // Testing
             Console.WriteLine($"\nEntity {e.id} added component {componentName}");
@@ -53,28 +51,38 @@ namespace AdventureGame.Engine
             Console.WriteLine(Convert.ToString((long)e.signature, 2));
         }
 
-        // CHECK should this also delete the component object?
-        // Removes a component from an entity and updates the systems
+        // Queues the entity and component to be removed
         public void RemoveComponent(Entity e, Component component)
         {
-            // Remove component object from the entity list
-            e.components.Remove(component);
-
-            // Remove component from entity signature
-            string componentName = GetComponentName(component);
-            e.signature = RemoveFromSignature(e.signature, componentName);
-
             // Pushes the entity and component to the removed queue
             removedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
+
+            // Add entity to the changed entities set
             changedEntities.Add(e);
+        }
 
-            // Update all the system's lists of entities
-            //systemManager.ComponentRemoved(e, component);
+        // CHECK should this also delete the component object?
+        // Removes components from entities at the start of the game tick
+        public void RemoveQueuedComponents()
+        {
+            foreach (var removed in removedComponents)
+            {
+                // Get entity and component
+                Entity e = removed.Item1;
+                Component component = removed.Item2;
 
-            // Testing
-            Console.WriteLine($"\nEntity {e.id} removed component {componentName}");
-            Console.WriteLine($"Entity signature: {e.signature}");
-            Console.WriteLine(Convert.ToString((long)e.signature, 2));
+                // Remove component object from the entity list
+                e.components.Remove(component);
+
+                // Remove component from entity signature
+                string componentName = GetComponentName(component);
+                e.signature = RemoveFromSignature(e.signature, componentName);
+
+                // Testing
+                Console.WriteLine($"\nEntity {e.id} removed component {componentName}");
+                Console.WriteLine($"Entity signature: {e.signature}");
+                Console.WriteLine(Convert.ToString((long)e.signature, 2));
+            }
         }
 
         // Get the component id using the component name
@@ -128,7 +136,6 @@ namespace AdventureGame.Engine
             return signature;
         }
 
-        // MOVE to Entity or EntityManager?
         // Performs a bitwise OR to add the componentId flag to the bit signature
         public ulong AddToSignature(ulong signature, string componentName)
         {
