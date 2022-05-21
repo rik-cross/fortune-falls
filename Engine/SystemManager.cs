@@ -57,21 +57,23 @@ namespace AdventureGame.Engine
                         s.entityMapper[e.id] = s.entityList.Count - 1;
                     }
                 }
+                // Otherwise check if entity used to but is no longer relevant
                 else
                 {
                     // Check if the entity exists in the mapper
                     if (s.entityMapper.ContainsKey(e.id))
                     {
-                        // Remove entity from the list and mapper
-                        s.entityList.RemoveAt(s.entityMapper[e.id]);
-                        s.entityMapper.Remove(e.id);
-                        /*
-                        //CHECK
-                        //Does the index change of items after they are removed?
-                        //Can entity be moved from last position to current index??
-
-                        Console.WriteLine($"System {s}");
+                        // Testing
+                        /*Console.WriteLine($"System {s}");
                         Console.WriteLine(String.Join(", ", s.entityList));
+                        foreach (KeyValuePair<int, int> kv in s.entityMapper)
+                            Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
+                        */
+
+                        // To keep the index values accurate in the mapper
+                        // and for fast removal of an entity from the list,
+                        // overwrite the current entity with the last entity
+                        // in the list and update the mapper
 
                         // Get the index of the current entity
                         int index = s.entityMapper[e.id];
@@ -85,10 +87,14 @@ namespace AdventureGame.Engine
                         // Update the mapper with the new index value
                         s.entityMapper[lastEntity.id] = index;
 
-                        // Remove the current entity from the list and mapper
+                        // Remove the last entity from the list
                         s.entityList.RemoveAt(s.entityList.Count - 1);
+
+                        // Remove the current entity from the mapper
                         s.entityMapper.Remove(e.id);
 
+                        // Testing
+                        /*Console.WriteLine("New:");
                         Console.WriteLine(String.Join(", ", s.entityList));
                         foreach (KeyValuePair<int, int> kv in s.entityMapper)
                             Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
