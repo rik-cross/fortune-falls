@@ -41,23 +41,6 @@ namespace AdventureGame.Engine
             componentManager.RemoveComponent(this, component);
         }
 
-        // Fastest way to check if an entity has the components a system requires
-        public bool CheckComponents(ulong entitySignature, ulong systemSignature)
-        {
-            return (entitySignature & systemSignature) == systemSignature;
-        }
-
-        // Fastest way to check if an entity has the components a system requires
-        public bool CheckComponents(Entity e, ulong systemSignature)
-        {
-            ulong entitySignature = e.signature;
-            return (entitySignature & systemSignature) == systemSignature;
-        }
-
-        // Get each component name of the entity?
-        // public string[] GetComponentNames (Entity e)
-
-
         // Returns each component object of the entity
         public T GetComponent<T>() where T : Component
         {

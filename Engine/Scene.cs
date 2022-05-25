@@ -10,17 +10,19 @@ namespace AdventureGame.Engine
     {
 
         public List<Camera> cameraList;
-        public List<Entity> entities;
         public double lightLevel = 1.0f; // 0.6f;  changed for testing
 
+        public EntityManager entityManager;
         public ComponentManager componentManager;
+        public SystemManager systemManager;
 
         public Scene()
         {
             cameraList = new List<Camera>();
-            entities = new List<Entity>();
 
+            entityManager = EngineGlobals.entityManager;
             componentManager = EngineGlobals.componentManager;
+            systemManager = EngineGlobals.systemManager;
         }
 
         public void AddCamera(Camera camera)
@@ -32,11 +34,11 @@ namespace AdventureGame.Engine
         public virtual void LoadContent() { }
         public virtual void UnloadContent() { }
 
-        public virtual void _Update(GameTime gameTime) {
+        public virtual void _Update(GameTime gameTime)
+        {
 
-            // update cameras
-            foreach(Camera c in cameraList)
-                c.Update();
+            // Delete entities from the deleted set
+            entityManager.DeleteEntitiesFromSet();
 
             // Repeats for each entity whose components have changed
             foreach (Entity e in componentManager.changedEntities)
@@ -45,11 +47,15 @@ namespace AdventureGame.Engine
                 componentManager.RemoveQueuedComponents();
 
                 // Update the entity lists in each system
-                EngineGlobals.systemManager.UpdateEntityLists(e);
+                systemManager.UpdateEntityLists(e);
             }
             // Clear the queue and set from ComponentManager
             componentManager.removedComponents.Clear();
             componentManager.changedEntities.Clear();
+
+            // update cameras
+            foreach (Camera c in cameraList)
+                c.Update();
 
             // update each system
             foreach (System s in EngineGlobals.systems)
@@ -68,7 +74,8 @@ namespace AdventureGame.Engine
 
         public virtual void Update(GameTime gameTime) { }
 
-        public void _Draw(GameTime gameTime) {
+        public void _Draw(GameTime gameTime)
+        {
 
             var blend = new BlendState
             {
@@ -125,7 +132,7 @@ namespace AdventureGame.Engine
                 var alphaMask = Globals.content.Load<Texture2D>("light");
 
                 // Could use a list of relevant entities from LightSystem instead
-                foreach (Entity e in entities)
+                foreach (Entity e in entityManager.GetEntities())
                 {
                     LightComponent lightComponent = e.GetComponent<LightComponent>();
                     TransformComponent transformComponent = e.GetComponent<TransformComponent>();

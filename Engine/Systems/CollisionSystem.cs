@@ -57,6 +57,10 @@ namespace AdventureGame.Engine
                                 // TO FIX currently collision with entity 2 only registers one way
 
                                 // return; or keep checking & handle multiple collisions?
+
+                                // Testing
+                                if (e.id != 0)
+                                    EngineGlobals.entityManager.DeleteEntity(e);
                             }
                         }
                 }

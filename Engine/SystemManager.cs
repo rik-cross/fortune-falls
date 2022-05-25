@@ -47,7 +47,7 @@ namespace AdventureGame.Engine
             foreach (System s in systems)
             {
                 // Check if the entity is relevant
-                if (e.CheckComponents(e, s.systemSignature))
+                if (componentManager.CheckComponents(e, s.systemSignature))
                 {
                     // Check if the entity doesn't already exist
                     if (!s.entityMapper.ContainsKey(e.id))
@@ -73,7 +73,7 @@ namespace AdventureGame.Engine
                         // To keep the index values accurate in the mapper
                         // and for fast removal of an entity from the list,
                         // overwrite the current entity with the last entity
-                        // in the list and update the mapper
+                        // in the list and update the mapper.
 
                         // Get the index of the current entity
                         int index = s.entityMapper[e.id];
@@ -103,6 +103,7 @@ namespace AdventureGame.Engine
                 }
             }
         }
+
 
     }
 }

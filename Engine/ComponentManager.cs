@@ -8,6 +8,8 @@ namespace AdventureGame.Engine
 {
     public class ComponentManager
     {
+        //private Dictionary<ulong, Dictionary<ulong, Component>> components; move to ComponentMapper?
+
         private Dictionary<string, ulong> componentsByName;
         private ulong allComponentsSignature; // Remove?
         private ulong bitFlag;
@@ -26,6 +28,20 @@ namespace AdventureGame.Engine
 
             // Used to update the entity lists in each system
             changedEntities = new HashSet<Entity>();
+        }
+
+        // Get the component id using the component name
+        public ulong GetComponentId(string componentName)
+        {
+            return componentsByName[componentName];
+        }
+
+        // Get the component name from the component
+        public string GetComponentName(Component component)
+        {
+            string str = component.ToString();
+            int lastPeriod = str.LastIndexOf('.') + 1;
+            return str.Substring(lastPeriod, str.Length - lastPeriod);
         }
 
         // Adds a component to an entity and updates the entity signature
@@ -61,6 +77,19 @@ namespace AdventureGame.Engine
             changedEntities.Add(e);
         }
 
+        // Removes all components from an entity
+        public void RemoveAllComponents(Entity e)
+        {
+            // Clear the components list
+            e.components.Clear();
+
+            // Reset the signature
+            e.signature = 0;
+
+            // Add entity to the changed entities set
+            changedEntities.Add(e);
+        }
+
         // CHECK should this also delete the component object?
         // Removes components from entities at the start of the game tick
         public void RemoveQueuedComponents()
@@ -85,20 +114,6 @@ namespace AdventureGame.Engine
             }
         }
 
-        // Get the component id using the component name
-        public ulong GetComponentId(string componentName)
-        {
-            return componentsByName[componentName];
-        }
-
-        // Get the component name from the component
-        public string GetComponentName(Component component)
-        {
-            string str = component.ToString();
-            int lastPeriod = str.LastIndexOf('.') + 1;
-            return str.Substring(lastPeriod, str.Length - lastPeriod);
-        }
-
         // Generate system signature based on components list
         public ulong SystemComponents(List<string> components)
         {
@@ -119,8 +134,8 @@ namespace AdventureGame.Engine
             componentsByName.Add(componentName, bitFlag);
 
             // Testing
-            Console.WriteLine($"Register: {componentName}  Signature: {bitFlag}");
-            Console.WriteLine(Convert.ToString((long)bitFlag, 2));
+            //Console.WriteLine($"Register: {componentName}  Signature: {bitFlag}");
+            //Console.WriteLine(Convert.ToString((long)bitFlag, 2));
 
             // Set the next bit and bit signature for all of the components
             bitFlag *= 2;
@@ -149,6 +164,22 @@ namespace AdventureGame.Engine
             ulong componentId = GetComponentId(componentName);
             return signature & ~componentId;
         }
+
+        // Fastest way to check if an entity has the components a system requires
+        public bool CheckComponents(ulong entitySignature, ulong systemSignature)
+        {
+            return (entitySignature & systemSignature) == systemSignature;
+        }
+
+        // Fastest way to check if an entity has the components a system requires
+        public bool CheckComponents(Entity e, ulong systemSignature)
+        {
+            return (e.signature & systemSignature) == systemSignature;
+        }
+
+        // Get each component name of the entity?
+        // public string[] GetComponentNames (Entity e)
+
 
     }
 }

@@ -16,13 +16,6 @@ namespace AdventureGame
 
     public class GameScene : Scene
     {
-        public EntityManager entityManager;
-
-        public GameScene()
-        {
-            entityManager = EngineGlobals.entityManager;
-        }
-
         public void PlayerInputController(Entity entity)
         {
 
@@ -155,7 +148,7 @@ namespace AdventureGame
                 null,
                 null
             ));
-            entities.Add(playerEntity);
+            entityManager.AddEntity(playerEntity);
 
             // enemy entity
             // variables for enemyWidth, enemyHeight?
@@ -171,7 +164,7 @@ namespace AdventureGame
             enemyEntity.AddComponent(new Engine.ColliderComponent(enemyColliderX, enemyColliderY, 65, 50));
             enemyEntity.AddComponent(new Engine.HitboxComponent(enemyColliderX, enemyColliderY, 65, 50));
             // AI component?
-            entities.Add(enemyEntity);
+            entityManager.AddEntity(enemyEntity);
 
             // light source entity
             // values based off X / Y and width / height
@@ -192,7 +185,7 @@ namespace AdventureGame
                 lightOnCollisionExit
             ));
 
-            entities.Add(lightSourceEntity);
+            entityManager.AddEntity(lightSourceEntity);
 
             //
             // cameras
