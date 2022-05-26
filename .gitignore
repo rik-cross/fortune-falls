@@ -19,3 +19,5 @@ Content/obj
 Content/obj/*
 Content/bin
 Content/bin/*
+!Entities/
+!Entities/*.cs
