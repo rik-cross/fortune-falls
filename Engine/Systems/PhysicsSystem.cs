@@ -34,35 +34,23 @@ namespace AdventureGame.Engine
 
             if (intentionComponent.right)
             {
+                float newPosition = transformComponent.position.X + physicsComponent.velocity;
+
                 // check for collision, hit, damage?
                 if (colliderComponent != null)
                 {
                     foreach (Entity collidedEntity in colliderComponent.collidedEntities)
                     {
-
                         ColliderComponent otherColliderComponent = collidedEntity.GetComponent<ColliderComponent>();
-                        TransformComponent otherTransformComponent = collidedEntity.GetComponent<TransformComponent>();
 
                         //Console.WriteLine($"Physics system: Entity {entity.id} collided with Entity {collidedEntity.id}");
-                        /*
+                        
                         if (colliderComponent.isSolid && otherColliderComponent.isSolid)
                         {
-                            //Vector2 colliderPosition = transformComponent.position;
-                            //Vector2 colliderSize = transformComponent.size;
-                            //float width = colliderPosition.X - colliderSize.X;
-                            //Console.WriteLine(width);
+                            float colliderHalfWidth = colliderComponent.rectangle.Width / 2;
 
-                            Console.WriteLine($"Collider position X: {transformComponent.position.X}");
-                            Console.WriteLine($"Collider size X: {transformComponent.size.X}");
-                            Console.WriteLine($"Other collider position X: {otherTransformComponent.position.X}");
-                            Console.WriteLine($"Other collider size X: {otherTransformComponent.size.X}");
-
-                            float width = colliderComponent.rectangle.Width;
-
-                            float halfWidth = transformComponent.size.X / 2;
-
-                            transformComponent.position.X = otherTransformComponent.position.X - halfWidth - width;
-                        }*/
+                            newPosition = otherColliderComponent.rectangle.Left - colliderHalfWidth;
+                        }
                     }
 
                     foreach (Entity collidedEntity in colliderComponent.collidedEntitiesEnded)
@@ -79,7 +67,8 @@ namespace AdventureGame.Engine
                         //return;
                     }*/
                 }
-                transformComponent.position.X += physicsComponent.velocity;
+                transformComponent.position.X = newPosition;
+                //transformComponent.position.X += physicsComponent.velocity;
             }
 
         }
