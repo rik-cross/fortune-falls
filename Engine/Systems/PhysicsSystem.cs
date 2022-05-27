@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace AdventureGame.Engine
 {
     class PhysicsSystem : System
     {
+        //public List<>
+
         public PhysicsSystem()
         {
             RequiredComponent<IntentionComponent>();
@@ -34,7 +37,39 @@ namespace AdventureGame.Engine
                 // check for collision, hit, damage?
                 if (colliderComponent != null)
                 {
-                    if (colliderComponent.collidedEntityId != -1)
+                    foreach (Entity collidedEntity in colliderComponent.collidedEntities)
+                    {
+
+                        ColliderComponent otherColliderComponent = collidedEntity.GetComponent<ColliderComponent>();
+                        TransformComponent otherTransformComponent = collidedEntity.GetComponent<TransformComponent>();
+
+                        //Console.WriteLine($"Physics system: Entity {entity.id} collided with Entity {collidedEntity.id}");
+                        /*
+                        if (colliderComponent.isSolid && otherColliderComponent.isSolid)
+                        {
+                            //Vector2 colliderPosition = transformComponent.position;
+                            //Vector2 colliderSize = transformComponent.size;
+                            //float width = colliderPosition.X - colliderSize.X;
+                            //Console.WriteLine(width);
+
+                            Console.WriteLine($"Collider position X: {transformComponent.position.X}");
+                            Console.WriteLine($"Collider size X: {transformComponent.size.X}");
+                            Console.WriteLine($"Other collider position X: {otherTransformComponent.position.X}");
+                            Console.WriteLine($"Other collider size X: {otherTransformComponent.size.X}");
+
+                            float width = colliderComponent.rectangle.Width;
+
+                            float halfWidth = transformComponent.size.X / 2;
+
+                            transformComponent.position.X = otherTransformComponent.position.X - halfWidth - width;
+                        }*/
+                    }
+
+                    foreach (Entity collidedEntity in colliderComponent.collidedEntitiesEnded)
+                    {
+                        Console.WriteLine($"Physics system: Entity {entity.id} stopped colliding with Entity {collidedEntity.id}");
+                    }
+                    /*if (colliderComponent.collidedEntityId != -1)
                     {
                         // get entity based on collidedEntityID
                         // get position of the entity
@@ -42,7 +77,7 @@ namespace AdventureGame.Engine
                         // check if collided entity is to the right of entity
                         // if so, move entity to the left edge of collided entity
                         //return;
-                    }
+                    }*/
                 }
                 transformComponent.position.X += physicsComponent.velocity;
             }

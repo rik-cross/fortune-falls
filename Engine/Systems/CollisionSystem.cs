@@ -1,15 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace AdventureGame.Engine
 {
     public class CollisionSystem : System
     {
+        public HashSet<Entity> collisionStarted;
+        public HashSet<Entity> collisionEnded;
+
         public CollisionSystem()
         {
             RequiredComponent<ColliderComponent>();
             RequiredComponent<TransformComponent>();
+
+            collisionStarted = new HashSet<Entity>();
+            collisionEnded = new HashSet<Entity>();
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
@@ -22,7 +29,7 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // track entity here or elsewhere? - EngineGlobals DEBUG?
+            // track entity here or elsewhere?
             // CHECK why can't components be passed as parameters? Eg TrackEntity(ColliderComponent colliderComponent, TransformComponent transformComponent)
             Vector2 newPosition = transformComponent.position;
             int w = colliderComponent.rectangle.Width;
@@ -31,64 +38,116 @@ namespace AdventureGame.Engine
             colliderComponent.rectangle.Y = (int)newPosition.Y - (int)(h / 2) + colliderComponent.yOffset;
 
             // check for collider intersects
-            foreach (Entity e in entityList)
+            foreach (Entity otherE in entityList)
             {
-                if (entity != e)
+                if (entity != otherE)
                 {
-                    ColliderComponent eColliderComponent = e.GetComponent<ColliderComponent>();
-                    TransformComponent eTransformComponent = e.GetComponent<TransformComponent>();
+                    ColliderComponent otherColliderComponent = otherE.GetComponent<ColliderComponent>();
+                    TransformComponent otherTransformComponent = otherE.GetComponent<TransformComponent>();
 
-                    if (eColliderComponent != null && eTransformComponent != null)
-                        if (colliderComponent.rectangle.Intersects(eColliderComponent.rectangle))
+                    if (otherColliderComponent != null && otherTransformComponent != null)
+                    {
+                        // Check if the entities have collided
+                        if (colliderComponent.rectangle.Intersects(otherColliderComponent.rectangle))
                         {
-                            colliderComponent.color = Color.Orange;
-                            eColliderComponent.color = Color.Orange;
-
-                            if (colliderComponent.active)
+                            // Check if the entities are already colliding
+                            if (!collisionStarted.Contains(entity) &&
+                                    !colliderComponent.collidedEntities.Contains(otherE))
                             {
-                                // set both entities states to collide
-                                colliderComponent.collidedEntityId = e.id; // or list or Guid?
-                                eColliderComponent.collidedEntityId = entity.id;
-                                Console.WriteLine($"\nEntity {entity.id} collided with {e.id}"); // Testing
+                                // Add the entity to the collision started set
+                                collisionStarted.Add(entity);
 
-                                // change to OnCollisionEnter / OnCollision / OnCollisionExit?
-                                colliderComponent.active = false;
-                                colliderComponent.active = false;
-                                // TO FIX currently collision with entity 2 only registers one way
+                                // Add the collided entity to the component set
+                                colliderComponent.collidedEntities.Add(otherE);
 
-                                // return; or keep checking & handle multiple collisions?
+                                // Testing: change component outline colour
+                                colliderComponent.color = Color.Orange;
+                                otherColliderComponent.color = Color.Orange;
 
-                                // Testing
-                                if (e.id != 0)
-                                    EngineGlobals.entityManager.DeleteEntity(e);
+                                // Testing: output collided entities set
+                                Console.WriteLine("\nCollision started set: ");
+                                Console.WriteLine($"Entity {entity.id}");
+                                foreach (Entity e in colliderComponent.collidedEntities)
+                                    Console.WriteLine($"Other entity {e.id}  ");
+
+                                // Testing: delete non-player entity on collide
+                                //if (otherE.id != 0)
+                                    //EngineGlobals.entityManager.DeleteEntity(otherE);
                             }
                         }
+                        // Check if the entities were colliding and now they are not
+                        else if (collisionStarted.Contains(entity) &&
+                                    colliderComponent.collidedEntities.Contains(otherE))
+                        {
+                            // Remove the collided entity from the component set
+                            colliderComponent.collidedEntities.Remove(otherE);
+
+                            // Check if the entity has any more collisions to handle
+                            if (colliderComponent.collidedEntities.Count == 0)
+                                // Remove the entity from the collision started set
+                                collisionStarted.Remove(entity);
+
+                            // Add the entities to the collision ended sets
+                            collisionEnded.Add(entity);
+                            colliderComponent.collidedEntitiesEnded.Add(otherE);
+
+                            // Testing: output collided entities ended set
+                            Console.WriteLine("\nCollision ended set: ");
+                            Console.WriteLine($"Entity {entity.id}");
+                            foreach (Entity e in colliderComponent.collidedEntitiesEnded)
+                                Console.WriteLine($"Other entity {e.id}  ");
+                        }
+                        // Check if the entites are exiting a previous collision
+                        else if (collisionEnded.Contains(entity) &&
+                            colliderComponent.collidedEntitiesEnded.Contains(otherE))
+                        {
+                            // Remove the collided entity from the component set
+                            colliderComponent.collidedEntitiesEnded.Remove(otherE);
+
+                            // Check if the entity has any more ended collisions to handle
+                            if (colliderComponent.collidedEntitiesEnded.Count == 0)
+                                // Remove the entity from the collision ended set
+                                collisionEnded.Remove(entity);
+
+                            // Testing: change component outline colour
+                            colliderComponent.color = Color.Yellow;
+                            otherColliderComponent.color = Color.Yellow;
+                        }
+                    }
                 }
             }
         }
 
+        public HashSet<Entity> GetCollidedEntities(Entity entity)
+        {
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            return colliderComponent.collidedEntities;
+        }
+
+        public HashSet<Entity> GetCollidedEntitiesEnded(Entity entity)
+        {
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            return colliderComponent.collidedEntitiesEnded;
+        }
+
+        public void OnCollisionEnter(Entity e, Entity otherEntity)
+        {
+
+        }
+
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+            if (!EngineGlobals.DEBUG)
+                return;
+
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // TESTING draw collider rectangle outline
+            // Testing: draw collider rectangle outline
             Rectangle rectangle = colliderComponent.rectangle;
             Color color = colliderComponent.color;
             int lineWidth = 1;
-            DrawRectangleOutline(rectangle, color, lineWidth);
-        }
-
-        // TESTING draw rectangle outline
-        public void DrawRectangleOutline(Rectangle rectangle, Color color, int lineWidth)
-        {
-            Texture2D pointTexture = new Texture2D(Globals.spriteBatch.GraphicsDevice, 1, 1);
-            pointTexture.SetData<Color>(new Color[] { Color.White });
-
-            Globals.spriteBatch.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, lineWidth, rectangle.Height), color);
-            Globals.spriteBatch.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, lineWidth), color);
-            Globals.spriteBatch.Draw(pointTexture, new Rectangle(rectangle.X + rectangle.Width - lineWidth, rectangle.Y, lineWidth, rectangle.Height), color);
-            Globals.spriteBatch.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height - lineWidth, rectangle.Width, lineWidth), color);
+            Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);
         }
 
     }
