@@ -11,6 +11,8 @@ Engine/*
 !Engine/Components/*
 !Engine/Systems
 !Engine/Systems/*
+!Engine/SceneTransitions
+!Engine/SceneTransitions/*.cs
 !Content/
 Content/*
 !Content/*

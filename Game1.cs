@@ -60,7 +60,7 @@ namespace AdventureGame
 
             sceneManager = new SceneManager();
             //sceneManager.PushScene(new GameScene());
-            sceneManager.PushScene(new GameScene());
+            sceneManager.PushScene(new GameScene()); //, new Engine.FadeSceneTransition());
         }
 
         protected override void Update(GameTime gameTime)
