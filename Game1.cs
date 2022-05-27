@@ -58,25 +58,23 @@ namespace AdventureGame
             EngineGlobals.systemManager = new SystemManager();
             EngineGlobals.entityManager = new EntityManager();
 
-            sceneManager = new SceneManager();
-            //sceneManager.PushScene(new GameScene());
-            sceneManager.PushScene(new GameScene()); //, new Engine.FadeSceneTransition());
+            EngineGlobals.sceneManager = new SceneManager();
+            EngineGlobals.sceneManager.PushScene(new MenuScene());
+            //EngineGlobals.sceneManager.PushScene(new GameScene()); //, new Engine.FadeSceneTransition());
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            if (sceneManager.isEmpty())
+            if (EngineGlobals.sceneManager.isEmpty())
                 Exit();
 
-            sceneManager.Update(gameTime);
+            EngineGlobals.sceneManager.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            sceneManager.Draw(gameTime);
+            EngineGlobals.sceneManager.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

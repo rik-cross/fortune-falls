@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using S = System.Diagnostics;
+using System;
+
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace AdventureGame.Engine
@@ -29,7 +32,7 @@ namespace AdventureGame.Engine
                 sceneStack.Push(scene);
             }
         }
-        public void PopScene(Scene scene, SceneTransition? sceneTransition=null)
+        public void PopScene(SceneTransition? sceneTransition=null)
         {
             if (sceneTransition != null)
             {
@@ -37,8 +40,8 @@ namespace AdventureGame.Engine
             }
             else
             {
-                sceneStack.Pop();
-                scene.UnloadContent();
+                Scene sceneToPop = sceneStack.Pop();
+                sceneToPop.UnloadContent();
             }
             
         }

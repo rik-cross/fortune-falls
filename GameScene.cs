@@ -1,15 +1,10 @@
-﻿using System.Collections.Generic;
-
+﻿
+using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using MonoGame.Extended.Content;
-using System.Collections;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Serialization;
-
-using AdventureGame.Engine;
+using MonoGame.Extended;
 
 namespace AdventureGame
 {
@@ -19,21 +14,19 @@ namespace AdventureGame
 
         public override void Init()
         {
+
             //
             // entities
             //
 
             // player entity
             Engine.Entity playerEntity = PlayerEntity.Create(150, 150);
-            entityManager.AddEntity(playerEntity); // this doesn't seem to be needed.
 
             // enemy entity
             Engine.Entity enemyEntity = EnemyEntity.Create(250, 150);
-            entityManager.AddEntity(enemyEntity); // this doesn't seem to be needed.
 
             // light source entity
             Engine.Entity lightSourceEntity = LightEntity.Create(250, 250);
-            entityManager.AddEntity(lightSourceEntity); // this doesn't seem to be needed.
 
             //
             // cameras
@@ -61,11 +54,23 @@ namespace AdventureGame
             // commented out DayNightCycle for testing
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                EngineGlobals.sceneManager.PopScene();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                EngineGlobals.sceneManager.PushScene(new PauseScene());
+            }
         }
 
         public override void Draw(GameTime gameTime)
         {
             //DayNightCycle.Draw(gameTime);
+            Globals.spriteBatch.FillRectangle(
+                new Rectangle(0, 440, 200, 40), Color.Black
+            );
+            Globals.spriteBatch.DrawString(Globals.fontSmall, "[p] pause  //  [q] quit", new Vector2(10, 450), Color.White);
         }
 
     }
