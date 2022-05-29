@@ -17,6 +17,8 @@ namespace AdventureGame.Engine
         public ComponentManager componentManager;
         public SystemManager systemManager;
 
+        public Texture2D map = null;
+
         public Scene()
         {
             entityList = new List<Entity>();
@@ -102,8 +104,6 @@ namespace AdventureGame.Engine
 
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
 
-            Texture2D bg = Globals.content.Load<Texture2D>("map");
-
             foreach (Engine.Camera c in cameraList)
             {
 
@@ -116,7 +116,9 @@ namespace AdventureGame.Engine
 
                 // draw the map
                 Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
-                Globals.spriteBatch.Draw(bg, new Rectangle(0, 0, 2048, 2048), Color.White);
+
+                if (map != null)
+                    Globals.spriteBatch.Draw(map, new Vector2(0, 0), Color.White);
 
                 // draw each system
                 foreach (System s in EngineGlobals.systems)

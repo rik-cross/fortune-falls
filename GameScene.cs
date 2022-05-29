@@ -17,6 +17,9 @@ namespace AdventureGame
         public override void Init()
         {
 
+            // add map
+            map = Globals.content.Load<Texture2D>("map");
+
             //
             // add entities from entityManager
             //
