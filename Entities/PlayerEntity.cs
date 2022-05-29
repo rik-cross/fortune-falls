@@ -15,6 +15,8 @@ using MonoGame.Extended.Serialization;
 
 using AdventureGame.Engine;
 
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame
 {
     public static class PlayerEntity
@@ -111,6 +113,9 @@ namespace AdventureGame
             int playerColliderOffsetY = (int)(playerHeight * 0.3);
 
             Engine.Entity playerEntity = EngineGlobals.entityManager.CreateEntity();
+
+            playerEntity.AddTag("player");
+
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(playerStartX, playerStartY), new Vector2(playerWidth, playerHeight)));
             playerEntity.AddComponent(new Engine.PhysicsComponent(1));

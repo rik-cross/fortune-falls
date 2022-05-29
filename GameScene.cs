@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended;
 
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame
 {
 
@@ -16,29 +18,26 @@ namespace AdventureGame
         {
 
             //
-            // entities
+            // add entities from entityManager
             //
 
-            // player entity
-            Engine.Entity playerEntity = PlayerEntity.Create(150, 150);
+            AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("enemy"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByTag("light"));
 
-            // enemy entity
-            Engine.Entity enemyEntity = EnemyEntity.Create(250, 150);
-
-            // light source entity
-            Engine.Entity lightSourceEntity = LightEntity.Create(250, 250);
+            //Entity le = LightEntity.Create(250, 250);
+            //AddEntity(le);
 
             //
             // cameras
             //
 
             // main camera
-            Engine.Camera mainCam = new Engine.Camera(400, 240);
-            AddCamera(mainCam);
+            AddCamera(new Engine.Camera(400, 240));
 
             // player camera
             Engine.Camera playerCam = new Engine.Camera(0, 0, 580, 260, 200, 200, 2, 0, 2);
-            playerCam.trackedEntity = playerEntity;
+            playerCam.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
             AddCamera(playerCam);
 
         }

@@ -37,6 +37,9 @@ namespace AdventureGame
 
             //Entity lightSourceEntity = new Entity();
             Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
+
+            lightSourceEntity.AddTag("light");
+
             lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(250, 250), new Vector2(32, 32)));
             lightSourceEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("candleTest.sf", new JsonContentLoader()))));
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(lightColliderX, lightColliderY, 50, 50));

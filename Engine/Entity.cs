@@ -12,6 +12,8 @@ namespace AdventureGame.Engine
         public List<Component> components = new List<Component>(); // dictionary?
         public string state = "idle"; // should this be in a component / messaging / player system?
 
+        public List<string> tags = new List<string>();
+
         public ComponentManager componentManager;
 
         public Entity(int id)
@@ -20,6 +22,17 @@ namespace AdventureGame.Engine
             GenerateGuid();
 
             componentManager = EngineGlobals.componentManager;
+        }
+
+        public void AddTag(string tag)
+        {
+            if (tags.Contains(tag) == false)
+                tags.Add(tag);
+        }
+
+        public bool HasTag(string tag)
+        {
+            return tags.Contains(tag);
         }
 
         // Generates a unique GUID for the entity

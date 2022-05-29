@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
 
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame.Engine
 {
     public class EntityManager
@@ -28,16 +30,32 @@ namespace AdventureGame.Engine
             return entities;
         }
 
+        public Entity GetEntityByTag(string tag)
+        {
+            S.WriteLine(entities.Count);
+            foreach(Entity e in entities)
+            {
+                if (e.HasTag(tag))
+                    return e;
+            }
+            return null;
+        }
+
         // Create a new entity and give it an id
         public Entity CreateEntity()
         {
             Entity e = new Entity(CheckOutId());
+            AddEntity(e); // Rik added this!
             return e;
         }
 
         // Add the entity to the list and mapper
         public void AddEntity(Entity e)
         {
+
+            if (e == null)
+                return;
+
             entities.Add(e);
             entityMapper[e.id] = entities.Count - 1;
 
@@ -46,6 +64,9 @@ namespace AdventureGame.Engine
             Console.WriteLine(String.Join(", ", entities));
             foreach (KeyValuePair<int, int> kv in entityMapper)
                 Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
+
+            S.WriteLine(entities.Count);
+
         }
 
         // Remove the entity from the disabled set

@@ -27,6 +27,9 @@ namespace AdventureGame
             int enemyColliderY = y - (int)(50 / 2);
 
             Entity enemyEntity = EngineGlobals.entityManager.CreateEntity();
+
+            enemyEntity.AddTag("light");
+
             enemyEntity.AddComponent(new Engine.IntentionComponent());
             enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(65, 50)));
             enemyEntity.AddComponent(new Engine.SpriteComponent(Globals.content.Load<Texture2D>("spriteenemy")));

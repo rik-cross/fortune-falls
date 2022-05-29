@@ -59,8 +59,23 @@ namespace AdventureGame
             EngineGlobals.entityManager = new EntityManager();
 
             EngineGlobals.sceneManager = new SceneManager();
-            EngineGlobals.sceneManager.PushScene(new MenuScene());
-            //EngineGlobals.sceneManager.PushScene(new GameScene()); //, new Engine.FadeSceneTransition());
+
+            //
+            // create entities
+            //
+
+            // player entity
+            Engine.Entity playerEntity = PlayerEntity.Create(150, 150);
+            // enemy entity
+            //Engine.Entity enemyEntity = EnemyEntity.Create(250, 150);
+            // light source entity
+            Engine.Entity lightSourceEntity = LightEntity.Create(250, 250);
+
+            MenuScene menuScene = new MenuScene();
+            EngineGlobals.sceneManager.PushScene(menuScene);
+            
+            //GameScene gameScene = new GameScene();
+            //EngineGlobals.sceneManager.PushScene(gameScene);
         }
 
         protected override void Update(GameTime gameTime)

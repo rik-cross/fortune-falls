@@ -58,7 +58,7 @@ namespace AdventureGame.Engine
 
         public void Draw(GameTime gameTime) {
 
-            Globals.graphicsDevice.Clear(Color.CornflowerBlue);
+            Globals.graphicsDevice.Clear(Color.Black);
             if (sceneStack.Count > 0)
                 sceneStack.Peek()._Draw(gameTime);
 

@@ -9,6 +9,7 @@ namespace AdventureGame.Engine
     public abstract class Scene
     {
 
+        public List<Entity> entityList;
         public List<Camera> cameraList;
         public double lightLevel = 1.0f; // 0.6f;  changed for testing
 
@@ -18,6 +19,7 @@ namespace AdventureGame.Engine
 
         public Scene()
         {
+            entityList = new List<Entity>();
             cameraList = new List<Camera>();
 
             entityManager = EngineGlobals.entityManager;
@@ -28,6 +30,18 @@ namespace AdventureGame.Engine
         public void AddCamera(Camera camera)
         {
             cameraList.Add(camera);
+        }
+
+        public void AddEntity(Entity e)
+        {
+            if (entityList.Contains(e) == false)
+                entityList.Add(e);
+        }
+
+        public void AddEntity(Entity[] eList)
+        {
+            foreach (Entity e in eList)
+                AddEntity(e);
         }
 
         public virtual void Init() { }
@@ -64,8 +78,10 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in s.entityList)
-                    s.UpdateEntity(gameTime, this, e);
+                //foreach (Entity e in s.entityList)
+                foreach (Entity e in entityList)
+                    if (s.entityList.Contains(e))
+                        s.UpdateEntity(gameTime, this, e);
             }
                 
             // update the scene
@@ -106,8 +122,9 @@ namespace AdventureGame.Engine
                 foreach (System s in EngineGlobals.systems)
                 {
                     // entity-specific draw
-                    foreach (Entity e in s.entityList)
-                        s.DrawEntity(gameTime, this, e);
+                    foreach (Entity e in entityList)
+                        if (s.entityList.Contains(e))
+                            s.DrawEntity(gameTime, this, e);
 
                 }
                 Globals.spriteBatch.End();
