@@ -32,7 +32,6 @@ namespace AdventureGame.Engine
 
         public Entity GetEntityByTag(string tag)
         {
-            S.WriteLine(entities.Count);
             foreach(Entity e in entities)
             {
                 if (e.HasTag(tag))
@@ -64,9 +63,6 @@ namespace AdventureGame.Engine
             Console.WriteLine(String.Join(", ", entities));
             foreach (KeyValuePair<int, int> kv in entityMapper)
                 Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
-
-            S.WriteLine(entities.Count);
-
         }
 
         // Remove the entity from the disabled set
