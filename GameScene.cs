@@ -22,11 +22,13 @@ namespace AdventureGame
             //
 
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+            // Rik -- adding this doesn't seem to work (entity created in Game1.cs)
             //AddEntity(EngineGlobals.entityManager.GetEntityByTag("enemy"));
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("light"));
 
-            //Entity le = LightEntity.Create(250, 250);
-            //AddEntity(le);
+            // Rik -- uncommenting this does add an enemy
+            //Entity ee = EnemyEntity.Create(300,100);
+            //AddEntity(ee);
 
             //
             // cameras
