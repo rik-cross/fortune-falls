@@ -38,9 +38,9 @@ namespace AdventureGame.Engine
             colliderComponent.rectangle.Y = (int)newPosition.Y - (int)(h / 2) + colliderComponent.yOffset;
 
             // check for collider intersects
-            foreach (Entity otherE in entityList)
+            foreach (Entity otherE in scene.entityList)
             {
-                if (entity != otherE)
+                if (entityList.Contains(otherE) && entity != otherE)
                 {
                     ColliderComponent otherColliderComponent = otherE.GetComponent<ColliderComponent>();
                     TransformComponent otherTransformComponent = otherE.GetComponent<TransformComponent>();

@@ -67,7 +67,7 @@ namespace AdventureGame
             // player entity
             Engine.Entity playerEntity = PlayerEntity.Create(150, 150);
             // enemy entity
-            //Engine.Entity enemyEntity = EnemyEntity.Create(250, 150);
+            Engine.Entity enemyEntity = EnemyEntity.Create(250, 150);
             // light source entity
             Engine.Entity lightSourceEntity = LightEntity.Create(250, 250);
 

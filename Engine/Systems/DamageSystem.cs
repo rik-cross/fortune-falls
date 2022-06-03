@@ -17,9 +17,9 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // check for hurtbox and hitbox intersects
-            foreach (Entity e in entityList)
+            foreach (Entity e in scene.entityList)
             {
-                if (entity != e)
+                if (entityList.Contains(e) && entity != e)
                 {
                     HurtboxComponent eHurtboxComponent = e.GetComponent<HurtboxComponent>();
                     TransformComponent eTransformComponent = e.GetComponent<TransformComponent>();
