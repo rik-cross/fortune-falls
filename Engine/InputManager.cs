@@ -43,11 +43,34 @@ namespace AdventureGame.Engine
             return curKeyboardState.IsKeyDown(key) && !prevKeyboardState.IsKeyDown(key);
         }
 
+        public bool IsPressed(List<Keys> keys)
+        {
+            foreach (Keys k in keys)
+            {
+                if (IsPressed(k))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool IsReleased(Keys key)
         {
             return !curKeyboardState.IsKeyDown(key) && prevKeyboardState.IsKeyDown(key);
         }
 
+        public bool IsReleased(List<Keys> keys)
+        {
+            foreach (Keys k in keys)
+            {
+                if (IsReleased(k))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 
