@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame.Engine
 {
     public abstract class Scene
@@ -50,8 +52,36 @@ namespace AdventureGame.Engine
         public virtual void LoadContent() { }
         public virtual void UnloadContent() { }
 
+        public static int CompareY(Entity x, Entity y)
+        {
+            TransformComponent tx = x.GetComponent<TransformComponent>();
+            TransformComponent ty = y.GetComponent<TransformComponent>();
+
+            if (tx == null && ty == null)
+                return 0;
+            else if (tx == null)
+                return -1;
+            else if (ty == null)
+                return 1;
+
+            double posX = tx.position.Y + tx.size.Y - tx.size.Y / 2;
+            double posY = ty.position.Y + ty.size.Y - ty.size.Y / 2;
+
+            if (posX == posY)
+                return 0;
+            else if (posX > posY)
+                return 1;
+            else if (posX < posY)
+                return -1;
+
+            return 0;
+        }
+
         public virtual void _Update(GameTime gameTime)
         {
+
+            // sort entities in scene
+            entityList.Sort(CompareY);
 
             // Delete entities from the deleted set
             entityManager.DeleteEntitiesFromSet();
