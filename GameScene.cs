@@ -58,11 +58,11 @@ namespace AdventureGame
             // commented out DayNightCycle for testing
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            if (EngineGlobals.inputManager.IsPressed(Keys.Escape))
             {
                 EngineGlobals.sceneManager.PopScene();
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            if (EngineGlobals.inputManager.IsPressed(Keys.P))
             {
                 EngineGlobals.sceneManager.PushScene(new PauseScene());
             }
@@ -74,7 +74,7 @@ namespace AdventureGame
             Globals.spriteBatch.FillRectangle(
                 new Rectangle(0, 440, 200, 40), Color.Black
             );
-            Globals.spriteBatch.DrawString(Globals.fontSmall, "[p] pause  //  [q] quit", new Vector2(10, 450), Color.White);
+            Globals.spriteBatch.DrawString(Globals.fontSmall, "[p] pause  //  [esc] quit", new Vector2(10, 450), Color.White);
         }
 
     }

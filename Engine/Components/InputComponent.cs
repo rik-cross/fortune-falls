@@ -37,25 +37,5 @@ namespace AdventureGame.Engine
             this.inputControllerPointer = inputControllerPointer;
         }
 
-        public bool IsKeyDown(List<Keys> option)
-        {
-            foreach(Keys k in option)
-            {
-                if (Keyboard.GetState().IsKeyDown(k))
-                    return true;
-            }
-            return false;
-        }
-
-        public bool IsKeyUp(List<Keys> option)
-        {
-            foreach (Keys k in option)
-            {
-                if (Keyboard.GetState().IsKeyUp(k))
-                    return true;
-            }
-            return false;
-        }
-
     }
 }

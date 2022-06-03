@@ -32,7 +32,7 @@ namespace AdventureGame
             entity.state = "idle";
 
             // up keys
-            if (inputComponent.IsKeyDown(inputComponent.upKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.upKeys))
             {
                 intentionComponent.up = true;
                 entity.state = "walkNorth";
@@ -43,7 +43,7 @@ namespace AdventureGame
             }
 
             // down keys
-            if (inputComponent.IsKeyDown(inputComponent.downKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.downKeys))
             {
                 intentionComponent.down = true;
                 entity.state = "walkSouth";
@@ -54,7 +54,7 @@ namespace AdventureGame
             }
 
             // left keys
-            if (inputComponent.IsKeyDown(inputComponent.leftKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.leftKeys))
             {
                 intentionComponent.left = true;
                 entity.state = "walkWest";
@@ -65,7 +65,7 @@ namespace AdventureGame
             }
 
             // right keys
-            if (inputComponent.IsKeyDown(inputComponent.rightKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.rightKeys))
             {
                 intentionComponent.right = true;
                 entity.state = "walkEast";
@@ -76,7 +76,7 @@ namespace AdventureGame
             }
 
             // button 1 keys
-            if (inputComponent.IsKeyDown(inputComponent.button1Keys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.button1Keys))
             {
                 intentionComponent.button1 = true;
             }
@@ -86,7 +86,7 @@ namespace AdventureGame
             }
 
             // button 2 keys
-            if (inputComponent.IsKeyDown(inputComponent.button2Keys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.button2Keys))
             {
                 intentionComponent.button2 = true;
             }

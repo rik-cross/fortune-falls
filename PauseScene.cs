@@ -27,7 +27,7 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (EngineGlobals.inputManager.IsPressed(Keys.Escape))
             {
                 EngineGlobals.sceneManager.PopScene();
             }

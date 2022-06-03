@@ -6,6 +6,7 @@ namespace AdventureGame.Engine
 {
     public class EngineGlobals
     {
+        public static InputManager inputManager;
         public static ComponentManager componentManager;
         public static SystemManager systemManager;
         public static EntityManager entityManager;

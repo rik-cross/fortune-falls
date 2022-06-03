@@ -54,10 +54,10 @@ namespace AdventureGame
             );
 
             // Instantiate the managers
+            EngineGlobals.inputManager = new InputManager();
             EngineGlobals.componentManager = new ComponentManager();
             EngineGlobals.systemManager = new SystemManager();
             EngineGlobals.entityManager = new EntityManager();
-
             EngineGlobals.sceneManager = new SceneManager();
 
             //
@@ -82,7 +82,7 @@ namespace AdventureGame
         {
             if (EngineGlobals.sceneManager.isEmpty())
                 Exit();
-
+            EngineGlobals.inputManager.Update(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
             base.Update(gameTime);
         }
