@@ -28,7 +28,7 @@ namespace AdventureGame
 
             Entity enemyEntity = EngineGlobals.entityManager.CreateEntity();
 
-            enemyEntity.AddTag("light");
+            enemyEntity.AddTag("enemy");
 
             enemyEntity.AddComponent(new Engine.IntentionComponent());
             enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(65, 50)));
