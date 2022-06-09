@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
-using System;
-
-using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -68,12 +65,17 @@ namespace AdventureGame.Engine
             double posY = ty.position.Y + ty.size.Y - ty.size.Y / 2;
 
             if (posX == posY)
+            {
                 return 0;
+            }
             else if (posX > posY)
+            {
                 return 1;
+            }
             else if (posX < posY)
+            {
                 return -1;
-
+            }
             return 0;
         }
 
@@ -110,7 +112,6 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // update each relevant entity of a system
-                //foreach (Entity e in s.entityList)
                 foreach (Entity e in entityList)
                     if (s.entityList.Contains(e))
                         s.UpdateEntity(gameTime, this, e);

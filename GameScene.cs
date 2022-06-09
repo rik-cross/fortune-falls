@@ -21,25 +21,22 @@ namespace AdventureGame
             map = Globals.content.Load<Texture2D>("map");
 
             //
-            // add entities from entityManager
+            // add entities
             //
-
+            
+            // player entity
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-            // Rik -- adding this doesn't seem to work (entity created in Game1.cs)
-            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("enemy"));
+            // enemy entity
+            AddEntity(EngineGlobals.entityManager.GetEntityByTag("enemy"));
+            // light entity
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("light"));
 
-            // Rik -- uncommenting this does add an enemy
-            //Entity ee = EnemyEntity.Create(300,100);
-            //AddEntity(ee);
-
             //
-            // cameras
+            // add cameras
             //
-
+            
             // main camera
             AddCamera(new Engine.Camera(400, 240));
-
             // player camera
             Engine.Camera playerCam = new Engine.Camera(0, 0, 580, 260, 200, 200, 2, 0, 2);
             playerCam.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
@@ -58,6 +55,7 @@ namespace AdventureGame
             // commented out DayNightCycle for testing
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
+
             if (EngineGlobals.inputManager.IsPressed(Keys.Escape))
             {
                 EngineGlobals.sceneManager.PopScene();

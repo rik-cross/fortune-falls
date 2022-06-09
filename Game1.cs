@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using AdventureGame.Engine;
 
@@ -65,17 +64,15 @@ namespace AdventureGame
             //
 
             // player entity
-            Engine.Entity playerEntity = PlayerEntity.Create(150, 150);
+            Engine.Entity playerEntity = PlayerEntity.Create(100, 100);
             // enemy entity
-            //Engine.Entity enemyEntity = EnemyEntity.Create(250, 150);
+            Engine.Entity enemyEntity = EnemyEntity.Create(250, 150);
             // light source entity
-            Engine.Entity lightSourceEntity = LightEntity.Create(250, 250);
-
+            Engine.Entity lightSourceEntity = LightEntity.Create(200, 250);
+            
             MenuScene menuScene = new MenuScene();
             EngineGlobals.sceneManager.PushScene(menuScene);
-            
-            //GameScene gameScene = new GameScene();
-            //EngineGlobals.sceneManager.PushScene(gameScene);
+
         }
 
         protected override void Update(GameTime gameTime)

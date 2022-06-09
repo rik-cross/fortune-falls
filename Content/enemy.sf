@@ -1,0 +1,12 @@
+{
+  "textureAtlas": {
+    "texture": "spriteenemy.png",
+    "regionWidth": 65,
+    "regionHeight": 50
+  },
+  "cycles": {
+    "idle": {
+      "frames": []
+    }
+  }
+}

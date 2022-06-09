@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 
 using MonoGame.Extended.Content;
-using System.Collections;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 
