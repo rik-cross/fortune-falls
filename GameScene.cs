@@ -34,14 +34,17 @@ namespace AdventureGame
             //
             // add cameras
             //
-            
-            // main camera
-            AddCamera(new Engine.Camera(400, 240));
-            // player camera
-            Engine.Camera playerCam = new Engine.Camera(0, 0, 580, 260, 200, 200, 2, 0, 2);
-            playerCam.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
-            AddCamera(playerCam);
 
+            // player camera
+            Engine.Camera playerCamera = new Engine.Camera(0, 0, 0, 0, Globals.WIDTH, Globals.HEIGHT, 2, 0, 2);
+            playerCamera.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+            AddCamera(playerCamera);
+
+            // minimap camera
+            Engine.Camera minimapCamera = new Engine.Camera(300, 300, Globals.WIDTH - 320, Globals.HEIGHT - 320, 300, 300, 0.5f, 0, 2);
+            minimapCamera.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+            AddCamera(minimapCamera);
+            
         }
 
         public override void LoadContent()
@@ -70,9 +73,9 @@ namespace AdventureGame
         {
             //DayNightCycle.Draw(gameTime);
             Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, 440, 200, 40), Color.Black
+                new Rectangle(0, Globals.HEIGHT - 40, 200, 40), Color.Black
             );
-            Globals.spriteBatch.DrawString(Globals.fontSmall, "[p] pause  //  [esc] quit", new Vector2(10, 450), Color.White);
+            Globals.spriteBatch.DrawString(Globals.fontSmall, "[p] pause  //  [esc] quit", new Vector2(10, Globals.HEIGHT - 30), Color.White);
         }
 
     }

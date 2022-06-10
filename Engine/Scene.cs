@@ -227,7 +227,7 @@ namespace AdventureGame.Engine
             }
 
             // draw the scene
-            Globals.graphicsDevice.Viewport = new Viewport(0, 0, 800, 480);
+            Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.WIDTH, Globals.HEIGHT);
             Globals.spriteBatch.Begin();
             Draw(gameTime);
             Globals.spriteBatch.End();

@@ -18,7 +18,7 @@ namespace AdventureGame.Engine
         public Entity trackedEntity;
 
         // ...
-        public Camera(int worldX=0, int worldY=0, int x=0, int y=0, int width = 800, int height = 480, float z =1.0f, int rot=0, int bt=0)
+        public Camera(int worldX=0, int worldY=0, int x=0, int y=0, int width = 1280, int height = 720, float z =1.0f, int rot=0, int bt=0)
         {
             worldPosition = new Vector2(-worldX, -worldY);
             screenPosition = new Vector2(x, y);

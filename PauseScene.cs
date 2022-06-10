@@ -38,10 +38,10 @@ namespace AdventureGame
 
             Color bg = new Color(Color.Black, 150);
             Globals.spriteBatch.FillRectangle(
-                new Rectangle(200, 200, 400, 80), bg
+                new Rectangle((Globals.WIDTH/2)-200, (Globals.HEIGHT/2)-40, 400, 80), bg
             );
 
-            Globals.spriteBatch.DrawString(Globals.font, "Paused [esc]", new Vector2(300, 220), Color.White);
+            Globals.spriteBatch.DrawString(Globals.font, "Paused [esc]", new Vector2((Globals.WIDTH/2)-100, Globals.HEIGHT/2-20), Color.White);
         }
 
     }

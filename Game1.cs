@@ -13,13 +13,17 @@ namespace AdventureGame
         public Game1()
         {
             Globals.graphics = new GraphicsDeviceManager(this);
-
+            
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
         }
 
         protected override void Initialize()
         {
+            Globals.graphics.PreferredBackBufferWidth = Globals.WIDTH;
+            Globals.graphics.PreferredBackBufferHeight = Globals.HEIGHT;
+            Globals.graphics.ApplyChanges();
+
             base.Initialize();
         }
 
