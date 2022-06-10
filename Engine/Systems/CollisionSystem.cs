@@ -32,10 +32,10 @@ namespace AdventureGame.Engine
             // track entity here or elsewhere?
             // CHECK why can't components be passed as parameters? Eg TrackEntity(ColliderComponent colliderComponent, TransformComponent transformComponent)
             Vector2 newPosition = transformComponent.position;
-            int w = colliderComponent.rectangle.Width;
-            int h = colliderComponent.rectangle.Height;
-            colliderComponent.rectangle.X = (int)newPosition.X - (int)(w / 2) + colliderComponent.xOffset;
-            colliderComponent.rectangle.Y = (int)newPosition.Y - (int)(h / 2) + colliderComponent.yOffset;
+            int w = colliderComponent.boundingBox.Width;
+            int h = colliderComponent.boundingBox.Height;
+            colliderComponent.boundingBox.X = (int)newPosition.X - (int)(w / 2) + colliderComponent.xOffset;
+            colliderComponent.boundingBox.Y = (int)newPosition.Y - (int)(h / 2) + colliderComponent.yOffset;
 
             // check for collider intersects
             foreach (Entity otherE in scene.entityList)
@@ -48,7 +48,7 @@ namespace AdventureGame.Engine
                     if (otherColliderComponent != null && otherTransformComponent != null)
                     {
                         // Check if the entities have collided
-                        if (colliderComponent.rectangle.Intersects(otherColliderComponent.rectangle))
+                        if (colliderComponent.boundingBox.Intersects(otherColliderComponent.boundingBox))
                         {
                             // Check if the entities are already colliding
                             if (!collisionStarted.Contains(entity) &&
@@ -109,6 +109,10 @@ namespace AdventureGame.Engine
                                 // Remove the entity from the collision ended set
                                 collisionEnded.Remove(entity);
 
+                            // colliderComponent.collidingUp = false;
+                            // OR
+                            colliderComponent.collidingDirection = "";
+
                             // Testing: change component outline colour
                             colliderComponent.color = Color.Yellow;
                             otherColliderComponent.color = Color.Yellow;
@@ -143,8 +147,8 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // Testing: draw collider rectangle outline
-            Rectangle rectangle = colliderComponent.rectangle;
+            // Testing: draw collider bounding box outline
+            Rectangle rectangle = colliderComponent.boundingBox;
             Color color = colliderComponent.color;
             int lineWidth = 1;
             Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);

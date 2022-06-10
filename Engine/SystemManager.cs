@@ -24,16 +24,17 @@ namespace AdventureGame.Engine
             // Instantiate all systems and add them to the systems list
             systems.Add(new InputSystem());
             //systems.Add(new ControlSystem()); // broken: needs ref to input action
-            systems.Add(new SpriteSystem());
-            systems.Add(new LightSystem());
-            systems.Add(new AnimationSystem());
             systems.Add(new PhysicsSystem());
+            systems.Add(new CollisionSystem());
+            systems.Add(new CollisionResponseSystem());
             systems.Add(new HitboxSystem());
             systems.Add(new HurtboxSystem());
             systems.Add(new DamageSystem());
-            systems.Add(new CollisionSystem());
             systems.Add(new TriggerSystem());
+            systems.Add(new SpriteSystem());
+            systems.Add(new AnimationSystem());
             systems.Add(new TextSystem());
+            systems.Add(new LightSystem());
 
             // Register components and bit flags if they don't exist and
             // generate the signatures for all the systems
