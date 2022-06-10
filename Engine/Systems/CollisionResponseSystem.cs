@@ -88,15 +88,22 @@ namespace AdventureGame.Engine
                 int maxOverlapX = absVelocityX; //velocityX;
                 int maxOverlapY = absVelocityY; //velocityY;
 
+                bool perpendicularDirection = false;
                 // Check if the entities are moving in the same direction
                 bool sameDirection = false;
                 if (direction == otherDirection
                     || direction.Length == 1 && otherDirection.Contains(direction))
                     sameDirection = true;
+                else if (velocityX != 0 && otherVelocityY != 0
+                    || velocityY != 0 && otherVelocityX !=0)
+                    //(direction == "N" && (otherDirection == "E" || otherDirection == "W"))
+                    perpendicularDirection = true;
+
 
                 // Resolve the entity position if the other entity is stationary
                 // or both entities are moving in the same direction
-                if (String.IsNullOrEmpty(otherDirection) || sameDirection)
+                if (String.IsNullOrEmpty(otherDirection) || sameDirection
+                    || perpendicularDirection)
                 {
                     if (sameDirection)
                     {
@@ -114,6 +121,9 @@ namespace AdventureGame.Engine
                             Console.WriteLine($"Same Y direction");
                         }
                     }
+
+                    if (perpendicularDirection)
+                        Console.WriteLine("Perpendicular directions");
 
                     // Check if the entity is moving north
                     if (direction.Contains('N'))
@@ -210,7 +220,11 @@ namespace AdventureGame.Engine
                     }
                 }
                 // Check if the entities are moving in a perpendicular dirction
-                // else if ()
+                else if (perpendicularDirection)
+                {
+                    //Console.WriteLine("Perpendicular directions");
+
+                }
             }
 
             // Respond to entities that have stopped colliding

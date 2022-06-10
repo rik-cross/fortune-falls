@@ -111,7 +111,7 @@ namespace AdventureGame.Engine
 
                             // colliderComponent.collidingUp = false;
                             // OR
-                            colliderComponent.collidingDirection = "";
+                            //colliderComponent.collidingDirection = "";
 
                             // Testing: change component outline colour
                             colliderComponent.color = Color.Yellow;

@@ -16,7 +16,7 @@ namespace AdventureGame.Engine
         //public int collidedEntityId = -1;
 
         public bool isSolid;
-        public string collidingDirection; // REMOVE?
+        //public string collidingDirection; // REMOVE?
 
         public bool active; // REMOVE?
 
