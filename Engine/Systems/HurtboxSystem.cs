@@ -36,7 +36,7 @@ namespace AdventureGame.Engine
             Rectangle rectangle = hurtboxComponent.rectangle;
             Color color = hurtboxComponent.color;
             int lineWidth = 2;
-            Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);
+            //Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);
         }
 
     }

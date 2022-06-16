@@ -42,7 +42,7 @@ namespace AdventureGame.Engine
             Rectangle rectangle = hitboxComponent.rectangle;
             Color color = hitboxComponent.color;
             int lineWidth = 2;
-            Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);
+            //Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);
         }
 
     }

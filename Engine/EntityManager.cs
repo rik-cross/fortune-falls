@@ -59,10 +59,12 @@ namespace AdventureGame.Engine
             entityMapper[e.id] = entities.Count - 1;
 
             // Testing
+            /*
             Console.WriteLine("Add entity:");
             Console.WriteLine(String.Join(", ", entities));
             foreach (KeyValuePair<int, int> kv in entityMapper)
                 Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
+            */
         }
 
         // Remove the entity from the disabled set

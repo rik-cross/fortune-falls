@@ -62,9 +62,11 @@ namespace AdventureGame.Engine
             changedEntities.Add(e);
 
             // Testing
+            /*
             Console.WriteLine($"\nEntity {e.id} added component {componentName}");
             Console.WriteLine($"Entity signature: {e.signature}");
             Console.WriteLine(Convert.ToString((long)e.signature, 2));
+            */
         }
 
         // Queues the entity and component to be removed
