@@ -228,8 +228,9 @@ namespace AdventureGame.Engine
                     if (oneDirection || overlapX > overlapY
                         || overlapX == overlapY && overlapX > 0)
                     {
-                        // Check if the right overlap is the largest it can be
-                        if (direction.Contains('E') && overlapRight == totalVelocityX)
+                        // Check if the right or left overlap is the largest it can be
+                        if (direction.Contains('E') && overlapRight == totalVelocityX
+                            || direction.Contains('W') && overlapLeft == totalVelocityX)
                         {
                             // Move both entities back to their previous position
                             transformComponent.position.X += -velocityX;
@@ -259,11 +260,80 @@ namespace AdventureGame.Engine
                         }
                     }
                 }
-                // Check if the entities are moving in a perpendicular direction
-                else if (perpendicularDirection)
+                // Resolve entities that are moving in perpendicular directions
+                // and where the entity is moving in multiple directions
+                else if (perpendicularDirection && !oneDirection)
                 {
                     Console.WriteLine("Perpendicular directions - multiple directions");
 
+                    // Calculate the total absolute X and Y velocities
+                    int totalVelocityX = absVelocityX + absOtherVelocityX;
+                    int totalVelocityY = absVelocityY + absOtherVelocityY;
+
+                    // Store valid X and Y overlaps
+                    int overlapX = 0;
+                    int overlapY = 0;
+
+                    // Get the largest valid Y overlap
+                    if (direction.Contains('N') && overlapTop > 0
+                        && overlapTop <= totalVelocityY)
+                        overlapY = overlapTop;
+                    else if (direction.Contains('S') && overlapBottom > 0
+                        && overlapBottom <= totalVelocityY && overlapBottom > overlapY)
+                        overlapY = overlapBottom;
+
+                    // Get the largest valid X overlap
+                    if (direction.Contains('E') && overlapRight > 0
+                        && overlapRight <= totalVelocityX)
+                        overlapX = overlapRight;
+                    else if (direction.Contains('W') && overlapLeft > 0
+                        && overlapLeft <= totalVelocityX && overlapLeft > overlapX)
+                        overlapX = overlapLeft;
+
+                    Console.WriteLine($"Overlap X {overlapX}");
+                    Console.WriteLine($"Overlap Y {overlapY}");
+
+
+                    // Resolve perpendicular directions when the other entity
+                    // is only moving in one direction
+                    if (otherDirection.Length == 1)
+                    {
+                        Console.WriteLine("One direction - other entity");
+
+                        // Resolve entities with larger Y overlaps
+                        if (overlapY > overlapX)
+                        {
+                            // Move the entity's Y position back by the overlap amount
+                            if (direction.Contains('N'))
+                                transformComponent.position.Y += overlapY;
+                            else if (direction.Contains('S'))
+                                transformComponent.position.Y -= overlapY;
+
+                            Console.WriteLine("Overlap Y greater");
+                        }
+
+                        // Resolve entities with larger X overlaps
+                        // or equal X and Y overlaps above 0
+                        else if (overlapX > overlapY
+                            || overlapX == overlapY && overlapX > 0)
+                        {
+                            // Move the entity's X position back by the overlap amount
+                            if (direction.Contains('E'))
+                                transformComponent.position.X -= overlapX;
+                            else if (direction.Contains('W'))
+                                transformComponent.position.X += overlapX;
+
+                            Console.WriteLine("Overlap X greater");
+                        }
+                    }
+                    // Resolve perpendicular directions when both entities
+                    // are moving in multiple directions
+                    else if (otherDirection.Length > 1)
+                    {
+                        Console.WriteLine("Multiple directions - other entity");
+
+
+                    }
                 }
             }
 

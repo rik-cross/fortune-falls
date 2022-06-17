@@ -68,11 +68,11 @@ namespace AdventureGame
             //
 
             // player entity
-            Engine.Entity playerEntity = PlayerEntity.Create(180, 250);
+            Engine.Entity playerEntity = PlayerEntity.Create(180, 50);
             // enemy entity
-            Engine.Entity enemyEntity = EnemyEntity.Create(-50, 50);
+            Engine.Entity enemyEntity = EnemyEntity.Create(-50, 150);
             // light source entity
-            Engine.Entity lightSourceEntity = LightEntity.Create(300, 250);
+            Engine.Entity lightSourceEntity = LightEntity.Create(300, 300);
 
 
             // Test player movement
@@ -83,7 +83,7 @@ namespace AdventureGame
             // Test enemy movement
             Engine.IntentionComponent eIntentionComponent = enemyEntity.GetComponent<Engine.IntentionComponent>();
             eIntentionComponent.up = true;
-            //eIntentionComponent.right = true;
+            eIntentionComponent.right = true;
             //enemyEntity.state = "walkSouth";
 
             MenuScene menuScene = new MenuScene();
