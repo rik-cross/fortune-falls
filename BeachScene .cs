@@ -13,14 +13,14 @@ using S = System.Diagnostics.Debug;
 namespace AdventureGame
 {
 
-    public class GameScene : Scene
+    public class BeachScene : Scene
     {
 
         public override void Init()
         {
 
             // add map
-            AddMap("startZone");
+            AddMap("beach");
 
             //
             // add entities
@@ -28,12 +28,8 @@ namespace AdventureGame
             
             // player entity
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-            // enemy entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("enemy"));
-            // light entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("light"));
-            // map trigger
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
+            // trigger
+            AddEntity(EngineGlobals.entityManager.GetEntityByTag("b"));
 
             //
             // add cameras

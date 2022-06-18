@@ -3,12 +3,35 @@ using Microsoft.Xna.Framework.Graphics;
 
 using AdventureGame.Engine;
 
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
+
 namespace AdventureGame
 {
     public class Game1 : Game
     {
         public EntityManager entityManager; // REMOVE? reference from EngineGlobals
         public SceneManager sceneManager;
+
+        public static void doorOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
+        {
+            if (otherEntity.HasTag("player"))
+            {
+                EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(525, 950);
+                EngineGlobals.sceneManager.PushScene(new BeachScene());
+            }
+        }
+
+        public static void beachOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
+        {
+            if (otherEntity.HasTag("player"))
+            {
+                EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(260, 60);
+                EngineGlobals.sceneManager.PushScene(new GameScene());
+            }
+        }
 
         public Game1()
         {
@@ -80,11 +103,36 @@ namespace AdventureGame
             //pIntentionComponent.up = true;
             //pIntentionComponent.left = true;
 
+            // Map trigger entity
+            Engine.Entity m = EngineGlobals.entityManager.CreateEntity();
+            m.AddTag("m");
+            m.AddComponent(new Engine.TransformComponent(225, 0));
+            m.AddComponent(new Engine.TriggerComponent(
+                new Vector2(0, 0), new Vector2(75, 30),
+                doorOnCollisionEnter,
+                null,
+                null
+            ));
+
+            // Beach trigger entity
+            Engine.Entity b = EngineGlobals.entityManager.CreateEntity();
+            b.AddTag("b");
+            b.AddComponent(new Engine.TransformComponent(475, 1000));
+            b.AddComponent(new Engine.TriggerComponent(
+                new Vector2(0, 0), new Vector2(75, 30),
+                null,
+                beachOnCollisionEnter,
+                null
+            ));
+
             // Test enemy movement
-            Engine.IntentionComponent eIntentionComponent = enemyEntity.GetComponent<Engine.IntentionComponent>();
-            eIntentionComponent.up = true;
-            eIntentionComponent.right = true;
+            //Engine.IntentionComponent eIntentionComponent = enemyEntity.GetComponent<Engine.IntentionComponent>();
+            //eIntentionComponent.up = true;
+            //eIntentionComponent.right = true;
+
             //enemyEntity.state = "walkSouth";
+
+            //Globals.content.Load<TiledMap>("startZone");
 
             MenuScene menuScene = new MenuScene();
             EngineGlobals.sceneManager.PushScene(menuScene);

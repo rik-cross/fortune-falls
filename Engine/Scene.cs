@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 using MonoGame.Extended;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
 
 namespace AdventureGame.Engine
 {
@@ -16,7 +19,14 @@ namespace AdventureGame.Engine
         public ComponentManager componentManager;
         public SystemManager systemManager;
 
-        public Texture2D map = null;
+        public TiledMap map = null;
+        public TiledMapRenderer mapRenderer = null;
+        public List<TiledMapLayer> mapLayers = new List<TiledMapLayer>();
+
+        public TiledMapLayer below = null;
+        public TiledMapLayer below2 = null;
+        public TiledMapLayer collision = null;
+        public TiledMapLayer above = null;
 
         public Scene()
         {
@@ -28,9 +38,27 @@ namespace AdventureGame.Engine
             systemManager = EngineGlobals.systemManager;
         }
 
+        public void AddMap(string newMapLocation)
+        {
+            map = Globals.content.Load<TiledMap>(newMapLocation);
+            mapRenderer = new TiledMapRenderer(Globals.graphicsDevice, map);
+        }
+
         public void AddCamera(Camera camera)
         {
             cameraList.Add(camera);
+        }
+
+        public Camera GetCameraByName(string name)
+        {
+            foreach(Camera c in cameraList)
+            {
+                if (c.name == name)
+                {
+                    return c;
+                }
+            }
+            return null;
         }
 
         public void AddEntity(Entity e)
@@ -103,7 +131,7 @@ namespace AdventureGame.Engine
 
             // update cameras
             foreach (Camera c in cameraList)
-                c.Update();
+                c.Update(this);
 
             // update each system
             foreach (System s in EngineGlobals.systems)
@@ -148,8 +176,24 @@ namespace AdventureGame.Engine
                 // draw the map
                 Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
 
-                if (map != null)
-                    Globals.spriteBatch.Draw(map, new Vector2(0, 0), Color.White);
+                foreach (TiledMapLayer layer in map.Layers)
+                {
+                    if (layer.Properties.ContainsValue("below"))
+                    {
+                        mapRenderer.Draw(layer, c.getTransformMatrix());
+                    }
+                }
+
+                if (EngineGlobals.DEBUG)
+                {
+                    foreach (TiledMapLayer layer in map.Layers)
+                    {
+                        if (layer.Properties.ContainsValue("collision"))
+                        {
+                            mapRenderer.Draw(layer, c.getTransformMatrix());
+                        }
+                    }
+                }
 
                 // draw each system
                 foreach (System s in EngineGlobals.systems)
@@ -160,6 +204,7 @@ namespace AdventureGame.Engine
                             s.DrawEntity(gameTime, this, e);
 
                 }
+
                 Globals.spriteBatch.End();
 
                 // scene light level
@@ -199,6 +244,15 @@ namespace AdventureGame.Engine
                         );
                     }
                 }
+
+                foreach (TiledMapLayer layer in map.Layers)
+                {
+                    if (layer.Properties.ContainsValue("above"))
+                    {
+                        mapRenderer.Draw(layer, c.getTransformMatrix());
+                    }
+                }
+
                 Globals.spriteBatch.End();
 
                 Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);

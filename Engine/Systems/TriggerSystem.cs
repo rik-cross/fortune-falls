@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -53,21 +54,43 @@ namespace AdventureGame.Engine
                         float yDiff = Math.Abs(thisYMiddle - otherYMiddle);
                         float distance = (float)Math.Sqrt((xDiff*xDiff)+(yDiff*yDiff));
 
+                        // process triggers
                         if (thisTrigger.Intersects(otherTrigger))
                         {
-                            if (triggerComponent.onCollisionEnter != null && triggerComponent.collidedEntities.Contains(entity) == false)
-                                triggerComponent.onCollisionEnter(entity, e, distance);
-                            if (triggerComponent.collidedEntities.Contains(entity) == false)
-                                triggerComponent.collidedEntities.Add(entity);
-                            if (triggerComponent.onCollide != null)
-                                triggerComponent.onCollide(entity, e, distance);
+
+                            // onCollisionEnter
+                            if (!triggerComponent.collidedEntities.Contains(e))
+                            {
+                                if (triggerComponent.onCollisionEnter != null)
+                                {
+                                    triggerComponent.onCollisionEnter(entity, e, distance);
+                                }
+                                triggerComponent.collidedEntities.Add(e);
+                            } else
+
+                            // onCollide
+                            {
+                                if (triggerComponent.onCollide != null)
+                                {
+                                    triggerComponent.onCollide(entity, e, distance);
+                                }
+                            }
+
                         }
                         else
+
+                        // onCollisionExit
                         {
-                            if (triggerComponent.onCollisionExit != null && triggerComponent.collidedEntities.Contains(entity))
-                                triggerComponent.onCollisionExit(entity, e, distance);
-                            if (triggerComponent.collidedEntities.Contains(entity))
-                                triggerComponent.collidedEntities.Remove(entity);
+
+                            if (triggerComponent.collidedEntities.Contains(e))
+                            {
+                                if (triggerComponent.onCollisionExit != null)
+                                {
+                                    triggerComponent.onCollisionExit(entity, e, distance);
+                                }
+                                triggerComponent.collidedEntities.Remove(e);
+                            }
+
                         }
 
                     }

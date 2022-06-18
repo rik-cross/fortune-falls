@@ -118,7 +118,7 @@ namespace AdventureGame
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(playerStartX, playerStartY), new Vector2(playerWidth, playerHeight)));
-            playerEntity.AddComponent(new Engine.PhysicsComponent(3));
+            playerEntity.AddComponent(new Engine.PhysicsComponent(1));
             playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
             playerEntity.AddComponent(new Engine.ColliderComponent(playerColliderX, playerColliderY, playerColliderWidth, playerColliderHeight, 0, playerColliderOffsetY));
             playerEntity.AddComponent(new Engine.HurtboxComponent(playerColliderX, playerColliderY, playerWidth, playerHeight));
@@ -131,8 +131,14 @@ namespace AdventureGame
                 new List<Keys>(),
                 PlayerInputController
             ));
+            //playerEntity.AddComponent(new Engine.TriggerComponent(
+            //    new Vector2(-10, -10), new Vector2(72, 92),
+            //    null,
+            //    null,
+            //    null
+            //));
             playerEntity.AddComponent(new Engine.TriggerComponent(
-                new Vector2(-10, -10), new Vector2(72, 92),
+                new Vector2(10, 50), new Vector2(32, 24),
                 null,
                 null,
                 null

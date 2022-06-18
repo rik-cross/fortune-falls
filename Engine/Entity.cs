@@ -51,7 +51,8 @@ namespace AdventureGame.Engine
         public void RemoveComponent<T>() where T : Component
         {
             Component component = GetComponent<T>();
-            componentManager.RemoveComponent(this, component);
+            if (component != null)
+                componentManager.RemoveComponent(this, component);
         }
 
         // Returns each component object of the entity

@@ -15,6 +15,12 @@ namespace AdventureGame.Engine
         {
             return sceneStack.Count == 0 && nextScenes.Count == 0;
         }
+
+        public Scene GetTopScene()
+        {
+            return sceneStack.Peek();
+        }
+
         public void PushScene(Scene scene, SceneTransition? sceneTransition=null)
         {
             if (sceneTransition != null)

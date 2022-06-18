@@ -1,16 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System;
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame.Engine
 {
     public class Camera
     {
 
         // ...
+
+        public string name;
+
         public Vector2 worldPosition;
         public Vector2 screenPosition;
         public Vector2 size;
+        
         public float zoom;
+        public float targetZoom;
+        public float zoomIncrement;
+
         public int rotation;
         public Color backgroundColour;
         public int borderThickness;
@@ -18,12 +28,19 @@ namespace AdventureGame.Engine
         public Entity trackedEntity;
 
         // ...
-        public Camera(int worldX=0, int worldY=0, int x=0, int y=0, int width = 1280, int height = 720, float z =1.0f, int rot=0, int bt=0)
+        public Camera(string cameraName = "", int worldX=0, int worldY=0, int x=0, int y=0, int width = 1280, int height = 720, float z =1.0f, int rot=0, int bt=0)
         {
+
+            name = cameraName;
+
             worldPosition = new Vector2(-worldX, -worldY);
             screenPosition = new Vector2(x, y);
             size = new Vector2(width, height);
+
             zoom = z;
+            targetZoom = zoom;
+            zoomIncrement = 0.01f;
+
             rotation = rot;
             backgroundColour = Color.SlateGray;
             borderThickness = bt;
@@ -34,6 +51,12 @@ namespace AdventureGame.Engine
         {
             worldPosition.X = -x;
             worldPosition.Y = -y;
+        }
+
+        public void ZoomTo(float newZoom, float newIncrement = 0.01f)
+        {
+            targetZoom = newZoom;
+            zoomIncrement = newIncrement;
         }
 
         // ...
@@ -55,25 +78,70 @@ namespace AdventureGame.Engine
                     Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f)
             );
         }
-        public void Update()
+        public void Update(Scene scene)
         {
             if (trackedEntity != null)
             {
-                //var p = 0;
                 TransformComponent transformComponent = trackedEntity.GetComponent<TransformComponent>();
                 var targetX = transformComponent.position.X;
                 var targetY = transformComponent.position.Y;
-
-                AnimationComponent animationComponent = trackedEntity.GetComponent<AnimationComponent>();
-                SpriteComponent spriteComponent = trackedEntity.GetComponent<SpriteComponent>();
-
-                //var currentX = worldPosition.X;
-                //var currentY = worldPosition.Y;
-                //SetWorldPos(
-                //    (int)(currentX * p + targetX * (1-p)),
-                //    (int)(currentY * p + targetY * (1-p))
-                //);
                 SetWorldPos((int)targetX, (int)targetY);
+            }
+
+            // update zoom
+            if (zoom != targetZoom)
+            {
+
+                if (zoom < targetZoom)
+                {
+                    zoom = Math.Min(targetZoom, zoom+zoomIncrement);
+                } else
+                {
+                    zoom = Math.Max(targetZoom, zoom - zoomIncrement);
+                }
+
+            }
+
+            // clamp camera to map
+
+            // width
+
+            // if camera is bigger than map
+            if (size.X > (scene.map.Width * 16 * zoom))
+            {
+                worldPosition.X = (scene.map.Width * 16 / 2) * -1;
+            } else
+            {
+                // clamp to left
+                if (worldPosition.X * -1 < (size.X / zoom / 2))
+                {
+                    worldPosition.X = (size.X / zoom / 2) * -1;
+                }
+                // clamp to right
+                if (worldPosition.X * -1 > (scene.map.Width * 16) - (size.X / zoom / 2))
+                {
+                    worldPosition.X = ((scene.map.Width * 16) - (size.X / zoom / 2)) * -1;
+                }
+            }
+
+            // height
+
+            // if camera is bigger than map
+            if (size.Y > (scene.map.Height * 16 * zoom))
+            {
+                worldPosition.Y = (scene.map.Height * 16 / 2) * -1;
+            } else
+            {
+                // clamp to top
+                if (worldPosition.Y * -1 < (size.Y / zoom /2))
+                {
+                    worldPosition.Y = (size.Y / zoom / 2) * -1;
+                }
+                // clamp to bottom
+                if (worldPosition.Y * -1 > (scene.map.Height * 16) - (size.Y / zoom / 2))
+                {
+                    worldPosition.Y = ((scene.map.Height * 16) - (size.Y / zoom / 2)) * -1;
+                }
             }
 
         }

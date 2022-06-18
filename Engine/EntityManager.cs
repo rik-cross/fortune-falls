@@ -44,7 +44,7 @@ namespace AdventureGame.Engine
         public Entity CreateEntity()
         {
             Entity e = new Entity(CheckOutId());
-            AddEntity(e); // Rik added this!
+            AddEntity(e);
             return e;
         }
 
