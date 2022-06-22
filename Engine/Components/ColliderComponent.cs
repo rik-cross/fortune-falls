@@ -13,6 +13,7 @@ namespace AdventureGame.Engine
         // CHANGE to dictionaries with the direction as the value (both?)
         public HashSet<Entity> collidedEntities;
         public HashSet<Entity> collidedEntitiesEnded;
+        //public HashSet<Entity> resolvedCollisions;
         //public int collidedEntityId = -1;
 
         public bool isSolid;
@@ -28,6 +29,7 @@ namespace AdventureGame.Engine
         {
             collidedEntities = new HashSet<Entity>();
             collidedEntitiesEnded = new HashSet<Entity>();
+            //resolvedCollisions = new HashSet<Entity>();
 
             this.active = active;
 
