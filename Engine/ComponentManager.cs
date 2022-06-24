@@ -110,9 +110,11 @@ namespace AdventureGame.Engine
                 e.signature = RemoveFromSignature(e.signature, componentName);
 
                 // Testing
+                /*
                 Console.WriteLine($"\nEntity {e.id} removed component {componentName}");
                 Console.WriteLine($"Entity signature: {e.signature}");
                 Console.WriteLine(Convert.ToString((long)e.signature, 2));
+                */
             }
         }
 

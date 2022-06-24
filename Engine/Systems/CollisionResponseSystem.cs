@@ -24,35 +24,54 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // Respond to entities that have started colliding
-            foreach (Entity collidedEntity in colliderComponent.collidedEntities)
+            foreach (Entity otherEntity in colliderComponent.collidedEntities)
             {
-                ColliderComponent otherColliderComponent = collidedEntity.GetComponent<ColliderComponent>();
+                ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
 
                 // Return if either of the entities are not solid
                 if (!colliderComponent.isSolid || !otherColliderComponent.isSolid)
                     return;
 
-                // CHANGE to dictionary of directions <string, Boolean> ??
-                string direction = physicsComponent.direction;
-                Console.WriteLine($"Physics component direction: {direction}");
+                /*
+                if (!colliderComponent.boundingBox.Intersects(otherColliderComponent.boundingBox))
+                {
+                    Console.WriteLine("Collision already resolved");
+                    return;
+                }
+                */
 
-                // Return if the entity is not moving in any direction
+
+                // Get the entity's direction
+                string direction = physicsComponent.direction;
+                Console.WriteLine($"\nPhysics component direction: {direction}");
+
+                // Return if the entity is not trying to move in any direction
                 if (String.IsNullOrEmpty(direction))
                     return;
 
-                PhysicsComponent otherPhysicsComponent = collidedEntity.GetComponent<PhysicsComponent>();
-                TransformComponent otherTransformComponent = collidedEntity.GetComponent<TransformComponent>();
+                // Get the other entity's components
+                PhysicsComponent otherPhysicsComponent = otherEntity.GetComponent<PhysicsComponent>();
+                TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
 
-                //string direction = colliderComponent.collidingDirection;
-                //Console.WriteLine($"Colliding direction: {direction}");
+                Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
+                Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
+
+                // MOVE TO after isSolid
+                // Return if the entity is not moving
+                if (transformComponent.position == transformComponent.previousPosition)
+                    return;
+
+                bool hasOtherMovedX = otherTransformComponent.position.X != otherTransformComponent.previousPosition.X;
+                bool hasOtherMovedY = otherTransformComponent.position.Y != otherTransformComponent.previousPosition.Y;
+                bool hasOtherMoved = hasOtherMovedX || hasOtherMovedY;
+
+                // Get the entity's velocities
                 int velocityX = physicsComponent.velocityX;
                 int velocityY = physicsComponent.velocityY;
 
                 // Absolute values of the entity
                 int absVelocityX = Math.Abs(velocityX);
                 int absVelocityY = Math.Abs(velocityY);
-
-                //string colliderDirection = ""; // DELETE??
 
                 // Declare the attributes of the other entity
                 string otherDirection = "";
@@ -85,16 +104,26 @@ namespace AdventureGame.Engine
                 int overlapRight = boundingBox.Right - otherBoundingBox.Left;
                 int overlapLeft = otherBoundingBox.Right - boundingBox.Left;
 
-                // The default max overlap values are the entity's velocities
-                int maxOverlapX = absVelocityX; //velocityX;
-                int maxOverlapY = absVelocityY; //velocityY;
+                //Console.WriteLine($"Overlap top {overlapTop}");
+                //Console.WriteLine($"Overlap bottom {overlapBottom}");
+                //Console.WriteLine($"Overlap left {overlapLeft}");
+                //Console.WriteLine($"Overlap right {overlapRight}");
+
+                Console.WriteLine($"Entity {entity.id} has velocity Y {velocityY}");
+                Console.WriteLine($"Other entity {otherEntity.id} has velocity Y {otherVelocityY}");
+                Console.WriteLine($"{hasOtherMoved} hasOtherMoved");
+
+                // Calculate the total absolute X and Y velocities
+                int totalAbsVelocityX = absVelocityX + absOtherVelocityX;
+                int totalAbsVelocityY = absVelocityY + absOtherVelocityY;
 
                 bool oneDirection = direction.Length == 1;
-                //bool twoDirections = direction.Length == 2;
+                bool multipleDirections = direction.Length > 1;
+
+                // Check if the entities are moving in the same or perpendicular directions
+                bool sameDirection = false;
                 bool perpendicularDirection = false;
 
-                // Check if the entities are moving in the same direction
-                bool sameDirection = false;
                 if (direction == otherDirection
                     || oneDirection && otherDirection.Contains(direction))
                     sameDirection = true;
@@ -104,30 +133,55 @@ namespace AdventureGame.Engine
                     perpendicularDirection = true;
 
 
-                // Resolve the entity position if the other entity is stationary
-                // or both entities are moving in the same direction
-                if (String.IsNullOrEmpty(otherDirection) || sameDirection
-                    || (perpendicularDirection && oneDirection))
-                {
-                    if (sameDirection)
-                    {
-                        // Check if the entity is faster than the other entity 
-                        if (absVelocityX > absOtherVelocityX)
-                        {
-                            // Max overlap is the difference between X velocities
-                            maxOverlapX = absVelocityX - absOtherVelocityX;
-                            Console.WriteLine($"Same X direction");
-                        }
-                        else if (absVelocityY > absOtherVelocityY)
-                        {
-                            // Max overlap is the difference between Y velocities
-                            maxOverlapY = absVelocityY - absOtherVelocityY;
-                            Console.WriteLine($"Same Y direction");
-                        }
-                    }
+                // Used for checking if the X or Y overlaps are the absolute max
+                // for any direction that is not the same as the other direction
+                bool isMaxOverlapX = false;
+                bool isMaxOverlapY = false;
 
-                    if (perpendicularDirection)
-                        Console.WriteLine("Perpendicular directions");
+                // Check the max overlaps if both directions are not the same
+                if (!sameDirection)
+                {
+                    // Check if the top or bottom overlap is the largest it can be
+                    if (direction.Contains('N') && overlapTop == totalAbsVelocityY
+                        || direction.Contains('S') && overlapBottom == totalAbsVelocityY)
+                        isMaxOverlapY = true;
+
+                    // Check if the right or left overlap is the largest it can be
+                    if (direction.Contains('E') && overlapRight == totalAbsVelocityX
+                        || direction.Contains('W') && overlapLeft == totalAbsVelocityX)
+                        isMaxOverlapX = true;
+                }/*
+                // Otherwise calculate the new max overlaps and 
+                else
+                {
+                    // Max overlap is the absolute difference between X velocities
+                    int maxOverlapX = Math.Abs(absVelocityX - absOtherVelocityX);
+
+                    // Max overlap is the absolute difference between Y velocities
+                    int maxOverlapY = Math.Abs(absVelocityY - absOtherVelocityY);
+
+
+                    // Check if the top or bottom overlap is the largest it can be
+                    if (direction.Contains('N') && overlapTop == maxOverlapY
+                        || direction.Contains('S') && overlapBottom == maxOverlapY)
+                        isMaxOverlapY = true;
+
+                    // Check if the right or left overlap is the largest it can be
+                    if (direction.Contains('E') && overlapRight == maxOverlapX
+                        || direction.Contains('W') && overlapLeft == maxOverlapX)
+                        isMaxOverlapX = true;
+                }*/
+
+                // CHECK work out oppositeDirection using velocities
+
+
+
+                // TEST
+                /*if (!hasOtherMoved) //!isOtherMovingX && !isOtherMovingY)
+                {
+                    // The default max overlap values are the entity's velocities
+                    int maxOverlapX = absVelocityX; //velocityX;
+                    int maxOverlapY = absVelocityY; //velocityY;
 
                     // Check if the entity is moving north
                     if (direction.Contains('N'))
@@ -162,63 +216,216 @@ namespace AdventureGame.Engine
                         }
                 }
 
-                // Resolve entities that are moving in a single opposite direction
+
+                // CHECK uncomment 3rd condition
+
+                // Resolve the entity position if the other entity is stationary
+                // or both entities are moving in the same direction
+                else*/ if (String.IsNullOrEmpty(otherDirection) || sameDirection
+                    || (perpendicularDirection && oneDirection) || !hasOtherMoved)
+                {
+                    // The default max overlap values are the entity's velocities
+                    int maxOverlapX = absVelocityX; //velocityX;
+                    int maxOverlapY = absVelocityY; //velocityY;
+
+                    // Calculate the new max overlaps
+                    if (sameDirection && hasOtherMoved)
+                    {
+                        // Check if the entity is faster than the other entity 
+                        if (absVelocityX > absOtherVelocityX)
+                        {
+                            // Max overlap is the difference between X velocities
+                            maxOverlapX = absVelocityX - absOtherVelocityX;
+                            Console.WriteLine($"Same X direction");
+                        }
+                        else if (absVelocityY > absOtherVelocityY)
+                        {
+                            // Max overlap is the difference between Y velocities
+                            maxOverlapY = absVelocityY - absOtherVelocityY;
+                            Console.WriteLine($"Same Y direction");
+                        }
+                    }
+
+                    if (perpendicularDirection)
+                        Console.WriteLine("Perpendicular directions");
+
+                    // TESTING
+                    // AND NOT sameDirection???
+                    if (isMaxOverlapX && isMaxOverlapY && !sameDirection && hasOtherMoved)
+                    {
+                        Console.WriteLine("First if - Both max X and Y overlaps");
+                        Console.WriteLine("Resolve on the X axis only");
+
+                        // Check if the entity is moving east
+                        if (direction.Contains('E'))
+                        {
+                            transformComponent.position.X -= overlapRight;
+                            Console.WriteLine("Max East overlap");
+                            Console.WriteLine($"Overlap (X-right) {overlapRight}");
+                        }
+
+                        // Check if the entity is moving west
+                        if (direction.Contains('W'))
+                        {
+                            transformComponent.position.X += overlapLeft;
+                            Console.WriteLine("Max West overlap");
+                            Console.WriteLine($"Overlap (X-left) {overlapLeft}");
+                        }
+                    }
+                    // Resolve all valid directions
+                    else
+                    {
+                        // Check if the entity is moving north
+                        if (direction.Contains('N'))
+                            if (overlapTop > 0 && overlapTop <= maxOverlapY)
+                            {
+                                transformComponent.position.Y += overlapTop;
+                                Console.WriteLine($"Overlap (Y-up) {overlapTop}");
+                            }
+
+                        // Check if the entity is moving south
+                        if (direction.Contains('S'))
+                            if (overlapBottom > 0 && overlapBottom <= maxOverlapY)
+                            {
+                                transformComponent.position.Y -= overlapBottom;
+                                Console.WriteLine($"Overlap (Y-down) {overlapBottom}");
+                            }
+
+                        // Check if the entity is moving east
+                        if (direction.Contains('E'))
+                            if (overlapRight > 0 && overlapRight <= maxOverlapX)
+                            {
+                                transformComponent.position.X -= overlapRight;
+                                Console.WriteLine($"Overlap (X-right) {overlapRight}");
+                            }
+
+                        // Check if the entity is moving west
+                        if (direction.Contains('W'))
+                            if (overlapLeft > 0 && overlapLeft <= maxOverlapX)
+                            {
+                                transformComponent.position.X += overlapLeft;
+                                Console.WriteLine($"Overlap (X-left) {overlapLeft}");
+                            }
+                    }
+                }
+
+                // Resolve both entities that are moving in a single opposite direction
                 // or are both moving in multiple opposing directions.
-                // Note that only one of the colliding entities is considered
-                // and that the positions of both entities are resolved together.
                 else if (direction == "N" && otherDirection == "S"
                     || direction == "E" && otherDirection == "W"
+                    || direction == "S" && otherDirection == "N"
+                    || direction == "W" && otherDirection == "E"
                     || direction == "NE" && otherDirection == "SW"
-                    || direction == "NW" && otherDirection == "SE")
+                    || direction == "NW" && otherDirection == "SE"
+                    || direction == "SE" && otherDirection == "NW"
+                    || direction == "SW" && otherDirection == "NE")
+                    //|| (perpendicularDirection && !oneDirection))
                 {
                     Console.WriteLine("Opposite directions");
-
-                    // Calculate the total absolute X and Y velocities
-                    int totalVelocityX = absVelocityX + absOtherVelocityX;
-                    int totalVelocityY = absVelocityY + absOtherVelocityY;
 
                     // Store valid X and Y overlaps for resolving multiple directions
                     int overlapX = 0;
                     int overlapY = 0;
 
-                    // Check if the entities are moving in multiple directions
-                    if (!oneDirection)
+                    // Check if the entity is moving in multiple directions
+                    if (multipleDirections)
                     {
                         // Get the largest valid Y overlap
                         if (direction.Contains('N') && overlapTop > 0
-                            && overlapTop <= totalVelocityY)
+                            && overlapTop <= totalAbsVelocityY)
                             overlapY = overlapTop;
+                        else if (direction.Contains('S') && overlapBottom > 0
+                            && overlapBottom <= totalAbsVelocityY)
+                            //&& overlapBottom > overlapY)
+                            overlapY = overlapBottom;
 
                         // Get the largest valid X overlap
                         if (direction.Contains('E') && overlapRight > 0
-                            && overlapRight <= totalVelocityX)
+                            && overlapRight <= totalAbsVelocityX)
                             overlapX = overlapRight;
                         else if (direction.Contains('W') && overlapLeft > 0
-                            && overlapLeft <= totalVelocityX && overlapLeft > overlapX)
+                            && overlapLeft <= totalAbsVelocityX)
+                            //&& overlapLeft > overlapX)
                             overlapX = overlapLeft;
+                    }
+
+                    Console.WriteLine($"Overlap X {overlapX}");
+                    Console.WriteLine($"Overlap Y {overlapY}");
+
+                    if (isMaxOverlapX && isMaxOverlapY)
+                    {
+                        Console.WriteLine("Both max X and Y overlaps");
+                        Console.WriteLine("Resolve on the X axis only");
+
+                        if (direction.Contains('E'))
+                        {
+                            double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapRight;
+                            int offsetX = (int)Math.Round(offsetRatio);
+                            int otherOffsetX = overlapRight - offsetX;
+
+                            // Move both entities based on their offset values
+                            MovePositions(entity, 'X', -offsetX);
+                            MovePositions(otherEntity, 'X', otherOffsetX);
+
+                            Console.WriteLine("Max East overlap");
+                        }
+                        else if (direction.Contains('W'))
+                        {
+                            double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapLeft;
+                            int offsetX = (int)Math.Round(offsetRatio);
+                            int otherOffsetX = overlapLeft - offsetX;
+
+                            // Move both entities based on their offset values
+                            MovePositions(entity, 'X', offsetX);
+                            MovePositions(otherEntity, 'X', -otherOffsetX);
+
+                            Console.WriteLine("Max West overlap");
+                        }
                     }
 
                     // Resolve entities moving in a single Y direction
                     // or entities moving in multiple directions with larger Y overlaps
                     if (oneDirection || overlapY > overlapX)
                     {
-                        // Check if the top overlap is the largest it can be
-                        if (direction.Contains('N') && overlapTop == totalVelocityY)
+                        // Return if the collision has already been resolved if
+                        // both X and Y overlaps used to be at the maximum values
+                        if (!colliderComponent.boundingBox.Intersects(otherColliderComponent.boundingBox))
                         {
-                            // Move both entities back to their previous position
-                            transformComponent.position.Y += -velocityY;
-                            otherTransformComponent.position.Y += -otherVelocityY;
+                            Console.WriteLine("Collision already resolved");
+                            return;
+                        }
+
+                        // Check if the top or bottom overlap is the largest it can be
+                        if (direction.Contains('N') && overlapTop == totalAbsVelocityY
+                            || direction.Contains('S') && overlapBottom == totalAbsVelocityY)
+                        {
+                            // Move both entities back to their previous Y position
+                            MovePositions(entity, 'Y', -velocityY);
+                            MovePositions(otherEntity, 'Y', -otherVelocityY);
                         }
                         else if (direction.Contains('N'))
                         {
                             // Calculate the amount to offset each entity based on
                             // the total Y velocity and the amount of top overlap
-                            double offsetRatio = absVelocityY / (double)totalVelocityY * overlapTop;
+                            double offsetRatio = absVelocityY / (double)totalAbsVelocityY * overlapTop;
                             int offsetY = (int)Math.Round(offsetRatio);
                             int otherOffsetY = overlapTop - offsetY;
 
-                            transformComponent.position.Y += offsetY;
-                            otherTransformComponent.position.Y -= otherOffsetY;
+                            // Move both entities based on their offset values
+                            MovePositions(entity, 'Y', offsetY);
+                            MovePositions(otherEntity, 'Y', -otherOffsetY);
+                        }
+                        else if (direction.Contains('S'))
+                        {
+                            // Calculate the amount to offset each entity based on
+                            // the total Y velocity and the amount of bottom overlap
+                            double offsetRatio = absVelocityY / (double)totalAbsVelocityY * overlapBottom;
+                            int offsetY = (int)Math.Round(offsetRatio);
+                            int otherOffsetY = overlapBottom - offsetY;
+
+                            // Move both entities based on their offset values
+                            MovePositions(entity, 'Y', -offsetY);
+                            MovePositions(otherEntity, 'Y', otherOffsetY);
                         }
                     }
 
@@ -229,46 +436,45 @@ namespace AdventureGame.Engine
                         || overlapX == overlapY && overlapX > 0)
                     {
                         // Check if the right or left overlap is the largest it can be
-                        if (direction.Contains('E') && overlapRight == totalVelocityX
-                            || direction.Contains('W') && overlapLeft == totalVelocityX)
+                        if (direction.Contains('E') && overlapRight == totalAbsVelocityX
+                            || direction.Contains('W') && overlapLeft == totalAbsVelocityX)
                         {
-                            // Move both entities back to their previous position
-                            transformComponent.position.X += -velocityX;
-                            otherTransformComponent.position.X += -otherVelocityX;
+                            // Move both entities back to their previous X position
+                            MovePositions(entity, 'X', -velocityX);
+                            MovePositions(otherEntity, 'X', -otherVelocityX);
                         }
                         else if (direction.Contains('E'))
                         {
                             // Calculate the amount to offset each entity based on
                             // the total X velocity and the amount of right overlap
-                            double offsetRatio = absVelocityX / (double)totalVelocityX * overlapRight;
+                            double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapRight;
                             int offsetX = (int)Math.Round(offsetRatio);
                             int otherOffsetX = overlapRight - offsetX;
 
-                            transformComponent.position.X -= offsetX;
-                            otherTransformComponent.position.X += otherOffsetX;
+                            // Move both entities based on their offset values
+                            MovePositions(entity, 'X', -offsetX);
+                            MovePositions(otherEntity, 'X', otherOffsetX);
                         }
                         else if (direction.Contains('W'))
                         {
                             // Calculate the amount to offset each entity based on
                             // the total X velocity and the amount of left overlap
-                            double offsetRatio = absVelocityX / (double)totalVelocityX * overlapLeft;
+                            double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapLeft;
                             int offsetX = (int)Math.Round(offsetRatio);
                             int otherOffsetX = overlapLeft - offsetX;
 
-                            transformComponent.position.X += offsetX;
-                            otherTransformComponent.position.X -= otherOffsetX;
+                            // Move both entities based on their offset values
+                            MovePositions(entity, 'X', offsetX);
+                            MovePositions(otherEntity, 'X', -otherOffsetX);
                         }
                     }
                 }
                 // Resolve entities that are moving in perpendicular directions
                 // and where the entity is moving in multiple directions
                 else if (perpendicularDirection && !oneDirection)
+                        //&& direction.Contains('N') || direction.Contains('E'))
                 {
-                    Console.WriteLine("Perpendicular directions - multiple directions");
-
-                    // Calculate the total absolute X and Y velocities
-                    int totalVelocityX = absVelocityX + absOtherVelocityX;
-                    int totalVelocityY = absVelocityY + absOtherVelocityY;
+                    Console.WriteLine("\nPerpendicular directions");
 
                     // Store valid X and Y overlaps
                     int overlapX = 0;
@@ -276,55 +482,119 @@ namespace AdventureGame.Engine
 
                     // Get the largest valid Y overlap
                     if (direction.Contains('N') && overlapTop > 0
-                        && overlapTop <= totalVelocityY)
+                        && overlapTop <= totalAbsVelocityY)
                         overlapY = overlapTop;
                     else if (direction.Contains('S') && overlapBottom > 0
-                        && overlapBottom <= totalVelocityY && overlapBottom > overlapY)
+                        && overlapBottom <= totalAbsVelocityY
+                        && overlapBottom > overlapY)
                         overlapY = overlapBottom;
 
                     // Get the largest valid X overlap
                     if (direction.Contains('E') && overlapRight > 0
-                        && overlapRight <= totalVelocityX)
+                        && overlapRight <= totalAbsVelocityX)
                         overlapX = overlapRight;
                     else if (direction.Contains('W') && overlapLeft > 0
-                        && overlapLeft <= totalVelocityX && overlapLeft > overlapX)
+                        && overlapLeft <= totalAbsVelocityX
+                        && overlapLeft > overlapX)
                         overlapX = overlapLeft;
 
                     Console.WriteLine($"Overlap X {overlapX}");
                     Console.WriteLine($"Overlap Y {overlapY}");
 
-
                     // Resolve perpendicular directions when the other entity
                     // is only moving in one direction
-                    if (otherDirection.Length == 1)
+                    if (otherDirection.Length == 1 || otherDirection.Length == 2) // TEST
                     {
-                        Console.WriteLine("One direction - other entity");
+                        if (otherDirection.Length == 1)
+                            Console.WriteLine("One direction - other entity");
+                        else if (otherDirection.Length == 2)
+                            Console.WriteLine("Two directions - other entity");
 
-                        // Resolve entities with larger Y overlaps
-                        if (overlapY > overlapX)
-                        {
-                            // Move the entity's Y position back by the overlap amount
-                            if (direction.Contains('N'))
-                                transformComponent.position.Y += overlapY;
-                            else if (direction.Contains('S'))
-                                transformComponent.position.Y -= overlapY;
-
-                            Console.WriteLine("Overlap Y greater");
-                        }
-
-                        // Resolve entities with larger X overlaps
-                        // or equal X and Y overlaps above 0
-                        else if (overlapX > overlapY
+                        if (overlapX > overlapY
                             || overlapX == overlapY && overlapX > 0)
                         {
-                            // Move the entity's X position back by the overlap amount
-                            if (direction.Contains('E'))
-                                transformComponent.position.X -= overlapX;
-                            else if (direction.Contains('W'))
-                                transformComponent.position.X += overlapX;
+                            if (isMaxOverlapX && isMaxOverlapY)
+                            {
+                                Console.WriteLine("Both max X and Y overlaps");
+                                //entity.RemoveComponent<PhysicsComponent>();
+                                //otherEntity.RemoveComponent<PhysicsComponent>();
+                            }
 
-                            Console.WriteLine("Overlap X greater");
+                            if (direction.Contains('E'))
+                            {
+                                // Calculate the amount to offset each entity based on
+                                // the total X velocity and the amount of right overlap
+                                double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapRight;
+                                int offsetX = (int)Math.Round(offsetRatio);
+                                int otherOffsetX = overlapRight - offsetX;
+
+                                // Move both entities based on their offset values
+                                MovePositions(entity, 'X', -offsetX);
+                                MovePositions(otherEntity, 'X', otherOffsetX);
+
+                                Console.WriteLine("East overlap");
+                            }
+                            else if (direction.Contains('W'))
+                            {
+                                // Calculate the amount to offset each entity based on
+                                // the total X velocity and the amount of left overlap
+                                double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapLeft;
+                                int offsetX = (int)Math.Round(offsetRatio);
+                                int otherOffsetX = overlapLeft - offsetX;
+
+                                // Move both entities based on their offset values
+                                MovePositions(entity, 'X', offsetX);
+                                MovePositions(otherEntity, 'X', -otherOffsetX);
+
+                                Console.WriteLine("West overlap");
+                            }
                         }
+
+                        // Resolve entities with larger Y overlaps
+                        else if (overlapY > overlapX)
+                        {
+                            // Return if the collision has already been resolved
+                            // in the X axis if both X and Y overlaps used to be
+                            // equal and the maximum overlap amount
+                            if (isMaxOverlapY &&
+                                !colliderComponent.boundingBox.Intersects(otherColliderComponent.boundingBox))
+                            {
+                                Console.WriteLine("Collision already resolved");
+                                return;
+                            }
+
+                            if (direction.Contains('N'))
+                            {
+                                // Calculate the amount to offset each entity based on
+                                // the total Y velocity and the amount of top overlap
+                                double offsetRatio = absVelocityY / (double)totalAbsVelocityY * overlapTop;
+                                int offsetY = (int)Math.Round(offsetRatio);
+                                int otherOffsetY = overlapTop - offsetY;
+
+                                // Move both entities based on their offset values
+                                MovePositions(entity, 'Y', offsetY);
+                                MovePositions(otherEntity, 'Y', -otherOffsetY);
+
+                                Console.WriteLine("North overlap");
+                            }
+                            else if (direction.Contains('S'))
+                            {
+                                // Calculate the amount to offset each entity based on
+                                // the total Y velocity and the amount of bottom overlap
+                                double offsetRatio = absVelocityY / (double)totalAbsVelocityY * overlapBottom;
+                                int offsetY = (int)Math.Round(offsetRatio);
+                                int otherOffsetY = overlapBottom - offsetY;
+
+                                // Move both entities based on their offset values
+                                MovePositions(entity, 'Y', -offsetY);
+                                MovePositions(otherEntity, 'Y', +otherOffsetY);
+
+                                Console.WriteLine("South overlap");
+                            }
+                        }
+
+                        //entity.RemoveComponent<PhysicsComponent>();
+                        //otherEntity.RemoveComponent<PhysicsComponent>();
                     }
                     // Resolve perpendicular directions when both entities
                     // are moving in multiple directions
@@ -334,7 +604,36 @@ namespace AdventureGame.Engine
 
 
                     }
+                    /*
+                    // Collision were not resolved - it may have already been
+                    // resolved by the other entity in the same game tick
+                    else
+                        return;
+
+                    // Testing: output resolved collisions set
+                    Console.WriteLine("\nResolved collisions set (before add): ");
+                    Console.WriteLine($"Entity {entity.id}");
+                    foreach (Entity e in colliderComponent.resolvedCollisions)
+                        Console.WriteLine($"Other entity {e.id}  ");
+                    Console.WriteLine();
+
+                    colliderComponent.resolvedCollisions.Add(otherEntity);
+
+                    // Testing: output resolved collisions set
+                    Console.WriteLine("\nResolved collisions set (after add): ");
+                    Console.WriteLine($"Entity {entity.id}");
+                    foreach (Entity e in colliderComponent.resolvedCollisions)
+                        Console.WriteLine($"Other entity {e.id}  ");
+                    Console.WriteLine();
+                    */
                 }
+                /*
+                Console.WriteLine("END OF RESOLUTION");
+
+                Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
+                Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
+                */
+
             }
 
             // Respond to entities that have stopped colliding
@@ -345,6 +644,26 @@ namespace AdventureGame.Engine
         }
         //transformComponent.position.X = newPosition;
         //transformComponent.position.X += physicsComponent.velocity;
+
+        // Move an entity's transform component position and bounding bounding
+        // by a given amount
+        public void MovePositions(Entity e, char direction, int amount)
+        {
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+
+            // Check if the direction is in the X or Y axis
+            if (direction.Equals('X'))
+            {
+                transformComponent.position.X += amount;
+                colliderComponent.boundingBox.X += amount;
+            }
+            else if (direction.Equals('Y'))
+            {
+                transformComponent.position.Y += amount;
+                colliderComponent.boundingBox.Y += amount;
+            }
+        }
 
 
         /*

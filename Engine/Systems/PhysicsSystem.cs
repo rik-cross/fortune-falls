@@ -18,6 +18,9 @@ namespace AdventureGame.Engine
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            // Set the previous position to the current position
+            transformComponent.previousPosition = transformComponent.position;
+
             string direction = "";
 
             // CHANGE up to north, right to east etc?
