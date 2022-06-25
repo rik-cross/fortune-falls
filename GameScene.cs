@@ -40,7 +40,7 @@ namespace AdventureGame
             //
 
             // player camera
-            Engine.Camera playerCamera = new Engine.Camera("main", 0, 0, 0, 0, Globals.WIDTH, Globals.HEIGHT, 3, 0, 2);
+            Engine.Camera playerCamera = new Engine.Camera("main", 0, 0, 0, 0, Globals.WIDTH, Globals.HEIGHT, Globals.globalZoomLevel, 0, 2);
             playerCamera.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
             AddCamera(playerCamera);
 

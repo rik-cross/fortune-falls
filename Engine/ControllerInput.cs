@@ -8,6 +8,9 @@ namespace AdventureGame.Engine
         public static InputItem Start = new InputItem(button: Buttons.Start);
         public static InputItem Back = new InputItem(button: Buttons.Back);
 
+        public static InputItem LeftShoulder = new InputItem(button: Buttons.LeftShoulder);
+        public static InputItem RightShoulder = new InputItem(button: Buttons.RightShoulder);
+
         public static InputItem A = new InputItem(button: Buttons.A);
         public static InputItem B = new InputItem(button: Buttons.B);
         public static InputItem X = new InputItem(button: Buttons.X);

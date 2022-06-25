@@ -95,6 +95,18 @@ namespace AdventureGame
                 intentionComponent.button2 = false;
             }
 
+            // button 7 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.button7Keys))
+            {
+                Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
+            }
+
+            // button 8 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.button8Keys))
+            {
+                Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
+            }
+
         }
 
         public static Engine.Entity Create(int x, int y)
@@ -181,6 +193,12 @@ namespace AdventureGame
                 new List<InputItem>() { KeyboardInput.Right, KeyboardInput.D, ControllerInput.LeftThumbRight },
                 new List<InputItem>(),
                 new List<InputItem>(),
+                new List<InputItem>(),
+                new List<InputItem>(),
+                new List<InputItem>(),
+                new List<InputItem>(),
+                new List<InputItem>() { ControllerInput.LeftShoulder },
+                new List<InputItem>() { ControllerInput.RightShoulder },
                 PlayerInputController
             ));
             //playerEntity.AddComponent(new Engine.TriggerComponent(

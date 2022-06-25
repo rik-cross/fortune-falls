@@ -31,6 +31,20 @@ namespace AdventureGame
         public static Engine.SpriteSheet candleSpriteSheet;
         public static Engine.SpriteSheet enemySpriteSheet;
 
+        public static float globalZoomLevel = 3.0f;
+
+        public static void SetGlobalZoomLevel(float newZoomLevel)
+        {
+
+            newZoomLevel = Math.Clamp(newZoomLevel, 2.0f, 5.0f);
+
+            globalZoomLevel = newZoomLevel;
+            Engine.Scene currentScene = Engine.EngineGlobals.sceneManager.GetTopScene();
+            Engine.Camera playerCamera = currentScene.GetCameraByName("main");
+            if (playerCamera != null)
+                playerCamera.SetZoom(newZoomLevel);
+        }
+
     }
 
 }

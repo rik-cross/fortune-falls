@@ -59,6 +59,12 @@ namespace AdventureGame.Engine
             zoomIncrement = newIncrement;
         }
 
+        public void SetZoom(float newZoom)
+        {
+            targetZoom = newZoom;
+            zoom = newZoom;
+        }
+
         // ...
         public Viewport getViewport()
         {
