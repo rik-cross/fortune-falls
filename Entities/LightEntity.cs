@@ -4,6 +4,8 @@ using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 
+using System.Collections.Generic;
+
 using AdventureGame.Engine;
 
 namespace AdventureGame
@@ -32,11 +34,19 @@ namespace AdventureGame
             lightSourceEntity.AddTag("light");
 
             lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(32, 32)));
-            lightSourceEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("candleTest.sf", new JsonContentLoader()))));
-            lightSourceEntity.AddComponent(new Engine.ColliderComponent(lightColliderX, lightColliderY, 50, 50));
+            //lightSourceEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("candleTest.sf", new JsonContentLoader()))));
+
+            lightSourceEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.candleSpriteSheet, new List<Vector2> {
+                new Vector2(0, 0),
+                new Vector2(1, 0),
+                new Vector2(2, 0),
+                new Vector2(3, 0),
+            })));
+
+            //lightSourceEntity.AddComponent(new Engine.ColliderComponent(lightColliderX, lightColliderY, 50, 50));
             lightSourceEntity.AddComponent(new Engine.LightComponent(50));
             lightSourceEntity.AddComponent(new Engine.TriggerComponent(
-                new Vector2(-20, -20), new Vector2(72, 72),
+                new Vector2(0, 0), new Vector2(32, 32),
                 lightOnCollisionEnter,
                 null,
                 lightOnCollisionExit

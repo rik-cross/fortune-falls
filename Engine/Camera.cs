@@ -83,8 +83,8 @@ namespace AdventureGame.Engine
             if (trackedEntity != null)
             {
                 TransformComponent transformComponent = trackedEntity.GetComponent<TransformComponent>();
-                var targetX = transformComponent.position.X;
-                var targetY = transformComponent.position.Y;
+                var targetX = transformComponent.position.X + (transformComponent.size.X / 2);
+                var targetY = transformComponent.position.Y + (transformComponent.size.Y / 2);
                 SetWorldPos((int)targetX, (int)targetY);
             }
 

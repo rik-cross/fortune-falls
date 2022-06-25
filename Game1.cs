@@ -18,7 +18,7 @@ namespace AdventureGame
             if (otherEntity.HasTag("player"))
             {
                 EngineGlobals.sceneManager.PopScene();
-                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(525, 950);
+                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(525, 900);
                 EngineGlobals.sceneManager.PushScene(new BeachScene());
             }
         }
@@ -78,6 +78,10 @@ namespace AdventureGame
                 Globals.graphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
             );
+
+            Globals.playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("playerSpriteSheet"), new Vector2(26, 36));
+            Globals.candleSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("candleTest"), new Vector2(32, 32));
+            Globals.enemySpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("spriteEnemy"), new Vector2(65, 50));
 
             // Instantiate the managers
             EngineGlobals.inputManager = new InputManager();

@@ -99,29 +99,81 @@ namespace AdventureGame
 
         public static Engine.Entity Create(int x, int y)
         {
-       
-            int playerStartX = x;
-            int playerStartY = y;
-            int playerWidth = 52;
-            int playerHeight = 72;
-
-            int playerColliderWidth = playerWidth / 2;
-            int playerColliderHeight = playerHeight / 3;
-
-            int playerColliderX = playerStartX - (int)(playerColliderWidth / 2);
-            int playerColliderY = playerStartY - (int)(playerColliderHeight / 2);
-            int playerColliderOffsetY = (int)(playerHeight * 0.3);
+ 
+            int playerWidth = 26;
+            int playerHeight = 36;
 
             Engine.Entity playerEntity = EngineGlobals.entityManager.CreateEntity();
 
             playerEntity.AddTag("player");
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(playerStartX, playerStartY), new Vector2(playerWidth, playerHeight)));
+            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(playerWidth, playerHeight)));
             playerEntity.AddComponent(new Engine.PhysicsComponent(1));
-            playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
-            playerEntity.AddComponent(new Engine.ColliderComponent(playerColliderX, playerColliderY, playerColliderWidth, playerColliderHeight, 0, playerColliderOffsetY));
-            playerEntity.AddComponent(new Engine.HurtboxComponent(playerColliderX, playerColliderY, playerWidth, playerHeight));
+            //playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
+
+            playerEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet, new List<Vector2> {new Vector2(7,4)})));
+
+            Engine.SpritesComponent spritesComponent = playerEntity.GetComponent<Engine.SpritesComponent>();
+
+            spritesComponent.AddSprite(
+                "walkNorth",
+                new Engine.Sprite(
+                    Globals.playerSpriteSheet, new List<Vector2>
+                    {
+                        new Vector2(6, 7),
+                        new Vector2(7, 7),
+                        new Vector2(8, 7),
+                        new Vector2(7, 7)
+                    }
+                )
+            );
+
+            spritesComponent.AddSprite(
+                "walkSouth",
+                new Engine.Sprite(
+                    Globals.playerSpriteSheet, new List<Vector2>
+                    {
+                        new Vector2(6, 4),
+                        new Vector2(7, 4),
+                        new Vector2(8, 4),
+                        new Vector2(7, 4)
+                    }
+                )
+            );
+
+            spritesComponent.AddSprite(
+                "walkEast",
+                new Engine.Sprite(
+                    Globals.playerSpriteSheet, new List<Vector2>
+                    {
+                        new Vector2(6, 6),
+                        new Vector2(7, 6),
+                        new Vector2(8, 6),
+                        new Vector2(7, 6)
+                    }
+                )
+            );
+
+            spritesComponent.AddSprite(
+                "walkWest",
+                new Engine.Sprite(
+                    Globals.playerSpriteSheet, new List<Vector2>
+                    {
+                        new Vector2(6, 5),
+                        new Vector2(7, 5),
+                        new Vector2(8, 5),
+                        new Vector2(7, 5)
+                    }
+                )
+            );
+
+
+            foreach (Engine.Sprite sp in spritesComponent.spriteDict.Values)
+                sp.animationDelay = 8;
+
+            //playerEntity.AddComponent(new Engine.ColliderComponent(playerColliderX, playerColliderY, playerColliderWidth, playerColliderHeight, 0, playerColliderOffsetY));
+            //playerEntity.AddComponent(new Engine.HurtboxComponent(playerColliderX, playerColliderY, playerWidth, playerHeight));
             playerEntity.AddComponent(new Engine.InputComponent(
                 new List<InputItem>() { KeyboardInput.Up, KeyboardInput.W, ControllerInput.LeftThumbUp },
                 new List<InputItem>() { KeyboardInput.Down, KeyboardInput.S, ControllerInput.LeftThumbDown },
@@ -138,7 +190,7 @@ namespace AdventureGame
             //    null
             //));
             playerEntity.AddComponent(new Engine.TriggerComponent(
-                new Vector2(10, 50), new Vector2(32, 24),
+                new Vector2(5, 25), new Vector2(16, 16),
                 null,
                 null,
                 null

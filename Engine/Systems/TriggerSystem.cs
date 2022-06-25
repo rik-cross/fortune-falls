@@ -20,8 +20,8 @@ namespace AdventureGame.Engine
 
             // create trigger rectangle
             Rectangle thisTrigger = new Rectangle(
-                (int)(transformComponent.position.X - transformComponent.size.X / 2 + triggerComponent.offset.X),
-                (int)(transformComponent.position.Y - transformComponent.size.Y / 2 + triggerComponent.offset.Y),
+                (int)(transformComponent.position.X + triggerComponent.offset.X),
+                (int)(transformComponent.position.Y + triggerComponent.offset.Y),
                 (int)(triggerComponent.size.X),
                 (int)(triggerComponent.size.Y)
             );
@@ -39,8 +39,8 @@ namespace AdventureGame.Engine
 
                         // create other trigger rectangle
                         Rectangle otherTrigger = new Rectangle(
-                            (int)(otherTransformComponent.position.X - otherTransformComponent.size.X / 2 + otherTriggerComponent.offset.X),
-                            (int)(otherTransformComponent.position.Y - otherTransformComponent.size.Y / 2 + otherTriggerComponent.offset.Y),
+                            (int)(otherTransformComponent.position.X + otherTriggerComponent.offset.X),
+                            (int)(otherTransformComponent.position.Y + otherTriggerComponent.offset.Y),
                             (int)(otherTriggerComponent.size.X),
                             (int)(otherTriggerComponent.size.Y)
                         );
@@ -108,16 +108,16 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             Globals.spriteBatch.DrawRectangle(new Rectangle(
-                (int)(transformComponent.position.X - transformComponent.size.X / 2 + triggerComponent.offset.X),
-                (int)(transformComponent.position.Y - transformComponent.size.Y / 2 + triggerComponent.offset.Y),
+                (int)(transformComponent.position.X + triggerComponent.offset.X),
+                (int)(transformComponent.position.Y + triggerComponent.offset.Y),
                 (int)(triggerComponent.size.X),
                 (int)(triggerComponent.size.Y)
             ), Color.Turquoise);
 
             Globals.spriteBatch.DrawString(Globals.fontSmall, triggerComponent.collidedEntities.Count.ToString(),
                 new Vector2(
-                    (int)(transformComponent.position.X - transformComponent.size.X / 2 + triggerComponent.offset.X),
-                    (int)(transformComponent.position.Y - transformComponent.size.Y / 2 + triggerComponent.offset.Y)
+                    (int)(transformComponent.position.X + triggerComponent.offset.X),
+                    (int)(transformComponent.position.Y + triggerComponent.offset.Y)
                 ), Color.White);
 
         }

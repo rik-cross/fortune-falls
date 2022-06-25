@@ -89,8 +89,8 @@ namespace AdventureGame.Engine
             else if (ty == null)
                 return 1;
 
-            double posX = tx.position.Y + tx.size.Y - tx.size.Y / 2;
-            double posY = ty.position.Y + ty.size.Y - ty.size.Y / 2;
+            double posX = tx.position.Y + tx.size.Y;
+            double posY = ty.position.Y + ty.size.Y;
 
             if (posX == posY)
             {
