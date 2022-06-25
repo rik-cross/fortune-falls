@@ -22,6 +22,11 @@ namespace AdventureGame
         public static SpriteFont fontSmall;
         public static RenderTarget2D sceneRenderTarget;
         public static RenderTarget2D lightRenderTarget;
+
+        public static List<Engine.InputItem> pauseInput = new List<Engine.InputItem>() { Engine.KeyboardInput.P, Engine.ControllerInput.Start };
+        public static List<Engine.InputItem> forwardInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter, Engine.ControllerInput.Start };
+        public static List<Engine.InputItem> backInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Back };
+
     }
 
 }

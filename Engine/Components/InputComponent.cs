@@ -13,16 +13,19 @@ namespace AdventureGame.Engine
         public Action<Entity> inputControllerPointer;
 
         // keyboard input
-        public List<Keys> upKeys = new List<Keys>();
-        public List<Keys> downKeys = new List<Keys>();
-        public List<Keys> leftKeys = new List<Keys>();
-        public List<Keys> rightKeys = new List<Keys>();
-        public List<Keys> button1Keys = new List<Keys>();
-        public List<Keys> button2Keys = new List<Keys>();
+        public List<InputItem> upKeys = new List<InputItem>();
+        public List<InputItem> downKeys = new List<InputItem>();
+        public List<InputItem> leftKeys = new List<InputItem>();
+        public List<InputItem> rightKeys = new List<InputItem>();
+        public List<InputItem> button1Keys = new List<InputItem>();
+        public List<InputItem> button2Keys = new List<InputItem>();
+
+        // controller input
+              
 
         public InputComponent(
-                    List<Keys> upKeys, List<Keys> downKeys, List<Keys> leftKeys, List<Keys> rightKeys,
-                    List<Keys> button1Keys, List<Keys> button2Keys,
+                    List<InputItem> upKeys, List<InputItem> downKeys, List<InputItem> leftKeys, List<InputItem> rightKeys,
+                    List<InputItem> button1Keys, List<InputItem> button2Keys,
                     Action<Entity> inputControllerPointer
                 )
         {

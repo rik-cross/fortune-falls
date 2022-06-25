@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+//using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended.Content;
 using System.Collections;
@@ -123,12 +123,12 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.ColliderComponent(playerColliderX, playerColliderY, playerColliderWidth, playerColliderHeight, 0, playerColliderOffsetY));
             playerEntity.AddComponent(new Engine.HurtboxComponent(playerColliderX, playerColliderY, playerWidth, playerHeight));
             playerEntity.AddComponent(new Engine.InputComponent(
-                new List<Keys>() { Keys.W, Keys.Up },
-                new List<Keys>() { Keys.S, Keys.Down },
-                new List<Keys>() { Keys.A, Keys.Left },
-                new List<Keys>() { Keys.D, Keys.Right },
-                new List<Keys>(),
-                new List<Keys>(),
+                new List<InputItem>() { KeyboardInput.Up, KeyboardInput.W, ControllerInput.LeftThumbUp },
+                new List<InputItem>() { KeyboardInput.Down, KeyboardInput.S, ControllerInput.LeftThumbDown },
+                new List<InputItem>() { KeyboardInput.Left, KeyboardInput.A, ControllerInput.LeftThumbLeft },
+                new List<InputItem>() { KeyboardInput.Right, KeyboardInput.D, ControllerInput.LeftThumbRight },
+                new List<InputItem>(),
+                new List<InputItem>(),
                 PlayerInputController
             ));
             //playerEntity.AddComponent(new Engine.TriggerComponent(

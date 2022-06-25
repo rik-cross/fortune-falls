@@ -6,7 +6,6 @@ using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended;
 
@@ -28,11 +27,11 @@ namespace AdventureGame
         public override void Update(GameTime gameTime)
         {
             //if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            if (EngineGlobals.inputManager.IsPressed(Keys.Escape))
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
                 EngineGlobals.sceneManager.PopScene();
             }
-            if (EngineGlobals.inputManager.IsPressed(Keys.Enter))
+            if (EngineGlobals.inputManager.IsPressed(Globals.forwardInput))
             {
                 EngineGlobals.sceneManager.PushScene(new GameScene());
             }

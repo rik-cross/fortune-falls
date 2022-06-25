@@ -2,7 +2,6 @@
 using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
@@ -59,11 +58,11 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Keys.Escape))
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
                 EngineGlobals.sceneManager.PopScene();
             }
-            if (EngineGlobals.inputManager.IsPressed(Keys.P))
+            if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
                 EngineGlobals.sceneManager.PushScene(new PauseScene());
             }
