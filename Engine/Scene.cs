@@ -6,6 +6,8 @@ using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame.Engine
 {
     public abstract class Scene
@@ -21,12 +23,7 @@ namespace AdventureGame.Engine
 
         public TiledMap map = null;
         public TiledMapRenderer mapRenderer = null;
-        public List<TiledMapLayer> mapLayers = new List<TiledMapLayer>();
-
-        public TiledMapLayer below = null;
-        public TiledMapLayer below2 = null;
-        public TiledMapLayer collision = null;
-        public TiledMapLayer above = null;
+        public bool[,] collisionTiles;
 
         public Scene()
         {
@@ -42,6 +39,32 @@ namespace AdventureGame.Engine
         {
             map = Globals.content.Load<TiledMap>(newMapLocation);
             mapRenderer = new TiledMapRenderer(Globals.graphicsDevice, map);
+
+            /*
+            foreach (TiledMapTileLayer layer in map.Layers)
+            {
+                if (layer.Properties.ContainsValue("collision"))
+                {
+                    for (int x = 0; x < layer.Width; x++)
+                    {
+                        for (int y = 0; y < layer.Height; y++)
+                        {
+                            TiledMapTile? t;
+                            bool z = layer.TryGetTile((ushort)x, (ushort)y, out t);
+                            if (z)
+                            {
+                                if (!layer.GetTile((ushort)x, (ushort)y).IsBlank)
+                                {
+                                    
+                                }
+                            }
+                        
+                        }
+                    }
+                }
+            }
+            */
+
         }
 
         public void AddCamera(Camera camera)
