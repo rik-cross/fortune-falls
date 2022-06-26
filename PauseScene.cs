@@ -40,7 +40,7 @@ namespace AdventureGame
                 new Rectangle((Globals.WIDTH/2)-200, (Globals.HEIGHT/2)-40, 400, 80), bg
             );
 
-            Globals.spriteBatch.DrawString(Globals.font, "Paused [esc]", new Vector2((Globals.WIDTH/2)-100, Globals.HEIGHT/2-20), Color.White);
+            Globals.spriteBatch.DrawString(Globals.font, "Paused", new Vector2((Globals.WIDTH/2)-70, Globals.HEIGHT/2-20), Color.White);
         }
 
     }

@@ -43,7 +43,6 @@ namespace AdventureGame
                 new Rectangle(0, 0, Globals.WIDTH, Globals.HEIGHT), Color.Black
             );
             Globals.spriteBatch.DrawString(Globals.font, "Main menu", new Vector2(50, 50), Color.White);
-            Globals.spriteBatch.DrawString(Globals.fontSmall, "[enter] play  //  [esc] quit", new Vector2(10, Globals.HEIGHT - 30), Color.White);
         }
 
     }

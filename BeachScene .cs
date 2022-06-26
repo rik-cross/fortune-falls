@@ -68,15 +68,6 @@ namespace AdventureGame
             }
         }
 
-        public override void Draw(GameTime gameTime)
-        {
-            //DayNightCycle.Draw(gameTime);
-            Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, Globals.HEIGHT - 40, 200, 40), Color.Black
-            );
-            Globals.spriteBatch.DrawString(Globals.fontSmall, "[p] pause  //  [esc] quit", new Vector2(10, Globals.HEIGHT - 30), Color.White);
-        }
-
     }
 
 }

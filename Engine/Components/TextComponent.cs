@@ -30,9 +30,9 @@ namespace AdventureGame.Engine
             this.type = "tick";
             this.textColour = Color.Black;
             this.backgroundColour = Color.White;
-            this.textMaxLength = 150;
+            this.textMaxLength = 170;
             this.textMargin = 2;
-            this.outerMargin = 15;
+            this.outerMargin = 10;
 
             this.text = SplitText(text, this.textMaxLength);
 
