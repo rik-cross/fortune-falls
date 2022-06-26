@@ -10,6 +10,7 @@ namespace AdventureGame.Engine
         {
             RequiredComponent<TextComponent>();
             RequiredComponent<TransformComponent>();
+            aboveMap = true;
         }
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)

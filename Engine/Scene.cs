@@ -194,17 +194,47 @@ namespace AdventureGame.Engine
                         }
                     }
                 }
+                Globals.spriteBatch.End();
 
+
+                // draw systems below map
+                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
                 // draw each system
                 foreach (System s in EngineGlobals.systems)
                 {
-                    // entity-specific draw
-                    foreach (Entity e in entityList)
-                        if (s.entityList.Contains(e))
-                            s.DrawEntity(gameTime, this, e);
-
+                    if (!s.aboveMap)
+                    {
+                        // entity-specific draw
+                        foreach (Entity e in entityList)
+                            if (s.entityList.Contains(e))
+                                s.DrawEntity(gameTime, this, e);
+                    }
                 }
+                Globals.spriteBatch.End();
 
+                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                foreach (TiledMapLayer layer in map.Layers)
+                {
+                    if (layer.Properties.ContainsValue("above"))
+                    {
+                        mapRenderer.Draw(layer, c.getTransformMatrix());
+                    }
+                }
+                Globals.spriteBatch.End();
+
+                // draw systems above map
+                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                // draw each system
+                foreach (System s in EngineGlobals.systems)
+                {
+                    if (s.aboveMap)
+                    {
+                        // entity-specific draw
+                        foreach (Entity e in entityList)
+                            if (s.entityList.Contains(e))
+                                s.DrawEntity(gameTime, this, e);
+                    }
+                }
                 Globals.spriteBatch.End();
 
                 // scene light level
@@ -242,14 +272,6 @@ namespace AdventureGame.Engine
                             ),
                             Color.White
                         );
-                    }
-                }
-
-                foreach (TiledMapLayer layer in map.Layers)
-                {
-                    if (layer.Properties.ContainsValue("above"))
-                    {
-                        mapRenderer.Draw(layer, c.getTransformMatrix());
                     }
                 }
 

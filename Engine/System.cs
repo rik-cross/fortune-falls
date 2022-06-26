@@ -10,6 +10,7 @@ namespace AdventureGame.Engine
         public List<string> requiredComponents = new List<string>(); // instantiate elsewhere?
         public Dictionary<int, int> entityMapper = new Dictionary<int, int>();
         public List<Entity> entityList = new List<Entity>();
+        public bool aboveMap = false;
 
 
         // Update is called once per frame
