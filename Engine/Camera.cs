@@ -114,9 +114,9 @@ namespace AdventureGame.Engine
             // width
 
             // if camera is bigger than map
-            if (size.X > (scene.map.Width * 16 * zoom))
+            if (size.X > (scene.map.Width * scene.map.TileWidth * zoom))
             {
-                worldPosition.X = (scene.map.Width * 16 / 2) * -1;
+                worldPosition.X = (scene.map.Width * scene.map.TileWidth / 2) * -1;
             } else
             {
                 // clamp to left
@@ -125,18 +125,18 @@ namespace AdventureGame.Engine
                     worldPosition.X = (size.X / zoom / 2) * -1;
                 }
                 // clamp to right
-                if (worldPosition.X * -1 > (scene.map.Width * 16) - (size.X / zoom / 2))
+                if (worldPosition.X * -1 > (scene.map.Width * scene.map.TileWidth) - (size.X / zoom / 2))
                 {
-                    worldPosition.X = ((scene.map.Width * 16) - (size.X / zoom / 2)) * -1;
+                    worldPosition.X = ((scene.map.Width * scene.map.TileWidth) - (size.X / zoom / 2)) * -1;
                 }
             }
 
             // height
 
             // if camera is bigger than map
-            if (size.Y > (scene.map.Height * 16 * zoom))
+            if (size.Y > (scene.map.Height * scene.map.TileHeight * zoom))
             {
-                worldPosition.Y = (scene.map.Height * 16 / 2) * -1;
+                worldPosition.Y = (scene.map.Height * scene.map.TileHeight / 2) * -1;
             } else
             {
                 // clamp to top
@@ -145,9 +145,9 @@ namespace AdventureGame.Engine
                     worldPosition.Y = (size.Y / zoom / 2) * -1;
                 }
                 // clamp to bottom
-                if (worldPosition.Y * -1 > (scene.map.Height * 16) - (size.Y / zoom / 2))
+                if (worldPosition.Y * -1 > (scene.map.Height * scene.map.TileHeight) - (size.Y / zoom / 2))
                 {
-                    worldPosition.Y = ((scene.map.Height * 16) - (size.Y / zoom / 2)) * -1;
+                    worldPosition.Y = ((scene.map.Height * scene.map.TileHeight) - (size.Y / zoom / 2)) * -1;
                 }
             }
 

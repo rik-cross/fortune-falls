@@ -36,7 +36,7 @@ namespace AdventureGame
         public static void SetGlobalZoomLevel(float newZoomLevel)
         {
 
-            newZoomLevel = Math.Clamp(newZoomLevel, 2.0f, 5.0f);
+            newZoomLevel = Math.Clamp(newZoomLevel, 1.0f, 7.0f);
 
             globalZoomLevel = newZoomLevel;
             Engine.Scene currentScene = Engine.EngineGlobals.sceneManager.GetTopScene();
