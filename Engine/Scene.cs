@@ -25,6 +25,9 @@ namespace AdventureGame.Engine
         public TiledMapRenderer mapRenderer = null;
         public List<Rectangle> collisionTiles = new List<Rectangle>();
 
+        public bool updateSceneBelow = false;
+        public bool drawSceneBelow = false;
+
         public Scene()
         {
             entityList = new List<Entity>();
@@ -181,6 +184,9 @@ namespace AdventureGame.Engine
 
         public void _Draw(GameTime gameTime)
         {
+
+            //if (drawSceneBelow)
+            //    EngineGlobals.sceneManager
 
             var blend = new BlendState
             {

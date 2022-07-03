@@ -197,8 +197,8 @@ namespace AdventureGame
                 new List<InputItem>(),
                 new List<InputItem>(),
                 new List<InputItem>(),
-                new List<InputItem>() { ControllerInput.LeftShoulder },
-                new List<InputItem>() { ControllerInput.RightShoulder },
+                new List<InputItem>() { KeyboardInput.Q, ControllerInput.LeftShoulder },
+                new List<InputItem>() { KeyboardInput.E, ControllerInput.RightShoulder },
                 PlayerInputController
             ));
             //playerEntity.AddComponent(new Engine.TriggerComponent(

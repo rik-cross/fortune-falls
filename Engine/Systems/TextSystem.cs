@@ -21,6 +21,13 @@ namespace AdventureGame.Engine
             int rowHeight = textComponent.totalHeight;
 
             // draw the background rectangle
+            
+            float a;
+            if (textComponent.type == "show" || textComponent.type == "tick")
+                a = 1.0f;
+            else
+                a = textComponent.timer * 0.02f;
+
             Globals.spriteBatch.FillRectangle(
                 new Rectangle(
                     (int)(transformComponent.position.X - transformComponent.size.X / 2),
@@ -28,10 +35,17 @@ namespace AdventureGame.Engine
                     textComponent.textWidth + textComponent.outerMargin * 2,
                     textComponent.totalHeight + textComponent.outerMargin * 2
                 ),
-                textComponent.backgroundColour
+                textComponent.backgroundColour * a
             );
 
             // draw the border rectangle
+
+            float aa;
+            if (textComponent.type == "show" || textComponent.type == "tick")
+                aa = 1.0f;
+            else
+                aa = textComponent.timer * 0.02f;
+
             Globals.spriteBatch.DrawRectangle(
                 new Rectangle(
                     (int)(transformComponent.position.X - transformComponent.size.X / 2),
@@ -39,7 +53,7 @@ namespace AdventureGame.Engine
                     textComponent.textWidth + textComponent.outerMargin * 2,
                     textComponent.totalHeight + textComponent.outerMargin * 2
                 ),
-                textComponent.textColour
+                textComponent.textColour * aa
             );
 
             //
@@ -82,7 +96,7 @@ namespace AdventureGame.Engine
                         new Vector2(
                             transformComponent.position.X - transformComponent.size.X / 2 + textComponent.outerMargin,
                             transformComponent.position.Y - transformComponent.size.Y / 2 - rowHeight - (textComponent.outerMargin)
-                        ), new Color((int)textComponent.textColour.R, (int)textComponent.textColour.G, (int)textComponent.textColour.B, textComponent.timer)
+                        ), textComponent.textColour * (textComponent.timer * 0.02f)
                     );
                     rowHeight -= textComponent.singleRowheight;
                 }
