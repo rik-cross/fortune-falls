@@ -23,7 +23,7 @@ namespace AdventureGame.Engine
 
         public TiledMap map = null;
         public TiledMapRenderer mapRenderer = null;
-        public bool[,] collisionTiles;
+        public List<Rectangle> collisionTiles = new List<Rectangle>();
 
         public Scene()
         {
@@ -40,7 +40,8 @@ namespace AdventureGame.Engine
             map = Globals.content.Load<TiledMap>(newMapLocation);
             mapRenderer = new TiledMapRenderer(Globals.graphicsDevice, map);
 
-            /*
+            collisionTiles.Clear();
+
             foreach (TiledMapTileLayer layer in map.Layers)
             {
                 if (layer.Properties.ContainsValue("collision"))
@@ -55,7 +56,11 @@ namespace AdventureGame.Engine
                             {
                                 if (!layer.GetTile((ushort)x, (ushort)y).IsBlank)
                                 {
-                                    
+                                    collisionTiles.Add(
+                                        new Rectangle(
+                                            x*16, y*16, 16, 16
+                                        )
+                                    );
                                 }
                             }
                         
@@ -63,7 +68,6 @@ namespace AdventureGame.Engine
                     }
                 }
             }
-            */
 
         }
 

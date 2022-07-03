@@ -7,11 +7,14 @@ namespace AdventureGame.Engine
     class ColliderComponent : Component
     {
         public Rectangle boundingBox;
+
         public int xOffset;
         public int yOffset;
 
         public int width;
         public int height;
+
+        public Rectangle rect;
 
         // CHANGE to dictionaries with the direction as the value (both?)
         public HashSet<Entity> collidedEntities;

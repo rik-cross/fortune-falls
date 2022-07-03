@@ -21,19 +21,12 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            // Return if the entity does not have the required components
-            /*if (!entity.CheckComponents(entity.signature, systemSignature))
-                return;
-            */
 
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // update bounding box
-            //colliderComponent.boundingBox.X = (int)transformComponent.position.X + colliderComponent.xOffset;
-            //colliderComponent.boundingBox.Y = (int)transformComponent.position.Y + colliderComponent.yOffset;
-
-            Rectangle entityRect = new Rectangle(
+            // update rect
+            colliderComponent.rect = new Rectangle(
                 (int)transformComponent.position.X + colliderComponent.xOffset,
                 (int)transformComponent.position.Y + colliderComponent.yOffset,
                 colliderComponent.width, colliderComponent.height
@@ -50,14 +43,8 @@ namespace AdventureGame.Engine
                     if (otherColliderComponent != null && otherTransformComponent != null)
                     {
 
-                        Rectangle otherEntityRect = new Rectangle(
-                            (int)otherTransformComponent.position.X + otherColliderComponent.xOffset,
-                            (int)otherTransformComponent.position.Y + otherColliderComponent.yOffset,
-                            otherColliderComponent.width, otherColliderComponent.height
-                        );
-
                         // Check if the entities have collided
-                        if (entityRect.Intersects(otherEntityRect))
+                        if (colliderComponent.rect.Intersects(otherColliderComponent.rect))
                         {
                             // Check if the entities are already colliding
                             if (!(collisionStarted.Contains(entity)

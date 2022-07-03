@@ -19,7 +19,7 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // create trigger rectangle
-            Rectangle thisTrigger = new Rectangle(
+            triggerComponent.rect = new Rectangle(
                 (int)(transformComponent.position.X + triggerComponent.offset.X),
                 (int)(transformComponent.position.Y + triggerComponent.offset.Y),
                 (int)(triggerComponent.size.X),
@@ -37,14 +37,6 @@ namespace AdventureGame.Engine
                     if (otherTriggerComponent != null && otherTransformComponent != null)
                     {
 
-                        // create other trigger rectangle
-                        Rectangle otherTrigger = new Rectangle(
-                            (int)(otherTransformComponent.position.X + otherTriggerComponent.offset.X),
-                            (int)(otherTransformComponent.position.Y + otherTriggerComponent.offset.Y),
-                            (int)(otherTriggerComponent.size.X),
-                            (int)(otherTriggerComponent.size.Y)
-                        );
-
                         // calculate distance
                         float thisXMiddle = transformComponent.position.X + triggerComponent.offset.X + (triggerComponent.size.X / 2);
                         float otherXMiddle = otherTransformComponent.position.X + otherTriggerComponent.offset.X + (otherTriggerComponent.size.X / 2);
@@ -55,7 +47,7 @@ namespace AdventureGame.Engine
                         float distance = (float)Math.Sqrt((xDiff*xDiff)+(yDiff*yDiff));
 
                         // process triggers
-                        if (thisTrigger.Intersects(otherTrigger))
+                        if (triggerComponent.rect.Intersects(otherTriggerComponent.rect))
                         {
 
                             // onCollisionEnter
@@ -107,12 +99,7 @@ namespace AdventureGame.Engine
             TriggerComponent triggerComponent = entity.GetComponent<TriggerComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            Globals.spriteBatch.DrawRectangle(new Rectangle(
-                (int)(transformComponent.position.X + triggerComponent.offset.X),
-                (int)(transformComponent.position.Y + triggerComponent.offset.Y),
-                (int)(triggerComponent.size.X),
-                (int)(triggerComponent.size.Y)
-            ), Color.Turquoise);
+            Globals.spriteBatch.DrawRectangle(triggerComponent.rect, Color.Turquoise);
 
             Globals.spriteBatch.DrawString(Globals.fontSmall, triggerComponent.collidedEntities.Count.ToString(),
                 new Vector2(

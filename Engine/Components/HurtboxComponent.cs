@@ -4,17 +4,16 @@ namespace AdventureGame.Engine
 {
     class HurtboxComponent : Component
     {
-        public Rectangle rectangle;
         public int xOffset;
         public int yOffset;
         public int width;
         public int height;
+        public Rectangle rect;
 
         public bool active;
-        public Color color = Color.Red; // TESTING rectangle outline
+        public Color color = Color.Red;
 
-        public HurtboxComponent(int x, int y, int w, int h,
-            bool active = true)
+        public HurtboxComponent(int x, int y, int w, int h, bool active = true)
         {
             this.xOffset = x;
             this.yOffset = y;

@@ -8,6 +8,7 @@ namespace AdventureGame.Engine
         public int yOffset;
         public int width;
         public int height;
+        public Rectangle rect;
 
         public int lifetime; // here or in a timer / lifetime system / component?
         public bool active;

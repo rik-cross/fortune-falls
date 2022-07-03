@@ -9,6 +9,7 @@ namespace AdventureGame.Engine
 
         public Vector2 offset;
         public Vector2 size;
+        public Rectangle rect;
         public Action<Entity, Entity, float> onCollisionEnter;
         public Action<Entity, Entity, float> onCollide;
         public Action<Entity, Entity, float> onCollisionExit;
