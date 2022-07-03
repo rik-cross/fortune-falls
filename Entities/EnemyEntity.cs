@@ -16,9 +16,6 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y)
         {
 
-            int enemyColliderX = x - (int)(65 / 2);
-            int enemyColliderY = y - (int)(50 / 2);
-
             Entity enemyEntity = EngineGlobals.entityManager.CreateEntity();
 
             enemyEntity.AddTag("enemy");
@@ -32,7 +29,7 @@ namespace AdventureGame
             })));
 
             enemyEntity.AddComponent(new Engine.PhysicsComponent(1));
-            enemyEntity.AddComponent(new Engine.ColliderComponent(0, 0, 65, 50));
+            enemyEntity.AddComponent(new Engine.ColliderComponent(new Vector2(0, 0), new Vector2(65, 50)));
             enemyEntity.AddComponent(new Engine.HitboxComponent(0, 0, 65, 50));
 
             return enemyEntity;

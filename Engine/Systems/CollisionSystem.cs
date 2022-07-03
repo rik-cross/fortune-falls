@@ -25,11 +25,10 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // update rect
             colliderComponent.rect = new Rectangle(
-                (int)transformComponent.position.X + colliderComponent.xOffset,
-                (int)transformComponent.position.Y + colliderComponent.yOffset,
-                colliderComponent.width, colliderComponent.height
+                (int)transformComponent.position.X + (int)colliderComponent.offset.X,
+                (int)transformComponent.position.Y + (int)colliderComponent.offset.Y,
+                (int)colliderComponent.size.X, (int)colliderComponent.size.Y
             );
 
             // check for collider intersects
@@ -141,17 +140,10 @@ namespace AdventureGame.Engine
                 return;
 
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            Rectangle rectangle = new Rectangle(
-                (int)transformComponent.position.X + colliderComponent.xOffset,
-                (int)transformComponent.position.Y + colliderComponent.yOffset,
-                colliderComponent.width, colliderComponent.height
-            );
             
             Color color = colliderComponent.color;
             int lineWidth = 1;
-            Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);
+            Globals.spriteBatch.DrawRectangle(colliderComponent.rect, color, lineWidth);
         }
 
     }
