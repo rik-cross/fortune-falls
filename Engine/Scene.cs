@@ -58,7 +58,8 @@ namespace AdventureGame.Engine
                                 {
                                     collisionTiles.Add(
                                         new Rectangle(
-                                            x*16, y*16, 16, 16
+                                            x * map.TileWidth, y * map.TileHeight,
+                                            map.TileWidth, map.TileHeight
                                         )
                                     );
                                 }
