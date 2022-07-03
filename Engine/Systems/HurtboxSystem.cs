@@ -16,12 +16,6 @@ namespace AdventureGame.Engine
             HurtboxComponent hurtBoxComponent = entity.GetComponent<HurtboxComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // move the hurtbox based on the entity position
-            Vector2 newPosition = transformComponent.position;
-            int w = hurtBoxComponent.rectangle.Width;
-            int h = hurtBoxComponent.rectangle.Height;
-            hurtBoxComponent.rectangle.X = (int)newPosition.X - (int)(w / 2) + hurtBoxComponent.xOffset;
-            hurtBoxComponent.rectangle.Y = (int)newPosition.Y - (int)(h / 2) + hurtBoxComponent.yOffset;
         }
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
@@ -33,7 +27,12 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // Testing: draw hitbox rectangle outline
-            Rectangle rectangle = hurtboxComponent.rectangle;
+            Rectangle rectangle = new Rectangle(
+                (int)transformComponent.position.X + hurtboxComponent.xOffset,
+                (int)transformComponent.position.Y + hurtboxComponent.yOffset,
+                32, 32
+            );
+
             Color color = hurtboxComponent.color;
             int lineWidth = 2;
             //Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);

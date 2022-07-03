@@ -16,6 +16,12 @@ namespace AdventureGame.Engine
             //HurtboxComponent hurtBoxComponent = entity.GetComponent<HurtboxComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            Rectangle entityRect = new Rectangle(
+                (int)transformComponent.position.X + hitboxComponent.xOffset,
+                (int)transformComponent.position.Y + hitboxComponent.yOffset,
+                hitboxComponent.width, hitboxComponent.height
+            );
+
             // check for hurtbox and hitbox intersects
             foreach (Entity e in scene.entityList)
             {
@@ -24,8 +30,14 @@ namespace AdventureGame.Engine
                     HurtboxComponent eHurtboxComponent = e.GetComponent<HurtboxComponent>();
                     TransformComponent eTransformComponent = e.GetComponent<TransformComponent>();
 
+                    Rectangle otherEntityRect = new Rectangle(
+                        (int)eTransformComponent.position.X + eHurtboxComponent.xOffset,
+                        (int)eTransformComponent.position.Y + eHurtboxComponent.yOffset,
+                        eHurtboxComponent.width, eHurtboxComponent.height
+                    );
+
                     if (eHurtboxComponent != null && eTransformComponent != null)
-                        if (hitboxComponent.rectangle.Intersects(eHurtboxComponent.rectangle))
+                        if (entityRect.Intersects(otherEntityRect))
                         {
                             hitboxComponent.color = Color.Purple;
                             eHurtboxComponent.color = Color.Gray;
