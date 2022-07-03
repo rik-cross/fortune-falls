@@ -10,6 +10,9 @@ namespace AdventureGame.Engine
         public int xOffset;
         public int yOffset;
 
+        public int width;
+        public int height;
+
         // CHANGE to dictionaries with the direction as the value (both?)
         public HashSet<Entity> collidedEntities;
         public HashSet<Entity> collidedEntitiesEnded;
@@ -24,7 +27,6 @@ namespace AdventureGame.Engine
         public Color color = Color.Yellow; // Testing: rectangle outline
 
         public ColliderComponent(int x, int y, int w, int h,
-            int xOffset = 0, int yOffset = 0,
             bool active = true, bool isSolid = true)
         {
             collidedEntities = new HashSet<Entity>();
@@ -35,9 +37,11 @@ namespace AdventureGame.Engine
 
             this.isSolid = isSolid;
 
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
-            this.boundingBox = new Rectangle(x + xOffset, y + yOffset, w, h);
+            this.xOffset = x;
+            this.yOffset = y;
+            this.width = w;
+            this.height = h;
+            //this.boundingBox = new Rectangle(x + xOffset, y + yOffset, w, h);
         }
 
     }

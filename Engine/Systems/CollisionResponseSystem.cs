@@ -95,8 +95,20 @@ namespace AdventureGame.Engine
                 }
 
                 // Get both the bounding boxes
-                Rectangle boundingBox = colliderComponent.boundingBox;
-                Rectangle otherBoundingBox = otherColliderComponent.boundingBox;
+                //Rectangle boundingBox = colliderComponent.boundingBox;
+                //Rectangle otherBoundingBox = otherColliderComponent.boundingBox;
+
+                Rectangle boundingBox = new Rectangle(
+                    (int)transformComponent.position.X + colliderComponent.xOffset,
+                    (int)transformComponent.position.Y + colliderComponent.yOffset,
+                    colliderComponent.width, colliderComponent.height
+                );
+
+                Rectangle otherBoundingBox = new Rectangle(
+                    (int)otherTransformComponent.position.X + otherColliderComponent.xOffset,
+                    (int)otherTransformComponent.position.Y + otherColliderComponent.yOffset,
+                    otherColliderComponent.width, otherColliderComponent.height
+                );
 
                 // Calculate the amount of overlap in each direction
                 int overlapTop = otherBoundingBox.Bottom - boundingBox.Top;

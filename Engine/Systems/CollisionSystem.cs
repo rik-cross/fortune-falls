@@ -29,13 +29,15 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // track entity here or elsewhere?
-            // CHECK why can't components be passed as parameters? Eg TrackEntity(ColliderComponent colliderComponent, TransformComponent transformComponent)
-            Vector2 newPosition = transformComponent.position;
-            int w = colliderComponent.boundingBox.Width;
-            int h = colliderComponent.boundingBox.Height;
-            colliderComponent.boundingBox.X = (int)newPosition.X - (int)(w / 2) + colliderComponent.xOffset;
-            colliderComponent.boundingBox.Y = (int)newPosition.Y - (int)(h / 2) + colliderComponent.yOffset;
+            // update bounding box
+            //colliderComponent.boundingBox.X = (int)transformComponent.position.X + colliderComponent.xOffset;
+            //colliderComponent.boundingBox.Y = (int)transformComponent.position.Y + colliderComponent.yOffset;
+
+            Rectangle entityRect = new Rectangle(
+                (int)transformComponent.position.X + colliderComponent.xOffset,
+                (int)transformComponent.position.Y + colliderComponent.yOffset,
+                colliderComponent.width, colliderComponent.height
+            );
 
             // check for collider intersects
             foreach (Entity otherE in scene.entityList)
@@ -47,8 +49,15 @@ namespace AdventureGame.Engine
 
                     if (otherColliderComponent != null && otherTransformComponent != null)
                     {
+
+                        Rectangle otherEntityRect = new Rectangle(
+                            (int)otherTransformComponent.position.X + otherColliderComponent.xOffset,
+                            (int)otherTransformComponent.position.Y + otherColliderComponent.yOffset,
+                            otherColliderComponent.width, otherColliderComponent.height
+                        );
+
                         // Check if the entities have collided
-                        if (colliderComponent.boundingBox.Intersects(otherColliderComponent.boundingBox))
+                        if (entityRect.Intersects(otherEntityRect))
                         {
                             // Check if the entities are already colliding
                             if (!(collisionStarted.Contains(entity)
@@ -147,8 +156,12 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // Testing: draw collider bounding box outline
-            Rectangle rectangle = colliderComponent.boundingBox;
+            Rectangle rectangle = new Rectangle(
+                (int)transformComponent.position.X + colliderComponent.xOffset,
+                (int)transformComponent.position.Y + colliderComponent.yOffset,
+                colliderComponent.width, colliderComponent.height
+            );
+            
             Color color = colliderComponent.color;
             int lineWidth = 1;
             Globals.spriteBatch.DrawRectangle(rectangle, color, lineWidth);

@@ -184,7 +184,7 @@ namespace AdventureGame
             foreach (Engine.Sprite sp in spritesComponent.spriteDict.Values)
                 sp.animationDelay = 8;
 
-            //playerEntity.AddComponent(new Engine.ColliderComponent(playerColliderX, playerColliderY, playerColliderWidth, playerColliderHeight, 0, playerColliderOffsetY));
+            playerEntity.AddComponent(new Engine.ColliderComponent(0, 0, 26, 36));
             //playerEntity.AddComponent(new Engine.HurtboxComponent(playerColliderX, playerColliderY, playerWidth, playerHeight));
             playerEntity.AddComponent(new Engine.InputComponent(
                 new List<InputItem>() { KeyboardInput.Up, KeyboardInput.W, ControllerInput.LeftThumbUp },

@@ -32,7 +32,7 @@ namespace AdventureGame
             })));
 
             enemyEntity.AddComponent(new Engine.PhysicsComponent(1));
-            //enemyEntity.AddComponent(new Engine.ColliderComponent(enemyColliderX, enemyColliderY, 65, 50));
+            enemyEntity.AddComponent(new Engine.ColliderComponent(0, 0, 65, 50));
             //enemyEntity.AddComponent(new Engine.HitboxComponent(enemyColliderX, enemyColliderY, 65, 50));
 
             return enemyEntity;
