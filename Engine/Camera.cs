@@ -74,11 +74,12 @@ namespace AdventureGame.Engine
         // ...
         public Matrix getTransformMatrix()
         {
-            int x = (int)(worldPosition.X + (size.X / 2) / zoom);
-            int y = (int)(worldPosition.Y + (size.Y / 2) / zoom);
+            Vector2 test = worldPosition;
+            test.X = worldPosition.X + (size.X / 2) / zoom;
+            test.Y = worldPosition.Y + (size.Y / 2) / zoom;
 
             return Matrix.CreateTranslation(
-                    new Vector3((int)x, (int)y, 0.0f)) *
+                    new Vector3(test.X, test.Y, 0.0f)) *
                     Matrix.CreateRotationZ(rotation) *
                     Matrix.CreateScale(zoom, zoom, 1.0f) *
                     Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f)
