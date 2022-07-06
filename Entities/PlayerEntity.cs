@@ -191,7 +191,7 @@ namespace AdventureGame
                 new List<InputItem>() { KeyboardInput.Down, KeyboardInput.S, ControllerInput.LeftThumbDown },
                 new List<InputItem>() { KeyboardInput.Left, KeyboardInput.A, ControllerInput.LeftThumbLeft },
                 new List<InputItem>() { KeyboardInput.Right, KeyboardInput.D, ControllerInput.LeftThumbRight },
-                new List<InputItem>(),
+                new List<InputItem>() { KeyboardInput.Enter },
                 new List<InputItem>(),
                 new List<InputItem>(),
                 new List<InputItem>(),

@@ -21,11 +21,23 @@ namespace AdventureGame.Engine
         public int delay;
         public int timer;
 
+        public int frame;
+
+        public bool finished;
+        public bool requiresPress;
+        public int outTimer;
+        public int outTimerLimit = 300;
+
         public Color textColour;
         public Color backgroundColour;
 
+        public string input;
+
         public TextComponent(string text)
         {
+
+            this.frame = 0;
+
             // type is either 'show', 'tick' or 'fade'
             this.type = "tick";
             this.textColour = Color.Black;
@@ -33,6 +45,15 @@ namespace AdventureGame.Engine
             this.textMaxLength = 170;
             this.textMargin = 2;
             this.outerMargin = 10;
+
+            this.finished = false;
+            this.outTimer = 0;
+
+            this.requiresPress = true;
+            if (this.requiresPress)
+                text += "  >>";
+
+            this.input = "button1Keys";
 
             this.text = SplitText(text, this.textMaxLength);
 

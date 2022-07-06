@@ -17,10 +17,6 @@ namespace AdventureGame
         {
             otherEntity.AddComponent(new Engine.TextComponent("Hello! Here is some text, hopefully split over a few lines!"));
         }
-        public static void lightOnCollisionExit(Entity thisEntity, Entity otherEntity, float distance)
-        {
-            otherEntity.RemoveComponent<Engine.TextComponent>();
-        }
 
         public static Engine.Entity Create(int x, int y)
         {
@@ -49,7 +45,7 @@ namespace AdventureGame
                 new Vector2(0, 0), new Vector2(32, 32),
                 lightOnCollisionEnter,
                 null,
-                lightOnCollisionExit
+                null
             ));
             return lightSourceEntity;
         }
