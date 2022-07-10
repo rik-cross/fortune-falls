@@ -1,68 +1,77 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using System;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
     public class Camera
     {
-
-        // ...
-
         public string name;
 
-        public Vector2 worldPosition;
         public Vector2 screenPosition;
         public Vector2 size;
-        
+
+        public Vector2 worldPosition;
+        public Vector2 targetWorldPosition;
+        public float worldPositionIncrement;
+
         public float zoom;
         public float targetZoom;
         public float zoomIncrement;
 
-        public int rotation;
         public Color backgroundColour;
-        public int borderThickness;
         public Color borderColour;
+        public int borderThickness;
+        
         public Entity trackedEntity;
 
-        // ...
-        public Camera(string cameraName = "", int worldX=0, int worldY=0, int x=0, int y=0, int width = 1280, int height = 720, float z =1.0f, int rot=0, int bt=0)
+        public Camera(
+            string name = "",
+            Vector2 screenPosition = default(Vector2),
+            Vector2 size = default(Vector2),
+            Vector2 worldPosition = default(Vector2),
+            float zoom = 1,
+            Color backgroundColour = default(Color),
+            Color borderColour = default(Color),
+            int borderThickness = 0,
+            Entity trackedEntity = null)
         {
 
-            name = cameraName;
+            this.name = name;
 
-            worldPosition = new Vector2(-worldX, -worldY);
-            screenPosition = new Vector2(x, y);
-            size = new Vector2(width, height);
+            this.screenPosition = screenPosition;
+            this.size = size;
 
-            zoom = z;
-            targetZoom = zoom;
-            zoomIncrement = 0.01f;
+            this.worldPosition = worldPosition * -1;
+            //this.targetWorldPosition = worldPosition;
+            //this.worldPositionIncrement = 0.0f;
 
-            rotation = rot;
-            backgroundColour = Color.SlateGray;
-            borderThickness = bt;
-            borderColour = Color.DarkGray;
+            this.zoom = zoom;
+            this.targetZoom = zoom;
+            this.zoomIncrement = 0.0f;
+
+            this.backgroundColour = backgroundColour;
+            this.borderColour = borderColour;
+            this.borderThickness = borderThickness;
+
+            this.trackedEntity = trackedEntity;
+            
         }
 
-        public void SetWorldPos(int x, int y)
+        public void SetWorldPosition(Vector2 position)
         {
-            worldPosition.X = -x;
-            worldPosition.Y = -y;
+            this.worldPosition = position * -1;
         }
 
-        public void ZoomTo(float newZoom, float newIncrement = 0.01f)
+        public void SetZoom(float newZoom, float newIncrement = 0.0f)
         {
-            targetZoom = newZoom;
-            zoomIncrement = newIncrement;
-        }
+            this.targetZoom = newZoom;
+            this.zoomIncrement = newIncrement;
 
-        public void SetZoom(float newZoom)
-        {
-            targetZoom = newZoom;
-            zoom = newZoom;
+            if (newIncrement == 0.0f)
+                this.zoom = newZoom;
         }
 
         // ...
@@ -80,7 +89,7 @@ namespace AdventureGame.Engine
 
             return Matrix.CreateTranslation(
                     new Vector3(test.X, test.Y, 0.0f)) *
-                    Matrix.CreateRotationZ(rotation) *
+                    Matrix.CreateRotationZ(0.0f) *
                     Matrix.CreateScale(zoom, zoom, 1.0f) *
                     Matrix.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f)
             );
@@ -92,21 +101,16 @@ namespace AdventureGame.Engine
                 TransformComponent transformComponent = trackedEntity.GetComponent<TransformComponent>();
                 var targetX = transformComponent.position.X + (transformComponent.size.X / 2);
                 var targetY = transformComponent.position.Y + (transformComponent.size.Y / 2);
-                SetWorldPos((int)targetX, (int)targetY);
+                SetWorldPosition(new Vector2((int)targetX, (int)targetY));
             }
 
             // update zoom
             if (zoom != targetZoom)
             {
-
                 if (zoom < targetZoom)
-                {
                     zoom = Math.Min(targetZoom, zoom+zoomIncrement);
-                } else
-                {
+                else
                     zoom = Math.Max(targetZoom, zoom - zoomIncrement);
-                }
-
             }
 
             // clamp camera to map

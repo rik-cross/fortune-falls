@@ -40,13 +40,26 @@ namespace AdventureGame
             //
 
             // player camera
-            Engine.Camera playerCamera = new Engine.Camera("main", 0, 0, 0, 0, Globals.WIDTH, Globals.HEIGHT, Globals.globalZoomLevel, 0, 2);
-            playerCamera.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+            Engine.Camera playerCamera = new Engine.Camera(
+                name: "main",
+                size: new Vector2(Globals.WIDTH, Globals.HEIGHT),
+                zoom: Globals.globalZoomLevel,
+                backgroundColour: Color.DarkSlateBlue,
+                trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
+            );
             AddCamera(playerCamera);
 
             // minimap camera
-            Engine.Camera minimapCamera = new Engine.Camera("minimap", 300, 300, Globals.WIDTH - 320, Globals.HEIGHT - 320, 300, 300, 0.5f, 0, 2);
-            minimapCamera.trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+            Engine.Camera minimapCamera = new Engine.Camera(
+                name: "minimap",
+                screenPosition: new Vector2(Globals.WIDTH - 320, Globals.HEIGHT - 320),
+                size: new Vector2(300, 300),
+                zoom: 0.5f,
+                borderColour: Color.Black,
+                borderThickness: 2,
+                trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
+
+            );
             AddCamera(minimapCamera);
 
         }

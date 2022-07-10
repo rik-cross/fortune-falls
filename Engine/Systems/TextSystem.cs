@@ -24,8 +24,6 @@ namespace AdventureGame.Engine
             TextComponent textComponent = entity.GetComponent<TextComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            S.WriteLine(textComponent.finished);
-
             int rowHeight = textComponent.totalHeight;
 
             // draw the background rectangle
