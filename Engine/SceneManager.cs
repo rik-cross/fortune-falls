@@ -23,6 +23,8 @@ namespace AdventureGame.Engine
 
         public void PushScene(Scene scene, SceneTransition? sceneTransition=null)
         {
+            if (sceneStack.Count > 0)
+                GetTopScene()._OnExit();
             if (sceneTransition != null)
             {
                 // option for multiple scenes??
@@ -32,6 +34,7 @@ namespace AdventureGame.Engine
             } else
             {
                 scene.LoadContent();
+                scene._OnEnter();
                 sceneStack.Push(scene);
             }
         }
@@ -44,7 +47,10 @@ namespace AdventureGame.Engine
             else
             {
                 Scene sceneToPop = sceneStack.Pop();
+                sceneToPop._OnExit();
                 sceneToPop.UnloadContent();
+                if (sceneStack.Count > 0)
+                    GetTopScene()._OnEnter();
             }
             
         }

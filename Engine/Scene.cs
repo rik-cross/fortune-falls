@@ -108,6 +108,25 @@ namespace AdventureGame.Engine
         public virtual void LoadContent() { }
         public virtual void UnloadContent() { }
 
+        public void _OnEnter()
+        {
+            OnEnter();
+        }
+        public virtual void OnEnter() { }
+        public void _OnExit()
+        {
+            foreach(Entity e in entityList)
+            {
+                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
+                if(triggerComponent != null)
+                {
+                    triggerComponent.collidedEntities.Clear();
+                }
+            }
+            OnExit();
+        }
+        public virtual void OnExit() { }
+
         public static int CompareY(Entity x, Entity y)
         {
             TransformComponent tx = x.GetComponent<TransformComponent>();
