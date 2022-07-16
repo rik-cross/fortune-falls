@@ -98,13 +98,19 @@ namespace AdventureGame
             // button 7 keys
             if (EngineGlobals.inputManager.IsDown(inputComponent.button7Keys))
             {
-                Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
+                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
+                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
+                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom - 0.02f
+                );
             }
 
             // button 8 keys
             if (EngineGlobals.inputManager.IsDown(inputComponent.button8Keys))
             {
-                Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
+                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
+                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
+                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom + 0.02f
+                );
             }
 
         }
@@ -184,7 +190,7 @@ namespace AdventureGame
             foreach (Engine.Sprite sp in spritesComponent.spriteDict.Values)
                 sp.animationDelay = 8;
 
-            playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(0, 0), new Vector2(26, 36)));
+            playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(5, 28), new Vector2(16, 8)));
             playerEntity.AddComponent(new Engine.HurtboxComponent(0, 0, 26, 36));
             playerEntity.AddComponent(new Engine.InputComponent(
                 new List<InputItem>() { KeyboardInput.Up, KeyboardInput.W, ControllerInput.LeftThumbUp },
@@ -201,14 +207,8 @@ namespace AdventureGame
                 new List<InputItem>() { KeyboardInput.E, ControllerInput.RightShoulder },
                 PlayerInputController
             ));
-            //playerEntity.AddComponent(new Engine.TriggerComponent(
-            //    new Vector2(-10, -10), new Vector2(72, 92),
-            //    null,
-            //    null,
-            //    null
-            //));
             playerEntity.AddComponent(new Engine.TriggerComponent(
-                new Vector2(5, 25), new Vector2(16, 16),
+                new Vector2(0, 21), new Vector2(26, 21),
                 null,
                 null,
                 null

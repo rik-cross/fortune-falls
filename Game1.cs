@@ -20,6 +20,7 @@ namespace AdventureGame
                 EngineGlobals.sceneManager.PopScene();
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(525, 900);
                 EngineGlobals.sceneManager.PushScene(new BeachScene());
+                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetWorldPosition(new Vector2(525, 900), instant: true);
             }
         }
 
@@ -30,6 +31,7 @@ namespace AdventureGame
                 EngineGlobals.sceneManager.PopScene();
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(260, 60);
                 EngineGlobals.sceneManager.PushScene(new GameScene());
+                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetWorldPosition(new Vector2(260, 60), instant: true);
             }
         }
 
@@ -95,7 +97,7 @@ namespace AdventureGame
             //
 
             // player entity
-            Engine.Entity playerEntity = PlayerEntity.Create(300, 316); // opposites (180, 350)
+            Engine.Entity playerEntity = PlayerEntity.Create(100, 100); // opposites (180, 350)
             // enemy entity
             Engine.Entity enemyEntity = EnemyEntity.Create(300, 480); // opposites (300, 483)
             // light source entity

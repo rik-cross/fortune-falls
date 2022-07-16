@@ -15,11 +15,12 @@ namespace AdventureGame.Engine
 
         public Vector2 worldPosition;
         public Vector2 targetWorldPosition;
-        public float worldPositionIncrement;
+
+        public float followPercentage;
 
         public float zoom;
         public float targetZoom;
-        public float zoomIncrement;
+        public float zoomIncrement = 0f;
 
         public Color backgroundColour;
         public Color borderColour;
@@ -32,6 +33,7 @@ namespace AdventureGame.Engine
             Vector2 screenPosition = default(Vector2),
             Vector2 size = default(Vector2),
             Vector2 worldPosition = default(Vector2),
+            float followPercentage = 0.05f,
             float zoom = 1,
             Color backgroundColour = default(Color),
             Color borderColour = default(Color),
@@ -45,8 +47,9 @@ namespace AdventureGame.Engine
             this.size = size;
 
             this.worldPosition = worldPosition * -1;
-            //this.targetWorldPosition = worldPosition;
-            //this.worldPositionIncrement = 0.0f;
+            this.targetWorldPosition = worldPosition;
+
+            this.followPercentage = followPercentage;
 
             this.zoom = zoom;
             this.targetZoom = zoom;
@@ -60,27 +63,27 @@ namespace AdventureGame.Engine
             
         }
 
-        public void SetWorldPosition(Vector2 position)
+        public void SetWorldPosition(Vector2 position, bool instant = false)
         {
-            this.worldPosition = position * -1;
+            targetWorldPosition = position * -1;
+            if (instant)
+                worldPosition = targetWorldPosition;
         }
 
         public void SetZoom(float newZoom, float newIncrement = 0.0f)
         {
             this.targetZoom = newZoom;
+            Globals.globalZoomLevel = targetZoom;
             this.zoomIncrement = newIncrement;
-
             if (newIncrement == 0.0f)
                 this.zoom = newZoom;
         }
 
-        // ...
         public Viewport getViewport()
         {
             return new Viewport((int)screenPosition.X, (int)screenPosition.Y, (int)size.X, (int)size.Y);
         }
 
-        // ...
         public Matrix getTransformMatrix()
         {
             Vector2 test = worldPosition;
@@ -96,24 +99,31 @@ namespace AdventureGame.Engine
         }
         public void Update(Scene scene)
         {
+
+            //
+            // update camera world position
+            //
+
+            // follow tracked entity, if one is set
             if (trackedEntity != null)
             {
                 TransformComponent transformComponent = trackedEntity.GetComponent<TransformComponent>();
-                var targetX = transformComponent.position.X + (transformComponent.size.X / 2);
-                var targetY = transformComponent.position.Y + (transformComponent.size.Y / 2);
-                SetWorldPosition(new Vector2((int)targetX, (int)targetY));
+                if (transformComponent != null)
+                {
+                    SetWorldPosition(new Vector2(
+                        (int)transformComponent.position.X + (transformComponent.size.X / 2),
+                        (int)transformComponent.position.Y + (transformComponent.size.Y / 2))
+                    );
+                }
             }
 
-            // update zoom
-            if (zoom != targetZoom)
-            {
-                if (zoom < targetZoom)
-                    zoom = Math.Min(targetZoom, zoom+zoomIncrement);
-                else
-                    zoom = Math.Max(targetZoom, zoom - zoomIncrement);
-            }
+            // use target position to lazily update camera position
+            worldPosition.X = (worldPosition.X * (1 - followPercentage)) + (targetWorldPosition.X * followPercentage);
+            worldPosition.Y = (worldPosition.Y * (1 - followPercentage)) + (targetWorldPosition.Y * followPercentage);
 
+            //
             // clamp camera to map
+            //
 
             // width
 
@@ -153,6 +163,18 @@ namespace AdventureGame.Engine
                 {
                     worldPosition.Y = ((scene.map.Height * scene.map.TileHeight) - (size.Y / zoom / 2)) * -1;
                 }
+            }
+
+            //
+            // update camera zoom
+            //
+
+            if (zoom != targetZoom)
+            {
+                if (zoom < targetZoom)
+                    zoom = Math.Min(targetZoom, zoom + zoomIncrement);
+                else
+                    zoom = Math.Max(targetZoom, zoom - zoomIncrement);
             }
 
         }

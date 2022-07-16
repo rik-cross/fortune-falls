@@ -54,11 +54,11 @@ namespace AdventureGame
                 name: "minimap",
                 screenPosition: new Vector2(Globals.WIDTH - 320, Globals.HEIGHT - 320),
                 size: new Vector2(300, 300),
+                followPercentage: 1.0f,
                 zoom: 0.5f,
                 borderColour: Color.Black,
                 borderThickness: 2,
                 trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
-
             );
             AddCamera(minimapCamera);
 

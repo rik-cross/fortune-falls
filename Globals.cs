@@ -33,18 +33,6 @@ namespace AdventureGame
 
         public static float globalZoomLevel = 3.0f;
 
-        public static void SetGlobalZoomLevel(float newZoomLevel)
-        {
-
-            newZoomLevel = Math.Clamp(newZoomLevel, 1.0f, 7.0f);
-
-            globalZoomLevel = newZoomLevel;
-            Engine.Scene currentScene = Engine.EngineGlobals.sceneManager.GetTopScene();
-            Engine.Camera playerCamera = currentScene.GetCameraByName("main");
-            if (playerCamera != null)
-                playerCamera.SetZoom(newZoomLevel);
-        }
-
     }
 
 }
