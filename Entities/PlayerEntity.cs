@@ -32,7 +32,7 @@ namespace AdventureGame
             entity.state = "idle";
 
             // up keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.upKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
             {
                 intentionComponent.up = true;
                 entity.state = "walkNorth";
@@ -43,7 +43,7 @@ namespace AdventureGame
             }
 
             // down keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.downKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down))
             {
                 intentionComponent.down = true;
                 entity.state = "walkSouth";
@@ -54,7 +54,7 @@ namespace AdventureGame
             }
 
             // left keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.leftKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left))
             {
                 intentionComponent.left = true;
                 entity.state = "walkWest";
@@ -65,7 +65,7 @@ namespace AdventureGame
             }
 
             // right keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.rightKeys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right))
             {
                 intentionComponent.right = true;
                 entity.state = "walkEast";
@@ -75,28 +75,8 @@ namespace AdventureGame
                 intentionComponent.right = false;
             }
 
-            // button 1 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.button1Keys))
-            {
-                intentionComponent.button1 = true;
-            }
-            else
-            {
-                intentionComponent.button1 = false;
-            }
-
-            // button 2 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.button2Keys))
-            {
-                intentionComponent.button2 = true;
-            }
-            else
-            {
-                intentionComponent.button2 = false;
-            }
-
             // button 7 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.button7Keys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button7))
             {
                 //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
                 EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
@@ -105,7 +85,7 @@ namespace AdventureGame
             }
 
             // button 8 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.button8Keys))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button8))
             {
                 //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
                 EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
@@ -193,18 +173,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(5, 28), new Vector2(16, 8)));
             playerEntity.AddComponent(new Engine.HurtboxComponent(0, 0, 26, 36));
             playerEntity.AddComponent(new Engine.InputComponent(
-                new List<InputItem>() { KeyboardInput.Up, KeyboardInput.W, ControllerInput.LeftThumbUp },
-                new List<InputItem>() { KeyboardInput.Down, KeyboardInput.S, ControllerInput.LeftThumbDown },
-                new List<InputItem>() { KeyboardInput.Left, KeyboardInput.A, ControllerInput.LeftThumbLeft },
-                new List<InputItem>() { KeyboardInput.Right, KeyboardInput.D, ControllerInput.LeftThumbRight },
-                new List<InputItem>() { KeyboardInput.Enter },
-                new List<InputItem>(),
-                new List<InputItem>(),
-                new List<InputItem>(),
-                new List<InputItem>(),
-                new List<InputItem>(),
-                new List<InputItem>() { KeyboardInput.Q, ControllerInput.LeftShoulder },
-                new List<InputItem>() { KeyboardInput.E, ControllerInput.RightShoulder },
+                Engine.Inputs.keyboard,
                 PlayerInputController
             ));
             playerEntity.AddComponent(new Engine.TriggerComponent(
