@@ -221,13 +221,13 @@ namespace AdventureGame.Engine
 
                 // draw camera background
                 Globals.graphicsDevice.Viewport = c.getViewport();
-                Globals.spriteBatch.Begin();
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 Globals.spriteBatch.FillRectangle(0, 0, c.size.X, c.size.Y, c.backgroundColour);
 
                 Globals.spriteBatch.End();
 
                 // draw the map
-                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
 
                 foreach (TiledMapLayer layer in map.Layers)
                 {
@@ -251,7 +251,7 @@ namespace AdventureGame.Engine
 
 
                 // draw systems below map
-                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
                 foreach (System s in EngineGlobals.systems)
                 {
@@ -265,7 +265,7 @@ namespace AdventureGame.Engine
                 }
                 Globals.spriteBatch.End();
 
-                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 foreach (TiledMapLayer layer in map.Layers)
                 {
                     if (layer.Properties.ContainsValue("above"))
@@ -276,7 +276,7 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.End();
 
                 // draw systems above map
-                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
                 foreach (System s in EngineGlobals.systems)
                 {
@@ -294,7 +294,7 @@ namespace AdventureGame.Engine
                 Globals.graphicsDevice.SetRenderTarget(Globals.lightRenderTarget);
                 Globals.graphicsDevice.Viewport = c.getViewport();
                 Globals.graphicsDevice.Clear(Color.Transparent);
-                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 Globals.spriteBatch.FillRectangle(
                     0 - c.worldPosition.X - c.size.X/2,
                     0 - c.worldPosition.Y - c.size.Y/2,
@@ -306,7 +306,7 @@ namespace AdventureGame.Engine
                 // scene lighting
                 // (currently not a system, as lights need to be rendered at a specific time)
                 // UPDATE LightSystem created to register LightComponent
-                Globals.spriteBatch.Begin(transformMatrix: c.getTransformMatrix(), blendState: blend);
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix(), blendState: blend);
                 var alphaMask = Globals.content.Load<Texture2D>("light");
 
                 // Could use a list of relevant entities from LightSystem instead
@@ -331,7 +331,7 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.End();
 
                 Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-                Globals.spriteBatch.Begin();
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 Globals.spriteBatch.Draw(Globals.lightRenderTarget, Globals.lightRenderTarget.Bounds, Color.White);
                 Globals.spriteBatch.End();
 
@@ -341,7 +341,7 @@ namespace AdventureGame.Engine
                 // draw the camera border
                 if (c.borderThickness > 0)
                 {
-                    Globals.spriteBatch.Begin();
+                    Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     Globals.spriteBatch.DrawRectangle(0, 0, c.size.X, c.size.Y, c.borderColour, c.borderThickness);
                     Globals.spriteBatch.End();
                 }
@@ -357,14 +357,14 @@ namespace AdventureGame.Engine
 
             // draw the scene
             Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.WIDTH, Globals.HEIGHT);
-            Globals.spriteBatch.Begin();
+            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             Draw(gameTime);
             Globals.spriteBatch.End();
 
             // switch back to the main backbuffer
             // and draw the scene
             Globals.graphicsDevice.SetRenderTarget(null);
-            Globals.spriteBatch.Begin();
+            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             Globals.spriteBatch.Draw(Globals.sceneRenderTarget, Globals.sceneRenderTarget.Bounds, Color.White);
             Globals.spriteBatch.End();
 
