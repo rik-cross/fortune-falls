@@ -25,9 +25,10 @@ namespace AdventureGame.Engine
         }
         private SpriteFont font = Globals.font;
 
-        public Text(String text, Vector2 position, anchor a = anchor.topleft) : base(position, a)
+        public Text(String text, Vector2 position, SpriteFont font, anchor a = anchor.topleft) : base(position, a)
         {
             this.text = text;
+            this.font = font;
             this.size.X = font.MeasureString(this.text).X;
             this.size.Y = font.MeasureString(this.text).Y;
             CalculateAnchors();

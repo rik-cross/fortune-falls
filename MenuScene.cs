@@ -18,7 +18,7 @@ namespace AdventureGame
 
         public override void Init()
         {
-            this.title = new Text(text: "Game Title!", position: new Vector2(Globals.WIDTH / 2, 200), a: anchor.middlecenter);
+            this.title = new Text(text: "Game Title!", position: new Vector2(Globals.WIDTH / 2, 200), font: Globals.font, a: anchor.middlecenter);
         }
 
         public override void LoadContent()
