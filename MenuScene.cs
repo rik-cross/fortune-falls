@@ -14,9 +14,11 @@ namespace AdventureGame
     public class MenuScene : Engine.Scene
     {
 
+        private Engine.Text title;
+
         public override void Init()
         {
-            
+            this.title = new Text(text: "Game Title!", position: new Vector2(Globals.WIDTH / 2, 200), a: anchor.middlecenter);
         }
 
         public override void LoadContent()
@@ -35,14 +37,14 @@ namespace AdventureGame
             {
                 EngineGlobals.sceneManager.PushScene(new GameScene());
             }
+
         }
 
         public override void Draw(GameTime gameTime)
         {
-            Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, 0, Globals.WIDTH, Globals.HEIGHT), Color.Black
-            );
-            Globals.spriteBatch.DrawString(Globals.font, "Main menu", new Vector2(50, 50), Color.White);
+
+            title.Draw();
+
         }
 
     }

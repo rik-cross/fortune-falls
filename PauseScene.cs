@@ -14,8 +14,6 @@ namespace AdventureGame
     public class PauseScene : Engine.Scene
     {
 
-        public static Random rnd = new Random();
-
         public override void Init()
         {
             drawSceneBelow = true;    
@@ -32,6 +30,7 @@ namespace AdventureGame
             {
                 EngineGlobals.sceneManager.PopScene();
             }
+
         }
 
         public override void Draw(GameTime gameTime)
