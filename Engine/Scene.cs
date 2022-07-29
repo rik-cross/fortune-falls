@@ -204,9 +204,16 @@ namespace AdventureGame.Engine
         public void _Draw(GameTime gameTime)
         {
 
-            //if (drawSceneBelow)
-            //    EngineGlobals.sceneManager
-
+            // TODO -- implement for multiple scenes
+            // currently this only works once, for the top scene in the stack
+            // implement sceneManager.GetSceneBelow(scene);
+            if (drawSceneBelow)
+            {
+                Scene scene = EngineGlobals.sceneManager.sceneStack.Pop();
+                EngineGlobals.sceneManager.sceneStack.Peek()._Draw(gameTime);
+                EngineGlobals.sceneManager.sceneStack.Push(scene);
+            }
+            
             var blend = new BlendState
             {
                 AlphaBlendFunction = BlendFunction.ReverseSubtract,

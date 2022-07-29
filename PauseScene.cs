@@ -14,9 +14,11 @@ namespace AdventureGame
     public class PauseScene : Engine.Scene
     {
 
+        public static Random rnd = new Random();
+
         public override void Init()
         {
-            
+            drawSceneBelow = true;    
         }
 
         public override void LoadContent()
@@ -36,7 +38,7 @@ namespace AdventureGame
         {
 
             Globals.spriteBatch.FillRectangle(
-                new Rectangle((Globals.WIDTH/2)-200, (Globals.HEIGHT/2)-40, 400, 80), Color.Black
+                new Rectangle(0, 0, Globals.WIDTH, Globals.HEIGHT), Color.Black * 0.5f
             );
 
             Globals.spriteBatch.DrawString(Globals.font, "Paused", new Vector2((Globals.WIDTH/2)-70, Globals.HEIGHT/2-20), Color.White);

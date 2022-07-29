@@ -67,9 +67,12 @@ namespace AdventureGame.Engine
 
         public void Draw(GameTime gameTime) {
 
+            if (sceneStack.Count == 0)
+                return;
+
+            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.graphicsDevice.Clear(Color.Black);
-            if (sceneStack.Count > 0)
-                sceneStack.Peek()._Draw(gameTime);
+            GetTopScene()._Draw(gameTime);
 
         }
 
