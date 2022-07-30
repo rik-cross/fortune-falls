@@ -197,6 +197,17 @@ namespace AdventureGame.Engine
                 
             // update the scene
             Update(gameTime);
+
+            // TODO -- implement for multiple scenes
+            // currently this only works once, for the top scene in the stack
+            // implement sceneManager.GetSceneBelow(scene);
+            if (updateSceneBelow)
+            {
+                Scene scene = EngineGlobals.sceneManager.sceneStack.Pop();
+                EngineGlobals.sceneManager.sceneStack.Peek()._Update(gameTime);
+                EngineGlobals.sceneManager.sceneStack.Push(scene);
+            }
+
         }
 
         public virtual void Update(GameTime gameTime) { }
