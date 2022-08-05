@@ -1,42 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
-
-using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
     public class Text: SceneRenderable
     {
 
-        private String text;
-        public String Textt
+        private String caption;
+        public String Caption
         {
-            get { return text; }
+            get { return caption; }
             set {
-                this.text = value;
+                this.caption = value;
                 AdjustTextSize();
             }
         }
-        private SpriteFont font = Globals.font;
+        private SpriteFont font;
 
-        public Text(String text, Vector2 position, SpriteFont font, anchor a = anchor.topleft) : base(position, a)
+        public Text(String caption, Vector2 position = default, SpriteFont font = null, anchor a = anchor.topleft, float alpha = 1.0f) : base(position, a, alpha)
         {
-            this.text = text;
-            this.font = font;
-            this.size.X = font.MeasureString(this.text).X;
-            this.size.Y = font.MeasureString(this.text).Y;
+            this.caption = caption;
+
+            if (font == null)
+                this.font = Globals.fontSmall;
+            else
+                this.font = font;
+            
+            this.size.X = this.font.MeasureString(this.caption).X;
+            this.size.Y = this.font.MeasureString(this.caption).Y;
             CalculateAnchors();
         }
 
         public override void Draw()
         {
-            Globals.spriteBatch.DrawString(font, text, position, new Color(255, 255, 255));
+            Globals.spriteBatch.DrawString(font, caption, position, new Color(255, 255, 255) * this.alpha);
         }
 
         public void AdjustTextSize()
@@ -44,8 +43,8 @@ namespace AdventureGame.Engine
             
             double oldX = this.size.X;
             double oldY = this.size.Y;
-            this.size.X = font.MeasureString(this.text).X;
-            this.size.Y = font.MeasureString(this.text).Y;
+            this.size.X = font.MeasureString(this.caption).X;
+            this.size.Y = font.MeasureString(this.caption).Y;
             double diffX = this.size.X - oldX;
             double diffY = this.size.Y - oldY;
 

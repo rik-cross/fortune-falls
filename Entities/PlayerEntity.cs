@@ -173,7 +173,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(5, 28), new Vector2(16, 8)));
             playerEntity.AddComponent(new Engine.HurtboxComponent(0, 0, 26, 36));
             playerEntity.AddComponent(new Engine.InputComponent(
-                Engine.Inputs.keyboard,
+                null, //Engine.Inputs.keyboard,
                 PlayerInputController
             ));
             playerEntity.AddComponent(new Engine.TriggerComponent(

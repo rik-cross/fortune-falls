@@ -28,6 +28,7 @@ namespace AdventureGame.Engine
         protected Vector2 position;
         protected Vector2 size;
         protected anchor a;
+        public float alpha;
         public float Left
         {
             get { return position.X; }
@@ -113,12 +114,11 @@ namespace AdventureGame.Engine
             }
         }
 
-        public SceneRenderable(Vector2 position, anchor a = anchor.topleft)
+        public SceneRenderable(Vector2 position, anchor a = anchor.topleft, float alpha = 1.0f)
         {
-            
             this.position = position;
             this.a = a;
-
+            this.alpha = alpha;
         }
 
         public void CalculateAnchors()
@@ -135,7 +135,6 @@ namespace AdventureGame.Engine
             // adjust for bottom
             if (a == anchor.bottomleft || a == anchor.bottomcenter || a == anchor.bottomright)
                 position.Y -= size.Y;
-
         }
 
         public virtual void Draw() { }
