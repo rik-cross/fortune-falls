@@ -10,9 +10,10 @@ namespace AdventureGame.Engine
     class Image : SceneRenderable
     {
 
-        public Texture2D texture;
+        private Texture2D texture;
+        public Color tint;
 
-        public Image(Texture2D texture, Vector2 size = default, Vector2 position = default, anchor a = anchor.topleft, float alpha = 1.0f) : base(position, a, alpha)
+        public Image(Texture2D texture, Vector2 size = default, Color tint = default, Vector2 position = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
         {
             this.texture = texture;
 
@@ -24,15 +25,23 @@ namespace AdventureGame.Engine
                 this.size.Y = texture.Height;
             }
 
+            if (tint == default(Color))
+                this.tint = Color.White;
+            else
+                this.tint = tint;
+
             CalculateAnchors();
         }
 
         public override void Draw()
         {
+            if (!visible)
+                return;
+
             Globals.spriteBatch.Draw(
                 this.texture,
-                new Rectangle((int)this.position.X, (int)this.position.Y, (int)this.size.X, (int)this.size.Y),
-                Color.White * this.alpha
+                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
+                tint * alpha
             );
         }
     }

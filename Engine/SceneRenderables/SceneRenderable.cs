@@ -9,7 +9,7 @@ using S = System.Diagnostics.Debug;
 namespace AdventureGame.Engine
 {
 
-    public enum anchor
+    public enum Anchor
     {
         topleft,
         topcenter,
@@ -27,20 +27,21 @@ namespace AdventureGame.Engine
 
         protected Vector2 position;
         protected Vector2 size;
-        protected anchor a;
+        protected Anchor anchor;
         public float alpha;
+        public bool visible;
         public float Left
         {
             get { return position.X; }
             set
             {
                 position.X = value;
-                if (a == anchor.topleft || a == anchor.topcenter || a == anchor.topright)
-                    a = anchor.topleft;
-                if (a == anchor.middleleft || a == anchor.middlecenter || a == anchor.middleright)
-                    a = anchor.middleleft;
-                if (a == anchor.bottomleft || a == anchor.bottomcenter || a == anchor.bottomright)
-                    a = anchor.bottomleft;
+                if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
+                    anchor = Anchor.topleft;
+                if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
+                    anchor = Anchor.middleleft;
+                if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
+                    anchor = Anchor.bottomleft;
             }
         }
         public float Center
@@ -49,12 +50,12 @@ namespace AdventureGame.Engine
             set
             {
                 position.X = value - (size.X / 2);
-                if (a == anchor.topleft || a == anchor.topcenter || a == anchor.topright)
-                    a = anchor.topcenter;
-                if (a == anchor.middleleft || a == anchor.middlecenter || a == anchor.middleright)
-                    a = anchor.middlecenter;
-                if (a == anchor.bottomleft || a == anchor.bottomcenter || a == anchor.bottomright)
-                    a = anchor.bottomcenter;
+                if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
+                    anchor = Anchor.topcenter;
+                if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
+                    anchor = Anchor.middlecenter;
+                if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
+                    anchor = Anchor.bottomcenter;
             }
         }
         public float Right
@@ -63,12 +64,12 @@ namespace AdventureGame.Engine
             set
             {
                 position.X = value - (size.X);
-                if (a == anchor.topleft || a == anchor.topcenter || a == anchor.topright)
-                    a = anchor.topright;
-                if (a == anchor.middleleft || a == anchor.middlecenter || a == anchor.middleright)
-                    a = anchor.middleright;
-                if (a == anchor.bottomleft || a == anchor.bottomcenter || a == anchor.bottomright)
-                    a = anchor.bottomright;
+                if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
+                    anchor = Anchor.topright;
+                if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
+                    anchor = Anchor.middleright;
+                if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
+                    anchor = Anchor.bottomright;
             }
         }
         public float Top
@@ -77,12 +78,12 @@ namespace AdventureGame.Engine
             set
             {
                 position.Y = value;
-                if (a == anchor.topleft || a == anchor.middleleft || a == anchor.bottomleft)
-                    a = anchor.topleft;
-                if (a == anchor.topcenter || a == anchor.middlecenter || a == anchor.bottomcenter)
-                    a = anchor.topcenter;
-                if (a == anchor.topright || a == anchor.middleright || a == anchor.bottomright)
-                    a = anchor.topright;
+                if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
+                    anchor = Anchor.topleft;
+                if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
+                    anchor = Anchor.topcenter;
+                if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
+                    anchor = Anchor.topright;
             }
         }
         public float Middle
@@ -91,12 +92,12 @@ namespace AdventureGame.Engine
             set
             {
                 position.Y = value - (size.Y / 2);
-                if (a == anchor.topleft || a == anchor.middleleft || a == anchor.bottomleft)
-                    a = anchor.middleleft;
-                if (a == anchor.topcenter || a == anchor.middlecenter || a == anchor.bottomcenter)
-                    a = anchor.middlecenter;
-                if (a == anchor.topright || a == anchor.middleright || a == anchor.bottomright)
-                    a = anchor.middleright;
+                if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
+                    anchor = Anchor.middleleft;
+                if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
+                    anchor = Anchor.middlecenter;
+                if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
+                    anchor = Anchor.middleright;
             }
         }
         public float Bottom
@@ -105,38 +106,40 @@ namespace AdventureGame.Engine
             set
             {
                 position.Y = value - (size.Y);
-                if (a == anchor.topleft || a == anchor.middleleft || a == anchor.bottomleft)
-                    a = anchor.bottomleft;
-                if (a == anchor.topcenter || a == anchor.middlecenter || a == anchor.bottomcenter)
-                    a = anchor.bottomcenter;
-                if (a == anchor.topright || a == anchor.middleright || a == anchor.bottomright)
-                    a = anchor.bottomright;
+                if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
+                    anchor = Anchor.bottomleft;
+                if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
+                    anchor = Anchor.bottomcenter;
+                if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
+                    anchor = Anchor.bottomright;
             }
         }
 
-        public SceneRenderable(Vector2 position, anchor a = anchor.topleft, float alpha = 1.0f)
+        public SceneRenderable(Vector2 position, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true)
         {
             this.position = position;
-            this.a = a;
+            this.anchor = anchor;
             this.alpha = alpha;
+            this.visible = visible;
         }
 
-        public void CalculateAnchors()
+        protected void CalculateAnchors()
         {
             // adjust for center
-            if (a == anchor.topcenter || a == anchor.middlecenter || a == anchor.bottomcenter)
+            if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
                 position.X -= size.X / 2;
             // adjust for right
-            if (a == anchor.topright || a == anchor.middleright || a == anchor.bottomright)
+            if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
                 position.X -= size.X;
             // adjust for middle
-            if (a == anchor.middleleft || a == anchor.middlecenter || a == anchor.middleright)
+            if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
                 position.Y -= size.Y / 2;
             // adjust for bottom
-            if (a == anchor.bottomleft || a == anchor.bottomcenter || a == anchor.bottomright)
+            if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
                 position.Y -= size.Y;
         }
 
+        public virtual void Update() { }
         public virtual void Draw() { }
 
     }

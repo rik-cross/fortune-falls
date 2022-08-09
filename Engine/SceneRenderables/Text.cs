@@ -14,12 +14,13 @@ namespace AdventureGame.Engine
             get { return caption; }
             set {
                 this.caption = value;
-                AdjustTextSize();
+                AdjustSize();
             }
         }
         private SpriteFont font;
+        public Color colour;
 
-        public Text(String caption, Vector2 position = default, SpriteFont font = null, anchor a = anchor.topleft, float alpha = 1.0f) : base(position, a, alpha)
+        public Text(String caption, Vector2 position = default, SpriteFont font = null, Color colour = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
         {
             this.caption = caption;
 
@@ -27,6 +28,11 @@ namespace AdventureGame.Engine
                 this.font = Globals.fontSmall;
             else
                 this.font = font;
+
+            if (colour == default(Color))
+                this.colour = Color.White;
+            else
+                this.colour = colour;
             
             this.size.X = this.font.MeasureString(this.caption).X;
             this.size.Y = this.font.MeasureString(this.caption).Y;
@@ -35,30 +41,33 @@ namespace AdventureGame.Engine
 
         public override void Draw()
         {
-            Globals.spriteBatch.DrawString(font, caption, position, new Color(255, 255, 255) * this.alpha);
+            if (!visible)
+                return;
+
+            Globals.spriteBatch.DrawString(font, caption, position, colour * alpha);
         }
 
-        public void AdjustTextSize()
+        public void AdjustSize()
         {
             
-            double oldX = this.size.X;
-            double oldY = this.size.Y;
+            double oldX = size.X;
+            double oldY = size.Y;
             this.size.X = font.MeasureString(this.caption).X;
             this.size.Y = font.MeasureString(this.caption).Y;
-            double diffX = this.size.X - oldX;
-            double diffY = this.size.Y - oldY;
+            double diffX = size.X - oldX;
+            double diffY = size.Y - oldY;
 
             // adjust for center
-            if (a == anchor.topcenter || a == anchor.middlecenter || a == anchor.bottomcenter)
+            if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
                 position.X -= (float)(diffX / 2);
             // adjust for right
-            if (a == anchor.topright || a == anchor.middleright || a == anchor.bottomright)
+            if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
                 position.X -= (float)(diffX);
             // adjust for middle
-            if (a == anchor.middleleft || a == anchor.middlecenter || a == anchor.middleright)
+            if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
                 position.Y -= (float)(diffY / 2);
             // adjust for bottom
-            if (a == anchor.bottomleft || a == anchor.bottomcenter || a == anchor.bottomright)
+            if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
                 position.Y -= (float)(diffY);
 
         }

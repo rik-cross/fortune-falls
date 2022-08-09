@@ -17,22 +17,47 @@ namespace AdventureGame
         private Engine.Text title;
         private Engine.Image controllerImage;
         private Engine.Image keyboardImage;
+        private Engine.Animation testAnimation;
 
         public override void Init()
         {
-            this.title = new Engine.Text(caption: "Game Title!", position: new Vector2(Globals.WIDTH / 2, 200), font: Globals.font, a: anchor.middlecenter);
+            // title text
+            this.title = new Engine.Text(
+                caption: "Game Title!",
+                position: new Vector2(Globals.WIDTH / 2, 200),
+                font: Globals.font,
+                colour: Color.Yellow,
+                anchor: Anchor.middlecenter
+            );
 
             // control images
             this.controllerImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("X360"),
                 position: new Vector2((Globals.WIDTH / 2) + 100, Globals.HEIGHT - 150),
-                a: anchor.middlecenter, alpha: 0.2f
+                anchor: Anchor.middlecenter,
+                alpha: 0.2f
             );
             this.keyboardImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("Keyboard"),
                 position: new Vector2((Globals.WIDTH / 2) - 100, Globals.HEIGHT - 150),
-                a: anchor.middlecenter, alpha: 0.2f
+                anchor: Anchor.middlecenter,
+                alpha: 0.2f
             );
+
+            // test animation
+            this.testAnimation = new Engine.Animation(
+                new List<Texture2D> {
+                    Globals.playerSpriteSheet.GetSubTexture(6,4),
+                    Globals.playerSpriteSheet.GetSubTexture(7,4),
+                    Globals.playerSpriteSheet.GetSubTexture(8,4),
+                    Globals.playerSpriteSheet.GetSubTexture(7,4)
+                },
+                position: new Vector2(Globals.WIDTH / 2, Globals.HEIGHT - 350),
+                size: new Vector2(26*4,36*4),
+                anchor: Anchor.middlecenter,
+                animationDelay: 12
+            );
+
         }
 
         public override void LoadContent()
@@ -76,6 +101,7 @@ namespace AdventureGame
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input = Engine.Inputs.controller;
             }
 
+            testAnimation.Update();
 
         }
 
@@ -84,6 +110,7 @@ namespace AdventureGame
             title.Draw();
             controllerImage.Draw();
             keyboardImage.Draw();
+            testAnimation.Draw();
         }
 
     }
