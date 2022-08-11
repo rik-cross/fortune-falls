@@ -17,6 +17,8 @@ namespace AdventureGame
         private Engine.Text title;
         private Engine.Image controllerImage;
         private Engine.Image keyboardImage;
+        private Engine.Animation controllerButton;
+        private Engine.Animation keyboardButton;
         private Engine.Animation testAnimation;
 
         public override void Init()
@@ -44,6 +46,36 @@ namespace AdventureGame
                 alpha: 0.2f
             );
 
+            // controller buttons
+            Engine.SpriteSheet controllerSpritesheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("xbox_buttons"), new Vector2(16,16));
+            this.controllerButton = new Engine.Animation(
+                new List<Texture2D> {
+                    controllerSpritesheet.GetSubTexture(0,1),
+                    controllerSpritesheet.GetSubTexture(1,1),
+                    controllerSpritesheet.GetSubTexture(2,1)
+                },
+                position: new Vector2((Globals.WIDTH / 2) + 100, controllerImage.Bottom),
+                anchor: Anchor.middlecenter,
+                size: new Vector2(16*3,16*3),
+                animationDelay: 2,
+                loop: false,
+                play: false
+            );
+            Engine.SpriteSheet enterKeySpritesheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("enter_key"), new Vector2(16, 12));
+            this.keyboardButton = new Engine.Animation(
+                new List<Texture2D> {
+                    enterKeySpritesheet.GetSubTexture(0,0),
+                    enterKeySpritesheet.GetSubTexture(1,0),
+                    enterKeySpritesheet.GetSubTexture(1,0)
+                },
+                position: new Vector2((Globals.WIDTH / 2) - 100, keyboardImage.Bottom),
+                anchor: Anchor.middlecenter,
+                size: new Vector2(16 * 3, 16 * 3),
+                animationDelay: 2,
+                loop: false,
+                play: false
+            );
+
             // test animation
             this.testAnimation = new Engine.Animation(
                 new List<Texture2D> {
@@ -65,6 +97,16 @@ namespace AdventureGame
             Init();
         }
 
+        public override void OnEnter()
+        {
+            controllerButton.Stop();
+            keyboardButton.Stop();
+        }
+        public override void OnExit()
+        {
+            controllerButton.Stop();
+            keyboardButton.Stop();
+        }
         public override void Update(GameTime gameTime)
         {
 
@@ -101,7 +143,34 @@ namespace AdventureGame
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input = Engine.Inputs.controller;
             }
 
+            if (EngineGlobals.inputManager.IsPressed(ControllerInput.A))
+            {
+                controllerButton.reverse = false;
+                controllerButton.Reset();
+                controllerButton.Play();
+            }
+            if (EngineGlobals.inputManager.IsReleased(ControllerInput.A))
+            {
+                controllerButton.reverse = true;
+                controllerButton.Reset();
+                controllerButton.Play();
+            }
+            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Enter))
+            {
+                keyboardButton.reverse = false;
+                keyboardButton.Reset();
+                keyboardButton.Play();
+            }
+            if (EngineGlobals.inputManager.IsReleased(KeyboardInput.Enter))
+            {
+                keyboardButton.reverse = true;
+                keyboardButton.Reset();
+                keyboardButton.Play();
+            }
+
             testAnimation.Update();
+            controllerButton.Update();
+            keyboardButton.Update();
 
         }
 
@@ -110,6 +179,8 @@ namespace AdventureGame
             title.Draw();
             controllerImage.Draw();
             keyboardImage.Draw();
+            controllerButton.Draw();
+            keyboardButton.Draw();
             testAnimation.Draw();
         }
 

@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using S = System.Diagnostics.Debug;
 namespace AdventureGame.Engine
 {
     class Animation : SceneRenderable
@@ -15,11 +15,16 @@ namespace AdventureGame.Engine
         public Color tint;
         public bool loop;
         public bool play;
+        public bool reverse;
 
-        public Animation(List<Texture2D> textureList, Vector2 size = default, int animationDelay = 8, Color tint = default, bool loop = true, bool play = true, Vector2 position = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
+        public Animation(List<Texture2D> textureList, Vector2 size = default, int animationDelay = 8, Color tint = default, bool loop = true, bool play = true, bool reverse = false, Vector2 position = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
         {
             this.textureList = textureList;
-            this.textureIndex = 0;
+
+            if (!reverse)
+                this.textureIndex = 0;
+            else
+                this.textureIndex = textureList.Count - 1;
 
             this.animationDelay = animationDelay;
             this.textureTimer = 0;
@@ -39,8 +44,27 @@ namespace AdventureGame.Engine
 
             this.loop = loop;
             this.play = play;
+            this.reverse = reverse;
 
             CalculateAnchors();
+        }
+
+        public void Play() { play = true; }
+        public void Pause() { play = false; }
+        public void Stop()
+        {
+            play = false;
+            Reset();
+        }
+
+
+        public void Reset()
+        {
+            textureTimer = 0;
+            if (!reverse)
+                textureIndex = 0;
+            else
+                textureIndex = textureList.Count - 1;
         }
 
         public override void Update()
@@ -51,18 +75,40 @@ namespace AdventureGame.Engine
 
             textureTimer += 1;
 
-            if (textureIndex == textureList.Count - 1 && !loop)
+            if (!reverse)
             {
-                textureTimer = 0;
+                if (textureIndex == textureList.Count - 1 && !loop)
+                {
+                    //textureTimer = 0;
+                    play = false;
+                }
+                else
+                {
+                    if (textureTimer >= animationDelay)
+                    {
+                        textureTimer = 0;
+                        textureIndex += 1;
+                        if (textureIndex > textureList.Count - 1)
+                            textureIndex = 0;
+                    }
+                }
             }
             else
             {
-                if (textureTimer >= animationDelay)
+                if (textureIndex == 0 && !loop)
                 {
-                    textureTimer = 0;
-                    textureIndex += 1;
-                    if (textureIndex > textureList.Count - 1)
-                        textureIndex = 0;
+                    //textureTimer = 0;
+                    play = false;
+                }
+                else
+                {
+                    if (textureTimer >= animationDelay)
+                    {
+                        textureTimer = 0;
+                        textureIndex -= 1;
+                        if (textureIndex < 0)
+                            textureIndex = textureList.Count - 1;
+                    }
                 }
             }
              
