@@ -198,14 +198,9 @@ namespace AdventureGame.Engine
             // update the scene
             Update(gameTime);
 
-            // TODO -- implement for multiple scenes
-            // currently this only works once, for the top scene in the stack
-            // implement sceneManager.GetSceneBelow(scene);
             if (updateSceneBelow)
             {
-                Scene scene = EngineGlobals.sceneManager.sceneStack.Pop();
-                EngineGlobals.sceneManager.sceneStack.Peek()._Update(gameTime);
-                EngineGlobals.sceneManager.sceneStack.Push(scene);
+                EngineGlobals.sceneManager.GetSceneBelow(this)._Update(gameTime);
             }
 
         }
@@ -215,14 +210,9 @@ namespace AdventureGame.Engine
         public void _Draw(GameTime gameTime)
         {
 
-            // TODO -- implement for multiple scenes
-            // currently this only works once, for the top scene in the stack
-            // implement sceneManager.GetSceneBelow(scene);
             if (drawSceneBelow)
             {
-                Scene scene = EngineGlobals.sceneManager.sceneStack.Pop();
-                EngineGlobals.sceneManager.sceneStack.Peek()._Draw(gameTime);
-                EngineGlobals.sceneManager.sceneStack.Push(scene);
+                EngineGlobals.sceneManager.GetSceneBelow(this)._Draw(gameTime);
             }
             
             var blend = new BlendState
