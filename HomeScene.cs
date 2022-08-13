@@ -7,20 +7,21 @@ using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
-using System;
-using System.Collections.Generic;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
 
-    public class GameScene : Scene
+    public class HomeScene : Scene
     {
 
         public override void Init()
         {
 
+            lightLevel = 0.3f;
+
             // add map
-            AddMap("startZone");
+            AddMap("home");
 
             //
             // add entities
@@ -28,14 +29,12 @@ namespace AdventureGame
             
             // player entity
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-            // home entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("home"));
-            // enemy entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("enemy"));
-            // light entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("light"));
-            // map trigger
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
+            // trigger
+            AddEntity(EngineGlobals.entityManager.GetEntityByTag("h"));
+            // light
+            AddEntity(EngineGlobals.entityManager.GetEntityByTag("homeLight"));
+            // light switch
+            AddEntity(EngineGlobals.entityManager.GetEntityByTag("lightSwitch"));
 
             //
             // add cameras
@@ -62,6 +61,7 @@ namespace AdventureGame
                 borderColour: Color.Black,
                 borderThickness: 2,
                 trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
+
             );
             AddCamera(minimapCamera);
 

@@ -35,6 +35,17 @@ namespace AdventureGame
             }
         }
 
+        public static void homeOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
+        {
+            if (otherEntity.HasTag("player"))
+            {
+                EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(85, 90);
+                EngineGlobals.sceneManager.PushScene(new GameScene());
+                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetWorldPosition(new Vector2(85, 90), instant: true);
+            }
+        }
+
         public Game1()
         {
             Globals.graphics = new GraphicsDeviceManager(this);
@@ -98,6 +109,12 @@ namespace AdventureGame
 
             // player entity
             Engine.Entity playerEntity = PlayerEntity.Create(100, 100); // opposites (180, 350)
+            // home entity
+            Engine.Entity homeEntity = HomeEntity.Create(50, 20);
+            // home light entity
+            Engine.Entity homeLightEntity = HomeLightEntity.Create(150,75);
+            // light switch entity
+            Engine.Entity lightSwitchEntity = LightSwitchEntity.Create(120, 135);
 
             // enemy entity
             Engine.Entity enemyEntity = EnemyEntity.Create(300, 480); // opposites (300, 483)
@@ -136,6 +153,17 @@ namespace AdventureGame
                 new Vector2(0, 0), new Vector2(75, 30),
                 null,
                 beachOnCollisionEnter,
+                null
+            ));
+
+            // Home trigger entity
+            Engine.Entity h = EngineGlobals.entityManager.CreateEntity();
+            h.AddTag("h");
+            h.AddComponent(new Engine.TransformComponent(155, 135));
+            h.AddComponent(new Engine.TriggerComponent(
+                new Vector2(0, 0), new Vector2(20, 10),
+                null,
+                homeOnCollisionEnter,
                 null
             ));
 

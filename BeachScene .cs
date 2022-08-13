@@ -51,6 +51,7 @@ namespace AdventureGame
                 size: new Vector2(300, 300),
                 followPercentage: 1.0f,
                 zoom: 0.5f,
+                backgroundColour: Color.DarkSlateBlue,
                 borderColour: Color.Black,
                 borderThickness: 2,
                 trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")

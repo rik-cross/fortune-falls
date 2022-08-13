@@ -3,7 +3,10 @@
     class LightComponent : Component
     {
         public int radius;
-        public LightComponent() { radius = 50; }
-        public LightComponent(int radius) { this.radius = radius; }
+        public bool visible;
+        public LightComponent(int radius = 50, bool visible = true) {
+            this.radius = radius;
+            this.visible = visible;
+        }
     }
 }

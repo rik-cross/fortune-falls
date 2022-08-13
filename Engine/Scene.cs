@@ -15,7 +15,7 @@ namespace AdventureGame.Engine
 
         public List<Entity> entityList;
         public List<Camera> cameraList;
-        public double lightLevel = 1.0f; // 0.6f;  changed for testing
+        public double lightLevel = 0.6f;
 
         public EntityManager entityManager;
         public ComponentManager componentManager;
@@ -231,7 +231,6 @@ namespace AdventureGame.Engine
                 Globals.graphicsDevice.Viewport = c.getViewport();
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 Globals.spriteBatch.FillRectangle(0, 0, c.size.X, c.size.Y, c.backgroundColour);
-
                 Globals.spriteBatch.End();
 
                 // draw the map
@@ -302,32 +301,29 @@ namespace AdventureGame.Engine
                 Globals.graphicsDevice.SetRenderTarget(Globals.lightRenderTarget);
                 Globals.graphicsDevice.Viewport = c.getViewport();
                 Globals.graphicsDevice.Clear(Color.Transparent);
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 Globals.spriteBatch.FillRectangle(
-                    0 - c.worldPosition.X - c.size.X/2,
-                    0 - c.worldPosition.Y - c.size.Y/2,
-                    c.size.X, c.size.Y,
+                    0,0,
+                    Globals.WIDTH, Globals.HEIGHT,
                     new Color(0, 0, 0, (int)(255*(1-lightLevel)))
                 );
                 Globals.spriteBatch.End();
 
                 // scene lighting
                 // (currently not a system, as lights need to be rendered at a specific time)
-                // UPDATE LightSystem created to register LightComponent
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix(), blendState: blend);
                 var alphaMask = Globals.content.Load<Texture2D>("light");
 
-                // Could use a list of relevant entities from LightSystem instead
-                foreach (Entity e in entityManager.GetEntities())
+                foreach (Entity e in entityList)
                 {
                     LightComponent lightComponent = e.GetComponent<LightComponent>();
                     TransformComponent transformComponent = e.GetComponent<TransformComponent>();
-                    if (lightComponent != null && transformComponent != null)
+                    if (lightComponent != null && transformComponent != null && lightComponent.visible)
                     {
                         Globals.spriteBatch.Draw(alphaMask,
                             new Rectangle(
-                                (int)transformComponent.position.X - lightComponent.radius,
-                                (int)transformComponent.position.Y - lightComponent.radius,
+                                (int)transformComponent.position.X + (int)transformComponent.size.X/2 - lightComponent.radius,
+                                (int)transformComponent.position.Y + (int)transformComponent.size.X/2 - lightComponent.radius,
                                 lightComponent.radius * 2,
                                 lightComponent.radius * 2
                             ),

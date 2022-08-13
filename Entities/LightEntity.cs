@@ -41,7 +41,7 @@ namespace AdventureGame
             })));
 
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(10, 26), new Vector2(12, 6)));
-            lightSourceEntity.AddComponent(new Engine.LightComponent(50));
+            lightSourceEntity.AddComponent(new Engine.LightComponent(100));
             lightSourceEntity.AddComponent(new Engine.TriggerComponent(
                 new Vector2(-50, -50), new Vector2(132, 132),
                 lightOnCollisionEnter,

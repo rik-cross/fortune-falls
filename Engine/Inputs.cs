@@ -28,7 +28,7 @@ namespace AdventureGame.Engine
             left: ControllerInput.LeftThumbLeft,
             right: ControllerInput.LeftThumbRight,
             button1: ControllerInput.A,
-            button2: null,
+            button2: ControllerInput.B,
             button3: null,
             button4: null,
             button5: null,
