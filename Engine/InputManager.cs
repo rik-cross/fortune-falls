@@ -35,9 +35,9 @@ namespace AdventureGame.Engine
 
         public bool IsDown(InputItem item)
         {
-            if (item.key != null)
+            if (item != null && item.key != null)
                 return curKeyboardState.IsKeyDown((Keys)item.key);
-            if (item.button != null)
+            if (item != null && item.button != null)
                 return curGamePadState[0].IsButtonDown((Buttons)item.button);
 
             return false;
@@ -57,9 +57,9 @@ namespace AdventureGame.Engine
         
         public bool IsPressed(InputItem item)
         {
-            if (item.key != null)
+            if (item != null && item.key != null)
                 return curKeyboardState.IsKeyDown((Keys)item.key) && !prevKeyboardState.IsKeyDown((Keys)item.key);
-            if (item.button != null)
+            if (item != null && item.button != null)
                 return curGamePadState[0].IsButtonDown((Buttons)item.button) && !prevGamePadState[0].IsButtonDown((Buttons)item.button);
             return false;
         }
@@ -78,9 +78,9 @@ namespace AdventureGame.Engine
 
         public bool IsReleased(InputItem item)
         {
-            if (item.key != null)
+            if (item != null && item.key != null)
                 return !curKeyboardState.IsKeyDown((Keys)item.key) && prevKeyboardState.IsKeyDown((Keys)item.key);
-            if (item.button != null)
+            if (item != null && item.button != null)
                 return !curGamePadState[0].IsButtonDown((Buttons)item.button) && prevGamePadState[0].IsButtonDown((Buttons)item.button);
             return false;
         }
