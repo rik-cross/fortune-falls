@@ -98,6 +98,7 @@ namespace AdventureGame
 
             // player entity
             Engine.Entity playerEntity = PlayerEntity.Create(100, 100); // opposites (180, 350)
+
             // enemy entity
             Engine.Entity enemyEntity = EnemyEntity.Create(300, 480); // opposites (300, 483)
             // light source entity
@@ -106,8 +107,15 @@ namespace AdventureGame
 
             // Test player movement
             Engine.IntentionComponent pIntentionComponent = playerEntity.GetComponent<Engine.IntentionComponent>();
-            //pIntentionComponent.down = true;
-            //pIntentionComponent.right = true;
+            //pIntentionComponent.up = true;
+            //pIntentionComponent.left = true;
+
+            // Test enemy movement
+            Engine.IntentionComponent eIntentionComponent = enemyEntity.GetComponent<Engine.IntentionComponent>();
+            //eIntentionComponent.up = true;
+            //eIntentionComponent.right = true;
+            //enemyEntity.state = "walkSouth";
+
 
             // Map trigger entity
             Engine.Entity m = EngineGlobals.entityManager.CreateEntity();
@@ -130,12 +138,6 @@ namespace AdventureGame
                 beachOnCollisionEnter,
                 null
             ));
-
-            // Test enemy movement
-            //Engine.IntentionComponent eIntentionComponent = enemyEntity.GetComponent<Engine.IntentionComponent>();
-            //eIntentionComponent.up = true;
-            //eIntentionComponent.right = true;
-            //enemyEntity.state = "walkSouth";
 
             //Globals.content.Load<TiledMap>("startZone");
 

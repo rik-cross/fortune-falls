@@ -13,7 +13,7 @@ namespace AdventureGame.Engine
             left: KeyboardInput.A,
             right: KeyboardInput.D,
             button1: KeyboardInput.Enter,
-            button2: null,
+            button2: KeyboardInput.LeftShift,
             button3: null,
             button4: null,
             button5: null,

@@ -27,7 +27,7 @@ namespace AdventureGame.Engine
         public bool isSolid;
         //public string collidingDirection; // REMOVE?
 
-        public bool active; // REMOVE?
+        public bool isActive; // REMOVE?
 
         public Color color = Color.Yellow; // Testing: rectangle outline
 
@@ -37,7 +37,7 @@ namespace AdventureGame.Engine
             collidedEntitiesEnded = new HashSet<Entity>();
             //resolvedCollisions = new HashSet<Entity>();
 
-            this.active = active;
+            this.isActive = active;
 
             this.isSolid = isSolid;
 

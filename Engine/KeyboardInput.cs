@@ -8,6 +8,8 @@ namespace AdventureGame.Engine
         public static InputItem Enter = new InputItem(key: Keys.Enter);
         public static InputItem Escape = new InputItem(key: Keys.Escape);
 
+        public static InputItem LeftShift = new InputItem(key: Keys.LeftShift);
+
         public static InputItem W = new InputItem(key: Keys.W);
         public static InputItem A = new InputItem(key: Keys.A);
         public static InputItem S = new InputItem(key: Keys.S);

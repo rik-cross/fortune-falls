@@ -123,7 +123,7 @@ namespace AdventureGame.Engine
 
                 Console.WriteLine($"Entity {entity.id} has velocity Y {velocityY}");
                 Console.WriteLine($"Other entity {otherEntity.id} has velocity Y {otherVelocityY}");
-                Console.WriteLine($"{hasOtherMoved} hasOtherMoved");
+                //Console.WriteLine($"{hasOtherMoved} hasOtherMoved");
 
                 // Calculate the total absolute X and Y velocities
                 int totalAbsVelocityX = absVelocityX + absOtherVelocityX;
@@ -639,12 +639,12 @@ namespace AdventureGame.Engine
                     Console.WriteLine();
                     */
                 }
-                /*
+                
                 Console.WriteLine("END OF RESOLUTION");
 
                 Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
                 Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
-                */
+                
 
             }
 

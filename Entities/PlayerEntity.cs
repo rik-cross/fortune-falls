@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-using System.Collections.Generic;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 //using Microsoft.Xna.Framework.Input;
@@ -75,6 +73,16 @@ namespace AdventureGame
                 intentionComponent.right = false;
             }
 
+            // button 2 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+            {
+                intentionComponent.button2 = true;
+            }
+            else
+            {
+                intentionComponent.button2 = false;
+            }
+
             // button 7 keys
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.button7))
             {
@@ -107,7 +115,7 @@ namespace AdventureGame
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(playerWidth, playerHeight)));
-            playerEntity.AddComponent(new Engine.PhysicsComponent(1));
+            playerEntity.AddComponent(new Engine.PhysicsComponent(2));
             //playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
 
             playerEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet, new List<Vector2> {new Vector2(7,4)})));
