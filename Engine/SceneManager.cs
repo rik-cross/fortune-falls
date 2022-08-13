@@ -6,24 +6,24 @@ namespace AdventureGame.Engine
     public class SceneManager
     {
 
-        public Stack<Scene> sceneStack = new Stack<Scene>();
+        public List<Scene> sceneList = new List<Scene>();
         public SceneTransition currentTransition = null;
         public List<Scene> prevScenes = new List<Scene>();
         public List<Scene> nextScenes = new List<Scene>();
 
         public bool isEmpty()
         {
-            return sceneStack.Count == 0 && nextScenes.Count == 0;
+            return sceneList.Count == 0 && nextScenes.Count == 0;
         }
 
         public Scene GetTopScene()
         {
-            return sceneStack.Peek();
+            return sceneList[^1];
         }
 
-        public void PushScene(Scene scene, SceneTransition? sceneTransition=null)
+        public void PushScene(Scene scene, SceneTransition sceneTransition = null)
         {
-            if (sceneStack.Count > 0)
+            if (sceneList.Count > 0)
                 GetTopScene()._OnExit();
             if (sceneTransition != null)
             {
@@ -35,8 +35,12 @@ namespace AdventureGame.Engine
             {
                 scene.LoadContent();
                 scene._OnEnter();
-                sceneStack.Push(scene);
+                sceneList.Add(scene);
             }
+        }
+        public Scene GetSceneBelow(Scene scene)
+        {
+            return sceneList[EngineGlobals.sceneManager.sceneList.IndexOf(scene) - 1];
         }
         public void PopScene(SceneTransition? sceneTransition=null)
         {
@@ -46,10 +50,11 @@ namespace AdventureGame.Engine
             }
             else
             {
-                Scene sceneToPop = sceneStack.Pop();
+                Scene sceneToPop = sceneList[^1];
+                sceneList.RemoveAt(sceneList.Count - 1);
                 sceneToPop._OnExit();
                 sceneToPop.UnloadContent();
-                if (sceneStack.Count > 0)
+                if (sceneList.Count > 0)
                     GetTopScene()._OnEnter();
             }
             
@@ -60,14 +65,14 @@ namespace AdventureGame.Engine
                 currentTransition.Update();
             } else
             {
-                if (sceneStack.Count > 0)
-                    sceneStack.Peek()._Update(gameTime);
+                if (sceneList.Count > 0)
+                    GetTopScene()._Update(gameTime);
             }
         }
 
         public void Draw(GameTime gameTime) {
 
-            if (sceneStack.Count == 0)
+            if (sceneList.Count == 0)
                 return;
 
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
