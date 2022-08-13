@@ -7,13 +7,13 @@ namespace AdventureGame.Engine
     {
 
         public List<Scene> sceneList = new List<Scene>();
-        public SceneTransition currentTransition = null;
+        public SceneTransition transition = null;
         public List<Scene> prevScenes = new List<Scene>();
         public List<Scene> nextScenes = new List<Scene>();
 
         public bool isEmpty()
         {
-            return sceneList.Count == 0 && nextScenes.Count == 0;
+            return sceneList.Count == 0 && transition == null;
         }
 
         public Scene GetTopScene()
@@ -21,48 +21,33 @@ namespace AdventureGame.Engine
             return sceneList[^1];
         }
 
-        public void PushScene(Scene scene, SceneTransition sceneTransition = null)
+        public void PushScene(Scene scene)
         {
             if (sceneList.Count > 0)
                 GetTopScene()._OnExit();
-            if (sceneTransition != null)
-            {
-                // option for multiple scenes??
-                nextScenes.Add(scene);
-                currentTransition = sceneTransition;
-                
-            } else
-            {
-                scene.LoadContent();
-                scene._OnEnter();
-                sceneList.Add(scene);
-            }
+
+            scene.LoadContent();
+            scene._OnEnter();
+            sceneList.Add(scene);
         }
         public Scene GetSceneBelow(Scene scene)
         {
             return sceneList[EngineGlobals.sceneManager.sceneList.IndexOf(scene) - 1];
         }
-        public void PopScene(SceneTransition? sceneTransition=null)
+        public void PopScene()
         {
-            if (sceneTransition != null)
-            {
-
-            }
-            else
-            {
-                Scene sceneToPop = sceneList[^1];
-                sceneList.RemoveAt(sceneList.Count - 1);
-                sceneToPop._OnExit();
-                sceneToPop.UnloadContent();
-                if (sceneList.Count > 0)
-                    GetTopScene()._OnEnter();
-            }
+            Scene sceneToPop = sceneList[^1];
+            sceneList.RemoveAt(sceneList.Count - 1);
+            sceneToPop._OnExit();
+            sceneToPop.UnloadContent();
+            if (sceneList.Count > 0)
+                GetTopScene()._OnEnter();
             
         }
         public void Update(GameTime gameTime) {
-            if (currentTransition != null)
+            if (transition != null)
             {
-                currentTransition.Update();
+                transition.Update();
             } else
             {
                 if (sceneList.Count > 0)
