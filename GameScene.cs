@@ -16,7 +16,7 @@ namespace AdventureGame
     public class GameScene : Scene
     {
 
-        public override void Init()
+        public GameScene()
         {
 
             // add map
@@ -69,7 +69,7 @@ namespace AdventureGame
 
         public override void LoadContent()
         {
-            Init();
+            //Init();
         }
 
         public override void Update(GameTime gameTime)
@@ -81,7 +81,8 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.PopScene();
+                //EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.gameScene }, new List<Scene> { });
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {

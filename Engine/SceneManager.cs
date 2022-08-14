@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
 {
@@ -18,6 +19,8 @@ namespace AdventureGame.Engine
 
         public Scene GetTopScene()
         {
+            if (sceneList.Count == 0)
+                return null;
             return sceneList[^1];
         }
 
@@ -45,25 +48,47 @@ namespace AdventureGame.Engine
             
         }
         public void Update(GameTime gameTime) {
+
             if (transition != null)
             {
-                transition.Update();
+                transition.Update(gameTime);
             } else
             {
                 if (sceneList.Count > 0)
+                {
                     GetTopScene()._Update(gameTime);
+
+                    if (sceneList.Count == 0)
+                        return;
+
+                    foreach (Entity e in GetTopScene().entitiesToDelete)
+                    {
+                        GetTopScene().entityList.Remove(e);
+                    }
+                    GetTopScene().entitiesToDelete.Clear();
+
+                }
+                    
             }
+
         }
 
         public void Draw(GameTime gameTime) {
-
+            
             if (sceneList.Count == 0)
                 return;
 
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.graphicsDevice.Clear(Color.Black);
-            GetTopScene()._Draw(gameTime);
 
+            if (transition != null)
+            {
+                transition._Draw(gameTime);
+            }
+            else
+            {
+                GetTopScene()._Draw(gameTime);
+            }
         }
 
     }

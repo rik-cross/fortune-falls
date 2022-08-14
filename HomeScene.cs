@@ -15,7 +15,7 @@ namespace AdventureGame
     public class HomeScene : Scene
     {
 
-        public override void Init()
+        public HomeScene()
         {
 
             lightLevel = 0.3f;
@@ -28,7 +28,7 @@ namespace AdventureGame
             //
             
             // player entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
             // trigger
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("h"));
             // light
@@ -69,7 +69,7 @@ namespace AdventureGame
 
         public override void LoadContent()
         {
-            Init();
+            //Init();
         }
 
         public override void Update(GameTime gameTime)

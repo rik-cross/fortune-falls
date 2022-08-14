@@ -10,7 +10,7 @@ namespace AdventureGame.Engine
         public ulong signature;
 
         public List<Component> components = new List<Component>(); // dictionary?
-        public string state = "idle"; // should this be in a component / messaging / player system?
+        public string state = "idle";
 
         public List<string> tags = new List<string>();
 

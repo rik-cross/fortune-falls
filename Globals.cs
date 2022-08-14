@@ -31,6 +31,11 @@ namespace AdventureGame
         public static Engine.SpriteSheet candleSpriteSheet;
         public static Engine.SpriteSheet enemySpriteSheet;
 
+        public static Engine.Scene menuScene;
+        public static Engine.Scene gameScene;
+        public static Engine.Scene homeScene;
+        public static Engine.Scene beachScene;
+
         public static float globalZoomLevel = 3.0f;
 
     }

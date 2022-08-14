@@ -35,6 +35,14 @@ namespace AdventureGame.Engine
             this.previousPosition = position;
             this.size = new Vector2(w, h);
         }
+
+        public Vector2 GetCenter()
+        {
+            return new Vector2(
+                position.X + (size.X/2),
+                position.Y + (size.Y / 2)
+            );
+        }
     }
 
 }

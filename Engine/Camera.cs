@@ -65,9 +65,13 @@ namespace AdventureGame.Engine
 
         public void SetWorldPosition(Vector2 position, bool instant = false)
         {
+            
             targetWorldPosition = position * -1;
             if (instant)
+            {
+                S.WriteLine("here");
                 worldPosition = targetWorldPosition;
+            }
         }
 
         public void SetZoom(float newZoom, float newIncrement = 0.0f)

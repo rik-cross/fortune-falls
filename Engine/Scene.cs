@@ -28,6 +28,8 @@ namespace AdventureGame.Engine
         public bool updateSceneBelow = false;
         public bool drawSceneBelow = false;
 
+        public List<Entity> entitiesToDelete = new List<Entity>();
+
         public Scene()
         {
             entityList = new List<Entity>();
@@ -102,6 +104,12 @@ namespace AdventureGame.Engine
         {
             foreach (Entity e in eList)
                 AddEntity(e);
+        }
+
+        public void RemoveEntity(Entity e)
+        {
+            if (!entitiesToDelete.Contains(e))
+                entitiesToDelete.Add(e);
         }
 
         public virtual void Init() { }

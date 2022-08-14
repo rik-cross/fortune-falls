@@ -7,6 +7,7 @@ namespace AdventureGame.Engine
     {
         public Sprite sprite;
         public string lastState = "idle";
+        public bool visible = true;
         public Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
         public SpritesComponent(string key, Sprite sprite)
         {

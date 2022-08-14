@@ -18,9 +18,15 @@ namespace AdventureGame
         {
             if (otherEntity.HasTag("player"))
             {
-                EngineGlobals.sceneManager.PopScene();
+
+                Globals.homeScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+                Globals.homeScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+
+                Globals.gameScene.GetCameraByName("main").trackedEntity = null;
+                Globals.gameScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
-                EngineGlobals.sceneManager.PushScene(new HomeScene());
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.gameScene }, new List<Scene> { Globals.homeScene }, replaceScenes: true);
             }
         }
 

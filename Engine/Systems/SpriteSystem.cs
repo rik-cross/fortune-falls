@@ -56,6 +56,9 @@ namespace AdventureGame.Engine
             if (!spritesComponent.spriteDict.ContainsKey(entity.state))
                 return;
 
+            if (!spritesComponent.visible)
+                return;
+
             Texture2D spriteSheet = spritesComponent.spriteDict[entity.state].spriteSheet.texture;
 
             int x = (int)spritesComponent.spriteDict[entity.state].positions[spritesComponent.spriteDict[entity.state].currentPosition].X * (int)spritesComponent.spriteDict[entity.state].spriteSheet.spriteSize.X;

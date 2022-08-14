@@ -1,10 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System.Collections.Generic;
+
 using AdventureGame.Engine;
 
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -17,10 +21,22 @@ namespace AdventureGame
         {
             if (otherEntity.HasTag("player"))
             {
-                EngineGlobals.sceneManager.PopScene();
+                //EngineGlobals.sceneManager.PopScene();
+
+
+                Globals.beachScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+                Globals.beachScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+                
+                Globals.gameScene.GetCameraByName("main").trackedEntity = null;
+                Globals.gameScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(525, 900);
-                EngineGlobals.sceneManager.PushScene(new BeachScene());
-                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetWorldPosition(new Vector2(525, 900), instant: true);
+                //EngineGlobals.sceneManager.PushScene(Globals.beachScene);
+                Globals.beachScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+
+                //Globals.beachScene.GetCameraByName("main").SetWorldPosition(new Vector2(525,900), instant: true);
+
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.gameScene }, new List<Scene> { Globals.beachScene }, replaceScenes: true);
             }
         }
 
@@ -28,10 +44,20 @@ namespace AdventureGame
         {
             if (otherEntity.HasTag("player"))
             {
-                EngineGlobals.sceneManager.PopScene();
+
+
+                Globals.gameScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+                Globals.gameScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+
+                Globals.beachScene.GetCameraByName("main").trackedEntity = null;
+                Globals.beachScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+
+
+                //EngineGlobals.sceneManager.PopScene();
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(260, 60);
-                EngineGlobals.sceneManager.PushScene(new GameScene());
-                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetWorldPosition(new Vector2(260, 60), instant: true);
+                //EngineGlobals.sceneManager.PushScene(Globals.gameScene);
+                Globals.gameScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.beachScene }, new List<Scene> { Globals.gameScene }, replaceScenes: true);
             }
         }
 
@@ -39,10 +65,18 @@ namespace AdventureGame
         {
             if (otherEntity.HasTag("player"))
             {
-                EngineGlobals.sceneManager.PopScene();
+
+                Globals.gameScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+                Globals.gameScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+
+                Globals.homeScene.GetCameraByName("main").trackedEntity = null;
+                Globals.homeScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+
+                //EngineGlobals.sceneManager.PopScene();
                 EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(85, 90);
-                EngineGlobals.sceneManager.PushScene(new GameScene());
-                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetWorldPosition(new Vector2(85, 90), instant: true);
+                //EngineGlobals.sceneManager.PushScene(Globals.gameScene);
+                Globals.gameScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.homeScene }, new List<Scene> { Globals.gameScene }, replaceScenes: true);
             }
         }
 
@@ -102,6 +136,8 @@ namespace AdventureGame
             EngineGlobals.systemManager = new SystemManager();
             EngineGlobals.entityManager = new EntityManager();
             EngineGlobals.sceneManager = new SceneManager();
+
+            
 
             //
             // create entities
@@ -169,8 +205,21 @@ namespace AdventureGame
 
             //Globals.content.Load<TiledMap>("startZone");
 
-            MenuScene menuScene = new MenuScene();
-            EngineGlobals.sceneManager.PushScene(menuScene);
+            // scenes
+            Globals.menuScene = new MenuScene();
+            //Globals.menuScene.Init();
+            Globals.gameScene = new GameScene();
+            //Globals.gameScene.Init();
+            Globals.homeScene = new HomeScene();
+            //Globals.homeScene.Init();
+            Globals.beachScene = new BeachScene();
+            //Globals.beachScene.Init();
+
+            //EngineGlobals.sceneManager.PushScene(Globals.menuScene);
+            EngineGlobals.sceneManager.transition = new FadeSceneTransition(
+                new List<Scene> { },
+                new List<Scene> { Globals.menuScene }
+            );
 
         }
 
@@ -181,6 +230,7 @@ namespace AdventureGame
             EngineGlobals.inputManager.Update(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
             base.Update(gameTime);
+            S.WriteLine(Globals.beachScene.GetCameraByName("main").worldPosition);
         }
 
         protected override void Draw(GameTime gameTime)

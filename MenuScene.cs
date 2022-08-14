@@ -21,7 +21,7 @@ namespace AdventureGame
         private Engine.Animation keyboardButton;
         private Engine.Animation testAnimation;
 
-        public override void Init()
+        public MenuScene()
         {
             // title text
             this.title = new Engine.Text(
@@ -124,7 +124,8 @@ namespace AdventureGame
                     InputItem inputItem = inputMethod.button1;
                     if (inputItem != null) {
                         if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
-                            EngineGlobals.sceneManager.PushScene(new GameScene());
+                            //EngineGlobals.sceneManager.PushScene(Globals.gameScene);
+                            EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.menuScene }, new List<Scene> { Globals.gameScene });
                     }
                 }
             }

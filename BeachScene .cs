@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,8 +16,10 @@ namespace AdventureGame
     public class BeachScene : Scene
     {
 
-        public override void Init()
+        public BeachScene()
         {
+
+            S.WriteLine("new beach scene created");
 
             // add map
             AddMap("beach");
@@ -26,7 +29,7 @@ namespace AdventureGame
             //
             
             // player entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
             // trigger
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("b"));
 
@@ -63,7 +66,7 @@ namespace AdventureGame
 
         public override void LoadContent()
         {
-            Init();
+            //Init();
         }
 
         public override void Update(GameTime gameTime)
@@ -75,7 +78,8 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.PopScene();
+                //EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.beachScene }, new List<Scene> { });
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
