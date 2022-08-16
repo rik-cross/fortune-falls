@@ -113,11 +113,6 @@ namespace AdventureGame
 
             playerEntity.AddTag("player");
 
-            playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(playerWidth, playerHeight)));
-            playerEntity.AddComponent(new Engine.PhysicsComponent(2));
-            //playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
-
             playerEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet, new List<Vector2> {new Vector2(7,4)})));
 
             Engine.SpritesComponent spritesComponent = playerEntity.GetComponent<Engine.SpritesComponent>();
@@ -177,6 +172,11 @@ namespace AdventureGame
 
             foreach (Engine.Sprite sp in spritesComponent.spriteDict.Values)
                 sp.animationDelay = 8;
+
+            playerEntity.AddComponent(new Engine.IntentionComponent());
+            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(playerWidth, playerHeight)));
+            playerEntity.AddComponent(new Engine.PhysicsComponent(2));
+            //playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
 
             playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(5, 28), new Vector2(16, 8)));
             playerEntity.AddComponent(new Engine.HurtboxComponent(0, 0, 26, 36));

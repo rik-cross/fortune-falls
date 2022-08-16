@@ -35,6 +35,7 @@ namespace AdventureGame.Engine
             systems.Add(new AnimationSystem());
             systems.Add(new TextSystem());
             systems.Add(new LightSystem());
+            systems.Add(new ItemSystem());
 
             // Register components and bit flags if they don't exist and
             // generate the signatures for all the systems

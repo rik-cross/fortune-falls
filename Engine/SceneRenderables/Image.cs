@@ -9,9 +9,9 @@ namespace AdventureGame.Engine
 {
     class Image : SceneRenderable
     {
-
-        private Texture2D texture;
         public Color tint;
+        private Texture2D texture;
+        public Texture2D Texture { get => texture; set => texture = value; }
 
         public Image(Texture2D texture, Vector2 size = default, Color tint = default, Vector2 position = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
         {

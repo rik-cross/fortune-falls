@@ -30,6 +30,21 @@ namespace AdventureGame.Engine
         protected Anchor anchor;
         public float alpha;
         public bool visible;
+
+        public Vector2 Size { get => size; set => size = value; }
+
+        public float Width
+        {
+            get { return size.X; }
+            set { size.X = value; }
+        }
+
+        public float Height
+        {
+            get { return size.Y; }
+            set { size.Y = value; }
+        }
+
         public float Left
         {
             get { return position.X; }

@@ -37,6 +37,11 @@ namespace AdventureGame
             // map trigger
             AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
 
+            // item entities
+            Engine.Entity swordEntity01 = new ItemEntity().Create(30, 30, "Items/W_Sword003");
+            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
+            //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
+
             //
             // add cameras
             //

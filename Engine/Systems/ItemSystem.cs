@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
+using MonoGame.Extended;
+using System;
+
 namespace AdventureGame.Engine
 {
     public class ItemSystem : System
@@ -33,6 +36,40 @@ namespace AdventureGame.Engine
                     }
                 }*/
             }
+
+        }
+
+        public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
+        {
+
+            //SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
+            ItemComponent itemComponent = entity.GetComponent<ItemComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            // ColliderComponent?
+
+            Globals.spriteBatch.Draw(
+                itemComponent.texture,
+                new Rectangle(
+                    (int)(transformComponent.position.X - (transformComponent.size.X / 2)),
+                    (int)(transformComponent.position.Y - (transformComponent.size.Y / 2)),
+                    (int)transformComponent.size.X,
+                    (int)transformComponent.size.Y
+                ), Color.White);
+
+            //Color color = colliderComponent.color;
+            int lineWidth = 2;
+
+            Rectangle rect = new Rectangle(
+                    (int)(transformComponent.position.X - (transformComponent.size.X / 2)),
+                    (int)(transformComponent.position.Y - (transformComponent.size.Y / 2)),
+                    (int)transformComponent.size.X,
+                    (int)transformComponent.size.Y
+                );
+
+            Console.WriteLine($"X:{transformComponent.position.X} Y:{transformComponent.position.Y}");
+            Console.WriteLine($"Width:{transformComponent.size.X} Height:{transformComponent.size.X}");
+
+            Globals.spriteBatch.DrawRectangle(rect, Color.Chocolate, lineWidth);
 
         }
 
