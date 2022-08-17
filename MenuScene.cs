@@ -32,18 +32,26 @@ namespace AdventureGame
                 anchor: Anchor.middlecenter
             );
 
+            // get alpha values based on current player input type
+            float controllerAlpha = 0.2f;
+            if (EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input == Engine.Inputs.controller)
+                controllerAlpha = 1.0f;
+            float keyboardAlpha = 0.2f;
+            if (EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
+                keyboardAlpha = 1.0f;
+
             // control images
             this.controllerImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("X360"),
                 position: new Vector2((Globals.WIDTH / 2) + 100, Globals.HEIGHT - 150),
                 anchor: Anchor.middlecenter,
-                alpha: 0.2f
+                alpha: controllerAlpha
             );
             this.keyboardImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("Keyboard"),
                 position: new Vector2((Globals.WIDTH / 2) - 100, Globals.HEIGHT - 150),
                 anchor: Anchor.middlecenter,
-                alpha: 0.2f
+                alpha: keyboardAlpha
             );
 
             // controller buttons
