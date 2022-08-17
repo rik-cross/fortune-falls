@@ -23,5 +23,7 @@ Content/obj
 Content/obj/*
 Content/bin
 Content/bin/*
+Content/Items
+Content/Items/*
 !Entities/
 !Entities/*.cs

@@ -17,8 +17,7 @@ using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
-    public static class PlayerEntity
-    {
+    public static class PlayerEntity    {
 
         public static void PlayerInputController(Engine.Entity entity)
         {

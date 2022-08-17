@@ -12,20 +12,20 @@ using AdventureGame.Engine;
 
 namespace AdventureGame
 {
-    public class ItemEntity
+    public static class ItemEntity
     {
-        private Engine.Image itemImage;
-        private Vector2 imageSize;
-        private Engine.Animation itemAnimation;
+        //private Engine.Image itemImage;
+        //private Vector2 imageSize;
+        //private Engine.Animation itemAnimation;
 
-        public Engine.Entity Create(int x, int y, string assetName, bool animation = false)
+        public static Engine.Entity Create(int x, int y, string assetName, bool animation = false)
         {
 
             Entity itemEntity = EngineGlobals.entityManager.CreateEntity();
 
             itemEntity.AddTag("item");
 
-            imageSize = new Vector2(34, 34);
+            Vector2 imageSize = new Vector2(34, 34);
 
             // This should probably be an image or sprite component
             // How to add optional params e.g. size
@@ -43,6 +43,7 @@ namespace AdventureGame
                         new Engine.SpriteSheet(Globals.content.Load<Texture2D>(assetName),
                         new Vector2(34, 34)),
                         new List<Vector2> { new Vector2(0, 0) })));
+
             }
 
             //Console.WriteLine($"Item image width {itemImage.Width} height {itemImage.Height}");

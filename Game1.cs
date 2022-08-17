@@ -157,6 +157,8 @@ namespace AdventureGame
             // light source entity
             Engine.Entity lightSourceEntity = LightEntity.Create(300, 300);
 
+            // item entity
+            //Engine.Entity itemEntity = ItemEntity.
 
             // Test player movement
             Engine.IntentionComponent pIntentionComponent = playerEntity.GetComponent<Engine.IntentionComponent>();
