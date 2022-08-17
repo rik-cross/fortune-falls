@@ -33,21 +33,34 @@ namespace AdventureGame.Engine
                 physicsComponent.SetSpeed(0.5);
             }*/
 
+            /*
             InputComponent inputComponent = EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>();
             if (inputComponent != null)
             {
                 InputMethod inputMethod = inputComponent.input;
                 if (inputMethod != null)
                 {
-                    InputItem inputItem = inputMethod.button1;
+                    InputItem inputItem = inputMethod.button2;
                     if (inputItem != null)
                     {
                         if (EngineGlobals.inputManager.IsPressed(inputMethod.button2))
+                        {
                             physicsComponent.SpeedBonus(50);
+                            Console.WriteLine("Button 2 pressed");
+                        }
                         else if (EngineGlobals.inputManager.IsReleased(inputMethod.button2))
+                        {
                             physicsComponent.SpeedBonus(0);
+                            Console.WriteLine("Released button 2");
+                        }
                     }
                 }
+            }*/
+
+            if (EngineGlobals.inputManager.IsPressed(Globals.button2Input))
+            {
+                physicsComponent.SpeedBonus(50);
+                Console.WriteLine("Button 2 pressed");
             }
 
             //if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
