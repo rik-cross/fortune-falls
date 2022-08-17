@@ -112,19 +112,19 @@ namespace AdventureGame
 
             playerEntity.AddTag("player");
 
-            playerEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet, new List<Vector2> {new Vector2(7,4)})));
+            playerEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
 
             Engine.SpritesComponent spritesComponent = playerEntity.GetComponent<Engine.SpritesComponent>();
 
             spritesComponent.AddSprite(
                 "walkNorth",
                 new Engine.Sprite(
-                    Globals.playerSpriteSheet, new List<Vector2>
+                    new List<Texture2D>
                     {
-                        new Vector2(6, 7),
-                        new Vector2(7, 7),
-                        new Vector2(8, 7),
-                        new Vector2(7, 7)
+                        Globals.playerSpriteSheet.GetSubTexture(6, 7),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 7),
+                        Globals.playerSpriteSheet.GetSubTexture(8, 7),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 7)
                     }
                 )
             );
@@ -132,12 +132,12 @@ namespace AdventureGame
             spritesComponent.AddSprite(
                 "walkSouth",
                 new Engine.Sprite(
-                    Globals.playerSpriteSheet, new List<Vector2>
+                    new List<Texture2D>
                     {
-                        new Vector2(6, 4),
-                        new Vector2(7, 4),
-                        new Vector2(8, 4),
-                        new Vector2(7, 4)
+                        Globals.playerSpriteSheet.GetSubTexture(6, 4),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 4),
+                        Globals.playerSpriteSheet.GetSubTexture(8, 4),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 4)
                     }
                 )
             );
@@ -145,12 +145,12 @@ namespace AdventureGame
             spritesComponent.AddSprite(
                 "walkEast",
                 new Engine.Sprite(
-                    Globals.playerSpriteSheet, new List<Vector2>
+                    new List<Texture2D>
                     {
-                        new Vector2(6, 6),
-                        new Vector2(7, 6),
-                        new Vector2(8, 6),
-                        new Vector2(7, 6)
+                        Globals.playerSpriteSheet.GetSubTexture(6, 6),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 6),
+                        Globals.playerSpriteSheet.GetSubTexture(8, 6),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 6)
                     }
                 )
             );
@@ -158,18 +158,18 @@ namespace AdventureGame
             spritesComponent.AddSprite(
                 "walkWest",
                 new Engine.Sprite(
-                    Globals.playerSpriteSheet, new List<Vector2>
+                    new List<Texture2D>
                     {
-                        new Vector2(6, 5),
-                        new Vector2(7, 5),
-                        new Vector2(8, 5),
-                        new Vector2(7, 5)
+                        Globals.playerSpriteSheet.GetSubTexture(6, 5),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 5),
+                        Globals.playerSpriteSheet.GetSubTexture(8, 5),
+                        Globals.playerSpriteSheet.GetSubTexture(7, 5)
                     }
                 )
             );
 
 
-            foreach (Engine.Sprite sp in spritesComponent.spriteDict.Values)
+            foreach (Engine.Sprite sp in spritesComponent.SpriteDict.Values)
                 sp.animationDelay = 8;
 
             playerEntity.AddComponent(new Engine.IntentionComponent());

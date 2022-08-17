@@ -5,18 +5,27 @@ namespace AdventureGame.Engine
 {
     public class SpritesComponent : Component
     {
-        public Sprite sprite;
-        public string lastState = "idle";
-        public bool visible = true;
-        public Dictionary<string, Sprite> spriteDict = new Dictionary<string, Sprite>();
-        public SpritesComponent(string key, Sprite sprite)
+
+        public Dictionary<string, Sprite> SpriteDict { get; private set; }
+        public bool visible;
+        public string lastState;
+
+        public SpritesComponent(string key, Sprite sprite, bool visible = true)
         {
+            this.SpriteDict = new Dictionary<string, Sprite>();
             AddSprite(key, sprite);
+            this.visible = visible;
+            this.lastState = "idle";
+        }
+
+        public Sprite GetSprite(string state)
+        {
+            return SpriteDict[state];
         }
 
         public void AddSprite(string key, Sprite sprite)
         {
-            this.spriteDict[key] = sprite;
+            SpriteDict[key] = sprite;
         }
 
     }

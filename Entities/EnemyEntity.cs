@@ -23,9 +23,7 @@ namespace AdventureGame
 
             enemyEntity.AddTag("enemy");
 
-            enemyEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.enemySpriteSheet, new List<Vector2> {
-                new Vector2(0,0)
-            })));
+            enemyEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("sprite"))));
 
             // Texture2D spritesComponent = enemyEntity.GetComponent<SpriteComponent>().sprite;
             //Vector2 spriteSize = enemyEntity.GetComponent<SpritesComponent>().sprite.spriteSheet.spriteSize;

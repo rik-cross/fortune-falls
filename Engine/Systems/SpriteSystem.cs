@@ -19,27 +19,24 @@ namespace AdventureGame.Engine
             
             SpritesComponent spritesComponent = entity.GetComponent<SpritesComponent>();
 
-            if (!spritesComponent.spriteDict.ContainsKey(entity.state))
+            if (!spritesComponent.SpriteDict.ContainsKey(entity.state))
                 return;
 
             // reset sprite if switching from another active sprite
             if (spritesComponent.lastState != entity.state)
-            {
-                spritesComponent.spriteDict[entity.state].currentPosition = 0;
-                spritesComponent.spriteDict[entity.state].timer = 0;
-            }
+                spritesComponent.SpriteDict[entity.state].Reset();
 
-            spritesComponent.spriteDict[entity.state].timer += 1;
-            if (spritesComponent.spriteDict[entity.state].timer >= spritesComponent.spriteDict[entity.state].animationDelay)
+            spritesComponent.SpriteDict[entity.state].timer += 1;
+            if (spritesComponent.SpriteDict[entity.state].timer >= spritesComponent.SpriteDict[entity.state].animationDelay)
             {
-                spritesComponent.spriteDict[entity.state].timer = 0;
-                spritesComponent.spriteDict[entity.state].currentPosition += 1;
-                if (spritesComponent.spriteDict[entity.state].currentPosition > (spritesComponent.spriteDict[entity.state].positions.Count - 1))
+                spritesComponent.SpriteDict[entity.state].timer = 0;
+                spritesComponent.SpriteDict[entity.state].currentPosition += 1;
+                if (spritesComponent.SpriteDict[entity.state].currentPosition > (spritesComponent.SpriteDict[entity.state].textureList.Count - 1))
                 {
-                    if (spritesComponent.spriteDict[entity.state].loop)
-                        spritesComponent.spriteDict[entity.state].currentPosition = 0;
+                    if (spritesComponent.SpriteDict[entity.state].loop)
+                        spritesComponent.SpriteDict[entity.state].currentPosition = 0;
                     else
-                        spritesComponent.spriteDict[entity.state].currentPosition = spritesComponent.spriteDict[entity.state].positions.Count - 1;
+                        spritesComponent.SpriteDict[entity.state].currentPosition = spritesComponent.SpriteDict[entity.state].textureList.Count - 1;
                 }
             }
 
@@ -53,21 +50,23 @@ namespace AdventureGame.Engine
             SpritesComponent spritesComponent = entity.GetComponent<SpritesComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            if (!spritesComponent.spriteDict.ContainsKey(entity.state))
+            if (!spritesComponent.SpriteDict.ContainsKey(entity.state))
                 return;
 
             if (!spritesComponent.visible)
                 return;
 
-            Texture2D spriteSheet = spritesComponent.spriteDict[entity.state].spriteSheet.texture;
+            Sprite currentSprite = spritesComponent.SpriteDict[entity.state];
+            Texture2D currentTexture = currentSprite.textureList[currentSprite.currentPosition];
 
-            int x = (int)spritesComponent.spriteDict[entity.state].positions[spritesComponent.spriteDict[entity.state].currentPosition].X * (int)spritesComponent.spriteDict[entity.state].spriteSheet.spriteSize.X;
-            int y = (int)spritesComponent.spriteDict[entity.state].positions[spritesComponent.spriteDict[entity.state].currentPosition].Y * (int)spritesComponent.spriteDict[entity.state].spriteSheet.spriteSize.Y;
-
-            Rectangle sourceRect = new Rectangle(x, y, (int)spritesComponent.spriteDict[entity.state].spriteSheet.spriteSize.X, (int)spritesComponent.spriteDict[entity.state].spriteSheet.spriteSize.Y);
-            Rectangle destRect = new Rectangle((int)transformComponent.position.X, (int)transformComponent.position.Y, (int)transformComponent.size.X, (int)transformComponent.size.Y);
-
-            Globals.spriteBatch.Draw(spriteSheet, destRect, sourceRect, Color.White);
+            Globals.spriteBatch.Draw(
+                currentTexture,
+                new Rectangle(
+                    (int)transformComponent.position.X, (int)transformComponent.position.Y,
+                    (int)transformComponent.size.X, (int)transformComponent.size.Y
+                ),
+                Color.White
+            );
 
         }
 

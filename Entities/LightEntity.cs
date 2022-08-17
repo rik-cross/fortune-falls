@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
@@ -33,11 +34,11 @@ namespace AdventureGame
 
             lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(32, 32)));
 
-            lightSourceEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.candleSpriteSheet, new List<Vector2> {
-                new Vector2(0, 0),
-                new Vector2(1, 0),
-                new Vector2(2, 0),
-                new Vector2(3, 0),
+            lightSourceEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(new List<Texture2D> {
+                Globals.candleSpriteSheet.GetSubTexture(0, 0),
+                Globals.candleSpriteSheet.GetSubTexture(1, 0),
+                Globals.candleSpriteSheet.GetSubTexture(2, 0),
+                Globals.candleSpriteSheet.GetSubTexture(3, 0),
             })));
 
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(10, 26), new Vector2(12, 6)));

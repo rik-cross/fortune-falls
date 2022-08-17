@@ -10,21 +10,45 @@ namespace AdventureGame.Engine
     public class Sprite
     {
 
-        public SpriteSheet spriteSheet;
-        public List<Vector2> positions;
-        public int currentPosition;
+        public List<Texture2D> textureList;
+        //public Vector2 size;
         public bool loop;
-        public double animationDelay;
-        public double timer;
+        public int currentPosition;
+        public int animationDelay;
+        public int timer;
 
-        public Sprite(SpriteSheet spriteSheet, List<Vector2> positions, double animationDelay = 10, bool loop = true)
+        public Sprite(Texture2D texture/*, Vector2 size = default*/)
         {
+            this.textureList = new List<Texture2D> { texture };
 
-            this.spriteSheet = spriteSheet;
-            this.positions = positions;
-            this.animationDelay = animationDelay;
+            //if (size != default)
+            //    this.size = size;
+            //else
+            //    this.size = new Vector2(texture.Width, texture.Height);
+
+            this.loop = false;
+            this.animationDelay = 0;
+            Reset();
+        }
+
+        public Sprite(List<Texture2D> textureList, /*Vector2 size = default, */bool loop = true, int animationDelay = 10)
+        {
+            this.textureList = textureList;
+
+            //if (size != default)
+            //    this.size = size;
+            //else
+            //    this.size = new Vector2(textureList[0].Width, textureList[0].Height);
+
             this.loop = loop;
+            this.animationDelay = animationDelay;
+            Reset();
+        }
 
+        public void Reset()
+        {
+            this.currentPosition = 0;
+            this.timer = 0;
         }
 
     }

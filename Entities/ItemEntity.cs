@@ -39,11 +39,8 @@ namespace AdventureGame
                 */
 
                 itemEntity.AddComponent(new Engine.SpritesComponent("idle",
-                    new Engine.Sprite(
-                        new Engine.SpriteSheet(Globals.content.Load<Texture2D>(assetName),
-                        new Vector2(34, 34)),
-                        new List<Vector2> { new Vector2(0, 0) })));
-
+                    new Engine.Sprite(Globals.content.Load<Texture2D>(assetName))
+                    ));
             }
 
             //Console.WriteLine($"Item image width {itemImage.Width} height {itemImage.Height}");
