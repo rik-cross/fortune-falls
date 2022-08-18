@@ -41,7 +41,7 @@ namespace AdventureGame
                 Globals.candleSpriteSheet.GetSubTexture(3, 0),
             })));
 
-            lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(10, 26), new Vector2(12, 6)));
+            lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(12, 6), new Vector2(10, 26)));
             lightSourceEntity.AddComponent(new Engine.LightComponent(100));
             lightSourceEntity.AddComponent(new Engine.TriggerComponent(
                 new Vector2(-50, -50), new Vector2(132, 132),

@@ -14,18 +14,15 @@ namespace AdventureGame
 {
     public static class ItemEntity
     {
-        //private Engine.Image itemImage;
-        //private Vector2 imageSize;
-        //private Engine.Animation itemAnimation;
-
-        public static Engine.Entity Create(int x, int y, string assetName, bool animation = false)
+        public static Engine.Entity Create(int x, int y, string assetName,
+            bool animation = false, List<string> collectable = default)
         {
 
             Entity itemEntity = EngineGlobals.entityManager.CreateEntity();
 
             itemEntity.AddTag("item");
 
-            Vector2 imageSize = new Vector2(34, 34);
+            //Vector2 imageSize = new Vector2(34, 34);
 
             // This should probably be an image or sprite component
             // How to add optional params e.g. size
@@ -43,19 +40,26 @@ namespace AdventureGame
                     ));
             }
 
+            Texture2D texture = itemEntity.GetComponent<SpritesComponent>().GetSprite("idle").textureList[0];
+            Vector2 imageSize = new Vector2(texture.Width, texture.Height);
+            Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
             //Console.WriteLine($"Item image width {itemImage.Width} height {itemImage.Height}");
 
-            /*
-            itemEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.enemySpriteSheet, new List<Vector2> {
-                new Vector2(0,0)
-            })));
-            Texture2D sprite = itemEntity.GetComponent<SpriteComponent>().sprite;
-            */
-
-            itemEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));//itemImage.Size));
-            //itemEntity.AddComponent(new Engine.ItemComponent(new Vector2(0, 0), itemImage.Size));
+            itemEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
             //itemEntity.AddComponent(new Engine.ItemComponent(new Vector2(0, 0), itemImage.Size, itemImage.Texture));
-            //itemEntity.AddComponent(new Engine.ItemComponent(new Vector2(0, 0), imageSize, itemImage.Texture));
+            itemEntity.AddComponent(new Engine.ColliderComponent(imageSize));
+
+            if (collectable != default)
+            {
+                //itemEntity.GetComponent<ItemComponent>().Collectable = collectable;
+                /*
+                Component itemComponent = itemEntity.GetComponent<SpritesComponent>();
+
+                foreach (string canCollect in collectable)
+                {
+                    itemComponent.Add/Get component by tag
+                }*/
+            }
 
             return itemEntity;
 

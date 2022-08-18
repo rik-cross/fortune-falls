@@ -37,7 +37,7 @@ namespace AdventureGame
             //enemyEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("enemy.sf", new JsonContentLoader()))));
 
             enemyEntity.AddComponent(new Engine.PhysicsComponent(1));
-            enemyEntity.AddComponent(new Engine.ColliderComponent(new Vector2(0, 0), new Vector2(65, 50)));
+            enemyEntity.AddComponent(new Engine.ColliderComponent(new Vector2(65, 50)));
             enemyEntity.AddComponent(new Engine.HitboxComponent(0, 0, 65, 50));
 
             return enemyEntity;
