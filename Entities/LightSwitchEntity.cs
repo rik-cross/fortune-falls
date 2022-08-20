@@ -16,11 +16,11 @@ namespace AdventureGame
 
         public static void lightOnCollide(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.Tags.HasTag("player"))
+            if (otherEntity.Tags.Name == "player1")
             {
                 InputComponent playerInputComponent = otherEntity.GetComponent<InputComponent>();
                 if (playerInputComponent != null && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
-                    EngineGlobals.entityManager.GetEntityByName("homeLight").GetComponent<LightComponent>().visible = !EngineGlobals.entityManager.GetEntityByName("homeLight").GetComponent<LightComponent>().visible;
+                    EngineGlobals.entityManager.GetEntityByName("homeLight1").GetComponent<LightComponent>().visible = !EngineGlobals.entityManager.GetEntityByName("homeLight1").GetComponent<LightComponent>().visible;
             }
         }
 

@@ -19,81 +19,65 @@ namespace AdventureGame
 
         public static void doorOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.Tags.HasTag("player"))
+            if (otherEntity.Tags.Name == "player1")
             {
-                //EngineGlobals.sceneManager.PopScene();
-
-
-                //Globals.beachScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-                //Globals.beachScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
-                Globals.beachScene.AddEntity(otherEntity);
-                Globals.beachScene.GetCameraByName("main").trackedEntity = otherEntity;
 
                 Globals.gameScene.GetCameraByName("main").trackedEntity = null;
-                //Globals.gameScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-                Globals.gameScene.RemoveEntity(otherEntity);
+                Globals.gameScene.GetCameraByName("minimap").trackedEntity = null;
+                Globals.gameScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
 
-                //EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(525, 900);
-                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(525, 900);
-                //EngineGlobals.sceneManager.PushScene(Globals.beachScene);
-                //Globals.beachScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
-                Globals.beachScene.GetCameraByName("main").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().position = new Vector2(525, 900);
+                Globals.beachScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.beachScene.GetCameraByName("minimap").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.beachScene.AddEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
+                Globals.beachScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+                Globals.beachScene.GetCameraByName("minimap").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
 
-                //Globals.beachScene.GetCameraByName("main").SetWorldPosition(new Vector2(525,900), instant: true);
-
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.gameScene }, new List<Scene> { Globals.beachScene }, replaceScenes: true);
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.beachScene, replaceScene: true);
             }
         }
 
         public static void beachOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.Tags.HasTag("player"))
+            if (otherEntity.Tags.Name == "player1")
             {
 
-
-                //Globals.gameScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-                //Globals.gameScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
-                Globals.gameScene.AddEntity(otherEntity);
-                Globals.gameScene.GetCameraByName("main").trackedEntity = otherEntity;
-
                 Globals.beachScene.GetCameraByName("main").trackedEntity = null;
-                //Globals.beachScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-                Globals.beachScene.RemoveEntity(otherEntity);
+                Globals.beachScene.GetCameraByName("minimap").trackedEntity = null;
+                Globals.beachScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
 
+                EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().position = new Vector2(260, 60);
+                Globals.gameScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.gameScene.GetCameraByName("minimap").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.gameScene.AddEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
+                Globals.gameScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+                Globals.gameScene.GetCameraByName("minimap").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
 
-                //EngineGlobals.sceneManager.PopScene();
-                //EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(260, 60);
-                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(260, 60);
-                //EngineGlobals.sceneManager.PushScene(Globals.gameScene);
-                //Globals.gameScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
-                Globals.gameScene.GetCameraByName("main").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.beachScene }, new List<Scene> { Globals.gameScene }, replaceScenes: true);
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.gameScene, replaceScene: true);
             }
         }
 
         public static void homeOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.Tags.HasTag("player"))
+            if (otherEntity.Tags.Name == "player1")
             {
 
-                //Globals.gameScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-                //Globals.gameScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
-                Globals.gameScene.AddEntity(otherEntity);
-                Globals.gameScene.GetCameraByName("main").trackedEntity = otherEntity;
-
                 Globals.homeScene.GetCameraByName("main").trackedEntity = null;
-                //Globals.homeScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-                Globals.homeScene.RemoveEntity(otherEntity);
+                Globals.homeScene.GetCameraByName("minimap").trackedEntity = null;
+                Globals.homeScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
 
-                //EngineGlobals.sceneManager.PopScene();
-                //EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(85, 90);
-                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(85, 90);
-                //EngineGlobals.sceneManager.PushScene(Globals.gameScene);
-                //Globals.gameScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
-                Globals.gameScene.GetCameraByName("main").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.homeScene }, new List<Scene> { Globals.gameScene }, replaceScenes: true);
+                EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().position = new Vector2(85, 90);
+                Globals.gameScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.gameScene.GetCameraByName("minimap").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.gameScene.AddEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
+                Globals.gameScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+                Globals.gameScene.GetCameraByName("minimap").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.gameScene, replaceScene: true);
+
             }
         }
+
 
         public Game1()
         {
@@ -236,10 +220,7 @@ namespace AdventureGame
             //Globals.beachScene.Init();
 
             //EngineGlobals.sceneManager.PushScene(Globals.menuScene);
-            EngineGlobals.sceneManager.transition = new FadeSceneTransition(
-                new List<Scene> { },
-                new List<Scene> { Globals.menuScene }
-            );
+            EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.menuScene);
 
         }
 

@@ -16,17 +16,22 @@ namespace AdventureGame
 
         public static void houseOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.Tags.HasTag("player"))
+            if (otherEntity.Tags.Name == "player1")
             {
 
-                Globals.homeScene.AddEntity(otherEntity);
-                Globals.homeScene.GetCameraByName("main").trackedEntity = otherEntity;
-
                 Globals.gameScene.GetCameraByName("main").trackedEntity = null;
-                Globals.gameScene.RemoveEntity(otherEntity);
+                Globals.gameScene.GetCameraByName("minimap").trackedEntity = null;
+                Globals.gameScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
 
-                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.gameScene }, new List<Scene> { Globals.homeScene }, replaceScenes: true);
+                EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
+                Globals.homeScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.homeScene.GetCameraByName("minimap").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.homeScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+                Globals.homeScene.GetCameraByName("minimap").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+                Globals.homeScene.AddEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
+
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.homeScene, replaceScene: true);
+
             }
         }
 

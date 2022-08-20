@@ -12,11 +12,20 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+
             InputComponent inputComponent = entity.GetComponent<InputComponent>();
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
-            
+
+            if (EngineGlobals.sceneManager.transition != null)
+            {
+                intentionComponent.Reset();
+                entity.state = "idle";
+                return;
+            }
+
             if (inputComponent.inputControllerPointer != null)
                 inputComponent.inputControllerPointer(entity);
+        
         }
     }
 }

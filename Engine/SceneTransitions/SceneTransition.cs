@@ -14,41 +14,70 @@ namespace AdventureGame.Engine
         public float percentage;
         public float increment = 1.0f;
 
-        protected List<Scene> fromScenes;
-        protected List<Scene> toScenes;
-        protected bool replaceScenes;
+        protected Scene toScene;
+        protected bool replaceScene;
 
-        public SceneTransition(List<Scene> fromScenes, List<Scene> toScenes, bool replaceScenes = false)
+        public SceneTransition(Scene toScene, bool replaceScene = false)
         {
-            this.fromScenes = fromScenes;
-            this.toScenes = toScenes;
-            this.replaceScenes = replaceScenes;
+            this.toScene = toScene;
+            this.replaceScene = replaceScene;
         }
 
         public void Update(GameTime gameTime)
         {
             percentage = Math.Min(percentage + increment, 100);
             //S.WriteLine(percentage);
+
             if (percentage == 50)
             {
-                if (toScenes.Count == 0)
+
+                // moving up the sceneList
+                if (toScene != null)
                 {
-                    foreach (Scene s in fromScenes)
-                        EngineGlobals.sceneManager.PopScene();
-                } else {
-                    if (replaceScenes)
+                    if (replaceScene)
                     {
-                        foreach (Scene s in fromScenes)
-                            EngineGlobals.sceneManager.PopScene();
+                        // can't call popscene, as it onEnter's the scene below it!
+                        //EngineGlobals.sceneManager.PopScene();
+
+
+
+                        Scene sceneToPop = EngineGlobals.sceneManager.GetTopScene();
+                        EngineGlobals.sceneManager.sceneList.RemoveAt(EngineGlobals.sceneManager.sceneList.Count - 1);
+                        //if (sceneToPop == Globals.gameScene)
+                        //    S.WriteLine("Game");
+                        sceneToPop._OnExit();
+                        sceneToPop.UnloadContent();
+
+                        //if (sceneList.Count > 0)
+                        //    GetTopScene()._OnEnter();
+
                     }
-                    foreach (Scene s in toScenes)
-                        EngineGlobals.sceneManager.PushScene(s);
+
+                    //EngineGlobals.sceneManager.PushScene(toScene);
+
+
+
+                    //if (sceneList.Count > 0)
+                    //    GetTopScene()._OnExit();
+
+                    toScene.LoadContent();
+                    toScene._OnEnter();
+                    EngineGlobals.sceneManager.sceneList.Add(toScene);
+
+
                 }
+                // moving down
+                else
+                {
+                    EngineGlobals.sceneManager.PopScene();
+
+
+                }
+
             }
+
             if (percentage == 100)
-            {
                 EngineGlobals.sceneManager.transition = null;
-            }
 
             if (EngineGlobals.sceneManager.sceneList.Count > 0)
                 EngineGlobals.sceneManager.GetTopScene()._Update(gameTime);

@@ -79,7 +79,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
                 //EngineGlobals.sceneManager.PopScene();
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.beachScene }, new List<Scene> { });
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {

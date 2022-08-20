@@ -133,7 +133,7 @@ namespace AdventureGame
                     if (inputItem != null) {
                         if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
                             //EngineGlobals.sceneManager.PushScene(Globals.gameScene);
-                            EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.menuScene }, new List<Scene> { Globals.gameScene });
+                            EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.gameScene);
                     }
                 }
             }

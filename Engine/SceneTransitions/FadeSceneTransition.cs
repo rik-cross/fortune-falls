@@ -14,7 +14,7 @@ namespace AdventureGame.Engine
     
     public class FadeSceneTransition : SceneTransition
     {
-        public FadeSceneTransition(List<Scene> fromScenes, List<Scene> toScenes, bool replaceScenes = false) : base(fromScenes, toScenes, replaceScenes)
+        public FadeSceneTransition(Scene toScene, bool replaceScene = false) : base(toScene, replaceScene)
         {
         }
         public override void Draw(GameTime gameTime)

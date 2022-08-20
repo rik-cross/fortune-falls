@@ -118,11 +118,21 @@ namespace AdventureGame.Engine
 
         public void _OnEnter()
         {
+            entitiesToDelete.Clear();
+            foreach (Entity e in entityList)
+            {
+                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
+                if (triggerComponent != null)
+                {
+                    triggerComponent.collidedEntities.Clear();
+                }
+            }
             OnEnter();
         }
         public virtual void OnEnter() { }
         public void _OnExit()
         {
+            entitiesToDelete.Clear();
             foreach(Entity e in entityList)
             {
                 TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
