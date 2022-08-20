@@ -16,16 +16,16 @@ namespace AdventureGame
 
         public static void houseOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.HasTag("player"))
+            if (otherEntity.Tags.HasTag("player"))
             {
 
-                Globals.homeScene.AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-                Globals.homeScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+                Globals.homeScene.AddEntity(otherEntity);
+                Globals.homeScene.GetCameraByName("main").trackedEntity = otherEntity;
 
                 Globals.gameScene.GetCameraByName("main").trackedEntity = null;
-                Globals.gameScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+                Globals.gameScene.RemoveEntity(otherEntity);
 
-                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
+                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
                 EngineGlobals.sceneManager.transition = new FadeSceneTransition(new List<Scene> { Globals.gameScene }, new List<Scene> { Globals.homeScene }, replaceScenes: true);
             }
         }
@@ -34,7 +34,8 @@ namespace AdventureGame
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
 
-            entity.AddTag("home");
+            entity.Tags.Name = "home";
+            entity.Tags.AddTag("building"); // home or building?
 
             entity.AddComponent(new TransformComponent(new Vector2(x, y), new Vector2(88, 89)));
             entity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("homeImage"))));

@@ -16,11 +16,11 @@ namespace AdventureGame
 
         public static void lightOnCollide(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.HasTag("player"))
+            if (otherEntity.Tags.HasTag("player"))
             {
                 InputComponent playerInputComponent = otherEntity.GetComponent<InputComponent>();
                 if (playerInputComponent != null && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
-                    EngineGlobals.entityManager.GetEntityByTag("homeLight").GetComponent<LightComponent>().visible = !EngineGlobals.entityManager.GetEntityByTag("homeLight").GetComponent<LightComponent>().visible;
+                    EngineGlobals.entityManager.GetEntityByName("homeLight").GetComponent<LightComponent>().visible = !EngineGlobals.entityManager.GetEntityByName("homeLight").GetComponent<LightComponent>().visible;
             }
         }
 
@@ -28,7 +28,8 @@ namespace AdventureGame
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
 
-            entity.AddTag("lightSwitch");
+            entity.Tags.Name = "lightSwitch1"; // REMOVE
+            entity.Tags.AddTag("lightSwitch");
 
             entity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(8, 8)));
             entity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("lightSwitch"))));

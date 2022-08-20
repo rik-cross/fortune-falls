@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 
 using MonoGame.Extended;
+
 using System;
+using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {
@@ -15,62 +17,37 @@ namespace AdventureGame.Engine
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             ItemComponent itemComponent = entity.GetComponent<ItemComponent>();
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // check for hurtbox and hitbox intersects
-            foreach (Entity e in scene.entityList)
-            {/*
-                if (entityList.Contains(e) && entity != e)
+            // Respond to entities that have started colliding
+            foreach (Entity otherEntity in colliderComponent.collidedEntities)
+            {
+                if (itemComponent.CanCollect(otherEntity.Tags.Type))
                 {
-                    HurtboxComponent eHurtboxComponent = e.GetComponent<HurtboxComponent>();
+                    // delete or hide item entity
+                    //entity.
+                }
 
-                    if (eHurtboxComponent != null)
+                /*
+                HashSet<string> entityTags = otherEntity.Tags.Type;
+                //List<string> entityTags = otherEntity.GetTags();
+                //foreach (string tag in itemComponent.GetTags())
+                //{
+                foreach (string eTag in entityTags)
+                {
+                    if (itemComponent.CanCollect(eTag))
                     {
-                        if (hitboxComponent.rect.Intersects(eHurtboxComponent.rect))
+                        if (!itemComponent.HasBeenCollected && itemComponent.IsActive)
                         {
-                            hitboxComponent.color = Color.Purple;
-                            eHurtboxComponent.color = Color.Gray;
-
-                            // set both entity states to hit / hurt
-                            eHurtboxComponent.active = false;
+                            // delete or hide item entity
+                            //entity.
                         }
                     }
-                }*/
+                }
+                //}
+                */
             }
-
-        }
-
-        public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
-        {
-
-            //SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
-            ItemComponent itemComponent = entity.GetComponent<ItemComponent>();
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            // ColliderComponent?
-
-            Globals.spriteBatch.Draw(
-                itemComponent.texture,
-                new Rectangle(
-                    (int)(transformComponent.position.X - (transformComponent.size.X / 2)),
-                    (int)(transformComponent.position.Y - (transformComponent.size.Y / 2)),
-                    (int)transformComponent.size.X,
-                    (int)transformComponent.size.Y
-                ), Color.White);
-
-            //Color color = colliderComponent.color;
-            int lineWidth = 2;
-
-            Rectangle rect = new Rectangle(
-                    (int)(transformComponent.position.X - (transformComponent.size.X / 2)),
-                    (int)(transformComponent.position.Y - (transformComponent.size.Y / 2)),
-                    (int)transformComponent.size.X,
-                    (int)transformComponent.size.Y
-                );
-
-            Console.WriteLine($"X:{transformComponent.position.X} Y:{transformComponent.position.Y}");
-            Console.WriteLine($"Width:{transformComponent.size.X} Height:{transformComponent.size.X}");
-
-            Globals.spriteBatch.DrawRectangle(rect, Color.Chocolate, lineWidth);
-
         }
 
     }

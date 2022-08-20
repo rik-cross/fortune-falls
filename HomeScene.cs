@@ -30,11 +30,11 @@ namespace AdventureGame
             // player entity
             //AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
             // trigger
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("h"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("h"));
             // light
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("homeLight"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("homeLight1"));
             // light switch
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("lightSwitch"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("lightSwitch1"));
 
             //
             // add cameras
@@ -46,7 +46,7 @@ namespace AdventureGame
                 size: new Vector2(Globals.WIDTH, Globals.HEIGHT),
                 zoom: Globals.globalZoomLevel,
                 backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
+                trackedEntity: EngineGlobals.entityManager.GetEntityByName("player1")
             );
             AddCamera(playerCamera);
 
@@ -60,7 +60,7 @@ namespace AdventureGame
                 backgroundColour: Color.DarkSlateBlue,
                 borderColour: Color.Black,
                 borderThickness: 2,
-                trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
+                trackedEntity: EngineGlobals.entityManager.GetEntityByName("player1")
 
             );
             AddCamera(minimapCamera);

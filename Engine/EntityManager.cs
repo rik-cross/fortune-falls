@@ -24,23 +24,37 @@ namespace AdventureGame.Engine
             idPool = new List<int>();
         }
 
-        // Return the list of entities
+        // Returns the list of entities
         public List<Entity> GetEntities()
         {
             return entities;
         }
 
-        public Entity GetEntityByTag(string tag)
+        public Entity GetEntityByName(string name)
         {
             foreach(Entity e in entities)
             {
-                if (e.HasTag(tag))
+                if (e.Tags.Name == name)
                     return e;
             }
             return null;
         }
 
-        // Create a new entity and give it an id
+        public List<Entity> GetAllEntitiesByType(string type)
+        {
+            List<Entity> entitiesByType = new List<Entity>();
+            foreach (Entity e in entities)
+            {
+                if (e.Tags.HasTag(type))
+                    entitiesByType.Add(e);
+            }
+            return entitiesByType;
+        }
+        // public Entity GetEntityByName(string tag)
+        // public Entity GetEntityByType(string tag)
+        // public HashSet/List<string> GetAllEntitiesByTag(string tag)
+
+        // Creates a new entity and give it an id
         public Entity CreateEntity()
         {
             Entity e = new Entity(CheckOutId());
@@ -48,7 +62,7 @@ namespace AdventureGame.Engine
             return e;
         }
 
-        // Add the entity to the list and mapper
+        // Adds the entity to the list and mapper
         public void AddEntity(Entity e)
         {
 
@@ -57,29 +71,21 @@ namespace AdventureGame.Engine
 
             entities.Add(e);
             entityMapper[e.id] = entities.Count - 1;
-
-            // Testing
-            /*
-            Console.WriteLine("Add entity:");
-            Console.WriteLine(String.Join(", ", entities));
-            foreach (KeyValuePair<int, int> kv in entityMapper)
-                Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
-            */
         }
 
-        // Remove the entity from the disabled set
+        // Removes the entity from the disabled set
         public void EnableEntity(Entity e)
         {
             disabled.Remove(e.id);
         }
 
-        // Add the entity to the disabled set
+        // Adds the entity to the disabled set
         public void DisableEntity(Entity e)
         {
             disabled.Add(e.id);
         }
 
-        // Add the entity to the deleted set
+        // Adds the entity to the deleted set
         public void DeleteEntity(Entity e)
         {
             deleted.Add(e.id);
@@ -96,12 +102,8 @@ namespace AdventureGame.Engine
                 // Remove the entity's components
                 EngineGlobals.componentManager.RemoveAllComponents(e);
 
-                // Testing
-                Console.WriteLine($"Deleting entity {entityId}");
-                Console.WriteLine($"Entity {entityId} has signature {e.signature}");
-
                 // Replace the deleted entity with the last entity in the list
-                // and update the mapper.
+                // and update the mapper
                 if (entityMapper.ContainsKey(e.id))
                 {
                     // Get the index of the current entity
@@ -125,31 +127,25 @@ namespace AdventureGame.Engine
 
                 // Allow the entity id to be reused
                 CheckInId(entityId);
-
-                // Testing
-                Console.WriteLine("Delete entity:");
-                Console.WriteLine(String.Join(", ", entities));
-                foreach (KeyValuePair<int, int> kv in entityMapper)
-                    Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
             }
 
             // Clear the deleted set
             deleted.Clear();
         }
 
-        // Return if the entity is active
+        // Returns if the entity is active
         public bool IsActive(int entityId)
         {
             return entities[entityId] != null;
         }
 
-        // Return if the entity is enabled
+        // Returns if the entity is enabled
         public bool IsEnabled(int entityId)
         {
             return !disabled.Contains(entityId);
         }
 
-        // Return the entity from the entity id
+        // Returns the entity from the entity id
         public Entity GetEntity(int entityId)
         {
             return entities[entityId];
@@ -168,7 +164,7 @@ namespace AdventureGame.Engine
             return nextAvailableId++;
         }
 
-        // Add an entity id to be reused
+        // Adds an entity id to be reused
         public void CheckInId(int id)
         {
             idPool.Add(id);

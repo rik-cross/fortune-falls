@@ -8,11 +8,10 @@ namespace AdventureGame.Engine
         public Guid guid;
         public int id;
         public ulong signature;
+        public string state = "idle"; // Should this move to Sprite / SpritesComponent??
 
-        public List<Component> components = new List<Component>(); // dictionary?
-        public string state = "idle";
-
-        public List<string> tags = new List<string>();
+        public List<Component> components; // Dictionary/HashSet?
+        public Tags Tags { get; set; }
 
         public ComponentManager componentManager;
 
@@ -21,18 +20,10 @@ namespace AdventureGame.Engine
             this.id = id;
             GenerateGuid();
 
+            components = new List<Component>();
+            Tags = new Tags();
+
             componentManager = EngineGlobals.componentManager;
-        }
-
-        public void AddTag(string tag)
-        {
-            if (tags.Contains(tag) == false)
-                tags.Add(tag);
-        }
-
-        public bool HasTag(string tag)
-        {
-            return tags.Contains(tag);
         }
 
         // Generates a unique GUID for the entity
@@ -47,7 +38,7 @@ namespace AdventureGame.Engine
             componentManager.AddComponent(this, component);
         }
 
-        // Removes a component from the entity
+        // Removes a given component from the entity
         public void RemoveComponent<T>() where T : Component
         {
             Component component = GetComponent<T>();
@@ -55,7 +46,7 @@ namespace AdventureGame.Engine
                 componentManager.RemoveComponent(this, component);
         }
 
-        // Returns each component object of the entity
+        // Returns a given component from the entity
         public T GetComponent<T>() where T : Component
         {
             foreach (Component c in components)

@@ -22,7 +22,7 @@ namespace AdventureGame
         }
         public static void lightOnCollisionExit(Entity thisEntity, Entity otherEntity, float distance)
         {
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByTag("player");
+            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
             EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(3.0f, 0.01f);
         }
 
@@ -30,7 +30,8 @@ namespace AdventureGame
         {
             Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
 
-            lightSourceEntity.AddTag("light");
+            lightSourceEntity.Tags.Name = "light1"; // REMOVE
+            lightSourceEntity.Tags.AddTag("light");
 
             lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(32, 32)));
 

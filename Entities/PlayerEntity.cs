@@ -110,7 +110,8 @@ namespace AdventureGame
 
             Engine.Entity playerEntity = EngineGlobals.entityManager.CreateEntity();
 
-            playerEntity.AddTag("player");
+            playerEntity.Tags.Name = "player1";
+            playerEntity.Tags.AddTag("player");
 
             playerEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
 

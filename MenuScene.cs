@@ -34,10 +34,10 @@ namespace AdventureGame
 
             // get alpha values based on current player input type
             float controllerAlpha = 0.2f;
-            if (EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input == Engine.Inputs.controller)
+            if (EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<InputComponent>().input == Engine.Inputs.controller)
                 controllerAlpha = 1.0f;
             float keyboardAlpha = 0.2f;
-            if (EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
+            if (EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
                 keyboardAlpha = 1.0f;
 
             // control images
@@ -123,7 +123,7 @@ namespace AdventureGame
                 EngineGlobals.sceneManager.PopScene();
             }
 
-            InputComponent inputComponent = EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>();
+            InputComponent inputComponent = EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<InputComponent>();
             if (inputComponent != null)
             {
                 InputMethod inputMethod = inputComponent.input;
@@ -142,14 +142,14 @@ namespace AdventureGame
             {
                 keyboardImage.alpha = 1.0f;
                 controllerImage.alpha = 0.2f;
-                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
+                EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
             }
 
             if (EngineGlobals.inputManager.IsPressed(ControllerInput.A))
             {
                 keyboardImage.alpha = 0.2f;
                 controllerImage.alpha = 1.0f;
-                EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>().input = Engine.Inputs.controller;
+                EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<InputComponent>().input = Engine.Inputs.controller;
             }
 
             if (EngineGlobals.inputManager.IsPressed(ControllerInput.A))

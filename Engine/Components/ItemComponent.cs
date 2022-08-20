@@ -6,25 +6,40 @@ using Microsoft.Xna.Framework.Graphics;
 namespace AdventureGame.Engine
 {
 
-    public class ItemComponent : Component
+    public class ItemComponent : Component  // CollectableComponent??
     {
-        public Texture2D texture;
-        public Vector2 offset;
-        public Vector2 size;
-        public Rectangle rect;
+        public bool HasBeenCollected { get; set; }
+        public bool IsActive { get; set; } // or isCollectable ??
 
-        public bool isSolid;
-        public bool isActive;
+        //public HashSet<string> collectableByTag;
+        public Tags CollectableByTag { get; set; }
 
         //public ItemComponent(Vector2 offset, Vector2 size, bool isActive = true, bool isSolid = true)
-        public ItemComponent(Vector2 offset, Vector2 size, Texture2D texture, bool isActive = true, bool isSolid = true)
+        public ItemComponent(HashSet<string> collectableByTag = default,
+            bool hasBeenCollected = false, bool isActive = true)
         {
-            this.texture = texture;
-            this.offset = offset;
-            this.size = size;
+            //CollectableByTag = collectableByTag;
+            CollectableByTag = new Tags(collectableByTag);
 
-            this.isActive = isActive;
-            this.isSolid = isSolid;
+            HasBeenCollected = hasBeenCollected;
+            IsActive = isActive;
+        }
+
+        // Check if an entity can collect the item
+        public bool CanCollect(string tag)
+        {
+            return CollectableByTag.HasTag(tag);
+        }
+
+        // Check if an entity can collect the item
+        public bool CanCollect(HashSet<string> tags)
+        {
+            foreach (string tag in tags)
+            {
+                if (CollectableByTag.HasTag(tag))
+                    return true;
+            }
+            return false;
         }
     }
 

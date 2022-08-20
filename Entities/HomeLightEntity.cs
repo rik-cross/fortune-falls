@@ -17,7 +17,8 @@ namespace AdventureGame
         {
             Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
 
-            lightSourceEntity.AddTag("homeLight");
+            lightSourceEntity.Tags.Name = "homeLight1";
+            lightSourceEntity.Tags.AddTag("light");
 
             lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(32, 32)));
             lightSourceEntity.AddComponent(new Engine.LightComponent(150));

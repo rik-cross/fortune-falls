@@ -21,7 +21,8 @@ namespace AdventureGame
 
             Entity enemyEntity = EngineGlobals.entityManager.CreateEntity();
 
-            enemyEntity.AddTag("enemy");
+            enemyEntity.Tags.Name = "enemy1"; // REMOVE
+            enemyEntity.Tags.AddTag("enemy");
 
             enemyEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("sprite"))));
 

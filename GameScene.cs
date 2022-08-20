@@ -27,20 +27,21 @@ namespace AdventureGame
             //
             
             // player entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
             // home entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("home"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("home"));
             // enemy entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("enemy"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("enemy1"));
             // light entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("light"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("light1"));
             // map trigger
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("m"));
 
             // item entities
             //Engine.Entity swordEntity01 = new ItemEntity().Create(30, 30, "Items/W_Sword003");
-            Engine.Entity itemEntity = ItemEntity.Create(30, 170, "Items/W_Sword003");
-            AddEntity(EngineGlobals.entityManager.GetEntityByTag("item"));
+            HashSet<string> collectable = new HashSet<string>() { "player" };
+            Engine.Entity itemEntity = ItemEntity.Create(30, 170, "Items/W_Sword003", false, collectable);
+            AddEntity(EngineGlobals.entityManager.GetEntityByName("item1"));
             
             
             //AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
@@ -56,7 +57,7 @@ namespace AdventureGame
                 size: new Vector2(Globals.WIDTH, Globals.HEIGHT),
                 zoom: Globals.globalZoomLevel,
                 backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
+                trackedEntity: EngineGlobals.entityManager.GetEntityByName("player1")
             );
             AddCamera(playerCamera);
 
@@ -70,7 +71,7 @@ namespace AdventureGame
                 backgroundColour: Color.DarkSlateBlue,
                 borderColour: Color.Black,
                 borderThickness: 2,
-                trackedEntity: EngineGlobals.entityManager.GetEntityByTag("player")
+                trackedEntity: EngineGlobals.entityManager.GetEntityByName("player1")
             );
             AddCamera(minimapCamera);
 
