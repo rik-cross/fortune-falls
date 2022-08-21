@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using S = System.Diagnostics.Debug;
 
 using MonoGame.Extended;
 
@@ -21,7 +16,6 @@ namespace AdventureGame.Engine
         {
 
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-            //Globals.spriteBatch.Begin();
 
  
             Globals.spriteBatch.End();
@@ -36,17 +30,11 @@ namespace AdventureGame.Engine
                 f = (percentage / 50);
             else
                 f = Math.Abs((100 - percentage) / 50);
-            //S.WriteLine(f);
             Globals.spriteBatch.FillRectangle(
                 new Rectangle(0, 0, Globals.WIDTH, Globals.HEIGHT),
                 Color.Black * f
             );
 
-            //Globals.spriteBatch.End();
-            //Globals.graphicsDevice.SetRenderTarget(null);
-            //Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            //Globals.spriteBatch.Draw(Globals.sceneRenderTarget, Globals.sceneRenderTarget.Bounds, Color.White);
-            //Globals.spriteBatch.End();
         }
 
     }

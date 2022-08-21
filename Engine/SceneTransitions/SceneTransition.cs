@@ -26,7 +26,6 @@ namespace AdventureGame.Engine
         public void Update(GameTime gameTime)
         {
             percentage = Math.Min(percentage + increment, 100);
-            //S.WriteLine(percentage);
 
             if (percentage == 50)
             {
@@ -36,29 +35,13 @@ namespace AdventureGame.Engine
                 {
                     if (replaceScene)
                     {
-                        // can't call popscene, as it onEnter's the scene below it!
-                        //EngineGlobals.sceneManager.PopScene();
-
-
-
+                        
                         Scene sceneToPop = EngineGlobals.sceneManager.GetTopScene();
                         EngineGlobals.sceneManager.sceneList.RemoveAt(EngineGlobals.sceneManager.sceneList.Count - 1);
-                        //if (sceneToPop == Globals.gameScene)
-                        //    S.WriteLine("Game");
+
                         sceneToPop._OnExit();
                         sceneToPop.UnloadContent();
-
-                        //if (sceneList.Count > 0)
-                        //    GetTopScene()._OnEnter();
-
                     }
-
-                    //EngineGlobals.sceneManager.PushScene(toScene);
-
-
-
-                    //if (sceneList.Count > 0)
-                    //    GetTopScene()._OnExit();
 
                     toScene.LoadContent();
                     toScene._OnEnter();

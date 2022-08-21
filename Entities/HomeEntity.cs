@@ -16,19 +16,19 @@ namespace AdventureGame
 
         public static void houseOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.Tags.Name == "player1")
+            if (otherEntity.Tags.HasTag("player"))
             {
 
                 Globals.gameScene.GetCameraByName("main").trackedEntity = null;
                 Globals.gameScene.GetCameraByName("minimap").trackedEntity = null;
-                Globals.gameScene.RemoveEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
+                Globals.gameScene.RemoveEntity(otherEntity);
 
-                EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
-                Globals.homeScene.GetCameraByName("main").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
-                Globals.homeScene.GetCameraByName("minimap").SetWorldPosition(EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
-                Globals.homeScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
-                Globals.homeScene.GetCameraByName("minimap").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
-                Globals.homeScene.AddEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
+                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
+                Globals.homeScene.GetCameraByName("main").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.homeScene.GetCameraByName("minimap").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
+                Globals.homeScene.GetCameraByName("main").trackedEntity = otherEntity;
+                Globals.homeScene.GetCameraByName("minimap").trackedEntity = otherEntity;
+                Globals.homeScene.AddEntity(otherEntity);
 
                 EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.homeScene, replaceScene: true);
 

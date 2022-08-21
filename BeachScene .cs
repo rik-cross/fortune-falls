@@ -18,9 +18,6 @@ namespace AdventureGame
 
         public BeachScene()
         {
-
-            S.WriteLine("new beach scene created");
-
             // add map
             AddMap("beach");
 
@@ -28,8 +25,6 @@ namespace AdventureGame
             // add entities
             //
             
-            // player entity
-            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
             // trigger
             AddEntity(EngineGlobals.entityManager.GetEntityByName("b"));
 

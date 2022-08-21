@@ -1,14 +1,6 @@
-﻿
+﻿using System.Collections.Generic;
 using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-using MonoGame.Extended;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-
-using System;
-using System.Collections.Generic;
 
 namespace AdventureGame
 {
@@ -26,8 +18,6 @@ namespace AdventureGame
             // add entities
             //
             
-            // player entity
-            AddEntity(EngineGlobals.entityManager.GetEntityByName("player1"));
             // home entity
             AddEntity(EngineGlobals.entityManager.GetEntityByName("home"));
             // enemy entity
@@ -91,7 +81,6 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                //EngineGlobals.sceneManager.PopScene();
                 EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))

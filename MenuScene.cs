@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using AdventureGame.Engine;
-
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using MonoGame.Extended;
+using AdventureGame.Engine;
 
 namespace AdventureGame
 {
@@ -107,6 +101,13 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
+
+            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+            Globals.gameScene.AddEntity(playerEntity);
+            playerEntity.GetComponent<TransformComponent>().position = new Vector2(100, 100);
+            Globals.gameScene.GetCameraByName("main").trackedEntity = playerEntity;
+            Globals.gameScene.GetCameraByName("minimap").trackedEntity = playerEntity;
+
             controllerButton.Stop();
             keyboardButton.Stop();
         }
@@ -120,7 +121,7 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
             }
 
             InputComponent inputComponent = EngineGlobals.entityManager.GetEntityByName("player1").GetComponent<InputComponent>();
@@ -132,7 +133,6 @@ namespace AdventureGame
                     InputItem inputItem = inputMethod.button1;
                     if (inputItem != null) {
                         if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
-                            //EngineGlobals.sceneManager.PushScene(Globals.gameScene);
                             EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.gameScene);
                     }
                 }

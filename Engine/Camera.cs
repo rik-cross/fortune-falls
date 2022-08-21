@@ -69,7 +69,6 @@ namespace AdventureGame.Engine
             targetWorldPosition = position * -1;
             if (instant)
             {
-                S.WriteLine("here");
                 worldPosition = targetWorldPosition;
             }
         }
