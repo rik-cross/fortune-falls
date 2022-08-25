@@ -30,7 +30,7 @@ namespace AdventureGame
             // item entities
             //Engine.Entity swordEntity01 = new ItemEntity().Create(30, 30, "Items/W_Sword003");
             HashSet<string> collectable = new HashSet<string>() { "player" };
-            Engine.Entity itemEntity = ItemEntity.Create(30, 170, "Items/W_Sword003", false, collectable);
+            Engine.Entity itemEntity = ItemEntity.Create(30, 170, "Items/W_Sword003", collectable, false);
             AddEntity(EngineGlobals.entityManager.GetEntityByName("item1"));
             
             
