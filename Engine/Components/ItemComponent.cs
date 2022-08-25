@@ -34,6 +34,7 @@ namespace AdventureGame.Engine
         {
             foreach (string tag in tags)
             {
+                Console.WriteLine("Testing tag");
                 if (CollectableByTag.HasTag(tag))
                     return true;
             }

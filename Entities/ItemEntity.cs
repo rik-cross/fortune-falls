@@ -18,7 +18,6 @@ namespace AdventureGame
 
             Entity itemEntity = EngineGlobals.entityManager.CreateEntity();
 
-            itemEntity.Tags.Name = "item1"; // REMOVE
             itemEntity.Tags.AddTag("item");
 
             // How to handle sprite sheets dynamically?

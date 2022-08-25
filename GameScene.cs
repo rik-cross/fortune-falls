@@ -28,12 +28,10 @@ namespace AdventureGame
             AddEntity(EngineGlobals.entityManager.GetEntityByName("m"));
 
             // item entities
-            //Engine.Entity swordEntity01 = new ItemEntity().Create(30, 30, "Items/W_Sword003");
-            HashSet<string> collectable = new HashSet<string>() { "player" };
-            Engine.Entity itemEntity = ItemEntity.Create(30, 170, "Items/W_Sword003", collectable, false);
-            AddEntity(EngineGlobals.entityManager.GetEntityByName("item1"));
-            
-            
+            HashSet<string> playerCollectable = new HashSet<string>() { "player" };
+            AddEntity(ItemEntity.Create(30, 170, "Items/W_Sword003", playerCollectable));
+            AddEntity(ItemEntity.Create(100, 250, "Items/I_Boulder01"));
+
             //AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
 
