@@ -28,7 +28,14 @@ namespace AdventureGame.Engine
             {
                 ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
 
-                // Return if either of the entities are not solid
+                // Check if the other entity no longer has a collider component
+                if (otherColliderComponent == null)
+                {
+                    colliderComponent.collidedEntities.Remove(otherEntity);
+                    return;
+                }
+
+                // Check if either of the entities are not solid
                 if (!colliderComponent.isSolid || !otherColliderComponent.isSolid)
                     return;
 
@@ -43,9 +50,9 @@ namespace AdventureGame.Engine
 
                 // Get the entity's direction
                 string direction = physicsComponent.direction;
-                Console.WriteLine($"\nPhysics component direction: {direction}");
+                //Console.WriteLine($"\nPhysics component direction: {direction}");
 
-                // Return if the entity is not trying to move in any direction
+                // Check if the entity is not trying to move in any direction
                 if (String.IsNullOrEmpty(direction))
                     return;
 
@@ -53,8 +60,8 @@ namespace AdventureGame.Engine
                 PhysicsComponent otherPhysicsComponent = otherEntity.GetComponent<PhysicsComponent>();
                 TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
 
-                Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
-                Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
+                //Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
+                //Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
 
                 // MOVE TO after isSolid
                 // Return if the entity is not moving
@@ -640,18 +647,27 @@ namespace AdventureGame.Engine
                     */
                 }
                 
-                Console.WriteLine("END OF RESOLUTION");
+                //Console.WriteLine("END OF RESOLUTION");
 
-                Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
-                Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
+                //Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
+                //Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
                 
 
             }
 
             // Respond to entities that have stopped colliding
-            foreach (Entity collidedEntity in colliderComponent.collidedEntitiesEnded)
+            foreach (Entity otherEntity in colliderComponent.collidedEntitiesEnded)
             {
-                Console.WriteLine($"Collision response system: Entity {entity.id} stopped colliding with Entity {collidedEntity.id}");
+                ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
+
+                // Check if the other entity no longer has a collider component
+                if (otherColliderComponent == null)
+                {
+                    colliderComponent.collidedEntitiesEnded.Remove(otherEntity);
+                    return;
+                }
+
+                //Console.WriteLine($"Collision response system: Entity {entity.id} stopped colliding with Entity {otherEntity.id}");
             }
         }
         //transformComponent.position.X = newPosition;
