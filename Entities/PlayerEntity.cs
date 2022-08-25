@@ -104,10 +104,6 @@ namespace AdventureGame
 
         public static Engine.Entity Create(int x, int y)
         {
- 
-            int playerWidth = 26;
-            int playerHeight = 36;
-
             Engine.Entity playerEntity = EngineGlobals.entityManager.CreateEntity();
 
             playerEntity.Tags.Name = "player1"; // REMOVE
@@ -169,17 +165,19 @@ namespace AdventureGame
                 )
             );
 
-
             foreach (Engine.Sprite sp in spritesComponent.SpriteDict.Values)
                 sp.animationDelay = 8;
 
+            Texture2D texture = spritesComponent.GetSprite("idle").textureList[0];
+            Vector2 imageSize = new Vector2(texture.Width, texture.Height);
+
             playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(playerWidth, playerHeight)));
+            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
             playerEntity.AddComponent(new Engine.PhysicsComponent(2));
             //playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
 
             playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(16, 8), new Vector2(5, 28)));
-            playerEntity.AddComponent(new Engine.HurtboxComponent(new Vector2(26, 36)));
+            playerEntity.AddComponent(new Engine.HurtboxComponent(imageSize));
             playerEntity.AddComponent(new Engine.InputComponent(
                 null, //Engine.Inputs.keyboard,
                 PlayerInputController

@@ -26,20 +26,17 @@ namespace AdventureGame
 
             enemyEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("sprite"))));
 
-            // Texture2D spritesComponent = enemyEntity.GetComponent<SpriteComponent>().sprite;
-            //Vector2 spriteSize = enemyEntity.GetComponent<SpritesComponent>().sprite.spriteSheet.spriteSize;
-            //Texture2D spriteSize = enemyEntity.GetComponent<SpritesComponent>().sprite.spriteSheet.texture;
-            Vector2 spriteSize = Globals.enemySpriteSheet.spriteSize;
-            //Console.WriteLine($"Enemy sprite width {spriteSize.Width} height {spriteSize.Height}");
-            //Console.WriteLine($"Enemy sprite width {spriteSize.X} height {spriteSize.Y}");
+            Texture2D texture = enemyEntity.GetComponent<SpritesComponent>().GetSprite("idle").textureList[0];
+            //Vector2 imageSize = new Vector2(texture.Width, texture.Height); // RESIZE enemy sprite
+            Vector2 imageSize = new Vector2(65, 50);
 
             enemyEntity.AddComponent(new Engine.IntentionComponent());
-            enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(65, 50)));
+            enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
             //enemyEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("enemy.sf", new JsonContentLoader()))));
 
             enemyEntity.AddComponent(new Engine.PhysicsComponent(1));
-            enemyEntity.AddComponent(new Engine.ColliderComponent(new Vector2(65, 50)));
-            enemyEntity.AddComponent(new Engine.HitboxComponent(new Vector2(65, 50)));
+            enemyEntity.AddComponent(new Engine.ColliderComponent(imageSize));
+            enemyEntity.AddComponent(new Engine.HitboxComponent(imageSize));
 
             return enemyEntity;
 
