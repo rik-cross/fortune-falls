@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 
-using MonoGame.Extended;
-
-using System;
-using System.Collections.Generic;
-
 namespace AdventureGame.Engine
 {
     public class ItemSystem : System
@@ -18,35 +13,23 @@ namespace AdventureGame.Engine
         {
             ItemComponent itemComponent = entity.GetComponent<ItemComponent>();
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            //TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            // Respond to entities that have started colliding
-            foreach (Entity otherEntity in colliderComponent.collidedEntities)
+            // Check if the item is active and has not been collected
+            if (itemComponent.IsActive && !itemComponent.HasBeenCollected)
             {
-                if (itemComponent.CanCollect(otherEntity.Tags.Type))
+                // Respond to a collision between the item and another entity
+                foreach (Entity otherEntity in colliderComponent.collidedEntities)
                 {
-                    // delete or hide item entity
-                    //entity.
-                }
-
-                /*
-                HashSet<string> entityTags = otherEntity.Tags.Type;
-                //List<string> entityTags = otherEntity.GetTags();
-                //foreach (string tag in itemComponent.GetTags())
-                //{
-                foreach (string eTag in entityTags)
-                {
-                    if (itemComponent.CanCollect(eTag))
+                    // Check if the item can be collected by the other entity
+                    if (itemComponent.CanCollect(otherEntity.Tags.Type))
                     {
-                        if (!itemComponent.HasBeenCollected && itemComponent.IsActive)
-                        {
-                            // delete or hide item entity
-                            //entity.
-                        }
+                        // Test - delete or hide the item entity
+                        //ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
+                        //otherColliderComponent.collidedEntities.Remove(entity);
+                        EngineGlobals.entityManager.DeleteEntity(entity);
                     }
                 }
-                //}
-                */
             }
         }
 

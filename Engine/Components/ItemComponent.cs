@@ -11,14 +11,12 @@ namespace AdventureGame.Engine
         public bool HasBeenCollected { get; set; }
         public bool IsActive { get; set; } // or isCollectable ??
 
-        //public HashSet<string> collectableByTag;
         public Tags CollectableByTag { get; set; }
 
-        //public ItemComponent(Vector2 offset, Vector2 size, bool isActive = true, bool isSolid = true)
+
         public ItemComponent(HashSet<string> collectableByTag = default,
             bool hasBeenCollected = false, bool isActive = true)
         {
-            //CollectableByTag = collectableByTag;
             CollectableByTag = new Tags(collectableByTag);
 
             HasBeenCollected = hasBeenCollected;
