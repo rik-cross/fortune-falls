@@ -4,25 +4,31 @@ using Microsoft.Xna.Framework;
 
 namespace AdventureGame.Engine
 {
-
     public class TriggerComponent : Component
     {
-
-        public Vector2 offset;
         public Vector2 size;
+        public Vector2 offset;
         public Rectangle rect;
+
         public Action<Entity, Entity, float> onCollisionEnter;
         public Action<Entity, Entity, float> onCollide;
         public Action<Entity, Entity, float> onCollisionExit;
-        public List<Entity> collidedEntities = new List<Entity>();
 
-        public TriggerComponent(Vector2 offset, Vector2 size, Action<Entity, Entity, float> onCollisionEnter = null, Action<Entity, Entity, float> onCollide = null, Action<Entity, Entity, float> onCollisionExit = null)
+        public List<Entity> collidedEntities;
+
+        public TriggerComponent(Vector2 size, Vector2 offset = default,
+            Action<Entity, Entity, float> onCollisionEnter = null,
+            Action<Entity, Entity, float> onCollide = null,
+            Action<Entity, Entity, float> onCollisionExit = null)
         {
-            this.offset = offset;
             this.size = size;
+            this.offset = offset;
+
             this.onCollisionEnter = onCollisionEnter;
             this.onCollide = onCollide;
             this.onCollisionExit = onCollisionExit;
+
+            collidedEntities = new List<Entity>();
         }
     }
 

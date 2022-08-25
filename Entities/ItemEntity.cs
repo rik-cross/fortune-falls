@@ -33,7 +33,7 @@ namespace AdventureGame
 
             Texture2D texture = itemEntity.GetComponent<SpritesComponent>().GetSprite("idle").textureList[0];
             Vector2 imageSize = new Vector2(texture.Width, texture.Height);
-            Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
+            //Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
             //Console.WriteLine($"Item image width {itemImage.Width} height {itemImage.Height}");
 
             itemEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));

@@ -177,7 +177,7 @@ namespace AdventureGame
             m.Tags.AddTag("mapTrigger");
             m.AddComponent(new Engine.TransformComponent(225, 0));
             m.AddComponent(new Engine.TriggerComponent(
-                new Vector2(0, 0), new Vector2(75, 30),
+                new Vector2(75, 30), new Vector2(0, 0),
                 doorOnCollisionEnter,
                 null,
                 null
@@ -189,7 +189,7 @@ namespace AdventureGame
             m.Tags.AddTag("beachTrigger");
             b.AddComponent(new Engine.TransformComponent(475, 1000));
             b.AddComponent(new Engine.TriggerComponent(
-                new Vector2(0, 0), new Vector2(75, 30),
+                new Vector2(75, 30), new Vector2(0, 0),
                 null,
                 beachOnCollisionEnter,
                 null
@@ -201,7 +201,7 @@ namespace AdventureGame
             m.Tags.AddTag("homeTrigger");
             h.AddComponent(new Engine.TransformComponent(155, 135));
             h.AddComponent(new Engine.TriggerComponent(
-                new Vector2(0, 0), new Vector2(20, 10),
+                new Vector2(20, 10), new Vector2(0, 0),
                 null,
                 homeOnCollisionEnter,
                 null

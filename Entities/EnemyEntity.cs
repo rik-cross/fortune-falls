@@ -31,7 +31,7 @@ namespace AdventureGame
             //Texture2D spriteSize = enemyEntity.GetComponent<SpritesComponent>().sprite.spriteSheet.texture;
             Vector2 spriteSize = Globals.enemySpriteSheet.spriteSize;
             //Console.WriteLine($"Enemy sprite width {spriteSize.Width} height {spriteSize.Height}");
-            Console.WriteLine($"Enemy sprite width {spriteSize.X} height {spriteSize.Y}");
+            //Console.WriteLine($"Enemy sprite width {spriteSize.X} height {spriteSize.Y}");
 
             enemyEntity.AddComponent(new Engine.IntentionComponent());
             enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(65, 50)));
@@ -39,7 +39,7 @@ namespace AdventureGame
 
             enemyEntity.AddComponent(new Engine.PhysicsComponent(1));
             enemyEntity.AddComponent(new Engine.ColliderComponent(new Vector2(65, 50)));
-            enemyEntity.AddComponent(new Engine.HitboxComponent(0, 0, 65, 50));
+            enemyEntity.AddComponent(new Engine.HitboxComponent(new Vector2(65, 50)));
 
             return enemyEntity;
 

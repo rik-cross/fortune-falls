@@ -8,11 +8,6 @@ namespace AdventureGame.Engine
     {
         public Rectangle boundingBox;
 
-        //public int width;
-        //public int height;
-        //public int xOffset;
-        //public int yOffset;
-
         public Vector2 size;
         public Vector2 offset;
         public Rectangle rect;
@@ -30,16 +25,13 @@ namespace AdventureGame.Engine
 
         public Color color = Color.Yellow; // Testing: rectangle outline
 
-        public ColliderComponent(Vector2 size, Vector2 offset = default, bool isActive = true, bool isSolid = true)
+        public ColliderComponent(Vector2 size, Vector2 offset = default,
+            bool isActive = true, bool isSolid = true)
         {
             collidedEntities = new HashSet<Entity>();
             collidedEntitiesEnded = new HashSet<Entity>();
             //resolvedCollisions = new HashSet<Entity>();
 
-            //this.width = w;
-            //this.height = h;
-            //this.xOffset = x;
-            //this.yOffset = y;
             this.size = size;
             this.offset = offset;
 

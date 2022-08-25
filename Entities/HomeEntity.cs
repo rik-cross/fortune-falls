@@ -46,8 +46,8 @@ namespace AdventureGame
             entity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("homeImage"))));
             entity.AddComponent(new ColliderComponent(new Vector2(80,20), new Vector2(5, 68)));
             entity.AddComponent(new TriggerComponent(
-                new Vector2(35,88),
                 new Vector2(20,3),
+                new Vector2(35, 88),
                 onCollisionEnter: houseOnCollisionEnter
             ));
 

@@ -179,13 +179,13 @@ namespace AdventureGame
             //playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
 
             playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(16, 8), new Vector2(5, 28)));
-            playerEntity.AddComponent(new Engine.HurtboxComponent(0, 0, 26, 36));
+            playerEntity.AddComponent(new Engine.HurtboxComponent(new Vector2(26, 36)));
             playerEntity.AddComponent(new Engine.InputComponent(
                 null, //Engine.Inputs.keyboard,
                 PlayerInputController
             ));
             playerEntity.AddComponent(new Engine.TriggerComponent(
-                new Vector2(0, 21), new Vector2(26, 21),
+                new Vector2(26, 21), new Vector2(0, 21),
                 null,
                 null,
                 null
