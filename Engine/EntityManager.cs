@@ -30,6 +30,7 @@ namespace AdventureGame.Engine
             return entities;
         }
 
+        // Returns an entity using their Name tag
         public Entity GetEntityByName(string name)
         {
             foreach(Entity e in entities)
@@ -40,6 +41,7 @@ namespace AdventureGame.Engine
             return null;
         }
 
+        // Returns a list of entities based on their Type tag
         public List<Entity> GetAllEntitiesByType(string type)
         {
             List<Entity> entitiesByType = new List<Entity>();
@@ -50,9 +52,6 @@ namespace AdventureGame.Engine
             }
             return entitiesByType;
         }
-        // public Entity GetEntityByName(string tag)
-        // public Entity GetEntityByType(string tag)
-        // public HashSet/List<string> GetAllEntitiesByTag(string tag)
 
         // Creates a new entity and give it an id
         public Entity CreateEntity()
@@ -65,7 +64,6 @@ namespace AdventureGame.Engine
         // Adds the entity to the list and mapper
         public void AddEntity(Entity e)
         {
-
             if (e == null)
                 return;
 
@@ -102,6 +100,10 @@ namespace AdventureGame.Engine
                 // Remove the entity's components
                 EngineGlobals.componentManager.RemoveAllComponents(e);
 
+                // Testing
+                Console.WriteLine($"Deleting entity {entityId}");
+                Console.WriteLine($"Entity {entityId} has signature {e.signature}");
+
                 // Replace the deleted entity with the last entity in the list
                 // and update the mapper
                 if (entityMapper.ContainsKey(e.id))
@@ -127,6 +129,14 @@ namespace AdventureGame.Engine
 
                 // Allow the entity id to be reused
                 CheckInId(entityId);
+
+                // Testing
+                /*
+                Console.WriteLine("Delete entity:");
+                Console.WriteLine(String.Join(", ", entities));
+                foreach (KeyValuePair<int, int> kv in entityMapper)
+                    Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
+                */
             }
 
             // Clear the deleted set
