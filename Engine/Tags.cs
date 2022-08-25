@@ -5,8 +5,13 @@ namespace AdventureGame.Engine
 {
     public class Tags
     {
+        // A Name tag should be unique to an entity
         public string Name { get; set; }
+
+        // A Type tag can be shared by multiple entities.
+        // Entities can have multiple Type tags
         public HashSet<string> Type { get; }
+
 
         public Tags()
         {
@@ -31,25 +36,25 @@ namespace AdventureGame.Engine
             Type = new HashSet<string>(type);
         }
 
-        // Removes the name
+        // Removes the Name tag
         public void RemoveName()
         {
             Name = "";
         }
 
-        // Adds a tag to the type hashset
+        // Adds a tag to the Type hashset
         public void AddTag(string type)
         {
             Type.Add(type);
         }
 
-        // Removes a tag from the type hashset
+        // Removes a tag from the Type hashset
         public void RemoveTag(string type)
         {
             Type.Remove(type);
         }
 
-        // Returns whether a tag exists in the type hashset
+        // Returns whether a tag exists in the Type hashset
         public bool HasTag(string type)
         {
             return Type.Contains(type);
