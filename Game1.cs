@@ -98,6 +98,7 @@ namespace AdventureGame
 
         protected override void LoadContent()
         {
+
             Globals.content = this.Content;
             Globals.graphicsDevice = GraphicsDevice;
             
@@ -230,6 +231,7 @@ namespace AdventureGame
             EngineGlobals.inputManager.Update(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)
