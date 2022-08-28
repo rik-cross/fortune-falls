@@ -105,6 +105,8 @@ namespace AdventureGame
             Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player1");
             Globals.gameScene.AddEntity(playerEntity);
             playerEntity.GetComponent<TransformComponent>().position = new Vector2(100, 100);
+            Globals.gameScene.GetCameraByName("main").SetWorldPosition(new Vector2(100, 100), instant: true);
+            Globals.gameScene.GetCameraByName("minimap").SetWorldPosition(new Vector2(100, 100), instant: true);
             Globals.gameScene.GetCameraByName("main").trackedEntity = playerEntity;
             Globals.gameScene.GetCameraByName("minimap").trackedEntity = playerEntity;
 
