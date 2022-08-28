@@ -119,7 +119,7 @@ namespace AdventureGame
         public override void Update(GameTime gameTime)
         {
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.transition == null)
             {
                 EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
             }
@@ -132,7 +132,7 @@ namespace AdventureGame
                 {
                     InputItem inputItem = inputMethod.button1;
                     if (inputItem != null) {
-                        if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
+                        if (EngineGlobals.inputManager.IsPressed(inputMethod.button1) && EngineGlobals.sceneManager.transition == null)
                             EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.gameScene);
                     }
                 }

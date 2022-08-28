@@ -77,7 +77,7 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.transition == null)
             {
                 EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
             }
