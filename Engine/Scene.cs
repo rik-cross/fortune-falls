@@ -32,12 +32,16 @@ namespace AdventureGame.Engine
 
         public Scene()
         {
+
             entityList = new List<Entity>();
             cameraList = new List<Camera>();
 
             entityManager = EngineGlobals.entityManager;
             componentManager = EngineGlobals.componentManager;
             systemManager = EngineGlobals.systemManager;
+
+            Init();
+
         }
 
         public void AddMap(string newMapLocation)
@@ -113,8 +117,8 @@ namespace AdventureGame.Engine
         }
 
         public virtual void Init() { }
-        public virtual void LoadContent() { }
-        public virtual void UnloadContent() { }
+        //public virtual void LoadContent() { }
+        //public virtual void UnloadContent() { }
 
         public void _OnEnter()
         {

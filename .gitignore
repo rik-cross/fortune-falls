@@ -11,8 +11,14 @@ Engine/*
 !Engine/Components/*
 !Engine/Systems
 !Engine/Systems/*
+!Engine/Managers
+!Engine/Managers/*
 !Engine/SceneTransitions
 !Engine/SceneTransitions/*.cs
+!Engine/Input
+!Engine/Input/*.cs
+!Engine/Sprites
+!Engine/Sprites/*.cs
 !Engine/SceneRenderables
 !Engine/SceneRenderables/*.cs
 !Engine/AnimatedValues

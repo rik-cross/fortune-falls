@@ -59,11 +59,6 @@ namespace AdventureGame
 
         }
 
-        public override void LoadContent()
-        {
-            //Init();
-        }
-
         public override void Update(GameTime gameTime)
         {
             // update scene time and set light level

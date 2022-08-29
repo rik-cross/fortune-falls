@@ -1,4 +1,10 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿/*
+ *   ControllerInput
+ *   
+ *   Defines all controller input as an InputItem
+ */
+
+using Microsoft.Xna.Framework.Input;
 
 namespace AdventureGame.Engine
 {

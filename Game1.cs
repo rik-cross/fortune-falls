@@ -151,7 +151,7 @@ namespace AdventureGame
             //Engine.Entity itemEntity = ItemEntity.
 
             // Test player movement
-            Engine.IntentionComponent pIntentionComponent = playerEntity.GetComponent<Engine.IntentionComponent>();
+            //Engine.IntentionComponent pIntentionComponent = playerEntity.GetComponent<Engine.IntentionComponent>();
             //pIntentionComponent.up = true;
             //pIntentionComponent.left = true;
 
@@ -198,17 +198,11 @@ namespace AdventureGame
                 null
             ));
 
-            //Globals.content.Load<TiledMap>("startZone");
-
-            // scenes
+            // create scenes
             Globals.menuScene = new MenuScene();
-            //Globals.menuScene.Init();
             Globals.gameScene = new GameScene();
-            //Globals.gameScene.Init();
             Globals.homeScene = new HomeScene();
-            //Globals.homeScene.Init();
             Globals.beachScene = new BeachScene();
-            //Globals.beachScene.Init();
 
             EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.menuScene);
 
@@ -216,7 +210,7 @@ namespace AdventureGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (EngineGlobals.sceneManager.isEmpty())
+            if (EngineGlobals.sceneManager.IsEmpty())
                 Exit();
             EngineGlobals.inputManager.Update(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);

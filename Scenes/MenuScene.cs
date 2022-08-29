@@ -94,11 +94,6 @@ namespace AdventureGame
 
         }
 
-        public override void LoadContent()
-        {
-            Init();
-        }
-
         public override void OnEnter()
         {
 

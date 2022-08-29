@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/*
+ *   keyboard and controller static InputMethod instances
+ */
 
 namespace AdventureGame.Engine
 {
