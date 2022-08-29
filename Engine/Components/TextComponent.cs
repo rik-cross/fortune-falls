@@ -53,7 +53,7 @@ namespace AdventureGame.Engine
             if (this.requiresPress)
                 text += "  >>";
 
-            this.input = "button1Keys";
+            this.input = "button1";
 
             this.text = SplitText(text, this.textMaxLength);
 

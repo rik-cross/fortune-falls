@@ -18,7 +18,7 @@ namespace AdventureGame
         {
             EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = thisEntity;
             EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(4.0f, 0.02f);
-            //otherEntity.AddComponent(new Engine.TextComponent("Hello! Here is some text, hopefully split over a few lines!"));
+            otherEntity.AddComponent(new Engine.TextComponent("Hello! Here is some text, hopefully split over a few lines!"));
         }
         public static void lightOnCollisionExit(Entity thisEntity, Entity otherEntity, float distance)
         {

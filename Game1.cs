@@ -1,14 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using System.Collections.Generic;
-
 using AdventureGame.Engine;
-
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-
-using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -82,7 +74,6 @@ namespace AdventureGame
         public Game1()
         {
             Globals.graphics = new GraphicsDeviceManager(this);
-            
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
         }
@@ -92,7 +83,6 @@ namespace AdventureGame
             Globals.graphics.PreferredBackBufferWidth = Globals.WIDTH;
             Globals.graphics.PreferredBackBufferHeight = Globals.HEIGHT;
             Globals.graphics.ApplyChanges();
-
             base.Initialize();
         }
 
