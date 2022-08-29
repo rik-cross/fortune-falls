@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {
-    public class SpritesComponent : Component
+    public class SpriteComponent : Component
     {
 
         public Dictionary<string, Sprite> SpriteDict { get; private set; }
         public bool visible;
         public string lastState;
 
-        public SpritesComponent(string key, Sprite sprite, bool visible = true)
+        public SpriteComponent(string key, Sprite sprite, bool visible = true)
         {
             this.SpriteDict = new Dictionary<string, Sprite>();
             AddSprite(key, sprite);

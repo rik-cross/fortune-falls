@@ -29,3 +29,5 @@ Content/Items
 Content/Items/*
 !Entities/
 !Entities/*.cs
+!Scenes/
+!Scenes/*.cs

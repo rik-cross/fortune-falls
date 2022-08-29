@@ -24,12 +24,12 @@ namespace AdventureGame
             // How to add optional params? e.g. size
             if (!animation)
             {
-                itemEntity.AddComponent(new Engine.SpritesComponent("idle",
+                itemEntity.AddComponent(new Engine.SpriteComponent("idle",
                     new Engine.Sprite(Globals.content.Load<Texture2D>(assetName))
                     ));
             }
 
-            Texture2D texture = itemEntity.GetComponent<SpritesComponent>().GetSprite("idle").textureList[0];
+            Texture2D texture = itemEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];
             Vector2 imageSize = new Vector2(texture.Width, texture.Height);
             //Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
 

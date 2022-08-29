@@ -35,7 +35,7 @@ namespace AdventureGame
 
             lightSourceEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(32, 32)));
 
-            lightSourceEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(new List<Texture2D> {
+            lightSourceEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite(new List<Texture2D> {
                 Globals.candleSpriteSheet.GetSubTexture(0, 0),
                 Globals.candleSpriteSheet.GetSubTexture(1, 0),
                 Globals.candleSpriteSheet.GetSubTexture(2, 0),
