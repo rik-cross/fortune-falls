@@ -32,7 +32,7 @@ namespace AdventureGame
             entity.Tags.AddTag("lightSwitch");
 
             entity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(8, 8)));
-            entity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("lightSwitch"))));
+            entity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("lightSwitch"))));
             entity.AddComponent(new TriggerComponent(
                 new Vector2(8, 8),
                 new Vector2(0, 0),

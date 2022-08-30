@@ -40,10 +40,8 @@ namespace AdventureGame.Engine
                         EngineGlobals.sceneManager.sceneList.RemoveAt(EngineGlobals.sceneManager.sceneList.Count - 1);
 
                         sceneToPop._OnExit();
-                        sceneToPop.UnloadContent();
                     }
 
-                    toScene.LoadContent();
                     toScene._OnEnter();
                     EngineGlobals.sceneManager.sceneList.Add(toScene);
 

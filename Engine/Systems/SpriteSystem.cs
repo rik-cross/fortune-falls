@@ -10,14 +10,14 @@ namespace AdventureGame.Engine
     {
         public SpriteSystem()
         {
-            RequiredComponent<SpritesComponent>();
+            RequiredComponent<SpriteComponent>();
             RequiredComponent<TransformComponent>();
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             
-            SpritesComponent spritesComponent = entity.GetComponent<SpritesComponent>();
+            SpriteComponent spritesComponent = entity.GetComponent<SpriteComponent>();
 
             if (!spritesComponent.SpriteDict.ContainsKey(entity.state))
                 return;
@@ -47,7 +47,7 @@ namespace AdventureGame.Engine
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 
-            SpritesComponent spritesComponent = entity.GetComponent<SpritesComponent>();
+            SpriteComponent spritesComponent = entity.GetComponent<SpriteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             if (!spritesComponent.SpriteDict.ContainsKey(entity.state))

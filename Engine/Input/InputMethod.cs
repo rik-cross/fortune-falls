@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/*
+ *   InputMethod
+ *   
+ *   Stores an InputItem for each physical action
+ *   e.g. InputMethod.left = InputItem DPadLeft
+ */
 
 namespace AdventureGame.Engine
 {
 
     public class InputMethod
     {
+
+        // input is 4-directional
+        // plus up to 8 buttons
         public InputItem up;
         public InputItem down;
         public InputItem left;

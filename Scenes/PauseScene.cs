@@ -19,11 +19,6 @@ namespace AdventureGame
             drawSceneBelow = true;    
         }
 
-        public override void LoadContent()
-        {
-            Init();
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed( Globals.pauseInput ))

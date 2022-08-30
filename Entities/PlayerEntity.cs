@@ -109,9 +109,9 @@ namespace AdventureGame
             playerEntity.Tags.Name = "player1"; // REMOVE
             playerEntity.Tags.AddTag("player");
 
-            playerEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
+            playerEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
 
-            Engine.SpritesComponent spritesComponent = playerEntity.GetComponent<Engine.SpritesComponent>();
+            Engine.SpriteComponent spritesComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
 
             spritesComponent.AddSprite(
                 "walkNorth",

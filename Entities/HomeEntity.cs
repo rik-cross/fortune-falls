@@ -43,7 +43,7 @@ namespace AdventureGame
             entity.Tags.AddTag("building"); // home or building?
 
             entity.AddComponent(new TransformComponent(new Vector2(x, y), new Vector2(88, 89)));
-            entity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("homeImage"))));
+            entity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("homeImage"))));
             entity.AddComponent(new ColliderComponent(new Vector2(80,20), new Vector2(5, 68)));
             entity.AddComponent(new TriggerComponent(
                 new Vector2(20,3),

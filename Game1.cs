@@ -1,14 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using System.Collections.Generic;
-
 using AdventureGame.Engine;
-
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-
-using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -82,7 +74,6 @@ namespace AdventureGame
         public Game1()
         {
             Globals.graphics = new GraphicsDeviceManager(this);
-            
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
         }
@@ -92,12 +83,12 @@ namespace AdventureGame
             Globals.graphics.PreferredBackBufferWidth = Globals.WIDTH;
             Globals.graphics.PreferredBackBufferHeight = Globals.HEIGHT;
             Globals.graphics.ApplyChanges();
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+
             Globals.content = this.Content;
             Globals.graphicsDevice = GraphicsDevice;
             
@@ -160,7 +151,7 @@ namespace AdventureGame
             //Engine.Entity itemEntity = ItemEntity.
 
             // Test player movement
-            Engine.IntentionComponent pIntentionComponent = playerEntity.GetComponent<Engine.IntentionComponent>();
+            //Engine.IntentionComponent pIntentionComponent = playerEntity.GetComponent<Engine.IntentionComponent>();
             //pIntentionComponent.up = true;
             //pIntentionComponent.left = true;
 
@@ -207,17 +198,11 @@ namespace AdventureGame
                 null
             ));
 
-            //Globals.content.Load<TiledMap>("startZone");
-
-            // scenes
+            // create scenes
             Globals.menuScene = new MenuScene();
-            //Globals.menuScene.Init();
             Globals.gameScene = new GameScene();
-            //Globals.gameScene.Init();
             Globals.homeScene = new HomeScene();
-            //Globals.homeScene.Init();
             Globals.beachScene = new BeachScene();
-            //Globals.beachScene.Init();
 
             EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.menuScene);
 
@@ -225,11 +210,12 @@ namespace AdventureGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (EngineGlobals.sceneManager.isEmpty())
+            if (EngineGlobals.sceneManager.IsEmpty())
                 Exit();
             EngineGlobals.inputManager.Update(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)

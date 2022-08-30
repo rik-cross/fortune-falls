@@ -8,7 +8,7 @@ namespace AdventureGame.Engine
         public Guid guid;
         public int id;
         public ulong signature;
-        public string state = "idle"; // Should this move to Sprite / SpritesComponent??
+        public string state = "idle";
 
         public List<Component> components; // Dictionary/HashSet?
         public Tags Tags { get; set; }

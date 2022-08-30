@@ -1,4 +1,10 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿/*
+ *   KeyboardInput
+ *   
+ *   Defines all keyboard input as an InputItem
+ */
+
+using Microsoft.Xna.Framework.Input;
 
 namespace AdventureGame.Engine
 {

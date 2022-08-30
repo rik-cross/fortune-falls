@@ -12,7 +12,7 @@ namespace AdventureGame.Engine
         public List<Scene> prevScenes = new List<Scene>();
         public List<Scene> nextScenes = new List<Scene>();
 
-        public bool isEmpty()
+        public bool IsEmpty()
         {
             return sceneList.Count == 0 && transition == null;
         }
@@ -28,8 +28,6 @@ namespace AdventureGame.Engine
         {
             if (sceneList.Count > 0)
                 GetTopScene()._OnExit();
-
-            scene.LoadContent();
             scene._OnEnter();
             sceneList.Add(scene);
         }
@@ -42,7 +40,6 @@ namespace AdventureGame.Engine
             Scene sceneToPop = sceneList[^1];
             sceneList.RemoveAt(sceneList.Count - 1);
             sceneToPop._OnExit();
-            sceneToPop.UnloadContent();
             if (sceneList.Count > 0)
                 GetTopScene()._OnEnter();
             

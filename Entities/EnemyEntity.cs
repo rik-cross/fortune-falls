@@ -24,9 +24,9 @@ namespace AdventureGame
             enemyEntity.Tags.Name = "enemy1"; // REMOVE
             enemyEntity.Tags.AddTag("enemy");
 
-            enemyEntity.AddComponent(new Engine.SpritesComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("sprite"))));
+            enemyEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("sprite"))));
 
-            Texture2D texture = enemyEntity.GetComponent<SpritesComponent>().GetSprite("idle").textureList[0];
+            Texture2D texture = enemyEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];
             //Vector2 imageSize = new Vector2(texture.Width, texture.Height); // RESIZE enemy sprite
             Vector2 imageSize = new Vector2(65, 50);
 

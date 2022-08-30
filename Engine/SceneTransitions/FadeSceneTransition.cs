@@ -19,7 +19,7 @@ namespace AdventureGame.Engine
 
  
             Globals.spriteBatch.End();
-            if (!EngineGlobals.sceneManager.isEmpty())
+            if (!EngineGlobals.sceneManager.IsEmpty())
                 EngineGlobals.sceneManager.GetTopScene()._Draw(gameTime);
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
