@@ -100,7 +100,7 @@ namespace AdventureGame.Engine
 
         public void AddEntity(Entity e)
         {
-            if (entityList.Contains(e) == false)
+            if (e != null && entityList.Contains(e) == false)
                 entityList.Add(e);
         }
 
