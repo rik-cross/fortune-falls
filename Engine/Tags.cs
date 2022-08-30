@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventureGame.Engine
 {
@@ -11,7 +10,7 @@ namespace AdventureGame.Engine
 
         // A Type tag can be shared by multiple entities.
         // Entities can have multiple Type tags
-        public HashSet<string> Type { get; } = new HashSet<string>();
+        public List<string> Type { get; } = new List<string>();
 
 
         public Tags() { }
@@ -22,16 +21,10 @@ namespace AdventureGame.Engine
             Type.Add(type);
         }
 
-        public Tags(HashSet<string> type, string name = default)
-        {
-            Name = name;
-            Type = type;
-        }
-
         public Tags(List<string> type, string name = default)
         {
             Name = name;
-            Type = new HashSet<string>(type);
+            Type = type;
         }
 
         // Removes the Name tag

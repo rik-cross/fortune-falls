@@ -10,8 +10,8 @@ namespace AdventureGame
 {
     public static class ItemEntity
     {
-        public static Engine.Entity Create(int x, int y, string assetName,
-            HashSet<string> collectableByTag = default,
+        public static Engine.Entity Create(int x, int y, string filename,
+            List<string> collectableByTag = default,
             //int width = default, int height = default,
             bool animation = false)
         {
@@ -20,12 +20,14 @@ namespace AdventureGame
 
             itemEntity.Tags.AddTag("item");
 
+            string directory = "Items/";
+
             // How to handle sprite sheets dynamically?
             // How to add optional params? e.g. size
             if (!animation)
             {
                 itemEntity.AddComponent(new Engine.SpriteComponent("idle",
-                    new Engine.Sprite(Globals.content.Load<Texture2D>(assetName))
+                    new Engine.Sprite(Globals.content.Load<Texture2D>(directory + filename))
                     ));
             }
 
