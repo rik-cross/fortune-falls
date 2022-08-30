@@ -118,7 +118,7 @@ namespace AdventureGame
 
             Globals.playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("playerSpriteSheet"), new Vector2(26, 36));
             Globals.candleSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("candleTest"), new Vector2(32, 32));
-            Globals.enemySpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("spriteEnemy"), new Vector2(65, 50));
+            //Globals.enemySpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("spriteEnemy"), new Vector2(65, 50));
 
             // Instantiate the managers
             EngineGlobals.inputManager = new InputManager();
@@ -143,7 +143,7 @@ namespace AdventureGame
             Engine.Entity lightSwitchEntity = LightSwitchEntity.Create(120, 135);
 
             // enemy entity
-            Engine.Entity enemyEntity = EnemyEntity.Create(300, 480); // opposites (300, 483)
+            //Engine.Entity enemyEntity = EnemyEntity.Create(300, 480); // opposites (300, 483)
             // light source entity
             Engine.Entity lightSourceEntity = LightEntity.Create(300, 300);
 
@@ -156,7 +156,7 @@ namespace AdventureGame
             //pIntentionComponent.left = true;
 
             // Test enemy movement
-            Engine.IntentionComponent eIntentionComponent = enemyEntity.GetComponent<Engine.IntentionComponent>();
+            //Engine.IntentionComponent eIntentionComponent = enemyEntity.GetComponent<Engine.IntentionComponent>();
             //eIntentionComponent.up = true;
             //eIntentionComponent.right = true;
             //enemyEntity.state = "walkSouth";

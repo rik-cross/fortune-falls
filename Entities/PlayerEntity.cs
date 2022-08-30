@@ -17,90 +17,7 @@ using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
-    public static class PlayerEntity    {
-
-        public static void PlayerInputController(Engine.Entity entity)
-        {
-
-            Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
-            Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
-
-            // default state
-            entity.state = "idle";
-
-            // up keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
-            {
-                intentionComponent.up = true;
-                entity.state = "walkNorth";
-            }
-            else
-            {
-                intentionComponent.up = false;
-            }
-
-            // down keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down))
-            {
-                intentionComponent.down = true;
-                entity.state = "walkSouth";
-            }
-            else
-            {
-                intentionComponent.down = false;
-            }
-
-            // left keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left))
-            {
-                intentionComponent.left = true;
-                entity.state = "walkWest";
-            }
-            else
-            {
-                intentionComponent.left = false;
-            }
-
-            // right keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right))
-            {
-                intentionComponent.right = true;
-                entity.state = "walkEast";
-            }
-            else
-            {
-                intentionComponent.right = false;
-            }
-
-            // button 2 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
-            {
-                intentionComponent.button2 = true;
-            }
-            else
-            {
-                intentionComponent.button2 = false;
-            }
-
-            // button 7 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button7))
-            {
-                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
-                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
-                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom - 0.02f
-                );
-            }
-
-            // button 8 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button8))
-            {
-                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
-                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
-                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom + 0.02f
-                );
-            }
-
-        }
+    public static class PlayerEntity {
 
         public static Engine.Entity Create(int x, int y)
         {
@@ -189,6 +106,91 @@ namespace AdventureGame
                 null
             ));
             return playerEntity;
+        }
+
+
+        // Maps the input controller to the player
+        public static void PlayerInputController(Engine.Entity entity)
+        {
+
+            Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
+            Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
+
+            // default state
+            entity.state = "idle";
+
+            // up keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
+            {
+                intentionComponent.up = true;
+                entity.state = "walkNorth";
+            }
+            else
+            {
+                intentionComponent.up = false;
+            }
+
+            // down keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down))
+            {
+                intentionComponent.down = true;
+                entity.state = "walkSouth";
+            }
+            else
+            {
+                intentionComponent.down = false;
+            }
+
+            // left keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left))
+            {
+                intentionComponent.left = true;
+                entity.state = "walkWest";
+            }
+            else
+            {
+                intentionComponent.left = false;
+            }
+
+            // right keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right))
+            {
+                intentionComponent.right = true;
+                entity.state = "walkEast";
+            }
+            else
+            {
+                intentionComponent.right = false;
+            }
+
+            // button 2 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+            {
+                intentionComponent.button2 = true;
+            }
+            else
+            {
+                intentionComponent.button2 = false;
+            }
+
+            // button 7 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button7))
+            {
+                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
+                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
+                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom - 0.02f
+                );
+            }
+
+            // button 8 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button8))
+            {
+                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
+                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
+                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom + 0.02f
+                );
+            }
+
         }
 
     }

@@ -31,9 +31,12 @@ Content/obj
 Content/obj/*
 Content/bin
 Content/bin/*
-Content/Items
-Content/Items/*
+Content/.DS_Store
+!Content/Items
+!Content/Items/*
 !Entities/
 !Entities/*.cs
 !Scenes/
 !Scenes/*.cs
+!Data/
+!Data/*

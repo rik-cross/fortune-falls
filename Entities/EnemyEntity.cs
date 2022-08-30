@@ -16,7 +16,7 @@ namespace AdventureGame
     public static class EnemyEntity
     {
 
-        public static Engine.Entity Create(int x, int y)
+        public static Engine.Entity Create(int x, int y, string filename)
         {
 
             Entity enemyEntity = EngineGlobals.entityManager.CreateEntity();
@@ -24,7 +24,11 @@ namespace AdventureGame
             enemyEntity.Tags.Name = "enemy1"; // REMOVE
             enemyEntity.Tags.AddTag("enemy");
 
-            enemyEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite(Globals.content.Load<Texture2D>("sprite"))));
+            string directory = "";
+
+            enemyEntity.AddComponent(new Engine.SpriteComponent("idle",
+                new Engine.Sprite(Globals.content.Load<Texture2D>(directory + filename))));
+            //Globals.enemySpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("spriteEnemy"), new Vector2(65, 50));
 
             Texture2D texture = enemyEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];
             //Vector2 imageSize = new Vector2(texture.Width, texture.Height); // RESIZE enemy sprite

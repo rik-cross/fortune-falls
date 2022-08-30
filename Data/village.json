@@ -1,0 +1,83 @@
+{
+    "Map": {
+        "Filename": "startZone", //village.tmx
+        "Triggers": [
+            {
+                "X": 20,
+                "Y": 30,
+                "Width": 30,
+                "Height": 15
+            }
+        ]
+    },
+    "Players": [
+        {
+            "X": 100,
+            "Y": 100,
+            "Width": 26,
+            "Height": 36,
+            "Filename": "playerSpriteSheet",
+            "Spritesheet": [
+                {
+                    "Key": "walkNorth",
+                    "Sprite": [
+                        [6, 7],
+                        [7, 7],
+                        [8, 7],
+                        [7, 7]
+                    ]
+                },
+                {
+                    "Key": "walkSouth",
+                    "Sprite": [
+                        [6, 4],
+                        [7, 4],
+                        [8, 4],
+                        [7, 4]
+                    ]
+                },
+                {
+                    "Key": "walkEast",
+                    "Sprite": [
+                        [6, 6],
+                        [7, 6],
+                        [8, 6],
+                        [7, 6]
+                    ]
+                },
+                {
+                    "Key": "walkWest",
+                    "Sprite": [
+                        [6, 5],
+                        [7, 5],
+                        [8, 5],
+                        [7, 5]
+                    ]
+                }
+            ]
+        }
+    ],
+    "Enemies": [
+        {
+            "X": 300,
+            "Y": 480,
+            "Filename": "spriteenemy"
+        }
+    ],
+    "Items": [
+        {
+            "X": 30,
+            "Y": 170,
+            "Filename": "W_Sword003",
+            "Collectable": [
+                "player"
+            ]
+        },
+        {
+            "X": 100,
+            "Y": 250,
+            "Filename": "I_Boulder01"
+        }
+    ],
+    "TestProperty": "testValue"
+}

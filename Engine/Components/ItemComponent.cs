@@ -14,7 +14,7 @@ namespace AdventureGame.Engine
         public Tags CollectableByTag { get; set; }
 
 
-        public ItemComponent(HashSet<string> collectableByTag = default,
+        public ItemComponent(List<string> collectableByTag = default,
             bool hasBeenCollected = false, bool isActive = true)
         {
             CollectableByTag = new Tags(collectableByTag);
@@ -30,7 +30,7 @@ namespace AdventureGame.Engine
         }
 
         // Check if an entity can collect the item
-        public bool CanCollect(HashSet<string> tags)
+        public bool CanCollect(List<string> tags)
         {
             foreach (string tag in tags)
             {
