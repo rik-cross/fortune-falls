@@ -1,6 +1,6 @@
 {
     "Map": {
-        "Filename": "startZone", //village.tmx
+        "Filename": "startZone"
         "Triggers": [
             {
                 "X": 20,
@@ -18,6 +18,12 @@
             "Height": 36,
             "Filename": "playerSpriteSheet",
             "Spritesheet": [
+                {
+                    "Key": "idle",
+                    "Sprite": [
+                        [7, 4]
+                    ]
+                },
                 {
                     "Key": "walkNorth",
                     "Sprite": [
