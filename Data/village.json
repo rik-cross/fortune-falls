@@ -1,6 +1,6 @@
 {
     "Map": {
-        "Filename": "startZone"
+        "Filename": "startZone",
         "Triggers": [
             {
                 "X": 20,
