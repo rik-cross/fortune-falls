@@ -22,6 +22,15 @@ namespace AdventureGame
             //var jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
             var jsonData = JObject.Parse(jsonString);
 
+
+            // Use a Root property to map each object and value in the JSON file
+            Root sceneData = JsonConvert.DeserializeObject<Root>(jsonString);
+            Console.WriteLine(sceneData.Items[0].Collectable);
+            Console.WriteLine(sceneData.Items[1].Collectable);
+
+
+            // Use the parsed JSON string to access elements dynamically
+
             // Add the map
             AddMap(jsonData["Map"]["Filename"].ToString());
 
