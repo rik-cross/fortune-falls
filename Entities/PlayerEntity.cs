@@ -21,7 +21,14 @@ namespace AdventureGame
 
         public static Engine.Entity Create(int x, int y)
         {
-            Engine.Entity playerEntity = EngineGlobals.entityManager.CreateEntity();
+            // Check if the player entity already exists
+            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+
+            if (playerEntity != null)
+                return playerEntity;
+
+            // Otherwise create a new player entity
+            playerEntity = EngineGlobals.entityManager.CreateEntity();
 
             playerEntity.Tags.Name = "player1"; // REMOVE
             playerEntity.Tags.AddTag("player");
