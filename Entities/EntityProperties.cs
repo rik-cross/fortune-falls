@@ -2,15 +2,8 @@
 
 namespace AdventureGame
 {
-    /*
-    public class EntityProperties
-    {
-        public ItemProperties Items { get; set; }
-    }
-    */
 
     // Converted using https://json2csharp.com/
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class Enemy
     {
         public int X { get; set; }

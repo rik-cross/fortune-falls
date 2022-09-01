@@ -7,6 +7,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AdventureGame
 {
@@ -16,39 +17,52 @@ namespace AdventureGame
 
         public GameScene()
         {
-            // Get scene data from the JSON file
+            // Get the scene data from the corresponding JSON file
             string projectSourcePath = ProjectSourcePath.Value;
-            var jsonString = File.ReadAllText(projectSourcePath + "Data/village.json");
-            //var jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
-            var jsonData = JObject.Parse(jsonString);
+            string file = "Data/village.json";
+            string filePath = projectSourcePath + file;
 
-
-            // Use a Root property to map each object and value in the JSON file
-            Root sceneData = JsonConvert.DeserializeObject<Root>(jsonString);
-            Console.WriteLine(sceneData.Items[0].Collectable);
-            Console.WriteLine(sceneData.Items[1].Collectable);
-
-
-            // Use the parsed JSON string to access elements dynamically
+            // Deserialise the JSON and return the Root object
+            Root root = JsonFileReader.ReadJson<Root>(filePath);
 
             // Add the map
-            AddMap(jsonData["Map"]["Filename"].ToString());
+            AddMap(root.Map.Filename);
 
-            // Create an Item entity for each item in the JSON file
-            var items = jsonData["Items"];
-            foreach (var item in items)
+            /*
+            Ideas for deserialising entities & components:
+
+            foreach item in entities
+                get filename
+                create tags
+                create spritesheet / sprites
+                create components OR
+                components are created automatically, register components
+
+
+            foreach component in components
+                get component type
+                create component
+                parse data / use keys for arguments
+
+            */
+
+            // Create an ItemEntity for each item in the JSON file
+            foreach (var item in root.Items)
             {
-                Console.WriteLine($"X:{item["X"]} Y:{item["Y"]} Filename:{item["Filename"]}" +
-                    $" Collectable:{item["Collectable"]}");
-                // .Value<int>()  .ToObject<int[]>()
+                Console.WriteLine($"X:{item.X} Y:{item.Y} Filename:{item.Filename}" +
+                    $" Collectable:{item.Collectable}");
+            }
 
-                // Convert to a list if not null using the null-conditional operator
-                List<string> collectable = item["$.Collectable"]?.Values<string>().ToList();
+            // Create an ItemEntity for each item in the JSON file
+            foreach (var item in root.Items)
+            {
+                Console.WriteLine($"X:{item.X} Y:{item.Y} Filename:{item.Filename}" +
+                    $" Collectable:{item.Collectable}");
 
                 try
                 {
-                    AddEntity(ItemEntity.Create((int)item["X"], (int)item["Y"],
-                        (string)item["Filename"], collectable));
+                    AddEntity(ItemEntity.Create(item.X, item.Y, item.Filename,
+                        item.Collectable));
                 }
                 catch (Exception ex)
                 {
@@ -56,16 +70,14 @@ namespace AdventureGame
                 }
             }
 
-            // Create an Enemy entity for each enemy in the JSON file
-            var enemies = jsonData["Enemies"];
-            foreach (var enemy in enemies)
+            // Create an EnemyEntity for each enemy in the JSON file
+            foreach (var enemy in root.Enemies)
             {
-                Console.WriteLine($"X:{enemy["X"]} Y:{enemy["Y"]} Filename:{enemy["Filename"]}");
+                Console.WriteLine($"X:{enemy.X} Y:{enemy.Y} Filename:{enemy.Filename}");
 
                 try
                 {
-                    AddEntity(EnemyEntity.Create((int)enemy["X"], (int)enemy["Y"],
-                        (string)enemy["Filename"]));
+                    AddEntity(EnemyEntity.Create(enemy.X, enemy.Y, enemy.Filename));
                 }
                 catch (Exception ex)
                 {

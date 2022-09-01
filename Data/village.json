@@ -85,5 +85,92 @@
             "Filename": "I_Boulder01"
         }
     ],
+    "Entities": [
+        {
+            "Filename": "candleTest",
+            "Tags": {
+                "Name": "light1",
+                "Type": [
+                    "light"
+                ]
+            },
+            "Spritesheet": [
+                {
+                    "Key": "idle",
+                    "Sprite": [
+                        [0, 0],
+                        [1, 0],
+                        [2, 0],
+                        [3, 0]
+                    ]
+                }
+            ],
+            "TransformComponent": {
+                "X": 30,
+                "Y": 30,
+                "Width": 32,
+                "Height": 32
+            },
+            "ColliderComponent": {
+                "Width": 32,
+                "Height": 32,
+                "OffsetX": 10,
+                "OffsetY": 26
+            },
+            "LightComponent": {
+                "Radius": 100
+            },
+            "TriggerComponent": {
+                "Width": 132,
+                "Height": 132,
+                "OffsetX": -50,
+                "OffsetY": -50,
+                "OnCollisionEnter": "lightOnCollisionEnter",
+                "OnCollision": null,
+                "OnCollisionExit": "lightOnCollisionExit"
+            }
+        }
+    ],
+    "Entities": [
+        {
+            "Filename": "candleTest",
+            "Tags": {
+                "Name": "light1",
+                "Type": [
+                    "light"
+                ]
+            },
+            "Components": [
+                {
+                    "ComponentType": "TransformComponent",
+                    "X": 30,
+                    "Y": 30,
+                    "Width": 32,
+                    "Height": 32
+                },
+                {
+                    "ComponentType": "ColliderComponent",
+                    "Width": 32,
+                    "Height": 32,
+                    "OffsetX": 10,
+                    "OffsetY": 26
+                },
+                {
+                    "ComponentType": "LightComponent",
+                    "Radius": 100
+                },
+                {
+                    "ComponentType": "TriggerComponent",
+                    "Width": 132,
+                    "Height": 132,
+                    "OffsetX": -50,
+                    "OffsetY": -50,
+                    "OnCollisionEnter": "lightOnCollisionEnter",
+                    "OnCollision": null,
+                    "OnCollisionExit": "lightOnCollisionExit"
+                }
+            ]
+        }
+    ]
     "TestProperty": "testValue"
 }
