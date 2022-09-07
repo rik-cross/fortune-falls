@@ -19,7 +19,7 @@ namespace AdventureGame
         {
             // Get the scene data from the corresponding JSON file
             string projectSourcePath = ProjectSourcePath.Value;
-            string file = "Data/village.json";
+            string file = "Data/village_original.json";
             string filePath = projectSourcePath + file;
 
             // Deserialise the JSON and return the Root object

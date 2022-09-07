@@ -13,34 +13,42 @@ namespace AdventureGame.Engine
 
         public SystemManager()
         {
-            systems = EngineGlobals.systems;
+            systems = new List<System>();
             componentManager = EngineGlobals.componentManager;
 
             RegisterSystems();
         }
 
+        public void AddSystem(System system)
+        {
+            // add system to the systems list
+            systems.Add(system);
+            // generate a signature for the system
+            system.systemSignature = componentManager.SystemComponents(system.requiredComponents);
+        }
+
         public void RegisterSystems()
         {
-            // Instantiate all systems and add them to the systems list
-            systems.Add(new InputSystem());
-            systems.Add(new PhysicsSystem());
-            systems.Add(new CollisionSystem());
-            systems.Add(new MapCollisionSystem());
-            systems.Add(new CollisionResponseSystem());
-            systems.Add(new HitboxSystem());
-            systems.Add(new HurtboxSystem());
-            systems.Add(new DamageSystem());
-            systems.Add(new TriggerSystem());
-            systems.Add(new SpriteSystem());
-            systems.Add(new AnimationSystem());
-            systems.Add(new TextSystem());
-            systems.Add(new LightSystem());
-            systems.Add(new ItemSystem());
+            // Add all builtin systems
+            AddSystem(new InputSystem());
+            AddSystem(new PhysicsSystem());
+            AddSystem(new MapCollisionSystem());
+            AddSystem(new CollisionResponseSystem());
+            AddSystem(new HitboxSystem());
+            AddSystem(new HurtboxSystem());
+            AddSystem(new CollisionSystem());
+            AddSystem(new DamageSystem());
+            AddSystem(new TriggerSystem());
+            AddSystem(new SpriteSystem());
+            AddSystem(new AnimationSystem());
+            AddSystem(new TextSystem());
+            AddSystem(new LightSystem());
+            AddSystem(new ItemSystem());
 
             // Register components and bit flags if they don't exist and
             // generate the signatures for all the systems
-            foreach (System s in systems)
-                s.systemSignature = componentManager.SystemComponents(s.requiredComponents);
+            //foreach (System s in systems)
+            //    s.systemSignature = componentManager.SystemComponents(s.requiredComponents);
         }
 
         // Updates the system's lists when components are added or removed

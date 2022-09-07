@@ -127,8 +127,6 @@ namespace AdventureGame
             EngineGlobals.entityManager = new EntityManager();
             EngineGlobals.sceneManager = new SceneManager();
 
-            
-
             //
             // create entities
             //

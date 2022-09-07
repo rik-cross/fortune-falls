@@ -10,7 +10,7 @@ namespace AdventureGame
         public static T ReadJson<T>(string filePath)
         {
             string jsonString = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<T>(jsonString)!;
+            return JsonSerializer.Deserialize<T>(jsonString);
         }
 
         public static async Task<T> ReadJsonAsync<T>(string filePath)

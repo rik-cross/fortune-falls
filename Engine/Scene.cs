@@ -206,7 +206,7 @@ namespace AdventureGame.Engine
                 c.Update(this);
 
             // update each system
-            foreach (System s in EngineGlobals.systems)
+            foreach (System s in EngineGlobals.systemManager.systems)
             {
                 // main system update
                 s.Update(gameTime, this);
@@ -282,7 +282,7 @@ namespace AdventureGame.Engine
                 // draw systems below map
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
-                foreach (System s in EngineGlobals.systems)
+                foreach (System s in EngineGlobals.systemManager.systems)
                 {
                     if (!s.aboveMap)
                     {
@@ -307,7 +307,7 @@ namespace AdventureGame.Engine
                 // draw systems above map
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
-                foreach (System s in EngineGlobals.systems)
+                foreach (System s in EngineGlobals.systemManager.systems)
                 {
                     if (s.aboveMap)
                     {
@@ -375,7 +375,7 @@ namespace AdventureGame.Engine
             }
 
             // draw each system
-            foreach (System s in EngineGlobals.systems)
+            foreach (System s in EngineGlobals.systemManager.systems)
             {
                 // main system draw
                 s.Draw(gameTime, this);
