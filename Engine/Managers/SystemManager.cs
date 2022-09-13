@@ -33,10 +33,10 @@ namespace AdventureGame.Engine
             AddSystem(new InputSystem());
             AddSystem(new PhysicsSystem());
             AddSystem(new MapCollisionSystem());
+            AddSystem(new CollisionSystem());
             AddSystem(new CollisionResponseSystem());
             AddSystem(new HitboxSystem());
             AddSystem(new HurtboxSystem());
-            AddSystem(new CollisionSystem());
             AddSystem(new DamageSystem());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
