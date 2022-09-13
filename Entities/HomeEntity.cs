@@ -5,6 +5,7 @@ using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 
+using System;
 using System.Collections.Generic;
 
 using AdventureGame.Engine;
@@ -23,7 +24,10 @@ namespace AdventureGame
                 Globals.gameScene.GetCameraByName("minimap").trackedEntity = null;
                 Globals.gameScene.RemoveEntity(otherEntity);
 
-                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90);
+                otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(150, 90); TransformComponent thisTransform = thisEntity.GetComponent<Engine.TransformComponent>();
+                //float newX = thisTransform.GetCenter().X;
+                float newX = thisTransform.size.X;
+                Console.WriteLine($"Building X:{thisTransform.position.X}  New Player X:{newX}");
                 Globals.homeScene.GetCameraByName("main").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
                 Globals.homeScene.GetCameraByName("minimap").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
                 Globals.homeScene.GetCameraByName("main").trackedEntity = otherEntity;

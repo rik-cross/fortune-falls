@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using AdventureGame.Engine;
 
+using System;
+
 namespace AdventureGame
 {
     public class Game1 : Game
@@ -59,6 +61,14 @@ namespace AdventureGame
                 Globals.homeScene.RemoveEntity(otherEntity);
 
                 otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(85, 90);
+                TransformComponent thisTransform = thisEntity.GetComponent<Engine.TransformComponent>();
+                float newX = thisTransform.GetCenter().X;
+                //float newX = thisTransform.size.X; // Testing - size is 0!
+                float newY = thisTransform.position.Y + thisTransform.size.Y;
+                Console.WriteLine($"Building X:{thisTransform.position.X}  New Player X:{newX}");
+                Console.WriteLine($"Building Y:{thisTransform.position.Y}  New Player Y:{newY}");
+                //otherEntity.GetComponent<Engine.TransformComponent>().position = new Vector2(newX, newY);
+
                 Globals.gameScene.GetCameraByName("main").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
                 Globals.gameScene.GetCameraByName("minimap").SetWorldPosition(otherEntity.GetComponent<Engine.TransformComponent>().GetCenter(), instant: true);
                 Globals.gameScene.AddEntity(otherEntity);
