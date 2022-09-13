@@ -19,7 +19,7 @@ namespace AdventureGame.Engine
 
         public string direction;
 
-        public PhysicsComponent(int baseSpeed, string direction = "")
+        public PhysicsComponent(int baseSpeed = 1, string direction = "")
         {
             this.baseSpeed = baseSpeed;
             speed = baseSpeed;

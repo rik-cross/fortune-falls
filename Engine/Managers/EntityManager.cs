@@ -9,6 +9,8 @@ namespace AdventureGame.Engine
     {
         private List<Entity> entities;
         private Dictionary<int, int> entityMapper;
+        private List<Component> components;
+
         private HashSet<int> disabled;
         private HashSet<int> deleted;
 
@@ -19,13 +21,40 @@ namespace AdventureGame.Engine
         {
             entities = new List<Entity>();
             entityMapper = new Dictionary<int, int>();
+            components = new List<Component>();
+
             disabled = new HashSet<int>();
             deleted = new HashSet<int>();
+
             idPool = new List<int>();
         }
 
+        // Creates a new entity and gives it an id
+        public Entity CreateEntity()
+        {
+            Entity e = new Entity(CheckOutId());
+            AddEntity(e);
+            return e;
+        }
+
+        // Adds the entity to the list and mapper
+        public void AddEntity(Entity e)
+        {
+            if (e == null)
+                return;
+
+            entities.Add(e);
+            entityMapper[e.id] = entities.Count - 1;
+        }
+
+        // Returns the entity using the entity id
+        public Entity GetEntity(int entityId)
+        {
+            return entities[entityId];
+        }
+
         // Returns the list of entities
-        public List<Entity> GetEntities()
+        public List<Entity> GetAllEntities()
         {
             return entities;
         }
@@ -53,24 +82,6 @@ namespace AdventureGame.Engine
             return entitiesByType;
         }
 
-        // Creates a new entity and give it an id
-        public Entity CreateEntity()
-        {
-            Entity e = new Entity(CheckOutId());
-            AddEntity(e);
-            return e;
-        }
-
-        // Adds the entity to the list and mapper
-        public void AddEntity(Entity e)
-        {
-            if (e == null)
-                return;
-
-            entities.Add(e);
-            entityMapper[e.id] = entities.Count - 1;
-        }
-
         // Removes the entity from the disabled set
         public void EnableEntity(Entity e)
         {
@@ -87,6 +98,18 @@ namespace AdventureGame.Engine
         public void DeleteEntity(Entity e)
         {
             deleted.Add(e.id);
+        }
+
+        // Returns if the entity is active
+        public bool IsActive(int entityId)
+        {
+            return entities[entityId] != null;
+        }
+
+        // Returns if the entity is enabled
+        public bool IsEnabled(int entityId)
+        {
+            return !disabled.Contains(entityId);
         }
 
         // Deletes entities from the deleted set at the start of the game tick
@@ -141,24 +164,6 @@ namespace AdventureGame.Engine
 
             // Clear the deleted set
             deleted.Clear();
-        }
-
-        // Returns if the entity is active
-        public bool IsActive(int entityId)
-        {
-            return entities[entityId] != null;
-        }
-
-        // Returns if the entity is enabled
-        public bool IsEnabled(int entityId)
-        {
-            return !disabled.Contains(entityId);
-        }
-
-        // Returns the entity from the entity id
-        public Entity GetEntity(int entityId)
-        {
-            return entities[entityId];
         }
 
         // Handles creating and reusing entity ids
