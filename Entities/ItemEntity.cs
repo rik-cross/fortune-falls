@@ -21,14 +21,16 @@ namespace AdventureGame
             itemEntity.Tags.AddTag("item");
 
             string directory = "Items/";
+            string filePath = directory + filename;
 
             // How to handle sprite sheets dynamically?
             // How to add optional params? e.g. size
             if (!animation)
             {
-                itemEntity.AddComponent(new Engine.SpriteComponent("idle",
+                /*itemEntity.AddComponent(new Engine.SpriteComponent("idle",
                     new Engine.Sprite(Globals.content.Load<Texture2D>(directory + filename))
-                    ));
+                    ));*/
+                itemEntity.AddComponent(new Engine.SpriteComponent(filePath));
             }
 
             Texture2D texture = itemEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];

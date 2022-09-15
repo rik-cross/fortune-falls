@@ -33,8 +33,30 @@ namespace AdventureGame
             playerEntity.Tags.Name = "player1"; // REMOVE
             playerEntity.Tags.AddTag("player");
 
-            playerEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
+            string directory = "";
+            string filename = "playerSpriteSheet";
+            string filePath = directory + filename;
+            int width = 26;
+            int height = 36;
 
+            //Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>(filename), new Vector2(26, 36));
+            Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(filePath, width, height);
+
+            //playerEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
+            playerEntity.AddComponent(new Engine.SpriteComponent("idle", playerSpriteSheet, 7, 4));
+            
+            Engine.SpriteComponent spritesComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
+
+            //int[,] subTextures = new int[4, 2] { {6,7}, {7,7}, {8,7}, {7,7} };
+            List<List<int>> subTextureValues = new List<List<int>>();
+            subTextureValues.Add(new List<int>() { 6, 7 });
+            subTextureValues.Add(new List<int>() { 7, 7 });
+            subTextureValues.Add(new List<int>() { 8, 7 });
+            subTextureValues.Add(new List<int>() { 7, 7 });
+
+            spritesComponent.AddSprite("walkNorth", playerSpriteSheet, subTextureValues);
+            
+            /*
             Engine.SpriteComponent spritesComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
 
             spritesComponent.AddSprite(
@@ -49,7 +71,7 @@ namespace AdventureGame
                     }
                 )
             );
-
+            */
             spritesComponent.AddSprite(
                 "walkSouth",
                 new Engine.Sprite(
@@ -88,6 +110,7 @@ namespace AdventureGame
                     }
                 )
             );
+            
 
             foreach (Engine.Sprite sp in spritesComponent.SpriteDict.Values)
                 sp.animationDelay = 8;
