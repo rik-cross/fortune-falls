@@ -115,8 +115,7 @@ namespace AdventureGame
             foreach (Engine.Sprite sp in spritesComponent.SpriteDict.Values)
                 sp.animationDelay = 8;
 
-            Texture2D texture = spritesComponent.GetSprite("idle").textureList[0];
-            Vector2 imageSize = new Vector2(texture.Width, texture.Height);
+            Vector2 imageSize = playerEntity.GetComponent<SpriteComponent>().GetSpriteSize();
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));

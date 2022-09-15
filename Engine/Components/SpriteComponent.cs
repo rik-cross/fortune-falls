@@ -1,4 +1,5 @@
 ﻿//using MonoGame.Extended.Sprites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using System.Collections.Generic;
@@ -51,6 +52,15 @@ namespace AdventureGame.Engine
         public Sprite GetSprite(string state)
         {
             return SpriteDict[state];
+        }
+
+        public Vector2 GetSpriteSize(string state = "idle")
+        {
+            Sprite sprite = SpriteDict[state];
+            Texture2D texture = sprite.textureList[0];
+            Vector2 spriteSize = new Vector2(texture.Width, texture.Height);
+
+            return spriteSize;
         }
 
         public void AddSprite(string key, Sprite sprite)

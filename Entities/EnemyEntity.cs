@@ -25,13 +25,14 @@ namespace AdventureGame
             enemyEntity.Tags.AddTag("enemy");
 
             string directory = "";
+            string filePath = directory + filename;
 
-            enemyEntity.AddComponent(new Engine.SpriteComponent("idle",
-                new Engine.Sprite(Globals.content.Load<Texture2D>(directory + filename))));
+            enemyEntity.AddComponent(new Engine.SpriteComponent(filePath));
+            /*enemyEntity.AddComponent(new Engine.SpriteComponent("idle",
+                new Engine.Sprite(Globals.content.Load<Texture2D>(directory + filename))));*/
             //Globals.enemySpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("spriteEnemy"), new Vector2(65, 50));
 
-            Texture2D texture = enemyEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];
-            //Vector2 imageSize = new Vector2(texture.Width, texture.Height); // RESIZE enemy sprite
+            //Vector2 imageSize = enemyEntity.GetComponent<SpriteComponent>().GetSpriteSize(); // RESIZE enemy sprite
             Vector2 imageSize = new Vector2(65, 50);
 
             enemyEntity.AddComponent(new Engine.IntentionComponent());

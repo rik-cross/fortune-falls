@@ -85,6 +85,13 @@ namespace AdventureGame
                 }
             }
 
+
+            // TO DO
+            // Create light and sprite sheet here instead of in Globals
+            // Remove LightEntity.cs
+            //AddEntity(EngineGlobals.entityManager.GetEntityByName("light1"));
+
+
             // add map
             //AddMap("startZone");
             //AddMap("village.tmx");

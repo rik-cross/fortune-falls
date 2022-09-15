@@ -33,8 +33,9 @@ namespace AdventureGame
                 itemEntity.AddComponent(new Engine.SpriteComponent(filePath));
             }
 
-            Texture2D texture = itemEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];
-            Vector2 imageSize = new Vector2(texture.Width, texture.Height);
+            //Texture2D texture = itemEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];
+            //Vector2 imageSize = new Vector2(texture.Width, texture.Height);
+            Vector2 imageSize = itemEntity.GetComponent<SpriteComponent>().GetSpriteSize();
             //Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
 
             itemEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
