@@ -11,8 +11,7 @@ namespace AdventureGame
     public static class BuildingEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            string tagId,
-            List<string> triggers = default)
+            string tagId, List<string> triggers = default)
         {
 
             Entity buildingEntity = EngineGlobals.entityManager.CreateEntity();

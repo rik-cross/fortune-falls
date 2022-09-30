@@ -142,7 +142,8 @@ namespace AdventureGame
             //
 
             // player entity
-            Engine.Entity playerEntity = PlayerEntity.Create(100, 100); // opposites (180, 350)
+            //Engine.Entity playerEntity = PlayerEntity.Create(100, 100); // opposites (180, 350)
+            Engine.Entity playerEntity = PlayerEntity.Create(300, 200, "player1"); // opposites (180, 350)
             // home entity
             Engine.Entity homeEntity = HomeEntity.Create(50, 20);
             // home light entity

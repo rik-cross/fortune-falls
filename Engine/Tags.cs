@@ -5,6 +5,7 @@ namespace AdventureGame.Engine
 {
     public class Tags
     {
+        // CHANGE Name to Id ???
         // A Name tag should be unique to an entity
         public string Name { get; set; }
 
