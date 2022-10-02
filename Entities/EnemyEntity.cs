@@ -21,7 +21,7 @@ namespace AdventureGame
 
             Entity enemyEntity = EngineGlobals.entityManager.CreateEntity();
 
-            enemyEntity.Tags.Name = "enemy1"; // REMOVE
+            enemyEntity.Tags.Id = "enemy1"; // REMOVE
             enemyEntity.Tags.AddTag("enemy");
 
             string directory = "";

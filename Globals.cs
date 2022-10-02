@@ -28,9 +28,7 @@ namespace AdventureGame
         public static List<Engine.InputItem> backInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Back };
         public static List<Engine.InputItem> button2Input = new List<Engine.InputItem>() { Engine.KeyboardInput.LeftShift, Engine.ControllerInput.LeftShoulder };
 
-        public static Engine.SpriteSheet playerSpriteSheet;
-        public static Engine.SpriteSheet candleSpriteSheet;
-        public static Engine.SpriteSheet enemySpriteSheet;
+        public static Engine.SpriteSheet playerSpriteSheet; // REMOVE once MenuScene is sorted
 
         public static Engine.Scene menuScene;
         public static Engine.Scene gameScene;

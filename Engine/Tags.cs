@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {
     public class Tags
     {
-        // CHANGE Name to Id ???
-        // A Name tag should be unique to an entity
-        public string Name { get; set; }
+        // An Id tag should be unique to an entity
+        public string Id { get; set; }
 
         // A Type tag can be shared by multiple entities.
         // Entities can have multiple Type tags
@@ -18,20 +16,20 @@ namespace AdventureGame.Engine
 
         public Tags(string type, string name = default)
         {
-            Name = name;
+            Id = name;
             Type.Add(type);
         }
 
         public Tags(List<string> type, string name = default)
         {
-            Name = name;
+            Id = name;
             Type = type;
         }
 
         // Removes the Name tag
         public void RemoveName()
         {
-            Name = "";
+            Id = "";
         }
 
         // Adds a tag to the Type hashset

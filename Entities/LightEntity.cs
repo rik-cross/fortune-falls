@@ -30,7 +30,7 @@ namespace AdventureGame
         {
             Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
 
-            lightSourceEntity.Tags.Name = "light1"; // REMOVE
+            lightSourceEntity.Tags.Id = "light1"; // REMOVE
             lightSourceEntity.Tags.AddTag("light");
 
             string directory = "";

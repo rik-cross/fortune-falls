@@ -45,7 +45,7 @@ namespace AdventureGame
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
 
-            entity.Tags.Name = "home";
+            entity.Tags.Id = "home";
             entity.Tags.AddTag("building"); // home or building?
 
             entity.AddComponent(new TransformComponent(new Vector2(x, y), new Vector2(88, 89)));

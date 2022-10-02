@@ -64,7 +64,7 @@ namespace AdventureGame.Engine
         {
             foreach(Entity e in entities)
             {
-                if (e.Tags.Name == name)
+                if (e.Tags.Id == name)
                     return e;
             }
             return null;

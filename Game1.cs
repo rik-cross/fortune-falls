@@ -126,9 +126,8 @@ namespace AdventureGame
                 DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
             );
 
+            // Move to another accessible place for the menu and scenes?
             Globals.playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("playerSpriteSheet"), new Vector2(26, 36));
-            Globals.candleSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("candleTest"), new Vector2(32, 32));
-            //Globals.enemySpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("spriteEnemy"), new Vector2(65, 50));
 
             // Instantiate the managers
             EngineGlobals.inputManager = new InputManager();
@@ -173,7 +172,7 @@ namespace AdventureGame
 
             // Map trigger entity
             Engine.Entity m = EngineGlobals.entityManager.CreateEntity();
-            m.Tags.Name = "m";
+            m.Tags.Id = "m";
             m.Tags.AddTag("mapTrigger");
             m.AddComponent(new Engine.TransformComponent(225, 0));
             m.AddComponent(new Engine.TriggerComponent(
@@ -185,7 +184,7 @@ namespace AdventureGame
 
             // Beach trigger entity
             Engine.Entity b = EngineGlobals.entityManager.CreateEntity();
-            b.Tags.Name = "b";
+            b.Tags.Id = "b";
             m.Tags.AddTag("beachTrigger");
             b.AddComponent(new Engine.TransformComponent(475, 1000));
             b.AddComponent(new Engine.TriggerComponent(
@@ -197,7 +196,7 @@ namespace AdventureGame
 
             // Home trigger entity
             Engine.Entity h = EngineGlobals.entityManager.CreateEntity();
-            h.Tags.Name = "h";
+            h.Tags.Id = "h";
             m.Tags.AddTag("homeTrigger");
             h.AddComponent(new Engine.TransformComponent(155, 135));
             h.AddComponent(new Engine.TriggerComponent(

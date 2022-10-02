@@ -30,7 +30,7 @@ namespace AdventureGame
             // Otherwise create a new player entity
             playerEntity = EngineGlobals.entityManager.CreateEntity();
 
-            playerEntity.Tags.Name = "player1"; // REMOVE
+            playerEntity.Tags.Id = "player1"; // REMOVE
             playerEntity.Tags.AddTag("player");
 
             string directory = "";
