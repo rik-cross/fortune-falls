@@ -43,9 +43,9 @@ namespace AdventureGame
             Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(filePath, width, height);
 
             //playerEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
-            playerEntity.AddComponent(new Engine.SpriteComponent("idle", playerSpriteSheet, 7, 4));
+            playerEntity.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 7, 4, "idle"));
             
-            Engine.SpriteComponent spritesComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
+            Engine.SpriteComponent spriteComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
 
             //int[,] subTextures = new int[4, 2] { {6,7}, {7,7}, {8,7}, {7,7} };
             List<List<int>> subTextureValues = new List<List<int>>();
@@ -54,7 +54,7 @@ namespace AdventureGame
             subTextureValues.Add(new List<int>() { 8, 7 });
             subTextureValues.Add(new List<int>() { 7, 7 });
 
-            spritesComponent.AddSprite("walkNorth", playerSpriteSheet, subTextureValues);
+            spriteComponent.AddSprite("walkNorth", playerSpriteSheet, subTextureValues);
             
             /*
             Engine.SpriteComponent spritesComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
@@ -72,7 +72,7 @@ namespace AdventureGame
                 )
             );
             */
-            spritesComponent.AddSprite(
+            spriteComponent.AddSprite(
                 "walkSouth",
                 new Engine.Sprite(
                     new List<Texture2D>
@@ -85,7 +85,7 @@ namespace AdventureGame
                 )
             );
 
-            spritesComponent.AddSprite(
+            spriteComponent.AddSprite(
                 "walkEast",
                 new Engine.Sprite(
                     new List<Texture2D>
@@ -98,7 +98,7 @@ namespace AdventureGame
                 )
             );
 
-            spritesComponent.AddSprite(
+            spriteComponent.AddSprite(
                 "walkWest",
                 new Engine.Sprite(
                     new List<Texture2D>
@@ -112,7 +112,7 @@ namespace AdventureGame
             );
             
 
-            foreach (Engine.Sprite sp in spritesComponent.SpriteDict.Values)
+            foreach (Engine.Sprite sp in spriteComponent.SpriteDict.Values)
                 sp.animationDelay = 8;
 
             Vector2 imageSize = playerEntity.GetComponent<SpriteComponent>().GetSpriteSize();

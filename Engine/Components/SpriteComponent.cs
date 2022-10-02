@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventureGame.Engine
 {
@@ -13,12 +14,12 @@ namespace AdventureGame.Engine
         public bool visible;
         public string lastState;
 
-        public SpriteComponent(string key, Sprite sprite, bool visible = true)
+        public SpriteComponent(Sprite sprite, string key = "idle", bool visible = true)
         {
-            this.SpriteDict = new Dictionary<string, Sprite>();
+            SpriteDict = new Dictionary<string, Sprite>();
             AddSprite(key, sprite);
             this.visible = visible;
-            this.lastState = "idle";
+            lastState = "idle";
         }
 
         public SpriteComponent(string filePath, string key = "idle", bool visible = true)
@@ -30,7 +31,7 @@ namespace AdventureGame.Engine
             lastState = "idle";
         }
 
-        public SpriteComponent(string key, Texture2D texture, bool visible = true)
+        public SpriteComponent(Texture2D texture, string key = "idle", bool visible = true)
         {
             SpriteDict = new Dictionary<string, Sprite>();
             Sprite sprite = new Sprite(texture);
@@ -39,7 +40,7 @@ namespace AdventureGame.Engine
             lastState = "idle";
         }
 
-        public SpriteComponent(string key, SpriteSheet spriteSheet, int x, int y,
+        public SpriteComponent(SpriteSheet spriteSheet, int x, int y, string key = "idle",
             bool visible = true)
         {
             SpriteDict = new Dictionary<string, Sprite>();
@@ -49,7 +50,16 @@ namespace AdventureGame.Engine
             lastState = "idle";
         }
 
-        public Sprite GetSprite(string state)
+        public SpriteComponent(SpriteSheet spriteSheet, List<List<int>> subTextureValues,
+            string key = "idle", bool visible = true)
+        {
+            SpriteDict = new Dictionary<string, Sprite>();
+            AddSprite(key, spriteSheet, subTextureValues);
+            this.visible = visible;
+            lastState = "idle";
+        }
+
+        public Sprite GetSprite(string state = "idle")
         {
             return SpriteDict[state];
         }

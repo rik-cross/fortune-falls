@@ -22,13 +22,8 @@ namespace AdventureGame
 
             // Seems weird to have to set idle...
             // Should this be optional and then re-order the arguments?
-            buildingEntity.AddComponent(new Engine.SpriteComponent("idle",
-                new Engine.Sprite(Globals.content.Load<Texture2D>(directory + filename))
-                ));
-
-            Texture2D texture = buildingEntity.GetComponent<SpriteComponent>().GetSprite("idle").textureList[0];
-            Vector2 imageSize = new Vector2(texture.Width, texture.Height);
-            //Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
+            buildingEntity.AddComponent(new Engine.SpriteComponent(directory + filename));
+            Vector2 imageSize = buildingEntity.GetComponent<SpriteComponent>().GetSpriteSize();
 
             buildingEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
             buildingEntity.AddComponent(new Engine.ColliderComponent(x, y-30, 0, 30));
