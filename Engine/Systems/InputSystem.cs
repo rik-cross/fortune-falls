@@ -19,7 +19,7 @@ namespace AdventureGame.Engine
             if (EngineGlobals.sceneManager.transition != null)
             {
                 intentionComponent.Reset();
-                entity.state = "idle";
+                entity.State = "idle";
                 return;
             }
             

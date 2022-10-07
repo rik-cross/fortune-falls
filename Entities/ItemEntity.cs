@@ -11,6 +11,8 @@ namespace AdventureGame
     public static class ItemEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
+            // string itemId, int quantity = 1, int stackSize = 1,
+            // int durability = 100,
             List<string> collectableByTag = default,
             //int width = default, int height = default,
             bool animation = false)
@@ -39,7 +41,11 @@ namespace AdventureGame
             //Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
 
             itemEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
-            itemEntity.AddComponent(new Engine.ItemComponent(collectableByTag));
+
+            //Item item = new Item(itemId, quantity, stackSize, durability);
+            Item item = new Item("itemTestId");
+            itemEntity.AddComponent(new Engine.ItemComponent(item, collectableByTag));
+
             itemEntity.AddComponent(new Engine.ColliderComponent(imageSize));
 
             return itemEntity;

@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-//using Microsoft.Xna.Framework.Input;
-
-using MonoGame.Extended.Content;
-using System.Collections;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Serialization;
 
 using AdventureGame.Engine;
 
@@ -19,7 +12,7 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, string id)
+        public static Engine.Entity Create(int x, int y, string id = default)
         {
             // Check if the player entity already exists
             Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player1");
@@ -30,7 +23,20 @@ namespace AdventureGame
             // Otherwise create a new player entity
             playerEntity = EngineGlobals.entityManager.CreateEntity();
 
-            playerEntity.Tags.Id = "player1"; // REMOVE
+            if (id != default)
+                playerEntity.Tags.Id = id;
+            else
+            {
+                // Generate a new unique player id
+                Guid guid = Guid.NewGuid();
+
+                // Generate a new player id if it already exists
+
+                // Set the new player id and store it somewhere
+                //playerEntity.Tags.Id = "player" + guid;
+                playerEntity.Tags.Id = "player1"; // TESTING
+
+            }
             playerEntity.Tags.AddTag("player");
 
             string directory = "";
@@ -134,6 +140,10 @@ namespace AdventureGame
                 null,
                 null
             ));
+
+            //playerEntity.AddComponent(new Engine.InventoryContainerComponent("playerBag"));
+            playerEntity.AddComponent(new Engine.InventoryComponent(20));
+
             return playerEntity;
         }
 
@@ -146,13 +156,13 @@ namespace AdventureGame
             Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
 
             // default state
-            entity.state = "idle";
+            entity.State = "idle";
 
             // up keys
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
             {
                 intentionComponent.up = true;
-                entity.state = "walkNorth";
+                entity.State = "walkNorth";
             }
             else
             {
@@ -163,7 +173,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.down))
             {
                 intentionComponent.down = true;
-                entity.state = "walkSouth";
+                entity.State = "walkSouth";
             }
             else
             {
@@ -174,7 +184,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.left))
             {
                 intentionComponent.left = true;
-                entity.state = "walkWest";
+                entity.State = "walkWest";
             }
             else
             {
@@ -185,7 +195,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.right))
             {
                 intentionComponent.right = true;
-                entity.state = "walkEast";
+                entity.State = "walkEast";
             }
             else
             {

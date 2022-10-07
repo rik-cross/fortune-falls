@@ -135,14 +135,60 @@ namespace AdventureGame
             EngineGlobals.systemManager = new SystemManager();
             EngineGlobals.entityManager = new EntityManager();
             EngineGlobals.sceneManager = new SceneManager();
+            EngineGlobals.playerManager = new PlayerManager();
+            EngineGlobals.inventoryManager = new InventoryManager();
 
             //
-            // create entities
+            // create entities - MOVE to the required scenes
+            //                  what about player, player bag etc?
             //
 
             // player entity
             //Engine.Entity playerEntity = PlayerEntity.Create(100, 100); // opposites (180, 350)
-            Engine.Entity playerEntity = PlayerEntity.Create(300, 200, "player1"); // opposites (180, 350)
+            string playerId = "player1";
+            Engine.Entity playerEntity = PlayerEntity.Create(300, 200, playerId); // opposites (180, 350)
+
+
+            // Player bag
+            /*
+            Engine.Entity playerBagEntity = EngineGlobals.entityManager.CreateEntity();
+            playerBagEntity.Tags.AddTag("playerBag");
+            playerBagEntity.AddComponent(new Engine.InventoryContainerComponent());
+            EngineGlobals.playerManager.SetPlayer(playerBagEntity, playerId); // Assign bag to player1
+            */
+            /*
+            // Test - add inventory items
+            //string bagContainerId = playerBagEntity.GetComponent<InventoryContainerComponent>().ContainerId;
+            string bagContainerId = playerEntity.GetComponent<InventoryContainerComponent>().ContainerId;
+            //playerBagEntity.AddComponent(new Engine.InventoryItemComponent("stick", bagContainerId, 5));
+            //playerBagEntity.AddComponent(new Engine.InventoryItemComponent("pebble", bagContainerId));
+            Engine.Entity inventoryItemEntity1 = EngineGlobals.entityManager.CreateEntity();
+            inventoryItemEntity1.AddComponent(new Engine.InventoryItemComponent("stick", bagContainerId, 5));
+            Engine.Entity inventoryItemEntity2 = EngineGlobals.entityManager.CreateEntity();
+            inventoryItemEntity2.AddComponent(new Engine.InventoryItemComponent("pebble", bagContainerId));
+
+            // Player hotbar
+            Engine.Entity playerHotbarEntity = EngineGlobals.entityManager.CreateEntity();
+            playerHotbarEntity.Tags.AddTag("playerHotbar");
+            playerHotbarEntity.AddComponent(new Engine.InventoryContainerComponent());
+            EngineGlobals.playerManager.SetPlayer(playerHotbarEntity, playerId); // Assign hotbar to player1
+            // Test - add hotbar items
+            string hotbarContainerId = playerHotbarEntity.GetComponent<InventoryContainerComponent>().ContainerId;
+            //playerHotbarEntity.AddComponent(new Engine.InventoryItemComponent("pebble", hotbarContainerId));
+            Engine.Entity inventoryItemEntity3 = EngineGlobals.entityManager.CreateEntity();
+            inventoryItemEntity3.AddComponent(new Engine.InventoryItemComponent("pebble", bagContainerId));
+
+
+            // Chest test - MOVE to gameScene
+            Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();
+            chestEntity.Tags.AddTag("chest");
+            chestEntity.AddComponent(new Engine.InventoryContainerComponent());
+            string chestId = chestEntity.GetComponent<InventoryContainerComponent>().ContainerId;
+            // Test - add chest items
+            chestEntity.AddComponent(new Engine.InventoryItemComponent("arrowStandard", chestId, 20));
+            chestEntity.AddComponent(new Engine.InventoryItemComponent("stick", chestId, 10));
+            */
+
             // home entity
             Engine.Entity homeEntity = HomeEntity.Create(50, 20);
             // home light entity

@@ -10,7 +10,7 @@ namespace AdventureGame
         public int Y { get; set; }
         public string Filename { get; set; }
     }
-
+    /*
     public class Item
     {
         public int X { get; set; }
@@ -18,7 +18,7 @@ namespace AdventureGame
         public string Filename { get; set; }
         public List<string> Collectable { get; set; }
     }
-
+    */
     public class Map
     {
         public string Filename { get; set; }
@@ -40,7 +40,7 @@ namespace AdventureGame
         public Map Map { get; set; }
         public List<Player> Players { get; set; }
         public List<Enemy> Enemies { get; set; }
-        public List<Item> Items { get; set; }
+        //public List<Item> Items { get; set; }
         public string TestProperty { get; set; }
     }
 

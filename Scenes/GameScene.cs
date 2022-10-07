@@ -45,7 +45,7 @@ namespace AdventureGame
                 parse data / use keys for arguments
 
             */
-
+            /*
             // Create an ItemEntity for each item in the JSON file
             foreach (var item in root.Items)
             {
@@ -69,7 +69,7 @@ namespace AdventureGame
                     Console.WriteLine($"Exception adding item entity: {ex}");
                 }
             }
-
+            */
             // Create an EnemyEntity for each enemy in the JSON file
             foreach (var enemy in root.Enemies)
             {
@@ -114,6 +114,8 @@ namespace AdventureGame
             //HashSet<string> playerCollectable = new HashSet<string>() { "player" };
             //AddEntity(ItemEntity.Create(30, 170, "Items/W_Sword003", playerCollectable));
             //AddEntity(ItemEntity.Create(100, 250, "Items/I_Boulder01"));
+            AddEntity(ItemEntity.Create(30, 170, "W_Sword003", new List<string> { "player" }));
+            AddEntity(ItemEntity.Create(100, 250, "I_Boulder01"));
 
             //AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));

@@ -5,7 +5,7 @@ namespace AdventureGame.Engine
     public class Tags
     {
         // An Id tag should be unique to an entity
-        public string Id { get; set; }
+        public string Id { get; set; } // could be private set and check if id already exists
 
         // A Type tag can be shared by multiple entities.
         // Entities can have multiple Type tags
@@ -14,38 +14,38 @@ namespace AdventureGame.Engine
 
         public Tags() { }
 
-        public Tags(string type, string name = default)
+        public Tags(string type, string id = default)
         {
-            Id = name;
+            Id = id;
             Type.Add(type);
         }
 
-        public Tags(List<string> type, string name = default)
+        public Tags(List<string> type, string id = default)
         {
-            Id = name;
+            Id = id;
             Type = type;
         }
 
-        // Removes the Name tag
-        public void RemoveName()
+        // Clear the Id tag
+        public void ClearId()
         {
             Id = "";
         }
 
-        // Adds a tag to the Type hashset
+        // Add a tag to the Type list
         public void AddTag(string type)
         {
             Type.Add(type);
         }
 
-        // Removes a tag from the Type hashset
+        // Remove a tag from the Type list
         public void RemoveTag(string type)
         {
             if (Type != null)
                 Type.Remove(type);
         }
 
-        // Returns whether a tag exists in the Type hashset
+        // Return whether a tag exists in the Type list
         public bool HasTag(string type)
         {
             if (Type != null)
