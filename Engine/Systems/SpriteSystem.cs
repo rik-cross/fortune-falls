@@ -19,28 +19,28 @@ namespace AdventureGame.Engine
             
             SpriteComponent spritesComponent = entity.GetComponent<SpriteComponent>();
 
-            if (!spritesComponent.SpriteDict.ContainsKey(entity.state))
+            if (!spritesComponent.SpriteDict.ContainsKey(entity.State))
                 return;
 
             // reset sprite if switching from another active sprite
-            if (spritesComponent.lastState != entity.state)
-                spritesComponent.SpriteDict[entity.state].Reset();
+            if (spritesComponent.lastState != entity.State)
+                spritesComponent.SpriteDict[entity.State].Reset();
 
-            spritesComponent.SpriteDict[entity.state].timer += 1;
-            if (spritesComponent.SpriteDict[entity.state].timer >= spritesComponent.SpriteDict[entity.state].animationDelay)
+            spritesComponent.SpriteDict[entity.State].timer += 1;
+            if (spritesComponent.SpriteDict[entity.State].timer >= spritesComponent.SpriteDict[entity.State].animationDelay)
             {
-                spritesComponent.SpriteDict[entity.state].timer = 0;
-                spritesComponent.SpriteDict[entity.state].currentPosition += 1;
-                if (spritesComponent.SpriteDict[entity.state].currentPosition > (spritesComponent.SpriteDict[entity.state].textureList.Count - 1))
+                spritesComponent.SpriteDict[entity.State].timer = 0;
+                spritesComponent.SpriteDict[entity.State].currentPosition += 1;
+                if (spritesComponent.SpriteDict[entity.State].currentPosition > (spritesComponent.SpriteDict[entity.State].textureList.Count - 1))
                 {
-                    if (spritesComponent.SpriteDict[entity.state].loop)
-                        spritesComponent.SpriteDict[entity.state].currentPosition = 0;
+                    if (spritesComponent.SpriteDict[entity.State].loop)
+                        spritesComponent.SpriteDict[entity.State].currentPosition = 0;
                     else
-                        spritesComponent.SpriteDict[entity.state].currentPosition = spritesComponent.SpriteDict[entity.state].textureList.Count - 1;
+                        spritesComponent.SpriteDict[entity.State].currentPosition = spritesComponent.SpriteDict[entity.State].textureList.Count - 1;
                 }
             }
 
-            spritesComponent.lastState = entity.state;
+            spritesComponent.lastState = entity.State;
 
         }
 
@@ -50,13 +50,13 @@ namespace AdventureGame.Engine
             SpriteComponent spritesComponent = entity.GetComponent<SpriteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            if (!spritesComponent.SpriteDict.ContainsKey(entity.state))
+            if (!spritesComponent.SpriteDict.ContainsKey(entity.State))
                 return;
 
             if (!spritesComponent.visible)
                 return;
 
-            Sprite currentSprite = spritesComponent.SpriteDict[entity.state];
+            Sprite currentSprite = spritesComponent.SpriteDict[entity.State];
             Texture2D currentTexture = currentSprite.textureList[currentSprite.currentPosition];
 
             Globals.spriteBatch.Draw(
