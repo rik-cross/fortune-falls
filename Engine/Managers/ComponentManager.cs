@@ -13,6 +13,7 @@ namespace AdventureGame.Engine
         private Dictionary<string, ulong> componentsByName;
         private ulong allComponentsSignature; // Remove?
         private ulong bitFlag;
+        // if there are > 64 components, use a second ulong to increase to 128?
 
         public ConcurrentQueue<Tuple<Entity, Component>> removedComponents;
         public HashSet<Entity> changedEntities;
@@ -48,12 +49,12 @@ namespace AdventureGame.Engine
         public void AddComponent(Entity e, Component component)
         {
             // Add component object to the list and entity to the component
-            e.components.Add(component);
+            e.Components.Add(component);
             component.entity = e;
 
             // Add component to entity signature
             string componentName = GetComponentName(component);
-            e.signature = AddToSignature(e.signature, componentName);
+            e.Signature = AddToSignature(e.Signature, componentName);
             
             // Pushes the entity and component to the added queue
             //addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
@@ -83,10 +84,10 @@ namespace AdventureGame.Engine
         public void RemoveAllComponents(Entity e)
         {
             // Clear the components list
-            e.components.Clear();
+            e.Components.Clear();
 
             // Reset the signature
-            e.signature = 0;
+            e.Signature = 0;
 
             // Add entity to the changed entities set
             changedEntities.Add(e);
@@ -103,11 +104,11 @@ namespace AdventureGame.Engine
                 Component component = removed.Item2;
 
                 // Remove component object from the entity list
-                e.components.Remove(component);
+                e.Components.Remove(component);
 
                 // Remove component from entity signature
                 string componentName = GetComponentName(component);
-                e.signature = RemoveFromSignature(e.signature, componentName);
+                e.Signature = RemoveFromSignature(e.Signature, componentName);
 
                 // Testing
                 /*
@@ -178,7 +179,7 @@ namespace AdventureGame.Engine
         // Fastest way to check if an entity has the components a system requires
         public bool CheckComponents(Entity e, ulong systemSignature)
         {
-            return (e.signature & systemSignature) == systemSignature;
+            return (e.Signature & systemSignature) == systemSignature;
         }
 
         // Get each component name of the entity?

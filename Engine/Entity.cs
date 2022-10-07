@@ -5,40 +5,41 @@ namespace AdventureGame.Engine
 {
     public class Entity
     {
-        public Guid guid;
-        public int id;
-        public ulong signature;
-        public string state = "idle";
-
-        public List<Component> components; // Dictionary/HashSet?
+        public int Id { get; set; }
+        public Guid Guid { get; private set; }
+        public ulong Signature { get; set; }
+        public string State { get; set; }
         public Tags Tags { get; set; }
 
-        public ComponentManager componentManager;
+        public List<Component> Components { get; set; } // Dictionary/HashSet?
+        private readonly EntityManager entityManager;
+        private readonly ComponentManager componentManager;
 
         public Entity(int id)
         {
-            this.id = id;
+            Id = id;
             GenerateGuid();
-
-            components = new List<Component>();
+            State = "idle";
             Tags = new Tags();
 
+            Components = new List<Component>();
+            entityManager = EngineGlobals.entityManager;
             componentManager = EngineGlobals.componentManager;
         }
 
-        // Generates a unique GUID for the entity
+        // Generate a unique GUID for the entity
         public void GenerateGuid()
         {
-            guid = Guid.NewGuid();
+            Guid = Guid.NewGuid();
         }
 
-        // Adds a component to the entity
+        // Add a component to the entity
         public void AddComponent(Component component)
         {
             componentManager.AddComponent(this, component);
         }
 
-        // Removes a given component from the entity
+        // Remove a given component from the entity
         public void RemoveComponent<T>() where T : Component
         {
             Component component = GetComponent<T>();
@@ -46,10 +47,10 @@ namespace AdventureGame.Engine
                 componentManager.RemoveComponent(this, component);
         }
 
-        // Returns a given component from the entity
+        // Return a given component from the entity
         public T GetComponent<T>() where T : Component
         {
-            foreach (Component c in components)
+            foreach (Component c in Components)
             {
                 if (c.GetType().Equals(typeof(T)))
                 {
@@ -57,6 +58,12 @@ namespace AdventureGame.Engine
                 }
             }
             return null;
+        }
+
+        // Destroy the entity
+        public void Destroy()
+        {
+            entityManager.DestroyEntity(this);
         }
     }
 

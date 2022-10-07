@@ -45,12 +45,12 @@ namespace AdventureGame.Engine
                         // Check if the entities have collided
                         if (colliderComponent.rect.Intersects(otherColliderComponent.rect))
                         {
-                            Console.WriteLine($"\nEntity {entity.id} intersects with {otherEntity.id}");
+                            //Console.WriteLine($"\nEntity {entity.Id} intersects with {otherEntity.Id}");
                             // Check if the entities are already colliding
                             if (!(collisionStarted.Contains(entity)
                                 && colliderComponent.collidedEntities.Contains(otherEntity)))
                             {
-                                Console.WriteLine($"Start collision: {entity.id} & {otherEntity.id}");
+                                //Console.WriteLine($"Start collision: {entity.Id} & {otherEntity.Id}");
                                 // Add the entity to the collision started set
                                 collisionStarted.Add(entity);
 
@@ -62,10 +62,12 @@ namespace AdventureGame.Engine
                                 otherColliderComponent.color = Color.Orange;
 
                                 // Testing: output collided entities set
+                                /*
                                 Console.WriteLine("\nCollision started set: ");
-                                Console.WriteLine($"Entity {entity.id}");
+                                Console.WriteLine($"Entity {entity.Id}");
                                 foreach (Entity e in colliderComponent.collidedEntities)
-                                    Console.WriteLine($"Other entity {e.id}  ");
+                                    Console.WriteLine($"Other entity {e.Id}  ");
+                                */
                             }
                         }
                         // Check if the entities were colliding and now they are not
@@ -88,11 +90,13 @@ namespace AdventureGame.Engine
                             //colliderComponent.resolvedCollisions.Remove(otherE);
 
                             // Testing: output collided entities ended set
+                            /*
                             Console.WriteLine("\nCollision ended set: ");
-                            Console.WriteLine($"Entity {entity.id}");
+                            Console.WriteLine($"Entity {entity.Id}");
                             foreach (Entity e in colliderComponent.collidedEntitiesEnded)
-                                Console.WriteLine($"Other entity {e.id}  ");
+                                Console.WriteLine($"Other entity {e.Id}  ");
                             Console.WriteLine();
+                            */
                         }
                         // Check if the entites are exiting a previous collision
                         else if (collisionEnded.Contains(entity)

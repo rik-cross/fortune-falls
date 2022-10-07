@@ -12,7 +12,7 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-           
+
         }
     }
 }

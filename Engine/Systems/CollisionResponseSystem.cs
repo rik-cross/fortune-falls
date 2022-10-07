@@ -128,8 +128,8 @@ namespace AdventureGame.Engine
                 //Console.WriteLine($"Overlap left {overlapLeft}");
                 //Console.WriteLine($"Overlap right {overlapRight}");
 
-                Console.WriteLine($"Entity {entity.id} has velocity Y {velocityY}");
-                Console.WriteLine($"Other entity {otherEntity.id} has velocity Y {otherVelocityY}");
+                //Console.WriteLine($"Entity {entity.Id} has velocity Y {velocityY}");
+                //Console.WriteLine($"Other entity {otherEntity.Id} has velocity Y {otherVelocityY}");
                 //Console.WriteLine($"{hasOtherMoved} hasOtherMoved");
 
                 // Calculate the total absolute X and Y velocities
@@ -299,7 +299,7 @@ namespace AdventureGame.Engine
                             if (overlapTop > 0 && overlapTop <= maxOverlapY)
                             {
                                 transformComponent.position.Y += overlapTop;
-                                Console.WriteLine($"Overlap (Y-up) {overlapTop}");
+                                //Console.WriteLine($"Overlap (Y-up) {overlapTop}");
                             }
 
                         // Check if the entity is moving south
@@ -307,7 +307,7 @@ namespace AdventureGame.Engine
                             if (overlapBottom > 0 && overlapBottom <= maxOverlapY)
                             {
                                 transformComponent.position.Y -= overlapBottom;
-                                Console.WriteLine($"Overlap (Y-down) {overlapBottom}");
+                                //Console.WriteLine($"Overlap (Y-down) {overlapBottom}");
                             }
 
                         // Check if the entity is moving east
@@ -315,7 +315,7 @@ namespace AdventureGame.Engine
                             if (overlapRight > 0 && overlapRight <= maxOverlapX)
                             {
                                 transformComponent.position.X -= overlapRight;
-                                Console.WriteLine($"Overlap (X-right) {overlapRight}");
+                                //Console.WriteLine($"Overlap (X-right) {overlapRight}");
                             }
 
                         // Check if the entity is moving west
@@ -323,7 +323,7 @@ namespace AdventureGame.Engine
                             if (overlapLeft > 0 && overlapLeft <= maxOverlapX)
                             {
                                 transformComponent.position.X += overlapLeft;
-                                Console.WriteLine($"Overlap (X-left) {overlapLeft}");
+                                //Console.WriteLine($"Overlap (X-left) {overlapLeft}");
                             }
                     }
                 }

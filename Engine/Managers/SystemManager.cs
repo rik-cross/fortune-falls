@@ -29,6 +29,9 @@ namespace AdventureGame.Engine
 
         public void RegisterSystems()
         {
+            // CHANGE to dynamically load in all systems from Systems folder
+            // but also ordered appropriately?
+
             // Add all builtin systems
             AddSystem(new InputSystem());
             AddSystem(new PhysicsSystem());
@@ -44,6 +47,7 @@ namespace AdventureGame.Engine
             AddSystem(new TextSystem());
             AddSystem(new LightSystem());
             AddSystem(new ItemSystem());
+            AddSystem(new InventorySystem());
 
             // Register components and bit flags if they don't exist and
             // generate the signatures for all the systems
@@ -60,18 +64,18 @@ namespace AdventureGame.Engine
                 if (componentManager.CheckComponents(e, s.systemSignature))
                 {
                     // Check if the entity doesn't already exist
-                    if (!s.entityMapper.ContainsKey(e.id))
+                    if (!s.entityMapper.ContainsKey(e.Id))
                     {
                         // Add entity to the list and mapper
                         s.entityList.Add(e);
-                        s.entityMapper[e.id] = s.entityList.Count - 1;
+                        s.entityMapper[e.Id] = s.entityList.Count - 1;
                     }
                 }
                 // Otherwise check if entity used to but is no longer relevant
                 else
                 {
                     // Check if the entity exists in the mapper
-                    if (s.entityMapper.ContainsKey(e.id))
+                    if (s.entityMapper.ContainsKey(e.Id))
                     {
                         // Testing
                         /*Console.WriteLine($"System {s}");
@@ -86,7 +90,7 @@ namespace AdventureGame.Engine
                         // in the list and update the mapper.
 
                         // Get the index of the current entity
-                        int index = s.entityMapper[e.id];
+                        int index = s.entityMapper[e.Id];
 
                         // Get the last entity at the end of the list
                         Entity lastEntity = s.entityList[^1];
@@ -95,13 +99,13 @@ namespace AdventureGame.Engine
                         s.entityList[index] = lastEntity;
 
                         // Update the mapper with the new index value
-                        s.entityMapper[lastEntity.id] = index;
+                        s.entityMapper[lastEntity.Id] = index;
 
                         // Remove the last entity from the list
                         s.entityList.RemoveAt(s.entityList.Count - 1);
 
                         // Remove the current entity from the mapper
-                        s.entityMapper.Remove(e.id);
+                        s.entityMapper.Remove(e.Id);
 
                         // Testing
                         /*Console.WriteLine("New:");

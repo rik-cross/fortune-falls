@@ -14,7 +14,7 @@ namespace AdventureGame.Engine
         {
             AnimationComponent animationComponent = entity.GetComponent<AnimationComponent>();
 
-            string animationState = entity.state;
+            string animationState = entity.State;
 
             animationComponent.animation.Play(animationState);
             animationComponent.animation.Update(gameTime);

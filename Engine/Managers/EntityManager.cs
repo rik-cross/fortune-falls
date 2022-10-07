@@ -29,7 +29,7 @@ namespace AdventureGame.Engine
             idPool = new List<int>();
         }
 
-        // Creates a new entity and gives it an id
+        // Create a new entity and give it an id
         public Entity CreateEntity()
         {
             Entity e = new Entity(CheckOutId());
@@ -37,40 +37,40 @@ namespace AdventureGame.Engine
             return e;
         }
 
-        // Adds the entity to the list and mapper
+        // Add the entity to the list and mapper
         public void AddEntity(Entity e)
         {
             if (e == null)
                 return;
 
             entities.Add(e);
-            entityMapper[e.id] = entities.Count - 1;
+            entityMapper[e.Id] = entities.Count - 1;
         }
 
-        // Returns the entity using the entity id
+        // Return the entity using the entity id
         public Entity GetEntity(int entityId)
         {
             return entities[entityId];
         }
 
-        // Returns the list of entities
+        // Return the list of entities
         public List<Entity> GetAllEntities()
         {
             return entities;
         }
 
-        // Returns an entity using their Name tag
-        public Entity GetEntityByName(string name)
+        // Return an entity using their Id tag
+        public Entity GetEntityByName(string id)
         {
             foreach(Entity e in entities)
             {
-                if (e.Tags.Id == name)
+                if (e.Tags.Id == id)
                     return e;
             }
             return null;
         }
 
-        // Returns a list of entities based on their Type tag
+        // Return a list of entities based on their Type tag
         public List<Entity> GetAllEntitiesByType(string type)
         {
             List<Entity> entitiesByType = new List<Entity>();
@@ -82,37 +82,37 @@ namespace AdventureGame.Engine
             return entitiesByType;
         }
 
-        // Removes the entity from the disabled set
+        // Remove the entity from the disabled set
         public void EnableEntity(Entity e)
         {
-            disabled.Remove(e.id);
+            disabled.Remove(e.Id);
         }
 
-        // Adds the entity to the disabled set
+        // Add the entity to the disabled set
         public void DisableEntity(Entity e)
         {
-            disabled.Add(e.id);
+            disabled.Add(e.Id);
         }
 
-        // Adds the entity to the deleted set
-        public void DeleteEntity(Entity e)
+        // Add the entity to the deleted set
+        public void DestroyEntity(Entity e)
         {
-            deleted.Add(e.id);
+            deleted.Add(e.Id);
         }
 
-        // Returns if the entity is active
+        // Return if the entity is active
         public bool IsActive(int entityId)
         {
             return entities[entityId] != null;
         }
 
-        // Returns if the entity is enabled
+        // Return if the entity is enabled
         public bool IsEnabled(int entityId)
         {
             return !disabled.Contains(entityId);
         }
 
-        // Deletes entities from the deleted set at the start of the game tick
+        // Delete entities from the deleted set at the start of the game tick
         public void DeleteEntitiesFromSet()
         {
             foreach (int entityId in deleted)
@@ -125,14 +125,14 @@ namespace AdventureGame.Engine
 
                 // Testing
                 Console.WriteLine($"Deleting entity {entityId}");
-                Console.WriteLine($"Entity {entityId} has signature {e.signature}");
+                Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
 
                 // Replace the deleted entity with the last entity in the list
                 // and update the mapper
-                if (entityMapper.ContainsKey(e.id))
+                if (entityMapper.ContainsKey(e.Id))
                 {
                     // Get the index of the current entity
-                    int index = entityMapper[e.id];
+                    int index = entityMapper[e.Id];
 
                     // Get the last entity at the end of the list
                     Entity lastEntity = entities[^1];
@@ -141,13 +141,13 @@ namespace AdventureGame.Engine
                     entities[index] = lastEntity;
 
                     // Update the mapper with the new index value
-                    entityMapper[lastEntity.id] = index;
+                    entityMapper[lastEntity.Id] = index;
 
                     // Remove the last entity from the list
                     entities.RemoveAt(entities.Count - 1);
 
                     // Remove the current entity from the mapper
-                    entityMapper.Remove(e.id);
+                    entityMapper.Remove(e.Id);
                 }
 
                 // Allow the entity id to be reused
@@ -179,7 +179,7 @@ namespace AdventureGame.Engine
             return nextAvailableId++;
         }
 
-        // Adds an entity id to be reused
+        // Add an entity id to the id pool be reused
         public void CheckInId(int id)
         {
             idPool.Add(id);
