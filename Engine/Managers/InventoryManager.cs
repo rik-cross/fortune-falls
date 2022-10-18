@@ -61,35 +61,43 @@ namespace AdventureGame.Engine
 
         // Add an item to the inventory
         // Return the inserted position or -1 if there is not enough space
-        public Item AddItem(Item[] inventoryItems, Item item) // newItem?
+        public Item AddItem(Item[] inventoryItems, Item item) // newItem? InventoryComponent?
         {
-            //int insertedPosition = -1;
-            //int quantity = item.Quantity;
+            // Note: should an item with >1 stack size and different durability / shelf-life
+            // be combined or kept separate? (depending on item type?)
 
-            Console.WriteLine($"Add item: {item.ItemId} {item.Quantity} {item.StackSize} {item.Durability}");
+            //int insertedPosition = -1;
+            int quantity = item.Quantity;
+
+            Console.WriteLine($"\nCollect item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
 
             // Check if the item doesn't hold the maximum quantity already
-            if (item.Quantity < item.StackSize)
+            if (quantity < item.StackSize)
             {
                 // Check if the item can be stacked with an existing inventory item
                 for (int i = 0; i < inventoryItems.Length; i++)
                 {
                     Item currentItem = inventoryItems[i];
 
+                    Console.WriteLine($"Checking inventory slot {i}");
+
                     if (currentItem != null)
                     {
                         if (currentItem.ItemId == item.ItemId
                             && currentItem.Quantity < currentItem.StackSize)
                         {
-                            if (currentItem.Quantity + item.Quantity <= currentItem.StackSize)
+                            if (currentItem.Quantity + quantity <= currentItem.StackSize)
                             {
                                 // The quantity can be added to the current item
-                                inventoryItems[i].IncreaseQuantity(item.Quantity);
+                                inventoryItems[i].IncreaseQuantity(quantity);
                                 //insertedPosition = i;
                                 //break;
+                                Console.WriteLine($"Adding ALL {quantity} to slot {i}");
+                                Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
 
                                 // DELETE the Item?? Does it exist anywhere in memory?
                                 // Does this effectively delete Item??
+                                //item.Quantity = 0;
                                 item = null;
                                 return item;
                             }
@@ -98,7 +106,11 @@ namespace AdventureGame.Engine
                                 // Add as much as possible to the current item's quantity
                                 int availableSpace = currentItem.StackSize - currentItem.Quantity;
                                 inventoryItems[i].IncreaseQuantity(availableSpace);
-                                item.Quantity -= availableSpace;
+                                quantity -= availableSpace;
+                                item.Quantity -= availableSpace; // CHECK this reduces original quantity
+                                Console.WriteLine($"Adding {availableSpace} to slot {i}");
+                                Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
+                                Console.WriteLine($"Quantity remaining is {quantity}");
 
                                 //int remainingQuantity = quantity;
                             }
@@ -109,24 +121,34 @@ namespace AdventureGame.Engine
 
             // Check if there is any quantity of the item remaining
             // Check if the item has already been added to existing inventory items
-            if (item.Quantity > 0)
+            if (quantity > 0)
             {
                 // Add the item to the next free inventory slot if there's space
                 int nextSlot = FindNextFreeSlot(inventoryItems);
                 if (nextSlot != -1)
                 {
-                    inventoryItems[nextSlot] = item;
+                    // Make a copy of the item's properties and update the quantity
+                    inventoryItems[nextSlot] = new Item(item);
+                    inventoryItems[nextSlot].Quantity = quantity; // Is this bad?? :P
                     //insertedPosition = nextSlot;
+
+                    Console.WriteLine($"Adding item with quantity {quantity} to slot {nextSlot}");
+                    // DELETE item??
+                    //item.Quantity = 0;
+                    item = null;
+                    return item;
                 }
             }
             else
             {
                 // DELETE item??
+                //item.Quantity = 0;
                 item = null;
                 return item;
             }
 
             //return insertedPosition;
+            // CHECK the quantity has been reduced
             return item;
         }
 

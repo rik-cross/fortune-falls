@@ -50,7 +50,8 @@ namespace AdventureGame.Engine
         // Return the entity using the entity id
         public Entity GetEntity(int entityId)
         {
-            return entities[entityId];
+            int index = entityMapper[entityId];
+            return entities[index];
         }
 
         // Return the list of entities
@@ -127,12 +128,14 @@ namespace AdventureGame.Engine
                 Console.WriteLine($"Deleting entity {entityId}");
                 Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
 
-                // Replace the deleted entity with the last entity in the list
-                // and update the mapper
-                if (entityMapper.ContainsKey(e.Id))
+                // To keep the index values accurate in the mapper
+                // and for fast removal of an entity from the list,
+                // overwrite the current entity with the last entity
+                // in the list and update the mapper.
+                if (entityMapper.ContainsKey(entityId))
                 {
                     // Get the index of the current entity
-                    int index = entityMapper[e.Id];
+                    int index = entityMapper[entityId];
 
                     // Get the last entity at the end of the list
                     Entity lastEntity = entities[^1];
@@ -147,16 +150,16 @@ namespace AdventureGame.Engine
                     entities.RemoveAt(entities.Count - 1);
 
                     // Remove the current entity from the mapper
-                    entityMapper.Remove(e.Id);
-                }
+                    entityMapper.Remove(entityId);
 
-                // Allow the entity id to be reused
-                CheckInId(entityId);
+                    // Allow the entity id to be reused
+                    CheckInId(entityId);
+                }
 
                 // Testing
                 /*
                 Console.WriteLine("Delete entity:");
-                Console.WriteLine(String.Join(", ", entities));
+                //Console.WriteLine(String.Join(", ", entities));
                 foreach (KeyValuePair<int, int> kv in entityMapper)
                     Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
                 */

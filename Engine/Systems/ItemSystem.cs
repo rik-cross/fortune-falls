@@ -52,15 +52,37 @@ namespace AdventureGame.Engine
                                 entity.Destroy();
                             }
                             */
+
                             Item item = EngineGlobals.inventoryManager.AddItem(
                             inventoryComponent.InventoryItems, itemComponent.Item);
+
+                            //Console.WriteLine($"\nOriginal item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
 
                             // Destroy the item if required
                             if (item == null)
                             {
+                                // DOES NOT work??
                                 Console.WriteLine("Item collected!");
                                 entity.Destroy();
+                                //entity.GetComponent<TransformComponent>().position.X += 50;
                             }
+
+                            /*
+                            Item item2 = itemComponent.Item;
+                            EngineGlobals.inventoryManager.AddItem(inventoryComponent.InventoryItems,
+                                itemComponent.Item);
+
+                            Console.WriteLine($"\nOriginal item: {item2.ItemId} Quantity{item2.Quantity} Stack{item2.StackSize} Durability{item2.Durability}");
+
+                            // Destroy the item if required
+                            if (item2.Quantity == 0 && itemComponent.DestroyOnCollect)
+                            {
+                                // DOES NOT work??
+                                Console.WriteLine("Item destroyed!");
+                                entity.Destroy();
+                                //entity.GetComponent<TransformComponent>().position.X += 50;
+                            }
+                            */
                         }
                     }
                 }

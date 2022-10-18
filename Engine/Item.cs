@@ -7,7 +7,7 @@ namespace AdventureGame.Engine
         public string ItemId { get; set; }
         public int Quantity { get; set; }
         public int StackSize { get; set; }
-        public int Durability { get; set; }
+        public int Durability { get; set; } // Health?
         // public string Filename { get; private set; }
         public Tags ItemTags { get; set; } // will this work? not an entity
         // public string ItemType { get; private set; }
@@ -29,6 +29,15 @@ namespace AdventureGame.Engine
                 ItemTags = new Tags();
             else
                 ItemTags = itemTags;
+        }
+
+        public Item(Item item)
+        {
+            ItemId = item.ItemId;
+            Quantity = item.Quantity;
+            StackSize = item.StackSize;
+            Durability = item.Durability;
+            ItemTags = item.ItemTags;
         }
 
         // Increase the quantity of the inventory item
