@@ -5,25 +5,22 @@ namespace AdventureGame.Engine
 {
     class PhysicsComponent : Component
     {
+        public string Direction { get; set; }
+        public int Speed { get; set; }
+        public int VelocityX { get; set; }
+        public int VelocityY { get; set; }
+        //public int SpeedBonus { get; set; }
+
         public int baseSpeed;
         public double speedModifier;
         public int speedBonus = 0;
         public int speedReduction = 0;
 
-        //public int SpeedBonus { get; set; }
-
-        public int speed;
-
-        public int velocityX;
-        public int velocityY;
-
-        public string direction;
-
         public PhysicsComponent(int baseSpeed = 1, string direction = "")
         {
             this.baseSpeed = baseSpeed;
-            speed = baseSpeed;
-            this.direction = direction;
+            Speed = baseSpeed;
+            Direction = direction;
         }
 
         public PhysicsComponent(int baseSpeed, double speedModifier,
@@ -31,7 +28,7 @@ namespace AdventureGame.Engine
         {
             this.baseSpeed = baseSpeed;
             this.speedModifier = speedModifier;
-            this.direction = direction;
+            Direction = direction;
 
             CalculateSpeed();
         }
@@ -46,11 +43,6 @@ namespace AdventureGame.Engine
             CalculateSpeed();
         }
 
-        public int GetSpeed()
-        {
-            return speed;
-        }
-
         public void SetSpeed(double multiplier)
         {
             //running = true;
@@ -63,13 +55,14 @@ namespace AdventureGame.Engine
             CalculateSpeed();
         }
 
-        public void SpeedBonus(int speedBonus)
+        public void ModifySpeedBonus(int speedBonus)
         {
+            //this.speedBonus += speedBonus;
             this.speedBonus = speedBonus;
             CalculateSpeed();
         }
 
-        public void SpeedReduction(int speedReduction)
+        public void ReduceSpeed(int speedReduction)
         {
             this.speedReduction = speedReduction;
             CalculateSpeed();
@@ -81,11 +74,11 @@ namespace AdventureGame.Engine
             double speedIncrease = baseSpeed * (speedBonus / 100);
             double speedDecrease = baseSpeed * (speedReduction / 100);
 
-            speed = (int)(baseSpeed + speedIncrease - speedDecrease);
+            Speed = (int)(baseSpeed + speedIncrease - speedDecrease);
 
-            Console.WriteLine($"Speed {speed}");
+            //Console.WriteLine($"Speed {Speed}");
 
-            speed = speed < 0 ? 0 : speed;
+            Speed = Speed < 0 ? 0 : Speed;
         }
     }
 

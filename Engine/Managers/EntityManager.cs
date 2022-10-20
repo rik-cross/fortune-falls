@@ -61,7 +61,7 @@ namespace AdventureGame.Engine
         }
 
         // Return an entity using their Id tag
-        public Entity GetEntityByName(string id)
+        public Entity GetEntityById(string id)
         {
             foreach(Entity e in entities)
             {
@@ -77,10 +77,16 @@ namespace AdventureGame.Engine
             List<Entity> entitiesByType = new List<Entity>();
             foreach (Entity e in entities)
             {
-                if (e.Tags.HasTag(type))
+                if (e.Tags.HasType(type))
                     entitiesByType.Add(e);
             }
             return entitiesByType;
+        }
+
+        // Return if the entity has a player type tag
+        public bool IsPlayer(Entity e)
+        {
+            return e.Tags.HasType("player");
         }
 
         // Remove the entity from the disabled set

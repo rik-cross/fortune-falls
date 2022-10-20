@@ -61,7 +61,7 @@ namespace AdventureGame.Engine
             {
                 if (curKeyboardState.IsKeyDown((Keys)item.key) && !prevKeyboardState.IsKeyDown((Keys)item.key))
                 {
-                    Console.WriteLine($"{item.key} is pressed");
+                    //Console.WriteLine($"{item.key} is pressed");
                     return true;
                 }
             }

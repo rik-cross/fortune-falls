@@ -20,7 +20,7 @@ namespace AdventureGame
             {
                 InputComponent playerInputComponent = otherEntity.GetComponent<InputComponent>();
                 if (playerInputComponent != null && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
-                    EngineGlobals.entityManager.GetEntityByName("homeLight1").GetComponent<LightComponent>().visible = !EngineGlobals.entityManager.GetEntityByName("homeLight1").GetComponent<LightComponent>().visible;
+                    EngineGlobals.entityManager.GetEntityById("homeLight1").GetComponent<LightComponent>().visible = !EngineGlobals.entityManager.GetEntityById("homeLight1").GetComponent<LightComponent>().visible;
             }
         }
 

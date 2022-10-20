@@ -15,7 +15,7 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, string id = default)
         {
             // Check if the player entity already exists
-            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityById("player1");
 
             if (playerEntity != null)
                 return playerEntity;
@@ -45,10 +45,7 @@ namespace AdventureGame
             int width = 26;
             int height = 36;
 
-            //Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>(filename), new Vector2(26, 36));
             Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(filePath, width, height);
-
-            //playerEntity.AddComponent(new Engine.SpriteComponent("idle", new Engine.Sprite( Globals.playerSpriteSheet.GetSubTexture(7,4) )));
             playerEntity.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 7, 4, "idle"));
             
             Engine.SpriteComponent spriteComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
@@ -59,90 +56,53 @@ namespace AdventureGame
             subTextureValues.Add(new List<int>() { 7, 7 });
             subTextureValues.Add(new List<int>() { 8, 7 });
             subTextureValues.Add(new List<int>() { 7, 7 });
-
             spriteComponent.AddSprite("walkNorth", playerSpriteSheet, subTextureValues);
+
+            subTextureValues = new List<List<int>>();
+            subTextureValues.Add(new List<int>() { 6, 4 });
+            subTextureValues.Add(new List<int>() { 7, 4 });
+            subTextureValues.Add(new List<int>() { 8, 4 });
+            subTextureValues.Add(new List<int>() { 7, 4 });
+            spriteComponent.AddSprite("walkSouth", playerSpriteSheet, subTextureValues);
+
+            subTextureValues = new List<List<int>>();
+            subTextureValues.Add(new List<int>() { 6, 6 });
+            subTextureValues.Add(new List<int>() { 7, 6 });
+            subTextureValues.Add(new List<int>() { 8, 6 });
+            subTextureValues.Add(new List<int>() { 7, 6 });
+            spriteComponent.AddSprite("walkEast", playerSpriteSheet, subTextureValues);
+
+            subTextureValues = new List<List<int>>();
+            subTextureValues.Add(new List<int>() { 6, 5 });
+            subTextureValues.Add(new List<int>() { 7, 5 });
+            subTextureValues.Add(new List<int>() { 8, 5 });
+            subTextureValues.Add(new List<int>() { 7, 5 });
+            spriteComponent.AddSprite("walkWest", playerSpriteSheet, subTextureValues);
             
-            /*
-            Engine.SpriteComponent spritesComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
-
-            spritesComponent.AddSprite(
-                "walkNorth",
-                new Engine.Sprite(
-                    new List<Texture2D>
-                    {
-                        Globals.playerSpriteSheet.GetSubTexture(6, 7),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 7),
-                        Globals.playerSpriteSheet.GetSubTexture(8, 7),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 7)
-                    }
-                )
-            );
-            */
-            spriteComponent.AddSprite(
-                "walkSouth",
-                new Engine.Sprite(
-                    new List<Texture2D>
-                    {
-                        Globals.playerSpriteSheet.GetSubTexture(6, 4),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 4),
-                        Globals.playerSpriteSheet.GetSubTexture(8, 4),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 4)
-                    }
-                )
-            );
-
-            spriteComponent.AddSprite(
-                "walkEast",
-                new Engine.Sprite(
-                    new List<Texture2D>
-                    {
-                        Globals.playerSpriteSheet.GetSubTexture(6, 6),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 6),
-                        Globals.playerSpriteSheet.GetSubTexture(8, 6),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 6)
-                    }
-                )
-            );
-
-            spriteComponent.AddSprite(
-                "walkWest",
-                new Engine.Sprite(
-                    new List<Texture2D>
-                    {
-                        Globals.playerSpriteSheet.GetSubTexture(6, 5),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 5),
-                        Globals.playerSpriteSheet.GetSubTexture(8, 5),
-                        Globals.playerSpriteSheet.GetSubTexture(7, 5)
-                    }
-                )
-            );
-            
-
             foreach (Engine.Sprite sp in spriteComponent.SpriteDict.Values)
                 sp.animationDelay = 8;
 
-            Vector2 imageSize = playerEntity.GetComponent<SpriteComponent>().GetSpriteSize();
+            //Vector2 imageSize = playerEntity.GetComponent<SpriteComponent>().GetSpriteSize();
+            Vector2 imageSize = spriteComponent.GetSpriteSize();
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
             playerEntity.AddComponent(new Engine.PhysicsComponent(2));
-            //playerEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("motw.sf", new JsonContentLoader()))));
-
             playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(16, 8), new Vector2(5, 28)));
             playerEntity.AddComponent(new Engine.HurtboxComponent(imageSize));
+            playerEntity.AddComponent(new Engine.InventoryComponent(20));
+
             playerEntity.AddComponent(new Engine.InputComponent(
                 null, //Engine.Inputs.keyboard,
                 PlayerInputController
             ));
+
             playerEntity.AddComponent(new Engine.TriggerComponent(
                 new Vector2(26, 21), new Vector2(0, 21),
                 null,
                 null,
                 null
             ));
-
-            //playerEntity.AddComponent(new Engine.InventoryContainerComponent("playerBag"));
-            playerEntity.AddComponent(new Engine.InventoryComponent(20));
 
             return playerEntity;
         }

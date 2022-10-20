@@ -46,7 +46,7 @@ namespace AdventureGame.Engine
         }
 
         // Return whether a tag exists in the Type list
-        public bool HasTag(string type)
+        public bool HasType(string type)
         {
             if (Type != null)
                 return Type.Contains(type);

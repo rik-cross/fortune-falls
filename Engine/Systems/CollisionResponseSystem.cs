@@ -49,7 +49,7 @@ namespace AdventureGame.Engine
 
 
                 // Get the entity's direction
-                string direction = physicsComponent.direction;
+                string direction = physicsComponent.Direction;
                 //Console.WriteLine($"\nPhysics component direction: {direction}");
 
                 // Check if the entity is not trying to move in any direction
@@ -73,8 +73,8 @@ namespace AdventureGame.Engine
                 bool hasOtherMoved = hasOtherMovedX || hasOtherMovedY;
 
                 // Get the entity's velocities
-                int velocityX = physicsComponent.velocityX;
-                int velocityY = physicsComponent.velocityY;
+                int velocityX = physicsComponent.VelocityX;
+                int velocityY = physicsComponent.VelocityY;
 
                 // Absolute values of the entity
                 int absVelocityX = Math.Abs(velocityX);
@@ -92,13 +92,13 @@ namespace AdventureGame.Engine
                 // should be based on the velocity and direction of both entities
                 if (otherPhysicsComponent != null)
                 {
-                    otherDirection = otherPhysicsComponent.direction;
-                    otherVelocityX = otherPhysicsComponent.velocityX;
-                    otherVelocityY = otherPhysicsComponent.velocityY;
+                    otherDirection = otherPhysicsComponent.Direction;
+                    otherVelocityX = otherPhysicsComponent.VelocityX;
+                    otherVelocityY = otherPhysicsComponent.VelocityY;
                     absOtherVelocityX = Math.Abs(otherVelocityX);
                     absOtherVelocityY = Math.Abs(otherVelocityY);
 
-                    Console.WriteLine($"Other physics component direction: {otherDirection}");
+                    //Console.WriteLine($"Other physics component direction: {otherDirection}");
                 }
 
                 // Get both the bounding boxes

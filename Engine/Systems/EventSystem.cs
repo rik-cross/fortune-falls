@@ -49,7 +49,7 @@ namespace AdventureGame.Engine
         }
         public static void OnCollisionExit(Entity thisEntity, Entity otherEntity, float distance)
         {
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player1");
+            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityById("player1");
             EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(3.0f, 0.01f);
         }
 

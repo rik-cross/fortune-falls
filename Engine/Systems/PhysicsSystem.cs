@@ -23,93 +23,105 @@ namespace AdventureGame.Engine
 
             string direction = "";
 
-            // Modify whether a player is running or not
-            /*if (intentionComponent.button2)
+            // Specifically for player entities
+            if (entity.IsPlayer())
             {
-                physicsComponent.SetSpeed(2.0);
-            }
-            else
-            {
-                physicsComponent.SetSpeed(0.5);
-            }*/
 
-            /*
-            InputComponent inputComponent = EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>();
-            if (inputComponent != null)
-            {
-                InputMethod inputMethod = inputComponent.input;
-                if (inputMethod != null)
+                // Modify whether a player is running or not
+                /*if (intentionComponent.button2)
                 {
-                    InputItem inputItem = inputMethod.button2;
-                    if (inputItem != null)
+                    physicsComponent.SetSpeed(2.0);
+                }
+                else
+                {
+                    physicsComponent.SetSpeed(0.5);
+                }*/
+
+                /*
+                InputComponent inputComponent = EngineGlobals.entityManager.GetEntityByTag("player").GetComponent<InputComponent>();
+                if (inputComponent != null)
+                {
+                    InputMethod inputMethod = inputComponent.input;
+                    if (inputMethod != null)
                     {
-                        if (EngineGlobals.inputManager.IsPressed(inputMethod.button2))
+                        InputItem inputItem = inputMethod.button2;
+                        if (inputItem != null)
                         {
-                            physicsComponent.SpeedBonus(50);
-                            Console.WriteLine("Button 2 pressed");
-                        }
-                        else if (EngineGlobals.inputManager.IsReleased(inputMethod.button2))
-                        {
-                            physicsComponent.SpeedBonus(0);
-                            Console.WriteLine("Released button 2");
+                            if (EngineGlobals.inputManager.IsPressed(inputMethod.button2))
+                            {
+                                physicsComponent.SpeedBonus(50);
+                                Console.WriteLine("Button 2 pressed");
+                            }
+                            else if (EngineGlobals.inputManager.IsReleased(inputMethod.button2))
+                            {
+                                physicsComponent.SpeedBonus(0);
+                                Console.WriteLine("Released button 2");
+                            }
                         }
                     }
+                }*/
+
+                if (EngineGlobals.inputManager.IsPressed(Globals.button2Input))
+                {
+                    physicsComponent.ModifySpeedBonus(50);
+                    Console.WriteLine("Button 2 pressed");
+                    Console.WriteLine($"Speed is {physicsComponent.Speed}");
                 }
-            }*/
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.button2Input))
-            {
-                physicsComponent.SpeedBonus(50);
-                Console.WriteLine("Button 2 pressed");
+                if (EngineGlobals.inputManager.IsReleased(Globals.button2Input))
+                {
+                    physicsComponent.ModifySpeedBonus(0);
+                    Console.WriteLine("Button 2 released");
+                    Console.WriteLine($"Speed is now {physicsComponent.Speed}");
+                }
+
+                //if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
+                //if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
+
+                // If the run button is pressed increase the players speed by 50%
+                /*if (intentionComponent.button2)
+                    physicsComponent.SpeedBonus(50);
+                else
+                    physicsComponent.SpeedBonus(0);
+                */
             }
-
-            //if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
-
-            //if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
-
-            // If the run button is pressed increase the players speed by 50%
-            /*if (intentionComponent.button2)
-                physicsComponent.SpeedBonus(50);
-            else
-                physicsComponent.SpeedBonus(0);
-            */
 
             // CHANGE up to north, right to east etc?
             if (intentionComponent.up && !intentionComponent.down)
             {
-                physicsComponent.velocityY = -physicsComponent.speed;
-                transformComponent.position.Y += physicsComponent.velocityY;
+                physicsComponent.VelocityY = -physicsComponent.Speed;
+                transformComponent.position.Y += physicsComponent.VelocityY;
                 direction = "N"; // Moving north
             }
             else if (intentionComponent.down && !intentionComponent.up)
             {
-                physicsComponent.velocityY = physicsComponent.speed;
-                transformComponent.position.Y += physicsComponent.velocityY;
+                physicsComponent.VelocityY = physicsComponent.Speed;
+                transformComponent.position.Y += physicsComponent.VelocityY;
                 direction = "S"; // Moving south
             }
             else
             {
-                physicsComponent.velocityY = 0;
+                physicsComponent.VelocityY = 0;
             }
 
             if (intentionComponent.right && !intentionComponent.left)
             {
-                physicsComponent.velocityX = physicsComponent.speed;
-                transformComponent.position.X += physicsComponent.velocityX;
+                physicsComponent.VelocityX = physicsComponent.Speed;
+                transformComponent.position.X += physicsComponent.VelocityX;
                 direction += "E"; // Moving east
             }
             else if (intentionComponent.left && !intentionComponent.right)
             {
-                physicsComponent.velocityX = -physicsComponent.speed;
-                transformComponent.position.X += physicsComponent.velocityX;
+                physicsComponent.VelocityX = -physicsComponent.Speed;
+                transformComponent.position.X += physicsComponent.VelocityX;
                 direction += "W"; // Moving west
             }
             else
             {
-                physicsComponent.velocityX = 0;
+                physicsComponent.VelocityX = 0;
             }
 
-            physicsComponent.direction = direction;
+            physicsComponent.Direction = direction;
         }
     }
 }
