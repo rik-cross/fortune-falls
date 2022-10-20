@@ -60,15 +60,13 @@ namespace AdventureGame.Engine
         }
 
         // Add an item to the inventory
-        // Return the inserted position or -1 if there is not enough space
+        // Return the item or a null Item if there is no quantity remaining
         public Item AddItem(Item[] inventoryItems, Item item) // newItem? InventoryComponent?
         {
             // Note: should an item with >1 stack size and different durability / shelf-life
             // be combined or kept separate? (depending on item type?)
 
-            //int insertedPosition = -1;
             int quantity = item.Quantity;
-
             Console.WriteLine($"\nCollect item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
 
             // Check if the item doesn't hold the maximum quantity already
@@ -78,7 +76,6 @@ namespace AdventureGame.Engine
                 for (int i = 0; i < inventoryItems.Length; i++)
                 {
                     Item currentItem = inventoryItems[i];
-
                     Console.WriteLine($"Checking inventory slot {i}");
 
                     if (currentItem != null)
@@ -90,16 +87,10 @@ namespace AdventureGame.Engine
                             {
                                 // The quantity can be added to the current item
                                 inventoryItems[i].IncreaseQuantity(quantity);
-                                //insertedPosition = i;
-                                //break;
                                 Console.WriteLine($"Adding ALL {quantity} to slot {i}");
                                 Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
 
-                                // DELETE the Item?? Does it exist anywhere in memory?
-                                // Does this effectively delete Item??
-                                //item.Quantity = 0;
-                                item = null;
-                                return item;
+                                return DeleteItem(item);
                             }
                             else
                             {
@@ -107,19 +98,19 @@ namespace AdventureGame.Engine
                                 int availableSpace = currentItem.StackSize - currentItem.Quantity;
                                 inventoryItems[i].IncreaseQuantity(availableSpace);
                                 quantity -= availableSpace;
-                                item.Quantity -= availableSpace; // CHECK this reduces original quantity
+
+                                // Reduce the quantity of the original Item
+                                item.Quantity -= availableSpace;
+
                                 Console.WriteLine($"Adding {availableSpace} to slot {i}");
                                 Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
                                 Console.WriteLine($"Quantity remaining is {quantity}");
-
-                                //int remainingQuantity = quantity;
                             }
                         }
                     }
                 }
             }
 
-            // Check if there is any quantity of the item remaining
             // Check if the item has already been added to existing inventory items
             if (quantity > 0)
             {
@@ -130,28 +121,42 @@ namespace AdventureGame.Engine
                     // Make a copy of the item's properties and update the quantity
                     inventoryItems[nextSlot] = new Item(item);
                     inventoryItems[nextSlot].Quantity = quantity; // Is this bad?? :P
-                    //insertedPosition = nextSlot;
-
                     Console.WriteLine($"Adding item with quantity {quantity} to slot {nextSlot}");
-                    // DELETE item??
-                    //item.Quantity = 0;
-                    item = null;
-                    return item;
+
+                    return DeleteItem(item);
                 }
             }
             else
-            {
-                // DELETE item??
-                //item.Quantity = 0;
-                item = null;
-                return item;
-            }
+                return DeleteItem(item);
 
-            //return insertedPosition;
-            // CHECK the quantity has been reduced
             return item;
         }
 
+        // Find the next available position in the inventory list 
+        public int FindNextFreeSlot(Item[] inventoryItems)
+        {
+            int availablePosition = -1;
+
+            for (int i = 0; i < inventoryItems.Length; i++)
+            {
+                if (inventoryItems[i] == null)
+                {
+                    availablePosition = i;
+                    break;
+                }
+            }
+
+            return availablePosition;
+        }
+
+        // Delete an Item object
+        public Item DeleteItem(Item item)
+        {
+            item = null;
+            return item;
+        }
+
+        // NOT used
         // Add an item to the inventory at a specified position
         // Return the item if one already exists in that position
         public Item AddItemAtPosition(Item[] inventoryItems, Item item, int position)
@@ -179,7 +184,7 @@ namespace AdventureGame.Engine
             return currentItem;
         }
 
-        //
+        // NOT used
         public Item StackItems(Item[] inventoryItems, Item item, int position)
         {
             Item existingItem = inventoryItems[position];
@@ -208,23 +213,6 @@ namespace AdventureGame.Engine
                 }
             }
             return item;
-        }
-
-        // Find the next available position in the inventory list 
-        public int FindNextFreeSlot(Item[] inventoryItems)
-        {
-            int availablePosition = -1;
-
-            for (int i = 0; i < inventoryItems.Length; i++)
-            {
-                if (inventoryItems[i] == null)
-                {
-                    availablePosition = i;
-                    break;
-                }
-            }
-
-            return availablePosition;
         }
     }
 }

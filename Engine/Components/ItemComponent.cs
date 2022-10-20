@@ -40,7 +40,7 @@ namespace AdventureGame.Engine
         // Check if an entity can collect the item
         public bool CanCollect(string tag)
         {
-            return CollectableByTag.HasTag(tag);
+            return CollectableByTag.HasType(tag);
         }
 
         // Check if any given entities can collect the item
@@ -54,7 +54,7 @@ namespace AdventureGame.Engine
         {
             foreach (string type in tags)
             {
-                if (CollectableByTag.HasTag(type))
+                if (CollectableByTag.HasType(type))
                     return true;
             }
             return false;
