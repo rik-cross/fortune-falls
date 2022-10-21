@@ -18,11 +18,11 @@ namespace AdventureGame
         public MenuScene()
         {
             // title text
-            this.title = new Engine.Text(
+            title = new Engine.Text(
                 caption: "Game Title!",
                 position: new Vector2(Globals.WIDTH / 2, 200),
-                font: Globals.font,
-                colour: Color.Yellow,
+                font: Theme.primaryFont,
+                colour: Theme.tertiaryText,
                 anchor: Anchor.middlecenter
             );
 
@@ -35,13 +35,13 @@ namespace AdventureGame
                 keyboardAlpha = 1.0f;
 
             // control images
-            this.controllerImage = new Engine.Image(
+            controllerImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("X360"),
                 position: new Vector2((Globals.WIDTH / 2) + 100, Globals.HEIGHT - 150),
                 anchor: Anchor.middlecenter,
                 alpha: controllerAlpha
             );
-            this.keyboardImage = new Engine.Image(
+            keyboardImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("Keyboard"),
                 position: new Vector2((Globals.WIDTH / 2) - 100, Globals.HEIGHT - 150),
                 anchor: Anchor.middlecenter,
@@ -50,7 +50,7 @@ namespace AdventureGame
 
             // controller buttons
             Engine.SpriteSheet controllerSpritesheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("xbox_buttons"), new Vector2(16,16));
-            this.controllerButton = new Engine.Animation(
+            controllerButton = new Engine.Animation(
                 new List<Texture2D> {
                     controllerSpritesheet.GetSubTexture(0,1),
                     controllerSpritesheet.GetSubTexture(1,1),
@@ -64,7 +64,7 @@ namespace AdventureGame
                 play: false
             );
             Engine.SpriteSheet enterKeySpritesheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("enter_key"), new Vector2(16, 12));
-            this.keyboardButton = new Engine.Animation(
+            keyboardButton = new Engine.Animation(
                 new List<Texture2D> {
                     enterKeySpritesheet.GetSubTexture(0,0),
                     enterKeySpritesheet.GetSubTexture(1,0),
@@ -79,7 +79,7 @@ namespace AdventureGame
             );
 
             // test animation
-            this.testAnimation = new Engine.Animation(
+            testAnimation = new Engine.Animation(
                 new List<Texture2D> {
                     Globals.playerSpriteSheet.GetSubTexture(6,4),
                     Globals.playerSpriteSheet.GetSubTexture(7,4),

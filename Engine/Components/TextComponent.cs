@@ -57,7 +57,7 @@ namespace AdventureGame.Engine
 
             this.text = SplitText(text, this.textMaxLength);
 
-            this.singleRowheight = ((int)Globals.fontSmall.MeasureString(text).Y) + this.textMargin;
+            this.singleRowheight = ((int)Theme.secondaryFont.MeasureString(text).Y) + this.textMargin;
             this.totalHeight = this.singleRowheight * this.text.Count-1;
             this.totalHeight -= this.textMargin;
 
@@ -66,8 +66,8 @@ namespace AdventureGame.Engine
             this.textWidth = 0;
             foreach (string line in this.text)
             {
-                if (Globals.fontSmall.MeasureString(line).X > this.textWidth)
-                    this.textWidth = (int)Globals.fontSmall.MeasureString(line).X;
+                if (Theme.secondaryFont.MeasureString(line).X > this.textWidth)
+                    this.textWidth = (int)Theme.secondaryFont.MeasureString(line).X;
             }
 
             if (this.type == "tick")
@@ -91,7 +91,7 @@ namespace AdventureGame.Engine
             foreach (string word in words)
             {
                 // check whether there's space on the current row for the next word
-                if ( Globals.fontSmall.MeasureString(currentRow).X + Globals.fontSmall.MeasureString(word).X < width)
+                if (Theme.secondaryFont.MeasureString(currentRow).X + Theme.secondaryFont.MeasureString(word).X < width)
                 {
                     // add a space between words,
                     // but not at the start of a new line

@@ -11,14 +11,16 @@ namespace AdventureGame.Engine
         public int VelocityY { get; set; }
         //public int SpeedBonus { get; set; }
 
-        public int baseSpeed;
-        public double speedMultiplier;
+        private int baseSpeed;
+        private double speedMultiplier;
+        private readonly int maxSpeed;
 
         public PhysicsComponent(int baseSpeed = 1, double speedMultiplier = 1.0,
             string direction = "")
         {
             this.baseSpeed = baseSpeed;
             this.speedMultiplier = speedMultiplier;
+            maxSpeed = 10;
             Direction = direction;
 
             CalculateSpeed();
@@ -26,7 +28,6 @@ namespace AdventureGame.Engine
 
         public void MultiplySpeed(double multiplier)
         {
-            //running = true;
             speedMultiplier *= multiplier;
 
             if (speedMultiplier < 0.0)
@@ -41,10 +42,26 @@ namespace AdventureGame.Engine
             CalculateSpeed();
         }
 
+        public void SetBaseSpeed(int baseSpeed)
+        {
+            if (baseSpeed > maxSpeed)
+                this.baseSpeed = maxSpeed;
+            else if (baseSpeed < 0)
+                this.baseSpeed = 0;
+            else
+                this.baseSpeed = baseSpeed;
+        }
+
         public void CalculateSpeed()
         {
             Speed = (int)(baseSpeed * speedMultiplier);
-            Speed = Speed < 0 ? 0 : Speed;
+
+            if (Speed > maxSpeed)
+                Speed = maxSpeed;
+            else if (Speed < 0)
+                Speed = 0;
+
+            //Speed = Speed < 0 ? 0 : Speed;
             //Console.WriteLine($"Speed {Speed}");
         }
     }

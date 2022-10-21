@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -17,10 +18,10 @@ namespace AdventureGame.Engine
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            string direction = ""; // Can be N, NE, E, SE etc.
+
             // Set the previous position to the current position
             transformComponent.previousPosition = transformComponent.position;
-
-            string direction = ""; // Can be N, NE, E, SE etc.
 
             // Action anything that is player only
             if (entity.IsPlayer())
@@ -31,17 +32,18 @@ namespace AdventureGame.Engine
                     // Increase the speed multipler by x2
                     physicsComponent.MultiplySpeed(2);
 
-                    //Console.WriteLine("Button 2 pressed");
-                    //Console.WriteLine($"Speed is {physicsComponent.Speed}");
+                    Console.WriteLine("Button 2 pressed");
+                    Console.WriteLine($"Speed is {physicsComponent.Speed}");
                 }
 
+                // FIX this is not called if released during scene transition
                 if (EngineGlobals.inputManager.IsReleased(Globals.button2Input))
                 {
                     // Decrease the speed multipler by x0.5
                     physicsComponent.MultiplySpeed(0.5);
 
-                    //Console.WriteLine("Button 2 released");
-                    //Console.WriteLine($"Speed is now {physicsComponent.Speed}");
+                    Console.WriteLine("Button 2 released");
+                    Console.WriteLine($"Speed is now {physicsComponent.Speed}");
                 }
             }
 

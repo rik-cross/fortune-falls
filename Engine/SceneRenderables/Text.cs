@@ -8,34 +8,34 @@ namespace AdventureGame.Engine
     public class Text: SceneRenderable
     {
 
-        private String caption;
-        public String Caption
+        private string _caption;
+        public string Caption
         {
-            get { return caption; }
+            get { return _caption; }
             set {
-                this.caption = value;
+                _caption = value;
                 AdjustSize();
             }
         }
         private SpriteFont font;
         public Color colour;
 
-        public Text(String caption, Vector2 position = default, SpriteFont font = null, Color colour = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
+        public Text(string caption, Vector2 position = default, SpriteFont font = null, Color colour = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
         {
-            this.caption = caption;
+            _caption = caption;
 
             if (font == null)
-                this.font = Globals.fontSmall;
+                this.font = Theme.secondaryFont;
             else
                 this.font = font;
 
-            if (colour == default(Color))
+            if (colour == default)
                 this.colour = Color.White;
             else
                 this.colour = colour;
             
-            this.size.X = this.font.MeasureString(this.caption).X;
-            this.size.Y = this.font.MeasureString(this.caption).Y;
+            size.X = this.font.MeasureString(_caption).X;
+            size.Y = this.font.MeasureString(_caption).Y;
             CalculateAnchors();
         }
 
@@ -44,7 +44,7 @@ namespace AdventureGame.Engine
             if (!visible)
                 return;
 
-            Globals.spriteBatch.DrawString(font, caption, position, colour * alpha);
+            Globals.spriteBatch.DrawString(font, _caption, position, colour * alpha);
         }
 
         public void AdjustSize()
@@ -52,8 +52,8 @@ namespace AdventureGame.Engine
             
             double oldX = size.X;
             double oldY = size.Y;
-            this.size.X = font.MeasureString(this.caption).X;
-            this.size.Y = font.MeasureString(this.caption).Y;
+            size.X = font.MeasureString(_caption).X;
+            size.Y = font.MeasureString(_caption).Y;
             double diffX = size.X - oldX;
             double diffY = size.Y - oldY;
 
