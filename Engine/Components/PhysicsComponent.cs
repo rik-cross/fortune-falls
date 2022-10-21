@@ -12,73 +12,40 @@ namespace AdventureGame.Engine
         //public int SpeedBonus { get; set; }
 
         public int baseSpeed;
-        public double speedModifier;
-        public int speedBonus = 0;
-        public int speedReduction = 0;
+        public double speedMultiplier;
 
-        public PhysicsComponent(int baseSpeed = 1, string direction = "")
-        {
-            this.baseSpeed = baseSpeed;
-            Speed = baseSpeed;
-            Direction = direction;
-        }
-
-        public PhysicsComponent(int baseSpeed, double speedModifier,
+        public PhysicsComponent(int baseSpeed = 1, double speedMultiplier = 1.0,
             string direction = "")
         {
             this.baseSpeed = baseSpeed;
-            this.speedModifier = speedModifier;
+            this.speedMultiplier = speedMultiplier;
             Direction = direction;
 
             CalculateSpeed();
         }
 
-        public void SetModifier(double modifier)
-        {
-            speedModifier *= modifier;
-
-            if (speedModifier < 0.0)
-                speedModifier = 0.0;
-
-            CalculateSpeed();
-        }
-
-        public void SetSpeed(double multiplier)
+        public void MultiplySpeed(double multiplier)
         {
             //running = true;
+            speedMultiplier *= multiplier;
 
-            speedModifier *= multiplier;
-
-            if (speedModifier < 0.0)
-                speedModifier = 0.0;
+            if (speedMultiplier < 0.0)
+                speedMultiplier = 0.0;
 
             CalculateSpeed();
         }
 
-        public void ModifySpeedBonus(int speedBonus)
+        public void ResetSpeed()
         {
-            //this.speedBonus += speedBonus;
-            this.speedBonus = speedBonus;
-            CalculateSpeed();
-        }
-
-        public void ReduceSpeed(int speedReduction)
-        {
-            this.speedReduction = speedReduction;
+            speedMultiplier = 1.0;
             CalculateSpeed();
         }
 
         public void CalculateSpeed()
         {
-            //speed = (int)(baseSpeed * speedModifier);
-            double speedIncrease = baseSpeed * (speedBonus / 100);
-            double speedDecrease = baseSpeed * (speedReduction / 100);
-
-            Speed = (int)(baseSpeed + speedIncrease - speedDecrease);
-
-            //Console.WriteLine($"Speed {Speed}");
-
+            Speed = (int)(baseSpeed * speedMultiplier);
             Speed = Speed < 0 ? 0 : Speed;
+            //Console.WriteLine($"Speed {Speed}");
         }
     }
 
