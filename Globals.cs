@@ -11,8 +11,8 @@ namespace AdventureGame
 {
     public class Globals
     {
-        public static int WIDTH = 1280;
-        public static int HEIGHT = 720;
+        public static int ScreenWidth = 1280;
+        public static int ScreenHeight = 720;
 
         public static ContentManager content;
         public static SpriteBatch spriteBatch;

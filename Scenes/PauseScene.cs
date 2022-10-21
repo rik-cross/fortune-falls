@@ -32,10 +32,17 @@ namespace AdventureGame
         {
 
             Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, 0, Globals.WIDTH, Globals.HEIGHT), Color.Black * 0.5f
+                new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), Color.Black * 0.5f
             );
 
-            Globals.spriteBatch.DrawString(Theme.primaryFont, "Paused", new Vector2((Globals.WIDTH/2)-70, Globals.HEIGHT/2-20), Color.White);
+            Vector2 fontSize = Theme.primaryFont.MeasureString("Paused");
+            Globals.spriteBatch.DrawString(Theme.primaryFont,
+                "Paused",
+                new Vector2(
+                    Globals.ScreenWidth / 2 - fontSize.X / 2,
+                    Globals.ScreenHeight / 2 - fontSize.Y / 2),
+                Color.White);
+            //Globals.spriteBatch.DrawString(Theme.primaryFont, "Paused", new Vector2((Globals.ScreenWidth/2)-70, Globals.ScreenHeight/2-20), Color.White);
         }
 
     }

@@ -143,7 +143,7 @@ namespace AdventureGame
             // player camera
             Engine.Camera playerCamera = new Engine.Camera(
                 name: "main",
-                size: new Vector2(Globals.WIDTH, Globals.HEIGHT),
+                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
                 zoom: Globals.globalZoomLevel,
                 backgroundColour: Color.DarkSlateBlue,
                 trackedEntity: EngineGlobals.entityManager.GetEntityById("player1")
@@ -153,7 +153,7 @@ namespace AdventureGame
             // minimap camera
             Engine.Camera minimapCamera = new Engine.Camera(
                 name: "minimap",
-                screenPosition: new Vector2(Globals.WIDTH - 320, Globals.HEIGHT - 320),
+                screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
                 size: new Vector2(300, 300),
                 followPercentage: 1.0f,
                 zoom: 0.5f,

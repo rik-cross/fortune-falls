@@ -31,7 +31,7 @@ namespace AdventureGame.Engine
             else
                 f = Math.Abs((100 - percentage) / 50);
             Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, 0, Globals.WIDTH, Globals.HEIGHT),
+                new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight),
                 Color.Black * f
             );
 

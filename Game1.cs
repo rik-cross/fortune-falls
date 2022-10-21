@@ -90,8 +90,8 @@ namespace AdventureGame
 
         protected override void Initialize()
         {
-            Globals.graphics.PreferredBackBufferWidth = Globals.WIDTH;
-            Globals.graphics.PreferredBackBufferHeight = Globals.HEIGHT;
+            Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
+            Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
             Globals.graphics.ApplyChanges();
             base.Initialize();
         }

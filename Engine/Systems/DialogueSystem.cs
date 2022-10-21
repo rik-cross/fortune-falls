@@ -21,8 +21,8 @@ namespace AdventureGame.Engine
         public DialogueSystem()
         {
             borderSize = 20;
-            size = new Vector2(Globals.WIDTH - (borderSize * 2), 300);
-            position = new Vector2(borderSize, Globals.HEIGHT - size.Y - borderSize);
+            size = new Vector2(Globals.ScreenWidth - (borderSize * 2), 300);
+            position = new Vector2(borderSize, Globals.ScreenHeight - size.Y - borderSize);
             backgroundColour = Color.AntiqueWhite;
             borderColour = Color.SaddleBrown;
             borderThickness = 5;

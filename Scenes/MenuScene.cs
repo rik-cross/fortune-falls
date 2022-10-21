@@ -20,7 +20,7 @@ namespace AdventureGame
             // title text
             title = new Engine.Text(
                 caption: "Game Title!",
-                position: new Vector2(Globals.WIDTH / 2, 200),
+                position: new Vector2(Globals.ScreenWidth / 2, 200),
                 font: Theme.primaryFont,
                 colour: Theme.tertiaryText,
                 anchor: Anchor.middlecenter
@@ -37,13 +37,13 @@ namespace AdventureGame
             // control images
             controllerImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("X360"),
-                position: new Vector2((Globals.WIDTH / 2) + 100, Globals.HEIGHT - 150),
+                position: new Vector2((Globals.ScreenWidth / 2) + 100, Globals.ScreenHeight - 150),
                 anchor: Anchor.middlecenter,
                 alpha: controllerAlpha
             );
             keyboardImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("Keyboard"),
-                position: new Vector2((Globals.WIDTH / 2) - 100, Globals.HEIGHT - 150),
+                position: new Vector2((Globals.ScreenWidth / 2) - 100, Globals.ScreenHeight - 150),
                 anchor: Anchor.middlecenter,
                 alpha: keyboardAlpha
             );
@@ -56,7 +56,7 @@ namespace AdventureGame
                     controllerSpritesheet.GetSubTexture(1,1),
                     controllerSpritesheet.GetSubTexture(2,1)
                 },
-                position: new Vector2((Globals.WIDTH / 2) + 100, controllerImage.Bottom),
+                position: new Vector2((Globals.ScreenWidth / 2) + 100, controllerImage.Bottom),
                 anchor: Anchor.middlecenter,
                 size: new Vector2(16*3,16*3),
                 animationDelay: 2,
@@ -70,7 +70,7 @@ namespace AdventureGame
                     enterKeySpritesheet.GetSubTexture(1,0),
                     enterKeySpritesheet.GetSubTexture(1,0)
                 },
-                position: new Vector2((Globals.WIDTH / 2) - 100, keyboardImage.Bottom),
+                position: new Vector2((Globals.ScreenWidth / 2) - 100, keyboardImage.Bottom),
                 anchor: Anchor.middlecenter,
                 size: new Vector2(16 * 3, 16 * 3),
                 animationDelay: 2,
@@ -86,7 +86,7 @@ namespace AdventureGame
                     Globals.playerSpriteSheet.GetSubTexture(8,4),
                     Globals.playerSpriteSheet.GetSubTexture(7,4)
                 },
-                position: new Vector2(Globals.WIDTH / 2, Globals.HEIGHT - 350),
+                position: new Vector2(Globals.ScreenWidth / 2, Globals.ScreenHeight - 350),
                 size: new Vector2(26*4,36*4),
                 anchor: Anchor.middlecenter,
                 animationDelay: 12

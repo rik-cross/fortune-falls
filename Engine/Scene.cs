@@ -326,7 +326,7 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 Globals.spriteBatch.FillRectangle(
                     0,0,
-                    Globals.WIDTH, Globals.HEIGHT,
+                    Globals.ScreenWidth, Globals.ScreenHeight,
                     new Color(0, 0, 0, (int)(255*(1-lightLevel)))
                 );
                 Globals.spriteBatch.End();
@@ -382,7 +382,7 @@ namespace AdventureGame.Engine
             }
 
             // draw the scene
-            Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.WIDTH, Globals.HEIGHT);
+            Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             Draw(gameTime);
             Globals.spriteBatch.End();
