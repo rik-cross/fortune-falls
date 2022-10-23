@@ -13,7 +13,7 @@ namespace AdventureGame
 
         public static void doorOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.IsPlayer())
+            if (otherEntity.IsPlayerType())
             {
 
                 Globals.gameScene.GetCameraByName("main").trackedEntity = null;
@@ -33,7 +33,7 @@ namespace AdventureGame
 
         public static void beachOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.IsPlayer())
+            if (otherEntity.IsPlayerType())
             {
 
                 Globals.beachScene.GetCameraByName("main").trackedEntity = null;
@@ -53,7 +53,7 @@ namespace AdventureGame
 
         public static void homeOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.IsPlayer())
+            if (otherEntity.IsPlayerType())
             {
 
                 Globals.homeScene.GetCameraByName("main").trackedEntity = null;
@@ -145,7 +145,7 @@ namespace AdventureGame
 
             // player entity
             //Engine.Entity playerEntity = PlayerEntity.Create(100, 100); // opposites (180, 350)
-            string playerId = "player1";
+            string playerId = "localPlayer"; // Type instead of Id??
             Engine.Entity playerEntity = PlayerEntity.Create(300, 200, playerId); // opposites (180, 350)
 
             // home entity

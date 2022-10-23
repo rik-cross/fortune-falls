@@ -33,10 +33,16 @@ namespace AdventureGame.Engine
             Guid = Guid.NewGuid();
         }
 
-        // Return if the entity is a player
-        public bool IsPlayer()
+        // Return if the entity is the local player
+        public bool IsLocalPlayer()
         {
-            return entityManager.IsPlayer(this);
+            return entityManager.IsLocalPlayer(this);
+        }
+
+        // Return if the entity has a player type Tag
+        public bool IsPlayerType()
+        {
+            return entityManager.IsPlayerType(this);
         }
 
         // Add a component to the entity

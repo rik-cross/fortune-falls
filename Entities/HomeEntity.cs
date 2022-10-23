@@ -17,7 +17,7 @@ namespace AdventureGame
 
         public static void houseOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.IsPlayer())
+            if (otherEntity.IsPlayerType())
             {
 
                 Globals.gameScene.GetCameraByName("main").trackedEntity = null;

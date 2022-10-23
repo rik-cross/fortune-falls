@@ -15,7 +15,7 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, string id = default)
         {
             // Check if the player entity already exists
-            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityById("player1");
+            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityById(id);
 
             if (playerEntity != null)
                 return playerEntity;
@@ -34,7 +34,7 @@ namespace AdventureGame
 
                 // Set the new player id and store it somewhere
                 //playerEntity.Tags.Id = "player" + guid;
-                playerEntity.Tags.Id = "player1"; // TESTING
+                playerEntity.Tags.Id = "localPlayer"; // TESTING
 
             }
             playerEntity.Tags.AddTag("player");

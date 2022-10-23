@@ -16,7 +16,7 @@ namespace AdventureGame
 
         public static void lightOnCollide(Entity thisEntity, Entity otherEntity, float distance)
         {
-            if (otherEntity.Tags.Id == "player1")
+            if (otherEntity.IsPlayerType())
             {
                 InputComponent playerInputComponent = otherEntity.GetComponent<InputComponent>();
                 if (playerInputComponent != null && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))

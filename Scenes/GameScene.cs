@@ -146,7 +146,7 @@ namespace AdventureGame
                 size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
                 zoom: Globals.globalZoomLevel,
                 backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetEntityById("player1")
+                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
             );
             AddCamera(playerCamera);
 
@@ -160,7 +160,7 @@ namespace AdventureGame
                 backgroundColour: Color.DarkSlateBlue,
                 borderColour: Color.Black,
                 borderThickness: 2,
-                trackedEntity: EngineGlobals.entityManager.GetEntityById("player1")
+                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
             );
             AddCamera(minimapCamera);
 
@@ -180,6 +180,10 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
                 EngineGlobals.sceneManager.PushScene(new PauseScene());
+            }
+            if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
+            {
+                EngineGlobals.sceneManager.PushScene(new InventoryScene());
             }
         }
 

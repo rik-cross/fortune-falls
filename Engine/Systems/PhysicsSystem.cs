@@ -24,7 +24,7 @@ namespace AdventureGame.Engine
             transformComponent.previousPosition = transformComponent.position;
 
             // Action anything that is player only
-            if (entity.IsPlayer())
+            if (entity.IsPlayerType())
             {
                 // If the run button is pressed increase the players speed by 50%
                 if (EngineGlobals.inputManager.IsPressed(Globals.button2Input))
@@ -36,7 +36,8 @@ namespace AdventureGame.Engine
                     Console.WriteLine($"Speed is {physicsComponent.Speed}");
                 }
 
-                // FIX this is not called if released during scene transition
+                // FIX this is not called if released during scene transition / pause
+                // Should a check by made on prev / current input state and updated?
                 if (EngineGlobals.inputManager.IsReleased(Globals.button2Input))
                 {
                     // Decrease the speed multipler by x0.5

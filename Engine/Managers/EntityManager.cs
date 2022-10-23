@@ -60,7 +60,7 @@ namespace AdventureGame.Engine
             return entities;
         }
 
-        // Return an entity using their Id tag
+        // Return an entity using their id Tag
         public Entity GetEntityById(string id)
         {
             foreach(Entity e in entities)
@@ -71,7 +71,25 @@ namespace AdventureGame.Engine
             return null;
         }
 
-        // Return a list of entities based on their Type tag
+        // Return the local player entity
+        public Entity GetLocalPlayer()
+        {
+            // Use PlayerManager instead??
+            foreach (Entity e in entities)
+            {
+                if (e.Tags.Id == "localPlayer")
+                    return e;
+            }
+            return null;
+        }
+
+        // Return if the entity is the local player
+        public bool IsLocalPlayer(Entity e)
+        {
+            return e.Tags.Id == "localPlayer";
+        }
+
+        // Return a list of entities based on their type Tag
         public List<Entity> GetAllEntitiesByType(string type)
         {
             List<Entity> entitiesByType = new List<Entity>();
@@ -83,8 +101,8 @@ namespace AdventureGame.Engine
             return entitiesByType;
         }
 
-        // Return if the entity has a player type tag
-        public bool IsPlayer(Entity e)
+        // Return if the entity has a player type Tag
+        public bool IsPlayerType(Entity e)
         {
             return e.Tags.HasType("player");
         }
