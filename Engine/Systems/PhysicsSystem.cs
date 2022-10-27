@@ -27,7 +27,7 @@ namespace AdventureGame.Engine
             if (entity.IsPlayerType())
             {
                 // If the run button is pressed increase the players speed by 50%
-                if (EngineGlobals.inputManager.IsPressed(Globals.button2Input))
+                if (EngineGlobals.inputManager.IsPressed(Globals.button2Input)) // OR IntentionComponent?
                 {
                     // Increase the speed multipler by x2
                     physicsComponent.MultiplySpeed(2);

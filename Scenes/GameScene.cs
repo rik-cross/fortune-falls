@@ -116,8 +116,21 @@ namespace AdventureGame
             //AddEntity(ItemEntity.Create(100, 250, "Items/I_Boulder01"));
             //AddEntity(ItemEntity.Create(30, 170, "W_Sword003", new List<string> { "player" }));
             //AddEntity(ItemEntity.Create(100, 250, "I_Boulder01"));
-            AddEntity(ItemEntity.Create(30, 170, "W_Sword003", "Sword003", 3, 10, 50, new List<string> { "player" }));
-            AddEntity(ItemEntity.Create(100, 250, "I_Boulder01", "Stone", 8, 20, 100, new List<string> { "player" }));
+
+            Item sword = new Item(
+                itemId: "Sword003",
+                filename: "W_Sword003",
+                itemHealth: 35,
+                maxHealth: 100);
+            AddEntity(ItemEntity.Create(x: 30, y: 170, item: sword, collectableByType: new List<string> { "player" }));
+
+            Item stones = new Item(
+                itemId: "Stone",
+                filename: "I_Boulder01",
+                quantity: 7,
+                stackSize: 20);
+            AddEntity(ItemEntity.Create(x: 100, y: 250, item: stones, collectableByType: new List<string> { "player" }));
+
 
             // Chest test
             Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();
@@ -127,10 +140,10 @@ namespace AdventureGame
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
 
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems,
-                new Item("arrowStandard", 10, 20));
+                new Item("arrowStandard", "I_Boulder01", 10, 20));
 
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems,
-                new Item("stick", 10, 10));
+                new Item("stick", "I_Boulder01", 10, 10));
 
 
             //AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));

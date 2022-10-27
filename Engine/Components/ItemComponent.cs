@@ -6,7 +6,7 @@ namespace AdventureGame.Engine
     public class ItemComponent : Component  // CollectableComponent??
     {
         //public string ItemId { get; set; }
-        public Item Item { get; set; }
+        public Item Item { get; set; } // Move to make it a CollectableComponent?
         public Tags CollectableByTag { get; set; }
         public bool HasBeenCollected { get; set; }
         public bool DestroyOnCollect { get; set; }

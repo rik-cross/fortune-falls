@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AdventureGame.Engine;
+using System;
 
 namespace AdventureGame
 {
@@ -9,10 +10,11 @@ namespace AdventureGame
     {
 
         private Engine.Text title;
+        private Engine.Text2 title2;
         private Engine.Image controllerImage;
         private Engine.Image keyboardImage;
-        private Engine.Animation controllerButton;
-        private Engine.Animation keyboardButton;
+        private Engine.Animation2 controllerButton;
+        private Engine.Animation2 keyboardButton;
         private Engine.Animation testAnimation;
 
         public MenuScene()
@@ -50,28 +52,59 @@ namespace AdventureGame
 
             // controller buttons
             Engine.SpriteSheet controllerSpritesheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("xbox_buttons"), new Vector2(16,16));
-            controllerButton = new Engine.Animation(
+            /*controllerButton = new Engine.Animation(
                 new List<Texture2D> {
                     controllerSpritesheet.GetSubTexture(0,1),
                     controllerSpritesheet.GetSubTexture(1,1),
                     controllerSpritesheet.GetSubTexture(2,1)
                 },
-                position: new Vector2((Globals.ScreenWidth / 2) + 100, controllerImage.Bottom),
+                position: new Vector2(controllerImage.Center, controllerImage.Bottom),
                 anchor: Anchor.middlecenter,
                 size: new Vector2(16*3,16*3),
                 animationDelay: 2,
                 loop: false,
                 play: false
-            );
+            );*/
+            controllerButton = new Engine.Animation2(
+                new List<Texture2D> {
+                    controllerSpritesheet.GetSubTexture(0,1),
+                    controllerSpritesheet.GetSubTexture(1,1),
+                    controllerSpritesheet.GetSubTexture(2,1)
+                },
+                //position: new Vector2(controllerImage.Center, controllerImage.Bottom),
+                anchor: Anchor.bottomcenter,
+                anchorParent: controllerImage.Rectangle,
+                padding: new Padding(bottom: -20),
+                size: new Vector2(16 * 3, 16 * 3),
+                animationDelay: 2,
+                loop: false,
+                play: false
+            ); ;
+            //Console.WriteLine($"Controller rectangle: {controllerImage.Rectangle}");
             Engine.SpriteSheet enterKeySpritesheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("enter_key"), new Vector2(16, 12));
-            keyboardButton = new Engine.Animation(
+            /*keyboardButton = new Engine.Animation(
                 new List<Texture2D> {
                     enterKeySpritesheet.GetSubTexture(0,0),
                     enterKeySpritesheet.GetSubTexture(1,0),
                     enterKeySpritesheet.GetSubTexture(1,0)
                 },
-                position: new Vector2((Globals.ScreenWidth / 2) - 100, keyboardImage.Bottom),
+                position: new Vector2(keyboardImage.Center, keyboardImage.Bottom),
                 anchor: Anchor.middlecenter,
+                size: new Vector2(16 * 3, 16 * 3),
+                animationDelay: 2,
+                loop: false,
+                play: false
+            );*/
+            keyboardButton = new Engine.Animation2(
+                new List<Texture2D> {
+                    enterKeySpritesheet.GetSubTexture(0,0),
+                    enterKeySpritesheet.GetSubTexture(1,0),
+                    enterKeySpritesheet.GetSubTexture(1,0)
+                },
+                //position: new Vector2(keyboardImage.Center, keyboardImage.Bottom),
+                anchor: Anchor.bottomcenter,
+                anchorParent: keyboardImage.Rectangle,
+                padding: new Padding(bottom: -20),
                 size: new Vector2(16 * 3, 16 * 3),
                 animationDelay: 2,
                 loop: false,
@@ -90,6 +123,19 @@ namespace AdventureGame
                 size: new Vector2(26*4,36*4),
                 anchor: Anchor.middlecenter,
                 animationDelay: 12
+            );
+
+            //TransformComponent player = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>();
+            // TESTING
+            title2 = new Engine.Text2(
+                caption: "Game Title!",
+                //position: new Vector2(Globals.ScreenWidth / 2, 200),
+                font: Theme.primaryFont,
+                colour: Theme.tertiaryText,
+                anchor: Anchor.topcenter,
+                //anchorParent: new Rectangle((int)player.position.X, (int)player.position.Y, (int)player.size.X, (int)player.size.Y)
+                anchorParent: testAnimation.Rectangle
+            //padding: new Padding(top: 200)
             );
 
         }
@@ -183,6 +229,7 @@ namespace AdventureGame
         public override void Draw(GameTime gameTime)
         {
             title.Draw();
+            //title2.Draw();
             controllerImage.Draw();
             keyboardImage.Draw();
             controllerButton.Draw();

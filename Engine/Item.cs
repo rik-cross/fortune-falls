@@ -4,11 +4,12 @@ namespace AdventureGame.Engine
 {
     public class Item
     {
-        public string ItemId { get; set; }
+        public string ItemId { get; private set; }
+        public string Filename { get; set; }
         public int Quantity { get; set; }
-        public int StackSize { get; set; }
-        public int Durability { get; set; } // Health?
-        // public string Filename { get; private set; }
+        public int StackSize { get; set; } // or lookup based on Id?
+        public int ItemHealth { get; set; } // Health / Life?
+        public int MaxHealth { get; set; } // Health / Life?
         public Tags ItemTags { get; set; } // will this work? not an entity
         // public string ItemType { get; private set; }
 
@@ -17,13 +18,22 @@ namespace AdventureGame.Engine
             ItemTags = new Tags();
         }
 
-        public Item(string itemId, int quantity = 1, int stackSize = 1,
-            int durability = 100, Tags itemTags = default)
+        public Item(string itemId, string filename, int quantity = 1, int stackSize = 1,
+            int itemHealth = -1, int maxHealth = 100, Tags itemTags = default)
         {
             ItemId = itemId;
+            Filename = filename;
             Quantity = quantity;
             StackSize = stackSize;
-            Durability = durability;
+            ItemHealth = itemHealth;
+
+            if (Quantity > StackSize)
+                Quantity = StackSize;
+
+            if (ItemHealth == -1)
+                MaxHealth = -1;
+            else
+                MaxHealth = maxHealth;
 
             if (itemTags == default)
                 ItemTags = new Tags();
@@ -34,23 +44,75 @@ namespace AdventureGame.Engine
         public Item(Item item)
         {
             ItemId = item.ItemId;
+            Filename = item.Filename;
             Quantity = item.Quantity;
             StackSize = item.StackSize;
-            Durability = item.Durability;
+            ItemHealth = item.ItemHealth;
+            MaxHealth = item.MaxHealth;
             ItemTags = item.ItemTags;
         }
 
         // Increase the quantity of the inventory item
-        public void IncreaseQuantity(int amount = 1) { Quantity += amount; }
+        public void IncreaseQuantity(int amount = 1)
+        {
+            int newQuantity = Quantity + amount;
+
+            if (newQuantity > StackSize)
+                Quantity = StackSize;
+            else
+                Quantity += amount;
+        }
 
         // Decrease the quantity of the inventory item
-        public void DecreaseQuantity(int amount = 1) { Quantity -= amount; }
+        public void DecreaseQuantity(int amount = 1)
+        {
+            int newQuantity = Quantity - amount;
 
-        // Increase the durability of the inventory item
-        public void IncreaseDurability(int amount = 1) { Durability += amount; }
+            if (newQuantity < 0)
+                Quantity = 0;
+            else
+                Quantity -= amount;
+        }
 
-        // Decrease the durability of the inventory item
-        public void DecreaseDurability(int amount = 1) { Durability -= amount; }
+        // Return whether the item is stackable
+        public bool IsStackable() { return StackSize > 1; }
+
+        // Return whether the item has any free space
+        public bool HasFreeSpace() { return Quantity < StackSize; }
+
+        // Increase the health of the inventory item
+        public void IncreaseItemHealth(int amount = 1)
+        {
+            int newHealth = ItemHealth + amount;
+
+            if (newHealth > MaxHealth)
+                ItemHealth = MaxHealth;
+            else
+                ItemHealth += amount;
+        }
+
+        // Decrease the health of the inventory item
+        public void DecreaseHealth(int amount = 1)
+        {
+            int newHealth = ItemHealth - amount;
+
+            if (newHealth < 0)
+                ItemHealth = 0;
+            else
+                ItemHealth -= amount;
+        }
+
+        // Return whether the item has health
+        public bool HasHealth() { return ItemHealth != -1; }
+
+        // Return the amount of health remaining out of 100
+        public int GetHealthPercentage()
+        {
+            if (ItemHealth == -1)
+                return -1;
+
+            return (int)((double)ItemHealth / MaxHealth * 100);
+        }
 
     }
 }

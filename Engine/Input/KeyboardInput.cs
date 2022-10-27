@@ -22,6 +22,7 @@ namespace AdventureGame.Engine
         public static InputItem D = new InputItem(key: Keys.D);
 
         public static InputItem P = new InputItem(key: Keys.P);
+        public static InputItem I = new InputItem(key: Keys.I);
 
         public static InputItem Q = new InputItem(key: Keys.Q);
         public static InputItem E = new InputItem(key: Keys.E);

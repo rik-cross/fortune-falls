@@ -33,16 +33,25 @@ namespace AdventureGame.Engine
                         InventoryComponent inventoryComponent = otherEntity.GetComponent<InventoryComponent>();
                         if (inventoryComponent != null)
                         {
+                            int origQuantity = itemComponent.Item.Quantity; // Testing
+
                             Item item = EngineGlobals.inventoryManager.AddItem(
                             inventoryComponent.InventoryItems, itemComponent.Item);
                             //Console.WriteLine($"\nOriginal item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
-
+                            
                             // Try to add the item to the other entity's inventory
                             if (item == null)
                             {
-                                Console.WriteLine("Item collected!");
+                                //Console.WriteLine("Item collected!");
                                 //entity.Destroy();
                                 entity.GetComponent<TransformComponent>().position.X += 50;
+                                itemComponent.Item.Quantity = origQuantity;
+
+                                if (itemComponent.Item.HasHealth())
+                                {
+                                    Random random = new Random();
+                                    itemComponent.Item.ItemHealth = random.Next(0, itemComponent.Item.MaxHealth);
+                                }
                             }
                             else
                             {
