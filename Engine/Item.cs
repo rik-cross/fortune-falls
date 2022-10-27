@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
 {
@@ -6,11 +6,12 @@ namespace AdventureGame.Engine
     {
         public string ItemId { get; private set; }
         public string Filename { get; set; }
+        public Texture2D Texture { get; set; }
         public int Quantity { get; set; }
         public int StackSize { get; set; } // or lookup based on Id?
-        public int ItemHealth { get; set; } // Health / Life?
-        public int MaxHealth { get; set; } // Health / Life?
-        public Tags ItemTags { get; set; } // will this work? not an entity
+        public int ItemHealth { get; set; }
+        public int MaxHealth { get; set; }
+        public Tags ItemTags { get; set; }
         // public string ItemType { get; private set; }
 
         public Item()
@@ -18,11 +19,19 @@ namespace AdventureGame.Engine
             ItemTags = new Tags();
         }
 
-        public Item(string itemId, string filename, int quantity = 1, int stackSize = 1,
-            int itemHealth = -1, int maxHealth = 100, Tags itemTags = default)
+        public Item(string itemId, string filename = default, Texture2D texture = default,
+            int quantity = 1, int stackSize = 1,
+            int itemHealth = -1, int maxHealth = 100,
+            Tags itemTags = default)
         {
             ItemId = itemId;
             Filename = filename;
+
+            if (texture == default && filename != default)
+                Texture = Globals.content.Load<Texture2D>(filename);
+            else
+                Texture = texture;
+
             Quantity = quantity;
             StackSize = stackSize;
             ItemHealth = itemHealth;
@@ -45,6 +54,7 @@ namespace AdventureGame.Engine
         {
             ItemId = item.ItemId;
             Filename = item.Filename;
+            Texture = item.Texture;
             Quantity = item.Quantity;
             StackSize = item.StackSize;
             ItemHealth = item.ItemHealth;

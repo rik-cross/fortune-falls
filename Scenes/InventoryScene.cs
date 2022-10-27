@@ -220,6 +220,7 @@ namespace AdventureGame
             //IntentionComponent intentionComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<IntentionComponent>();
             //if (intentionComponent.up)
 
+            // CHANGE to Keys.Up etc instead of WASD?
             if (EngineGlobals.inputManager.IsPressed(Globals.upInput))
                 // && EngineGlobals.sceneManager.transition == null) // needed?
                 ChangeCurrentSlot("Up");
@@ -305,7 +306,7 @@ namespace AdventureGame
                 if (item != null)
                 {
                     // Scale the height if the image is not square
-                    Texture2D texture = Globals.content.Load<Texture2D>(item.Filename);
+                    Texture2D texture = item.Texture;
                     double iconRatio = (double)texture.Height / texture.Width;
                     iconHeight = (int)(iconWidth * iconRatio);
 

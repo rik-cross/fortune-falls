@@ -110,27 +110,23 @@ namespace AdventureGame
             // map trigger
             AddEntity(EngineGlobals.entityManager.GetEntityById("m"));
 
+
             // item entities test
-            //HashSet<string> playerCollectable = new HashSet<string>() { "player" };
-            //AddEntity(ItemEntity.Create(30, 170, "Items/W_Sword003", playerCollectable));
-            //AddEntity(ItemEntity.Create(100, 250, "Items/I_Boulder01"));
-            //AddEntity(ItemEntity.Create(30, 170, "W_Sword003", new List<string> { "player" }));
-            //AddEntity(ItemEntity.Create(100, 250, "I_Boulder01"));
+            string itemsDirectory = "Items/";
 
             Item sword = new Item(
                 itemId: "Sword003",
-                filename: "W_Sword003",
+                filename: itemsDirectory + "W_Sword003",
                 itemHealth: 35,
                 maxHealth: 100);
-            AddEntity(ItemEntity.Create(x: 30, y: 170, item: sword, collectableByType: new List<string> { "player" }));
+            AddEntity(ItemEntity.Create(x: 30, y: 170, item: sword));
 
             Item stones = new Item(
                 itemId: "Stone",
-                filename: "I_Boulder01",
+                filename: itemsDirectory + "I_Boulder01",
                 quantity: 7,
                 stackSize: 20);
-            AddEntity(ItemEntity.Create(x: 100, y: 250, item: stones, collectableByType: new List<string> { "player" }));
-
+            AddEntity(ItemEntity.Create(x: 100, y: 250, item: stones));
 
             // Chest test
             Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();
@@ -138,12 +134,26 @@ namespace AdventureGame
             chestEntity.AddComponent(new Engine.InventoryComponent(10));
 
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-
+            /*
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems,
                 new Item("arrowStandard", "I_Boulder01", 10, 20));
 
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems,
                 new Item("stick", "I_Boulder01", 10, 10));
+            */
+            Item arrows = new Item(
+                itemId: "ArrowStandard",
+                filename: itemsDirectory + "I_Boulder01",
+                quantity: 10,
+                stackSize: 20);
+            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, arrows);
+
+            Item sticks = new Item(
+                itemId: "Stick",
+                filename: itemsDirectory + "I_Boulder01",
+                quantity: 10,
+                stackSize: 10);
+            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, sticks);
 
 
             //AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));

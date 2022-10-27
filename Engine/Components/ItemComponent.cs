@@ -7,7 +7,7 @@ namespace AdventureGame.Engine
     {
         //public string ItemId { get; set; }
         public Item Item { get; set; } // Move to make it a CollectableComponent?
-        public Tags CollectableByTag { get; set; }
+        public Tags CollectableByType { get; set; }
         public bool HasBeenCollected { get; set; }
         public bool DestroyOnCollect { get; set; }
         public bool IsActive { get; set; } // needed?
@@ -19,19 +19,24 @@ namespace AdventureGame.Engine
             bool isActive = true)
         {
             Item = item;
-            CollectableByTag = new Tags(collectableByType);
+            CollectableByType = new Tags(collectableByType);
             HasBeenCollected = hasBeenCollected;
             DestroyOnCollect = destroyOnCollect;
             IsActive = isActive;
         }
 
         public ItemComponent(Item item = default,
-            List<string> collectableByTag = default,
+            List<string> collectableByType = default,
             bool hasBeenCollected = false, bool destroyOnCollect = true,
             bool isActive = true)
         {
             Item = item;
-            CollectableByTag = new Tags(collectableByTag);
+
+            if (collectableByType == default)
+                CollectableByType = new Tags("player");
+            else
+                CollectableByType = new Tags(collectableByType);
+
             HasBeenCollected = hasBeenCollected;
             DestroyOnCollect = destroyOnCollect;
             IsActive = isActive;
@@ -40,7 +45,7 @@ namespace AdventureGame.Engine
         // Check if an entity can collect the item
         public bool CanCollect(string tag)
         {
-            return CollectableByTag.HasType(tag);
+            return CollectableByType.HasType(tag);
         }
 
         // Check if any given entities can collect the item
@@ -54,7 +59,7 @@ namespace AdventureGame.Engine
         {
             foreach (string type in tags)
             {
-                if (CollectableByTag.HasType(type))
+                if (CollectableByType.HasType(type))
                     return true;
             }
             return false;
