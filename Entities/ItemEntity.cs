@@ -31,10 +31,9 @@ namespace AdventureGame
 
             itemEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
             itemEntity.AddComponent(new Engine.ColliderComponent(imageSize));
-
-            // ItemComponent and CollectableComponent??
+            itemEntity.AddComponent(new Engine.ItemComponent(item));
             if (isCollectable)
-                itemEntity.AddComponent(new Engine.ItemComponent(item, collectableByType));
+                itemEntity.AddComponent(new Engine.CollectableComponent(collectableByType));
 
             return itemEntity;
 

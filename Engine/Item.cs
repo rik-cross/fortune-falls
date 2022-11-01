@@ -9,7 +9,7 @@ namespace AdventureGame.Engine
         public Texture2D Texture { get; set; }
         public int Quantity { get; set; }
         public int StackSize { get; set; } // or lookup based on Id?
-        public int ItemHealth { get; set; }
+        public int ItemHealth { get; set; } // bool HasHealth?
         public int MaxHealth { get; set; }
         public Tags ItemTags { get; set; }
         // public string ItemType { get; private set; }
@@ -45,7 +45,7 @@ namespace AdventureGame.Engine
                 MaxHealth = maxHealth;
 
             if (itemTags == default)
-                ItemTags = new Tags();
+                ItemTags = new Tags(); // Tags("item")?
             else
                 ItemTags = itemTags;
         }
@@ -112,8 +112,8 @@ namespace AdventureGame.Engine
                 ItemHealth -= amount;
         }
 
-        // Return whether the item has health
-        public bool HasHealth() { return ItemHealth != -1; }
+        // Return whether the item has a health
+        public bool HasItemHealth() { return ItemHealth != -1; }
 
         // Return the amount of health remaining out of 100
         public int GetHealthPercentage()

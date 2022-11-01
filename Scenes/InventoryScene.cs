@@ -352,7 +352,7 @@ namespace AdventureGame
                     }
 
                     // Draw the item health bar if applicable
-                    if (item.HasHealth())
+                    if (item.HasItemHealth())
                     {
                         int healthLevel = item.GetHealthPercentage();
                         int barPadding = 4;

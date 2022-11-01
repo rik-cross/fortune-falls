@@ -46,7 +46,7 @@ namespace AdventureGame.Engine
             AddSystem(new AnimationSystem());
             AddSystem(new TextSystem());
             AddSystem(new LightSystem());
-            AddSystem(new ItemSystem());
+            AddSystem(new ItemCollectionSystem());
             AddSystem(new InventorySystem());
 
             // Register components and bit flags if they don't exist and
