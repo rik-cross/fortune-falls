@@ -30,8 +30,10 @@ namespace AdventureGame
         public static List<Engine.InputItem> forwardInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter, Engine.ControllerInput.Start };
         public static List<Engine.InputItem> backInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Back };
         public static List<Engine.InputItem> interactInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter, Engine.ControllerInput.A };
-        public static List<Engine.InputItem> button2Input = new List<Engine.InputItem>() { Engine.KeyboardInput.LeftShift, Engine.ControllerInput.LeftShoulder };
+        public static List<Engine.InputItem> button2Input = new List<Engine.InputItem>() { Engine.KeyboardInput.LeftShift, Engine.ControllerInput.LeftTrigger };
         //public static List<Engine.InputItem> sprintInput = new List<Engine.InputItem>() { Engine.KeyboardInput.LeftShift, Engine.ControllerInput.LeftShoulder };
+        public static List<Engine.InputItem> primaryCursorInput = new List<Engine.InputItem>() { Engine.MouseInput.LeftButton, Engine.ControllerInput.A };
+        public static List<Engine.InputItem> secondaryCursorInput = new List<Engine.InputItem>() { Engine.MouseInput.RightButton, Engine.ControllerInput.B };
 
         // Mouse left click = Interact / button1, Mouse right click = RightClick / buttonX
 

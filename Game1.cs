@@ -85,7 +85,7 @@ namespace AdventureGame
         {
             Globals.graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
+            IsMouseVisible = true; // false;
         }
 
         protected override void Initialize()

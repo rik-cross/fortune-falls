@@ -15,6 +15,9 @@ namespace AdventureGame.Engine
         KeyboardState prevKeyboardState;
         KeyboardState curKeyboardState;
 
+        MouseState prevMouseState;
+        MouseState curMouseState;
+
         public List<GamePadState> prevGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
         public List<GamePadState> curGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
 
@@ -23,6 +26,9 @@ namespace AdventureGame.Engine
 
             prevKeyboardState = curKeyboardState;
             curKeyboardState = Keyboard.GetState();
+
+            prevMouseState = curMouseState;
+            curMouseState = Mouse.GetState();
 
             for (int i=0; i<=3; i++)
             {
@@ -35,10 +41,29 @@ namespace AdventureGame.Engine
 
         public bool IsDown(InputItem item)
         {
-            if (item != null && item.key != null)
+            if (item == null)
+                return false;
+
+            if (item.key != null)
                 return curKeyboardState.IsKeyDown((Keys)item.key);
-            if (item != null && item.button != null)
+
+            if (item.button != null)
                 return curGamePadState[0].IsButtonDown((Buttons)item.button);
+
+            if (item.mouseButton != null)
+            {
+                if (item.mouseButton == MouseButtons.LeftMouseButton)
+                {
+                    bool pressed = curMouseState.LeftButton == ButtonState.Pressed;
+                    Console.WriteLine($"Is mouse left down: {pressed}");
+                    return pressed;
+                }
+                //    return curMouseState.LeftButton == ButtonState.Pressed;
+                else if (item.mouseButton == MouseButtons.RightMouseButton)
+                    return curMouseState.RightButton == ButtonState.Pressed;
+                else if (item.mouseButton == MouseButtons.MiddleMouseButton)
+                    return curMouseState.MiddleButton == ButtonState.Pressed;
+            }
 
             return false;
         }
@@ -57,17 +82,30 @@ namespace AdventureGame.Engine
         
         public bool IsPressed(InputItem item)
         {
-            if (item != null && item.key != null)
-            {
-                if (curKeyboardState.IsKeyDown((Keys)item.key) && !prevKeyboardState.IsKeyDown((Keys)item.key))
-                {
-                    //Console.WriteLine($"{item.key} is pressed");
-                    return true;
-                }
-            }
-                //return curKeyboardState.IsKeyDown((Keys)item.key) && !prevKeyboardState.IsKeyDown((Keys)item.key);
-            if (item != null && item.button != null)
+            if (item == null)
+                return false;
+
+            if (item.key != null)
+                return curKeyboardState.IsKeyDown((Keys)item.key) && !prevKeyboardState.IsKeyDown((Keys)item.key);
+
+            if (item.button != null)
                 return curGamePadState[0].IsButtonDown((Buttons)item.button) && !prevGamePadState[0].IsButtonDown((Buttons)item.button);
+
+            if (item.mouseButton != null)
+            {
+                if (item.mouseButton == MouseButtons.LeftMouseButton)
+                {
+                    bool pressed = curMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed;
+                    Console.WriteLine($"Is mouse left pressed: {pressed}");
+                    return pressed;
+                }
+                //    return curMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton != ButtonState.Pressed;
+                else if (item.mouseButton == MouseButtons.RightMouseButton)
+                    return curMouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton != ButtonState.Pressed;
+                else if (item.mouseButton == MouseButtons.MiddleMouseButton)
+                    return curMouseState.MiddleButton == ButtonState.Pressed && prevMouseState.MiddleButton != ButtonState.Pressed;
+            }
+
             return false;
         }
 
@@ -85,10 +123,30 @@ namespace AdventureGame.Engine
 
         public bool IsReleased(InputItem item)
         {
-            if (item != null && item.key != null)
+            if (item == null)
+                return false;
+
+            if (item.key != null)
                 return !curKeyboardState.IsKeyDown((Keys)item.key) && prevKeyboardState.IsKeyDown((Keys)item.key);
-            if (item != null && item.button != null)
+
+            if (item.button != null)
                 return !curGamePadState[0].IsButtonDown((Buttons)item.button) && prevGamePadState[0].IsButtonDown((Buttons)item.button);
+
+            if (item.mouseButton != null)
+            {
+                if (item.mouseButton == MouseButtons.LeftMouseButton)
+                {
+                    bool pressed = curMouseState.LeftButton != ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Pressed;
+                    Console.WriteLine($"Is mouse left released: {pressed}");
+                    return pressed;
+                }
+                //    return curMouseState.LeftButton != ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Pressed;
+                else if (item.mouseButton == MouseButtons.RightMouseButton)
+                    return curMouseState.RightButton != ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Pressed;
+                else if (item.mouseButton == MouseButtons.MiddleMouseButton)
+                    return curMouseState.MiddleButton != ButtonState.Pressed && prevMouseState.MiddleButton == ButtonState.Pressed;
+            }
+
             return false;
         }
 

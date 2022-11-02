@@ -6,6 +6,7 @@ using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended;
 
@@ -68,6 +69,8 @@ namespace AdventureGame
             iconPadding = 10;
             iconWidth = slotWidth - (slotBorder + iconPadding) * 2 ;
             iconHeight = slotHeight - (slotBorder + iconPadding) * 2;
+
+            //Game1.IsMouseVisible = true;
         }
 
         public void ChangeCurrentSlot(string direction)
@@ -79,6 +82,7 @@ namespace AdventureGame
                 if (currentSlot / columns == 0)
                 {
                     currentSlot += columns * (rows - 1);
+
                     // Handles jagged final row
                     if (currentSlot > inventorySize - 1)
                         currentSlot -= columns;
@@ -104,6 +108,7 @@ namespace AdventureGame
                 if (currentSlot % columns == 0)
                 {
                     currentSlot += columns - 1;
+
                     // Handles jagged final row
                     if (currentSlot > inventorySize - 1)
                         currentSlot = inventorySize - 1;
@@ -142,7 +147,7 @@ namespace AdventureGame
             }
             else
             {
-                if (selectedSlot == -1)
+                if (selectedSlot == -1) // || currentSlot == -1 ?? Otherwise index error?
                     return;
 
                 Item currentItem = inventory.InventoryItems[currentSlot];
@@ -187,14 +192,16 @@ namespace AdventureGame
 
                 // Swap the current and selected items
                 else if (selectedSlot != -1)
+                // CHECK should just be else ??
                 {
                     Item tempItem = inventory.InventoryItems[currentSlot];
                     inventory.InventoryItems[currentSlot] = selectedItem; // currentItem??
                     inventory.InventoryItems[selectedSlot] = tempItem; // selectedItem??
                 }
 
-                // Clear the selected slot
+                // Clear the selected and current slot
                 selectedSlot = -1;
+                currentSlot = -1;
             }
         }
 
@@ -202,10 +209,30 @@ namespace AdventureGame
         {
             if (isSelected)
             {
-                // Try to drop one item from a stack (mouse right click, right shoulder?)
-                if (inventory.InventoryItems[selectedSlot].IsStackable())
-                {
+                if (selectedSlot == -1)
+                    return;
 
+                Item currentItem = inventory.InventoryItems[currentSlot];
+                Item selectedItem = inventory.InventoryItems[selectedSlot];
+
+                // Try to drop one item from a stack (mouse right click, right shoulder?)
+                if (selectedItem.IsStackable() && selectedItem.Quantity > 0)//1)
+                {
+                    // SHOULD this be worked out from mouse / cursor position?
+                    if (currentSlot != -1)
+                    {
+                        if (currentItem.ItemId == selectedItem.ItemId
+                            && currentItem.HasFreeSpace())
+                        {
+                            // Update the quantities of both items
+                            selectedItem.DecreaseQuantity(1);
+                            currentItem.IncreaseQuantity(1);
+                        }
+                    }
+                    else
+                    {
+                        // Drop items on the in-game ground
+                    }
                 }
             }
         }
@@ -214,6 +241,8 @@ namespace AdventureGame
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))// or Escape
             {
+                // IsMouseVisible = false;
+                // cursor
                 EngineGlobals.sceneManager.PopScene();
             }
 
@@ -230,6 +259,17 @@ namespace AdventureGame
                 ChangeCurrentSlot("Left");
             if (EngineGlobals.inputManager.IsPressed(Globals.rightInput))
                 ChangeCurrentSlot("Right");
+
+            if (EngineGlobals.inputManager.IsReleased(Globals.primaryCursorInput)) // SelectInput?
+            {
+                Console.WriteLine("Primary cursor input");
+            }
+
+            if (EngineGlobals.inputManager.IsPressed(Globals.secondaryCursorInput)) // SelectInput?
+            {
+                // right click / right shoulder?
+                Console.WriteLine("Secondary cursor input");
+            }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.interactInput))
             {
