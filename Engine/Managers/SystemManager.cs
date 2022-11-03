@@ -35,6 +35,7 @@ namespace AdventureGame.Engine
             // Add all builtin systems
             AddSystem(new InputSystem());
             AddSystem(new PhysicsSystem());
+            AddSystem(new ClickableSystem());
             AddSystem(new MapCollisionSystem());
             AddSystem(new CollisionSystem());
             AddSystem(new CollisionResponseSystem());

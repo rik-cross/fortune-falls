@@ -167,10 +167,10 @@ namespace AdventureGame.Engine
             Padding = padding;
             this.alpha = alpha;
             this.visible = visible;
-            //hasAnchorParent = anchorParent != default;
+            hasAnchorParent = anchorParent != default;
 
-            if (anchorParent == default)
-                AnchorParent = new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
+            //if (anchorParent == default)
+            //    AnchorParent = new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
         }
 
         protected void SetAnchorParent(Rectangle anchorParent)
@@ -179,8 +179,17 @@ namespace AdventureGame.Engine
             hasAnchorParent = anchorParent != default;
         }
 
+        protected void ClearAnchorParent()
+        {
+            AnchorParent = default;
+            hasAnchorParent = false;
+        }
+
         protected void CalculateAnchors()
         {
+            if (!hasAnchorParent)
+                return;
+
             // CHANGE so that if (!hasAnchorParent)
             // the object is anchored based on the object's center point
 

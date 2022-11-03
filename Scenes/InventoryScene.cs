@@ -28,6 +28,8 @@ namespace AdventureGame
         int selectedSlot;
         bool isSelected;
         int iconWidth, iconHeight, iconPadding;
+        Texture2D cursorTexture;
+        Vector2 cursorPosition;
 
         public override void Init()
         {
@@ -71,6 +73,9 @@ namespace AdventureGame
             iconHeight = slotHeight - (slotBorder + iconPadding) * 2;
 
             //Game1.IsMouseVisible = true;
+            cursorTexture = Globals.content.Load<Texture2D>("cursor");
+            MouseState mouseState = Mouse.GetState();
+            cursorPosition = new Vector2(mouseState.X, mouseState.Y);
         }
 
         public void ChangeCurrentSlot(string direction)
@@ -199,9 +204,8 @@ namespace AdventureGame
                     inventory.InventoryItems[selectedSlot] = tempItem; // selectedItem??
                 }
 
-                // Clear the selected and current slot
+                // Clear the selected slot
                 selectedSlot = -1;
-                currentSlot = -1;
             }
         }
 
@@ -215,13 +219,24 @@ namespace AdventureGame
                 Item currentItem = inventory.InventoryItems[currentSlot];
                 Item selectedItem = inventory.InventoryItems[selectedSlot];
 
+                if (selectedItem == null)
+                    return;
+
                 // Try to drop one item from a stack (mouse right click, right shoulder?)
                 if (selectedItem.IsStackable() && selectedItem.Quantity > 0)//1)
                 {
                     // SHOULD this be worked out from mouse / cursor position?
                     if (currentSlot != -1)
                     {
-                        if (currentItem.ItemId == selectedItem.ItemId
+                        if (currentItem == null)
+                        {
+                            // Create a copy of the item with a quantity of one
+                            Item copiedItem = new Item(selectedItem);
+                            copiedItem.Quantity = 1;
+                            inventory.InventoryItems[currentSlot] = copiedItem;
+                            selectedItem.DecreaseQuantity(1);
+                        }
+                        else if (currentItem.ItemId == selectedItem.ItemId
                             && currentItem.HasFreeSpace())
                         {
                             // Update the quantities of both items
@@ -241,10 +256,36 @@ namespace AdventureGame
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))// or Escape
             {
-                // IsMouseVisible = false;
-                // cursor
+                EngineGlobals.inputManager.IsCursorVisible = false;
                 EngineGlobals.sceneManager.PopScene();
             }
+
+            EngineGlobals.inputManager.IsCursorVisible = true;
+
+            // Clickable system / clickable component?
+
+            MouseState mouseState = Mouse.GetState();
+            Point mousePoint = new Point(mouseState.X, mouseState.Y);
+            int mouseX = mouseState.X;
+            int mouseY = mouseState.Y;
+            cursorPosition = new Vector2(mouseState.X, mouseState.Y);
+
+            //Rectangle area = new Rectangle(mouseX, mouseY, 200, 200);
+            Rectangle area = new Rectangle(containerX, containerY, containerWidth, containerHeight);
+
+            // Check if the mouse position is inside the rectangle
+            if (EngineGlobals.inputManager.IsPressed(Globals.primaryCursorInput))
+            {
+                if (area.Contains(mousePoint))
+                {
+                    Console.WriteLine("Inside area");
+                }
+                else
+                {
+                    Console.WriteLine("Outside area");
+                }
+            }
+
 
             //IntentionComponent intentionComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<IntentionComponent>();
             //if (intentionComponent.up)
@@ -260,15 +301,21 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Globals.rightInput))
                 ChangeCurrentSlot("Right");
 
-            if (EngineGlobals.inputManager.IsReleased(Globals.primaryCursorInput)) // SelectInput?
+            // Need to work out how to differ between selecting / swapping items
+            // using the enter key
+            // and dragging items so that they can be placed and quantities dropped
+            // using the mouse / cursor
+
+            if (EngineGlobals.inputManager.IsPressed(Globals.primaryCursorInput))
             {
-                Console.WriteLine("Primary cursor input");
+                //Console.WriteLine("Primary cursor input");
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.secondaryCursorInput)) // SelectInput?
             {
                 // right click / right shoulder?
                 Console.WriteLine("Secondary cursor input");
+                DropOneItem();
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.interactInput))
@@ -431,8 +478,15 @@ namespace AdventureGame
                     }
 
                 }
-            }
 
+                // Should this be in another class with limits based on screen size?
+                // Draw the cursor image
+                Engine.Image2 cursor = new Engine.Image2(
+                    texture: EngineGlobals.inputManager.CursorTexture,
+                    position: EngineGlobals.inputManager.CursorPosition
+                );
+                cursor.Draw();
+            }
         }
 
     }

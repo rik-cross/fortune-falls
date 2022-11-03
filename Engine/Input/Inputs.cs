@@ -6,7 +6,7 @@ namespace AdventureGame.Engine
 {
     public class Inputs
     {
-
+        // ADD leftclick, rightclick, middleclick??
         public static InputMethod keyboard = new InputMethod(
             up: KeyboardInput.W,
             down: KeyboardInput.S,
