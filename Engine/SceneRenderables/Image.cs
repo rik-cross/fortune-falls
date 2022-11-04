@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
@@ -13,7 +9,7 @@ namespace AdventureGame.Engine
         private Texture2D texture;
         public Texture2D Texture { get => texture; set => texture = value; }
 
-        public Image(Texture2D texture, Vector2 size = default, Color tint = default, Vector2 position = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
+        public Image(Texture2D texture, Vector2 size = default, Color tint = default, Vector2 position = default, Anchor anchor = Anchor.none, Rectangle anchorParent = default, Padding padding = default, float alpha = 1.0f, bool visible = true) : base(position, anchor, anchorParent, padding, alpha, visible)
         {
             this.texture = texture;
 
@@ -25,7 +21,7 @@ namespace AdventureGame.Engine
                 this.size.Y = texture.Height;
             }
 
-            if (tint == default(Color))
+            if (tint == default)
                 this.tint = Color.White;
             else
                 this.tint = tint;
@@ -39,10 +35,14 @@ namespace AdventureGame.Engine
                 return;
 
             Globals.spriteBatch.Draw(
-                this.texture,
+                texture,
                 new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
                 tint * alpha
             );
+            /*
+            Globals.spriteBatch.DrawRectangle(
+                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
+                Color.BlueViolet, 1);*/
         }
     }
 }

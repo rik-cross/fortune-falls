@@ -460,7 +460,7 @@ namespace AdventureGame
                     itemImage.Draw();*/
 
                     // Draw the item image
-                    Engine.Image2 itemImage2 = new Engine.Image2(
+                    Engine.Image itemImage2 = new Engine.Image(
                         texture: texture,
                         size: new Vector2(iconWidth, iconHeight),
                         anchor: Anchor.middlecenter,
@@ -471,7 +471,7 @@ namespace AdventureGame
                     // Draw the quantity if applicable
                     if (item.IsStackable())
                     {
-                        Text2 quantity = new Engine.Text2(
+                        Text quantity = new Engine.Text(
                             caption: "x" + item.Quantity.ToString(),
                             font: Theme.tertiaryFont,
                             colour: Theme.primaryText,
@@ -527,7 +527,7 @@ namespace AdventureGame
 
                 // Should this be in another class e.g. InputManager or ClickableSystem?
                 // Draw the cursor image
-                Engine.Image2 cursor = new Engine.Image2(
+                Engine.Image cursor = new Engine.Image(
                     texture: EngineGlobals.inputManager.CursorTexture,
                     position: EngineGlobals.inputManager.CursorPosition
                 );

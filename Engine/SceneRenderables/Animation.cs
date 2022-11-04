@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
+
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
+
 namespace AdventureGame.Engine
 {
     class Animation : SceneRenderable
@@ -17,7 +19,7 @@ namespace AdventureGame.Engine
         public bool play;
         public bool reverse;
 
-        public Animation(List<Texture2D> textureList, Vector2 size = default, int animationDelay = 8, Color tint = default, bool loop = true, bool play = true, bool reverse = false, Vector2 position = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
+        public Animation(List<Texture2D> textureList, Vector2 size = default, int animationDelay = 8, Color tint = default, bool loop = true, bool play = true, bool reverse = false, Vector2 position = default, Anchor anchor = Anchor.none, Rectangle anchorParent = default, Padding padding = default, float alpha = 1.0f, bool visible = true) : base(position, anchor, anchorParent, padding, alpha, visible)
         {
             this.textureList = textureList;
 
@@ -124,6 +126,10 @@ namespace AdventureGame.Engine
                 new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
                 tint * alpha
             );
+
+            Globals.spriteBatch.DrawRectangle(
+                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
+                Color.BlueViolet, 1);
         }
     }
 }

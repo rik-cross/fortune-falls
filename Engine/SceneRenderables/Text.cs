@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
@@ -20,7 +18,7 @@ namespace AdventureGame.Engine
         private SpriteFont font;
         public Color colour;
 
-        public Text(string caption, Vector2 position = default, SpriteFont font = null, Color colour = default, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true) : base(position, anchor, alpha, visible)
+        public Text(string caption, Vector2 position = default, SpriteFont font = null, Color colour = default, Anchor anchor = Anchor.none, Rectangle anchorParent = default, Padding padding = default, float alpha = 1.0f, bool visible = true) : base(position, anchor, anchorParent, padding, alpha, visible)
         {
             _caption = caption;
 
@@ -45,6 +43,10 @@ namespace AdventureGame.Engine
                 return;
 
             Globals.spriteBatch.DrawString(font, _caption, position, colour * alpha);
+            /*
+            Globals.spriteBatch.DrawRectangle(
+                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
+                Color.BlueViolet, 1);*/
         }
 
         public void AdjustSize()
@@ -56,7 +58,7 @@ namespace AdventureGame.Engine
             size.Y = font.MeasureString(_caption).Y;
             double diffX = size.X - oldX;
             double diffY = size.Y - oldY;
-
+            /*
             // adjust for center
             if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
                 position.X -= (float)(diffX / 2);
@@ -69,7 +71,7 @@ namespace AdventureGame.Engine
             // adjust for bottom
             if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
                 position.Y -= (float)(diffY);
-
+            */
         }
 
     }

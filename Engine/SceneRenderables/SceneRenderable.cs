@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
-
+using System;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
-
     public enum Anchor
     {
-        topleft,
+        none,
+        topleft, // CHANGE to TopLeft etc.
         topcenter,
         topright,
         middleleft,
@@ -22,16 +19,37 @@ namespace AdventureGame.Engine
         bottomright
     }
 
+    public struct Padding // readonly?
+    {
+        public int Top { get; set; }
+        public int Bottom { get; set; }
+        public int Left { get; set; }
+        public int Right { get; set; }
+
+        public Padding(int top = 0, int bottom = 0, int left = 0, int right = 0)
+        {
+            Top = top;
+            Bottom = bottom;
+            Left = left;
+            Right = right;
+        }
+    }
+
     public class SceneRenderable
     {
-
-        protected Vector2 position;
+        public Vector2 position; // CHANGE to Properites, protected set?
         protected Vector2 size;
         protected Anchor anchor;
+        protected Rectangle AnchorParent { get; set; }
+        protected Padding Padding { get; set; }
+        private bool hasAnchorParent;
         public float alpha;
         public bool visible;
 
-        public Vector2 Size { get => size; set => size = value; }
+        // Instead of Anchor, use RelativePosition??
+        // e.g. if position = center then adjust x,y to top left
+
+        public Vector2 Size { get; protected set; }
 
         public float Width
         {
@@ -51,6 +69,7 @@ namespace AdventureGame.Engine
             set { Rectangle = value; }
         }
 
+        // CHANGE to Top, Bottom, Left, Right, Center?? set the X or Y
         public float Left
         {
             get { return position.X; }
@@ -136,28 +155,78 @@ namespace AdventureGame.Engine
             }
         }
 
-        public SceneRenderable(Vector2 position, Anchor anchor = Anchor.topleft, float alpha = 1.0f, bool visible = true)
+        public SceneRenderable(Vector2 position = default, Anchor anchor = Anchor.none,
+            Rectangle anchorParent = default, Padding padding = default,
+            float alpha = 1.0f, bool visible = true)
         {
             this.position = position;
             this.anchor = anchor;
+            AnchorParent = anchorParent;
+            Padding = padding;
             this.alpha = alpha;
             this.visible = visible;
+            hasAnchorParent = anchorParent != default;
+            // isDefaultAnchorParent ...
+
+            if (anchorParent == default && anchor != Anchor.none)
+                AnchorParent = new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
+            else if (anchorParent != default && anchor == Anchor.none)
+                this.anchor = Anchor.topleft;
+            //else if (anchor != Anchor.none && position == default)
+                // Set AnchorParent to screen and anchor to topleft??
+
+            // What to do if both position and anchors are set?
+            // Which one takes preference or should the position be set relative to the anchor point?
+
+        }
+
+        protected void SetAnchorParent(Rectangle anchorParent, Anchor anchor = Anchor.none)
+        {
+            AnchorParent = anchorParent;
+            hasAnchorParent = anchorParent != default;
+            if (anchor != Anchor.none)
+                this.anchor = anchor;
+        }
+
+        protected void ClearAnchorParent()
+        {
+            // CHECK anchor
+            AnchorParent = default;
+            hasAnchorParent = false;
+            anchor = Anchor.none; // ??
         }
 
         protected void CalculateAnchors()
         {
+            //if (!hasAnchorParent)
+            //    return;
+
+            // CHANGE so that if (!hasAnchorParent)
+            // the object is anchored based on the screen
+
+            // if (anchor.HasFlag(Anchor.left))
+            // anchor to the parent's left
+            if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
+                position.X = AnchorParent.X;
             // adjust for center
             if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
-                position.X -= size.X / 2;
+                position.X = AnchorParent.X + (AnchorParent.Width / 2) - (Width / 2);
             // adjust for right
             if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
-                position.X -= size.X;
+                position.X = AnchorParent.X + AnchorParent.Width - Width;
+            position.X += Padding.Left - Padding.Right;
+
+            // anchor to the parent's top
+            if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
+                position.Y = AnchorParent.Y;
             // adjust for middle
             if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
-                position.Y -= size.Y / 2;
+                position.Y = AnchorParent.Y + (AnchorParent.Height / 2) - (Height / 2);
             // adjust for bottom
             if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
-                position.Y -= size.Y;
+                position.Y = AnchorParent.Y + AnchorParent.Height - Height;
+            position.Y += Padding.Top - Padding.Bottom;
+
         }
 
         public virtual void Update() { }

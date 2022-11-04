@@ -10,11 +10,10 @@ namespace AdventureGame
     {
 
         private Engine.Text title;
-        private Engine.Text2 title2;
         private Engine.Image controllerImage;
         private Engine.Image keyboardImage;
-        private Engine.Animation2 controllerButton;
-        private Engine.Animation2 keyboardButton;
+        private Engine.Animation controllerButton;
+        private Engine.Animation keyboardButton;
         private Engine.Animation testAnimation;
 
         public MenuScene()
@@ -22,10 +21,12 @@ namespace AdventureGame
             // title text
             title = new Engine.Text(
                 caption: "Game Title!",
-                position: new Vector2(Globals.ScreenWidth / 2, 200),
+                //position: new Vector2(Globals.ScreenWidth / 2, 200),
                 font: Theme.primaryFont,
                 colour: Theme.tertiaryText,
-                anchor: Anchor.middlecenter
+                //anchor: Anchor.middlecenter
+                anchor: Anchor.topcenter,
+                padding: new Padding(top: 200)
             );
 
             // get alpha values based on current player input type
@@ -36,17 +37,21 @@ namespace AdventureGame
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
                 keyboardAlpha = 1.0f;
 
+            // ADD the controller and keyboard assets to a parent container?
+
             // control images
             controllerImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("X360"),
-                position: new Vector2((Globals.ScreenWidth / 2) + 100, Globals.ScreenHeight - 150),
+                //position: new Vector2((Globals.ScreenWidth / 2) + 100, Globals.ScreenHeight - 150),
                 anchor: Anchor.middlecenter,
+                padding: new Padding(left: 100, top: 130),
                 alpha: controllerAlpha
             );
             keyboardImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("Keyboard"),
-                position: new Vector2((Globals.ScreenWidth / 2) - 100, Globals.ScreenHeight - 150),
+                //position: new Vector2((Globals.ScreenWidth / 2) - 100, Globals.ScreenHeight - 150),
                 anchor: Anchor.middlecenter,
+                padding: new Padding(right: 100, top: 130),
                 alpha: keyboardAlpha
             );
 
@@ -65,7 +70,7 @@ namespace AdventureGame
                 loop: false,
                 play: false
             );*/
-            controllerButton = new Engine.Animation2(
+            controllerButton = new Engine.Animation(
                 new List<Texture2D> {
                     controllerSpritesheet.GetSubTexture(0,1),
                     controllerSpritesheet.GetSubTexture(1,1),
@@ -95,7 +100,7 @@ namespace AdventureGame
                 loop: false,
                 play: false
             );*/
-            keyboardButton = new Engine.Animation2(
+            keyboardButton = new Engine.Animation(
                 new List<Texture2D> {
                     enterKeySpritesheet.GetSubTexture(0,0),
                     enterKeySpritesheet.GetSubTexture(1,0),
@@ -119,23 +124,10 @@ namespace AdventureGame
                     Globals.playerSpriteSheet.GetSubTexture(8,4),
                     Globals.playerSpriteSheet.GetSubTexture(7,4)
                 },
-                position: new Vector2(Globals.ScreenWidth / 2, Globals.ScreenHeight - 350),
+                //position: new Vector2(Globals.ScreenWidth / 2, Globals.ScreenHeight - 350),
                 size: new Vector2(26*4,36*4),
                 anchor: Anchor.middlecenter,
                 animationDelay: 12
-            );
-
-            //TransformComponent player = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>();
-            // TESTING
-            title2 = new Engine.Text2(
-                caption: "Game Title!",
-                //position: new Vector2(Globals.ScreenWidth / 2, 200),
-                font: Theme.primaryFont,
-                colour: Theme.tertiaryText,
-                anchor: Anchor.topcenter,
-                //anchorParent: new Rectangle((int)player.position.X, (int)player.position.Y, (int)player.size.X, (int)player.size.Y)
-                anchorParent: testAnimation.Rectangle
-            //padding: new Padding(top: 200)
             );
 
         }
@@ -229,7 +221,6 @@ namespace AdventureGame
         public override void Draw(GameTime gameTime)
         {
             title.Draw();
-            //title2.Draw();
             controllerImage.Draw();
             keyboardImage.Draw();
             controllerButton.Draw();
