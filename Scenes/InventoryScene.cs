@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using AdventureGame.Engine;
+﻿using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
 using MonoGame.Extended;
+
+using System;
 
 namespace AdventureGame
 {
@@ -18,18 +14,21 @@ namespace AdventureGame
         // e.g. InventorySystem??
         Entity player; // CHANGE to entity for generic use
         InventoryComponent inventory;
+
         int inventorySize, columns, rows;
+
         double containerRelativeSize;
         int containerWidth, containerHeight, containerBorder;
         int containerX, containerY, innerX, innerY;
+
+        Rectangle[] clickableSlots;
         double slotSizeRatio;
         int slotWidth, slotHeight, slotPadding, slotBorder;
         int currentSlot, currentSlotBorder;
         int selectedSlot;
-        bool isSelected;
+        bool isSlotSelected, isItemDragged;
+
         int iconWidth, iconHeight, iconPadding;
-        Texture2D cursorTexture;
-        Vector2 cursorPosition;
 
         public override void Init()
         {
@@ -57,6 +56,7 @@ namespace AdventureGame
             innerX = containerX + containerBorder;
             innerY = containerY + containerBorder;
 
+            clickableSlots = new Rectangle[inventorySize];
             slotSizeRatio = 1.0; // 1.2;
             slotPadding = 10;
             //slotWidth = Math.Min((containerWidth - containerBorder - slotPadding * (columns + 1)) / columns, (containerHeight - containerBorder - slotPadding * (rows + 1)) / rows);
@@ -66,16 +66,12 @@ namespace AdventureGame
             currentSlot = 0;
             currentSlotBorder = Theme.mediumBorder;
             selectedSlot = -1;
-            isSelected = false;
+            isSlotSelected = false;
+            isItemDragged = false;
 
             iconPadding = 10;
             iconWidth = slotWidth - (slotBorder + iconPadding) * 2 ;
             iconHeight = slotHeight - (slotBorder + iconPadding) * 2;
-
-            //Game1.IsMouseVisible = true;
-            cursorTexture = Globals.content.Load<Texture2D>("cursor");
-            MouseState mouseState = Mouse.GetState();
-            cursorPosition = new Vector2(mouseState.X, mouseState.Y);
         }
 
         public void ChangeCurrentSlot(string direction)
@@ -138,15 +134,13 @@ namespace AdventureGame
                 currentSlot = 0;
             else if (currentSlot > inventorySize - 1)
                 currentSlot = inventorySize - 1;
-
-            //Console.WriteLine($"Selected slot is now {selectedSlot}");
         }
 
         public void InteractWithSlot(bool splitStack = false)
         {
-            isSelected = !isSelected; // Toggle on/off
+            isSlotSelected = !isSlotSelected; // Toggle on/off
 
-            if (isSelected)
+            if (isSlotSelected)
             {
                 selectedSlot = currentSlot;
             }
@@ -211,7 +205,7 @@ namespace AdventureGame
 
         public void DropOneItem()
         {
-            if (isSelected)
+            if (isSlotSelected)
             {
                 if (selectedSlot == -1)
                     return;
@@ -252,6 +246,40 @@ namespace AdventureGame
             }
         }
 
+        public void DragItem(int itemIndex)
+        {
+            // Return if an item is already being dragged
+            if (isItemDragged)
+                return;
+
+            isItemDragged = true;
+
+            // Flag the inventory item not to be drawn but do not remove it yet
+
+            // Set the cursor item
+
+
+            isSlotSelected = !isSlotSelected; // Toggle on/off
+
+            if (isSlotSelected)
+            {
+                selectedSlot = currentSlot;
+            }
+            else
+            {
+            }
+        }
+
+        public void DropItem()
+        {
+
+        }
+
+        public void CancelDraggedItem()
+        {
+            // On escape key or Button.B ??
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))// or Escape
@@ -262,35 +290,11 @@ namespace AdventureGame
 
             EngineGlobals.inputManager.IsCursorVisible = true;
 
-            // Clickable system / clickable component?
-
-            MouseState mouseState = Mouse.GetState();
-            Point mousePoint = new Point(mouseState.X, mouseState.Y);
-            int mouseX = mouseState.X;
-            int mouseY = mouseState.Y;
-            cursorPosition = new Vector2(mouseState.X, mouseState.Y);
-
-            //Rectangle area = new Rectangle(mouseX, mouseY, 200, 200);
-            Rectangle area = new Rectangle(containerX, containerY, containerWidth, containerHeight);
-
-            // Check if the mouse position is inside the rectangle
-            if (EngineGlobals.inputManager.IsPressed(Globals.primaryCursorInput))
-            {
-                if (area.Contains(mousePoint))
-                {
-                    Console.WriteLine("Inside area");
-                }
-                else
-                {
-                    Console.WriteLine("Outside area");
-                }
-            }
-
-
             //IntentionComponent intentionComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<IntentionComponent>();
             //if (intentionComponent.up)
 
             // CHANGE to Keys.Up etc instead of WASD?
+            // CHANGE Up to DPadUp?
             if (EngineGlobals.inputManager.IsPressed(Globals.upInput))
                 // && EngineGlobals.sceneManager.transition == null) // needed?
                 ChangeCurrentSlot("Up");
@@ -306,9 +310,48 @@ namespace AdventureGame
             // and dragging items so that they can be placed and quantities dropped
             // using the mouse / cursor
 
+            // Check whether the mouse or controller left thumbstick is moving
+            // If so, set currentSlot = -1 (unless?)
+
+            // Check whether WASD or DPad has been used
+            // If so, set currentSlot = 0 OR currentSlot = previousCurrentSlot
+
             if (EngineGlobals.inputManager.IsPressed(Globals.primaryCursorInput))
             {
                 //Console.WriteLine("Primary cursor input");
+
+                Rectangle slot;
+                for (int i = 0; i < clickableSlots.Length; i++)
+                {
+                    slot = clickableSlots[i];
+                    if (slot.Contains(EngineGlobals.inputManager.CursorPosition))
+                    {
+                        Console.WriteLine($"Clicked slot {i}");
+
+                        // split stack using shift, left shoulder?
+                        bool splitStack = EngineGlobals.inputManager.IsDown(Globals.button2Input);
+                        selectedSlot = i;
+                        InteractWithSlot(splitStack);
+
+                        break;
+                    }
+                }
+            }
+
+            if (EngineGlobals.inputManager.IsDown(Globals.primaryCursorInput))
+            {
+                //Console.WriteLine("Primary cursor input");
+
+                Rectangle slot;
+                for (int i = 0; i < clickableSlots.Length; i++)
+                {
+                    slot = clickableSlots[i];
+                    if (slot.Contains(EngineGlobals.inputManager.CursorPosition))
+                    {
+                        //Console.WriteLine($"Click and drag slot {i}");
+                        break;
+                    }
+                }
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.secondaryCursorInput)) // SelectInput?
@@ -386,8 +429,11 @@ namespace AdventureGame
                         thickness: currentSlotBorder);
                 }
 
-                // Should a new entity be created for each Item?
-                // e.g. Sprite, Durability/Life/Health, Quantity
+                // Add the slot rectangle to the clickable array
+                clickableSlots[i] = slotRectangle;
+
+                // Should a new entity be created for each item?
+                // e.g. Sprite, Item, Clickable
                 // Draw the item if it exists
                 Item item = inventory.InventoryItems[i];
                 if (item != null)
@@ -479,7 +525,7 @@ namespace AdventureGame
 
                 }
 
-                // Should this be in another class with limits based on screen size?
+                // Should this be in another class e.g. InputManager or ClickableSystem?
                 // Draw the cursor image
                 Engine.Image2 cursor = new Engine.Image2(
                     texture: EngineGlobals.inputManager.CursorTexture,

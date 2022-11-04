@@ -8,44 +8,17 @@ namespace AdventureGame.Engine
 {
     public class ClickableSystem : System
     {
-        //Texture2D cursorTexture;
-        //Vector2 cursorPosition;
-        // bool IsCursorVisible; // here or Globals??
-
         public ClickableSystem()
         {
             RequiredComponent<ClickableComponent>();
-            //RequiredComponent<InputComponent>();
             RequiredComponent<TransformComponent>();
-
-            //cursorTexture = Globals.content.Load<Texture2D>("cursor");
-            //Inputs input = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input;
-            // Engine.Inputs.controller
-
-            //InputComponent inputComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>();
-            //InputMethod input = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input;
-        }
-
-        public override void Update(GameTime gameTime, Scene scene)
-        {
-            //InputComponent input = GetComponent<InputComponent>().input = Engine.Inputs.controller;
-
-            // CHECK whether mouse OR controller is set up??
-
-            //MouseState mouseState = Mouse.GetState();
-            //cursorPosition = new Vector2(mouseState.X, mouseState.Y);
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            
-            // if (mouse != null)
-
-            // if (controller != null)
-
             Rectangle clickableArea = transformComponent.GetRectangle();
-
+            /*
             // Check if the mouse position is inside the rectangle
             if (EngineGlobals.inputManager.IsPressed(Globals.primaryCursorInput))
             {
@@ -57,7 +30,7 @@ namespace AdventureGame.Engine
                 {
                     Console.WriteLine("Outside area");
                 }
-            }
+            }*/
         }
 
         public override void Draw(GameTime gameTime, Scene scene)

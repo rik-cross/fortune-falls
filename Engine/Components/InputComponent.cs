@@ -14,6 +14,8 @@ namespace AdventureGame.Engine
         // input controller
         public Action<Entity> inputControllerPointer;
 
+        // STACK! public Action<Entity> inputControllerPointerStack;
+
         public InputComponent(
                     InputMethod input,
                     Action<Entity> inputControllerPointer

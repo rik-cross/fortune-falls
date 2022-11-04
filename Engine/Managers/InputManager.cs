@@ -192,6 +192,7 @@ namespace AdventureGame.Engine
                 float cursorSpeed = 10.0f;
 
                 //if (IsDown(Buttons.LeftThumbstickUp))
+                //if (IsDown(Globals.upInput))
 
                 if (GetThumbstickDirection() == "Up")
                     newY -= cursorSpeed;
