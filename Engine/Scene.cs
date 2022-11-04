@@ -374,12 +374,14 @@ namespace AdventureGame.Engine
 
             }
 
+            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             // draw each system
             foreach (System s in EngineGlobals.systemManager.systems)
             {
                 // main system draw
                 s.Draw(gameTime, this);
             }
+            Globals.spriteBatch.End();
 
             // draw the scene
             Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);

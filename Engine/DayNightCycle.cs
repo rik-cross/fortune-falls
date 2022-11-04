@@ -22,7 +22,10 @@ namespace AdventureGame.Engine
         
         public static List<int> lightTimes;
         public static Dictionary<int, double> lightLevels;
-        
+
+        public static Texture2D dayNight;
+        public static Texture2D dayNightOverlay;
+
         static DayNightCycle()
         {
             day = 1;
@@ -55,6 +58,8 @@ namespace AdventureGame.Engine
                 { 100, 0.1f }
             };
 
+            dayNight = Globals.content.Load<Texture2D>("daynight");
+            dayNightOverlay = Globals.content.Load<Texture2D>("daynightoverlay");
         }
 
         public static void Update(GameTime gameTime)
@@ -107,8 +112,6 @@ namespace AdventureGame.Engine
 
         public static void Draw(GameTime gameTime)
         {
-            Texture2D dayNight = Globals.content.Load<Texture2D>("daynight");
-            Texture2D dayNightOverlay = Globals.content.Load<Texture2D>("daynightoverlay");
             Globals.spriteBatch.Draw(dayNightOverlay, new Rectangle(740, 10, 50, 50), Color.White);
             Globals.spriteBatch.Draw(dayNight, new Vector2(765, 35), null, Color.White, (float)((Math.PI * 2) / 100 * GetPercentage()), new Vector2(25, 25), 1, SpriteEffects.None, 0);
             

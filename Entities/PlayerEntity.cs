@@ -109,7 +109,7 @@ namespace AdventureGame
 
 
         // Maps the input controller to the player
-        public static void PlayerInputController(Engine.Entity entity)
+        public static void PlayerInputController(Entity entity)
         {
 
             Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();

@@ -77,7 +77,7 @@ namespace AdventureGame.Engine
             // Use PlayerManager instead??
             foreach (Entity e in entities)
             {
-                if (e.Tags.Id == "localPlayer")
+                if (e.Tags.Id == "localPlayer") // Use Type instead??
                     return e;
             }
             return null;

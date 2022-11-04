@@ -67,7 +67,7 @@ namespace AdventureGame.Engine
             // be combined or kept separate? (depending on item type?)
 
             int quantity = item.Quantity;
-            Console.WriteLine($"\nCollect item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
+            //Console.WriteLine($"\nCollect item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
 
             // Check if the item doesn't hold the maximum quantity already
             if (quantity < item.StackSize)
@@ -76,19 +76,18 @@ namespace AdventureGame.Engine
                 for (int i = 0; i < inventoryItems.Length; i++)
                 {
                     Item currentItem = inventoryItems[i];
-                    Console.WriteLine($"Checking inventory slot {i}");
+                    //Console.WriteLine($"Checking inventory slot {i}");
 
                     if (currentItem != null)
                     {
-                        if (currentItem.ItemId == item.ItemId
-                            && currentItem.Quantity < currentItem.StackSize)
+                        if (currentItem.ItemId == item.ItemId && currentItem.HasFreeSpace())
                         {
                             if (currentItem.Quantity + quantity <= currentItem.StackSize)
                             {
                                 // The quantity can be added to the current item
                                 inventoryItems[i].IncreaseQuantity(quantity);
-                                Console.WriteLine($"Adding ALL {quantity} to slot {i}");
-                                Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
+                                //Console.WriteLine($"Adding ALL {quantity} to slot {i}");
+                                //Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
 
                                 return DeleteItem(item);
                             }
@@ -102,9 +101,9 @@ namespace AdventureGame.Engine
                                 // Reduce the quantity of the original Item
                                 item.Quantity -= availableSpace;
 
-                                Console.WriteLine($"Adding {availableSpace} to slot {i}");
-                                Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
-                                Console.WriteLine($"Quantity remaining is {quantity}");
+                                //Console.WriteLine($"Adding {availableSpace} to slot {i}");
+                                //Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
+                                //Console.WriteLine($"Quantity remaining is {quantity}");
                             }
                         }
                     }
@@ -121,7 +120,7 @@ namespace AdventureGame.Engine
                     // Make a copy of the item's properties and update the quantity
                     inventoryItems[nextSlot] = new Item(item);
                     inventoryItems[nextSlot].Quantity = quantity; // Is this bad?? :P
-                    Console.WriteLine($"Adding item with quantity {quantity} to slot {nextSlot}");
+                    //Console.WriteLine($"Adding item with quantity {quantity} to slot {nextSlot}");
 
                     return DeleteItem(item);
                 }

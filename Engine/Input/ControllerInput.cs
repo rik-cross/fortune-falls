@@ -15,7 +15,9 @@ namespace AdventureGame.Engine
         public static InputItem Back = new InputItem(button: Buttons.Back);
 
         public static InputItem LeftShoulder = new InputItem(button: Buttons.LeftShoulder);
+        public static InputItem LeftTrigger = new InputItem(button: Buttons.LeftTrigger);
         public static InputItem RightShoulder = new InputItem(button: Buttons.RightShoulder);
+        public static InputItem RightTrigger = new InputItem(button: Buttons.RightTrigger);
 
         public static InputItem A = new InputItem(button: Buttons.A);
         public static InputItem B = new InputItem(button: Buttons.B);
@@ -23,9 +25,14 @@ namespace AdventureGame.Engine
         public static InputItem Y = new InputItem(button: Buttons.Y);
 
         public static InputItem LeftThumbUp = new InputItem(button: Buttons.LeftThumbstickUp);
+        public static InputItem LeftThumbDown = new InputItem(button: Buttons.LeftThumbstickDown);
         public static InputItem LeftThumbLeft = new InputItem(button: Buttons.LeftThumbstickLeft);
         public static InputItem LeftThumbRight = new InputItem(button: Buttons.LeftThumbstickRight);
-        public static InputItem LeftThumbDown = new InputItem(button: Buttons.LeftThumbstickDown);
+
+        public static InputItem DPadUp = new InputItem(button: Buttons.DPadUp);
+        public static InputItem DPadDown = new InputItem(button: Buttons.DPadDown);
+        public static InputItem DPadLeft = new InputItem(button: Buttons.DPadLeft);
+        public static InputItem DPadRight = new InputItem(button: Buttons.DPadRight);
 
     }
 

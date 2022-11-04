@@ -35,6 +35,7 @@ namespace AdventureGame.Engine
             // Add all builtin systems
             AddSystem(new InputSystem());
             AddSystem(new PhysicsSystem());
+            AddSystem(new ClickableSystem());
             AddSystem(new MapCollisionSystem());
             AddSystem(new CollisionSystem());
             AddSystem(new CollisionResponseSystem());
@@ -46,7 +47,7 @@ namespace AdventureGame.Engine
             AddSystem(new AnimationSystem());
             AddSystem(new TextSystem());
             AddSystem(new LightSystem());
-            AddSystem(new ItemSystem());
+            AddSystem(new ItemCollectionSystem());
             AddSystem(new InventorySystem());
 
             // Register components and bit flags if they don't exist and
