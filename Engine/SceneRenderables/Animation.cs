@@ -9,107 +9,111 @@ namespace AdventureGame.Engine
 {
     class Animation : SceneRenderable
     {
+        private List<Texture2D> _textureList;
+        private int _animationDelay;
+        private int _textureTimer;
+        private int _textureIndex;
+        private Color _tint;
+        private bool _loop;
+        private bool _play;
+        private bool _reverse;
 
-        private List<Texture2D> textureList;
-        public int animationDelay;
-        private int textureTimer;
-        private int textureIndex;
-        public Color tint;
-        public bool loop;
-        public bool play;
-        public bool reverse;
-
-        public Animation(List<Texture2D> textureList, Vector2 size = default, int animationDelay = 8, Color tint = default, bool loop = true, bool play = true, bool reverse = false, Vector2 position = default, Anchor anchor = Anchor.none, Rectangle anchorParent = default, Padding padding = default, float alpha = 1.0f, bool visible = true) : base(position, anchor, anchorParent, padding, alpha, visible)
+        public Animation(List<Texture2D> textureList, Vector2 size = default, int animationDelay = 8, Color tint = default, bool loop = true, bool play = true, bool reverse = false, Vector2 position = default, Anchor anchor = Anchor.None, Rectangle anchorParent = default, Padding padding = default, float alpha = 1.0f, bool visible = true) : base(position, anchor, anchorParent, padding, alpha, visible)
         {
-            this.textureList = textureList;
+            _textureList = textureList;
 
             if (!reverse)
-                this.textureIndex = 0;
+                _textureIndex = 0;
             else
-                this.textureIndex = textureList.Count - 1;
+                _textureIndex = textureList.Count - 1;
 
-            this.animationDelay = animationDelay;
-            this.textureTimer = 0;
+            _animationDelay = animationDelay;
+            _textureTimer = 0;
 
             if (size != default)
-                this.size = size;
+                Size = size;
             else
             {
-                this.size.X = textureList[0].Width;
-                this.size.Y = textureList[0].Height;
+                Size.X = textureList[0].Width;
+                Size.Y = textureList[0].Height;
             }
 
             if (tint == default(Color))
-                this.tint = Color.White;
+                _tint = Color.White;
             else
-                this.tint = tint;
+                _tint = tint;
 
-            this.loop = loop;
-            this.play = play;
-            this.reverse = reverse;
+            _loop = loop;
+            _play = play;
+            _reverse = reverse;
 
             CalculateAnchors();
         }
 
-        public void Play() { play = true; }
-        public void Pause() { play = false; }
+        public void Play() { _play = true; }
+        public void Pause() { _play = false; }
+
         public void Stop()
         {
-            play = false;
+            _play = false;
             Reset();
         }
 
-
         public void Reset()
         {
-            textureTimer = 0;
-            if (!reverse)
-                textureIndex = 0;
+            _textureTimer = 0;
+            if (!_reverse)
+                _textureIndex = 0;
             else
-                textureIndex = textureList.Count - 1;
+                _textureIndex = _textureList.Count - 1;
+        }
+
+        public void Reverse(bool reverse)
+        {
+            _reverse = reverse;
         }
 
         public override void Update()
         {
 
-            if (!play)
+            if (!_play)
                 return;
 
-            textureTimer += 1;
+            _textureTimer += 1;
 
-            if (!reverse)
+            if (!_reverse)
             {
-                if (textureIndex == textureList.Count - 1 && !loop)
+                if (_textureIndex == _textureList.Count - 1 && !_loop)
                 {
                     //textureTimer = 0;
-                    play = false;
+                    _play = false;
                 }
                 else
                 {
-                    if (textureTimer >= animationDelay)
+                    if (_textureTimer >= _animationDelay)
                     {
-                        textureTimer = 0;
-                        textureIndex += 1;
-                        if (textureIndex > textureList.Count - 1)
-                            textureIndex = 0;
+                        _textureTimer = 0;
+                        _textureIndex += 1;
+                        if (_textureIndex > _textureList.Count - 1)
+                            _textureIndex = 0;
                     }
                 }
             }
             else
             {
-                if (textureIndex == 0 && !loop)
+                if (_textureIndex == 0 && !_loop)
                 {
                     //textureTimer = 0;
-                    play = false;
+                    _play = false;
                 }
                 else
                 {
-                    if (textureTimer >= animationDelay)
+                    if (_textureTimer >= _animationDelay)
                     {
-                        textureTimer = 0;
-                        textureIndex -= 1;
-                        if (textureIndex < 0)
-                            textureIndex = textureList.Count - 1;
+                        _textureTimer = 0;
+                        _textureIndex -= 1;
+                        if (_textureIndex < 0)
+                            _textureIndex = _textureList.Count - 1;
                     }
                 }
             }
@@ -118,17 +122,18 @@ namespace AdventureGame.Engine
 
         public override void Draw()
         {
-            if (!visible)
+            if (!Visible)
                 return;
 
             Globals.spriteBatch.Draw(
-                textureList[textureIndex],
-                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
-                tint * alpha
+                _textureList[_textureIndex],
+                new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y),
+                _tint * Alpha
             );
 
+            // Testing
             Globals.spriteBatch.DrawRectangle(
-                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
+                new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y),
                 Color.BlueViolet, 1);
         }
     }

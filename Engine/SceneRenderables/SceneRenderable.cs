@@ -7,16 +7,16 @@ namespace AdventureGame.Engine
 {
     public enum Anchor
     {
-        none,
-        topleft, // CHANGE to TopLeft etc.
-        topcenter,
-        topright,
-        middleleft,
-        middlecenter,
-        middleright,
-        bottomleft,
-        bottomcenter,
-        bottomright
+        None,
+        TopLeft,
+        TopCenter,
+        TopRight,
+        MiddleLeft,
+        MiddleCenter,
+        MiddleRight,
+        BottomLeft,
+        BottomCenter,
+        BottomRight
     }
 
     public struct Padding // readonly?
@@ -37,199 +37,217 @@ namespace AdventureGame.Engine
 
     public class SceneRenderable
     {
-        public Vector2 position; // CHANGE to Properites, protected set?
-        protected Vector2 size;
-        protected Anchor anchor;
-        protected Rectangle AnchorParent { get; set; }
-        protected Padding Padding { get; set; }
-        private bool hasAnchorParent;
-        public float alpha;
-        public bool visible;
+        public Vector2 Position;
+        public Vector2 Size;
+        public float Alpha;
+        public bool Visible;
 
-        // Instead of Anchor, use RelativePosition??
-        // e.g. if position = center then adjust x,y to top left
-
-        public Vector2 Size { get; protected set; }
+        protected Padding Padding;
+        protected Anchor Anchor;
+        protected Rectangle AnchorParent;
 
         public float Width
         {
-            get { return size.X; }
-            set { size.X = value; }
+            get { return Size.X; }
+            set { Size.X = value; }
         }
-
         public float Height
         {
-            get { return size.Y; }
-            set { size.Y = value; }
+            get { return Size.Y; }
+            set { Size.Y = value; }
         }
 
-        public Rectangle Rectangle
+        public float X
         {
-            get { return new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y); }
-            set { Rectangle = value; }
+            get { return Position.X; }
+            set { Position.X = value; }
+        }
+        public float Y
+        {
+            get { return Position.Y; }
+            set { Position.Y = value; }
         }
 
-        // CHANGE to Top, Bottom, Left, Right, Center?? set the X or Y
-        public float Left
-        {
-            get { return position.X; }
-            set
-            {
-                position.X = value;
-                if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
-                    anchor = Anchor.topleft;
-                if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
-                    anchor = Anchor.middleleft;
-                if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
-                    anchor = Anchor.bottomleft;
-            }
-        }
-        public float Center
-        {
-            get { return position.X + (size.X / 2); }
-            set
-            {
-                position.X = value - (size.X / 2);
-                if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
-                    anchor = Anchor.topcenter;
-                if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
-                    anchor = Anchor.middlecenter;
-                if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
-                    anchor = Anchor.bottomcenter;
-            }
-        }
-        public float Right
-        {
-            get { return position.X + (size.X); }
-            set
-            {
-                position.X = value - (size.X);
-                if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
-                    anchor = Anchor.topright;
-                if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
-                    anchor = Anchor.middleright;
-                if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
-                    anchor = Anchor.bottomright;
-            }
-        }
+        // CHECK what do these do now?
+        // Do the positions change?
+        // Do the anchors need recalculating?
         public float Top
         {
-            get { return position.Y; }
+            get { return Position.Y; }
             set
             {
-                position.Y = value;
-                if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
-                    anchor = Anchor.topleft;
-                if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
-                    anchor = Anchor.topcenter;
-                if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
-                    anchor = Anchor.topright;
+                Position.Y = value;
+                if (Anchor == Anchor.TopLeft || Anchor == Anchor.MiddleLeft || Anchor == Anchor.BottomLeft)
+                    Anchor = Anchor.TopLeft;
+                if (Anchor == Anchor.TopCenter || Anchor == Anchor.MiddleCenter || Anchor == Anchor.BottomCenter)
+                    Anchor = Anchor.TopCenter;
+                if (Anchor == Anchor.TopRight || Anchor == Anchor.MiddleRight || Anchor == Anchor.BottomRight)
+                    Anchor = Anchor.TopRight;
             }
         }
         public float Middle
         {
-            get { return position.Y + (size.Y / 2); }
+            get { return Position.Y + (Size.Y / 2); }
             set
             {
-                position.Y = value - (size.Y / 2);
-                if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
-                    anchor = Anchor.middleleft;
-                if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
-                    anchor = Anchor.middlecenter;
-                if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
-                    anchor = Anchor.middleright;
+                Position.Y = value - (Size.Y / 2);
+                if (Anchor == Anchor.TopLeft || Anchor == Anchor.MiddleLeft || Anchor == Anchor.BottomLeft)
+                    Anchor = Anchor.MiddleLeft;
+                if (Anchor == Anchor.TopCenter || Anchor == Anchor.MiddleCenter || Anchor == Anchor.BottomCenter)
+                    Anchor = Anchor.MiddleCenter;
+                if (Anchor == Anchor.TopRight || Anchor == Anchor.MiddleRight || Anchor == Anchor.BottomRight)
+                    Anchor = Anchor.MiddleRight;
             }
         }
         public float Bottom
         {
-            get { return position.Y + (size.Y); }
+            get { return Position.Y + (Size.Y); }
             set
             {
-                position.Y = value - (size.Y);
-                if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
-                    anchor = Anchor.bottomleft;
-                if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
-                    anchor = Anchor.bottomcenter;
-                if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
-                    anchor = Anchor.bottomright;
+                Position.Y = value - (Size.Y);
+                if (Anchor == Anchor.TopLeft || Anchor == Anchor.MiddleLeft || Anchor == Anchor.BottomLeft)
+                    Anchor = Anchor.BottomLeft;
+                if (Anchor == Anchor.TopCenter || Anchor == Anchor.MiddleCenter || Anchor == Anchor.BottomCenter)
+                    Anchor = Anchor.BottomCenter;
+                if (Anchor == Anchor.TopRight || Anchor == Anchor.MiddleRight || Anchor == Anchor.BottomRight)
+                    Anchor = Anchor.BottomRight;
+            }
+        }
+        public float Left
+        {
+            get { return Position.X; }
+            set
+            {
+                Position.X = value;
+                if (Anchor == Anchor.TopLeft || Anchor == Anchor.TopCenter || Anchor == Anchor.TopRight)
+                    Anchor = Anchor.TopLeft;
+                if (Anchor == Anchor.MiddleLeft || Anchor == Anchor.MiddleCenter || Anchor == Anchor.MiddleRight)
+                    Anchor = Anchor.MiddleLeft;
+                if (Anchor == Anchor.BottomLeft || Anchor == Anchor.BottomCenter || Anchor == Anchor.BottomRight)
+                    Anchor = Anchor.BottomLeft;
+            }
+        }
+        public float Center
+        {
+            get { return Position.X + (Size.X / 2); }
+            set
+            {
+                Position.X = value - (Size.X / 2);
+                if (Anchor == Anchor.TopLeft || Anchor == Anchor.TopCenter || Anchor == Anchor.TopRight)
+                    Anchor = Anchor.TopCenter;
+                if (Anchor == Anchor.MiddleLeft || Anchor == Anchor.MiddleCenter || Anchor == Anchor.MiddleRight)
+                    Anchor = Anchor.MiddleCenter;
+                if (Anchor == Anchor.BottomLeft || Anchor == Anchor.BottomCenter || Anchor == Anchor.BottomRight)
+                    Anchor = Anchor.BottomCenter;
+            }
+        }
+        public float Right
+        {
+            get { return Position.X + (Size.X); }
+            set
+            {
+                Position.X = value - (Size.X);
+                if (Anchor == Anchor.TopLeft || Anchor == Anchor.TopCenter || Anchor == Anchor.TopRight)
+                    Anchor = Anchor.TopRight;
+                if (Anchor == Anchor.MiddleLeft || Anchor == Anchor.MiddleCenter || Anchor == Anchor.MiddleRight)
+                    Anchor = Anchor.MiddleRight;
+                if (Anchor == Anchor.BottomLeft || Anchor == Anchor.BottomCenter || Anchor == Anchor.BottomRight)
+                    Anchor = Anchor.BottomRight;
             }
         }
 
-        public SceneRenderable(Vector2 position = default, Anchor anchor = Anchor.none,
+        public Rectangle Rectangle
+        {
+            get { return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y); }
+            set { Rectangle = value; }
+        }
+
+        // If a position and anchor or anchor parent are set, the position will be ignored
+        // and the anchor will take preference.
+        public SceneRenderable(Vector2 position = default, Anchor anchor = Anchor.None,
             Rectangle anchorParent = default, Padding padding = default,
             float alpha = 1.0f, bool visible = true)
         {
-            this.position = position;
-            this.anchor = anchor;
+            Position = position;
+            Anchor = anchor;
             AnchorParent = anchorParent;
             Padding = padding;
-            this.alpha = alpha;
-            this.visible = visible;
-            hasAnchorParent = anchorParent != default;
-            // isDefaultAnchorParent ...
+            Alpha = alpha;
+            Visible = visible;
 
-            if (anchorParent == default && anchor != Anchor.none)
+            if (anchorParent == default && anchor != Anchor.None)
+            {
                 AnchorParent = new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
-            else if (anchorParent != default && anchor == Anchor.none)
-                this.anchor = Anchor.topleft;
-            //else if (anchor != Anchor.none && position == default)
-                // Set AnchorParent to screen and anchor to topleft??
-
-            // What to do if both position and anchors are set?
-            // Which one takes preference or should the position be set relative to the anchor point?
-
+            }
+            else if (anchorParent != default && anchor == Anchor.None)
+            {
+                Anchor = Anchor.TopLeft;
+            }
         }
 
-        protected void SetAnchorParent(Rectangle anchorParent, Anchor anchor = Anchor.none)
+        public void SetAnchorParent(Rectangle anchorParent, Anchor anchor = Anchor.None)
         {
             AnchorParent = anchorParent;
-            hasAnchorParent = anchorParent != default;
-            if (anchor != Anchor.none)
-                this.anchor = anchor;
+            
+            if (anchor != Anchor.None)
+                Anchor = anchor;
+
+            CalculateAnchors();
         }
 
-        protected void ClearAnchorParent()
+        public void SetAnchorParentAsScreen(Anchor anchor = Anchor.None)
         {
-            // CHECK anchor
-            AnchorParent = default;
-            hasAnchorParent = false;
-            anchor = Anchor.none; // ??
+            AnchorParent = new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
+
+            if (anchor != Anchor.None)
+                Anchor = anchor;
+
+            CalculateAnchors();
+        }
+
+        public void SetPadding(Padding padding)
+        {
+            Padding = padding;
+            CalculateAnchors();
+        }
+
+        public void ClearPadding()
+        {
+            Padding = new Padding();
+            CalculateAnchors();
         }
 
         protected void CalculateAnchors()
         {
-            //if (!hasAnchorParent)
-            //    return;
+            // Anchor to the parent's left side
+            if (Anchor == Anchor.TopLeft || Anchor == Anchor.MiddleLeft || Anchor == Anchor.BottomLeft)
+                Position.X = AnchorParent.X;
+            // Anchor to the parent's center
+            if (Anchor == Anchor.TopCenter || Anchor == Anchor.MiddleCenter || Anchor == Anchor.BottomCenter)
+                Position.X = AnchorParent.X + (AnchorParent.Width / 2) - (Width / 2);
+            // Anchor to the parent's right side
+            if (Anchor == Anchor.TopRight || Anchor == Anchor.MiddleRight || Anchor == Anchor.BottomRight)
+                Position.X = AnchorParent.X + AnchorParent.Width - Width;
 
-            // CHANGE so that if (!hasAnchorParent)
-            // the object is anchored based on the screen
+            // Apply any padding to the X-axis
+            Position.X += Padding.Left - Padding.Right;
 
-            // if (anchor.HasFlag(Anchor.left))
-            // anchor to the parent's left
-            if (anchor == Anchor.topleft || anchor == Anchor.middleleft || anchor == Anchor.bottomleft)
-                position.X = AnchorParent.X;
-            // adjust for center
-            if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
-                position.X = AnchorParent.X + (AnchorParent.Width / 2) - (Width / 2);
-            // adjust for right
-            if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
-                position.X = AnchorParent.X + AnchorParent.Width - Width;
-            position.X += Padding.Left - Padding.Right;
+            // Anchor to the parent's top
+            if (Anchor == Anchor.TopLeft || Anchor == Anchor.TopCenter || Anchor == Anchor.TopRight)
+                Position.Y = AnchorParent.Y;
+            // Anchor to the parent's middle
+            if (Anchor == Anchor.MiddleLeft || Anchor == Anchor.MiddleCenter || Anchor == Anchor.MiddleRight)
+                Position.Y = AnchorParent.Y + (AnchorParent.Height / 2) - (Height / 2);
+            // Anchor to the parent's bottom
+            if (Anchor == Anchor.BottomLeft || Anchor == Anchor.BottomCenter || Anchor == Anchor.BottomRight)
+                Position.Y = AnchorParent.Y + AnchorParent.Height - Height;
 
-            // anchor to the parent's top
-            if (anchor == Anchor.topleft || anchor == Anchor.topcenter || anchor == Anchor.topright)
-                position.Y = AnchorParent.Y;
-            // adjust for middle
-            if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
-                position.Y = AnchorParent.Y + (AnchorParent.Height / 2) - (Height / 2);
-            // adjust for bottom
-            if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
-                position.Y = AnchorParent.Y + AnchorParent.Height - Height;
-            position.Y += Padding.Top - Padding.Bottom;
-
+            // Apply any padding to the Y-axis
+            Position.Y += Padding.Top - Padding.Bottom;
         }
 
         public virtual void Update() { }
+
         public virtual void Draw() { }
 
     }

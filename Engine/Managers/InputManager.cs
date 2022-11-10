@@ -12,43 +12,72 @@ namespace AdventureGame.Engine
 {
     public class InputManager
     {
-        private KeyboardState previousKeyboardState;
-        private KeyboardState currentKeyboardState;
+        // Store an empty state for resetting on InputStack change?? e.g.
+        // private KeyboardState _resetKeyboardState;
+        private KeyboardState _keyboardState;
+        private KeyboardState _previousKeyboardState;
 
-        private MouseState previousMouseState;
-        private MouseState currentMouseState;
+        private MouseState _mouseState;
+        private MouseState _previousMouseState;
 
         // Should this be changed to one controller for now? E.g. GamePad.GetState(PlayerIndex.One)
-        private List<GamePadState> previousGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
-        private List<GamePadState> currentGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
+        private List<GamePadState> _gamePadState = new List<GamePadState>() { GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3) };
+        private List<GamePadState> _previousGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
 
+        private Dictionary<InputItem, Timer> delayDictionary;
+
+        // Cursor
         public Texture2D CursorTexture { get; private set; }
         public Vector2 CursorPosition { get; private set; }
-        public bool IsCursorVisible { get; set; }
+        private Vector2 _previousCursorPosition;
+        private bool _isCursorVisible { get; set; }
+        public bool HasCursorMoved { get; set; }
 
         public InputManager()
         {
+            delayDictionary = new Dictionary<InputItem, Timer>();
             CursorTexture = Globals.content.Load<Texture2D>("cursor");
-            IsCursorVisible = false;
+            _isCursorVisible = false;
         }
 
         public void Update(GameTime gameTime)
         {
-            previousKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
+            _previousKeyboardState = _keyboardState;
+            _keyboardState = Keyboard.GetState();
 
-            previousMouseState = currentMouseState;
-            currentMouseState = Mouse.GetState();
+            _previousMouseState = _mouseState;
+            _mouseState = Mouse.GetState();
 
             for (int i = 0; i <= 3; i++)
             {
-                previousGamePadState[i] = currentGamePadState[i];
-                currentGamePadState[i] = GamePad.GetState(i);
+                _previousGamePadState[i] = _gamePadState[i];
+                _gamePadState[i] = GamePad.GetState(i);
             }
 
             // Handle the cursor position if it is visible
-            if (IsCursorVisible)
+            if (_isCursorVisible)
+            {
+                _previousCursorPosition = CursorPosition;
                 PositionCursor();
+
+                if (_previousCursorPosition != CursorPosition)
+                    HasCursorMoved = true;
+                else
+                    HasCursorMoved = false;
+            }
+
+            // ADD Check if there are any keys in the delayIsDown dictionary
+            // If so, iterate over them
+
+            // Check if the key is still down
+            // Check if the elapsed time has occured
+            // If so, IsDown(item)
+
+            // If key not still down, remove the timer and dictionary item
+            foreach (KeyValuePair<InputItem, Timer> kvp in delayDictionary)
+            {
+                kvp.Value.Update(gameTime);
+            }
         }
 
         public bool IsDown(InputItem item)
@@ -57,19 +86,19 @@ namespace AdventureGame.Engine
                 return false;
 
             if (item.key != null)
-                return currentKeyboardState.IsKeyDown((Keys)item.key);
+                return _keyboardState.IsKeyDown((Keys)item.key);
 
             if (item.button != null)
-                return currentGamePadState[0].IsButtonDown((Buttons)item.button);
+                return _gamePadState[0].IsButtonDown((Buttons)item.button);
 
             if (item.mouseButton != null)
             {
                 if (item.mouseButton == MouseButtons.LeftMouseButton)
-                    return currentMouseState.LeftButton == ButtonState.Pressed;
+                    return _mouseState.LeftButton == ButtonState.Pressed;
                 else if (item.mouseButton == MouseButtons.RightMouseButton)
-                    return currentMouseState.RightButton == ButtonState.Pressed;
+                    return _mouseState.RightButton == ButtonState.Pressed;
                 else if (item.mouseButton == MouseButtons.MiddleMouseButton)
-                    return currentMouseState.MiddleButton == ButtonState.Pressed;
+                    return _mouseState.MiddleButton == ButtonState.Pressed;
             }
 
             return false;
@@ -86,26 +115,58 @@ namespace AdventureGame.Engine
             }
             return false;
         }
-        
+
+        public bool IsDownDelay(InputItem item, float delay = 1f, bool repeat = true)
+            // invokeImmediately = true, initialDelay = default / 0f
+        {
+            // If the item wasn't down and now is down
+            // Create a new timer with the delay
+            //Timer timer = new Timer();
+            if (IsDown(item) && !delayDictionary.ContainsKey(item))
+            {
+                delayDictionary.Add(item, new Timer(delay, repeat));
+                //delayDown.Add(item, currentTime);
+                return true;
+            }
+
+            // If enough time has passed
+            //IsDown(item);
+
+            // Otherwise
+            return false;
+        }
+
+        public bool IsDownDelay(List<InputItem> items, float delay = 1f, bool repeat = true)
+        {
+            foreach (InputItem i in items)
+            {
+                if (IsDownDelay(i))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool IsPressed(InputItem item)
         {
             if (item == null)
                 return false;
 
             if (item.key != null)
-                return currentKeyboardState.IsKeyDown((Keys)item.key) && !previousKeyboardState.IsKeyDown((Keys)item.key);
+                return _keyboardState.IsKeyDown((Keys)item.key) && !_previousKeyboardState.IsKeyDown((Keys)item.key);
 
             if (item.button != null)
-                return currentGamePadState[0].IsButtonDown((Buttons)item.button) && !previousGamePadState[0].IsButtonDown((Buttons)item.button);
+                return _gamePadState[0].IsButtonDown((Buttons)item.button) && !_previousGamePadState[0].IsButtonDown((Buttons)item.button);
 
             if (item.mouseButton != null)
             {
                 if (item.mouseButton == MouseButtons.LeftMouseButton)
-                    return currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton != ButtonState.Pressed;
+                    return _mouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton != ButtonState.Pressed;
                 else if (item.mouseButton == MouseButtons.RightMouseButton)
-                    return currentMouseState.RightButton == ButtonState.Pressed && previousMouseState.RightButton != ButtonState.Pressed;
+                    return _mouseState.RightButton == ButtonState.Pressed && _previousMouseState.RightButton != ButtonState.Pressed;
                 else if (item.mouseButton == MouseButtons.MiddleMouseButton)
-                    return currentMouseState.MiddleButton == ButtonState.Pressed && previousMouseState.MiddleButton != ButtonState.Pressed;
+                    return _mouseState.MiddleButton == ButtonState.Pressed && _previousMouseState.MiddleButton != ButtonState.Pressed;
             }
 
             return false;
@@ -129,19 +190,19 @@ namespace AdventureGame.Engine
                 return false;
 
             if (item.key != null)
-                return !currentKeyboardState.IsKeyDown((Keys)item.key) && previousKeyboardState.IsKeyDown((Keys)item.key);
+                return !_keyboardState.IsKeyDown((Keys)item.key) && _previousKeyboardState.IsKeyDown((Keys)item.key);
 
             if (item.button != null)
-                return !currentGamePadState[0].IsButtonDown((Buttons)item.button) && previousGamePadState[0].IsButtonDown((Buttons)item.button);
+                return !_gamePadState[0].IsButtonDown((Buttons)item.button) && _previousGamePadState[0].IsButtonDown((Buttons)item.button);
 
             if (item.mouseButton != null)
             {
                 if (item.mouseButton == MouseButtons.LeftMouseButton)
-                    return currentMouseState.LeftButton != ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Pressed;
+                    return _mouseState.LeftButton != ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Pressed;
                 else if (item.mouseButton == MouseButtons.RightMouseButton)
-                    return currentMouseState.RightButton != ButtonState.Pressed && previousMouseState.RightButton == ButtonState.Pressed;
+                    return _mouseState.RightButton != ButtonState.Pressed && _previousMouseState.RightButton == ButtonState.Pressed;
                 else if (item.mouseButton == MouseButtons.MiddleMouseButton)
-                    return currentMouseState.MiddleButton != ButtonState.Pressed && previousMouseState.MiddleButton == ButtonState.Pressed;
+                    return _mouseState.MiddleButton != ButtonState.Pressed && _previousMouseState.MiddleButton == ButtonState.Pressed;
             }
 
             return false;
@@ -159,25 +220,23 @@ namespace AdventureGame.Engine
             return false;
         }
 
-        // Toggle the visibility of the custom cursor
-        public void ToggleCursorVisibility()
+        public void ShowCursor()
         {
-            IsCursorVisible = !IsCursorVisible; // Toggle on/off
+            _isCursorVisible = true;
 
-            //GamePadCapabilities capabilities = GamePad.GetCapabilities(PlayerIndex.One);
-            //if (capabilities.IsConnected)
-
-            if (!IsCursorVisible)
-                return;
-            // If a controller is being used, position the cursor in the screen center
-            else if (IsCursorVisible && currentGamePadState[0].IsConnected)
+            // For controllers, set the initial position to the screen's center
+            if (_gamePadState[0].IsConnected)
             {
-                CursorPosition = new Vector2(
-                    Globals.ScreenWidth / 2 - CursorTexture.Width / 2,
-                    Globals.ScreenHeight / 2 - CursorTexture.Height / 2);
+                CursorPosition = Utilities.CenterVectorToContainer(CursorTexture.Width, CursorTexture.Height);
             }
 
             PositionCursor();
+            _previousCursorPosition = CursorPosition;
+        }
+
+        public void HideCursor()
+        {
+            _isCursorVisible = false;
         }
 
         // Position the cursor within the screen boundary using a controller or mouse
@@ -187,12 +246,14 @@ namespace AdventureGame.Engine
             float newY = CursorPosition.Y;
 
             // Check if a controller is being used, otherwise assume a mouse is used
-            if (currentGamePadState[0].IsConnected)
+            if (_gamePadState[0].IsConnected)
             {
                 float cursorSpeed = 10.0f;
 
                 //if (IsDown(Buttons.LeftThumbstickUp))
                 //if (IsDown(Globals.upInput))
+
+                // CHANGE to normal controls i.e. not constrained to one "DPad" direction only
 
                 if (GetThumbstickDirection() == "Up")
                     newY -= cursorSpeed;
@@ -205,8 +266,8 @@ namespace AdventureGame.Engine
             }
             else
             {
-                newX = currentMouseState.X;
-                newY = currentMouseState.Y;
+                newX = _mouseState.X;
+                newY = _mouseState.Y;
             }
 
             // If the cursor position is outside of the screen boundaries,
@@ -230,7 +291,7 @@ namespace AdventureGame.Engine
         {
             float thumbStickTolerance = 0.35f;
 
-            Vector2 direction = currentGamePadState[0].ThumbSticks.Left;
+            Vector2 direction = _gamePadState[0].ThumbSticks.Left;
 
             float absX = Math.Abs(direction.X);
             float absY = Math.Abs(direction.Y);

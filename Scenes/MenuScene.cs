@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AdventureGame.Engine;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AdventureGame.Engine;
-using System;
+
+using System.Collections.Generic;
 
 namespace AdventureGame
 {
@@ -25,7 +26,7 @@ namespace AdventureGame
                 font: Theme.primaryFont,
                 colour: Theme.tertiaryText,
                 //anchor: Anchor.middlecenter
-                anchor: Anchor.topcenter,
+                anchor: Anchor.TopCenter,
                 padding: new Padding(top: 200)
             );
 
@@ -37,20 +38,18 @@ namespace AdventureGame
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
                 keyboardAlpha = 1.0f;
 
-            // ADD the controller and keyboard assets to a parent container?
-
             // control images
             controllerImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("X360"),
                 //position: new Vector2((Globals.ScreenWidth / 2) + 100, Globals.ScreenHeight - 150),
-                anchor: Anchor.middlecenter,
+                anchor: Anchor.MiddleCenter,
                 padding: new Padding(left: 100, top: 130),
                 alpha: controllerAlpha
             );
             keyboardImage = new Engine.Image(
                 Globals.content.Load<Texture2D>("Keyboard"),
                 //position: new Vector2((Globals.ScreenWidth / 2) - 100, Globals.ScreenHeight - 150),
-                anchor: Anchor.middlecenter,
+                anchor: Anchor.MiddleCenter,
                 padding: new Padding(right: 100, top: 130),
                 alpha: keyboardAlpha
             );
@@ -77,7 +76,7 @@ namespace AdventureGame
                     controllerSpritesheet.GetSubTexture(2,1)
                 },
                 //position: new Vector2(controllerImage.Center, controllerImage.Bottom),
-                anchor: Anchor.bottomcenter,
+                anchor: Anchor.BottomCenter,
                 anchorParent: controllerImage.Rectangle,
                 padding: new Padding(bottom: -20),
                 size: new Vector2(16 * 3, 16 * 3),
@@ -107,7 +106,7 @@ namespace AdventureGame
                     enterKeySpritesheet.GetSubTexture(1,0)
                 },
                 //position: new Vector2(keyboardImage.Center, keyboardImage.Bottom),
-                anchor: Anchor.bottomcenter,
+                anchor: Anchor.BottomCenter,
                 anchorParent: keyboardImage.Rectangle,
                 padding: new Padding(bottom: -20),
                 size: new Vector2(16 * 3, 16 * 3),
@@ -126,7 +125,7 @@ namespace AdventureGame
                 },
                 //position: new Vector2(Globals.ScreenWidth / 2, Globals.ScreenHeight - 350),
                 size: new Vector2(26*4,36*4),
-                anchor: Anchor.middlecenter,
+                anchor: Anchor.MiddleCenter,
                 animationDelay: 12
             );
 
@@ -153,7 +152,6 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
-
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.transition == null)
             {
                 EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
@@ -175,39 +173,43 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Enter))
             {
-                keyboardImage.alpha = 1.0f;
-                controllerImage.alpha = 0.2f;
+                keyboardImage.Alpha = 1.0f;
+                controllerImage.Alpha = 0.2f;
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
             }
 
             if (EngineGlobals.inputManager.IsPressed(ControllerInput.A))
             {
-                keyboardImage.alpha = 0.2f;
-                controllerImage.alpha = 1.0f;
+                keyboardImage.Alpha = 0.2f;
+                controllerImage.Alpha = 1.0f;
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;
             }
 
             if (EngineGlobals.inputManager.IsPressed(ControllerInput.A))
             {
-                controllerButton.reverse = false;
+                //controllerButton.reverse = false;
+                controllerButton.Reverse(false);
                 controllerButton.Reset();
                 controllerButton.Play();
             }
             if (EngineGlobals.inputManager.IsReleased(ControllerInput.A))
             {
-                controllerButton.reverse = true;
+                //controllerButton.reverse = true;
+                controllerButton.Reverse(true);
                 controllerButton.Reset();
                 controllerButton.Play();
             }
             if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Enter))
             {
-                keyboardButton.reverse = false;
+                //keyboardButton.reverse = false;
+                keyboardButton.Reverse(false);
                 keyboardButton.Reset();
                 keyboardButton.Play();
             }
             if (EngineGlobals.inputManager.IsReleased(KeyboardInput.Enter))
             {
-                keyboardButton.reverse = true;
+                //keyboardButton.reverse = true;
+                keyboardButton.Reverse(true);
                 keyboardButton.Reset();
                 keyboardButton.Play();
             }

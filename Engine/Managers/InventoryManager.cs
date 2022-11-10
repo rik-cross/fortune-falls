@@ -155,6 +155,76 @@ namespace AdventureGame.Engine
             return item;
         }
 
+        // Swap the positions of two items
+        public void SwapItems(Item[] inventoryItems, int firstIndex, int secondIndex)
+        {
+            if (firstIndex < inventoryItems.Length && secondIndex < inventoryItems.Length
+                && firstIndex >= 0 && secondIndex >= 0)
+            {
+                Item firstItem = inventoryItems[firstIndex];
+                Item secondItem = inventoryItems[secondIndex];
+                inventoryItems[firstIndex] = secondItem;
+                inventoryItems[secondIndex] = firstItem;
+            }
+        }
+
+        public void StackAllItems(Item[] inventoryItems)
+        {
+            Item currentItem;
+
+            // Go through each item from end to start + 1
+            for (int i = inventoryItems.Length - 1; i > 0; i--)
+            {
+                currentItem = inventoryItems[i];
+                if (currentItem.IsStackable())
+                {
+                    // Check every previous item
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        // CHANGE to use StackItems()
+                        Item itemToStack = inventoryItems[j];
+                        if (currentItem.ItemId == itemToStack.ItemId
+                            && itemToStack.HasFreeSpace())
+                        {
+                            // STACK!
+                        }
+                    }
+                }
+            }
+        }
+
+        public Item StackItems(Item[] inventoryItems, Item item, int position)
+        {
+            Item itemToStack = inventoryItems[position];
+
+            // Better way to do this?
+            // How to differentiate between a null item and a now empty item?
+            if (itemToStack == null || item == null)
+                return null;
+
+            // Check if there is space to stack more
+            if (itemToStack.ItemId == item.ItemId
+                && itemToStack.Quantity < itemToStack.StackSize)
+            {
+                if (itemToStack.Quantity + item.Quantity <= itemToStack.StackSize)
+                {
+                    // The quantity can be added to the current item
+                    inventoryItems[position].IncreaseQuantity(item.Quantity);
+                    return null;
+                }
+                else
+                {
+                    // Add as much as possible to the current item's quantity
+                    int availableSpace = itemToStack.StackSize - itemToStack.Quantity;
+                    inventoryItems[position].IncreaseQuantity(availableSpace);
+                    item.Quantity -= availableSpace;
+                    // quantityDifference
+                    //int remainingQuantity = quantity;
+                }
+            }
+            return item;
+        }
+
         // NOT used
         // Add an item to the inventory at a specified position
         // Return the item if one already exists in that position
@@ -182,7 +252,7 @@ namespace AdventureGame.Engine
             }
             return currentItem;
         }
-
+        /*
         // NOT used
         public Item StackItems(Item[] inventoryItems, Item item, int position)
         {
@@ -212,6 +282,6 @@ namespace AdventureGame.Engine
                 }
             }
             return item;
-        }
+        }*/
     }
 }

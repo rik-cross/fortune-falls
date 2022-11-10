@@ -201,6 +201,9 @@ namespace AdventureGame.Engine
             componentManager.removedComponents.Clear();
             componentManager.changedEntities.Clear();
 
+            // update timers here??
+
+
             // update cameras
             foreach (Camera c in cameraList)
                 c.Update(this);
