@@ -87,6 +87,31 @@ namespace AdventureGame.Engine
             return item;
         }
 
+        // Try to add the item to the inventory, otherwise drop the item in-game
+        public void AddOrDropItem(Item[] inventoryItems, Item item)
+        {
+            if (item != null)
+            {
+                // Try adding the item to the inventory
+                Console.WriteLine("Stack unable to be returned - try adding to inventory");
+                item = AddItem(inventoryItems, item);
+
+                // Check if the inventory is full 
+                if (item != null)
+                    DropItem(inventoryItems, item);
+            }
+        }
+
+        // TO DO
+        // Drop the item on the in-game ground
+        public void DropItem(Item[] inventoryItems, Item item)
+        {
+            // Drop the item on the in-game ground using the player position
+            Console.WriteLine("Drop the item on the in-game ground");
+
+            // return position of the item?
+        }
+
         // Delete an item object
         public Item DeleteItem(Item item)
         {
@@ -148,6 +173,28 @@ namespace AdventureGame.Engine
             Item otherItem = inventoryItems[otherItemIndex];
             otherItem = StackItem(inventoryItems, itemIndex, otherItem);
             inventoryItems[otherItemIndex] = otherItem;
+        }
+
+        // Add an item to the inventory at a specified index.
+        // Return the item if one already exists or it cannot be fully stacked
+        public Item AddItemAtPosition(Item[] inventoryItems, Item item, int index)
+        {
+            Item itemAtIndex = inventoryItems[index];
+
+            if (itemAtIndex == null)
+            {
+                inventoryItems[index] = new Item(item);
+                return DeleteItem(item);
+            }
+            else if (item.ItemId == itemAtIndex.ItemId)
+            {
+                // Try to stack the items
+                item = StackItem(inventoryItems, index, item);
+                if (item == null)
+                    return DeleteItem(item);
+            }
+
+            return item;
         }
 
         // Swap the positions of two items
@@ -217,35 +264,5 @@ namespace AdventureGame.Engine
                 }
             }
         }
-
-        /*
-        // NOT used
-        // Add an item to the inventory at a specified position
-        // Return the item if one already exists in that position
-        public Item AddItemAtPosition(Item[] inventoryItems, Item item, int position)
-        {
-            Item currentItem = inventoryItems[position];
-
-            // Check if the position is empty
-            if (currentItem == null)
-                inventoryItems[position] = item;
-            else
-            {
-                // Check if the items are the same type and can stack
-                if (item.ItemId == currentItem.ItemId)
-                {
-                    item = StackItems(inventoryItems, item, position);
-                    if (item == null || item.Quantity == 0)
-                        return null;
-                }
-                else //if (item.Quantity > 0)
-                {
-                    //Item temp = currentItem;
-                    inventoryItems[position] = item;
-                }
-            }
-            return currentItem;
-        }
-        */
     }
 }

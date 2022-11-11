@@ -411,30 +411,54 @@ namespace AdventureGame
 
                     if (slotItem == null)
                     {
+                        // Place the dragged item into the inventory slot
                         _inventory.InventoryItems[slotIndex] = new Item(_dragItem);
-
                         if (!_isDraggedItemStackSplit)
                             _inventory.InventoryItems[_dragItemIndex] = null;
-                        //else
-                        //    _inventory.InventoryItems[_dragItemIndex].DecreaseQuantity(
-                        //       _dragItem.Quantity);
                     }
-                    // Try to stack the items
                     else if (slotItem.ItemId == _dragItem.ItemId && slotItem.IsStackable())
                     {
-                        //_inventoryManager.StackItem(_inventory.InventoryItems,
-                        //    slotIndex, _dragItemIndex);
-
+                        // Try to stack the items
                         Item tempItem = _inventoryManager.StackItem(_inventory.InventoryItems,
                             slotIndex, _dragItem);
 
-                        // Need to check if the temp item is empty
-                        // If not, try to return the remaining quantity
+                        // Check if not all of the item can be stacked
+                        if (tempItem != null)
+                        {
+                            // Try to add the remaining quantity back to the original item
+                            tempItem = _inventoryManager.AddItemAtPosition(_inventory.InventoryItems,
+                                tempItem, _dragItemIndex);
+                        }
 
-                        // Need to update the original dragItemIndex
+                        // Check if some of the stack can't be added to the original item
+                        if (tempItem != null)
+                        {
+                            _inventoryManager.AddOrDropItem(_inventory.InventoryItems, tempItem);
 
-                        if (tempItem == null)
+                            /*
+                            // Try adding the temp item to the inventory
+                            Console.WriteLine("Stack unable to be returned - try adding to inventory");
+                            tempItem = _inventoryManager.AddItem(_inventory.InventoryItems, tempItem);
 
+                            // Check if the inventory is now full 
+                            if (tempItem != null)
+                            {
+                                // Drop the item on the in-game ground
+                                Console.WriteLine("Stack unable to be returned - drop stack on ground");
+
+                                // Drop item on the ground using player X,Y co-ordinates
+                            }
+                            */
+                        }
+
+                        // CHECK
+                        if (!_isDraggedItemStackSplit && tempItem == null)
+                        {
+                            Console.WriteLine($"Clear drag item index item");
+                            _inventory.InventoryItems[_dragItemIndex] = null;
+                        }
+
+                        // DELETE?
                         if (_isDraggedItemStackSplit)
                         {
                             Console.WriteLine($"Update original split slot item");
@@ -443,11 +467,37 @@ namespace AdventureGame
                             //if (tempItem == null)
                         }
 
+                        // DELETE?
                         if (_inventory.InventoryItems[_dragItemIndex] != null)
                         {
                             Console.WriteLine($"Swap or return item split stack");
+                        }
+                    }
+                    else if (slotItem.ItemId != _dragItem.ItemId && _isDraggedItemStackSplit)
+                    {
+                        // Try to return the split stack back to the original item
+                        Item tempItem = _inventoryManager.StackItem(_inventory.InventoryItems,
+                            _dragItemIndex, _dragItem);
 
+                        // Check if some of the stack can't be added to the original item
+                        if (tempItem != null)
+                        {
+                            _inventoryManager.AddOrDropItem(_inventory.InventoryItems, tempItem);
 
+                            /*
+                            // Try adding the temp item to the inventory
+                            Console.WriteLine("Stack unable to be returned - try adding to inventory");
+                            tempItem = _inventoryManager.AddItem(_inventory.InventoryItems, tempItem);
+
+                            // Check if the inventory is now full 
+                            if (tempItem != null)
+                            {
+                                // Drop the item on the in-game ground
+                                Console.WriteLine("Stack unable to be returned - drop stack on ground");
+
+                                // Drop item on the ground using player X,Y co-ordinates
+                            }
+                            */
                         }
                     }
                     else
@@ -456,10 +506,6 @@ namespace AdventureGame
                             slotIndex, _dragItemIndex);
                     }
 
-                    // Otherwise swap the items
-                    // IF the drag item has not been split
-                    // Otherwise try to return the items to the stack (as below)
-
                 }
 
                 // Check if the cursor is outside the inventory menu
@@ -467,17 +513,41 @@ namespace AdventureGame
                 {
                     // Drop the item on the in-game ground
                     Console.WriteLine("Dragged item to the ground");
+                    _inventoryManager.DropItem(_inventory.InventoryItems, _dragItem);
+
+                    if (!_isDraggedItemStackSplit)
+                        _inventory.InventoryItems[_dragItemIndex] = null;
                 }
 
                 // Otherwise cancel the dragged item
                 // Check if the original item's stack was split when dragged
-                else // if (splitStack was true)
+                else if (_isDraggedItemStackSplit)
                 {
                     Console.WriteLine("Try to return the split stack to the original item");
 
-                    // If splitStack was true, try to return the items to the stack
-                    // If some items are unreturned (e.g. stack now full) try adding to inventory
-                    // If inventory now full, drop on the in-game ground
+                    // Try to return the split stack back to the original item
+                    Item tempItem = _inventoryManager.StackItem(_inventory.InventoryItems,
+                        _dragItemIndex, _dragItem);
+
+                    // Check if some of the stack can't be added to the original item
+                    if (tempItem != null)
+                    {
+                        _inventoryManager.AddOrDropItem(_inventory.InventoryItems, tempItem);
+                        /*
+                        // Try adding the temp item to the inventory
+                        Console.WriteLine("Stack unable to be returned - try adding to inventory");
+                        tempItem = _inventoryManager.AddItem(_inventory.InventoryItems, tempItem);
+
+                        // Check if the inventory is now full 
+                        if (tempItem != null)
+                        {
+                            // Drop the item on the in-game ground
+                            Console.WriteLine("Stack unable to be returned - drop stack on ground");
+
+                            // Drop item on the ground using player X,Y co-ordinates
+                        }
+                        */
+                    }
                 }
             }
 
