@@ -119,14 +119,14 @@ namespace AdventureGame
                 filename: itemsDirectory + "W_Sword003",
                 itemHealth: 35,
                 maxHealth: 100);
-            AddEntity(ItemEntity.Create(x: 30, y: 170, item: sword));
+            AddEntity(ItemEntity.Create(x: 30, y: 140, item: sword));
 
             Item stones = new Item(
                 itemId: "Stone",
                 filename: itemsDirectory + "I_Boulder01",
                 quantity: 7,
                 stackSize: 20);
-            AddEntity(ItemEntity.Create(x: 100, y: 250, item: stones));
+            AddEntity(ItemEntity.Create(x: 100, y: 220, item: stones));
 
             // Chest test
             Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();

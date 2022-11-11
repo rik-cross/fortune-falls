@@ -23,6 +23,8 @@ Engine/*
 !Engine/SceneRenderables/*.cs
 !Engine/AnimatedValues
 !Engine/AnimatedValues/*.cs
+!Engine/Utilities
+!Engine/Utilities/*
 !Content/
 Content/*
 !Content/*

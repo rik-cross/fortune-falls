@@ -60,74 +60,37 @@ namespace AdventureGame.Engine
         }
 
         // Add an item to the inventory
-        // Return the item or a null Item if there is no quantity remaining
-        public Item AddItem(Item[] inventoryItems, Item item) // newItem? InventoryComponent?
+        // Return the item or a null item if there is no quantity remaining
+        public Item AddItem(Item[] inventoryItems, Item item)
         {
-            // Note: should an item with >1 stack size and different durability / shelf-life
-            // be combined or kept separate? (depending on item type?)
-
-            int quantity = item.Quantity;
-            //Console.WriteLine($"\nCollect item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
-
-            // Check if the item doesn't hold the maximum quantity already
-            if (quantity < item.StackSize)
+            // Try to stack the item with existing inventory items first
+            if (item.IsStackable())
             {
-                // Check if the item can be stacked with an existing inventory item
                 for (int i = 0; i < inventoryItems.Length; i++)
                 {
-                    Item currentItem = inventoryItems[i];
-                    //Console.WriteLine($"Checking inventory slot {i}");
-
-                    if (currentItem != null)
-                    {
-                        if (currentItem.ItemId == item.ItemId && currentItem.HasFreeSpace())
-                        {
-                            if (currentItem.Quantity + quantity <= currentItem.StackSize)
-                            {
-                                // The quantity can be added to the current item
-                                inventoryItems[i].IncreaseQuantity(quantity);
-                                //Console.WriteLine($"Adding ALL {quantity} to slot {i}");
-                                //Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
-
-                                return DeleteItem(item);
-                            }
-                            else
-                            {
-                                // Add as much as possible to the current item's quantity
-                                int availableSpace = currentItem.StackSize - currentItem.Quantity;
-                                inventoryItems[i].IncreaseQuantity(availableSpace);
-                                quantity -= availableSpace;
-
-                                // Reduce the quantity of the original Item
-                                item.Quantity -= availableSpace;
-
-                                //Console.WriteLine($"Adding {availableSpace} to slot {i}");
-                                //Console.WriteLine($"Slot {i} quantity is now {inventoryItems[i].Quantity}");
-                                //Console.WriteLine($"Quantity remaining is {quantity}");
-                            }
-                        }
-                    }
+                    item = StackItem(inventoryItems, i, item);
+                    if (item == null)
+                        return null;
                 }
             }
 
-            // Check if the item has already been added to existing inventory items
-            if (quantity > 0)
+            // Add the item to the next free inventory slot if there's space
+            int nextSlot = FindNextFreeSlot(inventoryItems);
+            if (nextSlot != -1)
             {
-                // Add the item to the next free inventory slot if there's space
-                int nextSlot = FindNextFreeSlot(inventoryItems);
-                if (nextSlot != -1)
-                {
-                    // Make a copy of the item's properties and update the quantity
-                    inventoryItems[nextSlot] = new Item(item);
-                    inventoryItems[nextSlot].Quantity = quantity; // Is this bad?? :P
-                    //Console.WriteLine($"Adding item with quantity {quantity} to slot {nextSlot}");
-
-                    return DeleteItem(item);
-                }
-            }
-            else
+                // Make a copy of the item's properties and update the quantity
+                inventoryItems[nextSlot] = new Item(item);
+                inventoryItems[nextSlot].Quantity = item.Quantity;
                 return DeleteItem(item);
+            }
 
+            return item;
+        }
+
+        // Delete an item object
+        public Item DeleteItem(Item item)
+        {
+            item = null;
             return item;
         }
 
@@ -148,11 +111,43 @@ namespace AdventureGame.Engine
             return availablePosition;
         }
 
-        // Delete an Item object
-        public Item DeleteItem(Item item)
+        // Add the quantity of another item to the index item if possible.
+        // Return null if the other item is now empty.
+        public Item StackItem(Item[] inventoryItems, int itemIndex, Item otherItem)
         {
-            item = null;
-            return item;
+            Item itemToAddTo = inventoryItems[itemIndex];
+
+            if (itemToAddTo == null || otherItem == null)
+                return otherItem;
+
+            if (itemToAddTo.ItemId == otherItem.ItemId && itemToAddTo.HasFreeSpace())
+            {
+                int availableSpace = itemToAddTo.StackSize - itemToAddTo.Quantity;
+
+                if (availableSpace >= otherItem.Quantity)
+                {
+                    // Add the entire quantity to the item
+                    inventoryItems[itemIndex].IncreaseQuantity(otherItem.Quantity);
+                    return DeleteItem(otherItem);
+                }
+                else
+                {
+                    // Add as much as possible to the item
+                    inventoryItems[itemIndex].IncreaseQuantity(availableSpace);
+                    otherItem.DecreaseQuantity(availableSpace);
+                }
+            }
+
+            return otherItem;
+        }
+
+        // Add the quantity of another item to the index item if possible.
+        // Update the original array of inventory items.
+        public void StackItem(Item[] inventoryItems, int itemIndex, int otherItemIndex)
+        {
+            Item otherItem = inventoryItems[otherItemIndex];
+            otherItem = StackItem(inventoryItems, itemIndex, otherItem);
+            inventoryItems[otherItemIndex] = otherItem;
         }
 
         // Swap the positions of two items
@@ -168,6 +163,36 @@ namespace AdventureGame.Engine
             }
         }
 
+        // Create a copy of an item and share the quantity between the two
+        public Item SplitItemStack(Item[] inventoryItems, int itemIndex,
+            int newItemQuantity = 0)
+        {
+            Item originalItem = inventoryItems[itemIndex];
+            Item newItem = null;
+
+            int quantity = originalItem.Quantity;
+            if (quantity > 1)
+            {
+                // By default, split the stack in half
+                if (newItemQuantity == 0)
+                    quantity /= 2;
+                else if (newItemQuantity > 0 && newItemQuantity <= quantity)
+                    quantity -= newItemQuantity;
+                else
+                    return null;
+
+                // Create a copy of the item and update both quantities
+                newItem = new Item(originalItem);
+                inventoryItems[itemIndex].Quantity = quantity;
+                newItem.DecreaseQuantity(quantity);
+            }
+
+            return newItem;
+        }
+
+        // NOT used
+        // Stack all inventory items as much as possible from the start
+        // Could also bunch items together to fill empty spaces? SortItems() / DefragItems()
         public void StackAllItems(Item[] inventoryItems)
         {
             Item currentItem;
@@ -193,38 +218,7 @@ namespace AdventureGame.Engine
             }
         }
 
-        public Item StackItems(Item[] inventoryItems, Item item, int position)
-        {
-            Item itemToStack = inventoryItems[position];
-
-            // Better way to do this?
-            // How to differentiate between a null item and a now empty item?
-            if (itemToStack == null || item == null)
-                return null;
-
-            // Check if there is space to stack more
-            if (itemToStack.ItemId == item.ItemId
-                && itemToStack.Quantity < itemToStack.StackSize)
-            {
-                if (itemToStack.Quantity + item.Quantity <= itemToStack.StackSize)
-                {
-                    // The quantity can be added to the current item
-                    inventoryItems[position].IncreaseQuantity(item.Quantity);
-                    return null;
-                }
-                else
-                {
-                    // Add as much as possible to the current item's quantity
-                    int availableSpace = itemToStack.StackSize - itemToStack.Quantity;
-                    inventoryItems[position].IncreaseQuantity(availableSpace);
-                    item.Quantity -= availableSpace;
-                    // quantityDifference
-                    //int remainingQuantity = quantity;
-                }
-            }
-            return item;
-        }
-
+        /*
         // NOT used
         // Add an item to the inventory at a specified position
         // Return the item if one already exists in that position
@@ -252,36 +246,6 @@ namespace AdventureGame.Engine
             }
             return currentItem;
         }
-        /*
-        // NOT used
-        public Item StackItems(Item[] inventoryItems, Item item, int position)
-        {
-            Item existingItem = inventoryItems[position];
-
-            if (existingItem == null)
-                return null;
-
-            // Check if there is space to stack more
-            if (existingItem.ItemId == item.ItemId
-                && existingItem.Quantity < existingItem.StackSize)
-            {
-                if (existingItem.Quantity + item.Quantity <= existingItem.StackSize)
-                {
-                    // The quantity can be added to the current item
-                    inventoryItems[position].IncreaseQuantity(item.Quantity);
-                    return null;
-                }
-                else
-                {
-                    // Add as much as possible to the current item's quantity
-                    int availableSpace = existingItem.StackSize - existingItem.Quantity;
-                    inventoryItems[position].IncreaseQuantity(availableSpace);
-                    item.Quantity -= availableSpace;
-                    // quantityDifference
-                    //int remainingQuantity = quantity;
-                }
-            }
-            return item;
-        }*/
+        */
     }
 }

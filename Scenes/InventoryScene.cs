@@ -95,12 +95,17 @@ namespace AdventureGame
             _containerHeight = (int)(Globals.ScreenHeight * _containerRelativeSize);
             _containerX = (Globals.ScreenWidth - _containerWidth) / 2;
             _containerY = (Globals.ScreenHeight - _containerHeight) / 2;
-            _containerRectangle = new Rectangle(_containerX, _containerY,
-                _containerWidth, _containerHeight);
             _innerX = _containerX + _containerBorder;
             _innerY = _containerY + _containerBorder;
+
+            _containerRectangle = new Rectangle(
+                _containerX,
+                _containerY,
+                _containerWidth,
+                _containerHeight);
         }
 
+        // Four-way directional way to change the current highlighted slot 
         public void ChangeCurrentSlot(string direction)
         {
             //Console.WriteLine($"Selected slot was {selectedSlot}");
@@ -170,9 +175,7 @@ namespace AdventureGame
         public void InteractWithSlot(bool splitStack = false)
         {
             if (!_isSlotSelected)
-            {
                 SelectItem(_currentSlot);
-            }
             else
             {
                 if (_selectedSlot == -1 || _currentSlot == -1)
@@ -181,34 +184,30 @@ namespace AdventureGame
                 Item currentItem = _inventory.InventoryItems[_currentSlot];
                 Item selectedItem = _inventory.InventoryItems[_selectedSlot];
 
-                // CHANGE to InventoryManager.SplitStack?? Use AddItemAtPosition();
-                //if (splitStack)
-                //EngineGlobals.inventoryManager.SplitStack(originalPosition, newPosition);
-
                 if (selectedItem != null)
                 {
-                    int quantity = selectedItem.Quantity;
-
-                    if (splitStack && quantity > 1)
+                    // CHANGE to _dragSplit...??
+                    if (splitStack && currentItem == null)
                     {
-                        quantity /= 2; // Split the stack in half
-                        
-                        if (currentItem == null)
-                        {
-                            // Create a copy of the item with half the quantity
-                            _inventory.InventoryItems[_currentSlot] = new Item(selectedItem);
-                            _inventory.InventoryItems[_currentSlot].Quantity = quantity;
-                            selectedItem.DecreaseQuantity(quantity);
-                        }
+                        Item newSplitItem = _inventoryManager.SplitItemStack(
+                            _inventory.InventoryItems, _selectedSlot);
+
+                        _inventory.InventoryItems[_currentSlot] = newSplitItem;
                     }
 
                     // Check if the ids match and the current item has space to stack
-                    if (currentItem != null && selectedItem.ItemId == currentItem.ItemId
+                    else if (currentItem != null && selectedItem.ItemId == currentItem.ItemId
                             && currentItem.HasFreeSpace())
                     {
+                        int quantity = selectedItem.Quantity;
+                        if (splitStack && quantity > 1)
+                            quantity /= 2; // Split the stack in half
+
+                        // CHANGE to _inventoryManager.StackItems(
+                        //   _inventory.InventoryItems, index, stack/otherIndex);
+                        // OR .., .., Item -> return Item
                         // Add as much as possible to the current item's stack
                         int availableSpace = currentItem.StackSize - currentItem.Quantity;
-
                         if (availableSpace < quantity)
                             quantity = availableSpace;
 
@@ -221,14 +220,10 @@ namespace AdventureGame
                             _inventory.InventoryItems[_selectedSlot] = null;
                     }
                     else
-                    {
                         _inventoryManager.SwapItems(_inventory.InventoryItems, _currentSlot, _selectedSlot);
-                    }
                 }
                 else if (_currentSlot != -1 && _selectedSlot != -1)
-                {
                     _inventoryManager.SwapItems(_inventory.InventoryItems, _currentSlot, _selectedSlot);
-                }
 
                 DeselectItem();
             }
@@ -254,6 +249,10 @@ namespace AdventureGame
                     {
                         if (currentItem == null)
                         {
+                            // METHOD
+                            // _inventoryManager.CopyItem(_inventory.InventoryItems, index,
+                            //   copiedIndex (optional), copiedQuantity (optional)
+
                             // Create a copy of the item with a quantity of one
                             Item copiedItem = new Item(selectedItem);
                             copiedItem.Quantity = 1;
@@ -263,6 +262,7 @@ namespace AdventureGame
                         else if (currentItem.ItemId == selectedItem.ItemId
                             && currentItem.HasFreeSpace())
                         {
+                            // Manager method? Optional keepIfEmpty parameter 
                             // Update the quantities of both items
                             selectedItem.DecreaseQuantity(1);
                             currentItem.IncreaseQuantity(1);
@@ -316,6 +316,8 @@ namespace AdventureGame
                 // _isSplitStack / _isDraggedItemStackSplit
                 InteractWithSlot(splitStack);
             }
+            else
+                DeselectItem();
         }
 
         // Select a slot when hovering over it.
@@ -331,14 +333,9 @@ namespace AdventureGame
 
         // First checks if a clicked item can be dragged.
         // Then delays the drag until the cursor has been moved a certain distance
-        // to prevent dragging items on tiny cursor movements.
+        // to prevent dragging items on small cursor movements.
         public void OnDragStart()
         {
-
-            // CHECK for split stack (if or else if??)
-            // STORE whether the stack was split for DragEnd()
-
-
             //Console.WriteLine("Click and drag");
 
             if (_isItemDragged || _selectedSlot == -1 || _currentSlot == -1)
@@ -352,8 +349,8 @@ namespace AdventureGame
             Rectangle slotRect = _slotRectangles[_currentSlot];
 
             // Check if an item can be dragged
-            if (_dragItemIndex == -1 && _currentSlot != -1
-                && slotRect.Contains(cursorPosition)) // Needed?
+            if (_dragItemIndex == -1 && _currentSlot != -1)
+                //&& slotRect.Contains(cursorPosition)) // Needed?
             {
                 Console.WriteLine($"Start click and drag slot {_currentSlot}");
 
@@ -377,32 +374,12 @@ namespace AdventureGame
                 {
                     _isDraggedItemStackSplit = true; // Here or above?
 
+                    Item newSplitItem = _inventoryManager.SplitItemStack(
+                        _inventory.InventoryItems, _dragItemIndex);
 
-                    // USE manager.SplitStack(item or index, otherItem)
-                    // How to return both items?
-                    // OR update the original item and return the new split item
-
-                    int itemIndex = _dragItemIndex; // Parameter
-                    Item originalItem = _inventory.InventoryItems[itemIndex];
-                    Item newSplitItem = null;
-                    //_dragItem = new Item(_inventory.InventoryItems[_dragItemIndex]);
-
-                    int quantity = originalItem.Quantity;
-                    if (quantity > 1)
-                    {
-                        quantity /= 2; // Split the stack in half
-
-                        // Create a copy of the item with half the quantity
-                        newSplitItem = new Item(originalItem);
-                        _inventory.InventoryItems[itemIndex].Quantity = quantity;
-                        newSplitItem.DecreaseQuantity(quantity);
-                    }
-
+                    // Set the drag item to the new split item if not null
                     if (newSplitItem != null)
-                    {
-                        Console.WriteLine($"Split the item");
                         _dragItem = newSplitItem;
-                    }
                     else
                         _isDraggedItemStackSplit = false;
                 }
@@ -416,18 +393,68 @@ namespace AdventureGame
         public void OnDragEnd()
         {
             Console.WriteLine("End click and drag");
+            Console.WriteLine($"Split dragged item? {_isDraggedItemStackSplit}");
 
             if (_isItemDragged)
             {
                 int slotIndex = GetSlotCursorIsOver();
+
+                // Flags? E.g.
+                // bool swapItems, stackItems, returnSplitItems
 
                 // Check if the cursor is over a different inventory slot
                 if (slotIndex != -1 && _dragItemIndex != slotIndex)
                 {
                     Console.WriteLine($"Drop item on slot {slotIndex}");
 
-                    // Try to combine the items if the ids match
+                    Item slotItem = _inventory.InventoryItems[slotIndex];
 
+                    if (slotItem == null)
+                    {
+                        _inventory.InventoryItems[slotIndex] = new Item(_dragItem);
+
+                        if (!_isDraggedItemStackSplit)
+                            _inventory.InventoryItems[_dragItemIndex] = null;
+                        //else
+                        //    _inventory.InventoryItems[_dragItemIndex].DecreaseQuantity(
+                        //       _dragItem.Quantity);
+                    }
+                    // Try to stack the items
+                    else if (slotItem.ItemId == _dragItem.ItemId && slotItem.IsStackable())
+                    {
+                        //_inventoryManager.StackItem(_inventory.InventoryItems,
+                        //    slotIndex, _dragItemIndex);
+
+                        Item tempItem = _inventoryManager.StackItem(_inventory.InventoryItems,
+                            slotIndex, _dragItem);
+
+                        // Need to check if the temp item is empty
+                        // If not, try to return the remaining quantity
+
+                        // Need to update the original dragItemIndex
+
+                        if (tempItem == null)
+
+                        if (_isDraggedItemStackSplit)
+                        {
+                            Console.WriteLine($"Update original split slot item");
+                            Console.WriteLine($"Drag item index item {_inventory.InventoryItems[_dragItemIndex].Quantity}");
+
+                            //if (tempItem == null)
+                        }
+
+                        if (_inventory.InventoryItems[_dragItemIndex] != null)
+                        {
+                            Console.WriteLine($"Swap or return item split stack");
+
+
+                        }
+                    }
+                    else
+                    {
+                        _inventoryManager.SwapItems(_inventory.InventoryItems,
+                            slotIndex, _dragItemIndex);
+                    }
 
                     // Otherwise swap the items
                     // IF the drag item has not been split
@@ -561,12 +588,12 @@ namespace AdventureGame
             // Press and hold drop one item button? Delay by x milliseconds??
 
             // Drop an item
-            if (EngineGlobals.inputManager.IsDownDelay(Globals.secondaryCursorInput))
+            /*if (EngineGlobals.inputManager.IsDownDelay(Globals.secondaryCursorInput))
             {
-                // right click / right shoulder?
-                //Console.WriteLine("Secondary cursor input");
-                //DropOneItem();
-            }
+                 right click / right shoulder?
+                Console.WriteLine("Secondary cursor input");
+                DropOneItem();
+            }*/
         }
 
         // Draw the item image
