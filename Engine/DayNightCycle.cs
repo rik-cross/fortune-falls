@@ -128,7 +128,7 @@ namespace AdventureGame.Engine
                     pos -= 20;
                 }
             }
-            Globals.spriteBatch.DrawString(Theme.tertiaryFont, date, new Vector2(pos, 65), Color.White);
+            Globals.spriteBatch.DrawString(Theme.FontTertiary, date, new Vector2(pos, 65), Color.White);
         }
 
 

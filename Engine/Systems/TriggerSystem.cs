@@ -101,7 +101,7 @@ namespace AdventureGame.Engine
 
             Globals.spriteBatch.DrawRectangle(triggerComponent.rect, Color.Turquoise);
 
-            Globals.spriteBatch.DrawString(Theme.secondaryFont, triggerComponent.collidedEntities.Count.ToString(),
+            Globals.spriteBatch.DrawString(Theme.FontSecondary, triggerComponent.collidedEntities.Count.ToString(),
                 new Vector2(
                     (int)(transformComponent.position.X + triggerComponent.offset.X),
                     (int)(transformComponent.position.Y + triggerComponent.offset.Y)

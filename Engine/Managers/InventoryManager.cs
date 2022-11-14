@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+
 namespace AdventureGame.Engine
 {
     public class InventoryManager
@@ -99,17 +101,10 @@ namespace AdventureGame.Engine
                 // Check if the inventory is full 
                 if (item != null)
                     DropItem(inventoryItems, item);
+
+                // CHANGE to reflect more parameters???
+                // where to get this info from?
             }
-        }
-
-        // TO DO
-        // Drop the item on the in-game ground
-        public void DropItem(Item[] inventoryItems, Item item)
-        {
-            // Drop the item on the in-game ground using the player position
-            Console.WriteLine("Drop the item on the in-game ground");
-
-            // return position of the item?
         }
 
         // Delete an item object
@@ -117,6 +112,59 @@ namespace AdventureGame.Engine
         {
             item = null;
             return item;
+        }
+
+        // TO DO
+        // Drop the item on the in-game ground using the player position
+        public void DropItem(Item[] inventoryItems, Item item = null, int index = -1,
+            Scene scene = null, Entity player = null, bool isCollectable = true,
+            List<string> collectableByType = default, bool animation = false)
+        {
+            Console.WriteLine("Drop the item on the in-game ground");
+
+            if (IsItemValid(inventoryItems, index))
+                item = inventoryItems[index];
+
+            if (item == null)
+                return;
+
+            if (scene == null)
+                // GET top scene or top scene - 1 (menus)
+
+            // scene = EngineGlobals.sceneManager.GetPlayerScene();
+
+            if (player == null)
+                player = EngineGlobals.entityManager.GetLocalPlayer();
+
+            // Offset the item drop by a small pseudo-random amount
+            Random random = new Random();
+            int randomX = random.Next(0, 10);
+            int randomY = random.Next(0, 10);
+
+            Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
+
+            // Create the item
+            scene.AddEntity(ItemEntity.Create(
+                x: (int)(playerPosition.X + randomX),
+                y: (int)(playerPosition.Y + randomY),
+                item: item,
+                isCollectable: isCollectable,
+                collectableByType: collectableByType,
+                animation: animation));
+        }
+
+        // Return true if an item is within range and not null
+        public bool IsItemValid(Item[] inventoryItems, int index)
+        {
+            bool isValid = false;
+
+            if (index >= 0 && index < inventoryItems.Length)
+                isValid = true;
+
+            if (inventoryItems[index] == null)
+                isValid = false;
+
+            return isValid;
         }
 
         // Find the next available position in the inventory list 

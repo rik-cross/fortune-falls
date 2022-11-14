@@ -35,8 +35,8 @@ namespace AdventureGame
                 new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), Color.Black * 0.5f
             );
 
-            Vector2 fontSize = Theme.primaryFont.MeasureString("Paused");
-            Globals.spriteBatch.DrawString(Theme.primaryFont,
+            Vector2 fontSize = Theme.FontPrimary.MeasureString("Paused");
+            Globals.spriteBatch.DrawString(Theme.FontPrimary,
                 "Paused",
                 new Vector2(
                     Globals.ScreenWidth / 2 - fontSize.X / 2,

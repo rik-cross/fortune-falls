@@ -59,7 +59,7 @@ namespace AdventureGame
 
             // Container
             _containerRelativeSize = 0.8;
-            _containerBorder = Theme.extraLargeBorder;
+            _containerBorder = Theme.BorderExtraLarge;
             CalculateContainerDimensions();
 
             // Slots
@@ -69,9 +69,9 @@ namespace AdventureGame
             //slotWidth = Math.Min((containerWidth - containerBorder - slotPadding * (columns + 1)) / columns, (containerHeight - containerBorder - slotPadding * (rows + 1)) / rows);
             _slotWidth = 60;
             _slotHeight = 60; // (int)(slotWidth * slotSizeRatio);
-            _slotBorder = Theme.smallBorder;
+            _slotBorder = Theme.BorderSmall;
             _currentSlot = 0;
-            _currentSlotBorder = Theme.mediumBorder;
+            _currentSlotBorder = Theme.BorderMedium;
             _selectedSlot = -1;
             _isSlotSelected = false;
 
@@ -691,8 +691,8 @@ namespace AdventureGame
             {
                 Text quantity = new Engine.Text(
                     caption: "x" + item.Quantity.ToString(),
-                    font: Theme.secondaryFont,
-                    colour: Theme.primaryText,
+                    font: Theme.FontSecondary,
+                    colour: Theme.TextColorPrimary,
                     anchor: Anchor.BottomRight,
                     anchorParent: parentRect,
                     padding: new Padding(
@@ -721,11 +721,11 @@ namespace AdventureGame
 
                 Color barColour;
                 if (healthLevel > 50)
-                    barColour = Theme.healthLevelHigh;
+                    barColour = Theme.HealthLevelHigh;
                 else if (healthLevel > 30)
-                    barColour = Theme.healthLevelMedium;
+                    barColour = Theme.HealthLevelMedium;
                 else
-                    barColour = Theme.healthLevelLow;
+                    barColour = Theme.HealthLevelLow;
 
                 // Draw the bar
                 Globals.spriteBatch.FillRectangle(
@@ -737,8 +737,8 @@ namespace AdventureGame
                     barColour);
 
                 // Draw the bar's border
-                Globals.spriteBatch.DrawRectangle(barRect, Theme.borderPrimary,
-                    thickness: Theme.tinyBorder);
+                Globals.spriteBatch.DrawRectangle(barRect, Theme.BorderColorPrimary,
+                    thickness: Theme.BorderTiny);
             }
         }
 
@@ -750,7 +750,7 @@ namespace AdventureGame
             );
 
             // Draw the container
-            Globals.spriteBatch.FillRectangle(_containerRectangle, Theme.primary);
+            Globals.spriteBatch.FillRectangle(_containerRectangle, Theme.ColorPrimary);
             
             // Draw the container's border
             Globals.spriteBatch.DrawRectangle(
@@ -758,7 +758,7 @@ namespace AdventureGame
                     _containerX, _containerY,
                     _containerWidth, _containerHeight
                 ),
-                Theme.borderPrimary,
+                Theme.BorderColorPrimary,
                 thickness: _containerBorder);
 
             // Draw every inventory slot and each item
@@ -775,10 +775,10 @@ namespace AdventureGame
                 _slotRectangles[i] = slotRect;
 
                 // Draw the slot
-                Globals.spriteBatch.FillRectangle(slotRect, Theme.secondary);
+                Globals.spriteBatch.FillRectangle(slotRect, Theme.ColorSecondary);
                 
                 // Draw the slot's border
-                Globals.spriteBatch.DrawRectangle(slotRect, Theme.borderPrimary,
+                Globals.spriteBatch.DrawRectangle(slotRect, Theme.BorderColorPrimary,
                     thickness: _slotBorder);
 
                 // Draw a border around the slot if it is the current or selected slot
@@ -790,11 +790,11 @@ namespace AdventureGame
                         _slotWidth + _currentSlotBorder * 2,
                         _slotHeight + _currentSlotBorder * 2);
 
-                    Color highlightColour = Theme.borderHighlightPrimary;
+                    Color highlightColour = Theme.BorderHighlightPrimary;
 
                     // Change the colour if the slot is selected
                     if (_selectedSlot == i)
-                        highlightColour = Theme.borderHighlightSecondary;
+                        highlightColour = Theme.BorderHighlightSecondary;
 
                     Globals.spriteBatch.DrawRectangle(highlightedRectangle, highlightColour,
                         thickness: _currentSlotBorder);

@@ -23,8 +23,8 @@ namespace AdventureGame
             title = new Engine.Text(
                 caption: "Game Title!",
                 //position: new Vector2(Globals.ScreenWidth / 2, 200),
-                font: Theme.primaryFont,
-                colour: Theme.tertiaryText,
+                font: Theme.FontPrimary,
+                colour: Theme.TextColorTertiary,
                 //anchor: Anchor.middlecenter
                 anchor: Anchor.TopCenter,
                 padding: new Padding(top: 200)

@@ -86,7 +86,7 @@ namespace AdventureGame.Engine
                         t = line;
 
                     Globals.spriteBatch.DrawString(
-                        Theme.secondaryFont,
+                        Theme.FontSecondary,
                         t,
                         new Vector2(
                             ((transformComponent.position.X + (transformComponent.size.X/2)) - ((textComponent.textWidth + textComponent.outerMargin * 2) / 2)) + textComponent.outerMargin,
@@ -103,7 +103,7 @@ namespace AdventureGame.Engine
                 foreach (string line in textComponent.text)
                 {
                     Globals.spriteBatch.DrawString(
-                        Theme.secondaryFont,
+                        Theme.FontSecondary,
                         line,
                         new Vector2(
                             transformComponent.position.X - transformComponent.size.X / 2 + textComponent.outerMargin,
@@ -119,7 +119,7 @@ namespace AdventureGame.Engine
                 foreach (string line in textComponent.text)
                 {
                     Globals.spriteBatch.DrawString(
-                        Theme.secondaryFont,
+                        Theme.FontSecondary,
                         line,
                         new Vector2(
                             transformComponent.position.X - transformComponent.size.X / 2 + textComponent.outerMargin,

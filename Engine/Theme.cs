@@ -5,33 +5,32 @@ namespace AdventureGame.Engine
 {
     public static class Theme
     {
-        // CHANGE to colorPrimary, textColorPrimary, borderSizeSmall etc
-        public static Color primary = Color.SaddleBrown;
-        public static Color secondary = Color.LightGray;
-        public static Color tertiary = Color.AntiqueWhite;
+        public static Color ColorPrimary = Color.SaddleBrown;
+        public static Color ColorSecondary = Color.LightGray;
+        public static Color ColorTertiary = Color.AntiqueWhite;
 
-        public static Color healthLevelLow = Color.Red;
-        public static Color healthLevelMedium = Color.Orange;
-        public static Color healthLevelHigh = Color.Green;
+        public static Color TextColorPrimary = Color.DarkSlateGray;
+        public static Color TextColorSecondary = Color.Gray;
+        public static Color TextColorTertiary = Color.Yellow;
 
-        public static Color primaryText = Color.DarkSlateGray;
-        public static Color secondaryText = Color.Gray;
-        public static Color tertiaryText = Color.Yellow;
+        public static readonly SpriteFont FontPrimary = Globals.content.Load<SpriteFont>("File");
+        public static readonly SpriteFont FontSecondary = Globals.content.Load<SpriteFont>("small");
+        public static readonly SpriteFont FontTertiary = Globals.content.Load<SpriteFont>("small");
 
-        public static SpriteFont primaryFont = Globals.content.Load<SpriteFont>("File");
-        public static SpriteFont secondaryFont = Globals.content.Load<SpriteFont>("small");
-        public static SpriteFont tertiaryFont = Globals.content.Load<SpriteFont>("small");
+        public static Color BorderColorPrimary = Color.Black;
+        public static Color BorderColorSecondary = Color.DarkGray;
 
-        public static Color borderPrimary = Color.Black;
-        public static Color borderSecondary = Color.DarkGray;
+        public static Color BorderHighlightPrimary = Color.Goldenrod;
+        public static Color BorderHighlightSecondary = Color.Red;
 
-        public static Color borderHighlightPrimary = Color.Goldenrod; // or highlightPrimary?
-        public static Color borderHighlightSecondary = Color.Red;
+        public static readonly int BorderTiny = 1;
+        public static readonly int BorderSmall = 3;
+        public static readonly int BorderMedium = 5;
+        public static readonly int BorderLarge = 12;
+        public static readonly int BorderExtraLarge = 20;
 
-        public static readonly int tinyBorder = 1;
-        public static readonly int smallBorder = 3;
-        public static readonly int mediumBorder = 5;
-        public static readonly int largeBorder = 12;
-        public static readonly int extraLargeBorder = 20;
+        public static readonly Color HealthLevelLow = Color.Red;
+        public static readonly Color HealthLevelMedium = Color.Orange;
+        public static readonly Color HealthLevelHigh = Color.Green;
     }
 }

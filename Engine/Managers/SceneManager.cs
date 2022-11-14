@@ -33,7 +33,7 @@ namespace AdventureGame.Engine
         }
         public Scene GetSceneBelow(Scene scene)
         {
-            return sceneList[EngineGlobals.sceneManager.sceneList.IndexOf(scene) - 1];
+            return sceneList[sceneList.IndexOf(scene) - 1];
         }
         public void PopScene()
         {

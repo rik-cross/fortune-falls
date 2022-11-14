@@ -22,7 +22,7 @@ namespace AdventureGame.Engine
             _caption = caption;
 
             if (font == null)
-                _font = Theme.secondaryFont;
+                _font = Theme.FontSecondary;
             else
                 _font = font;
 
