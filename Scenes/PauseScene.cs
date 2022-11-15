@@ -16,7 +16,7 @@ namespace AdventureGame
 
         public override void Init()
         {
-            drawSceneBelow = true;    
+            DrawSceneBelow = true;    
         }
 
         public override void Update(GameTime gameTime)

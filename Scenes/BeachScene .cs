@@ -1,12 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using AdventureGame.Engine;
 
-using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-using MonoGame.Extended;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
 
 using S = System.Diagnostics.Debug;
 
@@ -24,39 +18,21 @@ namespace AdventureGame
             //
             // add entities
             //
-            
-            // trigger
-            AddEntity(EngineGlobals.entityManager.GetEntityById("b"));
 
-            //
-            // add cameras
-            //
+            // Beach trigger entity
+            //AddEntity(EngineGlobals.entityManager.GetEntityById("b"));
+            Engine.Entity enterVillageTrigger = EngineGlobals.entityManager.CreateEntity();
+            enterVillageTrigger.Tags.AddTag("beachTrigger");
+            enterVillageTrigger.AddComponent(new Engine.TransformComponent(475, 1000));
+            enterVillageTrigger.AddComponent(new Engine.TriggerComponent(
+                new Vector2(75, 30),
+                onCollide: SceneTriggers.EnterGameSceneFromBeach
+            ));
+            AddEntity(enterVillageTrigger);
 
-            // player camera
-            Engine.Camera playerCamera = new Engine.Camera(
-                name: "main",
-                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                zoom: Globals.globalZoomLevel,
-                backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
-            );
-            AddCamera(playerCamera);
 
-            // minimap camera
-            Engine.Camera minimapCamera = new Engine.Camera(
-                name: "minimap",
-                screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
-                size: new Vector2(300, 300),
-                followPercentage: 1.0f,
-                zoom: 0.5f,
-                backgroundColour: Color.DarkSlateBlue,
-                borderColour: Color.Black,
-                borderThickness: 2,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
-
-            );
-            AddCamera(minimapCamera);
-
+            // Add the player and minimap cameras
+            AddCameras();
         }
 
         public override void Update(GameTime gameTime)
@@ -66,9 +42,9 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
             {
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
+                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {

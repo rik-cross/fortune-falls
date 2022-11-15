@@ -39,7 +39,7 @@ namespace AdventureGame
 
         public override void Init()
         {
-            drawSceneBelow = true;
+            DrawSceneBelow = true;
             _inventoryManager = EngineGlobals.inventoryManager;
 
             // CHANGE to any entity

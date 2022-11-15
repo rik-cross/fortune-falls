@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using AdventureGame.Engine;
+﻿using AdventureGame.Engine;
+
 using Microsoft.Xna.Framework;
 
 using System;
-using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -86,12 +83,6 @@ namespace AdventureGame
             }
 
 
-            // TO DO
-            // Create light and sprite sheet here instead of in Globals
-            // Remove LightEntity.cs
-            //AddEntity(EngineGlobals.entityManager.GetEntityByName("light1"));
-
-
             // add map
             //AddMap("startZone");
             //AddMap("village.tmx");
@@ -101,14 +92,60 @@ namespace AdventureGame
             // add entities
             //
 
-            // home entity
-            AddEntity(EngineGlobals.entityManager.GetEntityById("home"));
             // enemy entity
             //AddEntity(EngineGlobals.entityManager.GetEntityByName("enemy1"));
-            // light entity
-            AddEntity(EngineGlobals.entityManager.GetEntityById("light1"));
-            // map trigger
-            AddEntity(EngineGlobals.entityManager.GetEntityById("m"));
+
+            // Home entity
+            Entity homeEntity = EngineGlobals.entityManager.CreateEntity();
+            homeEntity.Tags.Id = "home";
+            homeEntity.Tags.AddTag("building"); // home or building?
+            homeEntity.AddComponent(new TransformComponent(
+                new Vector2(50, 20),
+                new Vector2(88, 89)));
+            homeEntity.AddComponent(new Engine.SpriteComponent("homeImage"));
+            homeEntity.AddComponent(new ColliderComponent(new Vector2(80, 20), new Vector2(5, 68)));
+            homeEntity.AddComponent(new TriggerComponent(
+                new Vector2(20, 3),
+                new Vector2(35, 88),
+                onCollisionEnter: SceneTriggers.EnterHouse
+            ));
+            AddEntity(homeEntity);
+
+            // Light entity
+            Engine.Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
+            lightSourceEntity.Tags.AddTag("light");
+            // By default, could each sub texture be calculate using
+            // x = filewidth / spritewidth, y = 0??
+            //int[,] subTextures = new int[4, 2] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } };
+            List<List<int>> subTextureValues = new List<List<int>>();
+            subTextureValues.Add(new List<int>() { 0, 0 });
+            subTextureValues.Add(new List<int>() { 1, 0 });
+            subTextureValues.Add(new List<int>() { 2, 0 });
+            subTextureValues.Add(new List<int>() { 3, 0 });
+            Engine.SpriteSheet lightSourceSpriteSheet = new Engine.SpriteSheet("candleTest", 32, 32);
+            lightSourceEntity.AddComponent(new Engine.SpriteComponent(lightSourceSpriteSheet, subTextureValues));
+            lightSourceEntity.AddComponent(new Engine.TransformComponent(300, 300, 32, 32));
+            lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(12, 6), new Vector2(10, 26)));
+            lightSourceEntity.AddComponent(new Engine.LightComponent(100));
+            lightSourceEntity.AddComponent(new Engine.TriggerComponent(
+                size: new Vector2(132, 132),
+                offset: new Vector2(-50, -50),
+                onCollisionEnter: SceneTriggers.LightOnCollisionEnter,
+                onCollisionExit: SceneTriggers.LightOnCollisionExit
+            ));
+            AddEntity(lightSourceEntity);
+
+            // Map trigger
+            //AddEntity(EngineGlobals.entityManager.GetEntityById("m"));
+            Engine.Entity enterBeachTrigger = EngineGlobals.entityManager.CreateEntity();
+                //enterBeachTrigger.Tags.Id = "m";
+                enterBeachTrigger.Tags.AddTag("mapTrigger"); // trigger / sceneChangeTrigger
+                enterBeachTrigger.AddComponent(new Engine.TransformComponent(225, 0));
+                enterBeachTrigger.AddComponent(new Engine.TriggerComponent(
+                    new Vector2(75, 30),
+                    onCollisionEnter: SceneTriggers.EnterBeach
+            ));
+            AddEntity(enterBeachTrigger);
 
 
             // item entities test
@@ -134,13 +171,7 @@ namespace AdventureGame
             chestEntity.AddComponent(new Engine.InventoryComponent(10));
 
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-            /*
-            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems,
-                new Item("arrowStandard", "I_Boulder01", 10, 20));
-
-            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems,
-                new Item("stick", "I_Boulder01", 10, 10));
-            */
+            
             Item arrows = new Item(
                 itemId: "ArrowStandard",
                 filename: itemsDirectory + "I_Boulder01",
@@ -155,38 +186,10 @@ namespace AdventureGame
                 stackSize: 10);
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, sticks);
 
-
-            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("m"));
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
 
-            //
-            // add cameras
-            //
-
-            // player camera
-            Engine.Camera playerCamera = new Engine.Camera(
-                name: "main",
-                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                zoom: Globals.globalZoomLevel,
-                backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
-            );
-            AddCamera(playerCamera);
-
-            // minimap camera
-            Engine.Camera minimapCamera = new Engine.Camera(
-                name: "minimap",
-                screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
-                size: new Vector2(300, 300),
-                followPercentage: 1.0f,
-                zoom: 0.5f,
-                backgroundColour: Color.DarkSlateBlue,
-                borderColour: Color.Black,
-                borderThickness: 2,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
-            );
-            AddCamera(minimapCamera);
-
+            // Add the player and minimap cameras
+            AddCameras();
         }
 
         public override void Update(GameTime gameTime)
@@ -196,9 +199,10 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
             {
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
+                // FIX so that MenuScene is shown again
+                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {

@@ -12,33 +12,41 @@ namespace AdventureGame.Engine
 {
     public abstract class Scene
     {
+        public SceneManager _sceneManager;
+        public EntityManager _entityManager;
+        public ComponentManager _componentManager;
+        public SystemManager _systemManager;
 
-        public List<Entity> entityList;
-        public List<Camera> cameraList;
-        public double lightLevel = 0.6f;
+        public List<Entity> EntityList { get; set; }
+        public List<Entity> EntitiesToDelete { get; set; } // protected (SceneManager)?
 
-        public EntityManager entityManager;
-        public ComponentManager componentManager;
-        public SystemManager systemManager;
+        protected List<Camera> CameraList { get; private set; }
+        protected double LightLevel { get; set; }
 
-        public TiledMap map = null;
-        public TiledMapRenderer mapRenderer = null;
-        public List<Rectangle> collisionTiles = new List<Rectangle>();
+        public TiledMap Map { get; private set; }
+        public TiledMapRenderer MapRenderer { get; private set; }
+        public List<Rectangle> CollisionTiles { get; private set; }
 
-        public bool updateSceneBelow = false;
-        public bool drawSceneBelow = false;
-
-        public List<Entity> entitiesToDelete = new List<Entity>();
+        public bool UpdateSceneBelow { get; set; }
+        public bool DrawSceneBelow { get; set; }
 
         public Scene()
         {
+            _sceneManager = EngineGlobals.sceneManager;
+            _entityManager = EngineGlobals.entityManager;
+            _componentManager = EngineGlobals.componentManager;
+            _systemManager = EngineGlobals.systemManager;
 
-            entityList = new List<Entity>();
-            cameraList = new List<Camera>();
+            EntityList = new List<Entity>();
+            EntitiesToDelete = new List<Entity>();
+            CameraList = new List<Camera>();
+            CollisionTiles = new List<Rectangle>();
 
-            entityManager = EngineGlobals.entityManager;
-            componentManager = EngineGlobals.componentManager;
-            systemManager = EngineGlobals.systemManager;
+            Map = null;
+            MapRenderer = null;
+            UpdateSceneBelow = false;
+            DrawSceneBelow = false;
+            LightLevel = 0.6f;
 
             Init();
 
@@ -46,12 +54,12 @@ namespace AdventureGame.Engine
 
         public void AddMap(string newMapLocation)
         {
-            map = Globals.content.Load<TiledMap>(newMapLocation);
-            mapRenderer = new TiledMapRenderer(Globals.graphicsDevice, map);
+            Map = Globals.content.Load<TiledMap>(newMapLocation);
+            MapRenderer = new TiledMapRenderer(Globals.graphicsDevice, Map);
 
-            collisionTiles.Clear();
+            CollisionTiles.Clear();
 
-            foreach (TiledMapTileLayer layer in map.Layers)
+            foreach (TiledMapTileLayer layer in Map.Layers)
             {
                 if (layer.Properties.ContainsValue("collision"))
                 {
@@ -65,10 +73,10 @@ namespace AdventureGame.Engine
                             {
                                 if (!layer.GetTile((ushort)x, (ushort)y).IsBlank)
                                 {
-                                    collisionTiles.Add(
+                                    CollisionTiles.Add(
                                         new Rectangle(
-                                            x * map.TileWidth, y * map.TileHeight,
-                                            map.TileWidth, map.TileHeight
+                                            x * Map.TileWidth, y * Map.TileHeight,
+                                            Map.TileWidth, Map.TileHeight
                                         )
                                     );
                                 }
@@ -81,14 +89,43 @@ namespace AdventureGame.Engine
 
         }
 
+        public void AddCameras()
+        {
+            // Main player camera
+            Engine.Camera playerCamera = new Engine.Camera(
+                name: "main",
+                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
+                zoom: Globals.globalZoomLevel,
+                backgroundColour: Color.DarkSlateBlue,
+                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
+            );
+            //AddCamera(playerCamera);
+            CameraList.Add(playerCamera);
+
+            // Minimap camera
+            Engine.Camera minimapCamera = new Engine.Camera(
+                name: "minimap",
+                screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
+                size: new Vector2(300, 300),
+                followPercentage: 1.0f,
+                zoom: 0.5f,
+                backgroundColour: Color.DarkSlateBlue,
+                borderColour: Color.Black,
+                borderThickness: 2,
+                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
+            );
+            //AddCamera(minimapCamera);
+            CameraList.Add(minimapCamera);
+        }
+        /*
         public void AddCamera(Camera camera)
         {
-            cameraList.Add(camera);
-        }
+            CameraList.Add(camera);
+        }*/
 
         public Camera GetCameraByName(string name)
         {
-            foreach(Camera c in cameraList)
+            foreach(Camera c in CameraList)
             {
                 if (c.name == name)
                 {
@@ -100,8 +137,8 @@ namespace AdventureGame.Engine
 
         public void AddEntity(Entity e)
         {
-            if (e != null && entityList.Contains(e) == false)
-                entityList.Add(e);
+            if (e != null && EntityList.Contains(e) == false)
+                EntityList.Add(e);
         }
 
         public void AddEntity(Entity[] eList)
@@ -112,8 +149,37 @@ namespace AdventureGame.Engine
 
         public void RemoveEntity(Entity e)
         {
-            if (!entitiesToDelete.Contains(e))
-                entitiesToDelete.Add(e);
+            if (!EntitiesToDelete.Contains(e))
+                EntitiesToDelete.Add(e);
+        }
+
+        public void AddPlayer(Scene newScene, Scene currentScene = null,
+            Vector2 position = default, Entity player = null)
+        {
+            if (player == null)
+                player = _entityManager.GetLocalPlayer();
+
+            if (player.IsPlayerType())
+            {
+                // Remove the player from the current scene
+                if (currentScene != null)
+                {
+                    currentScene.GetCameraByName("main").trackedEntity = null;
+                    currentScene.GetCameraByName("minimap").trackedEntity = null;
+                    currentScene.RemoveEntity(player);
+                }
+
+                // Add the player to the new scene
+                TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
+                transformComponent.position = position;
+                newScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
+                newScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
+                newScene.AddEntity(player);
+                newScene.GetCameraByName("main").trackedEntity = player;
+                newScene.GetCameraByName("minimap").trackedEntity = player;
+
+                _sceneManager.Transition = new FadeSceneTransition(newScene, replaceScene: true);
+            }
         }
 
         public virtual void Init() { }
@@ -122,8 +188,8 @@ namespace AdventureGame.Engine
 
         public void _OnEnter()
         {
-            entitiesToDelete.Clear();
-            foreach (Entity e in entityList)
+            EntitiesToDelete.Clear();
+            foreach (Entity e in EntityList)
             {
                 TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
                 if (triggerComponent != null)
@@ -136,8 +202,8 @@ namespace AdventureGame.Engine
         public virtual void OnEnter() { }
         public void _OnExit()
         {
-            entitiesToDelete.Clear();
-            foreach(Entity e in entityList)
+            EntitiesToDelete.Clear();
+            foreach(Entity e in EntityList)
             {
                 TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
                 if(triggerComponent != null)
@@ -183,29 +249,29 @@ namespace AdventureGame.Engine
         {
 
             // sort entities in scene
-            entityList.Sort(CompareY);
+            EntityList.Sort(CompareY);
 
             // Delete entities from the deleted set
-            entityManager.DeleteEntitiesFromSet();
+            _entityManager.DeleteEntitiesFromSet();
 
             // Repeats for each entity whose components have changed
-            foreach (Entity e in componentManager.changedEntities)
+            foreach (Entity e in _componentManager.changedEntities)
             {
                 // Remove queued components from entities
-                componentManager.RemoveQueuedComponents();
+                _componentManager.RemoveQueuedComponents();
 
                 // Update the entity lists in each system
-                systemManager.UpdateEntityLists(e);
+                _systemManager.UpdateEntityLists(e);
             }
             // Clear the queue and set from ComponentManager
-            componentManager.removedComponents.Clear();
-            componentManager.changedEntities.Clear();
+            _componentManager.removedComponents.Clear();
+            _componentManager.changedEntities.Clear();
 
             // update timers here??
 
 
             // update cameras
-            foreach (Camera c in cameraList)
+            foreach (Camera c in CameraList)
                 c.Update(this);
 
             // update each system
@@ -215,7 +281,7 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in entityList)
+                foreach (Entity e in EntityList)
                     if (s.entityList.Contains(e))
                         s.UpdateEntity(gameTime, this, e);
             }
@@ -223,9 +289,9 @@ namespace AdventureGame.Engine
             // update the scene
             Update(gameTime);
 
-            if (updateSceneBelow)
+            if (UpdateSceneBelow)
             {
-                EngineGlobals.sceneManager.GetSceneBelow(this)._Update(gameTime);
+                _sceneManager.GetSceneBelow(this)._Update(gameTime);
             }
 
         }
@@ -235,9 +301,9 @@ namespace AdventureGame.Engine
         public void _Draw(GameTime gameTime)
         {
 
-            if (drawSceneBelow)
+            if (DrawSceneBelow)
             {
-                EngineGlobals.sceneManager.GetSceneBelow(this)._Draw(gameTime);
+                _sceneManager.GetSceneBelow(this)._Draw(gameTime);
             }
             
             var blend = new BlendState
@@ -249,7 +315,7 @@ namespace AdventureGame.Engine
 
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
 
-            foreach (Engine.Camera c in cameraList)
+            foreach (Engine.Camera c in CameraList)
             {
 
                 // draw camera background
@@ -261,21 +327,21 @@ namespace AdventureGame.Engine
                 // draw the map
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
 
-                foreach (TiledMapLayer layer in map.Layers)
+                foreach (TiledMapLayer layer in Map.Layers)
                 {
                     if (layer.Properties.ContainsValue("below"))
                     {
-                        mapRenderer.Draw(layer, c.getTransformMatrix());
+                        MapRenderer.Draw(layer, c.getTransformMatrix());
                     }
                 }
 
                 if (EngineGlobals.DEBUG)
                 {
-                    foreach (TiledMapLayer layer in map.Layers)
+                    foreach (TiledMapLayer layer in Map.Layers)
                     {
                         if (layer.Properties.ContainsValue("collision"))
                         {
-                            mapRenderer.Draw(layer, c.getTransformMatrix());
+                            MapRenderer.Draw(layer, c.getTransformMatrix());
                         }
                     }
                 }
@@ -290,7 +356,7 @@ namespace AdventureGame.Engine
                     if (!s.aboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in entityList)
+                        foreach (Entity e in EntityList)
                             if (s.entityList.Contains(e))
                                 s.DrawEntity(gameTime, this, e);
                     }
@@ -298,11 +364,11 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.End();
 
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
-                foreach (TiledMapLayer layer in map.Layers)
+                foreach (TiledMapLayer layer in Map.Layers)
                 {
                     if (layer.Properties.ContainsValue("above"))
                     {
-                        mapRenderer.Draw(layer, c.getTransformMatrix());
+                        MapRenderer.Draw(layer, c.getTransformMatrix());
                     }
                 }
                 Globals.spriteBatch.End();
@@ -315,7 +381,7 @@ namespace AdventureGame.Engine
                     if (s.aboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in entityList)
+                        foreach (Entity e in EntityList)
                             if (s.entityList.Contains(e))
                                 s.DrawEntity(gameTime, this, e);
                     }
@@ -330,7 +396,7 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.FillRectangle(
                     0,0,
                     Globals.ScreenWidth, Globals.ScreenHeight,
-                    new Color(0, 0, 0, (int)(255*(1-lightLevel)))
+                    new Color(0, 0, 0, (int)(255*(1-LightLevel)))
                 );
                 Globals.spriteBatch.End();
 
@@ -339,7 +405,7 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix(), blendState: blend);
                 var alphaMask = Globals.content.Load<Texture2D>("light");
 
-                foreach (Entity e in entityList)
+                foreach (Entity e in EntityList)
                 {
                     LightComponent lightComponent = e.GetComponent<LightComponent>();
                     TransformComponent transformComponent = e.GetComponent<TransformComponent>();

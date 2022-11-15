@@ -15,7 +15,7 @@ namespace AdventureGame.Engine
 
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
 
-            foreach (Rectangle rect in scene.collisionTiles)
+            foreach (Rectangle rect in scene.CollisionTiles)
             {
                 if (rect.Intersects(colliderComponent.rect))
                 {

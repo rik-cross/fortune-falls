@@ -15,7 +15,7 @@ namespace AdventureGame.Engine
             HitboxComponent hitboxComponent = entity.GetComponent<HitboxComponent>();
 
             // check for hurtbox and hitbox intersects
-            foreach (Entity e in scene.entityList)
+            foreach (Entity e in scene.EntityList)
             {
                 if (entityList.Contains(e) && entity != e)
                 {

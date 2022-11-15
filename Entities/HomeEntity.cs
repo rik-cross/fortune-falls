@@ -14,7 +14,7 @@ namespace AdventureGame
 {
     public static class HomeEntity
     {
-
+        /*
         public static void houseOnCollisionEnter(Entity thisEntity, Entity otherEntity, float distance)
         {
             if (otherEntity.IsPlayerType())
@@ -36,11 +36,11 @@ namespace AdventureGame
                 Globals.homeScene.GetCameraByName("minimap").trackedEntity = otherEntity;
                 Globals.homeScene.AddEntity(otherEntity);
 
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(Globals.homeScene, replaceScene: true);
+                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(Globals.homeScene, replaceScene: true);
 
             }
         }
-
+        */
         public static Engine.Entity Create(int x, int y)
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
@@ -54,7 +54,7 @@ namespace AdventureGame
             entity.AddComponent(new TriggerComponent(
                 new Vector2(20,3),
                 new Vector2(35, 88),
-                onCollisionEnter: houseOnCollisionEnter
+                onCollisionEnter: SceneTriggers.EnterHouse
             ));
 
             return entity;

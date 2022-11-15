@@ -18,8 +18,6 @@ namespace AdventureGame
         public static SpriteBatch spriteBatch;
         public static GraphicsDeviceManager graphics;
         public static GraphicsDevice graphicsDevice;
-        //public static SpriteFont font;
-        //public static SpriteFont fontSmall;
         public static RenderTarget2D sceneRenderTarget;
         public static RenderTarget2D lightRenderTarget;
 
@@ -44,7 +42,7 @@ namespace AdventureGame
         public static List<Engine.InputItem> leftInput = new List<Engine.InputItem>() { Engine.KeyboardInput.A, Engine.ControllerInput.LeftThumbLeft };
         public static List<Engine.InputItem> rightInput = new List<Engine.InputItem>() { Engine.KeyboardInput.D, Engine.ControllerInput.LeftThumbRight };
 
-        public static Engine.SpriteSheet playerSpriteSheet; // REMOVE once MenuScene is sorted
+        public static Engine.SpriteSheet playerSpriteSheet; // Move to MenuScene?
 
         public static Engine.Scene menuScene;
         public static Engine.Scene gameScene;

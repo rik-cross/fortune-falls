@@ -98,10 +98,7 @@ namespace AdventureGame
             ));
 
             playerEntity.AddComponent(new Engine.TriggerComponent(
-                new Vector2(26, 21), new Vector2(0, 21),
-                null,
-                null,
-                null
+                new Vector2(26, 21), offset: new Vector2(0, 21)
             ));
 
             return playerEntity;

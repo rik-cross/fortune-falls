@@ -32,7 +32,7 @@ namespace AdventureGame.Engine
             );
 
             // check for collider intersects
-            foreach (Entity otherEntity in scene.entityList)
+            foreach (Entity otherEntity in scene.EntityList)
             {
                 if (entityList.Contains(otherEntity) && entity != otherEntity)
                 {

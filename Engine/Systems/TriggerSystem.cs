@@ -26,7 +26,7 @@ namespace AdventureGame.Engine
                 (int)(triggerComponent.size.Y)
             );
 
-            foreach (Entity e in scene.entityList)
+            foreach (Entity e in scene.EntityList)
             {
                 if (entityList.Contains(e) && e != entity)
                 {

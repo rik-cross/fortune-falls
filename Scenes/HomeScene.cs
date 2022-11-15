@@ -1,13 +1,6 @@
-﻿
-using AdventureGame.Engine;
+﻿using AdventureGame.Engine;
+
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-using MonoGame.Extended;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-
-using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -17,8 +10,7 @@ namespace AdventureGame
 
         public HomeScene()
         {
-
-            lightLevel = 0.3f;
+            LightLevel = 0.3f;
 
             // add map
             AddMap("home");
@@ -26,45 +18,45 @@ namespace AdventureGame
             //
             // add entities
             //
-            
-            // player entity
-            //AddEntity(EngineGlobals.entityManager.GetEntityByTag("player"));
-            // trigger
-            AddEntity(EngineGlobals.entityManager.GetEntityById("h"));
-            // light
-            AddEntity(EngineGlobals.entityManager.GetEntityById("homeLight1"));
-            // light switch
-            AddEntity(EngineGlobals.entityManager.GetEntityById("lightSwitch1"));
 
-            //
-            // add cameras
-            //
+            // Home light entity
+            Entity homeLightEntity = EngineGlobals.entityManager.CreateEntity();
+            homeLightEntity.Tags.Id = "homeLight1";
+            homeLightEntity.Tags.AddTag("light");
+            homeLightEntity.AddComponent(new Engine.TransformComponent(
+                new Vector2(150, 75),
+                new Vector2(32, 32)));
+            homeLightEntity.AddComponent(new Engine.LightComponent(150));
+            AddEntity(homeLightEntity);
 
-            // player camera
-            Engine.Camera playerCamera = new Engine.Camera(
-                name: "main",
-                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                zoom: Globals.globalZoomLevel,
-                backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
-            );
-            AddCamera(playerCamera);
+            // Home light switch entity
+            Entity lightSwitchEntity = EngineGlobals.entityManager.CreateEntity();
+            //entity.Tags.Id = "lightSwitch1";
+            lightSwitchEntity.Tags.AddTag("lightSwitch");
+            lightSwitchEntity.AddComponent(new Engine.TransformComponent(
+                new Vector2(120, 135),
+                new Vector2(8, 8)));
+            lightSwitchEntity.AddComponent(new Engine.SpriteComponent("lightSwitch"));
+            lightSwitchEntity.AddComponent(new TriggerComponent(
+                new Vector2(8, 8),
+                onCollide: SceneTriggers.HomeLightSwitch
+            ));
+            AddEntity(lightSwitchEntity);
 
-            // minimap camera
-            Engine.Camera minimapCamera = new Engine.Camera(
-                name: "minimap",
-                screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
-                size: new Vector2(300, 300),
-                followPercentage: 1.0f,
-                zoom: 0.5f,
-                backgroundColour: Color.DarkSlateBlue,
-                borderColour: Color.Black,
-                borderThickness: 2,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
+            // Home trigger entity
+            Engine.Entity homeTrigger = EngineGlobals.entityManager.CreateEntity();
+            homeTrigger.Tags.AddTag("homeTrigger");
+            homeTrigger.AddComponent(new Engine.TransformComponent(155, 135));
+            homeTrigger.AddComponent(new Engine.TriggerComponent(
+                new Vector2(20, 10),
+                onCollide: SceneTriggers.EnterGameSceneFromHome
+            ));
+            AddEntity(homeTrigger);
+            //AddEntity(new TriggerEntity());
 
-            );
-            AddCamera(minimapCamera);
 
+            // Add the player and minimap cameras
+            AddCameras();
         }
 
         public override void Update(GameTime gameTime)
@@ -74,9 +66,9 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
             {
-                EngineGlobals.sceneManager.transition = new FadeSceneTransition(null);
+                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {

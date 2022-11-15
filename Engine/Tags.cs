@@ -9,7 +9,7 @@ namespace AdventureGame.Engine
 
         // A Type tag can be shared by multiple entities.
         // Entities can have multiple Type tags
-        public List<string> Type { get; } = new List<string>();
+        public List<string> Type { get; private set; } = new List<string>();
 
 
         public Tags() { }
@@ -23,7 +23,14 @@ namespace AdventureGame.Engine
         public Tags(List<string> type, string id = default)
         {
             Id = id;
-            Type = type;
+
+            if (type == null)
+                return;
+
+            if (Type.Count > 0)
+                Type.AddRange(type);
+            else
+                Type = type;
         }
 
         // Clear the Id tag
@@ -32,10 +39,29 @@ namespace AdventureGame.Engine
             Id = "";
         }
 
+        // Clear the Type tags
+        public void ClearType()
+        {
+            Type = new List<string>();
+        }
+
         // Add a tag to the Type list
         public void AddTag(string type)
         {
-            Type.Add(type);
+            if (!string.IsNullOrEmpty(type))
+                Type.Add(type);
+        }
+
+        // Add a list of tags to the Type list
+        public void AddTags(List<string> type)
+        {
+            if (type == null)
+                return;
+
+            if (Type.Count > 0)
+                Type.AddRange(type);
+            else
+                Type = type;
         }
 
         // Remove a tag from the Type list

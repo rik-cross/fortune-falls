@@ -14,16 +14,6 @@ namespace AdventureGame
     public static class LightSwitchEntity
     {
 
-        public static void lightOnCollide(Entity thisEntity, Entity otherEntity, float distance)
-        {
-            if (otherEntity.IsPlayerType())
-            {
-                InputComponent playerInputComponent = otherEntity.GetComponent<InputComponent>();
-                if (playerInputComponent != null && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
-                    EngineGlobals.entityManager.GetEntityById("homeLight1").GetComponent<LightComponent>().visible = !EngineGlobals.entityManager.GetEntityById("homeLight1").GetComponent<LightComponent>().visible;
-            }
-        }
-
         public static Engine.Entity Create(int x, int y)
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
@@ -35,8 +25,7 @@ namespace AdventureGame
             entity.AddComponent(new Engine.SpriteComponent("lightSwitch"));
             entity.AddComponent(new TriggerComponent(
                 new Vector2(8, 8),
-                new Vector2(0, 0),
-                onCollide: lightOnCollide
+                onCollide: SceneTriggers.HomeLightSwitch
             ));
 
             return entity;
