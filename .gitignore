@@ -36,6 +36,8 @@ Content/bin/*
 Content/.DS_Store
 !Content/Items
 !Content/Items/*
+!Content/Emojis
+!Content/Emojis/*
 !Entities/
 !Entities/*.cs
 !Scenes/
