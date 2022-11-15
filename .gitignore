@@ -21,6 +21,8 @@ Engine/*
 !Engine/Sprites/*.cs
 !Engine/SceneRenderables
 !Engine/SceneRenderables/*.cs
+!Engine/TriggerEvents
+!Engine/TriggerEvents/*.cs
 !Engine/AnimatedValues
 !Engine/AnimatedValues/*.cs
 !Engine/Utilities
