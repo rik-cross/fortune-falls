@@ -11,19 +11,33 @@ namespace AdventureGame.Engine
     {
         public Image emoteImage;
         public Rectangle emoteBackground;
-        public Vector2 emoteSize = new Vector2(16, 16);
+        private Vector2 _emoteSize;
+        public Vector2 EmoteSize {
+            get {
+                return _emoteSize;
+            }
+            set {
+                _emoteSize = value;
+                if (emoteImage != null)
+                    emoteImage.Size = value;
+                emoteBackground.Width = (int)(value.X + Theme.BorderTiny * 2);
+                emoteBackground.Height = (int)(value.Y + Theme.BorderTiny * 2);
+            }
+        }
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
         public EmoteComponent(string emoteImageURI)
         {
+            EmoteSize = new Vector2(8, 8);
+
             emoteImage = new Image(
                 Globals.content.Load<Texture2D>(emoteImageURI),
-                size: emoteSize);
+                size: EmoteSize);
 
             emoteBackground = new Rectangle(
                 0,
                 0,
-                (int)(emoteSize.X + Theme.BorderTiny * 2),
-                (int)(emoteSize.Y + Theme.BorderTiny * 2));
+                (int)(EmoteSize.X + Theme.BorderTiny * 2),
+                (int)(EmoteSize.Y + Theme.BorderTiny * 2));
 
             Show();
         }

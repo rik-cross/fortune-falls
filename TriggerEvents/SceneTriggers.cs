@@ -79,7 +79,6 @@ namespace AdventureGame.Engine
             else
                 colliderEntity.GetComponent<EmoteComponent>().Show();
 
-
         }
         public static void LightOnCollisionExit(Entity triggerEntity, Entity colliderEntity, float distance)
         {
