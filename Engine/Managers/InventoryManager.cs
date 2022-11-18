@@ -117,7 +117,7 @@ namespace AdventureGame.Engine
         // TO DO
         // Drop the item on the in-game ground using the player position
         public void DropItem(Item[] inventoryItems, Item item = null, int index = -1,
-            Scene scene = null, Entity player = null, bool isCollectable = true,
+            Entity player = null, bool isCollectable = true,
             List<string> collectableByType = default, bool animation = false)
         {
             Console.WriteLine("Drop the item on the in-game ground");
@@ -128,29 +128,37 @@ namespace AdventureGame.Engine
             if (item == null)
                 return;
 
-            if (scene == null)
-                // GET top scene or top scene - 1 (menus)
-
-            // scene = EngineGlobals.sceneManager.GetPlayerScene();
-
             if (player == null)
                 player = EngineGlobals.entityManager.GetLocalPlayer();
 
-            // Offset the item drop by a small pseudo-random amount
+            Scene playerScene = EngineGlobals.sceneManager.PlayerScene;
+            // scene = EngineGlobals.sceneManager.GetPlayerScene(playerId);
+
+            // Initialise the item position to below the bottom center of the player
+            TransformComponent playerTransform = player.GetComponent<TransformComponent>();
+            int itemX = (int)playerTransform.Center - item.Texture.Width / 2;
+            int itemY = (int)playerTransform.Bottom + 10;
+
+            // Offset the item X position by a pseudo-random amount
             Random random = new Random();
-            int randomX = random.Next(0, 10);
-            int randomY = random.Next(0, 10);
+            int randomX = random.Next(0, 30);
+            int randomY = random.Next(0, 11);
 
-            Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
+            // Randomise +- item X offset amount
+            int randomSign = random.Next(0, 2);
+            if (randomSign == 0)
+                randomX *= -1;
 
-            // Create the item
-            scene.AddEntity(ItemEntity.Create(
-                x: (int)(playerPosition.X + randomX),
-                y: (int)(playerPosition.Y + randomY),
-                item: item,
-                isCollectable: isCollectable,
-                collectableByType: collectableByType,
-                animation: animation));
+            itemX += randomX;
+            itemY += randomY;
+
+            // TO DO
+            // Check that the item position is within the scene boundaries
+            // Check that the item is not colliding with anything e.g. a building
+
+            // Create the item and add it to the player scene
+            playerScene.AddEntity(ItemEntity.Create(itemX, itemY, item, isCollectable,
+                collectableByType, animation));
         }
 
         // Return true if an item is within range and not null
@@ -161,7 +169,7 @@ namespace AdventureGame.Engine
             if (index >= 0 && index < inventoryItems.Length)
                 isValid = true;
 
-            if (inventoryItems[index] == null)
+            if (isValid && inventoryItems[index] == null)
                 isValid = false;
 
             return isValid;

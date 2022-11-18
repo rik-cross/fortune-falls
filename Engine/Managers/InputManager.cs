@@ -285,6 +285,18 @@ namespace AdventureGame.Engine
             CursorPosition = new Vector2(newX, newY);
         }
 
+        public bool IsMouseInsideWindow()
+        {
+            /* 
+             * Issue - OnRelease sets state position to 0 when outside the window
+            MouseState exactMouseState = Mouse.GetState();
+            Point position = new Point(exactMouseState.X, exactMouseState.Y);
+            Console.WriteLine(position);
+            return Globals.graphicsDevice.Viewport.Bounds.Contains(position);
+            */
+            return Globals.graphicsDevice.Viewport.Bounds.Contains(_previousMouseState.X, _previousMouseState.Y);
+        }
+
         // CHECK tolerance etc.
         // Replace IsDown etc for thumbstick movement?
         private string GetThumbstickDirection()

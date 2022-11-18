@@ -12,6 +12,8 @@ namespace AdventureGame
             Globals.graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
+            // Globals.graphics.HardwareModeSwitch = false; // Fix for fullscreen issues
+            // https://community.monogame.net/t/monogame-full-screen-mouse-y-position-wrong/11387/3
         }
 
         protected override void Initialize()

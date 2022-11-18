@@ -24,7 +24,8 @@ namespace AdventureGame
             Vector2 imageSize = buildingEntity.GetComponent<SpriteComponent>().GetSpriteSize();
 
             buildingEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
-            buildingEntity.AddComponent(new Engine.ColliderComponent(x, y-30, 0, 30));
+            //buildingEntity.AddComponent(new Engine.ColliderComponent(x, y-30, 0, 30));
+            buildingEntity.AddComponent(new Engine.ColliderComponent(x, y - 30, 0, 30));
 
             // Add triggers here or elsewhere?
             // How to handle multiple triggers in one building e.g. a front and side door

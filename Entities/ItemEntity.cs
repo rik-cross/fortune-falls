@@ -15,6 +15,8 @@ namespace AdventureGame
             //int width = default, int height = default, // Tags tag, 
             bool animation = false)
         {
+            // Should isCollectable and collectableByType by database lookups?
+            // Should this be stored in the Item?
 
             Entity itemEntity = EngineGlobals.entityManager.CreateEntity();
             itemEntity.Tags.AddTag("item");

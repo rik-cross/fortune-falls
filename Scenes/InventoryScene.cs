@@ -13,8 +13,9 @@ namespace AdventureGame
         // MOVE this to another class so that chests etc can use the same code
         // e.g. InventorySystem??
         private Entity _player; // CHANGE to entity for generic use
-        private InventoryComponent _inventory;
+        private InputManager _inputManager;
         private InventoryManager _inventoryManager;
+        private InventoryComponent _inventory;
         // Inventory
         private int _inventorySize, _columns, _rows;
         // Inventory container
@@ -40,6 +41,7 @@ namespace AdventureGame
         public override void Init()
         {
             DrawSceneBelow = true;
+            _inputManager = EngineGlobals.inputManager;
             _inventoryManager = EngineGlobals.inventoryManager;
 
             // CHANGE to any entity
@@ -85,7 +87,7 @@ namespace AdventureGame
             _iconWidth = _slotWidth - (_slotBorder + _iconPadding) * 2 ;
             _iconHeight = _slotHeight - (_slotBorder + _iconPadding) * 2;
 
-            EngineGlobals.inputManager.ShowCursor();
+            _inputManager.ShowCursor();
         }
 
         // Used to recalculate the container dimensions in case the screen size changes
@@ -274,7 +276,7 @@ namespace AdventureGame
                             }
                         }
                     }
-                    else if (!_containerRectangle.Contains(EngineGlobals.inputManager.CursorPosition))
+                    else if (!_containerRectangle.Contains(_inputManager.CursorPosition))
                     {
                         // Drop items on the in-game ground
                         Console.WriteLine("Drop one item on the ground");
@@ -294,7 +296,7 @@ namespace AdventureGame
             for (int i = 0; i < _slotRectangles.Length; i++)
             {
                 slot = _slotRectangles[i];
-                if (slot.Contains(EngineGlobals.inputManager.CursorPosition))
+                if (slot.Contains(_inputManager.CursorPosition))
                 {
                     return i;
                 }
@@ -312,7 +314,7 @@ namespace AdventureGame
             if (_currentSlot != -1)
             {
                 //Console.WriteLine($"Clicked slot {i}");
-                bool splitStack = EngineGlobals.inputManager.IsDown(Globals.button2Input);
+                bool splitStack = _inputManager.IsDown(Globals.button2Input);
                 // _isSplitStack / _isDraggedItemStackSplit
                 InteractWithSlot(splitStack);
             }
@@ -345,7 +347,7 @@ namespace AdventureGame
                 return;
 
             int dragDistanceDelay = 10;
-            Vector2 cursorPosition = EngineGlobals.inputManager.CursorPosition;
+            Vector2 cursorPosition = _inputManager.CursorPosition;
             Rectangle slotRect = _slotRectangles[_currentSlot];
 
             // Check if an item can be dragged
@@ -370,7 +372,7 @@ namespace AdventureGame
             {
                 Console.WriteLine($"Process click and drag slot {_currentSlot}");
 
-                if (EngineGlobals.inputManager.IsDown(Globals.button2Input))
+                if (_inputManager.IsDown(Globals.button2Input))
                 {
                     _isDraggedItemStackSplit = true; // Here or above?
 
@@ -434,21 +436,6 @@ namespace AdventureGame
                         if (tempItem != null)
                         {
                             _inventoryManager.AddOrDropItem(_inventory.InventoryItems, tempItem);
-
-                            /*
-                            // Try adding the temp item to the inventory
-                            Console.WriteLine("Stack unable to be returned - try adding to inventory");
-                            tempItem = _inventoryManager.AddItem(_inventory.InventoryItems, tempItem);
-
-                            // Check if the inventory is now full 
-                            if (tempItem != null)
-                            {
-                                // Drop the item on the in-game ground
-                                Console.WriteLine("Stack unable to be returned - drop stack on ground");
-
-                                // Drop item on the ground using player X,Y co-ordinates
-                            }
-                            */
                         }
 
                         // CHECK
@@ -456,21 +443,6 @@ namespace AdventureGame
                         {
                             Console.WriteLine($"Clear drag item index item");
                             _inventory.InventoryItems[_dragItemIndex] = null;
-                        }
-
-                        // DELETE?
-                        if (_isDraggedItemStackSplit)
-                        {
-                            Console.WriteLine($"Update original split slot item");
-                            Console.WriteLine($"Drag item index item {_inventory.InventoryItems[_dragItemIndex].Quantity}");
-
-                            //if (tempItem == null)
-                        }
-
-                        // DELETE?
-                        if (_inventory.InventoryItems[_dragItemIndex] != null)
-                        {
-                            Console.WriteLine($"Swap or return item split stack");
                         }
                     }
                     else if (slotItem.ItemId != _dragItem.ItemId && _isDraggedItemStackSplit)
@@ -483,21 +455,6 @@ namespace AdventureGame
                         if (tempItem != null)
                         {
                             _inventoryManager.AddOrDropItem(_inventory.InventoryItems, tempItem);
-
-                            /*
-                            // Try adding the temp item to the inventory
-                            Console.WriteLine("Stack unable to be returned - try adding to inventory");
-                            tempItem = _inventoryManager.AddItem(_inventory.InventoryItems, tempItem);
-
-                            // Check if the inventory is now full 
-                            if (tempItem != null)
-                            {
-                                // Drop the item on the in-game ground
-                                Console.WriteLine("Stack unable to be returned - drop stack on ground");
-
-                                // Drop item on the ground using player X,Y co-ordinates
-                            }
-                            */
                         }
                     }
                     else
@@ -505,11 +462,11 @@ namespace AdventureGame
                         _inventoryManager.SwapItems(_inventory.InventoryItems,
                             slotIndex, _dragItemIndex);
                     }
-
                 }
 
-                // Check if the cursor is outside the inventory menu
-                else if (!_containerRectangle.Contains(EngineGlobals.inputManager.CursorPosition))
+                // Check if the cursor is outside the inventory menu but within the game bounds
+                else if (!_containerRectangle.Contains(_inputManager.CursorPosition)
+                    && _inputManager.IsMouseInsideWindow())
                 {
                     // Drop the item on the in-game ground
                     Console.WriteLine("Dragged item to the ground");
@@ -519,7 +476,6 @@ namespace AdventureGame
                         _inventory.InventoryItems[_dragItemIndex] = null;
                 }
 
-                // Otherwise cancel the dragged item
                 // Check if the original item's stack was split when dragged
                 else if (_isDraggedItemStackSplit)
                 {
@@ -533,20 +489,6 @@ namespace AdventureGame
                     if (tempItem != null)
                     {
                         _inventoryManager.AddOrDropItem(_inventory.InventoryItems, tempItem);
-                        /*
-                        // Try adding the temp item to the inventory
-                        Console.WriteLine("Stack unable to be returned - try adding to inventory");
-                        tempItem = _inventoryManager.AddItem(_inventory.InventoryItems, tempItem);
-
-                        // Check if the inventory is now full 
-                        if (tempItem != null)
-                        {
-                            // Drop the item on the in-game ground
-                            Console.WriteLine("Stack unable to be returned - drop stack on ground");
-
-                            // Drop item on the ground using player X,Y co-ordinates
-                        }
-                        */
                     }
                 }
             }
@@ -578,9 +520,9 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
-            if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))// or Escape
+            if (_inputManager.IsPressed(Globals.inventoryInput))// or Escape
             {
-                EngineGlobals.inputManager.HideCursor();
+                _inputManager.HideCursor();
                 EngineGlobals.sceneManager.PopScene();
             }
 
@@ -592,38 +534,38 @@ namespace AdventureGame
 
             // CHANGE to Keys.Up etc instead of WASD?
             // CHANGE Up to DPadUp?
-            if (EngineGlobals.inputManager.IsPressed(Globals.upInput))
+            if (_inputManager.IsPressed(Globals.upInput))
                 // && EngineGlobals.sceneManager.transition == null) // needed?
                 ChangeCurrentSlot("Up");
-            if (EngineGlobals.inputManager.IsPressed(Globals.downInput))
+            if (_inputManager.IsPressed(Globals.downInput))
                 ChangeCurrentSlot("Down");
-            if (EngineGlobals.inputManager.IsPressed(Globals.leftInput))
+            if (_inputManager.IsPressed(Globals.leftInput))
                 ChangeCurrentSlot("Left");
-            if (EngineGlobals.inputManager.IsPressed(Globals.rightInput))
+            if (_inputManager.IsPressed(Globals.rightInput))
                 ChangeCurrentSlot("Right");
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.cancelInput))
+            if (_inputManager.IsPressed(Globals.cancelInput))
             {
                 DeselectItem();
                 CancelDraggedItem();
             }
 
-            if (EngineGlobals.inputManager.HasCursorMoved)
+            if (_inputManager.HasCursorMoved)
             {
                 OnCursorMove();
             }
 
             // CHANGE so that a dragged item can be placed with interactInput??
             // Select an item (keyboard / controller)
-            if (EngineGlobals.inputManager.IsPressed(Globals.interactInput)
+            if (_inputManager.IsPressed(Globals.interactInput)
                 && !_isItemDragged)
             {
-                bool splitStack = EngineGlobals.inputManager.IsDown(Globals.button2Input);
+                bool splitStack = _inputManager.IsDown(Globals.button2Input);
                 InteractWithSlot(splitStack);
             }
 
             // Select an item (mouse / controller cursor)
-            if (EngineGlobals.inputManager.IsPressed(Globals.primaryCursorInput))
+            if (_inputManager.IsPressed(Globals.primaryCursorInput))
             {
                 OnCursorClick();
             }
@@ -634,22 +576,22 @@ namespace AdventureGame
             // else if (cursorItem.ItemId == ItemId), try adding half to the cursor item
             // NEED to keep track of cursorItem (second click, drag and drop etc)
 
-            if (EngineGlobals.inputManager.IsDown(Globals.primaryCursorInput)
-                && EngineGlobals.inputManager.HasCursorMoved)
+            if (_inputManager.IsDown(Globals.primaryCursorInput)
+                && _inputManager.HasCursorMoved)
             {
                 OnDragStart();
             }
 
             // Release a click and dragged item
-            if (EngineGlobals.inputManager.IsReleased(Globals.primaryCursorInput))
+            if (_inputManager.IsReleased(Globals.primaryCursorInput))
                 //&& isItemDragged)
             {
                 OnDragEnd();
             }
 
             // Drop an item
-            if (EngineGlobals.inputManager.IsPressed(Globals.secondaryCursorInput)) // SelectInput?
-               // || EngineGlobals.inputManager.IsDown(Globals.secondaryCursorInput))
+            if (_inputManager.IsPressed(Globals.secondaryCursorInput)) // SelectInput?
+               // || _inputManager.IsDown(Globals.secondaryCursorInput))
             {
                 // right click / right shoulder?
                 //Console.WriteLine("Secondary cursor input");
@@ -658,7 +600,7 @@ namespace AdventureGame
             // Press and hold drop one item button? Delay by x milliseconds??
 
             // Drop an item
-            /*if (EngineGlobals.inputManager.IsDownDelay(Globals.secondaryCursorInput))
+            /*if (_inputManager.IsDownDelay(Globals.secondaryCursorInput))
             {
                  right click / right shoulder?
                 Console.WriteLine("Secondary cursor input");
@@ -815,7 +757,7 @@ namespace AdventureGame
             // Draw the dragged item if it exists
             if (_isItemDragged && _dragItem != null && _dragItemIndex != -1)
             {
-                Vector2 cursorPosition = EngineGlobals.inputManager.CursorPosition;
+                Vector2 cursorPosition = _inputManager.CursorPosition;
 
                 Rectangle dragItemRect = new Rectangle(
                     (int)(cursorPosition.X - _dragOffset.X),
@@ -831,8 +773,8 @@ namespace AdventureGame
             // Should this be in another class e.g. InputManager or ClickableSystem?
             // Draw the cursor image
             Engine.Image cursor = new Engine.Image(
-                texture: EngineGlobals.inputManager.CursorTexture,
-                position: EngineGlobals.inputManager.CursorPosition
+                texture: _inputManager.CursorTexture,
+                position: _inputManager.CursorPosition
             );
             cursor.Draw();
         }

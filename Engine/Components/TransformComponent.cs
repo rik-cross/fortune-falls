@@ -8,6 +8,59 @@ namespace AdventureGame.Engine
         public Vector2 previousPosition;
         public Vector2 size;
 
+        // Change to ints?
+        // Properties to get and set the size and position
+        public float Width
+        {
+            get { return size.X; }
+            set { size.X = value; }
+        }
+        public float Height
+        {
+            get { return size.Y; }
+            set { size.Y = value; }
+        }
+        public float X
+        {
+            get { return position.X; }
+            set { position.X = value; }
+        }
+        public float Y
+        {
+            get { return position.Y; }
+            set { position.Y = value; }
+        }
+        public float Top
+        {
+            get { return position.Y; }
+            set { position.Y = value; }
+        }
+        public float Middle
+        {
+            get { return position.Y + (size.Y / 2); }
+            set { position.Y = value - (size.Y / 2); }
+        }
+        public float Bottom
+        {
+            get { return position.Y + size.Y; }
+            set { position.Y = value - size.Y; }
+        }
+        public float Left
+        {
+            get { return position.X; }
+            set { position.X = value; }
+        }
+        public float Center
+        {
+            get { return position.X + (size.X / 2); }
+            set { position.X = value - (size.X / 2); }
+        }
+        public float Right
+        {
+            get { return position.X + size.X; }
+            set { position.X = value - size.X; }
+        }
+
         public TransformComponent()
         {
             this.position = new Vector2(0, 0);
