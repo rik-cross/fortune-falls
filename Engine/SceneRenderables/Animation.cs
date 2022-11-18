@@ -7,7 +7,7 @@ using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
-    class Animation : SceneRenderable
+    public class Animation : SceneRenderable
     {
         private List<Texture2D> _textureList;
         private int _animationDelay;

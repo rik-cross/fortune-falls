@@ -4,7 +4,7 @@ using MonoGame.Extended;
 
 namespace AdventureGame.Engine
 {
-    class Image : SceneRenderable
+    public class Image : SceneRenderable
     {
         public Texture2D _texture;
         public Color _tint;
