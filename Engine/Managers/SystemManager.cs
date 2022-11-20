@@ -15,7 +15,7 @@ namespace AdventureGame.Engine
         {
             systems = new List<System>();
             componentManager = EngineGlobals.componentManager;
-
+            
             RegisterSystems();
         }
 
@@ -49,6 +49,7 @@ namespace AdventureGame.Engine
             AddSystem(new LightSystem());
             AddSystem(new ItemCollectionSystem());
             AddSystem(new InventorySystem());
+            AddSystem(new DialogueSystem());
 
             // Register components and bit flags if they don't exist and
             // generate the signatures for all the systems

@@ -27,6 +27,7 @@ namespace AdventureGame.Engine
         public int borderThickness;
         
         public Entity trackedEntity;
+        public Entity ownerEntity;
 
         public Camera(
             string name = "",
@@ -38,7 +39,8 @@ namespace AdventureGame.Engine
             Color backgroundColour = default(Color),
             Color borderColour = default(Color),
             int borderThickness = 0,
-            Entity trackedEntity = null)
+            Entity trackedEntity = null,
+            Entity ownerEntity = null)
         {
 
             this.name = name;
@@ -60,6 +62,7 @@ namespace AdventureGame.Engine
             this.borderThickness = borderThickness;
 
             this.trackedEntity = trackedEntity;
+            this.ownerEntity = ownerEntity;
             
         }
 

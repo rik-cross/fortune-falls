@@ -101,6 +101,8 @@ namespace AdventureGame
                 new Vector2(26, 21), offset: new Vector2(0, 21)
             ));
 
+            playerEntity.AddComponent(new Engine.DialogueComponent());
+
             return playerEntity;
         }
 

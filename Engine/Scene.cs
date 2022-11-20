@@ -20,7 +20,7 @@ namespace AdventureGame.Engine
         public List<Entity> EntityList { get; set; }
         public List<Entity> EntitiesToDelete { get; set; } // protected (SceneManager)?
 
-        protected List<Camera> CameraList { get; private set; }
+        public List<Camera> CameraList { get; private set; }
         protected double LightLevel { get; set; }
 
         public TiledMap Map { get; private set; }
@@ -97,7 +97,8 @@ namespace AdventureGame.Engine
                 size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
                 zoom: Globals.globalZoomLevel,
                 backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
+                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer(),
+                ownerEntity: EngineGlobals.entityManager.GetLocalPlayer()
             );
             //AddCamera(playerCamera);
             CameraList.Add(playerCamera);
@@ -443,6 +444,7 @@ namespace AdventureGame.Engine
 
             }
 
+            Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             // draw each system
             foreach (System s in EngineGlobals.systemManager.systems)
