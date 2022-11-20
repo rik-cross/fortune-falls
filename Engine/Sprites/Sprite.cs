@@ -44,7 +44,10 @@ namespace AdventureGame.Engine
             this.animationDelay = animationDelay;
             Reset();
         }
-
+        public Texture2D GetCurrentTexture()
+        {
+            return textureList[currentPosition];
+        }
         public void Reset()
         {
             this.currentPosition = 0;

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
 {
@@ -78,7 +80,12 @@ namespace AdventureGame.Engine
                 colliderEntity.AddComponent(new Engine.EmoteComponent("Emojis/emoji_melting"));
             else
                 colliderEntity.GetComponent<EmoteComponent>().Show();
-            colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Add("Wow, it's getting warm!");
+            //colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Add(
+            //    new Engine.Dialogue("Wow, it's getting warm!", texture: Globals.content.Load<Texture2D>("Emojis/emoji_melting")));
+            colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Add(
+                new Engine.Dialogue(
+                    "Wow, I'm so warm!",
+                    entity: EngineGlobals.entityManager.GetLocalPlayer()));
         }
         public static void LightOnCollisionExit(Entity triggerEntity, Entity colliderEntity, float distance)
         {

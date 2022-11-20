@@ -5,25 +5,18 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
 namespace AdventureGame.Engine
 {
     public class Dialogue
     {
-        public List<string> text = new List<string>();
+        public string text;
         public Entity entity;
-        public Dialogue(string text, Entity entity = null)
+        public Texture2D texture;
+        public Dialogue(string text = null, Entity entity = null, Texture2D texture = null)
         {
-            this.text.Add(text);
+            this.text = text;
             this.entity = entity;
-        }
-        public void DrawImage(int x, int y)
-        {
-
-        }
-        public void DrawText(int x, int y)
-        {
-
+            this.texture = texture;
         }
     }
 }
