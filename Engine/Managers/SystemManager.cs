@@ -42,6 +42,7 @@ namespace AdventureGame.Engine
             AddSystem(new HitboxSystem());
             AddSystem(new HurtboxSystem());
             AddSystem(new DamageSystem());
+            AddSystem(new HealthSystem());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
             AddSystem(new AnimationSystem());
@@ -71,6 +72,12 @@ namespace AdventureGame.Engine
                         // Add entity to the list and mapper
                         s.entityList.Add(e);
                         s.entityMapper[e.Id] = s.entityList.Count - 1;
+
+                        /*
+                        Console.WriteLine($"Add Entity {e.Id} to System {s}");
+                        foreach (KeyValuePair<int, int> kv in s.entityMapper)
+                            Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
+                        */
                     }
                 }
                 // Otherwise check if entity used to but is no longer relevant

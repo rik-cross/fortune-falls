@@ -1,35 +1,79 @@
 ﻿using Microsoft.Xna.Framework;
 
+using System;
+
 namespace AdventureGame.Engine
 {
     public class DamageSystem : System
     {
         public DamageSystem()
         {
+            RequiredComponent<DamageComponent>();
             RequiredComponent<HitboxComponent>();
             RequiredComponent<TransformComponent>();
         }
 
-        public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
+        public int DealDamage(Entity damageEntity)
         {
-            HitboxComponent hitboxComponent = entity.GetComponent<HitboxComponent>();
+            DamageComponent damageComponent = damageEntity.GetComponent<DamageComponent>();
 
-            // check for hurtbox and hitbox intersects
-            foreach (Entity e in scene.EntityList)
+            if (damageComponent.Lifetime == -1)
+                return damageComponent.DamageAmount;
+            else if (damageComponent.Lifetime > 0)
             {
-                if (entityList.Contains(e) && entity != e)
-                {
-                    HurtboxComponent eHurtboxComponent = e.GetComponent<HurtboxComponent>();
+                damageComponent.Lifetime--;
+                return damageComponent.DamageAmount;
+            }
 
-                    if (eHurtboxComponent != null)
+            if (damageComponent.Lifetime == 0)
+            {
+                Console.WriteLine("Destroy damage component");
+                // self.Destroy()
+            }
+
+            return 0;
+        }
+
+        public override void UpdateEntity(GameTime gameTime, Scene scene, Entity damageEntity)
+        {
+            //DamageComponent damageComponent = damageEntity.GetComponent<DamageComponent>();
+            HitboxComponent hitboxComponent = damageEntity.GetComponent<HitboxComponent>();
+
+            // Check for hurtbox and hitbox intersects
+            // CHECK any way to reduce this list to signatures with HurtboxComponent??
+            foreach (Entity hurtEntity in scene.EntityList)
+            {
+                if (damageEntity != hurtEntity) // entityMapper.ContainsKey(hurtEntity.Id) && )
+                {
+                    HealthComponent healthComponent = hurtEntity.GetComponent<HealthComponent>();
+                    HurtboxComponent hurtboxComponent = hurtEntity.GetComponent<HurtboxComponent>();
+
+                    if (healthComponent != null && hurtboxComponent != null)
                     {
-                        if (hitboxComponent.rect.Intersects(eHurtboxComponent.rect))
+                        if (hurtboxComponent.IsActive // && hitboxComponent.active
+                            && healthComponent.HasHealth()
+                            && hitboxComponent.Rect.Intersects(hurtboxComponent.Rect))
                         {
-                            hitboxComponent.color = Color.Purple;
-                            eHurtboxComponent.color = Color.Gray;
+                            //Console.WriteLine($"Damage entity {damageEntity.Id}");
+                            //Console.WriteLine($"Hurt entity {hurtEntity.Id}");
+
+                            hitboxComponent.BorderColor = Color.Purple;
+                            hurtboxComponent.BorderColor = Color.Gray;
 
                             // set both entity states to hit / hurt
-                            eHurtboxComponent.active = false;
+                            // unless and arrow etc e.g. hitboxComponent.stopOnDamage
+                            //hurtboxComponent.active = false;
+
+                            //healthComponent.DecreaseHealth(damageComponent.Damage());
+                            
+                            healthComponent.DecreaseHealth(DealDamage(damageEntity));
+                            Console.WriteLine($"Health {healthComponent.Health}");
+                        }
+                        else
+                        {
+                            hitboxComponent.BorderColor = Color.Blue;
+                            hurtboxComponent.BorderColor = Color.Red;
+                            //hurtboxComponent.active = true;
                         }
                     }
                 }

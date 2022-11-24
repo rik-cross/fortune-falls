@@ -89,6 +89,9 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
             playerEntity.AddComponent(new Engine.PhysicsComponent(2));
             playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(16, 8), new Vector2(5, 28)));
+            playerEntity.AddComponent(new Engine.HealthComponent());
+            playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
+            playerEntity.AddComponent(new Engine.HitboxComponent(imageSize)); // Remove
             playerEntity.AddComponent(new Engine.HurtboxComponent(imageSize));
             playerEntity.AddComponent(new Engine.InventoryComponent(20));
 
@@ -118,6 +121,7 @@ namespace AdventureGame
             entity.State = "idle";
 
             // up keys
+
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
             {
                 intentionComponent.up = true;
