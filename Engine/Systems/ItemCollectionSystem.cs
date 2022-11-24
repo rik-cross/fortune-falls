@@ -22,7 +22,7 @@ namespace AdventureGame.Engine
             if (collectableComponent.IsActive && !collectableComponent.HasBeenCollected)
             {
                 // Respond to a collision between the item and another entity
-                foreach (Entity otherEntity in colliderComponent.collidedEntities)
+                foreach (Entity otherEntity in colliderComponent.CollidedEntities)
                 {
                     // Check if the item can be collected by the other entity
                     if (collectableComponent.CanCollect(otherEntity.Tags))

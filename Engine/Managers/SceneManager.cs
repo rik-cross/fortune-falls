@@ -110,7 +110,8 @@ namespace AdventureGame.Engine
                     {
                         topScene.EntityList.Remove(e);
                     }
-                    topScene.EntitiesToDelete.Clear();
+                    //topScene.EntitiesToDelete.Clear();
+                    topScene.ClearEntitiesToDelete();
                 }
             }
         }

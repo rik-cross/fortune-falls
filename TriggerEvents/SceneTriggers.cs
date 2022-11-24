@@ -17,7 +17,7 @@ namespace AdventureGame.Engine
                 if (playerInputComponent != null
                     && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
                 {
-                    LightComponent lightComponent = EngineGlobals.entityManager.GetEntityById("homeLight1").GetComponent<LightComponent>();
+                    LightComponent lightComponent = EngineGlobals.entityManager.GetEntityByIdTag("homeLight1").GetComponent<LightComponent>();
                     lightComponent.visible = !lightComponent.visible;
                 }
             }

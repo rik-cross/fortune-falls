@@ -24,19 +24,19 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // Respond to entities that have started colliding
-            foreach (Entity otherEntity in colliderComponent.collidedEntities)
+            foreach (Entity otherEntity in colliderComponent.CollidedEntities)
             {
                 ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
 
                 // Check if the other entity no longer has a collider component
                 if (otherColliderComponent == null)
                 {
-                    colliderComponent.collidedEntities.Remove(otherEntity);
+                    colliderComponent.CollidedEntities.Remove(otherEntity);
                     return;
                 }
 
                 // Check if either of the entities are not solid
-                if (!colliderComponent.isSolid || !otherColliderComponent.isSolid)
+                if (!colliderComponent.IsSolid || !otherColliderComponent.IsSolid)
                     return;
 
                 /*
@@ -106,15 +106,15 @@ namespace AdventureGame.Engine
                 //Rectangle otherBoundingBox = otherColliderComponent.boundingBox;
 
                 Rectangle boundingBox = new Rectangle(
-                    (int)transformComponent.position.X + (int)colliderComponent.offset.X,
-                    (int)transformComponent.position.Y + (int)colliderComponent.offset.Y,
-                    (int)colliderComponent.size.X, (int)colliderComponent.size.Y
+                    (int)transformComponent.position.X + (int)colliderComponent.Offset.X,
+                    (int)transformComponent.position.Y + (int)colliderComponent.Offset.Y,
+                    (int)colliderComponent.Size.X, (int)colliderComponent.Size.Y
                 );
 
                 Rectangle otherBoundingBox = new Rectangle(
-                    (int)otherTransformComponent.position.X + (int)otherColliderComponent.offset.X,
-                    (int)otherTransformComponent.position.Y + (int)otherColliderComponent.offset.Y,
-                    (int)otherColliderComponent.size.X, (int)otherColliderComponent.size.Y
+                    (int)otherTransformComponent.position.X + (int)otherColliderComponent.Offset.X,
+                    (int)otherTransformComponent.position.Y + (int)otherColliderComponent.Offset.Y,
+                    (int)otherColliderComponent.Size.X, (int)otherColliderComponent.Size.Y
                 );
 
                 // Calculate the amount of overlap in each direction
@@ -408,7 +408,7 @@ namespace AdventureGame.Engine
                     {
                         // Return if the collision has already been resolved if
                         // both X and Y overlaps used to be at the maximum values
-                        if (!colliderComponent.boundingBox.Intersects(otherColliderComponent.boundingBox))
+                        if (!colliderComponent.BoundingBox.Intersects(otherColliderComponent.BoundingBox))
                         {
                             Console.WriteLine("Collision already resolved");
                             return;
@@ -576,7 +576,7 @@ namespace AdventureGame.Engine
                             // in the X axis if both X and Y overlaps used to be
                             // equal and the maximum overlap amount
                             if (isMaxOverlapY &&
-                                !colliderComponent.boundingBox.Intersects(otherColliderComponent.boundingBox))
+                                !colliderComponent.BoundingBox.Intersects(otherColliderComponent.BoundingBox))
                             {
                                 Console.WriteLine("Collision already resolved");
                                 return;
@@ -656,14 +656,14 @@ namespace AdventureGame.Engine
             }
 
             // Respond to entities that have stopped colliding
-            foreach (Entity otherEntity in colliderComponent.collidedEntitiesEnded)
+            foreach (Entity otherEntity in colliderComponent.CollidedEntitiesEnded)
             {
                 ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
 
                 // Check if the other entity no longer has a collider component
                 if (otherColliderComponent == null)
                 {
-                    colliderComponent.collidedEntitiesEnded.Remove(otherEntity);
+                    colliderComponent.CollidedEntitiesEnded.Remove(otherEntity);
                     return;
                 }
 
@@ -684,12 +684,12 @@ namespace AdventureGame.Engine
             if (direction.Equals('X'))
             {
                 transformComponent.position.X += amount;
-                colliderComponent.boundingBox.X += amount;
+                colliderComponent.BoundingBox.X += amount;
             }
             else if (direction.Equals('Y'))
             {
                 transformComponent.position.Y += amount;
-                colliderComponent.boundingBox.Y += amount;
+                colliderComponent.BoundingBox.Y += amount;
             }
         }
 

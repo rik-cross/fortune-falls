@@ -17,7 +17,7 @@ namespace AdventureGame.Engine
 
             foreach (Rectangle rect in scene.CollisionTiles)
             {
-                if (rect.Intersects(colliderComponent.rect))
+                if (rect.Intersects(colliderComponent.Rect))
                 {
                     // create a map collision object?
                 }

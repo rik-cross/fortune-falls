@@ -20,9 +20,17 @@ namespace AdventureGame.Engine
                 Console.WriteLine($"Entity {entity.Id} has no health");
                 if (!entity.IsPlayerType())
                 {
+                    InventoryComponent inventoryComponent = entity.GetComponent<InventoryComponent>();
+                    if (inventoryComponent != null && inventoryComponent.DropOnDestroy)
+                    {
+                        EngineGlobals.inventoryManager.DropAllItems(
+                            inventoryComponent.InventoryItems, entity);
+                    }
                     entity.Destroy();
-                    //System collisionSystem = EngineGlobals.systemManager.systems[4];
-                    //collisionSystem.
+                }
+                else
+                {
+                    // Player destroyed logic
                 }
             }
         }

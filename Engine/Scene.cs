@@ -7,6 +7,7 @@ using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
 using S = System.Diagnostics.Debug;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -18,7 +19,8 @@ namespace AdventureGame.Engine
         public SystemManager _systemManager;
 
         public List<Entity> EntityList { get; set; }
-        public List<Entity> EntitiesToDelete { get; set; } // protected (SceneManager)?
+        public HashSet<Entity> EntitiesToAdd { get; private set; }
+        public HashSet<Entity> EntitiesToDelete { get; private set; }
 
         public List<Camera> CameraList { get; private set; }
         protected double LightLevel { get; set; }
@@ -38,7 +40,8 @@ namespace AdventureGame.Engine
             _systemManager = EngineGlobals.systemManager;
 
             EntityList = new List<Entity>();
-            EntitiesToDelete = new List<Entity>();
+            EntitiesToAdd = new HashSet<Entity>();
+            EntitiesToDelete = new HashSet<Entity>();
             CameraList = new List<Camera>();
             CollisionTiles = new List<Rectangle>();
 
@@ -148,10 +151,21 @@ namespace AdventureGame.Engine
                 AddEntity(e);
         }
 
+        public void AddEntityNextTick(Entity e)
+        {
+            //_entityManager.Added.Add(e);
+            EntitiesToAdd.Add(e);
+        }
+
         public void RemoveEntity(Entity e)
         {
-            if (!EntitiesToDelete.Contains(e))
-                EntitiesToDelete.Add(e);
+            //if (!EntitiesToDelete.Contains(e))
+            EntitiesToDelete.Add(e);
+        }
+
+        public void ClearEntitiesToDelete()
+        {
+            EntitiesToDelete.Clear();
         }
 
         public virtual void Init() { }
@@ -227,15 +241,30 @@ namespace AdventureGame.Engine
             foreach (System s in EngineGlobals.systemManager.systems)
             {
                 // update each relevant entity of a system
-                foreach (Entity e in _entityManager.deleted)
+                foreach (Entity e in _entityManager.Deleted)
                     if (s.entityMapper.ContainsKey(e.Id))
                         s.OnEntityDestroy(gameTime, this, e);
             }
 
             // Delete entities from the deleted set
-            foreach (Entity e in _entityManager.deleted)
+            foreach (Entity e in _entityManager.Deleted)
                 EntityList.Remove(e);
-            _entityManager.DeleteEntitiesFromSet();
+            _entityManager.DeleteEntitiesFromGame();
+
+            // Add entities from the added set
+            /*foreach (Entity e in _entityManager.Added)
+            //    AddEntity(e);
+            {
+                AddEntity(e);
+                Console.WriteLine($"Added entity {e.Id} from Added set");
+            }
+            _entityManager.AddEntitiesToGame();*/
+            foreach (Entity e in EntitiesToAdd)
+            {
+                AddEntity(e);
+                Console.WriteLine($"Added entity {e.Id} from Added set");
+            }
+            EntitiesToAdd.Clear();
 
             // Repeats for each entity whose components have changed
             foreach (Entity e in _componentManager.changedEntities)

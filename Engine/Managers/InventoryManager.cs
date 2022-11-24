@@ -115,9 +115,9 @@ namespace AdventureGame.Engine
         }
 
         // TO DO
-        // Drop the item on the in-game ground using the player position
+        // Drop the item on the in-game ground using the entity's position
         public void DropItem(Item[] inventoryItems, Item item = null, int index = -1,
-            Entity player = null, bool isCollectable = true,
+            Entity entity = null, bool isCollectable = true,
             List<string> collectableByType = default, bool animation = false)
         {
             Console.WriteLine("Drop the item on the in-game ground");
@@ -128,24 +128,44 @@ namespace AdventureGame.Engine
             if (item == null)
                 return;
 
-            if (player == null)
-                player = EngineGlobals.entityManager.GetLocalPlayer();
+            // If no entity is given then drop the item by the local player
+            if (entity == null)
+                entity = EngineGlobals.entityManager.GetLocalPlayer();
 
-            Scene playerScene = EngineGlobals.sceneManager.PlayerScene;
-            // scene = EngineGlobals.sceneManager.GetPlayerScene(playerId);
-
-            // Initialise the item position to below the bottom center of the player
-            TransformComponent playerTransform = player.GetComponent<TransformComponent>();
-            int itemX = (int)playerTransform.Center - item.Texture.Width / 2;
-            int itemY = (int)playerTransform.Bottom + 10;
-
-            // Offset the item X position by a pseudo-random amount
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             Random random = new Random();
-            int randomX = random.Next(0, 30);
-            int randomY = random.Next(0, 11);
+            int itemX, itemY, randomSign;
+            int randomX = 0;
+            int randomY = 0;
+
+            if (entity.IsPlayerType())
+            {
+                // Initialise the item position to below the bottom center of the entity
+                itemX = (int)transformComponent.Center - item.Texture.Width / 2;
+                itemY = (int)transformComponent.Bottom + 5;
+
+                // Offset the item X and Y position by a pseudo-random amount
+                randomX = random.Next(0, 30);
+                randomY = random.Next(0, 11);
+            }
+            else
+            {
+                // Initialise the item position to the middle center of the entity
+                itemX = (int)transformComponent.Center - item.Texture.Width / 2;
+                itemY = (int)transformComponent.Middle - item.Texture.Height / 2;
+                
+                // Offset the item X and Y position by a pseudo-random amount
+                /*randomX = random.Next(0, 11);
+                randomY = random.Next(0, 11);
+
+                // Randomise +- item Y offset amount
+                randomSign = random.Next(0, 2);
+                if (randomSign == 0)
+                    randomY *= -1;*/
+            }
 
             // Randomise +- item X offset amount
-            int randomSign = random.Next(0, 2);
+            randomSign = random.Next(0, 2);
             if (randomSign == 0)
                 randomX *= -1;
 
@@ -157,8 +177,22 @@ namespace AdventureGame.Engine
             // Check that the item is not colliding with anything e.g. a building
 
             // Create the item and add it to the player scene
-            playerScene.AddEntity(ItemEntity.Create(itemX, itemY, item, isCollectable,
+            Scene playerScene = EngineGlobals.sceneManager.PlayerScene;
+            playerScene.AddEntityNextTick(ItemEntity.Create(itemX, itemY, item, isCollectable,
                 collectableByType, animation));
+        }
+
+        // Drop all the items from an inventory on the in-game ground
+        public void DropAllItems(Item[] inventoryItems, Entity entity = null)
+            //bool isCollectable = true, List<string> collectableByType = default,
+            //bool animation = false)
+        {
+            Console.WriteLine("Drop all inventory items on the in-game ground");
+
+            for (int i = 0; i < inventoryItems.Length; i++)
+            {
+                DropItem(inventoryItems, inventoryItems[i], i, entity);
+            }
         }
 
         // Return true if an item is within range and not null

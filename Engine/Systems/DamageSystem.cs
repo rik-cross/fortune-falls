@@ -34,6 +34,13 @@ namespace AdventureGame.Engine
             return 0;
         }
 
+        public override void OnEntityDestroy(GameTime gameTime, Scene scene, Entity entity)
+        {
+            // CollidedEntities hashset?
+            // Find out which entities were intersecting
+            // If any are now not intersecting then reset colour
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity damageEntity)
         {
             //DamageComponent damageComponent = damageEntity.GetComponent<DamageComponent>();

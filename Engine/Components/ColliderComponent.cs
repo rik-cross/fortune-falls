@@ -6,44 +6,38 @@ namespace AdventureGame.Engine
 {
     class ColliderComponent : Component
     {
-        public Rectangle boundingBox;
-
-        public Vector2 size;
-        public Vector2 offset;
-        public Rectangle rect;
+        public Rectangle BoundingBox; // is this and rect both needed?
+        public Vector2 Size { get; set; }
+        public Vector2 Offset { get; set; }
+        public Rectangle Rect { get; set; }
 
         // CHANGE to dictionaries with the direction as the value (both?)
-        public HashSet<Entity> collidedEntities;
-        public HashSet<Entity> collidedEntitiesEnded;
-        //public HashSet<Entity> resolvedCollisions;
-        //public int collidedEntityId = -1;
-        //public string collidingDirection; // REMOVE?
-        //public string / dict{otherEntityId, "direction"} previousCollisionDirection
-
-        public bool isSolid;
-        public bool isActive; // REMOVE?
+        public HashSet<Entity> CollidedEntities { get; set; }
+        public HashSet<Entity> CollidedEntitiesEnded { get; set; }
+        public bool IsSolid { get; set; }
+        //public bool IsActive { get; set; } // Remove?
 
         public Color color = Color.Yellow; // Testing: rectangle outline
 
         public ColliderComponent(Vector2 size, Vector2 offset = default,
             bool isActive = true, bool isSolid = true)
         {
-            this.size = size;
-            this.offset = offset;
-            this.isActive = isActive;
-            this.isSolid = isSolid;
-            collidedEntities = new HashSet<Entity>();
-            collidedEntitiesEnded = new HashSet<Entity>();
+            Size = size;
+            Offset = offset;
+            //IsActive = isActive;
+            IsSolid = isSolid;
+            CollidedEntities = new HashSet<Entity>();
+            CollidedEntitiesEnded = new HashSet<Entity>();
         }
 
         public ColliderComponent(int x, int y,
             int offsetX = default, int offsetY = default,
             bool isActive = true, bool isSolid = true)
         {
-            size = new Vector2(x, y);
-            offset = new Vector2(offsetX, offsetY);
-            this.isActive = isActive;
-            this.isSolid = isSolid;
+            Size = new Vector2(x, y);
+            Offset = new Vector2(offsetX, offsetY);
+            //IsActive = isActive;
+            IsSolid = isSolid;
         }
 
     }
