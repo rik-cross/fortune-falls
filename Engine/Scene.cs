@@ -154,35 +154,6 @@ namespace AdventureGame.Engine
                 EntitiesToDelete.Add(e);
         }
 
-        public void AddPlayer(Scene newScene, Scene currentScene = null,
-            Vector2 position = default, Entity player = null)
-        {
-            if (player == null)
-                player = _entityManager.GetLocalPlayer();
-
-            if (player.IsPlayerType())
-            {
-                // Remove the player from the current scene
-                if (currentScene != null)
-                {
-                    currentScene.GetCameraByName("main").trackedEntity = null;
-                    currentScene.GetCameraByName("minimap").trackedEntity = null;
-                    currentScene.RemoveEntity(player);
-                }
-
-                // Add the player to the new scene
-                TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
-                transformComponent.position = position;
-                newScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
-                newScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
-                newScene.AddEntity(player);
-                newScene.GetCameraByName("main").trackedEntity = player;
-                newScene.GetCameraByName("minimap").trackedEntity = player;
-
-                _sceneManager.Transition = new FadeSceneTransition(newScene, replaceScene: true);
-            }
-        }
-
         public virtual void Init() { }
         //public virtual void LoadContent() { }
         //public virtual void UnloadContent() { }
@@ -252,19 +223,26 @@ namespace AdventureGame.Engine
             // sort entities in scene
             EntityList.Sort(CompareY);
 
+            // Call before deleting any entities
+            foreach (System s in EngineGlobals.systemManager.systems)
+            {
+                // update each relevant entity of a system
+                foreach (Entity e in _entityManager.deleted)
+                    if (s.entityMapper.ContainsKey(e.Id))
+                        s.OnEntityDestroy(gameTime, this, e);
+            }
+
             // Delete entities from the deleted set
+            foreach (Entity e in _entityManager.deleted)
+                EntityList.Remove(e);
             _entityManager.DeleteEntitiesFromSet();
 
             // Repeats for each entity whose components have changed
             foreach (Entity e in _componentManager.changedEntities)
             {
-                // Remove queued components from entities
                 _componentManager.RemoveQueuedComponents();
-
-                // Update the entity lists in each system
                 _systemManager.UpdateEntityLists(e);
             }
-            // Clear the queue and set from ComponentManager
             _componentManager.removedComponents.Clear();
             _componentManager.changedEntities.Clear();
 
@@ -282,8 +260,8 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in EntityList)
-                    if (s.entityList.Contains(e))
+                foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
+                    if (s.entityMapper.ContainsKey(e.Id))
                         s.UpdateEntity(gameTime, this, e);
             }
                 
@@ -357,8 +335,8 @@ namespace AdventureGame.Engine
                     if (!s.aboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in EntityList)
-                            if (s.entityList.Contains(e))
+                        foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
+                            if (s.entityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }
                 }
@@ -382,8 +360,8 @@ namespace AdventureGame.Engine
                     if (s.aboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in EntityList)
-                            if (s.entityList.Contains(e))
+                        foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
+                            if (s.entityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }
                 }
