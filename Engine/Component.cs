@@ -3,6 +3,10 @@
     public class Component
     {
         public Entity entity;
+
+        public virtual void OnCreate(Entity entity) { }
+
+        public virtual void OnDestroy(Entity entity) { }
     }
 
 }

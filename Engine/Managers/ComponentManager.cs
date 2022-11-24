@@ -55,9 +55,13 @@ namespace AdventureGame.Engine
             // Add component to entity signature
             string componentName = GetComponentName(component);
             e.Signature = AddToSignature(e.Signature, componentName);
-            
+            //Console.WriteLine($"{e.Id}: {e.Signature}");
+
             // Pushes the entity and component to the added queue
             //addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
+
+            // Call the OnCreate method
+            component.OnCreate(e);
 
             // Add entity to the changed entities set
             changedEntities.Add(e);
@@ -75,6 +79,9 @@ namespace AdventureGame.Engine
         {
             // Pushes the entity and component to the removed queue
             removedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
+
+            // Call the OnDestroy method
+            component.OnDestroy(e);
 
             // Add entity to the changed entities set
             changedEntities.Add(e);
@@ -102,6 +109,7 @@ namespace AdventureGame.Engine
                 // Get entity and component
                 Entity e = removed.Item1;
                 Component component = removed.Item2;
+                //Console.WriteLine($"{e} removed component {component}");
 
                 // Remove component object from the entity list
                 e.Components.Remove(component);

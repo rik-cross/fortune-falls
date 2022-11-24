@@ -24,6 +24,8 @@ namespace AdventureGame.Engine
         // DrawEntity is called once per Entity per Camera
         public virtual void DrawEntity(GameTime gameTime, Scene scene, Entity entity) { }
 
+        // Called when an Entity is destroyed
+        public virtual void OnEntityDestroy(GameTime gameTime, Scene scene, Entity entity) { }
 
         // MOVE to SystemManager?
         // Add a required component's name to the components list
