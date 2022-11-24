@@ -16,10 +16,10 @@ namespace AdventureGame.Engine
             HitboxComponent hitboxComponent = entity.GetComponent<HitboxComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            hitboxComponent.rect = new Rectangle(
-                (int)transformComponent.position.X + (int)hitboxComponent.offset.X,
-                (int)transformComponent.position.Y + (int)hitboxComponent.offset.Y,
-                (int)hitboxComponent.size.X, (int)hitboxComponent.size.Y
+            hitboxComponent.Rect = new Rectangle(
+                (int)transformComponent.position.X + (int)hitboxComponent.Offset.X,
+                (int)transformComponent.position.Y + (int)hitboxComponent.Offset.Y,
+                (int)hitboxComponent.Size.X, (int)hitboxComponent.Size.Y
             );
 
         }
@@ -31,9 +31,9 @@ namespace AdventureGame.Engine
 
             HitboxComponent hitboxComponent = entity.GetComponent<HitboxComponent>();
 
-            Color color = hitboxComponent.color;
+            Color color = hitboxComponent.BorderColor;
             int lineWidth = 2;
-            //Globals.spriteBatch.DrawRectangle(hitboxComponent.rect, color, lineWidth);
+            //Globals.spriteBatch.DrawRectangle(hitboxComponent.Rect, color, lineWidth);
         }
 
     }

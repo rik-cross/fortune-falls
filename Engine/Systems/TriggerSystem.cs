@@ -28,7 +28,7 @@ namespace AdventureGame.Engine
 
             foreach (Entity e in scene.EntityList)
             {
-                if (entityList.Contains(e) && e != entity)
+                if (entityMapper.ContainsKey(e.Id) && e != entity)
                 {
 
                     TriggerComponent otherTriggerComponent = e.GetComponent<TriggerComponent>();

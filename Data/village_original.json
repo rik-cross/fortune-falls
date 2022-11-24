@@ -65,8 +65,8 @@
     ],
     "Enemies": [
         {
-            "X": 300,
-            "Y": 480,
+            "X": 200,
+            "Y": 120,
             "Filename": "spriteenemy"
         }
     ],

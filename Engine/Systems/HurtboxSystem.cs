@@ -16,10 +16,10 @@ namespace AdventureGame.Engine
             HurtboxComponent hurtboxComponent = entity.GetComponent<HurtboxComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            hurtboxComponent.rect = new Rectangle(
-                (int)transformComponent.position.X + (int)hurtboxComponent.offset.X,
-                (int)transformComponent.position.Y + (int)hurtboxComponent.offset.Y,
-                (int)hurtboxComponent.size.X, (int)hurtboxComponent.size.Y
+            hurtboxComponent.Rect = new Rectangle(
+                (int)transformComponent.position.X + (int)hurtboxComponent.Offset.X,
+                (int)transformComponent.position.Y + (int)hurtboxComponent.Offset.Y,
+                (int)hurtboxComponent.Size.X, (int)hurtboxComponent.Size.Y
             );
 
         }
@@ -31,9 +31,9 @@ namespace AdventureGame.Engine
 
             HurtboxComponent hurtboxComponent = entity.GetComponent<HurtboxComponent>();
 
-            Color color = hurtboxComponent.color;
+            Color color = hurtboxComponent.BorderColor;
             int lineWidth = 2;
-            //Globals.spriteBatch.DrawRectangle(hurtboxComponent.rect, color, lineWidth);
+            //Globals.spriteBatch.DrawRectangle(hurtboxComponent.Rect, color, lineWidth);
         }
 
     }

@@ -4,20 +4,18 @@ namespace AdventureGame.Engine
 {
     class HurtboxComponent : Component
     {
-        public Vector2 size;
-        public Vector2 offset;
-        public Rectangle rect;
-
-        public bool active;
-        public Color color = Color.Red;
+        public Vector2 Size { get; set; }
+        public Vector2 Offset { get; set; }
+        public Rectangle Rect { get; set; }
+        public bool IsActive { get; set; }
+        public Color BorderColor = Color.Red; // TESTING rectangle outline
 
         public HurtboxComponent(Vector2 size, Vector2 offset = default,
-            bool active = true)
+            bool isActive = true)
         {
-            this.size = size;
-            this.offset = offset;
-
-            this.active = active;
+            Size = size;
+            Offset = offset;
+            IsActive = isActive;
         }
     }
 

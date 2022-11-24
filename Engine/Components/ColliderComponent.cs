@@ -13,8 +13,8 @@ namespace AdventureGame.Engine
         public Rectangle rect;
 
         // CHANGE to dictionaries with the direction as the value (both?)
-        public HashSet<Entity> collidedEntities = new HashSet<Entity>();
-        public HashSet<Entity> collidedEntitiesEnded = new HashSet<Entity>();
+        public HashSet<Entity> collidedEntities;
+        public HashSet<Entity> collidedEntitiesEnded;
         //public HashSet<Entity> resolvedCollisions;
         //public int collidedEntityId = -1;
         //public string collidingDirection; // REMOVE?
@@ -32,6 +32,8 @@ namespace AdventureGame.Engine
             this.offset = offset;
             this.isActive = isActive;
             this.isSolid = isSolid;
+            collidedEntities = new HashSet<Entity>();
+            collidedEntitiesEnded = new HashSet<Entity>();
         }
 
         public ColliderComponent(int x, int y,

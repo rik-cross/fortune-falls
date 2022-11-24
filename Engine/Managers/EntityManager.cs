@@ -12,7 +12,8 @@ namespace AdventureGame.Engine
         private List<Component> components;
 
         private HashSet<int> disabled;
-        private HashSet<int> deleted;
+        //private HashSet<int> deleted;
+        public HashSet<Entity> deleted { get; private set; }
 
         private List<int> idPool; // change to ConcurrentBag<T>?
         private int nextAvailableId;
@@ -24,7 +25,7 @@ namespace AdventureGame.Engine
             components = new List<Component>();
 
             disabled = new HashSet<int>();
-            deleted = new HashSet<int>();
+            deleted = new HashSet<Entity>();
 
             idPool = new List<int>();
         }
@@ -50,8 +51,13 @@ namespace AdventureGame.Engine
         // Return the entity using the entity id
         public Entity GetEntity(int entityId)
         {
-            int index = entityMapper[entityId];
-            return entities[index];
+            if (entityMapper.TryGetValue(entityId, out int indexValue))
+                return entities[indexValue];
+            else
+                return null;
+
+            //int index = entityMapper[entityId];
+            //return entities[index];
         }
 
         // Return the list of entities
@@ -122,7 +128,7 @@ namespace AdventureGame.Engine
         // Add the entity to the deleted set
         public void DestroyEntity(Entity e)
         {
-            deleted.Add(e.Id);
+            deleted.Add(e);
         }
 
         // Return if the entity is active
@@ -140,10 +146,9 @@ namespace AdventureGame.Engine
         // Delete entities from the deleted set at the start of the game tick
         public void DeleteEntitiesFromSet()
         {
-            foreach (int entityId in deleted)
+            foreach (Entity e in deleted)
             {
-                // Get the entity from the id
-                Entity e = GetEntity(entityId);
+                int entityId = e.Id;
 
                 // Remove the entity's components
                 EngineGlobals.componentManager.RemoveAllComponents(e);
@@ -201,8 +206,10 @@ namespace AdventureGame.Engine
             {
                 int lastId = idPool[count - 1];
                 idPool.RemoveAt(count - 1);
+                //Console.WriteLine($"Last id {lastId}");
                 return lastId;
             }
+            //Console.WriteLine($"Next id {nextAvailableId }");
             return nextAvailableId++;
         }
 

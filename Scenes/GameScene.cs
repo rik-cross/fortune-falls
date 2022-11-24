@@ -14,86 +14,25 @@ namespace AdventureGame
 
         public GameScene()
         {
-            // Get the scene data from the corresponding JSON file
-            string projectSourcePath = ProjectSourcePath.Value;
-            string file = "Data/village_original.json";
-            string filePath = projectSourcePath + file;
-
-            // Deserialise the JSON and return the Root object
-            Root root = JsonFileReader.ReadJson<Root>(filePath);
-
-            // Add the map
-            AddMap(root.Map.Filename);
-
-            /*
-            Ideas for deserialising entities & components:
-
-            foreach item in entities
-                get filename
-                create tags
-                create spritesheet / sprites
-                create components OR
-                components are created automatically, register components
-
-
-            foreach component in components
-                get component type
-                create component
-                parse data / use keys for arguments
-
-            */
-            /*
-            // Create an ItemEntity for each item in the JSON file
-            foreach (var item in root.Items)
-            {
-                Console.WriteLine($"X:{item.X} Y:{item.Y} Filename:{item.Filename}" +
-                    $" Collectable:{item.Collectable}");
-            }
-
-            // Create an ItemEntity for each item in the JSON file
-            foreach (var item in root.Items)
-            {
-                Console.WriteLine($"X:{item.X} Y:{item.Y} Filename:{item.Filename}" +
-                    $" Collectable:{item.Collectable}");
-
-                try
-                {
-                    AddEntity(ItemEntity.Create(item.X, item.Y, item.Filename,
-                        item.Collectable));
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Exception adding item entity: {ex}");
-                }
-            }
-            */
-            // Create an EnemyEntity for each enemy in the JSON file
-            foreach (var enemy in root.Enemies)
-            {
-                Console.WriteLine($"X:{enemy.X} Y:{enemy.Y} Filename:{enemy.Filename}");
-
-                try
-                {
-                    AddEntity(EnemyEntity.Create(enemy.X, enemy.Y, enemy.Filename));
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Exception adding enemy entity: {ex}");
-                }
-            }
-
-
             // add map
-            //AddMap("startZone");
-            //AddMap("village.tmx");
-            //AddMap("village");
+            AddMap("village");
 
             //
             // add entities
             //
 
-            // enemy entity
-            //AddEntity(EngineGlobals.entityManager.GetEntityByName("enemy1"));
+            // Enemy entity
+            //AddEntity(EnemyEntity.Create(200, 120, "spriteenemy"));
+            Entity enemyEntity = EnemyEntity.Create(200, 120, "spriteenemy");
+            enemyEntity.AddComponent(new DamageComponent("touch", 10));
+            InventoryComponent enemyInventory = enemyEntity.GetComponent<InventoryComponent>();
+            Item enemyArrows = new Item(
+                itemId: "ArrowStandard",
+                filename: "Items/I_Boulder01",
+                quantity: 10,
+                stackSize: 20);
+            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyArrows);
+            AddEntity(enemyEntity);
 
             // Home entity
             Entity homeEntity = EngineGlobals.entityManager.CreateEntity();
@@ -136,7 +75,6 @@ namespace AdventureGame
             AddEntity(lightSourceEntity);
 
             // Map trigger
-            //AddEntity(EngineGlobals.entityManager.GetEntityById("m"));
             Engine.Entity enterBeachTrigger = EngineGlobals.entityManager.CreateEntity();
                 //enterBeachTrigger.Tags.Id = "m";
                 enterBeachTrigger.Tags.AddTag("mapTrigger"); // trigger / sceneChangeTrigger
@@ -148,9 +86,12 @@ namespace AdventureGame
             AddEntity(enterBeachTrigger);
 
 
-            // item entities test
+            //
+            // Item entities test
+            // 
             string itemsDirectory = "Items/";
 
+            // In-game items
             Item sword = new Item(
                 itemId: "Sword003",
                 filename: itemsDirectory + "W_Sword003",
