@@ -35,19 +35,18 @@ namespace AdventureGame.Engine
             // Add all builtin systems
             AddSystem(new InputSystem());
             AddSystem(new PhysicsSystem());
-            AddSystem(new ClickableSystem());
-            AddSystem(new MapCollisionSystem());
-            AddSystem(new CollisionSystem());
-            AddSystem(new CollisionResponseSystem());
+            //AddSystem(new ClickableSystem());
             AddSystem(new HitboxSystem());
             AddSystem(new HurtboxSystem());
             AddSystem(new DamageSystem());
             AddSystem(new HealthSystem());
+            AddSystem(new MapCollisionSystem());
+            AddSystem(new CollisionSystem());
+            AddSystem(new CollisionResponseSystem());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
             AddSystem(new AnimationSystem());
             AddSystem(new EmoteSystem());
-            AddSystem(new LightSystem());
             AddSystem(new ItemCollectionSystem());
             AddSystem(new InventorySystem());
             AddSystem(new DialogueSystem());

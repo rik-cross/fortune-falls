@@ -34,6 +34,9 @@ namespace AdventureGame.Engine
         // Get the component id using the component name
         public ulong GetComponentId(string componentName)
         {
+            if (!componentsByName.ContainsKey(componentName))
+                RegisterComponent(componentName);
+
             return componentsByName[componentName];
         }
 
@@ -153,6 +156,10 @@ namespace AdventureGame.Engine
             // Set the next bit and bit signature for all of the components
             bitFlag *= 2;
             allComponentsSignature = bitFlag - 1;
+
+            // TO DO
+            // Check if the limit has been reached (64 bits)
+            // If so, use a second bitFlag or list of ulong?
         }
 
         // Create a signature from the components provided
