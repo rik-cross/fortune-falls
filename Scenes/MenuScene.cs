@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 using System.Collections.Generic;
 
@@ -100,6 +101,8 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
+            EngineGlobals.soundManager.PlayFade(Globals.content.Load<Song>("Music/citadel"));
+
             /*
             Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
             Globals.gameScene.AddEntity(playerEntity);
@@ -120,6 +123,7 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
+
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
             {
                 EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);

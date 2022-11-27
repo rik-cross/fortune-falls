@@ -56,6 +56,7 @@ namespace AdventureGame
             EngineGlobals.sceneManager = new SceneManager();
             EngineGlobals.playerManager = new PlayerManager();
             EngineGlobals.inventoryManager = new InventoryManager();
+            EngineGlobals.soundManager = new SoundManager();
 
             // Move to another accessible place for the menu and scenes?
             Globals.playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("playerSpriteSheet"), new Vector2(26, 36));
@@ -81,6 +82,7 @@ namespace AdventureGame
 
             EngineGlobals.inputManager.Update(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
+            EngineGlobals.soundManager.Update(gameTime);
             base.Update(gameTime);
         }
 

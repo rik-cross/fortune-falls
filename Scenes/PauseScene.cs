@@ -5,9 +5,12 @@ using System.Text;
 using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended;
+
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -17,6 +20,18 @@ namespace AdventureGame
         public override void Init()
         {
             DrawSceneBelow = true;    
+        }
+
+        public override void OnEnter()
+        {
+            EngineGlobals.soundManager.Volume = 0.3f;
+            //MediaPlayer.Volume = 0.3f;
+
+        }
+        public override void OnExit()
+        {
+            EngineGlobals.soundManager.Volume = 1.0f;
+            //MediaPlayer.Volume = 1.0f;
         }
 
         public override void Update(GameTime gameTime)

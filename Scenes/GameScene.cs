@@ -1,6 +1,7 @@
 ﻿using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 
 using System;
 using System.Collections.Generic;
@@ -132,7 +133,10 @@ namespace AdventureGame
             // Add the player and minimap cameras
             AddCameras();
         }
-
+        public override void OnEnter()
+        {
+            EngineGlobals.soundManager.PlayFade(Globals.content.Load<Song>("Music/forest"));
+        }
         public override void Update(GameTime gameTime)
         {
             // update scene time and set light level

@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework;
+
+using S = System.Diagnostics.Debug;
+
+namespace AdventureGame.Engine
+{
+    public class SoundManager
+    {
+        private float _targetVolume;
+        public float Volume {
+            get
+            {
+                return MediaPlayer.Volume;
+            }
+            set
+            {
+                _targetVolume = value;
+                S.WriteLine("set to " + _targetVolume);
+            }
+        }
+        private float volumeIncrement = 0.03f;
+        private Song _currentSong = null;
+        private Song _nextSong = null;
+        //private bool _queuedSong = false;
+        public SoundManager()
+        {
+            MediaPlayer.Volume = 1.0f;
+            _targetVolume = 1.0f;
+        }
+        public void Update(GameTime gameTime)
+        {
+            if (_nextSong != null)
+            {
+                MediaPlayer.Volume -= volumeIncrement;
+                if (MediaPlayer.Volume <= 0.0f)
+                {
+                    Play(_nextSong);
+                }
+            }
+            else {
+                if (_targetVolume > MediaPlayer.Volume)
+                    MediaPlayer.Volume += volumeIncrement;
+                else if (_targetVolume < MediaPlayer.Volume)
+                    MediaPlayer.Volume -= volumeIncrement;
+                if (Math.Abs(MediaPlayer.Volume - _targetVolume) < volumeIncrement)
+                    MediaPlayer.Volume = _targetVolume;
+            }
+        }
+        public void Play(Song song)
+        {
+            if (song == _currentSong)
+            {
+                _nextSong = null;
+                return;
+            }
+
+            MediaPlayer.Play(song);
+            _currentSong = song;
+            _nextSong = null;
+        }
+        public void PlayFade(Song song)
+        {
+            if (song == _currentSong)
+            {
+                _nextSong = null;
+                return;
+            }
+            _nextSong = song;
+        }
+    }
+}
