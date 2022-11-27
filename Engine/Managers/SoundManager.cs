@@ -26,11 +26,11 @@ namespace AdventureGame.Engine
         private float volumeIncrement = 0.03f;
         private Song _currentSong = null;
         private Song _nextSong = null;
-        //private bool _queuedSong = false;
         public SoundManager()
         {
             MediaPlayer.Volume = 1.0f;
             _targetVolume = 1.0f;
+            MediaPlayer.IsRepeating = true;
         }
         public void Update(GameTime gameTime)
         {
