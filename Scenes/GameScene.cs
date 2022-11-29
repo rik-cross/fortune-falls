@@ -27,12 +27,12 @@ namespace AdventureGame
             Entity enemyEntity = EnemyEntity.Create(200, 120, "spriteenemy");
             enemyEntity.AddComponent(new DamageComponent("touch", 10));
             InventoryComponent enemyInventory = enemyEntity.GetComponent<InventoryComponent>();
-            Item enemyArrows = new Item(
-                itemId: "ArrowStandard",
-                filename: "Items/I_Boulder01",
-                quantity: 10,
-                stackSize: 20);
-            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyArrows);
+            Item enemyJewels = new Item("ArrowStandard", "Items/I_Amethist", 10, 20);
+            Item enemyPotions = new Item("PotionBlue", "Items/P_Blue01", 3, 10);
+            Item enemyMace = new Item("Mace01", "Items/W_Mace007", 1, 1, 75, 100);
+            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyJewels);
+            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyPotions);
+            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyMace);
             AddEntity(enemyEntity);
 
             // Home entity
@@ -93,18 +93,23 @@ namespace AdventureGame
             string itemsDirectory = "Items/";
 
             // In-game items
-            Item sword = new Item(
-                itemId: "Sword003",
-                filename: itemsDirectory + "W_Sword003",
-                itemHealth: 35,
-                maxHealth: 100);
-            AddEntity(ItemEntity.Create(x: 30, y: 140, item: sword));
+            Item bush1 = new Item("Bush01", itemsDirectory + "S_Bush01");
+            Entity bushEntity1 = ItemEntity.Create(30, 140, bush1, false);
+            bushEntity1.AddComponent(new HealthComponent());
+            bushEntity1.AddComponent(new HurtboxComponent(new Vector2(42, 42)));
+            bushEntity1.AddComponent(new InventoryComponent(5, "bush"));
+            InventoryComponent bush1Inventory = bushEntity1.GetComponent<InventoryComponent>();
+            Item bush1Bow = new Item("Bow02", "Items/W_Bow02", 1, 1, 50, 100);
+            EngineGlobals.inventoryManager.AddItem(bush1Inventory.InventoryItems, bush1Bow);
+            AddEntity(bushEntity1);
 
-            Item stones = new Item(
-                itemId: "Stone",
-                filename: itemsDirectory + "I_Boulder01",
-                quantity: 7,
-                stackSize: 20);
+            /*
+            Item sword = new Item("Sword003", itemsDirectory + "W_Sword003",
+                itemHealth: 35, maxHealth: 100);
+            AddEntity(ItemEntity.Create(x: 30, y: 140, item: sword));*/
+
+            Item stones = new Item("Stone", itemsDirectory + "I_Boulder01",
+                quantity: 7, stackSize: 20);
             AddEntity(ItemEntity.Create(x: 100, y: 220, item: stones));
 
             // Chest test

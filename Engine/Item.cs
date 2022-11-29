@@ -19,9 +19,10 @@ namespace AdventureGame.Engine
             ItemTags = new Tags();
         }
 
-        public Item(string itemId, string filename = default, Texture2D texture = default,
+        public Item(string itemId, string filename = default,
             int quantity = 1, int stackSize = 1,
             int itemHealth = -1, int maxHealth = 100,
+            Texture2D texture = default,
             Tags itemTags = default)
         {
             ItemId = itemId;

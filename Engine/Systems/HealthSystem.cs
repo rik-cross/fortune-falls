@@ -27,6 +27,11 @@ namespace AdventureGame.Engine
                             inventoryComponent.InventoryItems, entity);
                     }
                     entity.Destroy();
+                    // entity.OnDestroy()
+                    // set entity to disabled
+                    // play destroyed animation depending on entity type
+                    // play destroyed sound depending on entity type
+                    // then call entity.Destroy()
                 }
                 else
                 {

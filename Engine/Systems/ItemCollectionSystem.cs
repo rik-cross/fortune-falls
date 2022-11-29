@@ -39,9 +39,9 @@ namespace AdventureGame.Engine
                             int origQuantity = itemComponent.Item.Quantity; // Testing
 
                             Item item = EngineGlobals.inventoryManager.AddItem(
-                            inventoryComponent.InventoryItems, itemComponent.Item);
+                                inventoryComponent.InventoryItems, itemComponent.Item);
                             //Console.WriteLine($"\nOriginal item: {item.ItemId} Quantity{item.Quantity} Stack{item.StackSize} Durability{item.Durability}");
-                            
+                            /*
                             // Try to add the item to the other entity's inventory
                             if (item == null)
                             {
@@ -60,7 +60,7 @@ namespace AdventureGame.Engine
                             {
                                 Console.WriteLine("Inventory full!");
                                 Console.WriteLine($"Item {item.ItemId} has {item.Quantity} remaining");
-                            }
+                            }*/
                         }
                     }
                 }

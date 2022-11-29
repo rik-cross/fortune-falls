@@ -56,7 +56,7 @@ namespace AdventureGame
 
             // Inventory layout
             _inventorySize = _inventory.InventorySize;
-            _columns = 8;
+            _columns = 10;
             _rows = (int)Math.Ceiling((double)_inventorySize / _columns);
 
             // Container
