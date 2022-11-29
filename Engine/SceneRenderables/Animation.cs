@@ -132,9 +132,9 @@ namespace AdventureGame.Engine
             );
 
             // Testing
-            Globals.spriteBatch.DrawRectangle(
+            /*Globals.spriteBatch.DrawRectangle(
                 new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y),
-                Color.BlueViolet, 1);
+                Color.BlueViolet, 1);*/
         }
     }
 }

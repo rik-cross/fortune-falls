@@ -117,7 +117,7 @@ namespace AdventureGame.Engine
         // TO DO
         // Drop the item on the in-game ground using the entity's position
         public void DropItem(Item[] inventoryItems, Item item = null, int index = -1,
-            Entity entity = null, bool isCollectable = true,
+            Entity entity = null, bool dropMultiple = false, bool isCollectable = true,
             List<string> collectableByType = default, bool animation = false)
         {
             Console.WriteLine("Drop the item on the in-game ground");
@@ -153,15 +153,18 @@ namespace AdventureGame.Engine
                 // Initialise the item position to the middle center of the entity
                 itemX = (int)transformComponent.Center - item.Texture.Width / 2;
                 itemY = (int)transformComponent.Middle - item.Texture.Height / 2;
-                
-                // Offset the item X and Y position by a pseudo-random amount
-                /*randomX = random.Next(0, 11);
-                randomY = random.Next(0, 11);
 
-                // Randomise +- item Y offset amount
-                randomSign = random.Next(0, 2);
-                if (randomSign == 0)
-                    randomY *= -1;*/
+                // Offset the item X and Y position by a pseudo-random amount
+                if (dropMultiple)
+                {
+                    randomX = random.Next(0, 16);
+                    randomY = random.Next(0, 16);
+
+                    // Randomise +- item Y offset amount
+                    randomSign = random.Next(0, 2);
+                    if (randomSign == 0)
+                        randomY *= -1;
+                }
             }
 
             // Randomise +- item X offset amount
@@ -189,9 +192,15 @@ namespace AdventureGame.Engine
         {
             Console.WriteLine("Drop all inventory items on the in-game ground");
 
+            bool multiple = false;
             for (int i = 0; i < inventoryItems.Length; i++)
             {
-                DropItem(inventoryItems, inventoryItems[i], i, entity);
+                Item item = inventoryItems[i];
+                if (item != null)
+                {
+                    DropItem(inventoryItems, item, i, entity, dropMultiple: multiple);
+                    multiple = true;
+                }
             }
         }
 

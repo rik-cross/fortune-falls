@@ -18,7 +18,7 @@ namespace AdventureGame.Engine
         public ComponentManager _componentManager;
         public SystemManager _systemManager;
 
-        public List<Entity> EntityList { get; set; }
+        public List<Entity> EntityList { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
         public HashSet<Entity> EntitiesToAdd { get; private set; }
         public HashSet<Entity> EntitiesToDelete { get; private set; }
 
