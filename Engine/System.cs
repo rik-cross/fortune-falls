@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {

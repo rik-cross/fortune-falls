@@ -80,8 +80,8 @@ namespace AdventureGame.Engine
                 colliderEntity.AddComponent(new Engine.EmoteComponent("Emojis/emoji_melting"));
             else
                 colliderEntity.GetComponent<EmoteComponent>().Show();
-            //colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Add(
-            //    new Engine.Dialogue("Wow, it's getting warm!", texture: Globals.content.Load<Texture2D>("Emojis/emoji_melting")));
+            colliderEntity.GetComponent<DialogueComponent>().AddPage(
+                new Engine.Dialogue("Wow, it's getting warm!", texture: Globals.content.Load<Texture2D>("Emojis/emoji_melting")));
             colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Add(
                 new Engine.Dialogue(
                     "Wow, I'm so warm!",
@@ -95,7 +95,7 @@ namespace AdventureGame.Engine
             {
                 colliderEntity.GetComponent<EmoteComponent>().Hide();
             }
-            colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Clear();
+            colliderEntity.GetComponent<DialogueComponent>().RemovePage();
         }
     }
 }

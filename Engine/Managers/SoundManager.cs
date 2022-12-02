@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+
 using Microsoft.Xna.Framework;
 
 using S = System.Diagnostics.Debug;
@@ -39,7 +40,7 @@ namespace AdventureGame.Engine
                 MediaPlayer.Volume -= volumeIncrement;
                 if (MediaPlayer.Volume <= 0.0f)
                 {
-                    Play(_nextSong);
+                    PlaySong(_nextSong);
                 }
             }
             else {
@@ -51,7 +52,7 @@ namespace AdventureGame.Engine
                     MediaPlayer.Volume = _targetVolume;
             }
         }
-        public void Play(Song song)
+        public void PlaySong(Song song)
         {
             if (song == _currentSong)
             {
@@ -63,7 +64,7 @@ namespace AdventureGame.Engine
             _currentSong = song;
             _nextSong = null;
         }
-        public void PlayFade(Song song)
+        public void PlaySongFade(Song song)
         {
             if (song == _currentSong)
             {
@@ -71,6 +72,10 @@ namespace AdventureGame.Engine
                 return;
             }
             _nextSong = song;
+        }
+        public void PlaySoundEffect(SoundEffect soundEffect)
+        {
+            soundEffect.Play(Volume, 0, 0);
         }
     }
 }

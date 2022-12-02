@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using AdventureGame.Engine;
 
 namespace AdventureGame
@@ -60,6 +61,7 @@ namespace AdventureGame
 
             // Move to another accessible place for the menu and scenes?
             Globals.playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("playerSpriteSheet"), new Vector2(26, 36));
+            Globals.dialogueTickSound = Globals.content.Load<SoundEffect>("Sounds/blip");
 
             // Leave here or move to scene that checks if player already exists?
             // Create player entity

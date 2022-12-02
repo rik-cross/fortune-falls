@@ -140,7 +140,7 @@ namespace AdventureGame
         }
         public override void OnEnter()
         {
-            EngineGlobals.soundManager.PlayFade(Globals.content.Load<Song>("Music/forest"));
+            EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
         }
         public override void Update(GameTime gameTime)
         {

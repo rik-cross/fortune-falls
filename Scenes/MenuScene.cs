@@ -101,7 +101,7 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            EngineGlobals.soundManager.PlayFade(Globals.content.Load<Song>("Music/citadel"));
+            EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
 
             /*
             Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
