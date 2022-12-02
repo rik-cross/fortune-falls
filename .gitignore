@@ -40,6 +40,8 @@ Content/.DS_Store
 !Content/Emojis/*
 !Content/Music
 !Content/Music/*
+!Content/Sounds
+!Content/Sounds/*
 !Entities/
 !Entities/*.cs
 !Scenes/
