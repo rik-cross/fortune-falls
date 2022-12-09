@@ -12,10 +12,10 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, string tagId = default)
+        public static Engine.Entity Create(int x, int y, string idTag = default)
         {
             // Check if the player entity already exists
-            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByIdTag(tagId);
+            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
 
             if (playerEntity != null)
                 return playerEntity;
@@ -23,8 +23,8 @@ namespace AdventureGame
             // Otherwise create a new player entity
             playerEntity = EngineGlobals.entityManager.CreateEntity();
 
-            if (tagId != default)
-                playerEntity.Tags.Id = tagId;
+            if (idTag != default)
+                playerEntity.Tags.Id = idTag;
             else
             {
                 // Generate a new unique player id
@@ -39,17 +39,25 @@ namespace AdventureGame
             }
             playerEntity.Tags.AddTag("player");
 
-            string directory = "";
-            string filename = "playerSpriteSheet";
+            string directory = "Characters/Players/";
+            string filename = "Amanda"; // "Player-F01";
             string filePath = directory + filename;
-            int width = 26;
-            int height = 36;
+            int spriteWidth = 48;// 72;//24; //26;
+            int spriteHeight = 64;// 96;// 32; //36;
+            int drawWidth = 36;// 50;// 18;
+            int drawHeight = 56;// 82;// 28;
 
-            Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(filePath, width, height);
-            playerEntity.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 7, 4, "idle"));
+            // CHANGE so the spritesheet is created using the file path??
+            Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(filePath, spriteWidth, spriteHeight);
+            playerEntity.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 1, 2, "idle"));
             
             Engine.SpriteComponent spriteComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
-
+            spriteComponent.AddSprite("walkNorth", playerSpriteSheet, 0, 0, 2, true, 1);
+            spriteComponent.AddSprite("walkSouth", playerSpriteSheet, 2, 0, 2, true, 1);
+            spriteComponent.AddSprite("walkEast", playerSpriteSheet, 1, 0, 2, true, 1);
+            spriteComponent.AddSprite("walkWest", playerSpriteSheet, 3, 0, 2, true, 1);
+            spriteComponent.SetAnimationDelay(8);
+            /*
             //int[,] subTextures = new int[4, 2] { {6,7}, {7,7}, {8,7}, {7,7} };
             List<List<int>> subTextureValues = new List<List<int>>();
             subTextureValues.Add(new List<int>() { 6, 7 });
@@ -81,18 +89,32 @@ namespace AdventureGame
             
             foreach (Engine.Sprite sp in spriteComponent.SpriteDict.Values)
                 sp.animationDelay = 8;
+            */
 
             //Vector2 imageSize = playerEntity.GetComponent<SpriteComponent>().GetSpriteSize();
-            Vector2 imageSize = spriteComponent.GetSpriteSize();
+            Vector2 spriteSize = spriteComponent.GetSpriteSize();
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
-            playerEntity.AddComponent(new Engine.PhysicsComponent(2));
-            playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(16, 8), new Vector2(5, 28)));
+            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));
+            playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: 2));
+
+            //playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(16, 8), new Vector2(5, 28)));
+            int colliderWidth = (int)(drawWidth * 0.6f);
+            int colliderHeight = (int)(drawHeight * 0.3f);
+            playerEntity.AddComponent(new Engine.ColliderComponent(
+                size: new Vector2(colliderWidth, colliderHeight),
+                offset: new Vector2((spriteSize.X - colliderWidth) / 2, spriteSize.Y - colliderHeight)
+            ));
+            playerEntity.AddComponent(new Engine.HitboxComponent( // Remove
+                size: new Vector2(drawWidth, drawHeight),
+                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
+            ));
+            playerEntity.AddComponent(new Engine.HurtboxComponent(
+                size: new Vector2(drawWidth, drawHeight),
+                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
+            ));
             playerEntity.AddComponent(new Engine.HealthComponent());
             playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
-            playerEntity.AddComponent(new Engine.HitboxComponent(imageSize)); // Remove
-            playerEntity.AddComponent(new Engine.HurtboxComponent(imageSize));
             playerEntity.AddComponent(new Engine.InventoryComponent(40));
 
             playerEntity.AddComponent(new Engine.InputComponent(
@@ -101,7 +123,8 @@ namespace AdventureGame
             ));
 
             playerEntity.AddComponent(new Engine.TriggerComponent(
-                new Vector2(26, 21), offset: new Vector2(0, 21)
+                size: new Vector2(drawWidth, (int)(drawHeight * 0.6)),
+                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - (int)(drawHeight * 0.6))
             ));
 
             playerEntity.AddComponent(new Engine.DialogueComponent());

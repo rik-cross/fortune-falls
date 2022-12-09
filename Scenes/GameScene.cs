@@ -22,8 +22,15 @@ namespace AdventureGame
             // add entities
             //
 
+            // NPCs
+            AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
+            AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
+            AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
+            AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
+
             // Enemy entity
             //AddEntity(EnemyEntity.Create(200, 120, "spriteenemy"));
+            /*
             Entity enemyEntity = EnemyEntity.Create(200, 120, "spriteenemy");
             enemyEntity.AddComponent(new DamageComponent("touch", 10));
             InventoryComponent enemyInventory = enemyEntity.GetComponent<InventoryComponent>();
@@ -34,6 +41,7 @@ namespace AdventureGame
             EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyPotions);
             EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyMace);
             AddEntity(enemyEntity);
+            */
 
             // Home entity
             Entity homeEntity = EngineGlobals.entityManager.CreateEntity();
@@ -54,17 +62,25 @@ namespace AdventureGame
             // Light entity
             Engine.Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
             lightSourceEntity.Tags.AddTag("light");
+
             // By default, could each sub texture be calculate using
             // x = filewidth / spritewidth, y = 0??
             //int[,] subTextures = new int[4, 2] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } };
-            List<List<int>> subTextureValues = new List<List<int>>();
+            /*List<List<int>> subTextureValues = new List<List<int>>();
             subTextureValues.Add(new List<int>() { 0, 0 });
             subTextureValues.Add(new List<int>() { 1, 0 });
             subTextureValues.Add(new List<int>() { 2, 0 });
             subTextureValues.Add(new List<int>() { 3, 0 });
             Engine.SpriteSheet lightSourceSpriteSheet = new Engine.SpriteSheet("candleTest", 32, 32);
-            lightSourceEntity.AddComponent(new Engine.SpriteComponent(lightSourceSpriteSheet, subTextureValues));
-            lightSourceEntity.AddComponent(new Engine.TransformComponent(300, 300, 32, 32));
+            //lightSourceEntity.AddComponent(new Engine.SpriteComponent(lightSourceSpriteSheet, subTextureValues));*/
+
+            /*Engine.SpriteSheet lightSourceSpriteSheet = new Engine.SpriteSheet("candleTest", 32, 32);
+            lightSourceEntity.AddComponent(new Engine.SpriteComponent(lightSourceSpriteSheet));
+            Engine.SpriteComponent lightSpriteComponent = lightSourceEntity.GetComponent<Engine.SpriteComponent>();
+            lightSpriteComponent.AddSprite("idle", lightSourceSpriteSheet, 0, 0, 3);*/
+
+            lightSourceEntity.AddComponent(new Engine.SpriteComponent("candleTest", 32, 32, 0, 0, 3));
+            lightSourceEntity.AddComponent(new Engine.TransformComponent(450, 150, 32, 32));
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(12, 6), new Vector2(10, 26)));
             lightSourceEntity.AddComponent(new Engine.LightComponent(100));
             lightSourceEntity.AddComponent(new Engine.TriggerComponent(

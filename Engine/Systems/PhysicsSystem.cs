@@ -32,6 +32,13 @@ namespace AdventureGame.Engine
                     // Increase the speed multipler by x2
                     physicsComponent.MultiplySpeed(2);
 
+                    // TO DO: change this so that a modified delay is applied to the
+                    // sprite component instead of being recalculated here
+                    // Halve the animation delay of the sprite
+                    SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
+                    if (spriteComponent != null)
+                        spriteComponent.ModifyAnimationDelay(0.5f);
+
                     Console.WriteLine("Button 2 pressed");
                     Console.WriteLine($"Speed is {physicsComponent.Speed}");
                 }
@@ -42,6 +49,11 @@ namespace AdventureGame.Engine
                 {
                     // Decrease the speed multipler by x0.5
                     physicsComponent.MultiplySpeed(0.5);
+
+                    // Double the animation delay of the sprite
+                    SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
+                    if (spriteComponent != null)
+                        spriteComponent.ModifyAnimationDelay(2.0f);
 
                     Console.WriteLine("Button 2 released");
                     Console.WriteLine($"Speed is now {physicsComponent.Speed}");

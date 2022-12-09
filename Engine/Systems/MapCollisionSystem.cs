@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -20,6 +21,7 @@ namespace AdventureGame.Engine
                 if (rect.Intersects(colliderComponent.Rect))
                 {
                     // create a map collision object?
+                    Console.WriteLine($"Entity {entity.Id} collided with tile");
                 }
             }
 

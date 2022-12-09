@@ -58,7 +58,7 @@ namespace AdventureGame.Engine
             // Add component to entity signature
             string componentName = GetComponentName(component);
             e.Signature = AddToSignature(e.Signature, componentName);
-            //Console.WriteLine($"{e.Id}: {e.Signature}");
+            //Console.WriteLine($"{e.Id} {e.Tags.Id} {e.Tags.Type[0]}: {e.Signature}");
 
             // Pushes the entity and component to the added queue
             //addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));

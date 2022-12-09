@@ -47,7 +47,7 @@ namespace AdventureGame.Engine
         {
             if (colliderEntity.IsPlayerType())
             {
-                Vector2 playerPosition = new Vector2(150, 90);
+                Vector2 playerPosition = new Vector2(150, 20);
                 EngineGlobals.sceneManager.ChangePlayerScene(Globals.homeScene, playerPosition);
             }
         }
@@ -65,7 +65,7 @@ namespace AdventureGame.Engine
         {
             if (colliderEntity.IsPlayerType())
             {
-                Vector2 playerPosition = new Vector2(85, 90);
+                Vector2 playerPosition = new Vector2(85, 120);
                 EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
             }
         }
@@ -73,8 +73,11 @@ namespace AdventureGame.Engine
 
         public static void LightOnCollisionEnter(Entity triggerEntity, Entity colliderEntity, float distance)
         {
+            if (!colliderEntity.IsPlayerType())
+                return;
+
             EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = triggerEntity;
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(4.0f, 0.02f);
+            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(2.5f, 0.02f);
             //colliderEntity.AddComponent(new Engine.TextComponent("Hello! Here is some text, hopefully split over a few lines!"));
             if (colliderEntity.GetComponent<EmoteComponent>() == null)
                 colliderEntity.AddComponent(new Engine.EmoteComponent("Emojis/emoji_melting"));
@@ -90,7 +93,7 @@ namespace AdventureGame.Engine
         public static void LightOnCollisionExit(Entity triggerEntity, Entity colliderEntity, float distance)
         {
             EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(3.0f, 0.01f);
+            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(1.5f, 0.01f);
             if (colliderEntity.GetComponent<EmoteComponent>() != null)
             {
                 colliderEntity.GetComponent<EmoteComponent>().Hide();

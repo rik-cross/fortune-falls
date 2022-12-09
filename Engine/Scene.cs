@@ -287,11 +287,16 @@ namespace AdventureGame.Engine
             {
                 // main system update
                 s.Update(gameTime, this);
-
+                
                 // update each relevant entity of a system
                 foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
                     if (s.entityMapper.ContainsKey(e.Id))
                         s.UpdateEntity(gameTime, this, e);
+                /*
+                foreach (Entity e in s.entityList)
+                    if (EntityList.Contains(e))
+                        s.UpdateEntity(gameTime, this, e);
+                */
             }
                 
             // update the scene
@@ -466,6 +471,25 @@ namespace AdventureGame.Engine
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             Draw(gameTime);
             Globals.spriteBatch.End();
+
+            // Draw the player's X,Y position
+            if (EngineGlobals.DEBUG)
+            {
+                if (_entityManager.GetLocalPlayer() != null)
+                {
+                    Entity player = _entityManager.GetLocalPlayer();
+                    Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
+                    
+                    Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    Globals.spriteBatch.DrawString(Theme.FontSecondary,
+                        "X:" + playerPosition.X.ToString(),
+                        new Vector2(10, 10), Color.Black);
+                    Globals.spriteBatch.DrawString(Theme.FontSecondary,
+                        "Y:" + playerPosition.Y.ToString(),
+                        new Vector2(50, 10), Color.Black);
+                    Globals.spriteBatch.End();
+                }
+            }
 
             // switch back to the main backbuffer
             // and draw the scene

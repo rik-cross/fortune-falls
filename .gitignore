@@ -42,6 +42,14 @@ Content/.DS_Store
 !Content/Music/*
 !Content/Sounds
 !Content/Sounds/*
+!Content/Characters
+!Content/Characters/*
+!Content/Characters/Players/
+!Content/Characters/Players/*
+!Content/Characters/NPC/
+!Content/Characters/NPC/*
+!Content/Characters/Enemies/
+!Content/Characters/Enemies/*
 !Entities/
 !Entities/*.cs
 !Scenes/

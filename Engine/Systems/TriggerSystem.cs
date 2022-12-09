@@ -106,7 +106,6 @@ namespace AdventureGame.Engine
                     (int)(transformComponent.position.X + triggerComponent.offset.X),
                     (int)(transformComponent.position.Y + triggerComponent.offset.Y)
                 ), Color.White);
-
         }
 
     }

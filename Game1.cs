@@ -60,13 +60,13 @@ namespace AdventureGame
             EngineGlobals.soundManager = new SoundManager();
 
             // Move to another accessible place for the menu and scenes?
-            Globals.playerSpriteSheet = new Engine.SpriteSheet(Globals.content.Load<Texture2D>("playerSpriteSheet"), new Vector2(26, 36));
             Globals.dialogueTickSound = Globals.content.Load<SoundEffect>("Sounds/blip");
+            //Globals.playerSpriteSheet = new Engine.SpriteSheet("playerSpriteSheet", 26, 36);
 
             // Leave here or move to scene that checks if player already exists?
             // Create player entity
             string playerId = "localPlayer";
-            Engine.Entity playerEntity = PlayerEntity.Create(300, 200, playerId);
+            Engine.Entity playerEntity = PlayerEntity.Create(20, 760, playerId);
 
             // Create scenes
             Globals.menuScene = new MenuScene();

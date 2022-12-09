@@ -86,7 +86,7 @@ namespace AdventureGame
             );
 
             // player animation
-            _playerAnimation = new Engine.Animation(
+            /*_playerAnimation = new Engine.Animation(
                 new List<Texture2D> {
                     Globals.playerSpriteSheet.GetSubTexture(6,4),
                     Globals.playerSpriteSheet.GetSubTexture(7,4),
@@ -96,7 +96,7 @@ namespace AdventureGame
                 size: new Vector2(26*4,36*4),
                 anchor: Anchor.MiddleCenter,
                 animationDelay: 12
-            );
+            );*/
         }
 
         public override void OnEnter()
@@ -142,7 +142,7 @@ namespace AdventureGame
                             && EngineGlobals.sceneManager.Transition == null)
                         {
                             //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(Globals.gameScene);
-                            Vector2 playerPosition = new Vector2(100, 100);
+                            Vector2 playerPosition = new Vector2(20, 760);
                             EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
                         }
                     }
@@ -192,7 +192,7 @@ namespace AdventureGame
                 _keyboardButton.Play();
             }
 
-            _playerAnimation.Update();
+            //_playerAnimation.Update();
             _controllerButton.Update();
             _keyboardButton.Update();
 
@@ -205,7 +205,7 @@ namespace AdventureGame
             _keyboardImage.Draw();
             _controllerButton.Draw();
             _keyboardButton.Draw();
-            _playerAnimation.Draw();
+            //_playerAnimation.Draw();
         }
 
     }
