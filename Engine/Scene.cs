@@ -24,6 +24,7 @@ namespace AdventureGame.Engine
 
         public List<Camera> CameraList { get; private set; }
         protected double LightLevel { get; set; }
+        private Texture2D _alphaMask;
 
         public TiledMap Map { get; private set; }
         public TiledMapRenderer MapRenderer { get; private set; }
@@ -50,6 +51,7 @@ namespace AdventureGame.Engine
             UpdateSceneBelow = false;
             DrawSceneBelow = false;
             LightLevel = 0.6f;
+            _alphaMask = Globals.content.Load<Texture2D>("light");
 
             Init();
 
@@ -269,6 +271,9 @@ namespace AdventureGame.Engine
             // Repeats for each entity whose components have changed
             foreach (Entity e in _componentManager.changedEntities)
             {
+                // CHECK should this or the UpdateEntityList only be executed
+                // if e is in the scene EntityList / Mapper?
+
                 _componentManager.RemoveQueuedComponents();
                 _systemManager.UpdateEntityLists(e);
             }
@@ -294,7 +299,7 @@ namespace AdventureGame.Engine
                         s.UpdateEntity(gameTime, this, e);
                 /*
                 foreach (Entity e in s.entityList)
-                    if (EntityList.Contains(e))
+                    if (EntityList.Contains(e)) // CHANGE so that EntityList only contains entities relevant to a specific scene
                         s.UpdateEntity(gameTime, this, e);
                 */
             }
@@ -360,6 +365,16 @@ namespace AdventureGame.Engine
                 }
                 Globals.spriteBatch.End();
 
+                // TO DO
+
+                // Sort the entities to draw based on bottom Y position i.e. Y + Height position
+                // either using layerDepth with spriteBatch.Begin(SpriteSortMode.BackToFront)
+
+                // OR reordering the list if an entity changes position
+                // using TransformComponent position != previousPosition
+                // e.g. transformComponent.HasMoved()
+                // or EntityManager / Scene set of entitiesMoved
+
 
                 // draw systems below map
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
@@ -416,7 +431,9 @@ namespace AdventureGame.Engine
                 // scene lighting
                 // (currently not a system, as lights need to be rendered at a specific time)
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix(), blendState: blend);
-                var alphaMask = Globals.content.Load<Texture2D>("light");
+
+                // MOVE so the light is only loaded once 
+                //var alphaMask = Globals.content.Load<Texture2D>("light");
 
                 foreach (Entity e in EntityList)
                 {
@@ -424,7 +441,7 @@ namespace AdventureGame.Engine
                     TransformComponent transformComponent = e.GetComponent<TransformComponent>();
                     if (lightComponent != null && transformComponent != null && lightComponent.visible)
                     {
-                        Globals.spriteBatch.Draw(alphaMask,
+                        Globals.spriteBatch.Draw(_alphaMask,
                             new Rectangle(
                                 (int)transformComponent.position.X + (int)transformComponent.size.X/2 - lightComponent.radius,
                                 (int)transformComponent.position.Y + (int)transformComponent.size.X/2 - lightComponent.radius,
