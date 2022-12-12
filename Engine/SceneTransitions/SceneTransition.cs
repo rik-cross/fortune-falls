@@ -13,16 +13,19 @@ namespace AdventureGame.Engine
         private SceneManager _sceneManager;
 
         protected Scene ToScene { get; set; }
-        protected bool ReplaceScene { get; set; }
+        protected bool AddCurrentSceneToStack { get; set; }
+        protected bool UnloadCurrentScene { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
 
-        public SceneTransition(Scene toScene, bool replaceScene = false)
+        public SceneTransition(Scene toScene, bool addCurrentSceneToStack = false,
+            bool unloadCurrentScene = true)
         {
             _sceneManager = EngineGlobals.sceneManager;
 
             ToScene = toScene;
-            ReplaceScene = replaceScene;
+            AddCurrentSceneToStack = addCurrentSceneToStack;
+            UnloadCurrentScene = unloadCurrentScene;
             Increment = 1.0f;
         }
 
@@ -35,11 +38,38 @@ namespace AdventureGame.Engine
                 // moving up the sceneList
                 if (ToScene != null)
                 {
+                    _sceneManager.ChangeScene(ToScene, AddCurrentSceneToStack, UnloadCurrentScene);
+                }
+                // moving down
+                else
+                {
+                    //_sceneManager.PopScene();
+                }
+
+            }
+
+            if (Percentage == 100)
+                _sceneManager.Transition = null;
+
+            if (_sceneManager.ActiveScene != null)
+                _sceneManager.ActiveScene._Update(gameTime);
+        }
+        /*
+        public void Update(GameTime gameTime)
+        {
+            Percentage = Math.Min(Percentage + Increment, 100);
+
+            if (Percentage == 50)
+            {
+                // moving up the sceneList
+                if (ToScene != null)
+                {
                     if (ReplaceScene)
                     {
-                        Scene sceneToPop = _sceneManager.GetTopScene();
-                        _sceneManager.SceneList.RemoveAt(_sceneManager.SceneList.Count - 1);
-                        sceneToPop._OnExit();
+                        //Scene sceneToPop = _sceneManager.GetTopScene();
+                        //_sceneManager.SceneList.RemoveAt(_sceneManager.SceneList.Count - 1);
+                        //sceneToPop._OnExit();
+                        _sceneManager.RemoveSceneAtPosition(_sceneManager.SceneList.Count - 1);
                     }
 
                     ToScene._OnEnter();
@@ -60,7 +90,7 @@ namespace AdventureGame.Engine
             if (_sceneManager.SceneList.Count > 0)
                 _sceneManager.GetTopScene()._Update(gameTime);
         }
-
+        */
         public void _Draw(GameTime gameTime)
         {
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);

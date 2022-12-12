@@ -66,13 +66,15 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))// && EngineGlobals.sceneManager.Transition == null)
             {
-                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
+                //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
+                EngineGlobals.sceneManager.TransitionScene(null); // CHANGE to Unload / Remove / Pop
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.PushScene(new PauseScene());
+                //EngineGlobals.sceneManager.PushScene(new PauseScene());
+                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, true, false);
             }
         }
 

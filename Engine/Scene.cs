@@ -141,6 +141,7 @@ namespace AdventureGame.Engine
             return null;
         }
 
+        // CHANGE to use an _entityMapper for all the Contains() calls
         public void AddEntity(Entity e)
         {
             if (e != null && EntityList.Contains(e) == false)
@@ -161,8 +162,8 @@ namespace AdventureGame.Engine
 
         public void RemoveEntity(Entity e)
         {
-            //if (!EntitiesToDelete.Contains(e))
-            EntitiesToDelete.Add(e);
+            if (e != null && EntityList.Contains(e) == false)
+                EntitiesToDelete.Add(e);
         }
 
         public void ClearEntitiesToDelete()
@@ -170,9 +171,16 @@ namespace AdventureGame.Engine
             EntitiesToDelete.Clear();
         }
 
+        public bool IsEntityInScene(Entity e)
+        {
+            return EntityList.Contains(e);
+        }
+
+
+        // Move to top
         public virtual void Init() { }
-        //public virtual void LoadContent() { }
-        //public virtual void UnloadContent() { }
+        public virtual void LoadContent() { }
+        public virtual void UnloadContent() { }
 
         public void _OnEnter()
         {
@@ -199,6 +207,14 @@ namespace AdventureGame.Engine
                     triggerComponent.collidedEntities.Clear();
                 }
             }
+
+            // TESTING
+            foreach (Entity e in EntityList)
+            {
+                if (!e.IsLocalPlayer())
+                    _entityManager.DeleteEntity(e);
+            }
+
             OnExit();
         }
         public virtual void OnExit() { }
@@ -309,7 +325,9 @@ namespace AdventureGame.Engine
 
             if (UpdateSceneBelow)
             {
-                _sceneManager.GetSceneBelow(this)._Update(gameTime);
+                Scene sceneBelow = _sceneManager.GetSceneBelow(this);
+                if (sceneBelow != null)
+                    sceneBelow._Update(gameTime);
             }
 
         }
@@ -321,7 +339,9 @@ namespace AdventureGame.Engine
 
             if (DrawSceneBelow)
             {
-                _sceneManager.GetSceneBelow(this)._Draw(gameTime);
+                Scene sceneBelow = _sceneManager.GetSceneBelow(this);
+                if (sceneBelow != null)
+                    sceneBelow._Draw(gameTime);
             }
             
             var blend = new BlendState

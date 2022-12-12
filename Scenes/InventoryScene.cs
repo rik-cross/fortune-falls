@@ -523,7 +523,7 @@ namespace AdventureGame
             if (_inputManager.IsPressed(Globals.inventoryInput))// or Escape
             {
                 _inputManager.HideCursor();
-                EngineGlobals.sceneManager.PopScene();
+                //EngineGlobals.sceneManager.PopScene();
             }
 
             // Recalculate the container dimensions in case the screen size has changed 

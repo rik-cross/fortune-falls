@@ -9,7 +9,8 @@ namespace AdventureGame.Engine
     
     public class FadeSceneTransition : SceneTransition
     {
-        public FadeSceneTransition(Scene toScene, bool replaceScene = false) : base(toScene, replaceScene)
+        public FadeSceneTransition(Scene toScene, bool addCurrentSceneToStack = false,
+            bool unloadCurrentScene = true) : base(toScene, addCurrentSceneToStack, unloadCurrentScene)
         {
         }
 
@@ -17,8 +18,8 @@ namespace AdventureGame.Engine
         {
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.spriteBatch.End();
-            if (!EngineGlobals.sceneManager.IsEmpty())
-                EngineGlobals.sceneManager.GetTopScene()._Draw(gameTime);
+            if (EngineGlobals.sceneManager.ActiveScene != null)
+                EngineGlobals.sceneManager.ActiveScene._Draw(gameTime);
 
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);

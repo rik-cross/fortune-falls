@@ -38,7 +38,7 @@ namespace AdventureGame
         {
             if (EngineGlobals.inputManager.IsPressed( Globals.pauseInput ))
             {
-                EngineGlobals.sceneManager.PopScene();
+                //EngineGlobals.sceneManager.PopScene();
             }
 
         }

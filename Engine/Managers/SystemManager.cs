@@ -60,6 +60,9 @@ namespace AdventureGame.Engine
         // Updates the system's lists when components are added or removed
         public void UpdateEntityLists(Entity e)
         {
+            // CHECK that this only executes if the entity is part of the
+            // current scene or it is the scene below and Update/DrawSceneBelow = true
+
             foreach (System s in systems)
             {
                 // Check if the entity is relevant
@@ -68,6 +71,8 @@ namespace AdventureGame.Engine
                     // Check if the entity doesn't already exist
                     if (!s.entityMapper.ContainsKey(e.Id))
                     {
+                        // CHECK that the entity belongs in the current scene
+
                         // Add entity to the list and mapper
                         s.entityList.Add(e);
                         s.entityMapper[e.Id] = s.entityList.Count - 1;

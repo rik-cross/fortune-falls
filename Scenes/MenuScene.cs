@@ -138,12 +138,19 @@ namespace AdventureGame
                     InputItem inputItem = inputMethod.button1;
                     if (inputItem != null)
                     {
-                        if (EngineGlobals.inputManager.IsPressed(inputMethod.button1)
-                            && EngineGlobals.sceneManager.Transition == null)
+                        if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
+                            //&& EngineGlobals.sceneManager.Transition == null)
                         {
                             //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(Globals.gameScene);
                             Vector2 playerPosition = new Vector2(20, 760);
-                            EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
+                            //EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
+                            //EngineGlobals.sceneManager.LoadScene<GameScene>(playerPosition);
+
+                            // Add the MenuScene to the scene stack
+                            EngineGlobals.sceneManager.SetActiveScene<GameScene>(
+                                addCurrentSceneToStack: true, unloadCurrentScene: false);
+
+                            EngineGlobals.sceneManager.ChangePlayerScene<GameScene>(playerPosition);
                         }
                     }
                 }
