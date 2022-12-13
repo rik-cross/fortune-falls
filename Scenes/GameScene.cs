@@ -167,21 +167,17 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))// && EngineGlobals.sceneManager.Transition == null)
             {
-                // FIX so that MenuScene is shown again
                 //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
-                //EngineGlobals.sceneManager.TransitionScene(null); // CHANGE to Unload / Remove / Pop
-                EngineGlobals.sceneManager.RemoveScene(this, true);
+                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
                 //EngineGlobals.sceneManager.PushScene(new PauseScene());
-                //EngineGlobals.sceneManager.LoadScene<PauseScene>(false, false);
                 EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
             {
                 //EngineGlobals.sceneManager.PushScene(new InventoryScene());
-                //EngineGlobals.sceneManager.LoadScene<InventoryScene>(false, false);
                 EngineGlobals.sceneManager.SetActiveScene<InventoryScene>(false, false, false);
             }
         }

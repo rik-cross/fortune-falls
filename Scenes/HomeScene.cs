@@ -70,7 +70,7 @@ namespace AdventureGame
             {
                 //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
                 //EngineGlobals.sceneManager.TransitionScene(null); // CHANGE to Unload / Remove / Pop
-                EngineGlobals.sceneManager.RemoveScene(this);
+                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {

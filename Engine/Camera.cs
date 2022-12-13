@@ -131,6 +131,9 @@ namespace AdventureGame.Engine
             // clamp camera to map
             //
 
+            if (scene.Map == null)
+                return;
+
             // width
 
             // if camera is bigger than map

@@ -94,6 +94,18 @@ namespace AdventureGame.Engine
 
         }
 
+        public void DeleteMap()
+        {
+            Map = null;
+            MapRenderer = null;
+
+            // TO DO
+            // delete collision tiles
+            // remove collision tiles from ColliderSystem etc.
+
+            CollisionTiles.Clear();
+        }
+
         public void AddCameras()
         {
             // Main player camera
@@ -160,6 +172,7 @@ namespace AdventureGame.Engine
             EntitiesToAdd.Add(e);
         }
 
+        // CHANGE to use EntityMapper
         public void RemoveEntity(Entity e)
         {
             if (e != null && EntityList.Contains(e) == false)
@@ -171,6 +184,7 @@ namespace AdventureGame.Engine
             EntitiesToDelete.Clear();
         }
 
+        // CHANGE to use EntityMapper
         public bool IsEntityInScene(Entity e)
         {
             return EntityList.Contains(e);
@@ -183,8 +197,6 @@ namespace AdventureGame.Engine
         public virtual void LoadContent() { }
         public void _LoadContent()
         {
-            // Load content here?
-
             LoadContent();
         }
 
@@ -197,7 +209,8 @@ namespace AdventureGame.Engine
                     _entityManager.DeleteEntity(e);
             }
 
-            // Unload map tiles ???
+            // Unload the map tiles
+            DeleteMap();
 
             UnloadContent();
         }
@@ -205,7 +218,7 @@ namespace AdventureGame.Engine
 
         public void _OnEnter()
         {
-            EntitiesToDelete.Clear();
+            /*EntitiesToDelete.Clear();
             foreach (Entity e in EntityList)
             {
                 TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
@@ -213,14 +226,14 @@ namespace AdventureGame.Engine
                 {
                     triggerComponent.collidedEntities.Clear();
                 }
-            }
+            }*/
+
             OnEnter();
         }
         public virtual void OnEnter() { }
         public void _OnExit()
         {
-            Console.WriteLine($"OnExit {this}");
-            EntitiesToDelete.Clear();
+            /*EntitiesToDelete.Clear();
             foreach(Entity e in EntityList)
             {
                 TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
@@ -228,7 +241,7 @@ namespace AdventureGame.Engine
                 {
                     triggerComponent.collidedEntities.Clear();
                 }
-            }
+            }*/
 
             OnExit();
         }
@@ -380,21 +393,24 @@ namespace AdventureGame.Engine
                 // draw the map
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
 
-                foreach (TiledMapLayer layer in Map.Layers)
-                {
-                    if (layer.Properties.ContainsValue("below"))
-                    {
-                        MapRenderer.Draw(layer, c.getTransformMatrix());
-                    }
-                }
-
-                if (EngineGlobals.DEBUG)
+                if (Map != null)
                 {
                     foreach (TiledMapLayer layer in Map.Layers)
                     {
-                        if (layer.Properties.ContainsValue("collision"))
+                        if (layer.Properties.ContainsValue("below"))
                         {
                             MapRenderer.Draw(layer, c.getTransformMatrix());
+                        }
+                    }
+
+                    if (EngineGlobals.DEBUG)
+                    {
+                        foreach (TiledMapLayer layer in Map.Layers)
+                        {
+                            if (layer.Properties.ContainsValue("collision"))
+                            {
+                                MapRenderer.Draw(layer, c.getTransformMatrix());
+                            }
                         }
                     }
                 }
@@ -427,11 +443,14 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.End();
 
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
-                foreach (TiledMapLayer layer in Map.Layers)
+                if (Map != null)
                 {
-                    if (layer.Properties.ContainsValue("above"))
+                    foreach (TiledMapLayer layer in Map.Layers)
                     {
-                        MapRenderer.Draw(layer, c.getTransformMatrix());
+                        if (layer.Properties.ContainsValue("above"))
+                        {
+                            MapRenderer.Draw(layer, c.getTransformMatrix());
+                        }
                     }
                 }
                 Globals.spriteBatch.End();

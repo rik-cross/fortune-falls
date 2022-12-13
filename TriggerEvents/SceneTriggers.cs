@@ -20,17 +20,29 @@ namespace AdventureGame.Engine
             }
         }
 
+        public static void NPC(Entity triggerEntity, Entity colliderEntity, float distance)
+        {
+            if (colliderEntity.IsPlayerType())
+            {
+                InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
+                if (playerInputComponent != null
+                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+                {
+                    LightComponent lightComponent = EngineGlobals.entityManager.GetEntityByIdTag("homeLight1").GetComponent<LightComponent>();
+                    lightComponent.visible = !lightComponent.visible;
+                }
+            }
+        }
+
         // How to create a genric ChangeScene event with below params?
         public static void ChangeScene(Entity triggerEntity, Entity colliderEntity, float distance)
             // Scene nextScene, Vector2 playerPosition = default, bool player = true
         {
             if (colliderEntity.IsPlayerType())
             {
-                Vector2 playerPosition = new Vector2(525, 900);
-                //EngineGlobals.sceneManager.ChangePlayerScene(Globals.beachScene, playerPosition);
-                //EngineGlobals.sceneManager.LoadScene<nextScene>(playerPosition);
-                //EngineGlobals.sceneManager.SetActiveScene<GameScene>();
-                //EngineGlobals.sceneManager.ChangePlayerScene<GameScene>(playerPosition);
+                //Vector2 playerPosition = new Vector2(playerX, playerY);
+                //EngineGlobals.sceneManager.SetActiveScene<T>();
+                //EngineGlobals.sceneManager.SetPlayerScene<T>(playerPosition);
             }
         }
 
@@ -39,14 +51,8 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(525, 900);
-                //EngineGlobals.sceneManager.ChangePlayerScene(Globals.beachScene, playerPosition);
-
-                //Scene newScene = EngineGlobals.sceneManager.LoadScene<BeachScene>();
-                //EngineGlobals.sceneManager.ChangePlayerScene(newScene, playerPosition);
-
-                //EngineGlobals.sceneManager.LoadScene<BeachScene>(playerPosition);
                 EngineGlobals.sceneManager.SetActiveScene<BeachScene>();
-                EngineGlobals.sceneManager.ChangePlayerScene<BeachScene>(playerPosition);
+                EngineGlobals.sceneManager.SetPlayerScene<BeachScene>(playerPosition);
             }
         }
 
@@ -55,10 +61,8 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(150, 20);
-                //EngineGlobals.sceneManager.ChangePlayerScene(Globals.homeScene, playerPosition);
-                //EngineGlobals.sceneManager.LoadScene<HomeScene>(playerPosition);
                 EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
-                EngineGlobals.sceneManager.ChangePlayerScene<HomeScene>(playerPosition);
+                EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(playerPosition);
             }
         }
 
@@ -67,10 +71,8 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(260, 60);
-                //EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
-                //EngineGlobals.sceneManager.LoadScene<GameScene>(playerPosition);
                 EngineGlobals.sceneManager.SetActiveScene<GameScene>();
-                EngineGlobals.sceneManager.ChangePlayerScene<GameScene>(playerPosition);
+                EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
             }
         }
 
@@ -79,10 +81,8 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(85, 120);
-                //EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
-                //EngineGlobals.sceneManager.LoadScene<GameScene>(playerPosition);
                 EngineGlobals.sceneManager.SetActiveScene<GameScene>();
-                EngineGlobals.sceneManager.ChangePlayerScene<GameScene>(playerPosition);
+                EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
             }
         }
 

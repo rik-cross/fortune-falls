@@ -124,10 +124,12 @@ namespace AdventureGame
         public override void Update(GameTime gameTime)
         {
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))// && EngineGlobals.sceneManager.Transition == null)
             {
                 //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
-                EngineGlobals.sceneManager.RemoveScene(this);
+                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
+
+                // Handle exit game logic here?
             }
 
             InputComponent inputComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>();
@@ -140,18 +142,14 @@ namespace AdventureGame
                     if (inputItem != null)
                     {
                         if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
-                            //&& EngineGlobals.sceneManager.Transition == null)
                         {
-                            //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(Globals.gameScene);
                             Vector2 playerPosition = new Vector2(20, 760);
-                            //EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
-                            //EngineGlobals.sceneManager.LoadScene<GameScene>(playerPosition);
 
                             // Add the MenuScene to the scene stack
                             EngineGlobals.sceneManager.SetActiveScene<GameScene>(
                                 removeCurrentSceneFromStack: false, unloadCurrentScene: false);
 
-                            EngineGlobals.sceneManager.ChangePlayerScene<GameScene>(playerPosition);
+                            EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
                         }
                     }
                 }

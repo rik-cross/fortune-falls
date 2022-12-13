@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {
     public class SceneManager
     {
-        public List<Scene> Scenes { get; private set; }
+        public List<Scene> SceneList { get; private set; }
         public List<Scene> _sceneStack;
         public Scene ActiveScene { get; private set; }
-        public Scene PlayerScene { get; set; }
+        public Scene PlayerScene { get; private set; }
         public SceneTransition Transition { get; set; }
 
         // Stores the player data if a transition is in process
@@ -21,13 +20,9 @@ namespace AdventureGame.Engine
 
         public SceneManager(int screenWidth = 0, int screenHeight = 0)
         {
-            Scenes = new List<Scene>();
+            SceneList = new List<Scene>();
             _sceneStack = new List<Scene>();
-            /*ActiveScene = null;
-            PlayerScene = null;
-            _playerNextScene = null;
-            Transition = null;
-            */
+
             if (screenWidth > 0 && screenHeight > 0)
                 SetScreenSize(screenWidth, screenHeight);
         }
@@ -44,9 +39,7 @@ namespace AdventureGame.Engine
                 {
                     ActiveScene._Update(gameTime);
 
-                    if (ActiveScene == null)
-                        return;
-
+                    // Needed??
                     foreach (Entity e in ActiveScene.EntitiesToDelete)
                     {
                         ActiveScene.EntityList.Remove(e);
@@ -78,137 +71,81 @@ namespace AdventureGame.Engine
             }
         }
 
-        // NOT used
-        public void LoadContent()
-        {
-            if (ActiveScene != null)
-                ActiveScene._LoadContent();
-        }
-
-        // Needed? Or LoadScene<T>
-        public void PreloadScene<T>() where T : Scene
-        {
-
-        }
-
+        // Creates an instance of a scene and adds it to the scene list
         public void LoadScene(Scene scene)
         {
-            if (!Scenes.Contains(scene))
+            if (!SceneList.Contains(scene))
             {
                 scene.Init();
                 scene._LoadContent();
-                Scenes.Add(scene);
+                SceneList.Add(scene);
             }
         }
 
+        // Removes the scene from the scene list and stack
         public void UnloadScene(Scene scene)
         {
-            if (Scenes.Contains(scene))
+            if (SceneList.Contains(scene))
             {
                 scene._UnloadContent();
-                Scenes.Remove(scene);
+                SceneList.Remove(scene);
                 // Or add it to a ScenesToRemove list and remove next tick?
+
                 if (_sceneStack.Contains(scene))
                     _sceneStack.Remove(scene); // Likewise ^^
             }
         }
 
+        // Adds a scene to the top of the scene stack
         public void PushSceneToStack(Scene scene)
         {
-            /*
-            if (Transition != null)
-                return;
-
-            if (replaceScene && SceneList.Count > 0)
-                GetTopScene()._OnExit();
-            scene._OnEnter();
-            SceneList.Add(scene);
-            */
-
             _sceneStack.Add(scene);
         }
 
+        // Removes the scene at the top of the scene stack
         public Scene PopSceneFromStack()
         {
-            /*
-            if (Transition != null)
-                return;
-
-            Scene sceneToPop = SceneList[^1];
-            SceneList.RemoveAt(SceneList.Count - 1);
-            sceneToPop._OnExit();
-
-            if (SceneList.Count > 0)
-                GetTopScene()._OnEnter();
-            */
             Scene scene = null;
 
             if (_sceneStack.Count > 0)
             {
-                scene = _sceneStack[_sceneStack.Count - 1];
+                scene = _sceneStack[^1];
                 _sceneStack.RemoveAt(_sceneStack.Count - 1);
             }
 
             return scene;
         }
 
+        // Returns the scene at the top of the scene stack
         public Scene PeekSceneOnStack()
         {
             Scene scene = null;
 
             if (_sceneStack.Count > 0)
             {
-                scene = _sceneStack[_sceneStack.Count - 1];
+                scene = _sceneStack[^1];
             }
 
             return scene;
         }
 
-        // FIX and change TransitionScene(null) calls
-        // FIX PopScene (Pause, Inventory)
-        // FIX? FadeTransition movedown pop
-        // To do?
-        // Add / Remove from stack (replace push and pop?)
-        // Should LoadScene or SetActiveScene create the scene instance?
-        // Should _onExit always be called even if the scene is unloaded and not ActiveScene?
-        // Is Transition != null needed anywhere else??
-        // Change parameter transition to transitionScene everywhere
-
-        public void RemoveScene<T>() where T : Scene
+        // Removes a non-active scene with the option to transition and unload
+        public void RemoveScene(Scene scene, bool applyTransition = false,
+            bool unloadScene = true)
         {
-            // Check that T is Scene??
-            //object scene = T;
-            //UnloadScene((Scene)scene);
-            //UnloadScene(T);
-            /*
-            // Check if there are any scenes on the scene stack
-            if (_sceneStack.Count > 0)
-                nextScene = _sceneStack[^1];
-            // Otherwise there are no more scenes
-            else if (ActiveScene != null)
-            {
-                ActiveScene._OnExit(); // Here or in UnloadScene()?
-                UnloadScene(ActiveScene);
+            if (Transition != null && scene == ActiveScene)
                 return;
-            }*/
-        }
-
-        public void RemoveScene(Scene scene, bool transition = false, bool unloadScene = true)
-        {
-            scene._OnExit(); // Or within condition?
 
             if (scene == ActiveScene)
             {
-                //scene._OnExit(); // Or before condition?
-
                 // Check if there are more scenes on the stack
                 if (_sceneStack.Count > 1)
                 {
                     PopSceneFromStack();
                     Scene nextScene = PeekSceneOnStack();
 
-                    if (transition)
-                        TransitionScene(nextScene, true, unloadScene);
+                    if (applyTransition)
+                        StartTransition(nextScene, true, unloadScene);
                     else
                         ChangeScene(nextScene, true, unloadScene);
                 }
@@ -217,25 +154,46 @@ namespace AdventureGame.Engine
                 {
                     // Exit game logic here?
 
-                    //scene._OnExit(); // Or before condition?
 
-                    // TO DO transition final scene on stack
-                    UnloadScene(scene);
-                    //Transition = new FadeSceneTransition(null);
+                    ChangeScene(null, true, true);
                 }
             }
             else
+            {
+                scene._OnExit(); // Should it be called if not the ActiveScene?
                 UnloadScene(scene);
+            }
         }
 
-        public void SetActiveScene<T>(bool transition = true,
+        // Checks whether the scene already exists in the scene list
+        public Scene CheckSceneExists<T>()
+        {
+            Console.WriteLine($"Checking if scene {typeof(T)} already exists");
+            Console.WriteLine($"Scenes count {SceneList.Count}");
+
+            Scene scene = null;
+
+            foreach (var s in SceneList)
+            {
+                Console.WriteLine($"Compare scene {s} with {typeof(T)}");
+                if (s is T)
+                {
+                    Console.WriteLine($"Scene {typeof(T)} already exists at index {SceneList.IndexOf(s)}");
+                    scene = s;
+                }
+            }
+            Console.WriteLine();
+
+            return scene;
+        }
+
+        // Used to change the active scene during the game
+        public void SetActiveScene<T>(bool applyTransition = true,
             bool removeCurrentSceneFromStack = true,
             bool unloadCurrentScene = true) where T : new()
         {
             if (Transition != null)
                 return;
-
-            Console.WriteLine("\nSet active scene");
 
             object scene;
             scene = CheckSceneExists<T>();
@@ -248,24 +206,35 @@ namespace AdventureGame.Engine
                     LoadScene((Scene)scene);
             }
 
-            // The scene failed to load
+            // Return if the scene failed to load
             if (scene == null)
                 return;
 
-            // TO DO transition without ADDing a new scene, use LoadScene?
-            // TO DO keep the current scene on the _sceneStack
-
-            if (transition)
-                TransitionScene((Scene)scene, removeCurrentSceneFromStack, unloadCurrentScene);
+            // Otherwise change the scene
+            if (applyTransition)
+                StartTransition((Scene)scene, removeCurrentSceneFromStack, unloadCurrentScene);
             else
                 ChangeScene((Scene)scene, removeCurrentSceneFromStack, unloadCurrentScene);
-            /*
-            if (transition)
-                TransitionScene((Scene)scene, unloadCurrentScene);
-            else
-                PushScene((Scene)scene, unloadCurrentScene);*/
         }
 
+        // Begins a scene transition from the active scene to another scene
+        public void StartTransition(Scene nextScene, bool removeCurrentSceneFromStack = true,
+            bool unloadCurrentScene = true)
+        {
+            if (Transition == null)
+            {
+                Transition = new FadeSceneTransition(nextScene, removeCurrentSceneFromStack,
+                    unloadCurrentScene);
+            }
+        }
+
+        // Called once a scene transition has finished
+        public void EndTransition()
+        {
+            Transition = null;
+        }
+
+        // Changes the active scene with the option of retaining the current active scene
         public void ChangeScene(Scene nextScene, bool removeCurrentSceneFromStack = true,
             bool unloadCurrentScene = true)
         {
@@ -276,7 +245,7 @@ namespace AdventureGame.Engine
                 if (_sceneStack.Count > 1)
                 {
                     // Get the second to last scene
-                    nextScene = _sceneStack[_sceneStack.Count - 2];
+                    nextScene = _sceneStack[^2];
                 }
                 // Otherwise there are no more scenes
                 else if (ActiveScene != null)
@@ -289,7 +258,7 @@ namespace AdventureGame.Engine
 
             // Check if the next scene has already been loaded
             bool isLoaded = false;
-            foreach (Scene s in Scenes)
+            foreach (Scene s in SceneList)
                 if (s == nextScene)
                     isLoaded = true;
 
@@ -316,10 +285,10 @@ namespace AdventureGame.Engine
             _sceneStack.Add(nextScene);
             ActiveScene = nextScene;
 
-            Console.WriteLine($"Scene list size {Scenes.Count}");
+            Console.WriteLine($"Scene list size {SceneList.Count}");
             Console.WriteLine($"Scene stack size {_sceneStack.Count}");
 
-            // Used to change the player scene during a transition
+            // Used to delay changing the player scene during a transition
             if (_playerNextScene != null)
             {
                 ChangePlayerScene(_playerNextScene, _playerNextScenePosition,
@@ -328,39 +297,8 @@ namespace AdventureGame.Engine
 
         }
 
-        public void TransitionScene(Scene nextScene, bool removeCurrentSceneFromStack = true,
-            bool unloadCurrentScene = true)
-        {
-            if (Transition == null)
-            {
-                Transition = new FadeSceneTransition(nextScene, removeCurrentSceneFromStack,
-                    unloadCurrentScene);
-            }
-        }
-
-        public Scene CheckSceneExists<T>()
-        {
-            Console.WriteLine($"Checking if scene {typeof(T)} already exists");
-            Console.WriteLine($"Scenes count {Scenes.Count}");
-            //bool sceneExists = false;
-            Scene scene = null;
-
-            foreach (var s in Scenes)
-            {
-                Console.WriteLine($"Compare scene {s} with {typeof(T)}");
-                if (s is T)
-                {
-                    Console.WriteLine($"Scene {typeof(T)} already exists at index {Scenes.IndexOf(s)}");
-                    //sceneExists = true;
-                    scene = s;
-                }
-            }
-            Console.WriteLine();
-
-            return scene;
-        }
-
-        public void ChangePlayerScene<T>(Vector2 playerPosition = default,
+        // Sets the scene that the player belongs to
+        public void SetPlayerScene<T>(Vector2 playerPosition = default,
             Entity player = null) where T : Scene
         {
             // If the scene doesn't exist the player won't change scene
@@ -381,7 +319,8 @@ namespace AdventureGame.Engine
             }
         }
 
-        // ADD parameter for minicamera?
+        // Add a parameter for displaying the minicamera?
+        // Change the player entity and cameras from one scene to another
         public void ChangePlayerScene(Scene nextScene, Vector2 playerPosition = default,
             Entity player = null)
         {
@@ -413,15 +352,15 @@ namespace AdventureGame.Engine
 
         }
 
-        // Move the entity from one scene to another
+        // Moves an entity from one scene to another
         public void ChangeEntityScene(Entity entity, Scene currentScene, Scene newScene)
         {
             newScene.AddEntity(entity);
             currentScene.RemoveEntity(entity);
         }
 
-        // Get the scene below the given scene.
-        // Return null if no scene below exists.
+        // Gets the scene below if there are any more scenes on the stack.
+        // Returns null if no scene below exists.
         public Scene GetSceneBelow(Scene scene)
         {
             if (_sceneStack.Count <= 1)
@@ -436,7 +375,7 @@ namespace AdventureGame.Engine
 
         public bool IsSceneListEmpty()
         {
-            return Scenes.Count == 0 && Transition == null;
+            return SceneList.Count == 0 && Transition == null;
         }
 
         public void SetScreenSize(int width, int height)
@@ -448,200 +387,6 @@ namespace AdventureGame.Engine
             Globals.ScreenWidth = Globals.graphics.PreferredBackBufferWidth;
             Globals.ScreenHeight = Globals.graphics.PreferredBackBufferHeight;
         }
-
-
-
-
-        /*
-        public Scene GetTopScene() // CHANGE to ActiveScene.
-        {
-            if (SceneList.Count == 0)
-                return null;
-            return SceneList[^1];
-        }
-        */
-
-        /*
-        public void PushScene(Scene scene, bool replaceScene)
-        {
-            if (Transition != null)
-                return;
-
-            if (replaceScene && SceneList.Count > 0)
-                GetTopScene()._OnExit();
-            scene._OnEnter();
-            SceneList.Add(scene);
-        }
-
-        public void PopScene()
-        {
-            if (Transition != null)
-                return;
-
-            Scene sceneToPop = SceneList[^1];
-            SceneList.RemoveAt(SceneList.Count - 1);
-            sceneToPop._OnExit();
-
-            if (SceneList.Count > 0)
-                GetTopScene()._OnEnter();
-        }
-        */
-        /*
-        public void InsertSceneAtPosition(Scene scene, int index)
-        {
-            if (Transition != null)
-                return;
-
-            if (SceneList.Count > 0)
-                GetTopScene()._OnExit();
-            scene._OnEnter();
-
-            if (index >= 0 && index < SceneList.Count)
-                SceneList.Insert(index, scene);
-            else
-                SceneList.Add(scene);
-        }*/
-        /*
-        // Get the scene below the given scene.
-        // Return null if no scene below exists.
-        public Scene GetSceneBelow(Scene scene)
-        {
-            if (SceneList.Count <= 1)
-                return null;
-
-            int sceneIndex = SceneList.IndexOf(scene);
-            if (sceneIndex < 1)
-                return null;
-
-            return SceneList[sceneIndex - 1];
-        }
-        
-        public void TransitionScene(Scene nextScene, bool replaceScene = true)
-        {
-            if (Transition == null)
-                Transition = new FadeSceneTransition(nextScene, replaceScene);
-        }
-        */
-        // PreloadScene()??
-        /*
-        public void UnloadScene(Scene scene, bool transition = true)
-        {
-            if (scene == null)
-                return;
-
-            // Handle unloading the only scene present
-            // Quit game??
-
-            // Change to use a for loop and RemoveAt()??
-            foreach (Scene s in SceneList)
-            {
-                if (s == scene)
-                {
-                    // Remove all entities from each system.entityList
-
-                    // DontDestroyOnSceneChangeTag
-                    // https://github.com/Dreaming381/Latios-Framework/blob/v0.2.1/Documentation~/Core/Scene%20Management.md
-
-                    SceneList.Remove(s);
-                }
-            }
-        }
-        */
-        public void RemoveSceneAtPosition(int index)
-        {
-            //UnloadScene(index);
-        }
-        /*
-        public void UnloadScene(int index)
-        {
-            if (index > 0 && index < SceneList.Count)
-            {
-                Scene sceneToRemove = SceneList[index];
-
-                // Remove all entities from each system.entityList
-
-                sceneToRemove._OnExit();
-
-                if (SceneList.Count > 0)
-                    GetTopScene()._OnEnter();
-
-                SceneList.RemoveAt(index);
-            }
-            else
-            {
-                // Handle unloading the only scene present
-                // Quit game??
-            }
-        }
-        */
-        /*
-        // Change player here too?
-        public void ChangeScene(Scene nextScene, bool deleteCurrentScene = true)
-        {
-            // Check if the scene has already been loaded
-            bool preLoaded = false;
-            foreach (Scene s in SceneList)
-                if (s == nextScene)
-                    preLoaded = true;
-
-            if (!preLoaded)
-                LoadScene(nextScene);
-
-            // Change the player scene here??
-
-            if (deleteCurrentScene)
-                UnloadScene(GetSceneBelow(nextScene));
-        }
-        
-        public void ChangeScene(string nextSceneId)
-        {
-
-        }*/
-        /*
-        // Add the entity to the new scene and remove it from the current scene
-        public void ChangeEntityScene(Entity entity, Scene currentScene, Scene newScene)
-        {
-            newScene.AddEntity(entity);
-            currentScene.RemoveEntity(entity);
-        }
-
-        //public void ChangeScene(string nextSceneId, Vector2 playerPosition)
-        //public void ChangePlayerScene(Scene nextScene, Vector2 playerPosition = default)
-        public void ChangePlayerScene(Scene nextScene, Vector2 playerPosition = default,
-            Entity player = null, bool replaceScene = true, bool transition = true)
-        {
-            if (Transition != null)
-                return;
-
-            if (player == null)
-                player = EngineGlobals.entityManager.GetLocalPlayer();
-
-            // Remove the player from the current scene
-            if (PlayerScene != null)
-            {
-                PlayerScene.GetCameraByName("main").trackedEntity = null;
-                PlayerScene.GetCameraByName("minimap").trackedEntity = null;
-                PlayerScene.RemoveEntity(player);
-            }
-
-            // Add the player to the new scene
-            TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
-            transformComponent.position = playerPosition;
-            nextScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
-            nextScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
-            nextScene.AddEntity(player);
-            nextScene.GetCameraByName("main").trackedEntity = player;
-            nextScene.GetCameraByName("minimap").trackedEntity = player;
-            PlayerScene = nextScene;
-
-            if (transition)
-                TransitionScene(nextScene, replaceScene);
-            else
-                PushScene(nextScene, replaceScene);
-            
-        }
-        */
-
     }
 
 }
