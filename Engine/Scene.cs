@@ -179,7 +179,28 @@ namespace AdventureGame.Engine
 
         // Move to top
         public virtual void Init() { }
+
         public virtual void LoadContent() { }
+        public void _LoadContent()
+        {
+            // Load content here?
+
+            LoadContent();
+        }
+
+        public void _UnloadContent()
+        {
+            // TESTING
+            foreach (Entity e in EntityList)
+            {
+                if (!e.IsLocalPlayer())
+                    _entityManager.DeleteEntity(e);
+            }
+
+            // Unload map tiles ???
+
+            UnloadContent();
+        }
         public virtual void UnloadContent() { }
 
         public void _OnEnter()
@@ -198,6 +219,7 @@ namespace AdventureGame.Engine
         public virtual void OnEnter() { }
         public void _OnExit()
         {
+            Console.WriteLine($"OnExit {this}");
             EntitiesToDelete.Clear();
             foreach(Entity e in EntityList)
             {
@@ -206,13 +228,6 @@ namespace AdventureGame.Engine
                 {
                     triggerComponent.collidedEntities.Clear();
                 }
-            }
-
-            // TESTING
-            foreach (Entity e in EntityList)
-            {
-                if (!e.IsLocalPlayer())
-                    _entityManager.DeleteEntity(e);
             }
 
             OnExit();

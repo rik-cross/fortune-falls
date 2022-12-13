@@ -13,18 +13,18 @@ namespace AdventureGame.Engine
         private SceneManager _sceneManager;
 
         protected Scene ToScene { get; set; }
-        protected bool AddCurrentSceneToStack { get; set; }
+        protected bool RemoveCurrentSceneFromStack { get; set; }
         protected bool UnloadCurrentScene { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
 
-        public SceneTransition(Scene toScene, bool addCurrentSceneToStack = false,
+        public SceneTransition(Scene toScene, bool removeCurrentSceneFromStack = true,
             bool unloadCurrentScene = true)
         {
             _sceneManager = EngineGlobals.sceneManager;
 
             ToScene = toScene;
-            AddCurrentSceneToStack = addCurrentSceneToStack;
+            RemoveCurrentSceneFromStack = removeCurrentSceneFromStack;
             UnloadCurrentScene = unloadCurrentScene;
             Increment = 1.0f;
         }
@@ -38,7 +38,7 @@ namespace AdventureGame.Engine
                 // moving up the sceneList
                 if (ToScene != null)
                 {
-                    _sceneManager.ChangeScene(ToScene, AddCurrentSceneToStack, UnloadCurrentScene);
+                    _sceneManager.ChangeScene(ToScene, RemoveCurrentSceneFromStack, UnloadCurrentScene);
                 }
                 // moving down
                 else

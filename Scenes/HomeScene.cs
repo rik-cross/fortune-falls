@@ -49,7 +49,7 @@ namespace AdventureGame
             homeTrigger.AddComponent(new Engine.TransformComponent(155, 135));
             homeTrigger.AddComponent(new Engine.TriggerComponent(
                 new Vector2(20, 10),
-                onCollide: SceneTriggers.EnterGameSceneFromHome
+                onCollisionEnter: SceneTriggers.EnterGameSceneFromHome
             ));
             AddEntity(homeTrigger);
             //AddEntity(new TriggerEntity());
@@ -69,12 +69,13 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))// && EngineGlobals.sceneManager.Transition == null)
             {
                 //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
-                EngineGlobals.sceneManager.TransitionScene(null); // CHANGE to Unload / Remove / Pop
+                //EngineGlobals.sceneManager.TransitionScene(null); // CHANGE to Unload / Remove / Pop
+                EngineGlobals.sceneManager.RemoveScene(this);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
                 //EngineGlobals.sceneManager.PushScene(new PauseScene());
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, true, false);
+                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
         }
 

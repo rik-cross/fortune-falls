@@ -524,6 +524,7 @@ namespace AdventureGame
             {
                 _inputManager.HideCursor();
                 //EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.sceneManager.RemoveScene(this);
             }
 
             // Recalculate the container dimensions in case the screen size has changed 

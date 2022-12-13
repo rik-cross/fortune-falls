@@ -126,7 +126,8 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
             {
-                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
+                //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
+                EngineGlobals.sceneManager.RemoveScene(this);
             }
 
             InputComponent inputComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>();
@@ -148,7 +149,7 @@ namespace AdventureGame
 
                             // Add the MenuScene to the scene stack
                             EngineGlobals.sceneManager.SetActiveScene<GameScene>(
-                                addCurrentSceneToStack: true, unloadCurrentScene: false);
+                                removeCurrentSceneFromStack: false, unloadCurrentScene: false);
 
                             EngineGlobals.sceneManager.ChangePlayerScene<GameScene>(playerPosition);
                         }

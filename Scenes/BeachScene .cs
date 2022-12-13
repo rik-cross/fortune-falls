@@ -26,7 +26,7 @@ namespace AdventureGame
             enterVillageTrigger.AddComponent(new Engine.TransformComponent(475, 1000));
             enterVillageTrigger.AddComponent(new Engine.TriggerComponent(
                 new Vector2(75, 30),
-                onCollide: SceneTriggers.EnterGameSceneFromBeach
+                onCollisionEnter: SceneTriggers.EnterGameSceneFromBeach
             ));
             AddEntity(enterVillageTrigger);
 
@@ -45,13 +45,14 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))// && EngineGlobals.sceneManager.Transition == null)
             {
                 //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
-                EngineGlobals.sceneManager.TransitionScene(null); // CHANGE to Unload / Remove / Pop
+                //EngineGlobals.sceneManager.TransitionScene(null); // CHANGE to Unload / Remove / Pop
+                EngineGlobals.sceneManager.RemoveScene(this);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
                 //EngineGlobals.sceneManager.PushScene(new PauseScene());
                 //EngineGlobals.sceneManager.LoadScene<PauseScene>(false, false);
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, true, false);
+                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
         }
 
