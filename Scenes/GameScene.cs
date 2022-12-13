@@ -15,6 +15,11 @@ namespace AdventureGame
 
         public GameScene()
         {
+        }
+
+        public override void LoadContent()
+        {
+
             // add map
             AddMap("village");
 
@@ -93,13 +98,13 @@ namespace AdventureGame
 
             // Map trigger
             Engine.Entity enterBeachTrigger = EngineGlobals.entityManager.CreateEntity();
-                //enterBeachTrigger.Tags.Id = "m";
-                enterBeachTrigger.Tags.AddTag("mapTrigger"); // trigger / sceneChangeTrigger
-                enterBeachTrigger.AddComponent(new Engine.TransformComponent(225, 0));
-                enterBeachTrigger.AddComponent(new Engine.TriggerComponent(
-                    new Vector2(75, 30),
-                    onCollisionEnter: SceneTriggers.EnterBeach
-            ));
+            //enterBeachTrigger.Tags.Id = "m";
+            enterBeachTrigger.Tags.AddTag("mapTrigger"); // trigger / sceneChangeTrigger
+            enterBeachTrigger.AddComponent(new Engine.TransformComponent(225, 0));
+            enterBeachTrigger.AddComponent(new Engine.TriggerComponent(
+                new Vector2(75, 30),
+                onCollisionEnter: SceneTriggers.EnterBeach
+        ));
             AddEntity(enterBeachTrigger);
 
 
@@ -134,7 +139,7 @@ namespace AdventureGame
             chestEntity.AddComponent(new Engine.InventoryComponent(10));
 
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-            
+
             Item arrows = new Item(
                 itemId: "ArrowStandard",
                 filename: itemsDirectory + "I_Boulder01",
@@ -150,14 +155,17 @@ namespace AdventureGame
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, sticks);
 
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
-
-            // Add the player and minimap cameras
-            AddCameras();
         }
+
         public override void OnEnter()
         {
+            // Add the player and minimap cameras
+            AddCamera("main");
+            AddCamera("minimap");
+
             EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
         }
+
         public override void Update(GameTime gameTime)
         {
             // update scene time and set light level

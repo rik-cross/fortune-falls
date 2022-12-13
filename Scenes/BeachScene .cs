@@ -12,6 +12,10 @@ namespace AdventureGame
 
         public BeachScene()
         {
+        }
+
+        public override void LoadContent()
+        {
             // add map
             AddMap("beach");
 
@@ -29,10 +33,13 @@ namespace AdventureGame
                 onCollisionEnter: SceneTriggers.EnterGameSceneFromBeach
             ));
             AddEntity(enterVillageTrigger);
+        }
 
-
+        public override void OnEnter()
+        {
             // Add the player and minimap cameras
-            AddCameras();
+            AddCamera("main");
+            AddCamera("minimap");
         }
 
         public override void Update(GameTime gameTime)

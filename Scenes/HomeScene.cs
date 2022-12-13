@@ -10,8 +10,15 @@ namespace AdventureGame
 
         public HomeScene()
         {
-            LightLevel = 0.3f;
+        }
 
+        public override void Init()
+        {
+            LightLevel = 0.3f;
+        }
+
+        public override void LoadContent()
+        {
             // add map
             AddMap("home");
 
@@ -53,10 +60,13 @@ namespace AdventureGame
             ));
             AddEntity(homeTrigger);
             //AddEntity(new TriggerEntity());
+        }
 
-
+        public override void OnEnter()
+        {
             // Add the player and minimap cameras
-            AddCameras();
+            AddCamera("main");
+            AddCamera("minimap");
         }
 
         public override void Update(GameTime gameTime)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended;
@@ -13,10 +14,12 @@ namespace AdventureGame.Engine
 {
     public abstract class Scene
     {
-        public SceneManager _sceneManager;
-        public EntityManager _entityManager;
-        public ComponentManager _componentManager;
-        public SystemManager _systemManager;
+        private SceneManager _sceneManager;
+        private EntityManager _entityManager;
+        private ComponentManager _componentManager;
+        private SystemManager _systemManager;
+
+        private ContentManager _sceneContent; // Not used but could replace Golbals.content
 
         public List<Entity> EntityList { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
         public HashSet<Entity> EntitiesToAdd { get; private set; }
@@ -40,6 +43,9 @@ namespace AdventureGame.Engine
             _componentManager = EngineGlobals.componentManager;
             _systemManager = EngineGlobals.systemManager;
 
+            //_sceneContent = new ContentManager(Game.Services, Content.RootDirectory);
+            _sceneContent = new ContentManager(Globals.content.ServiceProvider, Globals.content.RootDirectory);
+
             EntityList = new List<Entity>();
             EntitiesToAdd = new HashSet<Entity>();
             EntitiesToDelete = new HashSet<Entity>();
@@ -54,8 +60,64 @@ namespace AdventureGame.Engine
             _alphaMask = Globals.content.Load<Texture2D>("light");
 
             Init();
-
         }
+
+        public virtual void Init() { }
+
+        public void _LoadContent()
+        {
+            LoadContent();
+        }
+        public virtual void LoadContent() { }
+
+        public void _UnloadContent()
+        {
+            // TESTING
+            foreach (Entity e in EntityList)
+            {
+                if (!e.IsLocalPlayer())
+                    _entityManager.DeleteEntity(e);
+            }
+
+            // Unload the map tiles
+            DeleteMap();
+
+            UnloadContent();
+        }
+        public virtual void UnloadContent() { }
+
+        public void _OnEnter()
+        {
+            /*EntitiesToDelete.Clear();
+            foreach (Entity e in EntityList)
+            {
+                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
+                if (triggerComponent != null)
+                {
+                    triggerComponent.collidedEntities.Clear();
+                }
+            }*/
+
+            OnEnter();
+        }
+        public virtual void OnEnter() { }
+
+        public void _OnExit()
+        {
+            /*EntitiesToDelete.Clear();
+            foreach(Entity e in EntityList)
+            {
+                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
+                if(triggerComponent != null)
+                {
+                    triggerComponent.collidedEntities.Clear();
+                }
+            }*/
+
+            OnExit();
+        }
+        public virtual void OnExit() { }
+
 
         public void AddMap(string newMapLocation)
         {
@@ -106,40 +168,63 @@ namespace AdventureGame.Engine
             CollisionTiles.Clear();
         }
 
-        public void AddCameras()
+        public void AddCameras(List<string> cameraNames)
         {
-            // Main player camera
-            Engine.Camera playerCamera = new Engine.Camera(
-                name: "main",
-                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                zoom: Globals.globalZoomLevel,
-                backgroundColour: Color.DarkSlateBlue,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer(),
-                ownerEntity: EngineGlobals.entityManager.GetLocalPlayer()
-            );
-            //AddCamera(playerCamera);
-            CameraList.Add(playerCamera);
-
-            // Minimap camera
-            Engine.Camera minimapCamera = new Engine.Camera(
-                name: "minimap",
-                screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
-                size: new Vector2(300, 300),
-                followPercentage: 1.0f,
-                zoom: 0.5f,
-                backgroundColour: Color.DarkSlateBlue,
-                borderColour: Color.Black,
-                borderThickness: 2,
-                trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
-            );
-            //AddCamera(minimapCamera);
-            CameraList.Add(minimapCamera);
+            foreach (string camera in cameraNames)
+                AddCamera(camera);
         }
-        /*
-        public void AddCamera(Camera camera)
+
+        // Move to SceneManager?
+        public void AddCamera(string cameraName)
+        {
+            // Check if the camera already exists
+            if (GetCameraByName(cameraName) != null)
+                return;
+
+            if (cameraName == "main")
+            {
+                // Main player camera
+                Engine.Camera playerCamera = new Engine.Camera(
+                    name: "main",
+                    size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
+                    zoom: Globals.globalZoomLevel,
+                    backgroundColour: Color.DarkSlateBlue,
+                    trackedEntity: EngineGlobals.entityManager.GetLocalPlayer(),
+                    ownerEntity: EngineGlobals.entityManager.GetLocalPlayer()
+                );
+
+                CameraList.Add(playerCamera);
+            }
+            else if (cameraName == "minimap")
+            {
+                // Minimap camera
+                Engine.Camera minimapCamera = new Engine.Camera(
+                    name: "minimap",
+                    screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
+                    size: new Vector2(300, 300),
+                    followPercentage: 1.0f,
+                    zoom: 0.5f,
+                    backgroundColour: Color.DarkSlateBlue,
+                    borderColour: Color.Black,
+                    borderThickness: 2,
+                    trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
+                );
+
+                CameraList.Add(minimapCamera);
+            }
+            else
+            {
+                Console.WriteLine($"Camera {cameraName} does not exist");
+            }
+
+            //Console.WriteLine("Camera list: ");
+            //Console.WriteLine(String.Join(", ", CameraList));
+        }
+
+        public void AddCustomCamera(Camera camera)
         {
             CameraList.Add(camera);
-        }*/
+        }
 
         public Camera GetCameraByName(string name)
         {
@@ -189,63 +274,6 @@ namespace AdventureGame.Engine
         {
             return EntityList.Contains(e);
         }
-
-
-        // Move to top
-        public virtual void Init() { }
-
-        public virtual void LoadContent() { }
-        public void _LoadContent()
-        {
-            LoadContent();
-        }
-
-        public void _UnloadContent()
-        {
-            // TESTING
-            foreach (Entity e in EntityList)
-            {
-                if (!e.IsLocalPlayer())
-                    _entityManager.DeleteEntity(e);
-            }
-
-            // Unload the map tiles
-            DeleteMap();
-
-            UnloadContent();
-        }
-        public virtual void UnloadContent() { }
-
-        public void _OnEnter()
-        {
-            /*EntitiesToDelete.Clear();
-            foreach (Entity e in EntityList)
-            {
-                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
-                if (triggerComponent != null)
-                {
-                    triggerComponent.collidedEntities.Clear();
-                }
-            }*/
-
-            OnEnter();
-        }
-        public virtual void OnEnter() { }
-        public void _OnExit()
-        {
-            /*EntitiesToDelete.Clear();
-            foreach(Entity e in EntityList)
-            {
-                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
-                if(triggerComponent != null)
-                {
-                    triggerComponent.collidedEntities.Clear();
-                }
-            }*/
-
-            OnExit();
-        }
-        public virtual void OnExit() { }
 
         public static int CompareY(Entity x, Entity y)
         {
@@ -305,6 +333,8 @@ namespace AdventureGame.Engine
                 Console.WriteLine($"Added entity {e.Id} from Added set");
             }
             _entityManager.AddEntitiesToGame();*/
+
+            // NOT used currently
             foreach (Entity e in EntitiesToAdd)
             {
                 AddEntity(e);

@@ -50,8 +50,8 @@ namespace AdventureGame.Engine
             if (Percentage == 100)
                 _sceneManager.EndTransition();
 
-            if (_sceneManager.ActiveScene != null)
-                _sceneManager.ActiveScene._Update(gameTime);
+            //if (_sceneManager.ActiveScene != null)
+            //    _sceneManager.ActiveScene._Update(gameTime);
         }
 
         public void _Draw(GameTime gameTime)
