@@ -520,10 +520,11 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
-            if (_inputManager.IsPressed(Globals.inventoryInput))// or Escape
+            if (_inputManager.IsPressed(Globals.inventoryInput)
+                || _inputManager.IsPressed(Globals.backInput))
             {
                 _inputManager.HideCursor();
-                EngineGlobals.sceneManager.PopScene();
+                EngineGlobals.sceneManager.RemoveScene(this);
             }
 
             // Recalculate the container dimensions in case the screen size has changed 

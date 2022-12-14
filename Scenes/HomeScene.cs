@@ -10,8 +10,15 @@ namespace AdventureGame
 
         public HomeScene()
         {
-            LightLevel = 0.3f;
+        }
 
+        public override void Init()
+        {
+            LightLevel = 0.3f;
+        }
+
+        public override void LoadContent()
+        {
             // add map
             AddMap("home");
 
@@ -49,14 +56,17 @@ namespace AdventureGame
             homeTrigger.AddComponent(new Engine.TransformComponent(155, 135));
             homeTrigger.AddComponent(new Engine.TriggerComponent(
                 new Vector2(20, 10),
-                onCollide: SceneTriggers.EnterGameSceneFromHome
+                onCollisionEnter: SceneTriggers.EnterGameSceneFromHome
             ));
             AddEntity(homeTrigger);
             //AddEntity(new TriggerEntity());
+        }
 
-
+        public override void OnEnter()
+        {
             // Add the player and minimap cameras
-            AddCameras();
+            AddCamera("main");
+            AddCamera("minimap");
         }
 
         public override void Update(GameTime gameTime)
@@ -66,13 +76,13 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
+                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.PushScene(new PauseScene());
+                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
         }
 

@@ -12,6 +12,10 @@ namespace AdventureGame
 
         public BeachScene()
         {
+        }
+
+        public override void LoadContent()
+        {
             // add map
             AddMap("beach");
 
@@ -26,13 +30,16 @@ namespace AdventureGame
             enterVillageTrigger.AddComponent(new Engine.TransformComponent(475, 1000));
             enterVillageTrigger.AddComponent(new Engine.TriggerComponent(
                 new Vector2(75, 30),
-                onCollide: SceneTriggers.EnterGameSceneFromBeach
+                onCollisionEnter: SceneTriggers.EnterGameSceneFromBeach
             ));
             AddEntity(enterVillageTrigger);
+        }
 
-
+        public override void OnEnter()
+        {
             // Add the player and minimap cameras
-            AddCameras();
+            AddCamera("main");
+            AddCamera("minimap");
         }
 
         public override void Update(GameTime gameTime)
@@ -42,13 +49,13 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput) && EngineGlobals.sceneManager.Transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
+                EngineGlobals.sceneManager.RemoveScene(this);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.PushScene(new PauseScene());
+                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
         }
 

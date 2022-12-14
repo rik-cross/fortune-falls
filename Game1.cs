@@ -69,17 +69,19 @@ namespace AdventureGame
             Engine.Entity playerEntity = PlayerEntity.Create(20, 760, playerId);
 
             // Create scenes
-            Globals.menuScene = new MenuScene();
-            Globals.gameScene = new GameScene();
-            Globals.homeScene = new HomeScene();
-            Globals.beachScene = new BeachScene();
+            //Globals.menuScene = new MenuScene();
+            //Globals.gameScene = new GameScene();
+            //Globals.homeScene = new HomeScene();
+            //Globals.beachScene = new BeachScene();
 
-            EngineGlobals.sceneManager.Transition = new FadeSceneTransition(Globals.menuScene);
+            //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(Globals.menuScene);
+            //EngineGlobals.sceneManager.LoadScene<MenuScene>(false);
+            EngineGlobals.sceneManager.SetActiveScene<MenuScene>();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (EngineGlobals.sceneManager.IsEmpty())
+            if (EngineGlobals.sceneManager.IsSceneListEmpty())
                 Exit();
 
             EngineGlobals.inputManager.Update(gameTime);

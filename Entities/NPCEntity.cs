@@ -60,14 +60,16 @@ namespace AdventureGame
             Vector2 spriteSize = spriteComponent.GetSpriteSize();
             int colliderWidth = (int)(drawWidth * 0.6f);
             int colliderHeight = (int)(drawHeight * 0.3f);
+            int triggerWidth = (int)(drawWidth * 1.5f);
+            int triggerHeight = (int)(drawHeight * 1.3f);
 
             npcEntity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(colliderWidth, colliderHeight),
                 offset: new Vector2((spriteSize.X - colliderWidth) / 2, spriteSize.Y - colliderHeight)
             ));
             npcEntity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(drawWidth, (int)(drawHeight * 0.6)),
-                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - (int)(drawHeight * 0.6))
+                size: new Vector2(triggerWidth, triggerHeight),
+                offset: new Vector2((spriteSize.X - triggerWidth) / 2, (spriteSize.Y - triggerHeight) / 2 + (spriteSize.Y - drawHeight) / 2)
             ));
 
             npcEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));

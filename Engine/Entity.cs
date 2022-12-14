@@ -75,7 +75,7 @@ namespace AdventureGame.Engine
         // Destroy the entity
         public void Destroy()
         {
-            entityManager.DestroyEntity(this);
+            entityManager.DeleteEntity(this);
         }
     }
 

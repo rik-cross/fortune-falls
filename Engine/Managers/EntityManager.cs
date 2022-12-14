@@ -11,6 +11,7 @@ namespace AdventureGame.Engine
         private Dictionary<int, int> _entityMapper;
         private List<Component> _components;
 
+        //public HashSet<Entity> KeepOnSceneChange { get; private set; } // Here or SceneManager?
         public HashSet<Entity> Added { get; private set; }
         public HashSet<Entity> Disabled { get; private set; } // Change to Entity?
         public HashSet<Entity> Deleted { get; private set; }
@@ -136,7 +137,7 @@ namespace AdventureGame.Engine
         }
 
         // Add the entity to the deleted set
-        public void DestroyEntity(Entity e)
+        public void DeleteEntity(Entity e)
         {
             Deleted.Add(e);
         }

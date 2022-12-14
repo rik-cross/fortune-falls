@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
@@ -23,14 +20,29 @@ namespace AdventureGame.Engine
             }
         }
 
+        public static void NPC(Entity triggerEntity, Entity colliderEntity, float distance)
+        {
+            if (colliderEntity.IsPlayerType())
+            {
+                InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
+                if (playerInputComponent != null
+                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+                {
+                    LightComponent lightComponent = EngineGlobals.entityManager.GetEntityByIdTag("homeLight1").GetComponent<LightComponent>();
+                    lightComponent.visible = !lightComponent.visible;
+                }
+            }
+        }
+
         // How to create a genric ChangeScene event with below params?
         public static void ChangeScene(Entity triggerEntity, Entity colliderEntity, float distance)
             // Scene nextScene, Vector2 playerPosition = default, bool player = true
         {
             if (colliderEntity.IsPlayerType())
             {
-                Vector2 playerPosition = new Vector2(525, 900);
-                EngineGlobals.sceneManager.ChangePlayerScene(Globals.beachScene, playerPosition);
+                //Vector2 playerPosition = new Vector2(playerX, playerY);
+                //EngineGlobals.sceneManager.SetActiveScene<T>();
+                //EngineGlobals.sceneManager.SetPlayerScene<T>(playerPosition);
             }
         }
 
@@ -39,7 +51,8 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(525, 900);
-                EngineGlobals.sceneManager.ChangePlayerScene(Globals.beachScene, playerPosition);
+                EngineGlobals.sceneManager.SetActiveScene<BeachScene>();
+                EngineGlobals.sceneManager.SetPlayerScene<BeachScene>(playerPosition);
             }
         }
 
@@ -48,7 +61,9 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(150, 20);
-                EngineGlobals.sceneManager.ChangePlayerScene(Globals.homeScene, playerPosition);
+                //EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
+                EngineGlobals.sceneManager.SetActiveScene<HomeScene>(unloadCurrentScene: false);
+                EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(playerPosition);
             }
         }
 
@@ -57,7 +72,8 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(260, 60);
-                EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
+                EngineGlobals.sceneManager.SetActiveScene<GameScene>();
+                EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
             }
         }
 
@@ -66,7 +82,8 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(85, 120);
-                EngineGlobals.sceneManager.ChangePlayerScene(Globals.gameScene, playerPosition);
+                EngineGlobals.sceneManager.SetActiveScene<GameScene>();
+                EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
             }
         }
 
@@ -76,8 +93,8 @@ namespace AdventureGame.Engine
             if (!colliderEntity.IsPlayerType())
                 return;
 
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = triggerEntity;
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(2.5f, 0.02f);
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = triggerEntity;
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(2.5f, 0.02f);
             //colliderEntity.AddComponent(new Engine.TextComponent("Hello! Here is some text, hopefully split over a few lines!"));
             if (colliderEntity.GetComponent<EmoteComponent>() == null)
                 colliderEntity.AddComponent(new Engine.EmoteComponent("Emojis/emoji_melting"));
@@ -92,8 +109,8 @@ namespace AdventureGame.Engine
         }
         public static void LightOnCollisionExit(Entity triggerEntity, Entity colliderEntity, float distance)
         {
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
-            EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(1.5f, 0.01f);
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(1.5f, 0.01f);
             if (colliderEntity.GetComponent<EmoteComponent>() != null)
             {
                 colliderEntity.GetComponent<EmoteComponent>().Hide();

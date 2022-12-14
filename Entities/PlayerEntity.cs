@@ -202,8 +202,8 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.button7))
             {
                 //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
-                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
-                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom - 0.02f
+                EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(
+                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").targetZoom - 0.02f
                 );
             }
 
@@ -211,8 +211,8 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.button8))
             {
                 //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
-                EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").SetZoom(
-                    EngineGlobals.sceneManager.GetTopScene().GetCameraByName("main").targetZoom + 0.02f
+                EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(
+                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").targetZoom + 0.02f
                 );
             }
 
