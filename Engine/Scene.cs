@@ -308,8 +308,6 @@ namespace AdventureGame.Engine
         public virtual void _Update(GameTime gameTime)
         {
 
-            // sort entities in scene
-            EntityList.Sort(CompareY);
 
             // Call before deleting any entities
             foreach (System s in EngineGlobals.systemManager.systems)
@@ -355,6 +353,10 @@ namespace AdventureGame.Engine
             _componentManager.changedEntities.Clear();
 
             // update timers here??
+
+
+            // sort entities in scene
+            EntityList.Sort(CompareY);
 
 
             // update cameras

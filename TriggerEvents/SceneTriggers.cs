@@ -61,8 +61,9 @@ namespace AdventureGame.Engine
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(150, 20);
-                //EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
-                EngineGlobals.sceneManager.SetActiveScene<HomeScene>(unloadCurrentScene: false);
+                EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
+                // Testing
+                //EngineGlobals.sceneManager.SetActiveScene<HomeScene>(unloadCurrentScene: false);
                 EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(playerPosition);
             }
         }
