@@ -144,6 +144,7 @@ namespace AdventureGame
                         if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
                         {
                             Vector2 playerPosition = new Vector2(20, 760);
+                            //playerPosition = new Vector2(85, 120); // TESTING
 
                             // Add the MenuScene to the scene stack
                             EngineGlobals.sceneManager.SetActiveScene<GameScene>(

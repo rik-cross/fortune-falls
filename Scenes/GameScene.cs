@@ -19,34 +19,27 @@ namespace AdventureGame
 
         public override void LoadContent()
         {
-
-            // add map
-            AddMap("village");
+            // Add map
+            AddMap("Maps/Map_Village"); // add Maps directory within AddMap()?
 
             //
-            // add entities
+            // Add map trigger entities
             //
 
-            // NPCs
-            AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
-            AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
-            AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
-            AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
+            // Beach scene trigger
+            Engine.Entity enterBeachTrigger = EngineGlobals.entityManager.CreateEntity();
+            //enterBeachTrigger.Tags.Id = "m";
+            enterBeachTrigger.Tags.AddTag("mapTrigger"); // trigger / sceneChangeTrigger
+            enterBeachTrigger.AddComponent(new Engine.TransformComponent(225, 0));
+            enterBeachTrigger.AddComponent(new Engine.TriggerComponent(
+                new Vector2(75, 30),
+                onCollisionEnter: SceneTriggers.EnterBeach
+            ));
+            AddEntity(enterBeachTrigger);
 
-            // Enemy entity
-            //AddEntity(EnemyEntity.Create(200, 120, "spriteenemy"));
-            /*
-            Entity enemyEntity = EnemyEntity.Create(200, 120, "spriteenemy");
-            enemyEntity.AddComponent(new DamageComponent("touch", 10));
-            InventoryComponent enemyInventory = enemyEntity.GetComponent<InventoryComponent>();
-            Item enemyJewels = new Item("ArrowStandard", "Items/I_Amethist", 10, 20);
-            Item enemyPotions = new Item("PotionBlue", "Items/P_Blue01", 3, 10);
-            Item enemyMace = new Item("Mace01", "Items/W_Mace007", 1, 1, 75, 100);
-            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyJewels);
-            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyPotions);
-            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyMace);
-            AddEntity(enemyEntity);
-            */
+            //
+            // Add building entities
+            //
 
             // Home entity
             Entity homeEntity = EngineGlobals.entityManager.CreateEntity();
@@ -64,26 +57,36 @@ namespace AdventureGame
             ));
             AddEntity(homeEntity);
 
+            // Town buildings
+            AddEntity(BuildingEntity.Create(165, 448, "B_HouseSmallBlue03"));
+            AddEntity(BuildingEntity.Create(490, 335, "B_HouseMediumRed02"));
+            AddEntity(BuildingEntity.Create(770, 355, "B_HouseSmallRed01"));
+            AddEntity(BuildingEntity.Create(975, 495, "B_HouseMediumBlue01"));
+            AddEntity(BuildingEntity.Create(175, 805, "B_HouseMediumGreen01"));
+            AddEntity(BuildingEntity.Create(560, 685, "B_HouseMediumBlue03"));
+            AddEntity(BuildingEntity.Create(805, 840, "B_HouseSmallGreen04"));
+            AddEntity(BuildingEntity.Create(1510, 840, "B_HouseSmallRed03"));
+
+            //
+            // Add object entities
+            //
+
+            string objectsDirectory = "Objects/";
+
+            // Bush entity with droppable items
+            Item bush1 = new Item("Bush01", objectsDirectory + "S_Bush01");
+            Entity bushEntity1 = ItemEntity.Create(30, 140, bush1, false);
+            bushEntity1.AddComponent(new HealthComponent());
+            bushEntity1.AddComponent(new HurtboxComponent(new Vector2(42, 42)));
+            bushEntity1.AddComponent(new InventoryComponent(5, "bush"));
+            InventoryComponent bush1Inventory = bushEntity1.GetComponent<InventoryComponent>();
+            Item bush1Bow = new Item("Bow02", "Items/W_Bow02", 1, 1, 50, 100);
+            EngineGlobals.inventoryManager.AddItem(bush1Inventory.InventoryItems, bush1Bow);
+            AddEntity(bushEntity1);
+
             // Light entity
             Engine.Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
             lightSourceEntity.Tags.AddTag("light");
-
-            // By default, could each sub texture be calculate using
-            // x = filewidth / spritewidth, y = 0??
-            //int[,] subTextures = new int[4, 2] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } };
-            /*List<List<int>> subTextureValues = new List<List<int>>();
-            subTextureValues.Add(new List<int>() { 0, 0 });
-            subTextureValues.Add(new List<int>() { 1, 0 });
-            subTextureValues.Add(new List<int>() { 2, 0 });
-            subTextureValues.Add(new List<int>() { 3, 0 });
-            Engine.SpriteSheet lightSourceSpriteSheet = new Engine.SpriteSheet("candleTest", 32, 32);
-            //lightSourceEntity.AddComponent(new Engine.SpriteComponent(lightSourceSpriteSheet, subTextureValues));*/
-
-            /*Engine.SpriteSheet lightSourceSpriteSheet = new Engine.SpriteSheet("candleTest", 32, 32);
-            lightSourceEntity.AddComponent(new Engine.SpriteComponent(lightSourceSpriteSheet));
-            Engine.SpriteComponent lightSpriteComponent = lightSourceEntity.GetComponent<Engine.SpriteComponent>();
-            lightSpriteComponent.AddSprite("idle", lightSourceSpriteSheet, 0, 0, 3);*/
-
             lightSourceEntity.AddComponent(new Engine.SpriteComponent("candleTest", 32, 32, 0, 0, 3));
             lightSourceEntity.AddComponent(new Engine.TransformComponent(450, 150, 32, 32));
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(12, 6), new Vector2(10, 26)));
@@ -96,63 +99,68 @@ namespace AdventureGame
             ));
             AddEntity(lightSourceEntity);
 
-            // Map trigger
-            Engine.Entity enterBeachTrigger = EngineGlobals.entityManager.CreateEntity();
-            //enterBeachTrigger.Tags.Id = "m";
-            enterBeachTrigger.Tags.AddTag("mapTrigger"); // trigger / sceneChangeTrigger
-            enterBeachTrigger.AddComponent(new Engine.TransformComponent(225, 0));
-            enterBeachTrigger.AddComponent(new Engine.TriggerComponent(
-                new Vector2(75, 30),
-                onCollisionEnter: SceneTriggers.EnterBeach
-        ));
-            AddEntity(enterBeachTrigger);
+            //
+            // Add NPC entities
+            //
 
+            AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
+            AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
+            AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
+            AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
 
             //
-            // Item entities test
-            // 
-            string itemsDirectory = "Items/";
+            // Add enemy entities
+            //
 
-            // In-game items
-            Item bush1 = new Item("Bush01", itemsDirectory + "S_Bush01");
-            Entity bushEntity1 = ItemEntity.Create(30, 140, bush1, false);
-            bushEntity1.AddComponent(new HealthComponent());
-            bushEntity1.AddComponent(new HurtboxComponent(new Vector2(42, 42)));
-            bushEntity1.AddComponent(new InventoryComponent(5, "bush"));
-            InventoryComponent bush1Inventory = bushEntity1.GetComponent<InventoryComponent>();
-            Item bush1Bow = new Item("Bow02", "Items/W_Bow02", 1, 1, 50, 100);
-            EngineGlobals.inventoryManager.AddItem(bush1Inventory.InventoryItems, bush1Bow);
-            AddEntity(bushEntity1);
+            // Enemy entity
+            //AddEntity(EnemyEntity.Create(200, 120, "spriteenemy"));
+            /*
+            Entity enemyEntity = EnemyEntity.Create(200, 120, "spriteenemy");
+            enemyEntity.AddComponent(new DamageComponent("touch", 10));
+            InventoryComponent enemyInventory = enemyEntity.GetComponent<InventoryComponent>();
+            Item enemyJewels = new Item("ArrowStandard", "Items/I_Amethist", 10, 20);
+            Item enemyPotions = new Item("PotionBlue", "Items/P_Blue01", 3, 10);
+            Item enemyMace = new Item("Mace01", "Items/W_Mace007", 1, 1, 75, 100);
+            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyJewels);
+            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyPotions);
+            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyMace);
+            AddEntity(enemyEntity);
+            */
+
+            //
+            // Add item entities
+            //
+
+            string itemsDirectory = "Items/";
 
             /*
             Item sword = new Item("Sword003", itemsDirectory + "W_Sword003",
                 itemHealth: 35, maxHealth: 100);
             AddEntity(ItemEntity.Create(x: 30, y: 140, item: sword));*/
 
-            Item stones = new Item("Stone", itemsDirectory + "I_Boulder01",
+            Item potionRed = new Item("PotionRed", itemsDirectory + "P_Red01",
                 quantity: 7, stackSize: 20);
-            AddEntity(ItemEntity.Create(x: 100, y: 220, item: stones));
+            AddEntity(ItemEntity.Create(x: 100, y: 220, item: potionRed));
 
             // Chest test
             Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();
             chestEntity.Tags.AddTag("chest");
             chestEntity.AddComponent(new Engine.InventoryComponent(10));
-
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
 
-            Item arrows = new Item(
-                itemId: "ArrowStandard",
-                filename: itemsDirectory + "I_Boulder01",
+            Item coin = new Item(
+                itemId: "GoldCoin",
+                filename: itemsDirectory + "I_GoldCoin",
                 quantity: 10,
                 stackSize: 20);
-            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, arrows);
+            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, coin);
 
-            Item sticks = new Item(
-                itemId: "Stick",
-                filename: itemsDirectory + "I_Boulder01",
+            Item potionBlue = new Item(
+                itemId: "PotionBlue",
+                filename: itemsDirectory + "P_Blue01",
                 quantity: 10,
                 stackSize: 10);
-            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, sticks);
+            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, potionBlue);
 
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
         }
