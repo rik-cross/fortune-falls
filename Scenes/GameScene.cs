@@ -84,6 +84,26 @@ namespace AdventureGame
             EngineGlobals.inventoryManager.AddItem(bush1Inventory.InventoryItems, bush1Bow);
             AddEntity(bushEntity1);
 
+            // Bridge boulder
+            AddEntity(ObjectEntity.Create(x: 1270, y: 1033, objectsDirectory + "S_Boulder08"));
+
+            // Boulders
+            AddEntity(ObjectEntity.Create(x: 288, y: 360, objectsDirectory + "S_Boulder09",
+                canWalkBehind: true));
+            AddEntity(ObjectEntity.Create(x: 96, y: 840, objectsDirectory + "S_Boulder09",
+                canWalkBehind: true));
+            AddEntity(ObjectEntity.Create(x: 32, y: 896, objectsDirectory + "S_Boulder05"));
+
+            // Signposts - change to InterativeObjectEntity instead?
+            AddEntity(ObjectEntity.Create(x: 64, y: 736, objectsDirectory + "S_Sign03"));
+            AddEntity(ObjectEntity.Create(x: 384, y: 608, objectsDirectory + "S_Sign04",
+                canWalkBehind: true));
+            AddEntity(ObjectEntity.Create(x: 1824, y: 512, objectsDirectory + "S_Sign02"));
+
+            // Trees
+            AddEntity(ObjectEntity.Create(x: 32, y: 480, objectsDirectory + "S_TreeSingle01",
+                canWalkBehind: true));
+
             // Light entity
             Engine.Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
             lightSourceEntity.Tags.AddTag("light");
@@ -133,17 +153,16 @@ namespace AdventureGame
 
             string itemsDirectory = "Items/";
 
-            /*
-            Item sword = new Item("Sword003", itemsDirectory + "W_Sword003",
-                itemHealth: 35, maxHealth: 100);
-            AddEntity(ItemEntity.Create(x: 30, y: 140, item: sword));*/
-
             Item potionRed = new Item("PotionRed", itemsDirectory + "P_Red01",
                 quantity: 7, stackSize: 20);
             AddEntity(ItemEntity.Create(x: 100, y: 220, item: potionRed));
 
+            Item sword = new Item("Sword003", itemsDirectory + "W_Sword003",
+                itemHealth: 35, maxHealth: 100);
+            AddEntity(ItemEntity.Create(x: 1680, y: 975, item: sword));
+
             // Chest test
-            Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();
+            /*Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();
             chestEntity.Tags.AddTag("chest");
             chestEntity.AddComponent(new Engine.InventoryComponent(10));
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
@@ -161,6 +180,9 @@ namespace AdventureGame
                 quantity: 10,
                 stackSize: 10);
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, potionBlue);
+
+            AddEntity(chestEntity);
+            */
 
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
         }

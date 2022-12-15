@@ -189,22 +189,22 @@ namespace AdventureGame.Engine
         // Checks whether the scene already exists in the scene list
         public Scene CheckSceneExists<T>()
         {
-            //Console.WriteLine($"Checking if scene {typeof(T)} already exists");
+            Console.WriteLine($"Checking if scene {typeof(T)} already exists");
             //Console.WriteLine($"Scenes count {SceneList.Count}");
 
             Scene scene = null;
 
             foreach (Scene s in SceneList)
             {
-                //Console.WriteLine($"- Compare scene {s} with {typeof(T)}");
+                Console.WriteLine($"- Compare scene {s} with {typeof(T)}");
                 if (s is T)
                 {
-                    //Console.WriteLine($"Scene {typeof(T)} already exists at index {SceneList.IndexOf(s)}");
+                    Console.WriteLine($"Scene {typeof(T)} already exists at index {SceneList.IndexOf(s)}");
                     scene = s;
-                    //break;
+                    break;
                 }
             }
-            //Console.WriteLine();
+            Console.WriteLine();
 
             return scene;
         }

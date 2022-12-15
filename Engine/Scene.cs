@@ -86,8 +86,8 @@ namespace AdventureGame.Engine
                 else
                     entitiesToKeep.Add(e);
             }
-            Console.WriteLine($"{count} entities will be deleted");
-            Console.WriteLine($"{entitiesToKeep.Count} entities will be kept");
+            //Console.WriteLine($"{count} entities will be deleted");
+            //Console.WriteLine($"{entitiesToKeep.Count} entities will be kept");
 
             // Unload the map tiles
             DeleteMap();
@@ -137,37 +137,46 @@ namespace AdventureGame.Engine
         {
             Map = Globals.content.Load<TiledMap>(newMapLocation);
             MapRenderer = new TiledMapRenderer(Globals.graphicsDevice, Map);
-
             CollisionTiles.Clear();
+
+            int tileWidth = Map.TileWidth;
+            int tileHeight = Map.TileHeight;
+
+            //TiledMapTileLayer collisionLayer = Map.GetLayer<TiledMapTileLayer>("Collision");
 
             foreach (TiledMapTileLayer layer in Map.Layers)
             {
+                //Console.WriteLine($"{layer.Name}");
+                if (layer.Name == "Water")
+                {
+
+                }
+
                 if (layer.Properties.ContainsValue("collision"))
                 {
                     for (int x = 0; x < layer.Width; x++)
                     {
                         for (int y = 0; y < layer.Height; y++)
                         {
-                            TiledMapTile? t;
-                            bool z = layer.TryGetTile((ushort)x, (ushort)y, out t);
-                            if (z)
+                            TiledMapTile? tile;
+                            if (layer.TryGetTile((ushort)x, (ushort)y, out tile))
                             {
-                                if (!layer.GetTile((ushort)x, (ushort)y).IsBlank)
+                                if (!tile.Value.IsBlank)
                                 {
-                                    CollisionTiles.Add(
-                                        new Rectangle(
-                                            x * Map.TileWidth, y * Map.TileHeight,
-                                            Map.TileWidth, Map.TileHeight
-                                        )
-                                    );
+                                    CreateCollisionTile(x, y, tileWidth, tileHeight);
                                 }
                             }
-
                         }
                     }
                 }
             }
 
+        }
+
+        public void CreateCollisionTile(int x, int y, int tileWidth, int tileHeight)
+        {
+            CollisionTiles.Add(new Rectangle(x * tileWidth, y * tileHeight,
+                tileWidth, tileHeight));
         }
 
         public void DeleteMap()

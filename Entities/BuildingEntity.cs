@@ -23,27 +23,16 @@ namespace AdventureGame
 
             buildingEntity.AddComponent(new Engine.SpriteComponent(directory + filename));
             Vector2 imageSize = buildingEntity.GetComponent<SpriteComponent>().GetSpriteSize();
-
             buildingEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
+
+            int colliderHeight = (int)imageSize.Y / 2;
             buildingEntity.AddComponent(new Engine.ColliderComponent(
-                (int)imageSize.X, (int)imageSize.Y / 2, 0, (int)imageSize.Y / 2 - 10));
-
-            // TESTING
-            /*
-            Entity buildingEntity = EngineGlobals.entityManager.CreateEntity();
-            buildingEntity.Tags.AddTag("building");
-
-            buildingEntity.AddComponent(new Engine.SpriteComponent(directory + filename));
-
-            Vector2 imageSize = buildingEntity.GetComponent<SpriteComponent>().GetSpriteSize();
-            //Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
-
-            buildingEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
-            buildingEntity.AddComponent(new Engine.ColliderComponent(imageSize));
-            */
+                (int)imageSize.X, colliderHeight,
+                0, (int)imageSize.Y - colliderHeight - 10));
 
 
             // DoorOffset
+
 
             // Add triggers here or elsewhere?
             // How to handle multiple triggers in one building e.g. a front and side door

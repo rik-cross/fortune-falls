@@ -12,18 +12,23 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, string idTag = default)
+        public static Engine.Entity Create(int x, int y, string idTag = null)
         {
             // Check if the player entity already exists
-            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
+            Engine.Entity playerEntity;
 
-            if (playerEntity != null)
-                return playerEntity;
+            // Check if the NPC entity already exists
+            if (!string.IsNullOrEmpty(idTag))
+            {
+                playerEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
+                if (playerEntity != null)
+                    return playerEntity;
+            }
 
             // Otherwise create a new player entity
             playerEntity = EngineGlobals.entityManager.CreateEntity();
 
-            if (idTag != default)
+            if (!string.IsNullOrEmpty(idTag))
                 playerEntity.Tags.Id = idTag;
             else
             {
