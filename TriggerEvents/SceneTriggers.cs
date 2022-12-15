@@ -20,6 +20,7 @@ namespace AdventureGame.Engine
             }
         }
 
+        // TO DO
         public static void NPC(Entity triggerEntity, Entity colliderEntity, float distance)
         {
             if (colliderEntity.IsPlayerType())
@@ -56,18 +57,6 @@ namespace AdventureGame.Engine
             }
         }
 
-        public static void EnterHouse(Entity triggerEntity, Entity colliderEntity, float distance)
-        {
-            if (colliderEntity.IsPlayerType())
-            {
-                Vector2 playerPosition = new Vector2(150, 20);
-                EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
-                // Testing
-                //EngineGlobals.sceneManager.SetActiveScene<HomeScene>(unloadCurrentScene: false);
-                EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(playerPosition);
-            }
-        }
-
         public static void EnterGameSceneFromBeach(Entity triggerEntity, Entity colliderEntity, float distance)
         {
             if (colliderEntity.IsPlayerType())
@@ -78,12 +67,27 @@ namespace AdventureGame.Engine
             }
         }
 
+        public static void EnterHouse(Entity triggerEntity, Entity colliderEntity, float distance)
+        {
+            if (colliderEntity.IsPlayerType())
+            {
+                Vector2 playerPosition = new Vector2(150, 20);
+                EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
+                // Testing
+                //EngineGlobals.sceneManager.SetActiveScene<HomeScene>(applyTransition: false);
+                //EngineGlobals.sceneManager.SetActiveScene<HomeScene>(unloadCurrentScene: false);
+                EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(playerPosition);
+            }
+        }
+
         public static void EnterGameSceneFromHome(Entity triggerEntity, Entity colliderEntity, float distance)
         {
             if (colliderEntity.IsPlayerType())
             {
                 Vector2 playerPosition = new Vector2(85, 120);
                 EngineGlobals.sceneManager.SetActiveScene<GameScene>();
+                // Testing
+                //EngineGlobals.sceneManager.SetActiveScene<GameScene>(applyTransition: false);
                 EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
             }
         }

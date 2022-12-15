@@ -19,6 +19,7 @@ namespace AdventureGame.Engine
         private ComponentManager _componentManager;
         private SystemManager _systemManager;
 
+        //private ListMapper<Entity> _entityList;
         private ContentManager _sceneContent; // Not used but could replace Golbals.content
 
         public List<Entity> EntityList { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
@@ -73,11 +74,20 @@ namespace AdventureGame.Engine
         public void _UnloadContent()
         {
             // TESTING
+            int count = 0;
+            List<Entity> entitiesToKeep = new List<Entity>();
             foreach (Entity e in EntityList)
             {
                 if (!e.IsLocalPlayer())
+                {
                     _entityManager.DeleteEntity(e);
+                    count++;
+                }
+                else
+                    entitiesToKeep.Add(e);
             }
+            Console.WriteLine($"{count} entities will be deleted");
+            Console.WriteLine($"{entitiesToKeep.Count} entities will be kept");
 
             // Unload the map tiles
             DeleteMap();
@@ -97,6 +107,10 @@ namespace AdventureGame.Engine
                     triggerComponent.collidedEntities.Clear();
                 }
             }*/
+
+            // TO DO
+            // Reset the keyboard, mouse and controller states
+            // i.e. call IsReleased on everything that IsPressed or IsDown
 
             OnEnter();
         }
@@ -148,7 +162,7 @@ namespace AdventureGame.Engine
                                     );
                                 }
                             }
-                        
+
                         }
                     }
                 }
@@ -228,7 +242,7 @@ namespace AdventureGame.Engine
 
         public Camera GetCameraByName(string name)
         {
-            foreach(Camera c in CameraList)
+            foreach (Camera c in CameraList)
             {
                 if (c.name == name)
                 {
@@ -368,7 +382,7 @@ namespace AdventureGame.Engine
             {
                 // main system update
                 s.Update(gameTime, this);
-                
+
                 // update each relevant entity of a system
                 foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
                     if (s.entityMapper.ContainsKey(e.Id))
@@ -379,7 +393,7 @@ namespace AdventureGame.Engine
                         s.UpdateEntity(gameTime, this, e);
                 */
             }
-                
+
             // update the scene
             Update(gameTime);
 
@@ -403,8 +417,8 @@ namespace AdventureGame.Engine
                 if (sceneBelow != null)
                     sceneBelow._Draw(gameTime);
             }
-            
-            var blend = new BlendState
+
+            BlendState blend = new BlendState
             {
                 AlphaBlendFunction = BlendFunction.ReverseSubtract,
                 AlphaSourceBlend = Blend.One,
@@ -508,9 +522,9 @@ namespace AdventureGame.Engine
                 Globals.graphicsDevice.Clear(Color.Transparent);
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 Globals.spriteBatch.FillRectangle(
-                    0,0,
+                    0, 0,
                     Globals.ScreenWidth, Globals.ScreenHeight,
-                    new Color(0, 0, 0, (int)(255*(1-LightLevel)))
+                    new Color(0, 0, 0, (int)(255 * (1 - LightLevel)))
                 );
                 Globals.spriteBatch.End();
 
@@ -529,8 +543,8 @@ namespace AdventureGame.Engine
                     {
                         Globals.spriteBatch.Draw(_alphaMask,
                             new Rectangle(
-                                (int)transformComponent.position.X + (int)transformComponent.size.X/2 - lightComponent.radius,
-                                (int)transformComponent.position.Y + (int)transformComponent.size.X/2 - lightComponent.radius,
+                                (int)transformComponent.position.X + (int)transformComponent.size.X / 2 - lightComponent.radius,
+                                (int)transformComponent.position.Y + (int)transformComponent.size.X / 2 - lightComponent.radius,
                                 lightComponent.radius * 2,
                                 lightComponent.radius * 2
                             ),
@@ -548,7 +562,7 @@ namespace AdventureGame.Engine
 
                 Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
                 Globals.graphicsDevice.Viewport = c.getViewport();
-                
+
                 // draw the camera border
                 if (c.borderThickness > 0)
                 {
@@ -582,7 +596,7 @@ namespace AdventureGame.Engine
                 {
                     Entity player = _entityManager.GetLocalPlayer();
                     Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
-                    
+
                     Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     Globals.spriteBatch.DrawString(Theme.FontSecondary,
                         "X:" + playerPosition.X.ToString(),

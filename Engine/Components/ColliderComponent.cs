@@ -6,38 +6,40 @@ namespace AdventureGame.Engine
 {
     class ColliderComponent : Component
     {
-        public Rectangle BoundingBox; // is this and rect both needed?
-        public Vector2 Size { get; set; }
-        public Vector2 Offset { get; set; }
-        public Rectangle Rect { get; set; }
-
-        // CHANGE to dictionaries with the direction as the value (both?)
+        // Change to dictionaries with the direction as the value (both?)
         public HashSet<Entity> CollidedEntities { get; set; }
         public HashSet<Entity> CollidedEntitiesEnded { get; set; }
+
+        public Rectangle BoundingBox; // is this and rect both needed?
+        public Rectangle Rect { get; set; }
+        public Vector2 Size { get; set; }
+        public Vector2 Offset { get; set; }
         public bool IsSolid { get; set; }
         //public bool IsActive { get; set; } // Remove?
-
         public Color color = Color.Yellow; // Testing: rectangle outline
 
-        public ColliderComponent(Vector2 size, Vector2 offset = default,
-            bool isActive = true, bool isSolid = true)
+        public ColliderComponent(Vector2 size, Vector2 offset = default, bool isSolid = true)
+            //bool isActive = true)
         {
-            Size = size;
-            Offset = offset;
-            //IsActive = isActive;
-            IsSolid = isSolid;
             CollidedEntities = new HashSet<Entity>();
             CollidedEntitiesEnded = new HashSet<Entity>();
+
+            Size = size;
+            Offset = offset;
+            IsSolid = isSolid;
+            //IsActive = isActive;
         }
 
-        public ColliderComponent(int x, int y,
-            int offsetX = default, int offsetY = default,
-            bool isActive = true, bool isSolid = true)
+        public ColliderComponent(int width, int height, int offsetX = 0, int offsetY = 0,
+            bool isSolid = true)//, bool isActive = true)
         {
-            Size = new Vector2(x, y);
+            CollidedEntities = new HashSet<Entity>();
+            CollidedEntitiesEnded = new HashSet<Entity>();
+
+            Size = new Vector2(width, height);
             Offset = new Vector2(offsetX, offsetY);
-            //IsActive = isActive;
             IsSolid = isSolid;
+            //IsActive = isActive;
         }
 
     }

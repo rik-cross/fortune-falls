@@ -99,6 +99,7 @@ namespace AdventureGame.Engine
                 scene.Init();
                 scene._LoadContent();
                 SceneList.Add(scene);
+                Console.WriteLine($"Scene {scene} loaded");
             }
         }
 
@@ -188,21 +189,22 @@ namespace AdventureGame.Engine
         // Checks whether the scene already exists in the scene list
         public Scene CheckSceneExists<T>()
         {
-            Console.WriteLine($"Checking if scene {typeof(T)} already exists");
-            Console.WriteLine($"Scenes count {SceneList.Count}");
+            //Console.WriteLine($"Checking if scene {typeof(T)} already exists");
+            //Console.WriteLine($"Scenes count {SceneList.Count}");
 
             Scene scene = null;
 
-            foreach (var s in SceneList)
+            foreach (Scene s in SceneList)
             {
-                Console.WriteLine($"Compare scene {s} with {typeof(T)}");
+                //Console.WriteLine($"- Compare scene {s} with {typeof(T)}");
                 if (s is T)
                 {
-                    Console.WriteLine($"Scene {typeof(T)} already exists at index {SceneList.IndexOf(s)}");
+                    //Console.WriteLine($"Scene {typeof(T)} already exists at index {SceneList.IndexOf(s)}");
                     scene = s;
+                    //break;
                 }
             }
-            Console.WriteLine();
+            //Console.WriteLine();
 
             return scene;
         }
@@ -276,15 +278,8 @@ namespace AdventureGame.Engine
                 }
             }
 
-            // Check if the next scene has already been loaded
-            bool isLoaded = false;
-            foreach (Scene s in SceneList)
-                if (s == nextScene)
-                    isLoaded = true;
-
-            // Otherwise load the next scene
-            if (!isLoaded)
-                LoadScene(nextScene);
+            // Load the next scene if it doesn't already exist
+            LoadScene(nextScene);
 
             // Check if the active scene needs to be removed from the scene stack or unloaded
             if (ActiveScene != null)
@@ -307,6 +302,7 @@ namespace AdventureGame.Engine
 
             Console.WriteLine($"Scene list size {SceneList.Count}");
             Console.WriteLine($"Scene stack size {_sceneStack.Count}");
+            Console.WriteLine($"Total number of entities {EngineGlobals.entityManager.GetAllEntities().Count}\n");
 
             // Used to delay changing the player scene during a transition
             if (_playerNextScene != null)

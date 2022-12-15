@@ -157,8 +157,8 @@ namespace AdventureGame.Engine
                 EngineGlobals.componentManager.RemoveAllComponents(e);
 
                 // Testing
-                Console.WriteLine($"Deleting entity {entityId}");
-                Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
+                //Console.WriteLine($"Deleting entity {entityId}");
+                //Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
 
                 // To keep the index values accurate in the mapper
                 // and for fast removal of an entity from the list,
