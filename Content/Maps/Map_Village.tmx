@@ -330,7 +330,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="5" name="ScenaryEntities" width="60" height="40" visible="0">
+ <layer id="5" name="ScenaryEntities" width="60" height="40" visible="0" locked="1">
   <properties>
    <property name="type" value="below"/>
   </properties>
@@ -377,7 +377,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="6" name="Collision" width="60" height="40" visible="0" locked="1">
+ <layer id="6" name="Collision" width="60" height="40" locked="1">
   <properties>
    <property name="type" value="collision"/>
   </properties>

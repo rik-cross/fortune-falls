@@ -29,28 +29,6 @@ namespace AdventureGame.Engine
 
         public void Update(GameTime gameTime)
         {
-            /*if (Transition != null)
-            {
-                Transition.Update(gameTime);
-            }
-            else
-            {
-                if (ActiveScene != null)
-                {
-                    ActiveScene._Update(gameTime);
-
-                    // Needed??
-                    foreach (Entity e in ActiveScene.EntitiesToDelete)
-                    {
-                        ActiveScene.EntityList.Remove(e);
-                    }
-                    ActiveScene.ClearEntitiesToDelete();
-                }
-
-                // CHECK update scene below if stack is > 1 here??
-                // Repeat EntitiesToDelete code too??
-            }*/
-
             if (Transition != null)
             {
                 Transition.Update(gameTime);
@@ -61,11 +39,11 @@ namespace AdventureGame.Engine
                 ActiveScene._Update(gameTime);
 
                 // Needed??
-                foreach (Entity e in ActiveScene.EntitiesToDelete)
+                foreach (Entity e in ActiveScene.EntitiesToRemove)
                 {
                     ActiveScene.EntityList.Remove(e);
                 }
-                ActiveScene.ClearEntitiesToDelete();
+                ActiveScene.ClearEntitiesToRemove();
             }
 
             // CHECK update scene below if stack is > 1 here??

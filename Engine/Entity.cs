@@ -8,6 +8,7 @@ namespace AdventureGame.Engine
         public int Id { get; set; }
         public Guid Guid { get; private set; }
         public ulong Signature { get; set; }
+        //public Scene Scene { get; set; }
         public string State { get; set; }
         public Tags Tags { get; set; }
 
@@ -75,8 +76,11 @@ namespace AdventureGame.Engine
         // Destroy the entity
         public void Destroy()
         {
+            OnDestroy();
             entityManager.DeleteEntity(this);
         }
+
+        public virtual void OnDestroy() { }
     }
 
 }

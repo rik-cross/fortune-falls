@@ -18,13 +18,13 @@ namespace AdventureGame.Engine
         private EntityManager _entityManager;
         private ComponentManager _componentManager;
         private SystemManager _systemManager;
+        private ContentManager _sceneContent; // Not used but could replace Globals.content
 
-        //private ListMapper<Entity> _entityList;
-        private ContentManager _sceneContent; // Not used but could replace Golbals.content
-
+        //private ListMapper<Entity> EntityList; // combines a list and a dictionary
         public List<Entity> EntityList { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
+        //public Dictionary<Entity, int> EntityMapper { get; set; }
         public HashSet<Entity> EntitiesToAdd { get; private set; }
-        public HashSet<Entity> EntitiesToDelete { get; private set; }
+        public HashSet<Entity> EntitiesToRemove { get; private set; }
 
         public List<Camera> CameraList { get; private set; }
         protected double LightLevel { get; set; }
@@ -49,7 +49,7 @@ namespace AdventureGame.Engine
 
             EntityList = new List<Entity>();
             EntitiesToAdd = new HashSet<Entity>();
-            EntitiesToDelete = new HashSet<Entity>();
+            EntitiesToRemove = new HashSet<Entity>();
             CameraList = new List<Camera>();
             CollisionTiles = new List<Rectangle>();
 
@@ -280,19 +280,20 @@ namespace AdventureGame.Engine
             EntitiesToAdd.Add(e);
         }
 
-        // CHANGE to use EntityMapper
         public void RemoveEntity(Entity e)
         {
             if (e != null && EntityList.Contains(e) == false)
-                EntitiesToDelete.Add(e);
+                EntitiesToRemove.Add(e);
+
+            //if (e != null && e.Scene == this)
+            //    EntitiesToDelete.Add(e);
         }
 
-        public void ClearEntitiesToDelete()
+        public void ClearEntitiesToRemove()
         {
-            EntitiesToDelete.Clear();
+            EntitiesToRemove.Clear();
         }
 
-        // CHANGE to use EntityMapper
         public bool IsEntityInScene(Entity e)
         {
             return EntityList.Contains(e);
@@ -330,7 +331,6 @@ namespace AdventureGame.Engine
 
         public virtual void _Update(GameTime gameTime)
         {
-
 
             // Call before deleting any entities
             foreach (System s in EngineGlobals.systemManager.systems)
@@ -448,6 +448,7 @@ namespace AdventureGame.Engine
                 // draw the map
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
 
+                // CHECK is the map draw causing the screen tearing bug?
                 if (Map != null)
                 {
                     foreach (TiledMapLayer layer in Map.Layers)

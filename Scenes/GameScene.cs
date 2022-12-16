@@ -75,7 +75,7 @@ namespace AdventureGame
 
             // Bush entity with droppable items
             Item bush1 = new Item("Bush01", objectsDirectory + "S_Bush01");
-            Entity bushEntity1 = ItemEntity.Create(30, 140, bush1, false);
+            Entity bushEntity1 = ItemEntity.Create(90, 960, bush1, false);
             bushEntity1.AddComponent(new HealthComponent());
             bushEntity1.AddComponent(new HurtboxComponent(new Vector2(42, 42)));
             bushEntity1.AddComponent(new InventoryComponent(5, "bush"));
@@ -155,7 +155,7 @@ namespace AdventureGame
 
             Item potionRed = new Item("PotionRed", itemsDirectory + "P_Red01",
                 quantity: 7, stackSize: 20);
-            AddEntity(ItemEntity.Create(x: 100, y: 220, item: potionRed));
+            AddEntity(ItemEntity.Create(x: 335, y: 610, item: potionRed));
 
             Item sword = new Item("Sword003", itemsDirectory + "W_Sword003",
                 itemHealth: 35, maxHealth: 100);

@@ -46,6 +46,8 @@ namespace AdventureGame.Engine
             if (e == null)
                 return;
 
+            //scene.AddEntity(e);
+
             _entityList.Add(e);
             _entityMapper[e.Id] = _entityList.Count - 1;
         }
@@ -147,11 +149,9 @@ namespace AdventureGame.Engine
         {
             foreach (Entity e in Deleted)
             {
-                int entityId = e.Id;
-
-                // Remove the entity if it is in the disabled list
-                if (Disabled.Contains(e))
-                    Disabled.Remove(e);
+                e.OnDestroy();
+                Added.Remove(e);
+                Disabled.Remove(e);
 
                 // Remove the entity's components
                 EngineGlobals.componentManager.RemoveAllComponents(e);
@@ -164,6 +164,9 @@ namespace AdventureGame.Engine
                 // and for fast removal of an entity from the list,
                 // overwrite the current entity with the last entity
                 // in the list and update the mapper.
+
+                int entityId = e.Id;
+
                 if (_entityMapper.ContainsKey(entityId))
                 {
                     // Get the index of the current entity
@@ -200,6 +203,64 @@ namespace AdventureGame.Engine
             // Clear the deleted set
             Deleted.Clear();
         }
+
+        /*
+        public void DeleteAllEntities(Scene scene)
+        {
+            foreach (Entity e in scene.EntityList)
+            {
+                e.OnDestroy();
+                Added.Remove(e);
+                Disabled.Remove(e);
+                Deleted.Remove(e); // needed?
+
+                CheckInId(e.Id); // Allow the entity id to be reused
+            }
+            scene.EntityList.Clear();
+        }
+
+        public void DeleteEntitiesFromScene(Scene scene)
+        {
+            // Testing
+            Console.WriteLine($"\nDeleting entities. Entity list count {scene.EntityList.Count}");
+            //Console.WriteLine(string.Join(", ", scene.EntityList));
+
+            foreach (Entity e in scene.Deleted)
+            {
+                int entityId = e.Id;
+
+                e.OnDestroy();
+                Added.Remove(e);
+                Disabled.Remove(e);
+
+                // Remove the entity's components
+                EngineGlobals.componentManager.RemoveAllComponents(e);
+
+                // Testing
+                Console.WriteLine($"Deleting entity {entityId}");
+                //Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
+
+                // For faster removal of an entity from the list,
+                // overwrite the current entity with the last entity first
+                int index = _entityList.IndexOf(e);
+
+                if (index != -1)
+                {
+                    Entity lastEntity = _entityList[^1];
+                    _entityList[index] = lastEntity;
+                    _entityList.RemoveAt(_entityList.Count - 1);
+
+                    CheckInId(entityId); // Allow the entity id to be reused
+                }
+            }
+
+            // Testing
+            Console.WriteLine($"Entity list count now {scene.EntityList.Count}\n");
+            //Console.WriteLine(string.Join(", ", scene.EntityList));
+
+            scene.Deleted.Clear();
+        }
+        */
 
         // Return if the entity is active
         public bool IsActive(Entity e)
