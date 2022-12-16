@@ -57,6 +57,9 @@ namespace AdventureGame
             {
                 EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
+
+            Utilities.CheckEntityOverlap(EntityList);
+
         }
 
     }

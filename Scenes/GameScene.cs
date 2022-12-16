@@ -218,6 +218,11 @@ namespace AdventureGame
                 //EngineGlobals.sceneManager.PushScene(new InventoryScene());
                 EngineGlobals.sceneManager.SetActiveScene<InventoryScene>(false, false, false);
             }
+
+            // Make entities transparent if in front of player
+
+            Utilities.SetBuildingAlpha(EntityList);
+
         }
 
     }

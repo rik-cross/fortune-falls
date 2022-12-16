@@ -65,7 +65,7 @@ namespace AdventureGame.Engine
                     (int)transformComponent.position.X, (int)transformComponent.position.Y,
                     (int)transformComponent.size.X, (int)transformComponent.size.Y
                 ),
-                Color.White
+                Color.White * spritesComponent.alpha
             );
 
         }

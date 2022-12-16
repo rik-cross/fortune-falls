@@ -12,6 +12,7 @@ namespace AdventureGame.Engine
 
         public Dictionary<string, Sprite> SpriteDict { get; private set; }
         public bool visible;
+        public float alpha = 1.0f;
         public string lastState;
 
         public SpriteComponent()

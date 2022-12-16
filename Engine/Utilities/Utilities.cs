@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace AdventureGame.Engine
@@ -39,5 +40,42 @@ namespace AdventureGame.Engine
         {
             return ConvertTopLeftToCenter(new Rectangle(x, y, width, height));
         }
+
+        // Reduced the transparency of any building entities overlapping a player entity
+        public static void SetBuildingAlpha(List<Entity> entityList)
+        {
+            foreach (Entity e in entityList)
+            {
+                // only reduce alpha for entities overlapping players
+                if (e.IsPlayerType())
+                {
+                    foreach (Entity o in entityList)
+                    {
+                        // only reduce the alpha of buildings
+                        if (e != o && o.Tags.HasType("building"))
+                        {
+                            // ensure required components are present
+                            if (e.GetComponent<TransformComponent>() != null && o.GetComponent<TransformComponent>() != null && e.GetComponent<SpriteComponent>() != null && o.GetComponent<SpriteComponent>() != null)
+                            {
+                                SpriteComponent sco = o.GetComponent<SpriteComponent>();
+                                TransformComponent tce = e.GetComponent<TransformComponent>();
+                                TransformComponent tco = o.GetComponent<TransformComponent>();
+
+                                // reduce alpha if there's an overlap
+                                if (tce.GetRectangle().Intersects(tco.GetRectangle()))
+                                {
+                                    sco.alpha = 0.5f;
+                                }
+                                else
+                                {
+                                    sco.alpha = 1.0f;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }
