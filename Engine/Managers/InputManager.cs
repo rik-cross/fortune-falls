@@ -16,6 +16,7 @@ namespace AdventureGame.Engine
         // private KeyboardState _resetKeyboardState;
         private KeyboardState _keyboardState;
         private KeyboardState _previousKeyboardState;
+        private Dictionary<Keys, int> _keyboardStateDurations = new Dictionary<Keys, int>();
 
         private MouseState _mouseState;
         private MouseState _previousMouseState;
@@ -23,6 +24,7 @@ namespace AdventureGame.Engine
         // Should this be changed to one controller for now? E.g. GamePad.GetState(PlayerIndex.One)
         private List<GamePadState> _gamePadState = new List<GamePadState>() { GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3) };
         private List<GamePadState> _previousGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
+        private List<Dictionary<Buttons, int>> _gamePadStateDurations = new List<Dictionary<Buttons, int>>();
 
         private Dictionary<InputItem, Timer> delayDictionary;
 
@@ -44,6 +46,7 @@ namespace AdventureGame.Engine
         {
             _previousKeyboardState = _keyboardState;
             _keyboardState = Keyboard.GetState();
+            CalculateKeyboardLongPresses();
 
             _previousMouseState = _mouseState;
             _mouseState = Mouse.GetState();
@@ -168,6 +171,17 @@ namespace AdventureGame.Engine
                 else if (item.mouseButton == MouseButtons.MiddleMouseButton)
                     return _mouseState.MiddleButton == ButtonState.Pressed && _previousMouseState.MiddleButton != ButtonState.Pressed;
             }
+
+            return false;
+        }
+
+        public bool IsLongPressed(InputItem item)
+        {
+            if (item == null)
+                return false;
+
+            if (item.key != null)
+                return _keyboardStateDurations.ContainsKey((Keys)item.key) && _keyboardStateDurations[(Keys)item.key] == 50;
 
             return false;
         }
@@ -342,6 +356,25 @@ namespace AdventureGame.Engine
             return (Buttons)0;
         }
         */
+
+        private void CalculateKeyboardLongPresses()
+        {
+
+            Keys[] c = _keyboardState.GetPressedKeys();
+            Keys[] p = _previousKeyboardState.GetPressedKeys();
+
+            foreach(Keys k in c)
+            {
+                if (Array.Exists(p, element => element.Equals(k)))
+                {
+                    _keyboardStateDurations[k] += 1;
+                }
+                else
+                {
+                    _keyboardStateDurations[k] = 0;
+                }
+            }
+        }
 
     }
 
