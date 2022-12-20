@@ -27,6 +27,7 @@ namespace AdventureGame
 
         protected override void LoadContent()
         {
+            Globals.gameWindow = Window;
             Globals.content = Content;
             Globals.graphicsDevice = GraphicsDevice;
             Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -68,14 +69,7 @@ namespace AdventureGame
             string playerId = "localPlayer";
             Engine.Entity playerEntity = PlayerEntity.Create(20, 760, playerId);
 
-            // Create scenes
-            //Globals.menuScene = new MenuScene();
-            //Globals.gameScene = new GameScene();
-            //Globals.homeScene = new HomeScene();
-            //Globals.beachScene = new BeachScene();
-
-            //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(Globals.menuScene);
-            //EngineGlobals.sceneManager.LoadScene<MenuScene>(false);
+            // Create the menu and set as the active scene
             EngineGlobals.sceneManager.SetActiveScene<MenuScene>();
         }
 

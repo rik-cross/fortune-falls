@@ -203,19 +203,21 @@ namespace AdventureGame
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))// && EngineGlobals.sceneManager.Transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
                 EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
+            }
+            if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
+            {
+                EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(false, false, false);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                //EngineGlobals.sceneManager.PushScene(new PauseScene());
+                //EngineGlobals.sceneManager.SetScreenSize(400, 300); // Testing
                 EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
             {
-                //EngineGlobals.sceneManager.PushScene(new InventoryScene());
                 EngineGlobals.sceneManager.SetActiveScene<InventoryScene>(false, false, false);
             }
 

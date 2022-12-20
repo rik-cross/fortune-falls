@@ -14,7 +14,10 @@ namespace AdventureGame
     {
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
+        //public static int MinScreenWidth = 1280;
+        //public static int MinScreenHeight = 720;
 
+        public static GameWindow gameWindow;
         public static ContentManager content;
         public static SpriteBatch spriteBatch;
         public static GraphicsDeviceManager graphics;
@@ -24,6 +27,8 @@ namespace AdventureGame
 
         // Should these be here on reference to directly in another static class?
         // e.g. Engine.Input.PauseInput() or Engine.Input.Up()
+        public static List<Engine.InputItem> devToolsInput = new List<Engine.InputItem>() { Engine.KeyboardInput.T };
+        public static List<Engine.InputItem> enterInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter };
         public static List<Engine.InputItem> pauseInput = new List<Engine.InputItem>() { Engine.KeyboardInput.P, Engine.ControllerInput.Start };
         public static List<Engine.InputItem> inventoryInput = new List<Engine.InputItem>() { Engine.KeyboardInput.I, Engine.ControllerInput.DPadUp };
         public static List<Engine.InputItem> forwardInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter, Engine.ControllerInput.Start };
