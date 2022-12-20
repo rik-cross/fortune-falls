@@ -39,7 +39,6 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed( Globals.pauseInput)
                 || EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                //EngineGlobals.sceneManager.PopScene();
                 EngineGlobals.sceneManager.RemoveScene(this);
             }
 

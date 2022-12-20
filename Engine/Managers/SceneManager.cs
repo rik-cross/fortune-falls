@@ -77,7 +77,7 @@ namespace AdventureGame.Engine
                 scene.Init();
                 scene._LoadContent();
                 SceneList.Add(scene);
-                Console.WriteLine($"Scene {scene} loaded");
+                //Console.WriteLine($"Scene {scene} loaded");
             }
         }
 
@@ -167,22 +167,22 @@ namespace AdventureGame.Engine
         // Checks whether the scene already exists in the scene list
         public Scene CheckSceneExists<T>()
         {
-            Console.WriteLine($"Checking if scene {typeof(T)} already exists");
+            //Console.WriteLine($"Checking if scene {typeof(T)} already exists");
             //Console.WriteLine($"Scenes count {SceneList.Count}");
 
             Scene scene = null;
 
             foreach (Scene s in SceneList)
             {
-                Console.WriteLine($"- Compare scene {s} with {typeof(T)}");
+                //Console.WriteLine($"- Compare scene {s} with {typeof(T)}");
                 if (s is T)
                 {
-                    Console.WriteLine($"Scene {typeof(T)} already exists at index {SceneList.IndexOf(s)}");
+                    //Console.WriteLine($"Scene {typeof(T)} already exists at index {SceneList.IndexOf(s)}");
                     scene = s;
                     break;
                 }
             }
-            Console.WriteLine();
+            //Console.WriteLine();
 
             return scene;
         }
@@ -374,12 +374,28 @@ namespace AdventureGame.Engine
 
         public void SetScreenSize(int width, int height)
         {
+            /*
+            if (width < Globals.MinScreenWidth)
+                width = Globals.MinScreenWidth;
+            if (height < Globals.MinScreenHeight)
+                height = Globals.MinScreenHeight;
+            */
             Globals.graphics.PreferredBackBufferWidth = width;
             Globals.graphics.PreferredBackBufferHeight = height;
             Globals.graphics.ApplyChanges();
 
             Globals.ScreenWidth = Globals.graphics.PreferredBackBufferWidth;
             Globals.ScreenHeight = Globals.graphics.PreferredBackBufferHeight;
+
+            // Set the cameras to focus on the player again
+            /*
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
+            ActiveScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
+            ActiveScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
+            ActiveScene.GetCameraByName("main").trackedEntity = player;
+            ActiveScene.GetCameraByName("minimap").trackedEntity = player;
+            */
         }
     }
 

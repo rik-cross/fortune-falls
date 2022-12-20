@@ -103,16 +103,6 @@ namespace AdventureGame
         {
             EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
 
-            /*
-            Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
-            Globals.gameScene.AddEntity(playerEntity);
-            playerEntity.GetComponent<TransformComponent>().position = new Vector2(100, 100);
-            Globals.gameScene.GetCameraByName("main").SetWorldPosition(new Vector2(100, 100), instant: true);
-            Globals.gameScene.GetCameraByName("minimap").SetWorldPosition(new Vector2(100, 100), instant: true);
-            Globals.gameScene.GetCameraByName("main").trackedEntity = playerEntity;
-            Globals.gameScene.GetCameraByName("minimap").trackedEntity = playerEntity;
-            */
-
             _controllerButton.Stop();
             _keyboardButton.Stop();
         }
@@ -124,9 +114,8 @@ namespace AdventureGame
         public override void Update(GameTime gameTime)
         {
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))// && EngineGlobals.sceneManager.Transition == null)
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                //EngineGlobals.sceneManager.Transition = new FadeSceneTransition(null);
                 EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
 
                 // Handle exit game logic here?

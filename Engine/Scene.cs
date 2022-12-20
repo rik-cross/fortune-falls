@@ -448,7 +448,6 @@ namespace AdventureGame.Engine
                 // draw the map
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
 
-                // CHECK is the map draw causing the screen tearing bug?
                 if (Map != null)
                 {
                     foreach (TiledMapLayer layer in Map.Layers)

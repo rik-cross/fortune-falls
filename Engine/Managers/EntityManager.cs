@@ -156,16 +156,16 @@ namespace AdventureGame.Engine
                 // Remove the entity's components
                 EngineGlobals.componentManager.RemoveAllComponents(e);
 
-                // Testing
-                //Console.WriteLine($"Deleting entity {entityId}");
-                //Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
-
                 // To keep the index values accurate in the mapper
                 // and for fast removal of an entity from the list,
                 // overwrite the current entity with the last entity
                 // in the list and update the mapper.
 
                 int entityId = e.Id;
+
+                // Testing
+                Console.WriteLine($"Deleting entity {entityId}");
+                //Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
 
                 if (_entityMapper.ContainsKey(entityId))
                 {

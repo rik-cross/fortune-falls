@@ -633,7 +633,8 @@ namespace AdventureGame
             if (item.IsStackable())
             {
                 Text quantity = new Engine.Text(
-                    caption: "x" + item.Quantity.ToString(),
+                    //caption: "x" + item.Quantity.ToString(),
+                    caption: item.Quantity.ToString() + "/" + item.StackSize.ToString(),
                     font: Theme.FontSecondary,
                     colour: Theme.TextColorPrimary,
                     anchor: Anchor.BottomRight,

@@ -236,7 +236,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="BuildingEntities" width="60" height="40" locked="1">
+ <layer id="4" name="BuildingEntities" width="60" height="40" visible="0" locked="1">
   <properties>
    <property name="type" value="below"/>
   </properties>
