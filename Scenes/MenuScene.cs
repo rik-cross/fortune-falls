@@ -108,7 +108,12 @@ namespace AdventureGame
             EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
 
             _controllerButton.Stop();
+            _controllerButton.Reverse(false);
+            _controllerButton.Reset();
+
             _keyboardButton.Stop();
+            _keyboardButton.Reverse(false);
+            _keyboardButton.Reset();
         }
         public override void OnExit()
         {
