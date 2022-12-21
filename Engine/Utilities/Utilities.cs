@@ -55,14 +55,20 @@ namespace AdventureGame.Engine
                         if (e != o && o.Tags.HasType("building"))
                         {
                             // ensure required components are present
-                            if (e.GetComponent<TransformComponent>() != null && o.GetComponent<TransformComponent>() != null && e.GetComponent<SpriteComponent>() != null && o.GetComponent<SpriteComponent>() != null)
+                            if (e.GetComponent<TransformComponent>() != null && o.GetComponent<TransformComponent>() != null 
+                                && e.GetComponent<SpriteComponent>() != null && o.GetComponent<SpriteComponent>() != null
+                                && e.GetComponent<ColliderComponent>() != null && o.GetComponent<ColliderComponent>() != null)
                             {
                                 SpriteComponent sco = o.GetComponent<SpriteComponent>();
                                 TransformComponent tce = e.GetComponent<TransformComponent>();
                                 TransformComponent tco = o.GetComponent<TransformComponent>();
 
+                                ColliderComponent cce = e.GetComponent<ColliderComponent>();
+                                ColliderComponent cco = o.GetComponent<ColliderComponent>();
+
                                 // reduce alpha if there's an overlap
-                                if (tce.GetRectangle().Intersects(tco.GetRectangle()))
+                                if (tce.GetRectangle().Intersects(tco.GetRectangle()) &&
+                                    tce.position.Y + cce.Offset.Y + cce.Size.Y - 5 < tco.position.Y + cco.Offset.Y )
                                 {
                                     sco.alpha = 0.5f;
                                 }
