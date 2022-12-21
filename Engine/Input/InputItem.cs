@@ -23,7 +23,13 @@ namespace AdventureGame.Engine
             MouseButtons? mouseButton = null)
         {
             this.key = key;
+            if (key != null && !KeyboardInput.keyList.Contains((Keys)key))
+                KeyboardInput.keyList.Add((Keys)key);
+
             this.button = button;
+            if (button != null && !ControllerInput.buttonList.Contains((Buttons)button))
+                ControllerInput.buttonList.Add((Buttons)button);
+
             this.mouseButton = mouseButton;
         }
 

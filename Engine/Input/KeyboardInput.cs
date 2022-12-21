@@ -5,11 +5,13 @@
  */
 
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {
     public static class KeyboardInput
     {
+        public static List<Keys> keyList = new List<Keys>();
 
         public static InputItem Enter = new InputItem(key: Keys.Enter);
         public static InputItem Escape = new InputItem(key: Keys.Escape);

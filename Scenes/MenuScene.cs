@@ -6,6 +6,11 @@ using Microsoft.Xna.Framework.Media;
 
 using System.Collections.Generic;
 
+using System;
+using MonoGame.Extended;
+using S = System.Diagnostics.Debug;
+
+
 namespace AdventureGame
 {
     public class MenuScene : Engine.Scene
@@ -15,13 +20,14 @@ namespace AdventureGame
         private Engine.Image _keyboardImage;
         private Engine.Animation _controllerButton;
         private Engine.Animation _keyboardButton;
-        private Engine.Animation _playerAnimation;
+        private Engine.Text inputHelpText;
 
         public MenuScene()
         {
+
             // title text
             _title = new Engine.Text(
-                caption: "Game Title!",
+                caption: "Adventure Game",
                 font: Theme.FontPrimary,
                 colour: Theme.TextColorTertiary,
                 anchor: Anchor.TopCenter,
@@ -85,18 +91,16 @@ namespace AdventureGame
                 play: false
             );
 
-            // player animation
-            /*_playerAnimation = new Engine.Animation(
-                new List<Texture2D> {
-                    Globals.playerSpriteSheet.GetSubTexture(6,4),
-                    Globals.playerSpriteSheet.GetSubTexture(7,4),
-                    Globals.playerSpriteSheet.GetSubTexture(8,4),
-                    Globals.playerSpriteSheet.GetSubTexture(7,4)
-                },
-                size: new Vector2(26*4,36*4),
-                anchor: Anchor.MiddleCenter,
-                animationDelay: 12
-            );*/
+            inputHelpText = new Engine.Text(
+                "Hold to select",
+                position: new Vector2(Globals.ScreenWidth / 2, 0),
+                font: Theme.FontTertiary,
+                colour: Color.White,
+                //anchorParent: _keyboardButton.Rectangle,
+                anchor: Anchor.TopCenter,
+                padding: new Padding(top: 550)
+            );
+
         }
 
         public override void OnEnter()
@@ -121,42 +125,39 @@ namespace AdventureGame
                 // Handle exit game logic here?
             }
 
-            InputComponent inputComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>();
-            if (inputComponent != null)
-            {
-                InputMethod inputMethod = inputComponent.input;
-                if (inputMethod != null)
-                {
-                    InputItem inputItem = inputMethod.button1;
-                    if (inputItem != null)
-                    {
-                        if (EngineGlobals.inputManager.IsPressed(inputMethod.button1))
-                        {
-                            Vector2 playerPosition = new Vector2(20, 760);
-                            //playerPosition = new Vector2(85, 120); // TESTING
-
-                            // Add the MenuScene to the scene stack
-                            EngineGlobals.sceneManager.SetActiveScene<GameScene>(
-                                removeCurrentSceneFromStack: false, unloadCurrentScene: false);
-
-                            EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
-                        }
-                    }
-                }
-            }
-
-            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Enter))
-            {
+            if (EngineGlobals.inputManager.IsDown(KeyboardInput.Enter))
                 _keyboardImage.Alpha = 1.0f;
-                _controllerImage.Alpha = 0.2f;
+            else
+                _keyboardImage.Alpha = 0.2f;
+
+            if (EngineGlobals.inputManager.IsLongPressed(KeyboardInput.Enter))
+            {
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
+                Vector2 playerPosition = new Vector2(20, 760);
+
+                // Add the MenuScene to the scene stack
+                EngineGlobals.sceneManager.SetActiveScene<GameScene>(
+                    removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+
+                EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
             }
 
-            if (EngineGlobals.inputManager.IsPressed(ControllerInput.A))
-            {
-                _keyboardImage.Alpha = 0.2f;
+            if (EngineGlobals.inputManager.IsDown(ControllerInput.A))
                 _controllerImage.Alpha = 1.0f;
+            else
+                _controllerImage.Alpha = 0.2f;
+
+            if (EngineGlobals.inputManager.IsLongPressed(ControllerInput.A))
+            {
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;
+                Vector2 playerPosition = new Vector2(20, 760);
+                //playerPosition = new Vector2(85, 120); // TESTING
+
+                // Add the MenuScene to the scene stack
+                EngineGlobals.sceneManager.SetActiveScene<GameScene>(
+                    removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+
+                EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
             }
 
             if (EngineGlobals.inputManager.IsPressed(ControllerInput.A))
@@ -199,9 +200,34 @@ namespace AdventureGame
             _title.Draw();
             _controllerImage.Draw();
             _keyboardImage.Draw();
+
+            //Globals.spriteBatch.DrawCircle(new CircleF(new Vector2(_keyboardButton.Center, _keyboardButton.Middle),25),360, Color.LightGray);
+            //Globals.spriteBatch.DrawCircle(new CircleF(new Vector2(_controllerButton.Center, _controllerButton.Middle), 25), 360, Color.LightGray);
+
+            for (double i = 0; i < 100; i+=0.5)
+            {
+                if (i >= EngineGlobals.inputManager.GetLongPressPercentage(KeyboardInput.Enter))
+                    break;
+                double rad = (Math.PI / 180) * i * 3.6 ;
+                float x = (float)(25 * Math.Cos(rad));
+                float y = (float)(25 * Math.Sin(rad));
+                Globals.spriteBatch.DrawLine(new Vector2(_keyboardButton.Center, _keyboardButton.Middle), new Vector2(_keyboardButton.Center+x,_keyboardButton.Middle+y), Color.White);
+            }
+            for (double i = 0; i < 100; i += 0.5)
+            {
+                if (i >= EngineGlobals.inputManager.GetLongPressPercentage(ControllerInput.A))
+                    break;
+                double rad = (Math.PI / 180) * i * 3.6;
+                float x = (float)(25 * Math.Cos(rad));
+                float y = (float)(25 * Math.Sin(rad));
+                Globals.spriteBatch.DrawLine(new Vector2(_controllerButton.Center, _controllerButton.Middle), new Vector2(_controllerButton.Center + x, _controllerButton.Middle + y), Color.White);
+            }
+
             _controllerButton.Draw();
             _keyboardButton.Draw();
-            //_playerAnimation.Draw();
+            inputHelpText.Draw();
+
+
         }
 
     }

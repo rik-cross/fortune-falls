@@ -5,12 +5,16 @@
  */
 
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {
     public static class ControllerInput
     {
 
+        public static List<Buttons> buttonList = new List<Buttons>();
+
+        public static InputItem Menu = new InputItem(button: Buttons.BigButton);
         public static InputItem Start = new InputItem(button: Buttons.Start);
         public static InputItem Back = new InputItem(button: Buttons.Back);
 
@@ -28,6 +32,11 @@ namespace AdventureGame.Engine
         public static InputItem LeftThumbDown = new InputItem(button: Buttons.LeftThumbstickDown);
         public static InputItem LeftThumbLeft = new InputItem(button: Buttons.LeftThumbstickLeft);
         public static InputItem LeftThumbRight = new InputItem(button: Buttons.LeftThumbstickRight);
+
+        public static InputItem RightThumbUp = new InputItem(button: Buttons.RightThumbstickUp);
+        public static InputItem RightThumbDown = new InputItem(button: Buttons.RightThumbstickDown);
+        public static InputItem RightThumbLeft = new InputItem(button: Buttons.RightThumbstickLeft);
+        public static InputItem RightThumbRight = new InputItem(button: Buttons.RightThumbstickRight);
 
         public static InputItem DPadUp = new InputItem(button: Buttons.DPadUp);
         public static InputItem DPadDown = new InputItem(button: Buttons.DPadDown);

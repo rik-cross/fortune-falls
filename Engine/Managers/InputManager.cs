@@ -16,7 +16,7 @@ namespace AdventureGame.Engine
         // private KeyboardState _resetKeyboardState;
         private KeyboardState _keyboardState;
         private KeyboardState _previousKeyboardState;
-        private Dictionary<Keys, int> _keyboardStateDurations = new Dictionary<Keys, int>();
+        private Dictionary<Keys, double> _keyboardStateDurations = new Dictionary<Keys, double>();
 
         private MouseState _mouseState;
         private MouseState _previousMouseState;
@@ -24,7 +24,11 @@ namespace AdventureGame.Engine
         // Should this be changed to one controller for now? E.g. GamePad.GetState(PlayerIndex.One)
         private List<GamePadState> _gamePadState = new List<GamePadState>() { GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3) };
         private List<GamePadState> _previousGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
-        private List<Dictionary<Buttons, int>> _gamePadStateDurations = new List<Dictionary<Buttons, int>>();
+        private Dictionary<Buttons, double> _gamePadStateDurations = new Dictionary<Buttons, double>();
+        private double gamePadLongPressAdjustment = 1.0;
+        public int longPressDuration = 50;
+        public bool longPressEaseOut = true;
+        public int longPressEaseOutAmount = 3;
 
         private Dictionary<InputItem, Timer> delayDictionary;
 
@@ -56,6 +60,7 @@ namespace AdventureGame.Engine
                 _previousGamePadState[i] = _gamePadState[i];
                 _gamePadState[i] = GamePad.GetState(i);
             }
+            CalculateGamePadLongPresses();
 
             // Handle the cursor position if it is visible
             if (_isCursorVisible)
@@ -183,7 +188,32 @@ namespace AdventureGame.Engine
             if (item.key != null)
                 return _keyboardStateDurations.ContainsKey((Keys)item.key) && _keyboardStateDurations[(Keys)item.key] == 50;
 
+            if (item.button != null)
+                return _gamePadStateDurations.ContainsKey((Buttons)item.button) && _gamePadStateDurations[(Buttons)item.button] == 50;
+
             return false;
+        }
+
+        public double GetLongPressPercentage(InputItem item)
+        {
+            if (item == null)
+                return 0;
+
+            if (item.key != null)
+            {
+                if (!_keyboardStateDurations.ContainsKey((Keys)item.key))
+                    return 0;
+                return 100 / longPressDuration * _keyboardStateDurations[(Keys)item.key];
+            }
+
+            if (item.button != null)
+            {
+                if (!_gamePadStateDurations.ContainsKey((Buttons)item.button))
+                    return 0;
+                return 100 / longPressDuration * _gamePadStateDurations[(Buttons)item.button];
+            }
+
+            return 0;
         }
 
         public bool IsPressed(List<InputItem> items)
@@ -359,19 +389,37 @@ namespace AdventureGame.Engine
 
         private void CalculateKeyboardLongPresses()
         {
-
-            Keys[] c = _keyboardState.GetPressedKeys();
-            Keys[] p = _previousKeyboardState.GetPressedKeys();
-
-            foreach(Keys k in c)
+            foreach (Keys key in KeyboardInput.keyList)
             {
-                if (Array.Exists(p, element => element.Equals(k)))
-                {
-                    _keyboardStateDurations[k] += 1;
-                }
+                //int newDuration;
+                //if 
+                //    = _keyboardStateDurations[key];
+
+
+                if (_keyboardState.IsKeyDown(key) && _previousKeyboardState.IsKeyDown(key))
+                    _keyboardStateDurations[key] = Math.Min(longPressDuration, _keyboardStateDurations[key] + 1.0);
                 else
                 {
-                    _keyboardStateDurations[k] = 0;
+                    if (longPressEaseOut && _keyboardStateDurations.ContainsKey(key))
+                        _keyboardStateDurations[key] = Math.Max(0, _keyboardStateDurations[key] - longPressEaseOutAmount);
+                    else
+                        _keyboardStateDurations[key] = 0;
+                }
+            }
+        }
+
+        private void CalculateGamePadLongPresses()
+        {
+            foreach (Buttons button in ControllerInput.buttonList)
+            {
+                if (_gamePadState[0].IsButtonDown(button) && _previousGamePadState[0].IsButtonDown(button))
+                    _gamePadStateDurations[button] = Math.Min(longPressDuration, _gamePadStateDurations[button] + (1 / gamePadLongPressAdjustment));
+                else
+                {
+                    if (longPressEaseOut && _gamePadStateDurations.ContainsKey(button))
+                        _gamePadStateDurations[button] = Math.Max(0, _gamePadStateDurations[button] - (longPressEaseOutAmount / gamePadLongPressAdjustment));
+                    else
+                        _gamePadStateDurations[button] = 0;
                 }
             }
         }
