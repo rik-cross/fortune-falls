@@ -45,6 +45,7 @@ namespace AdventureGame
             // Dictionary of command words and descriptions
             _commandDict = new SortedDictionary<string, string>();
             _commandDict.Add("list", "Lists all the commands available.");
+            _commandDict.Add("debug", "Enter on/off to turn debug mode on or off.");
             _commandDict.Add("teleport", "Teleports the player to another location. Enter an X and a Y value separated by a space or comma.");
             _commandDict.Add("collectAll", "Collects all items based on the item id.");
             //_commandDict.Add("testing", "TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.");
@@ -393,6 +394,10 @@ namespace AdventureGame
                     ListCommands();
                     break;
 
+                case "debug":
+                    DebugMode();
+                    break;
+
                 case "teleport":
                     TeleportPlayer();
                     break;
@@ -421,6 +426,33 @@ namespace AdventureGame
         {
             foreach (KeyValuePair<string, string> kvp in _commandDict)
                 _additionalText += "\n-- " + kvp.Key + ": " + kvp.Value;
+        }
+
+        public void DebugMode()
+        {
+            bool isDebugMod = EngineGlobals.DEBUG;
+
+            if (string.IsNullOrEmpty(_commandValue))
+            {
+                // Toggle debug mode
+                EngineGlobals.DEBUG = !isDebugMod;
+            }
+            else if (_commandValue.ToLower() == "on")
+            {
+                if (isDebugMod)
+                    SetErrorText("Debug mode is already on");
+                else
+                    EngineGlobals.DEBUG = true;
+            }
+            else if (_commandValue.ToLower() == "off")
+            {
+                if (!isDebugMod)
+                    SetErrorText("Debug mode is already off");
+                else
+                    EngineGlobals.DEBUG = false;
+            }
+            else
+                SetErrorText("Value not recognised. Type on or off.");
         }
 
         public void TeleportPlayer()
