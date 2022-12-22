@@ -46,12 +46,8 @@ namespace AdventureGame
             _commandDict = new SortedDictionary<string, string>();
             _commandDict.Add("list", "Lists all the commands available.");
             _commandDict.Add("debug", "Enter on/off to turn debug mode on or off.");
-            _commandDict.Add("teleport", "Teleports the player to another location. Enter an X and a Y value separated by a space or comma.");
-            _commandDict.Add("collectAll", "Collects all items based on the item id.");
-            //_commandDict.Add("testing", "TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.");
-            //_commandDict.Add("charTest", "qwertyuiopasdfghjklzxcvbnm<>./1234567890qwertyuiopasdfghjklzxcvbnm<>./1234567890");
-            //_commandDict.Add("otherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTest", "qwertyuiopasdfghjklzxcvbnm<>./1234567890qwertyuiopasdfghjklzxcvbnm<>./1234567890");
-            //_commandDict.Add("otherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTest", "qwerty");
+            _commandDict.Add("teleport", "Teleports the player. Enter an X and a Y value separated by a space or comma.");
+            _commandDict.Add("collect", "Collects all items based on the item id entered.");
 
             // Container setup
             _font = Theme.FontTertiary;
@@ -74,7 +70,7 @@ namespace AdventureGame
 
             // Displays the input text
             _textDisplayInput = new Engine.Text(
-                caption: "",
+                caption: "> ",
                 font: _font,
                 colour: Color.Black
             );
@@ -192,6 +188,8 @@ namespace AdventureGame
         }
 
         // CHECK if the display output wrap text method can use this for adding a new character
+        // MOVE text formatting to SceneRenderables.Text or Textbox or InputBox
+
         // Adds a character and wraps the text onto a new line if the max line width has been reached
         public string AddCharacterAndWrapText(string currentText, char newChar, int maxLineWidth)
         {
@@ -324,9 +322,14 @@ namespace AdventureGame
 
         public void DisplayCommandResult()
         {
-            string newText = "\n" + _textDisplayInput.Caption;
-            newText += _errorMessage;
-            newText += _additionalText;
+            string newText = '\n' + _textDisplayInput.Caption;
+
+            if (!string.IsNullOrEmpty(_errorMessage))
+                newText += '\n' + _errorMessage;
+
+            if (!string.IsNullOrEmpty(_additionalText))
+                newText += '\n' + _additionalText;
+
             newText += "\n\nEnter command:";
 
             ClearInputAndCommand();
@@ -348,7 +351,7 @@ namespace AdventureGame
         public void ClearInputAndCommand()
         {
             _inputString.Clear();
-            _textDisplayInput.Caption = "";
+            _textDisplayInput.Caption = "> ";
             _currentCommand = "";
             _commandWord = "";
             _commandValue = "";
@@ -402,8 +405,8 @@ namespace AdventureGame
                     TeleportPlayer();
                     break;
 
-                case "collectAll":
-                    CollectAllItemById();
+                case "collect":
+                    CollectAllItemsById();
                     break;
 
                 default:
@@ -417,9 +420,9 @@ namespace AdventureGame
         public void SetErrorText(string error = "")
         {
             if (string.IsNullOrEmpty(error))
-                _errorMessage = "\nError: command not recognised. Type list + Enter for a list of valid commands.";
+                _errorMessage = "Error: command not recognised. Type list + Enter for a list of valid commands.";
             else
-                _errorMessage = "\nError: " + error;
+                _errorMessage = "Error: " + error;
         }
 
         public void ListCommands()
@@ -486,7 +489,7 @@ namespace AdventureGame
             player.GetComponent<TransformComponent>().position = new Vector2(x, y);
         }
 
-        public void CollectAllItemById()
+        public void CollectAllItemsById()
         {
             if (string.IsNullOrEmpty(_commandValue))
             {
@@ -497,40 +500,119 @@ namespace AdventureGame
             // Remove any extra information
             string itemId = _commandValue.Split()[0];
 
-            // Get the player
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            InventoryComponent playerInventory = player.GetComponent<InventoryComponent>();
+            int itemsCollected = 0;
+            int quantityCollect = 0;
+            bool playerInventoryFull = false;
 
-
-            List<Entity> entities = EngineGlobals.entityManager.GetAllEntitiesByComponent("InventoryComponent");
-            //Console.WriteLine(string.Join(", ", entities));
-            Console.WriteLine(entities.Count());
-
-            int count = 0;
-
-            foreach (Entity e in entities)
+            // Check every entity with an item component
+            List<Entity> entitiesWithItem = EngineGlobals.entityManager.GetAllEntitiesByComponent("ItemComponent");
+            Console.WriteLine(entitiesWithItem.Count());
+            foreach (Entity e in entitiesWithItem)
             {
-                InventoryComponent inventoryComponent = e.GetComponent<InventoryComponent>();
+                if (e.IsLocalPlayer())
+                    continue;
 
-                foreach (Item item in inventoryComponent.InventoryItems)
+                ItemComponent itemComponent = e.GetComponent<ItemComponent>();
+                Item item = itemComponent.Item;
+
+                // Testing
+                if (item != null)
+                    Console.WriteLine($"Checking {item.ItemId} from entity {e.Id} {e.Tags.Type[0]}");
+
+                // Try to add the item to the other entity's inventory
+                if (item != null && item.ItemId == itemId)
                 {
-                    // Testing
-                    if (item != null)
-                        Console.WriteLine($"Checking {item} from entity {e.Id}");
+                    Console.WriteLine($"Trying to collect {itemId} from entity {e.Id}");
 
-                    if (item != null && item.ItemId == itemId)
+                    int originalQuantity = item.Quantity;
+
+                    Item returnedItem = EngineGlobals.inventoryManager.AddItem(
+                        playerInventory.InventoryItems, item);
+
+                    if (returnedItem == null)
                     {
-                        Console.WriteLine($"Collected {itemId} from entity {e.Id}");
-                        //inventoryComponent.InventoryItems.
+                        // Item collected so destroy the item entity
+                        Console.WriteLine("Item collected!");
+                        e.Destroy();
+                        itemsCollected++;
+                        quantityCollect += item.Quantity;
+                    }
+                    else
+                    {
+                        // Player's inventory is full
+                        Console.WriteLine("Inventory full!");
+                        playerInventoryFull = true;
 
-                        // OR use InventoryManager?
-                        // RemoveItem();
-                        // AddItem();
-
-                        count++;
+                        // Check if some of the item's quantity was collected
+                        if (returnedItem.Quantity != originalQuantity)
+                        {
+                            int collected = originalQuantity - returnedItem.Quantity;
+                            Console.WriteLine($"Collected {collected}, item has {returnedItem.Quantity} remaining");
+                            itemsCollected++;
+                            quantityCollect += collected;
+                        }
                     }
                 }
             }
 
-            _additionalText = $"\n{count} of {itemId} were added to player's inventory";
+            // Check every entity with an inventory component
+            List<Entity> entitiesWithInventory = EngineGlobals.entityManager.GetAllEntitiesByComponent("InventoryComponent");
+            Console.WriteLine(entitiesWithInventory.Count());
+            foreach (Entity e in entitiesWithInventory)
+            {
+                if (e.IsLocalPlayer())
+                    continue;
+
+                InventoryComponent inventoryComponent = e.GetComponent<InventoryComponent>();
+                Item[] items = inventoryComponent.InventoryItems;
+
+                for (int i = 0; i < items.Length; i++)
+                {
+                    // Try to add the item to the other entity's inventory
+                    if (items[i] != null && items[i].ItemId == itemId)
+                    {
+                        Console.WriteLine($"Trying to collect {itemId} from entity {e.Id}");
+
+                        int originalQuantity = items[i].Quantity;
+
+                        Item returnedItem = EngineGlobals.inventoryManager.AddItem(
+                            playerInventory.InventoryItems, items[i]);
+
+                        if (returnedItem == null)
+                        {
+                            // Item collected so remove it
+                            Console.WriteLine("Item collected!");
+                            EngineGlobals.inventoryManager.RemoveItem(
+                                inventoryComponent.InventoryItems, i);
+
+                            itemsCollected++;
+                            quantityCollect += originalQuantity;
+                        }
+                        else
+                        {
+                            // Player's inventory is full
+                            Console.WriteLine("Inventory full!");
+                            playerInventoryFull = true;
+
+                            // Check if some of the item's quantity was collected
+                            if (returnedItem.Quantity != originalQuantity)
+                            {
+                                int collected = originalQuantity - returnedItem.Quantity;
+                                Console.WriteLine($"Collected {collected}, item has {returnedItem.Quantity} remaining");
+                                itemsCollected++;
+                                quantityCollect += collected;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (playerInventoryFull)
+                _additionalText = "Player's inventory is full!\n";
+
+            _additionalText += $"{quantityCollect} {itemId} collected from {itemsCollected} item(s)";
         }
 
     }
