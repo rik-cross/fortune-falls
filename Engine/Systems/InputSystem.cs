@@ -23,8 +23,8 @@ namespace AdventureGame.Engine
                 return;
             }
             
-            if (inputComponent.inputControllerPointer != null)
-                inputComponent.inputControllerPointer(entity);
+            if (inputComponent.inputControllerStack.Peek() != null)
+                inputComponent.inputControllerStack.Peek().Invoke(entity);
         
         }
     }

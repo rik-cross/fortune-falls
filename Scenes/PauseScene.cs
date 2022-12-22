@@ -19,7 +19,8 @@ namespace AdventureGame
 
         public override void Init()
         {
-            DrawSceneBelow = true;    
+            DrawSceneBelow = true;
+            UpdateSceneBelow = true;
         }
 
         public override void OnEnter()
@@ -39,6 +40,8 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed( Globals.pauseInput)
                 || EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
+                if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
+                    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Pop();
                 EngineGlobals.sceneManager.RemoveScene(this);
             }
 

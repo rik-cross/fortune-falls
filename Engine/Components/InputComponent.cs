@@ -11,18 +11,16 @@ namespace AdventureGame.Engine
 
         // input
         public InputMethod input;
-        // input controller
-        public Action<Entity> inputControllerPointer;
-
-        // STACK! public Action<Entity> inputControllerPointerStack;
+        // input controller stack
+        public Stack<Action<Entity>> inputControllerStack = new Stack<Action<Entity>>();
 
         public InputComponent(
                     InputMethod input,
-                    Action<Entity> inputControllerPointer
+                    Action<Entity> inputController
                 )
         {
             this.input = input;
-            this.inputControllerPointer = inputControllerPointer;
+            this.inputControllerStack.Push(inputController);
         }
 
     }

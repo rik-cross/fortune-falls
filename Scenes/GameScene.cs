@@ -213,7 +213,8 @@ namespace AdventureGame
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                //EngineGlobals.sceneManager.SetScreenSize(400, 300); // Testing
+                if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
+                    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.BlankPlayerInputController);
                 EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))

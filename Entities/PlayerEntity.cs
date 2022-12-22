@@ -223,5 +223,10 @@ namespace AdventureGame
 
         }
 
+        public static void BlankPlayerInputController(Entity entity)
+        {
+
+        }
+
     }
 }
