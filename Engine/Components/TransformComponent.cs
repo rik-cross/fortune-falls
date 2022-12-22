@@ -113,6 +113,11 @@ namespace AdventureGame.Engine
                 (int)size.Y
             );
         }
+
+        public bool HasMoved()
+        {
+            return position != previousPosition;
+        }
     }
 
 }

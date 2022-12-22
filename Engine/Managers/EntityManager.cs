@@ -126,6 +126,19 @@ namespace AdventureGame.Engine
             return e.Tags.HasType("player");
         }
 
+        // Return a list of entities that contain a given component
+        public List<Entity> GetAllEntitiesByComponent(string componentName)
+        {
+            ulong componentId = EngineGlobals.componentManager.GetComponentId(componentName);
+            List<Entity> entitiesByComponent = new List<Entity>();
+            foreach (Entity e in _entityList)
+            {
+                if (EngineGlobals.componentManager.CheckEntityHasComponent(e, componentId))
+                    entitiesByComponent.Add(e);
+            }
+            return entitiesByComponent;
+        }
+
         // Remove the entity from the disabled set
         public void EnableEntity(Entity e)
         {
@@ -203,64 +216,6 @@ namespace AdventureGame.Engine
             // Clear the deleted set
             Deleted.Clear();
         }
-
-        /*
-        public void DeleteAllEntities(Scene scene)
-        {
-            foreach (Entity e in scene.EntityList)
-            {
-                e.OnDestroy();
-                Added.Remove(e);
-                Disabled.Remove(e);
-                Deleted.Remove(e); // needed?
-
-                CheckInId(e.Id); // Allow the entity id to be reused
-            }
-            scene.EntityList.Clear();
-        }
-
-        public void DeleteEntitiesFromScene(Scene scene)
-        {
-            // Testing
-            Console.WriteLine($"\nDeleting entities. Entity list count {scene.EntityList.Count}");
-            //Console.WriteLine(string.Join(", ", scene.EntityList));
-
-            foreach (Entity e in scene.Deleted)
-            {
-                int entityId = e.Id;
-
-                e.OnDestroy();
-                Added.Remove(e);
-                Disabled.Remove(e);
-
-                // Remove the entity's components
-                EngineGlobals.componentManager.RemoveAllComponents(e);
-
-                // Testing
-                Console.WriteLine($"Deleting entity {entityId}");
-                //Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
-
-                // For faster removal of an entity from the list,
-                // overwrite the current entity with the last entity first
-                int index = _entityList.IndexOf(e);
-
-                if (index != -1)
-                {
-                    Entity lastEntity = _entityList[^1];
-                    _entityList[index] = lastEntity;
-                    _entityList.RemoveAt(_entityList.Count - 1);
-
-                    CheckInId(entityId); // Allow the entity id to be reused
-                }
-            }
-
-            // Testing
-            Console.WriteLine($"Entity list count now {scene.EntityList.Count}\n");
-            //Console.WriteLine(string.Join(", ", scene.EntityList));
-
-            scene.Deleted.Clear();
-        }
-        */
 
         // Return if the entity is active
         public bool IsActive(Entity e)

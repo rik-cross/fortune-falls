@@ -186,15 +186,28 @@ namespace AdventureGame.Engine
         }
 
         // Fastest way to check if an entity has the components a system requires
-        public bool CheckComponents(ulong entitySignature, ulong systemSignature)
+        public bool CheckComponentsForSystem(ulong entitySignature, ulong systemSignature)
         {
             return (entitySignature & systemSignature) == systemSignature;
         }
 
         // Fastest way to check if an entity has the components a system requires
-        public bool CheckComponents(Entity e, ulong systemSignature)
+        public bool CheckComponentsForSystem(Entity e, ulong systemSignature)
         {
             return (e.Signature & systemSignature) == systemSignature;
+        }
+
+        // Fastest way to check if an entity has a specific component
+        public bool CheckEntityHasComponent(Entity e, ulong componentId)
+        {
+            return (e.Signature & componentId) == componentId;
+        }
+
+        // Fastest way to check if an entity has a specific component
+        public bool CheckEntityHasComponent(Entity e, string componentName)
+        {
+            ulong componentId = GetComponentId(componentName);
+            return (e.Signature & componentId) == componentId;
         }
 
         // Get each component name of the entity?

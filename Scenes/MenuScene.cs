@@ -105,7 +105,7 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
+            //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
 
             _controllerButton.Stop();
             _controllerButton.Reverse(false);

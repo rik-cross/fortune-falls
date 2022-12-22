@@ -13,7 +13,7 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
+            /*
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
 
             foreach (Rectangle rect in scene.CollisionTiles)
@@ -24,7 +24,7 @@ namespace AdventureGame.Engine
                     Console.WriteLine($"Entity {entity.Id} collided with tile");
                 }
             }
-
+            */
         }
     }
 }

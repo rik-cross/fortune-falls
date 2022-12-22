@@ -635,7 +635,7 @@ namespace AdventureGame
                 Text quantity = new Engine.Text(
                     //caption: "x" + item.Quantity.ToString(),
                     caption: item.Quantity.ToString() + "/" + item.StackSize.ToString(),
-                    font: Theme.FontSecondary,
+                    font: Theme.FontTertiary,
                     colour: Theme.TextColorPrimary,
                     anchor: Anchor.BottomRight,
                     anchorParent: parentRect,

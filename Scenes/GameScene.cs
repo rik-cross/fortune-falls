@@ -193,7 +193,7 @@ namespace AdventureGame
             AddCamera("main");
             AddCamera("minimap");
 
-            EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
+            //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
         }
 
         public override void Update(GameTime gameTime)

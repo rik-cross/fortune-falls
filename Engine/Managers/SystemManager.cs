@@ -66,7 +66,7 @@ namespace AdventureGame.Engine
             foreach (System s in systems)
             {
                 // Check if the entity is relevant
-                if (componentManager.CheckComponents(e, s.systemSignature))
+                if (componentManager.CheckComponentsForSystem(e, s.systemSignature))
                 {
                     // Check if the entity doesn't already exist
                     if (!s.entityMapper.ContainsKey(e.Id))

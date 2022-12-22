@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using AdventureGame.Engine;
+﻿using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,6 +6,9 @@ using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended;
 
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Linq;
 using S = System.Diagnostics.Debug;
 
@@ -35,7 +34,6 @@ namespace AdventureGame
         private Rectangle _containerInner;
         private int _border;
         private int _padding;
-        private Vector2 _inputTextPosition;
         private SpriteFont _font;
 
 
@@ -44,15 +42,18 @@ namespace AdventureGame
             DrawSceneBelow = true;
             //UpdateSceneBelow = true;
 
+            // Dictionary of command words and descriptions
             _commandDict = new SortedDictionary<string, string>();
             _commandDict.Add("list", "Lists all the commands available.");
             _commandDict.Add("teleport", "Teleports the player to another location. Enter an X and a Y value separated by a space or comma.");
-            _commandDict.Add("testing", "TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.");
-            _commandDict.Add("charTest", "qwertyuiopasdfghjklzxcvbnm<>./1234567890qwertyuiopasdfghjklzxcvbnm<>./1234567890");
-            _commandDict.Add("otherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTest", "qwertyuiopasdfghjklzxcvbnm<>./1234567890qwertyuiopasdfghjklzxcvbnm<>./1234567890");
-            _commandDict.Add("otherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTest", "qwerty");
+            _commandDict.Add("collectAll", "Collects all items based on the item id.");
+            //_commandDict.Add("testing", "TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.TESTING! Teleports the player to another location. Enter an X and Y value separated by a space or comma.");
+            //_commandDict.Add("charTest", "qwertyuiopasdfghjklzxcvbnm<>./1234567890qwertyuiopasdfghjklzxcvbnm<>./1234567890");
+            //_commandDict.Add("otherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTest", "qwertyuiopasdfghjklzxcvbnm<>./1234567890qwertyuiopasdfghjklzxcvbnm<>./1234567890");
+            //_commandDict.Add("otherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTestotherCharTest", "qwerty");
 
-            _font = Theme.FontSecondary;
+            // Container setup
+            _font = Theme.FontTertiary;
             _padding = 10;
             _border = Theme.BorderSmall;
             _containerOuter = new Rectangle(10, 50, 300, Globals.ScreenHeight - 100);
@@ -61,23 +62,24 @@ namespace AdventureGame
                 _containerOuter.Width - _border - _padding,
                 _containerOuter.Height - _border - _padding);
 
+            // Displays the output text
             _textDisplayOutput = new Engine.Text(
-                caption: "Type list + Enter for a list of commands\nPress Escape to exit\n\nEnter command: ",
+                caption: "",
                 font: _font,
                 colour: Color.Black,
                 anchorParent: _containerInner,
                 anchor: Anchor.TopLeft
             );
 
+            // Displays the input text
             _textDisplayInput = new Engine.Text(
                 caption: "",
                 font: _font,
                 colour: Color.Black
             );
 
+            // Stores the unformatted input
             _inputString = new StringBuilder();
-
-            SetTextInputPosition();
         }
 
         public override void OnEnter()
@@ -85,8 +87,9 @@ namespace AdventureGame
             // To do
             // Disable player input controls
 
-            //string intro = "Type list + Enter for a list of commands\nPress Escape to exit\n\nEnter command: ";
-            //DisplayText(_textDisplayOutput, intro);
+            string intro = "Type list + Enter for a list of commands\nPress Escape to exit\n\nEnter command: ";
+            DisplayOutputText(intro);
+            SetTextInputPosition();
 
             RegisterTextInputEvent(OnInput);
         }
@@ -115,7 +118,7 @@ namespace AdventureGame
 
             // Handle Back, Delete, Escape keys
             if (key == Keys.Back)
-                DeleteCharacter(character);
+                DeleteLastCharacter();
             else if (key == Keys.Enter)
                 EnterCommand();
             else if (key == Keys.Delete || key == Keys.Escape)
@@ -137,30 +140,22 @@ namespace AdventureGame
 
         public override void Draw(GameTime gameTime)
         {
-            // Draw the inner container's background
+            // Draw the outer container's background and border
             Globals.spriteBatch.FillRectangle(_containerOuter, Color.White * 0.6f);
-
-            // Draw the outer container's border
             Globals.spriteBatch.DrawRectangle(_containerOuter, Theme.BorderColorPrimary, _border);
 
             // Draw the text feed and input text
             _textDisplayOutput.Draw();
             _textDisplayInput.Draw();
-            // Testing
-            //Globals.spriteBatch.DrawString(_font, _inputString, _inputTextPosition, Color.Black);
         }
 
         public void InputCharacter(char character)
         {
             _inputString.Append(character);
-            //_textDisplayInput.Caption += character;
-            DisplayInputText(_textDisplayInput, character.ToString());
-
-            //Console.WriteLine(_inputString);
-            //Console.WriteLine(_textDisplayInput.Caption);
+            DisplayInputText(character);
         }
 
-        public void DeleteCharacter(char character)
+        public void DeleteLastCharacter()
         {
             // Delete the last character from the input string
             if (_inputString.Length > 0)
@@ -177,87 +172,91 @@ namespace AdventureGame
                 text = text.Remove(length - 1, 1);
                 _textDisplayInput.Caption = text;
             }
-
-            //Console.WriteLine(_inputString);
-            //Console.WriteLine(_textDisplayInput.Caption);
         }
 
-        public string WrapText(int lineWidth, int maxWidth, string text, string newText)
+        public void DisplayInputText(char newChar)
         {
-            // Check the max width hasn't been reached otherwise wrap text
-            if (_font.MeasureString(newText).X + lineWidth > maxWidth)
-            {
-                int indexNewLine = text.LastIndexOf("\n");
+            _textDisplayInput.Caption = AddCharacterAndWrapText(_textDisplayInput.Caption,
+                newChar, _containerInner.Width);
 
-                if (indexNewLine != -1)
-                {
-                    //Console.WriteLine(textDisplay.Caption.Substring(0, indexNewLine)); // "My. name. is Bond"
-                    //Console.WriteLine(textDisplay.Caption.Substring(indexNewLine + 1)); // "_James Bond!"
-
-                    string lastLine = text.Substring(indexNewLine + 1);
-
-                    if (_font.MeasureString(newText).X + _font.MeasureString(lastLine).X > maxWidth)
-                    {
-                        Console.WriteLine($"Too wide! {lastLine}");
-
-                        // Try to add a new line character after the previous word
-                        int indexSpace = text.LastIndexOf(' ');
-
-                        // Check that the last line contains at least one space i.e. not one word
-                        if (indexSpace != -1 && indexSpace > indexNewLine)
-                        {
-                            string startString = text.Substring(0, indexSpace) + "\n";
-                            string endString = text.Substring(indexSpace + 1);
-                            text = startString + endString;
-                        }
-                        // Otherwise split the long string on to a new line
-                        else
-                            text += "\n";
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Too wide!");
-                    text += "\n";
-                }
-            }
-            return text;
+            FitTextWithinDisplayHeight();
         }
 
-        public string WrapOutputText(string currentText, int maxWidth)
+        public void DisplayOutputText(string newText)
         {
-            string displayText = "";
+            // Wrap the lines and words of the new text
+            _textDisplayOutput.Caption += WrapAllText(newText, _containerInner.Width);
 
+            FitTextWithinDisplayHeight();
+        }
+
+        // CHECK if the display output wrap text method can use this for adding a new character
+        // Adds a character and wraps the text onto a new line if the max line width has been reached
+        public string AddCharacterAndWrapText(string currentText, char newChar, int maxLineWidth)
+        {
+            // This assumes that all the other lines have been wrapped appropriately
+
+            string formattedText;
             string[] lines = currentText.Split(new string[] { "\r\n", "\r", "\n" },
                 StringSplitOptions.None);
-            
+            string lastLine = lines[^1];
+
+            // Wrap the text if the max line width will be breached
+            if (_font.MeasureString(lastLine + newChar).X > maxLineWidth)
+            {
+                // Try to add a new line character after the previous word
+                int indexLastSpace = currentText.LastIndexOf(' ');
+                int indexLastNewLine = currentText.LastIndexOf('\n');
+
+                // Check that the last line contains at least one space i.e. not one word
+                if (indexLastSpace != -1 && indexLastSpace > indexLastNewLine)
+                {
+                    string firstLine = currentText.Substring(0, indexLastSpace);
+                    string secondLine = currentText.Substring(indexLastSpace + 1);
+                    formattedText = firstLine + '\n' + secondLine + newChar;
+                }
+                // Otherwise split the long string onto a new line
+                else
+                    formattedText = currentText + '\n' + newChar;
+            }
+            else
+                formattedText = currentText + newChar;
+
+            return formattedText;
+        }
+
+        // Wraps every line and word that is too long onto a new line
+        public string WrapAllText(string currentText, int maxWidth)
+        {
+            string formattedText = "";
+            string[] lines = currentText.Split(new string[] { "\r\n", "\r", "\n" },
+                StringSplitOptions.None);
+
             foreach (string line in lines)
             {
                 if (_font.MeasureString(line).X > maxWidth)
                 {
-                    //Console.WriteLine($"Too wide! {line}");
-
+                    // Append each word of the line until the max width has been breached
                     string[] words = line.Split(' ');
-                    string stringBuffer = "";
+                    string wordBuffer = "";
 
                     for (int i = 0; i < words.Length; i++)
                     {
                         string word = words[i];
 
                         // Check if adding the next word will make the line too wide
-                        if (_font.MeasureString(stringBuffer + word).X > maxWidth)
+                        if (_font.MeasureString(wordBuffer + word).X > maxWidth)
                         {
-                            Console.WriteLine($"Word loop: line too wide {stringBuffer + word}");
-
                             // Check if the single word is too long and also needs to be split
                             if (_font.MeasureString(word).X > maxWidth)
                             {
-                                if (!string.IsNullOrEmpty(stringBuffer))
+                                if (!string.IsNullOrEmpty(wordBuffer))
                                 {
-                                    displayText += stringBuffer + "\n";
-                                    stringBuffer = "";
+                                    formattedText += wordBuffer + "\n";
+                                    wordBuffer = "";
                                 }
 
+                                // Append each char of the word until the max width has been breached
                                 string charBuffer = "";
                                 for (int j = 0; j < word.Length; j++)
                                 {
@@ -266,169 +265,59 @@ namespace AdventureGame
                                     // Check if adding the next char will make the line too wide
                                     if (_font.MeasureString(charBuffer + c).X > maxWidth)
                                     {
-                                        Console.WriteLine($"Inner char loop: line too wide {charBuffer + c}");
-                                        displayText += charBuffer + "\n";
+                                        formattedText += charBuffer + "\n";
                                         charBuffer = c.ToString();
                                     }
-                                    // Otherwise add the next char
                                     else
-                                    {
-                                        charBuffer += c.ToString();
-                                    }
+                                        charBuffer += c.ToString(); // Add the next char
                                 }
-                                // Add any remaining characters to display
+                                // Add any remaining characters from the char buffer
                                 if (!string.IsNullOrEmpty(charBuffer.Trim(' ', '\n', '\r')))
-                                {
-                                    Console.WriteLine($"Adding remaining chars: {charBuffer}");
-                                    displayText += charBuffer + "\n";
-                                }
+                                    formattedText += charBuffer + "\n";
                             }
                             else
                             {
-                                displayText += stringBuffer + "\n";
-                                stringBuffer = word + " ";
+                                formattedText += wordBuffer + "\n";
+                                wordBuffer = word + " ";
                             }
                         }
-                        // Otherwise add the next word
                         else
-                        {
-                            stringBuffer += word + " ";
-                        }
+                            wordBuffer += word + " "; // Add the next word
                     }
-                    // Add any remaining words to display
-                    if (!string.IsNullOrEmpty(stringBuffer.Trim(' ', '\n', '\r')))
-                    {
-                        Console.WriteLine($"Adding remaining words: {stringBuffer}");
-                        displayText += stringBuffer + "\n";
-                    }
+                    // Add any remaining words from the word buffer
+                    if (!string.IsNullOrEmpty(wordBuffer.Trim(' ', '\n', '\r')))
+                        formattedText += wordBuffer + "\n";
                 }
-                // Otherwise the line isn't too wide
+                // The line isn't too wide so re-append the new line character
                 else
-                {
-                    displayText += line + "\n";
-                }
+                    formattedText += line + "\n";
             }
 
-            //Console.WriteLine(string.Join(", ", lines));
-            return displayText;
-        }
-        
-        public string WrapInputLine(string line, int indexNewLine)
-        {
-            Console.WriteLine($"Too wide! {line}");
-
-            // Try to add a new line character after the previous word
-            int indexSpace = line.LastIndexOf(' ');
-
-            // Check that the last line contains at least one space i.e. not one word
-            if (indexSpace != -1 && indexSpace > indexNewLine)
-            {
-                string startString = line.Substring(0, indexSpace) + "\n";
-                string endString = line.Substring(indexSpace + 1);
-                line = startString + endString;
-            }
-            // Otherwise split the long string onto a new line
-            else
-                line += "\n";
-
-            return line;
-        }
-
-        public void DisplayInputText(Text textDisplay, string newText)
-        {
-            // Check the max width hasn't been reached otherwise wrap text
-            if (_font.MeasureString(newText).X + textDisplay.Width > _containerInner.Width)
-            {
-                //string s = "My. name. is Bond._James Bond!";
-                int indexNewLine = textDisplay.Caption.LastIndexOf("\n");
-
-                if (indexNewLine != -1)
-                {
-                    //Console.WriteLine(textDisplay.Caption.Substring(0, indexNewLine)); // "My. name. is Bond"
-                    //Console.WriteLine(textDisplay.Caption.Substring(indexNewLine + 1)); // "_James Bond!"
-
-                    string lastLine = textDisplay.Caption.Substring(indexNewLine + 1);
-
-                    if (_font.MeasureString(newText).X + _font.MeasureString(lastLine).X > _containerInner.Width)
-                    {
-                        Console.WriteLine($"Too wide! {lastLine}");
-
-                        // Try to add a new line character after the previous word
-                        int indexSpace = textDisplay.Caption.LastIndexOf(' ');
-
-                        // Check that the last line contains at least one space i.e. not one word
-                        if (indexSpace != -1 && indexSpace > indexNewLine)
-                        {
-                            string startString = textDisplay.Caption.Substring(0, indexSpace) + "\n";
-                            string endString = textDisplay.Caption.Substring(indexSpace + 1);
-                            textDisplay.Caption = startString + endString;
-                        }
-                        // Otherwise split the long string on to a new line
-                        else
-                            textDisplay.Caption += "\n";
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Too wide! First line");
-                    //textDisplay.Caption += "\n";
-
-                    // Try to add a new line character after the previous word
-                    int indexSpace = textDisplay.Caption.LastIndexOf(' ');
-
-                    // Check that the last line contains at least one space i.e. not one word
-                    if (indexSpace != -1 && indexSpace > indexNewLine)
-                    {
-                        string startString = textDisplay.Caption.Substring(0, indexSpace) + "\n";
-                        string endString = textDisplay.Caption.Substring(indexSpace + 1);
-                        textDisplay.Caption = startString + endString;
-                    }
-                    // Otherwise split the long string on to a new line
-                    else
-                        textDisplay.Caption += "\n";
-                }
-            }
-            textDisplay.Caption += newText;
-
-            CheckDisplayTextHeight(textDisplay);
-        }
-
-        public void DisplayOutputText(Text textDisplay, string newText)
-        {
-            //textDisplay.Caption += newText;
-            textDisplay.Caption += WrapOutputText(newText, _containerInner.Width);
-
-            CheckDisplayTextHeight(textDisplay);
+            // Remove any trailing spaces or new line characters
+            return formattedText.TrimEnd(' ', '\n', '\r');
         }
 
         // Check the max height hasn't been reached otherwise delete the oldest lines
-        public void CheckDisplayTextHeight(Text textDisplay)
+        public void FitTextWithinDisplayHeight()
         {
-            //string originalText = textDisplay.Caption;
-
             bool checkingHeight = true;
             while (checkingHeight)
             {
-                //if (textDisplay.Height > _containerInner.Height)
                 if (_textDisplayOutput.Height + _textDisplayInput.Height > _containerInner.Height)
                 {
-                    Console.WriteLine($"Too high!");
-
-                    // Try to find the first new line character
+                    // Check if there is a new line character to split the text
                     int indexNewLine = _textDisplayOutput.Caption.IndexOf("\n");
+
                     if (indexNewLine != -1)
-                    {
-                        //textDisplay.Caption = textDisplay.Caption.Substring(indexNewLine + 1);
                         _textDisplayOutput.Caption = _textDisplayOutput.Caption.Substring(indexNewLine + 1);
-                    }
-                    // Otherwise there is no new line to split
                     else
                         checkingHeight = false;
+                    // To do: modify the else so that the equivalent of the first line is
+                    // removed using the width
                 }
                 else
                     checkingHeight = false;
             }
-
             SetTextInputPosition();
         }
 
@@ -439,9 +328,9 @@ namespace AdventureGame
             newText += _additionalText;
             newText += "\n\nEnter command:";
 
-            DisplayOutputText(_textDisplayOutput, newText);
+            ClearInputAndCommand();
+            DisplayOutputText(newText);
             SetTextInputPosition();
-            ResetCommand();
         }
 
         public void SetTextInputPosition()
@@ -453,10 +342,9 @@ namespace AdventureGame
 
             _textDisplayInput.Left = x;
             _textDisplayInput.Top = y;
-            //_inputTextPosition = new Vector2(x, y); // Testing
         }
 
-        public void ResetCommand()
+        public void ClearInputAndCommand()
         {
             _inputString.Clear();
             _textDisplayInput.Caption = "";
@@ -472,7 +360,6 @@ namespace AdventureGame
             bool isValid = false;
 
             _currentCommand = _inputString.ToString().Trim();
-            //_currentCommand = _currentCommand.Trim();
             Console.WriteLine($"Validating {_currentCommand}");
 
             if (!string.IsNullOrEmpty(_currentCommand))
@@ -494,8 +381,6 @@ namespace AdventureGame
                 SetErrorText();
                 DisplayCommandResult();
             }
-
-            //return isValid;
         }
 
         public void ProcessCommand()
@@ -512,6 +397,10 @@ namespace AdventureGame
                     TeleportPlayer();
                     break;
 
+                case "collectAll":
+                    CollectAllItemById();
+                    break;
+
                 default:
                     SetErrorText();
                     break;
@@ -523,18 +412,15 @@ namespace AdventureGame
         public void SetErrorText(string error = "")
         {
             if (string.IsNullOrEmpty(error))
-                _errorMessage = "\nSorry that command was not recognised";
+                _errorMessage = "\nError: command not recognised. Type list + Enter for a list of valid commands.";
             else
-                _errorMessage = "\n" + error;
+                _errorMessage = "\nError: " + error;
         }
 
         public void ListCommands()
         {
             foreach (KeyValuePair<string, string> kvp in _commandDict)
-            {
-                //Console.WriteLine($"{kvp.Key} : {kvp.Value}");
                 _additionalText += "\n-- " + kvp.Key + ": " + kvp.Value;
-            }
         }
 
         public void TeleportPlayer()
@@ -545,15 +431,74 @@ namespace AdventureGame
                 return;
             }
 
-            float x = -1;
-            float y = -1;
+            string[] splitValues = _commandValue.Split(new string[] { " ", "," },
+                StringSplitOptions.RemoveEmptyEntries);
 
-            // Testing
-            x = 300;
-            y = 400;
+            if (splitValues.Length < 2)
+            {
+                SetErrorText("Enter an X and a Y coordinate separated with a space or comma");
+                return;
+            }
 
+            bool validX = int.TryParse(splitValues[0], out int x);
+            bool validY = int.TryParse(splitValues[1], out int y);
+
+            if (!validX || !validY)
+            {
+                SetErrorText("Enter a whole number for the X and Y coodinates");
+                return;
+            }
+
+            // Move the player to the given position
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             player.GetComponent<TransformComponent>().position = new Vector2(x, y);
+        }
+
+        public void CollectAllItemById()
+        {
+            if (string.IsNullOrEmpty(_commandValue))
+            {
+                SetErrorText("Enter the item id to collect");
+                return;
+            }
+
+            // Remove any extra information
+            string itemId = _commandValue.Split()[0];
+
+            // Get the player
+
+
+            List<Entity> entities = EngineGlobals.entityManager.GetAllEntitiesByComponent("InventoryComponent");
+            //Console.WriteLine(string.Join(", ", entities));
+            Console.WriteLine(entities.Count());
+
+            int count = 0;
+
+            foreach (Entity e in entities)
+            {
+                InventoryComponent inventoryComponent = e.GetComponent<InventoryComponent>();
+
+                foreach (Item item in inventoryComponent.InventoryItems)
+                {
+                    // Testing
+                    if (item != null)
+                        Console.WriteLine($"Checking {item} from entity {e.Id}");
+
+                    if (item != null && item.ItemId == itemId)
+                    {
+                        Console.WriteLine($"Collected {itemId} from entity {e.Id}");
+                        //inventoryComponent.InventoryItems.
+
+                        // OR use InventoryManager?
+                        // RemoveItem();
+                        // AddItem();
+
+                        count++;
+                    }
+                }
+            }
+
+            _additionalText = $"\n{count} of {itemId} were added to player's inventory";
         }
 
     }

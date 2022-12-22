@@ -146,12 +146,6 @@ namespace AdventureGame.Engine
 
             foreach (TiledMapTileLayer layer in Map.Layers)
             {
-                //Console.WriteLine($"{layer.Name}");
-                if (layer.Name == "Water")
-                {
-
-                }
-
                 if (layer.Properties.ContainsValue("collision"))
                 {
                     for (int x = 0; x < layer.Width; x++)
@@ -175,8 +169,16 @@ namespace AdventureGame.Engine
 
         public void CreateCollisionTile(int x, int y, int tileWidth, int tileHeight)
         {
-            CollisionTiles.Add(new Rectangle(x * tileWidth, y * tileHeight,
-                tileWidth, tileHeight));
+            Rectangle rect = new Rectangle(x * tileWidth, y * tileHeight,
+                tileWidth, tileHeight);
+
+            CollisionTiles.Add(rect);
+
+            Entity tileEntity = EngineGlobals.entityManager.CreateEntity();
+            tileEntity.Tags.AddTag("collision");
+            tileEntity.AddComponent(new TransformComponent(rect));
+            tileEntity.AddComponent(new ColliderComponent(tileWidth, tileHeight));
+            AddEntity(tileEntity);
         }
 
         public void DeleteMap()
@@ -607,12 +609,9 @@ namespace AdventureGame.Engine
                     Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
 
                     Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-                    Globals.spriteBatch.DrawString(Theme.FontSecondary,
-                        "X:" + playerPosition.X.ToString(),
+                    Globals.spriteBatch.DrawString(Theme.FontTertiary,
+                        "X:" + playerPosition.X.ToString() + "  Y:" + playerPosition.Y.ToString(),
                         new Vector2(10, 10), Color.Black);
-                    Globals.spriteBatch.DrawString(Theme.FontSecondary,
-                        "Y:" + playerPosition.Y.ToString(),
-                        new Vector2(50, 10), Color.Black);
                     Globals.spriteBatch.End();
                 }
             }
