@@ -177,7 +177,7 @@ namespace AdventureGame.Engine
                 int entityId = e.Id;
 
                 // Testing
-                Console.WriteLine($"Deleting entity {entityId}");
+                //Console.WriteLine($"Deleting entity {entityId}");
                 //Console.WriteLine($"Entity {entityId} has signature {e.Signature}");
 
                 if (_entityMapper.ContainsKey(entityId))

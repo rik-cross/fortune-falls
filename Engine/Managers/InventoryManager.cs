@@ -108,11 +108,17 @@ namespace AdventureGame.Engine
         }
 
         // Remove an item from the inventory
-        public Item RemoveItem(Item[] inventoryItems, int index)
+        public bool RemoveItem(Item[] inventoryItems, int index)
         {
-            Item item = null; // Check item index is value
+            bool itemRemoved = false;
 
-            return item;
+            if (IsItemValid(inventoryItems, index))
+            {
+                inventoryItems[index] = null;
+                itemRemoved = true;
+            }
+
+            return itemRemoved;
         }
 
         // Delete an item object

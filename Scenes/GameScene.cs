@@ -80,8 +80,9 @@ namespace AdventureGame
             bushEntity1.AddComponent(new HurtboxComponent(new Vector2(42, 42)));
             bushEntity1.AddComponent(new InventoryComponent(5, "bush"));
             InventoryComponent bush1Inventory = bushEntity1.GetComponent<InventoryComponent>();
-            Item bush1Bow = new Item("Bow02", "Items/W_Bow02", 1, 1, 50, 100);
-            EngineGlobals.inventoryManager.AddItem(bush1Inventory.InventoryItems, bush1Bow);
+            //Item bush1Bow = new Item("Bow02", "Items/W_Bow02", 1, 1, 50, 100);
+            Item bush1GoldCoin = new Item("Coin", "Items/I_GoldCoin", 12, 20);
+            EngineGlobals.inventoryManager.AddItem(bush1Inventory.InventoryItems, bush1GoldCoin);
             AddEntity(bushEntity1);
 
             // Bridge boulder

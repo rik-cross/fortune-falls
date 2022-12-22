@@ -120,7 +120,7 @@ namespace AdventureGame
             ));
             playerEntity.AddComponent(new Engine.HealthComponent());
             playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
-            playerEntity.AddComponent(new Engine.InventoryComponent(40));
+            playerEntity.AddComponent(new Engine.InventoryComponent(2)); // 40
 
             playerEntity.AddComponent(new Engine.InputComponent(
                 null, //Engine.Inputs.keyboard,
