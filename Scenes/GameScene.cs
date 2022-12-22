@@ -192,7 +192,7 @@ namespace AdventureGame
         {
             // Add the player and minimap cameras
             AddCamera("main");
-            AddCamera("minimap");
+            //AddCamera("minimap");
 
             //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
         }
@@ -210,12 +210,12 @@ namespace AdventureGame
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
             {
+                if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
+                    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerDevToolsInputController);
                 EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(false, false, false);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
-                    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.BlankPlayerInputController);
                 EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))

@@ -66,7 +66,7 @@ namespace AdventureGame
         {
             // Add the player and minimap cameras
             AddCamera("main");
-            AddCamera("minimap");
+            //AddCamera("minimap");
         }
 
         public override void Update(GameTime gameTime)

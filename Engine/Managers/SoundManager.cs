@@ -21,7 +21,6 @@ namespace AdventureGame.Engine
             set
             {
                 _targetVolume = value;
-                S.WriteLine("set to " + _targetVolume);
             }
         }
         private float volumeIncrement = 0.03f;

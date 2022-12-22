@@ -39,7 +39,7 @@ namespace AdventureGame
         {
             // Add the player and minimap cameras
             AddCamera("main");
-            AddCamera("minimap");
+            //AddCamera("minimap");
         }
 
         public override void Update(GameTime gameTime)
@@ -51,7 +51,7 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.RemoveScene(this);
+                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {

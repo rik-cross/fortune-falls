@@ -325,7 +325,7 @@ namespace AdventureGame.Engine
             if (PlayerScene != null)
             {
                 PlayerScene.GetCameraByName("main").trackedEntity = null;
-                PlayerScene.GetCameraByName("minimap").trackedEntity = null;
+                //PlayerScene.GetCameraByName("minimap").trackedEntity = null;
                 PlayerScene.RemoveEntity(player);
             }
 
@@ -333,10 +333,10 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
             transformComponent.position = playerPosition;
             nextScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
-            nextScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
+            //nextScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
             nextScene.AddEntity(player);
             nextScene.GetCameraByName("main").trackedEntity = player;
-            nextScene.GetCameraByName("minimap").trackedEntity = player;
+            //nextScene.GetCameraByName("minimap").trackedEntity = player;
             PlayerScene = nextScene;
 
             // Reset the player next scene fields

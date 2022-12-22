@@ -203,27 +203,9 @@ namespace AdventureGame
                 intentionComponent.button2 = false;
             }
 
-            // button 7 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button7))
-            {
-                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel - 0.02f);
-                EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(
-                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").targetZoom - 0.02f
-                );
-            }
-
-            // button 8 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button8))
-            {
-                //Globals.SetGlobalZoomLevel(Globals.globalZoomLevel + 0.02f);
-                EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(
-                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").targetZoom + 0.02f
-                );
-            }
-
         }
 
-        public static void BlankPlayerInputController(Entity entity)
+        public static void PlayerDevToolsInputController(Entity entity)
         {
 
         }

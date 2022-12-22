@@ -131,6 +131,8 @@ namespace AdventureGame
             // Move to OnInput()?
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
+                if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
+                    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Pop();
                 EngineGlobals.sceneManager.RemoveScene(this);
             }
         }
