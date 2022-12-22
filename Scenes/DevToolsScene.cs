@@ -40,7 +40,7 @@ namespace AdventureGame
         public override void Init()
         {
             DrawSceneBelow = true;
-            //UpdateSceneBelow = true;
+            UpdateSceneBelow = true;
 
             // Dictionary of command words and descriptions
             _commandDict = new SortedDictionary<string, string>();
@@ -227,7 +227,7 @@ namespace AdventureGame
         }
 
         // Wraps every line and word that is too long onto a new line
-        public string WrapAllText(string currentText, int maxWidth)
+        public string WrapAllText(string currentText, int maxLineWidth)
         {
             string formattedText = "";
             string[] lines = currentText.Split(new string[] { "\r\n", "\r", "\n" },
@@ -235,7 +235,7 @@ namespace AdventureGame
 
             foreach (string line in lines)
             {
-                if (_font.MeasureString(line).X > maxWidth)
+                if (_font.MeasureString(line).X > maxLineWidth)
                 {
                     // Append each word of the line until the max width has been breached
                     string[] words = line.Split(' ');
@@ -246,10 +246,10 @@ namespace AdventureGame
                         string word = words[i];
 
                         // Check if adding the next word will make the line too wide
-                        if (_font.MeasureString(wordBuffer + word).X > maxWidth)
+                        if (_font.MeasureString(wordBuffer + word).X > maxLineWidth)
                         {
                             // Check if the single word is too long and also needs to be split
-                            if (_font.MeasureString(word).X > maxWidth)
+                            if (_font.MeasureString(word).X > maxLineWidth)
                             {
                                 if (!string.IsNullOrEmpty(wordBuffer))
                                 {
@@ -264,7 +264,7 @@ namespace AdventureGame
                                     char c = word[j];
 
                                     // Check if adding the next char will make the line too wide
-                                    if (_font.MeasureString(charBuffer + c).X > maxWidth)
+                                    if (_font.MeasureString(charBuffer + c).X > maxLineWidth)
                                     {
                                         formattedText += charBuffer + "\n";
                                         charBuffer = c.ToString();
