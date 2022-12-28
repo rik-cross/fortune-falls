@@ -125,9 +125,14 @@ namespace AdventureGame
             //
 
             AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
-            AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
+            //AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
             AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
             AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
+            // Testing
+            Entity npcChild = NPCEntity.Create(410, 730, "Townfolk-Child-M02", true);
+            //npcChild.GetComponent<IntentionComponent>().left = true;
+            //npcChild.State = "walkWest";
+            AddEntity(npcChild);
 
             //
             // Add enemy entities

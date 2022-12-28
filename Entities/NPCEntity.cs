@@ -12,7 +12,8 @@ namespace AdventureGame
 {
     public static class NPCEntity {
 
-        public static Engine.Entity Create(int x, int y, string filename, string idTag = null)
+        public static Engine.Entity Create(int x, int y, string filename,
+            bool canMove = false, int speed = 1, string idTag = null) // Action movementScript
         {
             Engine.Entity npcEntity;
 
@@ -34,7 +35,7 @@ namespace AdventureGame
                 // Generate a new unique NPC id
                 Guid guid = Guid.NewGuid();
 
-                // Generate a new NPC id if it already exists
+                // Generate a new guid if it already exists?
 
                 // Set the new NPC id
                 npcEntity.Tags.Id = "npc" + guid;
@@ -51,17 +52,21 @@ namespace AdventureGame
             // CHANGE so the spritesheet is created using the file path??
             Engine.SpriteSheet npcSpriteSheet = new Engine.SpriteSheet(filePath, spriteWidth, spriteHeight);
             npcEntity.AddComponent(new Engine.SpriteComponent(npcSpriteSheet, 1, 2, "idle"));
-
             //npcEntity.AddComponent(new Engine.SpriteComponent(filePath, spriteWidth, spriteHeight, 2, 1, "idle"));
-
             Engine.SpriteComponent spriteComponent = npcEntity.GetComponent<Engine.SpriteComponent>();
+            Vector2 spriteSize = spriteComponent.GetSpriteSize();
+
+            // Add the other sprites
             spriteComponent.AddSprite("walkNorth", npcSpriteSheet, 0, 0, 2, true, 1);
             spriteComponent.AddSprite("walkSouth", npcSpriteSheet, 2, 0, 2, true, 1);
             spriteComponent.AddSprite("walkEast", npcSpriteSheet, 1, 0, 2, true, 1);
             spriteComponent.AddSprite("walkWest", npcSpriteSheet, 3, 0, 2, true, 1);
             spriteComponent.SetAnimationDelay(8);
 
-            Vector2 spriteSize = spriteComponent.GetSpriteSize();
+            // Add the other components
+            npcEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));
+            npcEntity.AddComponent(new Engine.InventoryComponent(5));
+
             int colliderWidth = (int)(drawWidth * 0.6f);
             int colliderHeight = (int)(drawHeight * 0.3f);
             int triggerWidth = (int)(drawWidth * 1.5f);
@@ -76,9 +81,11 @@ namespace AdventureGame
                 offset: new Vector2((spriteSize.X - triggerWidth) / 2, (spriteSize.Y - triggerHeight) / 2 + (spriteSize.Y - drawHeight) / 2)
             ));
 
-            npcEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));
-            npcEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: 2));
-            npcEntity.AddComponent(new Engine.InventoryComponent(5));
+            if (canMove)
+            {
+                npcEntity.AddComponent(new Engine.IntentionComponent());
+                npcEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
+            }
 
             return npcEntity;
         }

@@ -23,5 +23,14 @@ namespace AdventureGame.Engine
             this.inputControllerStack.Push(inputController);
         }
 
+        // Stops the last input controller from being popped
+        public Action<Entity> Pop()
+        {
+            if (inputControllerStack.Count > 1)
+                return inputControllerStack.Pop();
+            else
+                return null;
+        }
+
     }
 }

@@ -29,81 +29,50 @@ namespace AdventureGame
             playerEntity = EngineGlobals.entityManager.CreateEntity();
 
             if (!string.IsNullOrEmpty(idTag))
+            {
                 playerEntity.Tags.Id = idTag;
+                if (idTag == "localPlayer")
+                    EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
+            }
             else
             {
                 // Generate a new unique player id
                 Guid guid = Guid.NewGuid();
 
-                // Generate a new player id if it already exists
+                // Generate a new player guid if it already exists?
 
-                // Set the new player id and store it somewhere
-                //playerEntity.Tags.Id = "player" + guid;
-                playerEntity.Tags.Id = "localPlayer"; // TESTING
+                // Set the new player id
+                playerEntity.Tags.Id = "player" + guid;
 
             }
             playerEntity.Tags.AddTag("player");
 
             string directory = "Characters/Players/";
-            string filename = "Amanda"; // "Player-F01";
+            string filename = "Amanda";
             string filePath = directory + filename;
-            int spriteWidth = 48;// 72;//24; //26;
-            int spriteHeight = 64;// 96;// 32; //36;
-            int drawWidth = 36;// 50;// 18;
-            int drawHeight = 56;// 82;// 28;
+            int spriteWidth = 48;
+            int spriteHeight = 64;
+            int drawWidth = 36;
+            int drawHeight = 56;
 
             // CHANGE so the spritesheet is created using the file path??
             Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(filePath, spriteWidth, spriteHeight);
             playerEntity.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 1, 2, "idle"));
-            
             Engine.SpriteComponent spriteComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
+            Vector2 spriteSize = spriteComponent.GetSpriteSize();
+
+            // Add the other sprites
             spriteComponent.AddSprite("walkNorth", playerSpriteSheet, 0, 0, 2, true, 1);
             spriteComponent.AddSprite("walkSouth", playerSpriteSheet, 2, 0, 2, true, 1);
             spriteComponent.AddSprite("walkEast", playerSpriteSheet, 1, 0, 2, true, 1);
             spriteComponent.AddSprite("walkWest", playerSpriteSheet, 3, 0, 2, true, 1);
             spriteComponent.SetAnimationDelay(8);
-            /*
-            //int[,] subTextures = new int[4, 2] { {6,7}, {7,7}, {8,7}, {7,7} };
-            List<List<int>> subTextureValues = new List<List<int>>();
-            subTextureValues.Add(new List<int>() { 6, 7 });
-            subTextureValues.Add(new List<int>() { 7, 7 });
-            subTextureValues.Add(new List<int>() { 8, 7 });
-            subTextureValues.Add(new List<int>() { 7, 7 });
-            spriteComponent.AddSprite("walkNorth", playerSpriteSheet, subTextureValues);
 
-            subTextureValues = new List<List<int>>();
-            subTextureValues.Add(new List<int>() { 6, 4 });
-            subTextureValues.Add(new List<int>() { 7, 4 });
-            subTextureValues.Add(new List<int>() { 8, 4 });
-            subTextureValues.Add(new List<int>() { 7, 4 });
-            spriteComponent.AddSprite("walkSouth", playerSpriteSheet, subTextureValues);
-
-            subTextureValues = new List<List<int>>();
-            subTextureValues.Add(new List<int>() { 6, 6 });
-            subTextureValues.Add(new List<int>() { 7, 6 });
-            subTextureValues.Add(new List<int>() { 8, 6 });
-            subTextureValues.Add(new List<int>() { 7, 6 });
-            spriteComponent.AddSprite("walkEast", playerSpriteSheet, subTextureValues);
-
-            subTextureValues = new List<List<int>>();
-            subTextureValues.Add(new List<int>() { 6, 5 });
-            subTextureValues.Add(new List<int>() { 7, 5 });
-            subTextureValues.Add(new List<int>() { 8, 5 });
-            subTextureValues.Add(new List<int>() { 7, 5 });
-            spriteComponent.AddSprite("walkWest", playerSpriteSheet, subTextureValues);
-            
-            foreach (Engine.Sprite sp in spriteComponent.SpriteDict.Values)
-                sp.animationDelay = 8;
-            */
-
-            //Vector2 imageSize = playerEntity.GetComponent<SpriteComponent>().GetSpriteSize();
-            Vector2 spriteSize = spriteComponent.GetSpriteSize();
-
-            playerEntity.AddComponent(new Engine.IntentionComponent());
+            // Add the other components
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));
+            playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: 2));
 
-            //playerEntity.AddComponent(new Engine.ColliderComponent(new Vector2(16, 8), new Vector2(5, 28)));
             int colliderWidth = (int)(drawWidth * 0.6f);
             int colliderHeight = (int)(drawHeight * 0.3f);
             playerEntity.AddComponent(new Engine.ColliderComponent(

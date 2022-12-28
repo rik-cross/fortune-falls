@@ -40,12 +40,13 @@ namespace AdventureGame
         public override void Init()
         {
             DrawSceneBelow = true;
-            UpdateSceneBelow = true;
+            //UpdateSceneBelow = true;
 
             // Dictionary of command words and descriptions
             _commandDict = new SortedDictionary<string, string>();
             _commandDict.Add("list", "Lists all the commands available.");
             _commandDict.Add("debug", "Enter on/off to turn debug mode on or off.");
+            _commandDict.Add("collider", "Toggles whether the player's collider is solid or not.");
             _commandDict.Add("teleport", "Teleports the player. Enter an X and a Y value separated by a space or comma.");
             _commandDict.Add("collect", "Collects all items based on the item id entered.");
 
@@ -53,7 +54,7 @@ namespace AdventureGame
             _font = Theme.FontTertiary;
             _padding = 10;
             _border = Theme.BorderSmall;
-            _containerOuter = new Rectangle(10, 50, 300, Globals.ScreenHeight - 100);
+            _containerOuter = new Rectangle(10, 50, 600, Globals.ScreenHeight - 100);
             _containerInner = new Rectangle(_containerOuter.X + (_border + _padding) / 2,
                 _containerOuter.Y + (_border + _padding) / 2,
                 _containerOuter.Width - _border - _padding,
@@ -84,7 +85,7 @@ namespace AdventureGame
             // To do
             // Disable player input controls
 
-            string intro = "Type list + Enter for a list of commands\nPress Escape to exit\n\nEnter command: ";
+            string intro = "Type list + Enter for a list of commands. Press Escape to exit.\n\nEnter command: ";
             DisplayOutputText(intro);
             SetTextInputPosition();
 
@@ -103,6 +104,7 @@ namespace AdventureGame
         {
             Globals.gameWindow.TextInput += method;
         }
+
         public static void UnregisterTextInputEvent(System.EventHandler<TextInputEventArgs> method)
         {
             Globals.gameWindow.TextInput -= method;
@@ -131,8 +133,9 @@ namespace AdventureGame
             // Move to OnInput()?
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
-                    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Pop();
+                if (EngineGlobals.entityManager.GetLocalPlayer() != null)
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Pop();
+                // or EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().Pop();
                 EngineGlobals.sceneManager.RemoveScene(this);
             }
         }
@@ -400,7 +403,11 @@ namespace AdventureGame
                     break;
 
                 case "debug":
-                    DebugMode();
+                    DebugToggle();
+                    break;
+
+                case "collider":
+                    ColliderToggle();
                     break;
 
                 case "teleport":
@@ -433,7 +440,7 @@ namespace AdventureGame
                 _additionalText += "\n-- " + kvp.Key + ": " + kvp.Value;
         }
 
-        public void DebugMode()
+        public void DebugToggle()
         {
             bool isDebugMod = EngineGlobals.DEBUG;
 
@@ -458,6 +465,20 @@ namespace AdventureGame
             }
             else
                 SetErrorText("Value not recognised. Type on or off.");
+        }
+
+        public void ColliderToggle()
+        {
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            ColliderComponent collider = player.GetComponent<ColliderComponent>();
+
+            if (collider == null)
+            {
+                SetErrorText("Collider component is null");
+                return;
+            }
+
+            collider.IsSolid = !collider.IsSolid;
         }
 
         public void TeleportPlayer()

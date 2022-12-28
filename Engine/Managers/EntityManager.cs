@@ -10,6 +10,7 @@ namespace AdventureGame.Engine
         private List<Entity> _entityList;
         private Dictionary<int, int> _entityMapper;
         private List<Component> _components;
+        private Entity _localPlayer;
 
         //public HashSet<Entity> KeepOnSceneChange { get; private set; } // Here or SceneManager?
         public HashSet<Entity> Added { get; private set; }
@@ -90,16 +91,25 @@ namespace AdventureGame.Engine
             return null;
         }
 
+        // Set the local player entity
+        public void SetLocalPlayer(Entity e)
+        {
+            _localPlayer = e;
+        }
+
         // Return the local player entity
         public Entity GetLocalPlayer()
         {
             // Use PlayerManager instead??
+            /*
             foreach (Entity e in _entityList)
             {
                 if (e.Tags.Id == "localPlayer") // Use Type instead??
                     return e;
             }
             return null;
+            */
+            return _localPlayer;
         }
 
         // Return if the entity is the local player

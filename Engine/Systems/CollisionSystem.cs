@@ -187,9 +187,15 @@ namespace AdventureGame.Engine
                 return;
 
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            
-            Color color = colliderComponent.color;
+
             int lineWidth = 1;
+            Color color;
+
+            if (colliderComponent.IsSolid)
+                color = colliderComponent.color;
+            else
+                color = Color.LightGray;
+
             Globals.spriteBatch.DrawRectangle(colliderComponent.Rect, color, lineWidth);
         }
 
