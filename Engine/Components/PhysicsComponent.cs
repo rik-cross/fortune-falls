@@ -26,6 +26,11 @@ namespace AdventureGame.Engine
             CalculateSpeed();
         }
 
+        public bool HasVelocity()
+        {
+            return !(VelocityX == 0 && VelocityY == 0);
+        }
+
         public void MultiplySpeed(double multiplier)
         {
             speedMultiplier *= multiplier;

@@ -276,6 +276,7 @@ namespace AdventureGame.Engine
                 AddEntity(e);
         }
 
+        // NOT currently used
         public void AddEntityNextTick(Entity e)
         {
             //_entityManager.Added.Add(e);
@@ -337,10 +338,10 @@ namespace AdventureGame.Engine
             // Call before deleting any entities
             foreach (System s in EngineGlobals.systemManager.systems)
             {
-                // update each relevant entity of a system
+                // Update each relevant entity of a system
                 foreach (Entity e in _entityManager.Deleted)
                     if (s.entityMapper.ContainsKey(e.Id))
-                        s.OnEntityDestroy(gameTime, this, e);
+                        s.OnEntityDestroyed(gameTime, this, e);
             }
 
             // Delete entities from the deleted set
@@ -358,10 +359,19 @@ namespace AdventureGame.Engine
             _entityManager.AddEntitiesToGame();*/
 
             // NOT used currently
+            // Should also be called when changing an entity's scene
             foreach (Entity e in EntitiesToAdd)
             {
                 AddEntity(e);
                 Console.WriteLine($"Added entity {e.Id} from Added set");
+
+                // Call before deleting any entities
+                foreach (System s in EngineGlobals.systemManager.systems)
+                {
+                    // Update each relevant entity of a system
+                    if (s.entityMapper.ContainsKey(e.Id))
+                        s.OnEntityAddedToScene(gameTime, this, e);
+                }
             }
             EntitiesToAdd.Clear();
 

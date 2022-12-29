@@ -139,6 +139,8 @@ namespace AdventureGame
             {
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
                 Vector2 playerPosition = new Vector2(20, 760);
+                //playerPosition = new Vector2(85, 120); // TESTING
+                //playerPosition = new Vector2(1520, 1080); // Collision tiles testing
 
                 // Add the MenuScene to the scene stack
                 EngineGlobals.sceneManager.SetActiveScene<GameScene>(
@@ -156,7 +158,6 @@ namespace AdventureGame
             {
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;
                 Vector2 playerPosition = new Vector2(20, 760);
-                //playerPosition = new Vector2(85, 120); // TESTING
 
                 // Add the MenuScene to the scene stack
                 EngineGlobals.sceneManager.SetActiveScene<GameScene>(
