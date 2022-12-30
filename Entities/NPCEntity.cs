@@ -13,7 +13,7 @@ namespace AdventureGame
     public static class NPCEntity {
 
         public static Engine.Entity Create(int x, int y, string filename,
-            bool canMove = false, int speed = 1, string idTag = null) // Action movementScript
+            bool canMove = false, float speed = 100, string idTag = null) // Action movementScript
         {
             Engine.Entity npcEntity;
 

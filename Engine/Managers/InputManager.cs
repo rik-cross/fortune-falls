@@ -36,7 +36,7 @@ namespace AdventureGame.Engine
         public Texture2D CursorTexture { get; private set; }
         public Vector2 CursorPosition { get; private set; }
         private Vector2 _previousCursorPosition;
-        private bool _isCursorVisible { get; set; }
+        private bool _isCursorVisible;
         public bool HasCursorMoved { get; set; }
 
         public InputManager()

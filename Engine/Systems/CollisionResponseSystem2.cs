@@ -20,27 +20,33 @@ namespace AdventureGame.Engine
         public void ResolveStationary(Entity entity, Entity otherEntity)
         {
             // Get the necessary components
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-            //TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
             ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
-            //PhysicsComponent otherPhysicsComponent = otherEntity.GetComponent<PhysicsComponent>();
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            TransformComponent otheTransformComponent = otherEntity.GetComponent<TransformComponent>();
 
-            Console.WriteLine($"\nResolve stationary {entity.Id} and {otherEntity.Id}");
+            //Console.WriteLine($"\nResolve stationary {entity.Id} and {otherEntity.Id}");
 
             // Get the bounding boxes
             Rectangle box = colliderComponent.Box;
             Rectangle otherBox = otherColliderComponent.Box;
 
             // Get the entity's direction and velocities
-            string direction = physicsComponent.Direction;
-            int velocityX = physicsComponent.VelocityX;
-            int velocityY = physicsComponent.VelocityY;
+            string direction = physicsComponent.DirectionString;
+            //int velocityX = physicsComponent.VelocityX;
+            //int velocityY = physicsComponent.VelocityY;
+            float velocityX = physicsComponent.Direction.X;
+            float velocityY = physicsComponent.Direction.Y;
 
             // Absolute values of the entity
-            int absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
-            int absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
+            //int absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
+            //int absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
+            float absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
+            float absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
+
+            Vector2 distance = transformComponent.position - transformComponent.previousPosition;
+            //distance.Normalize();
 
             // Calculate the amount of overlap in each direction
             int overlapTop = otherBox.Bottom - box.Top;
@@ -48,23 +54,27 @@ namespace AdventureGame.Engine
             int overlapRight = box.Right - otherBox.Left;
             int overlapLeft = otherBox.Right - box.Left;
 
+            //Console.WriteLine($"Overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
+            //Console.WriteLine($"Distance moved {distance}  Abs X:{Math.Abs(distance.X)} Y:{Math.Abs(distance.Y)}");
+            //Console.WriteLine($"Box top {box.Top}");
+            
             // Find the in-range overlap(s)
-            if (!direction.Contains('N') || overlapTop < 0 || overlapTop > absVelocityY)
+            if (!direction.Contains('N') || overlapTop < 0 || overlapTop > Math.Ceiling(Math.Abs(distance.Y))) // absVelocityY)
                 overlapTop = 0;
-            if (!direction.Contains('S') || overlapBottom < 0 || overlapBottom > absVelocityY)
+            if (!direction.Contains('S') || overlapBottom < 0 || overlapBottom > Math.Ceiling(Math.Abs(distance.Y))) // absVelocityY)
                 overlapBottom = 0;
-            if (!direction.Contains('E') || overlapRight < 0 || overlapRight > absVelocityX)
+            if (!direction.Contains('E') || overlapRight < 0 || overlapRight > Math.Ceiling(Math.Abs(distance.X))) // absVelocityX)
                 overlapRight = 0;
-            if (!direction.Contains('W') || overlapLeft < 0 || overlapLeft > absVelocityX)
+            if (!direction.Contains('W') || overlapLeft < 0 || overlapLeft > Math.Ceiling(Math.Abs(distance.X))) // absVelocityX)
                 overlapLeft = 0;
 
-            Console.WriteLine($"Valid overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
+            //Console.WriteLine($"Valid overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
 
             // Return if there is no valid overlap to resolve
             if (overlapTop == 0 && overlapBottom == 0 && overlapLeft == 0 && overlapRight == 0)
                 return;
 
-            // Resolve X or Y depending on which is higher
+            // Resolve Y if the overlap is higher otherwise resolve X
             if (overlapTop > overlapLeft || overlapTop > overlapRight
                 || overlapBottom > overlapLeft || overlapBottom > overlapRight)
             {
@@ -102,26 +112,30 @@ namespace AdventureGame.Engine
             /*
             int overlapX = 0;
             int overlapY = 0;
-
+            
+            // Check for an in-range overlap in the Y-axis
             if (direction.Contains('N'))
                 overlapY = otherBox.Bottom - box.Top;
             else if (direction.Contains('S'))
                 overlapY = box.Bottom - otherBox.Top;
 
-            if (overlapY < 0 || overlapY > absVelocityY)
+            if (overlapY < 0 || overlapY > Math.Ceiling(Math.Abs(distance.Y))) // absVelocityY)
                 overlapY = 0;
-
+            
+            // Check for an in-range overlap in the X-axis
             if (direction.Contains('E'))
                 overlapX = box.Right - otherBox.Left;
             else if (direction.Contains('W'))
                 overlapX = otherBox.Right - box.Left;
 
-            if (overlapX < 0 || overlapX > absVelocityX)
+            if (overlapX < 0 || overlapX > Math.Ceiling(Math.Abs(distance.X))) // absVelocityX)
                 overlapX = 0;
-
+            
+            // Return if there is no valid overlap to resolve
             if (overlapX == 0 && overlapY == 0)
                 return;
-
+            
+            // Resolve Y if the overlap is higher otherwise resolve X
             if (overlapY > overlapX)
             {
                 if (direction.Contains('N'))
@@ -139,19 +153,67 @@ namespace AdventureGame.Engine
             */
         }
 
-        public void ResolveSameDirection()
+        public void ResolveOppositeDirections(Entity entity, Entity otherEntity)
         {
+            // Get the necessary components
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+            PhysicsComponent otherPhysicsComponent = otherEntity.GetComponent<PhysicsComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
 
+            if (otherPhysicsComponent == null)
+                return;
+
+            Console.WriteLine($"\nResolve opposite directions {entity.Id} and {otherEntity.Id}");
+
+            // Get the bounding boxes
+            Rectangle box = colliderComponent.Box;
+            Rectangle otherBox = otherColliderComponent.Box;
+
+            // Get the entity's direction and velocities
+            string direction = physicsComponent.DirectionString;
+            //int velocityX = physicsComponent.VelocityX;
+            //int velocityY = physicsComponent.VelocityY;
+            float velocityX = physicsComponent.Direction.X;
+            float velocityY = physicsComponent.Direction.Y;
+            float absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
+            float absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
+
+            // Declare the attributes of the other entity
+            string otherDirection = otherPhysicsComponent.DirectionString;
+            //int otherVelocityX = otherPhysicsComponent.VelocityX;
+            //int otherVelocityY = otherPhysicsComponent.VelocityY;
+            float otherVelocityX = otherPhysicsComponent.Direction.X;
+            float otherVelocityY = otherPhysicsComponent.Direction.Y;
+            float absOtherVelocityX = Math.Abs(otherVelocityX);
+            float absOtherVelocityY = Math.Abs(otherVelocityY);
+
+            // Calculate the total absolute X and Y velocities
+            float totalAbsVelocityX = absVelocityX + absOtherVelocityX;
+            float totalAbsVelocityY = absVelocityY + absOtherVelocityY;
+
+            // Calculate the amount of overlap in each direction
+            int overlapTop = otherBox.Bottom - box.Top;
+            int overlapBottom = box.Bottom - otherBox.Top;
+            int overlapRight = box.Right - otherBox.Left;
+            int overlapLeft = otherBox.Right - box.Left;
         }
 
-        public void ResolvePerpendicularDirection()
+        public void ResolveSameDirection(Entity entity, Entity otherEntity)
         {
-
+            Console.WriteLine($"\nResolve same direction {entity.Id} and {otherEntity.Id}");
         }
 
-        public void ResolveOtherDirection()
+        public void ResolvePerpendicularDirection(Entity entity, Entity otherEntity)
         {
+            Console.WriteLine($"\nResolve perpendicular directions {entity.Id} and {otherEntity.Id}");
+        }
 
+        public void ResolveOtherDirection(Entity entity, Entity otherEntity)
+        {
+            Console.WriteLine($"\nResolve other directions {entity.Id} and {otherEntity.Id}");
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
@@ -212,6 +274,40 @@ namespace AdventureGame.Engine
                     continue; // Testing
                 }
 
+                // Get the direction vectors and normalise them
+                // CHANGE to direction and direction to directionString
+                //Vector2 directionVector = Vector2.Normalize(physicsComponent.DirectionVector);
+                //Vector2 otherDirectionVector = Vector2.Normalize(otherPhysicsComponent.DirectionVector);
+                //Vector2 directionVector = physicsComponent.Direction;
+                //Vector2 otherDirectionVector = otherPhysicsComponent.Direction;
+                float dotProduct = Vector2.Dot(physicsComponent.Direction, otherPhysicsComponent.Direction);
+
+                Console.WriteLine($"Dot product {dotProduct}");
+
+                // Check if the entities are moving in opposite directions
+                if (dotProduct == -1)
+                {
+                    ResolveOppositeDirections(entity, otherEntity);
+                    continue;
+                }
+                // Check if the entities are moving in the same direction
+                else if (dotProduct == 1)
+                {
+                    ResolveSameDirection(entity, otherEntity);
+                    continue;
+                }
+                // Check if the entities are moving in perpendicular directions
+                else if (dotProduct == 0 || dotProduct == -0)
+                {
+                    ResolvePerpendicularDirection(entity, otherEntity);
+                    continue;
+                }
+                else
+                {
+                    ResolveOtherDirection(entity, otherEntity);
+                    continue;
+                }
+
                 //Console.WriteLine($"Entity {entity.id} has position {transformComponent.position} and previous position {transformComponent.previousPosition}");
                 //Console.WriteLine($"Other entity {otherEntity.id} has position {otherTransformComponent.position} and previous position {otherTransformComponent.previousPosition}");
 
@@ -235,7 +331,7 @@ namespace AdventureGame.Engine
                 // should be based on the velocity and direction of both entities
                 if (otherPhysicsComponent != null)
                 {
-                    otherDirection = otherPhysicsComponent.Direction;
+                    otherDirection = otherPhysicsComponent.DirectionString;
                     otherVelocityX = otherPhysicsComponent.VelocityX;
                     otherVelocityY = otherPhysicsComponent.VelocityY;
                     absOtherVelocityX = Math.Abs(otherVelocityX);
@@ -264,7 +360,7 @@ namespace AdventureGame.Engine
                 int totalAbsVelocityY = absVelocityY + absOtherVelocityY;
 
                 // Get the entity's direction
-                string direction = physicsComponent.Direction;
+                string direction = physicsComponent.DirectionString;
                 bool oneDirection = direction.Length == 1;
                 bool multipleDirections = direction.Length > 1;
 
@@ -468,6 +564,8 @@ namespace AdventureGame.Engine
                     || direction == "SE" && otherDirection == "NW"
                     || direction == "SW" && otherDirection == "NE")
                     //|| (perpendicularDirection && !oneDirection))
+
+                //else if (Vector2.Dot(physicsComponent.VelocityX, otherPhysicsComponent.VelocityX))
                 {
                     Console.WriteLine("Opposite directions");
 

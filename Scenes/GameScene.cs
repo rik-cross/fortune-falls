@@ -129,9 +129,9 @@ namespace AdventureGame
             AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
             AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
             // Testing
-            Entity npcChild = NPCEntity.Create(410, 700, "Townfolk-Child-M02", true);
-            npcChild.GetComponent<IntentionComponent>().left = true;
-            npcChild.State = "walkWest";
+            Entity npcChild = NPCEntity.Create(410, 700, "Townfolk-Child-M02", canMove: true);
+            //npcChild.GetComponent<IntentionComponent>().left = true;
+            //npcChild.State = "walkWest";
             AddEntity(npcChild);
 
             //

@@ -49,7 +49,7 @@ namespace AdventureGame.Engine
 
 
                 // Get the entity's direction
-                string direction = physicsComponent.Direction;
+                string direction = physicsComponent.DirectionString;
                 //Console.WriteLine($"\nPhysics component direction: {direction}");
 
                 // Check if the entity is not trying to move in any direction
@@ -92,7 +92,7 @@ namespace AdventureGame.Engine
                 // should be based on the velocity and direction of both entities
                 if (otherPhysicsComponent != null)
                 {
-                    otherDirection = otherPhysicsComponent.Direction;
+                    otherDirection = otherPhysicsComponent.DirectionString;
                     otherVelocityX = otherPhysicsComponent.VelocityX;
                     otherVelocityY = otherPhysicsComponent.VelocityY;
                     absOtherVelocityX = Math.Abs(otherVelocityX);

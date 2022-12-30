@@ -5,64 +5,71 @@ namespace AdventureGame.Engine
 {
     class PhysicsComponent : Component
     {
-        public string Direction { get; set; }
-        public int Speed { get; set; }
+        public Vector2 Direction { get; set; }
+        public string DirectionString { get; set; }
+        public float Speed { get; set; }
+
+        private float _baseSpeed;
+        private float _speedMultiplier;
+        private float _maxSpeed;
+
+        // TO delete
+        //public int Speed { get; set; }
         public int VelocityX { get; set; }
         public int VelocityY { get; set; }
-        //public int SpeedBonus { get; set; }
+        //private int _baseSpeed;
 
-        private int baseSpeed;
-        private double speedMultiplier;
-        private readonly int maxSpeed;
-
-        public PhysicsComponent(int baseSpeed = 1, double speedMultiplier = 1.0,
-            string direction = "")
+        public PhysicsComponent(float baseSpeed = 100, float speedMultiplier = 1.0f,
+            string directionString = "")
         {
-            this.baseSpeed = baseSpeed;
-            this.speedMultiplier = speedMultiplier;
-            maxSpeed = 10;
-            Direction = direction;
+            _baseSpeed = baseSpeed;
+            _speedMultiplier = speedMultiplier;
+            _maxSpeed = 400;
+
+            Direction = Vector2.Zero;
+            DirectionString = directionString;
 
             CalculateSpeed();
         }
 
         public bool HasVelocity()
         {
-            return !(VelocityX == 0 && VelocityY == 0);
+            //return !(VelocityX == 0 && VelocityY == 0);
+            return Direction != Vector2.Zero;
         }
 
-        public void MultiplySpeed(double multiplier)
+        public void ApplySpeedModifier(float multiplier)
         {
-            speedMultiplier *= multiplier;
+            _speedMultiplier *= multiplier;
 
-            if (speedMultiplier < 0.0)
-                speedMultiplier = 0.0;
+            if (_speedMultiplier < 0.0f)
+                _speedMultiplier = 0.0f;
 
             CalculateSpeed();
         }
 
         public void ResetSpeed()
         {
-            speedMultiplier = 1.0;
+            _speedMultiplier = 1.0f;
             CalculateSpeed();
         }
 
         public void SetBaseSpeed(int baseSpeed)
         {
-            if (baseSpeed > maxSpeed)
-                this.baseSpeed = maxSpeed;
+            if (baseSpeed > _maxSpeed)
+                _baseSpeed = _maxSpeed;
             else if (baseSpeed < 0)
-                this.baseSpeed = 0;
+                _baseSpeed = 0;
             else
-                this.baseSpeed = baseSpeed;
+                _baseSpeed = baseSpeed;
         }
 
         public void CalculateSpeed()
         {
-            Speed = (int)(baseSpeed * speedMultiplier);
+            Speed = _baseSpeed * _speedMultiplier;
 
-            if (Speed > maxSpeed)
-                Speed = maxSpeed;
+            if (Speed > _maxSpeed)
+                Speed = _maxSpeed;
             else if (Speed < 0)
                 Speed = 0;
 
