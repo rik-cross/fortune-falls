@@ -17,6 +17,186 @@ namespace AdventureGame.Engine
             // ColliderResponseComponent? instead of the ColliderComponent?
         }
 
+        //public void ResolveStationary(Entity entity, Entity otherEntity)
+        //{
+        //    // Get the necessary components
+        //    ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+        //    ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
+        //    PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+        //    TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+        //    //TransformComponent otheTransformComponent = otherEntity.GetComponent<TransformComponent>();
+
+        //    Console.WriteLine($"\nResolve stationary {entity.Id} and {otherEntity.Id}");
+
+        //    // Get the bounding boxes
+        //    Rectangle box = colliderComponent.Box;
+        //    Rectangle otherBox = otherColliderComponent.Box;
+
+        //    // Get the entity's distance moved and direction
+        //    Vector2 distanceMoved = transformComponent.DistanceMoved();
+        //    string directionString = physicsComponent.DirectionString;
+        //    //distance.Normalize();
+        //    Vector2 position = transformComponent.position;
+
+        //    // Absolute values of the entity
+        //    //float absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
+        //    //float absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
+        //    /*
+        //    // Calculate the amount of overlap in each direction
+        //    //int overlapTop = otherBox.Bottom - box.Top;
+        //    //int overlapBottom = box.Bottom - otherBox.Top;
+        //    //int overlapRight = box.Right - otherBox.Left;
+        //    //int overlapLeft = otherBox.Right - box.Left;
+        //    float overlapTop = otherBox.Bottom - box.Top;
+        //    float overlapBottom = box.Bottom - otherBox.Top;
+        //    float overlapRight = box.Right - otherBox.Left;
+        //    float overlapLeft = otherBox.Right - box.Left;
+
+        //    // Or use transform position +- collider offset
+
+        //    Console.WriteLine($"Overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
+        //    Console.WriteLine($"Distance moved {distanceMoved}  Abs X:{Math.Abs(distanceMoved.X)} Y:{Math.Abs(distanceMoved.Y)}");
+
+        //    // Find the in-range overlap(s)
+        //    if (!directionString.Contains('N') || overlapTop < 0 || overlapTop > Math.Abs(distanceMoved.Y)) // absVelocityY)
+        //        overlapTop = 0;
+        //    if (!directionString.Contains('S') || overlapBottom < 0 || overlapBottom > Math.Abs(distanceMoved.Y)) // absVelocityY)
+        //        overlapBottom = 0;
+        //    if (!directionString.Contains('E') || overlapRight < 0 || overlapRight > Math.Abs(distanceMoved.X)) // absVelocityX)
+        //        overlapRight = 0;
+        //    if (!directionString.Contains('W') || overlapLeft < 0 || overlapLeft > Math.Abs(distanceMoved.X)) // absVelocityX)
+        //        overlapLeft = 0;
+
+        //    Console.WriteLine($"Valid overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
+
+        //    // Return if there is no valid overlap to resolve
+        //    if (overlapTop == 0 && overlapBottom == 0 && overlapLeft == 0 && overlapRight == 0)
+        //        return;
+
+        //    // Resolve Y if the overlap is higher otherwise resolve X
+        //    if (overlapTop > overlapLeft || overlapTop > overlapRight
+        //        || overlapBottom > overlapLeft || overlapBottom > overlapRight)
+        //    {
+        //        if (overlapTop > overlapBottom)
+        //        {
+        //            MoveY(entity, overlapTop);
+        //            Console.WriteLine($"Overlap (Y-up) {overlapTop}");
+        //        }
+        //        else
+        //        {
+        //            MoveY(entity, -overlapBottom);
+        //            Console.WriteLine($"Overlap (Y-down) {overlapBottom}");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (overlapLeft > overlapRight)
+        //        {
+        //            MoveX(entity, overlapLeft);
+        //            Console.WriteLine($"Overlap (X-left) {overlapLeft}");
+        //        }
+        //        else
+        //        {
+        //            MoveX(entity, -overlapRight);
+        //            Console.WriteLine($"Overlap (X-right) {overlapRight}");
+        //        }
+        //    }
+
+        //    Console.WriteLine($"Moved from {position} to {transformComponent.position}");
+        //    */
+        //    // Repeat above for unresolved other axis??
+
+
+        //    // Check for other collisions? Use previous positions to handle?
+
+
+        //    int overlapX = 0;
+        //    int overlapY = 0;
+
+
+        //    colliderComponent.Box = new Rectangle(
+        //        (int)transformComponent.position.X + (int)colliderComponent.Offset.X,
+        //        (int)transformComponent.position.Y + (int)colliderComponent.Offset.Y,
+        //        (int)colliderComponent.Size.X, (int)colliderComponent.Size.Y
+        //    );
+
+        //    float colliderX = transformComponent.position.X + colliderComponent.Offset.X;
+        //    float colliderY = transformComponent.position.Y + colliderComponent.Offset.Y;
+
+
+        //    // Check for an in-range overlap in the Y-axis
+        //    if (directionString.Contains('N'))
+        //    {
+        //        overlapY = otherBox.Bottom - box.Top;
+        //    }
+        //    else if (directionString.Contains('S'))
+        //    {
+        //        overlapY = box.Bottom - otherBox.Top;
+        //    }
+
+        //    if (overlapY < 0 || overlapY > Math.Abs(distanceMoved.Y)) // absVelocityY)
+        //    {
+        //        overlapY = 0;
+        //    }
+
+        //    // Check for an in-range overlap in the X-axis
+        //    if (directionString.Contains('E'))
+        //    {
+        //        overlapX = box.Right - otherBox.Left;
+        //    }
+        //    else if (directionString.Contains('W'))
+        //    {
+        //        overlapX = otherBox.Right - box.Left;
+        //    }
+
+        //    if (overlapX < 0 || overlapX > Math.Abs(distanceMoved.X)) // absVelocityX)
+        //    {
+        //        overlapX = 0;
+        //    }
+
+        //    // Return if there is no valid overlap to resolve
+        //    if (overlapX == 0 && overlapY == 0)
+        //    {
+        //        return;
+        //    }
+
+        //    // Resolve Y if the overlap is higher otherwise resolve X
+        //    if (overlapY > overlapX)
+        //    {
+        //        if (directionString.Contains('N'))
+        //            MoveY(entity, overlapY);
+        //        else if (directionString.Contains('S'))
+        //            MoveY(entity, -overlapY);
+        //    }
+        //    else
+        //    {
+        //        if (directionString.Contains('E'))
+        //            MoveX(entity, -overlapX);
+        //        else if (directionString.Contains('W'))
+        //            MoveX(entity, overlapX);
+        //    }
+        //    /*
+        //    // Testing
+        //    if (box.Intersects(otherBox))
+        //    {
+        //        if (overlapY < overlapX)
+        //        {
+        //            if (directionString.Contains('N'))
+        //                MoveY(entity, overlapY);
+        //            else if (directionString.Contains('S'))
+        //                MoveY(entity, -overlapY);
+        //        }
+        //        else
+        //        {
+        //            if (directionString.Contains('E'))
+        //                MoveX(entity, -overlapX);
+        //            else if (directionString.Contains('W'))
+        //                MoveX(entity, overlapX);
+        //        }
+        //    }*/
+
+        //}
+
         public void ResolveStationary(Entity entity, Entity otherEntity)
         {
             // Get the necessary components
@@ -24,55 +204,122 @@ namespace AdventureGame.Engine
             ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            TransformComponent otheTransformComponent = otherEntity.GetComponent<TransformComponent>();
+            //TransformComponent otheTransformComponent = otherEntity.GetComponent<TransformComponent>();
 
-            //Console.WriteLine($"\nResolve stationary {entity.Id} and {otherEntity.Id}");
+            Console.WriteLine($"\nResolve stationary {entity.Id} and {otherEntity.Id}");
 
             // Get the bounding boxes
             Rectangle box = colliderComponent.Box;
             Rectangle otherBox = otherColliderComponent.Box;
 
-            // Get the entity's direction and velocities
-            string direction = physicsComponent.DirectionString;
-            //int velocityX = physicsComponent.VelocityX;
-            //int velocityY = physicsComponent.VelocityY;
-            float velocityX = physicsComponent.Direction.X;
-            float velocityY = physicsComponent.Direction.Y;
+            // Get the entity's distance moved and direction
+            Vector2 distanceMoved = transformComponent.DistanceMoved();
+            Vector2 direction = physicsComponent.Direction;
+            string directionString = physicsComponent.DirectionString;
+            //distance.Normalize();
+            //float velocityX = physicsComponent.Direction.X;
+            //float velocityY = physicsComponent.Direction.Y;
 
             // Absolute values of the entity
-            //int absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
-            //int absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
-            float absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
-            float absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
-
-            Vector2 distance = transformComponent.position - transformComponent.previousPosition;
-            //distance.Normalize();
-
+            //float absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
+            //float absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
+            /*
             // Calculate the amount of overlap in each direction
             int overlapTop = otherBox.Bottom - box.Top;
             int overlapBottom = box.Bottom - otherBox.Top;
             int overlapRight = box.Right - otherBox.Left;
             int overlapLeft = otherBox.Right - box.Left;
 
-            //Console.WriteLine($"Overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
-            //Console.WriteLine($"Distance moved {distance}  Abs X:{Math.Abs(distance.X)} Y:{Math.Abs(distance.Y)}");
+            Console.WriteLine($"Overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
+            Console.WriteLine($"Distance moved {distanceMoved}  Abs X:{Math.Abs(distanceMoved.X)} Y:{Math.Abs(distanceMoved.Y)}");
             //Console.WriteLine($"Box top {box.Top}");
-            
+
             // Find the in-range overlap(s)
-            if (!direction.Contains('N') || overlapTop < 0 || overlapTop > Math.Ceiling(Math.Abs(distance.Y))) // absVelocityY)
+            if (!directionString.Contains('N') || overlapTop < 0 || overlapTop > Math.Ceiling(Math.Abs(distanceMoved.Y))) // absVelocityY)
                 overlapTop = 0;
-            if (!direction.Contains('S') || overlapBottom < 0 || overlapBottom > Math.Ceiling(Math.Abs(distance.Y))) // absVelocityY)
+            if (!directionString.Contains('S') || overlapBottom < 0 || overlapBottom > Math.Ceiling(Math.Abs(distanceMoved.Y))) // absVelocityY)
                 overlapBottom = 0;
-            if (!direction.Contains('E') || overlapRight < 0 || overlapRight > Math.Ceiling(Math.Abs(distance.X))) // absVelocityX)
+            if (!directionString.Contains('E') || overlapRight < 0 || overlapRight > Math.Ceiling(Math.Abs(distanceMoved.X))) // absVelocityX)
                 overlapRight = 0;
-            if (!direction.Contains('W') || overlapLeft < 0 || overlapLeft > Math.Ceiling(Math.Abs(distance.X))) // absVelocityX)
+            if (!directionString.Contains('W') || overlapLeft < 0 || overlapLeft > Math.Ceiling(Math.Abs(distanceMoved.X))) // absVelocityX)
                 overlapLeft = 0;
 
-            //Console.WriteLine($"Valid overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
+            Console.WriteLine($"Valid overlap(s) N:{overlapTop} S:{overlapBottom} E:{overlapRight} W:{overlapLeft}");
 
             // Return if there is no valid overlap to resolve
             if (overlapTop == 0 && overlapBottom == 0 && overlapLeft == 0 && overlapRight == 0)
                 return;
+
+
+
+
+
+
+            // Check if there are two valid overlaps
+            // Try the higher one first and see if the collision is resolved
+            // If not, try the lower one and see if the collision is resolved
+            // Otherwise resolve both
+
+            // Testing
+            if (overlapTop != 0 && overlapLeft != 0)
+            {
+                Rectangle collisionCheck = new Rectangle(box.X, box.Y, box.Width, box.Height);
+
+                if (overlapTop > overlapLeft)
+                {
+                    collisionCheck.Y += overlapTop;
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        collisionCheck.Y -= overlapTop;
+                        collisionCheck.X += overlapLeft;
+                    }
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        collisionCheck.Y += overlapTop;
+                    }
+
+                    colliderComponent.Box = collisionCheck;
+                }
+                else
+                {
+                    collisionCheck.X += overlapLeft;
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        collisionCheck.X -= overlapLeft;
+                        collisionCheck.Y += overlapTop;
+                    }
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        collisionCheck.X += overlapLeft;
+                    }
+
+                    colliderComponent.Box = collisionCheck;
+                }
+                return;
+            }
+
+
+            // CHECK
+            // If max overlap, re-calculate distance with 1 / -1 instead?
+
+
+
+            // Or check equals
+            if (overlapTop > 0 && overlapTop == overlapLeft)
+            {
+                MoveY(entity, overlapTop);
+                Console.WriteLine($"Overlap (Y-up) {overlapTop}");
+
+                MoveX(entity, overlapLeft);
+                Console.WriteLine($"Overlap (X-left) {overlapLeft}");
+
+                return;
+            }
+
 
             // Resolve Y if the overlap is higher otherwise resolve X
             if (overlapTop > overlapLeft || overlapTop > overlapRight
@@ -81,12 +328,12 @@ namespace AdventureGame.Engine
                 if (overlapTop > overlapBottom)
                 {
                     MoveY(entity, overlapTop);
-                    //Console.WriteLine($"Overlap (Y-up) {overlapTop}");
+                    Console.WriteLine($"Overlap (Y-up) {overlapTop}");
                 }
                 else
                 {
                     MoveY(entity, -overlapBottom);
-                    //Console.WriteLine($"Overlap (Y-down) {overlapBottom}");
+                    Console.WriteLine($"Overlap (Y-down) {overlapBottom}");
                 }
             }
             else
@@ -94,41 +341,46 @@ namespace AdventureGame.Engine
                 if (overlapLeft > overlapRight)
                 {
                     MoveX(entity, overlapLeft);
-                    //Console.WriteLine($"Overlap (X-left) {overlapLeft}");
+                    Console.WriteLine($"Overlap (X-left) {overlapLeft}");
                 }
                 else
                 {
                     MoveX(entity, -overlapRight);
-                    //Console.WriteLine($"Overlap (X-right) {overlapRight}");
+                    Console.WriteLine($"Overlap (X-right) {overlapRight}");
                 }
             }
 
-            // Get the previous positions?
+            // Repeat above for unresolved other axis??
 
 
-            // Check for other collisions?
+            // Check for other collisions? Use previous positions to handle?
 
-
-            /*
+            */
+            
             int overlapX = 0;
             int overlapY = 0;
+            /*
+            int absOverlapX = 0;
+            int absOverlapY = 0;
+
             
             // Check for an in-range overlap in the Y-axis
-            if (direction.Contains('N'))
-                overlapY = otherBox.Bottom - box.Top;
-            else if (direction.Contains('S'))
-                overlapY = box.Bottom - otherBox.Top;
+            if (directionString.Contains('N'))
+                overlapY = otherBox.Bottom - box.Top; // 110 - 105 = 5  go S, 5
+            else if (directionString.Contains('S'))
+                overlapY = box.Bottom - otherBox.Top; // 250 - 240 = 10  go N, -10
 
-            if (overlapY < 0 || overlapY > Math.Ceiling(Math.Abs(distance.Y))) // absVelocityY)
+            //absOverlapY = (int)Math.Abs(overlapY);
+            if (overlapY < 0 || overlapY > Math.Ceiling(Math.Abs(distanceMoved.Y))) // absVelocityY)
                 overlapY = 0;
             
             // Check for an in-range overlap in the X-axis
-            if (direction.Contains('E'))
+            if (directionString.Contains('E'))
                 overlapX = box.Right - otherBox.Left;
-            else if (direction.Contains('W'))
+            else if (directionString.Contains('W'))
                 overlapX = otherBox.Right - box.Left;
 
-            if (overlapX < 0 || overlapX > Math.Ceiling(Math.Abs(distance.X))) // absVelocityX)
+            if (overlapX < 0 || overlapX > Math.Ceiling(Math.Abs(distanceMoved.X))) // absVelocityX)
                 overlapX = 0;
             
             // Return if there is no valid overlap to resolve
@@ -138,19 +390,171 @@ namespace AdventureGame.Engine
             // Resolve Y if the overlap is higher otherwise resolve X
             if (overlapY > overlapX)
             {
-                if (direction.Contains('N'))
+                if (directionString.Contains('N'))
                     MoveY(entity, overlapY);
-                else if (direction.Contains('S'))
+                else if (directionString.Contains('S'))
                     MoveY(entity, -overlapY);
             }
             else
             {
-                if (direction.Contains('E'))
+                if (directionString.Contains('E'))
                     MoveX(entity, -overlapX);
-                else if (direction.Contains('W'))
+                else if (directionString.Contains('W'))
                     MoveX(entity, overlapX);
             }
             */
+
+            // TESTING
+            
+            // Check for an in-range overlap in the Y-axis
+            if (direction.Y < 0)
+            {
+                // Check for a valid top overlap
+                overlapY = otherBox.Bottom - box.Top;
+                Console.WriteLine($"Overlap (Y-top) {overlapY}  {Math.Floor(distanceMoved.Y)}");
+                if (overlapY < 0 || overlapY > Math.Ceiling(Math.Abs(distanceMoved.Y)))
+                    overlapY = 0;
+            }
+            else if (direction.Y > 0)
+            {
+                // Check for a valid bottom overlap
+                overlapY = otherBox.Top - box.Bottom;
+                Console.WriteLine($"Overlap (Y-bottom) {overlapY}  {Math.Ceiling(distanceMoved.Y)}");
+                if (overlapY > 0 || Math.Abs(overlapY) > Math.Ceiling(distanceMoved.Y))  // -2 < overlap < 0
+                    overlapY = 0;
+            }
+
+            // Check for an in-range overlap in the X-axis
+            if (direction.X > 0)
+            {
+                // Check for a valid right overlap
+                overlapX = otherBox.Left - box.Right;
+                Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(distanceMoved.X)}");
+                if (overlapX > 0 || Math.Abs(overlapX) > Math.Ceiling(distanceMoved.X))
+                    overlapX = 0;
+            }
+            else if (direction.X < 0)
+            {
+                // Check for a valid left overlap
+                overlapX = otherBox.Right - box.Left;
+                Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(distanceMoved.X)}");
+                if (overlapX < 0 || overlapX > Math.Ceiling(Math.Abs(distanceMoved.X)))
+                    overlapX = 0;
+            }
+
+            Console.WriteLine($"Valid overlap X:{overlapX} Y:{overlapY}");
+
+            // Return if there is no valid overlap to resolve
+            if (overlapX == 0 && overlapY == 0)
+                return;
+            
+            // Check if there are two valid overlaps
+            // Try the higher one first and see if the collision is resolved
+            // If not, try the lower one and see if the collision is resolved
+            // Otherwise resolve both
+            
+            // Testing
+            if (overlapX != 0 && overlapY != 0)
+            {
+                Rectangle collisionCheck = new Rectangle(box.X, box.Y, box.Width, box.Height);
+
+                if (Math.Abs(overlapY) > Math.Abs(overlapX))
+                {
+                    Console.WriteLine($"Resolve X and Y - check Y first. X:{colliderComponent.Box.X - collisionCheck.X} Y:{colliderComponent.Box.Y - collisionCheck.Y}");
+                    collisionCheck.Y += overlapY;
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        collisionCheck.Y -= overlapY;
+                        collisionCheck.X += overlapX;
+                    }
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        collisionCheck.Y += overlapY;
+                    }
+
+                    // CHANGE to MoveY()
+                    Console.WriteLine($"Resolve X and Y - check Y first. X:{colliderComponent.Box.X - collisionCheck.X} Y:{colliderComponent.Box.Y - collisionCheck.Y}");
+                    colliderComponent.Box = collisionCheck;
+                }
+                else
+                {
+                    Console.WriteLine($"Resolve X and Y - check X first");
+                    Console.WriteLine($"Other box Right:{otherBox.Right} Bottom:{otherBox.Bottom}");
+                    Console.WriteLine($"Collision check Left:{collisionCheck.Left} Top:{collisionCheck.Top}");
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        Console.WriteLine("Intersects");
+                    }
+
+                    collisionCheck.X += overlapX;
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        Console.WriteLine("Still intersects with X, try Y");
+                        collisionCheck.X -= overlapX;
+                        collisionCheck.Y += overlapY;
+                    }
+
+                    if (collisionCheck.Intersects(otherBox))
+                    {
+                        Console.WriteLine("Intersects with X");
+                        collisionCheck.X += overlapX;
+                    }
+
+                    // CHANGE to MoveX()
+                    Console.WriteLine($"Resolve X and Y - check X first. X:{colliderComponent.Box.X - collisionCheck.X} Y:{colliderComponent.Box.Y - collisionCheck.Y}");
+                    colliderComponent.Box = collisionCheck;
+                }
+                return;
+            }
+
+            // NOT WORKING above - incorrectly showing no intersect no matter if X or Y is moved first
+
+
+            // CHANGE to resolve if X != 0, if Y != 0
+
+
+            // Resolve Y if the overlap is higher otherwise resolve X
+            if (Math.Abs(overlapY) > Math.Abs(overlapX))
+            {
+                MoveY(entity, overlapY);
+                /*
+                if (directionString.Contains('N'))
+                    MoveY(entity, overlapY);
+                else if (directionString.Contains('S'))
+                    MoveY(entity, -overlapY);*/
+            }
+            else
+            {
+                MoveX(entity, overlapX);
+                /*
+                if (directionString.Contains('E'))
+                    MoveX(entity, -overlapX);
+                else if (directionString.Contains('W'))
+                    MoveX(entity, overlapX);*/
+            }
+            /*
+            // Testing
+            if (box.Intersects(otherBox))
+            {
+                if (overlapY < overlapX)
+                {
+                    if (directionString.Contains('N'))
+                        MoveY(entity, overlapY);
+                    else if (directionString.Contains('S'))
+                        MoveY(entity, -overlapY);
+                }
+                else
+                {
+                    if (directionString.Contains('E'))
+                        MoveX(entity, -overlapX);
+                    else if (directionString.Contains('W'))
+                        MoveX(entity, overlapX);
+                }
+            }*/
+
         }
 
         public void ResolveOppositeDirections(Entity entity, Entity otherEntity)
@@ -193,6 +597,10 @@ namespace AdventureGame.Engine
             // Calculate the total absolute X and Y velocities
             float totalAbsVelocityX = absVelocityX + absOtherVelocityX;
             float totalAbsVelocityY = absVelocityY + absOtherVelocityY;
+
+            // Calculate the distance 
+            Vector2 distance = transformComponent.position - transformComponent.previousPosition;
+            //distance.Normalize();
 
             // Calculate the amount of overlap in each direction
             int overlapTop = otherBox.Bottom - box.Top;
@@ -918,6 +1326,26 @@ namespace AdventureGame.Engine
 
             transformComponent.position.Y += amount;
             colliderComponent.Box.Y += amount;
+        }
+
+        // Move the X position of an entity's transform component and bounding bounding
+        public void MoveX(Entity e, float amount)
+        {
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+
+            transformComponent.position.X += amount;
+            colliderComponent.Box.X += (int)amount; // (int)Math.Ceiling(amount);
+        }
+
+        // Move the Y position of an entity's transform component and bounding bounding
+        public void MoveY(Entity e, float amount)
+        {
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+
+            transformComponent.position.Y += amount;
+            colliderComponent.Box.Y += (int)amount; // (int)Math.Ceiling(amount);
         }
 
 
