@@ -50,7 +50,7 @@ namespace AdventureGame.Engine
             // Update the physics component
             physicsComponent.Direction = direction;
             physicsComponent.DirectionString = directionString;
-
+            /*
             // Calculate the velocity
             if (direction != Vector2.Zero)
                 direction.Normalize();
@@ -59,6 +59,26 @@ namespace AdventureGame.Engine
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             transformComponent.position += direction * speed * deltaTime;
+            */
+
+            // Calculate the velocity
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+
+                float speed = physicsComponent.Speed; // units/second
+                float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                transformComponent.position += direction * speed * deltaTime;
+                physicsComponent.Velocity = direction * speed * deltaTime;
+
+                // physicsComponent.Distance?
+                // Or in another system?
+            }
+            else
+            {
+                physicsComponent.Velocity = Vector2.Zero;
+            }
         }
 
         // Gets the cardinal and ordinal direction based on the direction vector

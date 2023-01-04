@@ -7,10 +7,11 @@ namespace AdventureGame.Engine
     class ColliderComponent : Component
     {
         // Change to dictionaries with the direction as the value (both?)
-        public HashSet<Entity> CollidedEntities { get; set; }
-        public HashSet<Entity> CollidedEntitiesEnded { get; set; }
+        public HashSet<Entity> CollidedEntities { get; set; } // DELETE
+        public HashSet<Entity> CollidedEntitiesEnded { get; set; } // DELETE
 
         public Rectangle Box; // is this and rect both needed?
+        public Rectangle Sweep;
         public Rectangle Rect { get; set; } // DELETE
         public Vector2 Size { get; set; }
         public Vector2 Offset { get; set; }

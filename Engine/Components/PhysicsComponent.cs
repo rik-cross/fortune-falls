@@ -5,6 +5,7 @@ namespace AdventureGame.Engine
 {
     class PhysicsComponent : Component
     {
+        public Vector2 Velocity { get; set; } // Testing
         public Vector2 Direction { get; set; }
         public string DirectionString { get; set; }
         public float Speed { get; set; }

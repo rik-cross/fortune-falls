@@ -267,7 +267,10 @@ namespace AdventureGame.Engine
         public void AddEntity(Entity e)
         {
             if (e != null && EntityList.Contains(e) == false)
+            {
                 EntityList.Add(e);
+                EntitiesToAdd.Add(e);
+            }
         }
 
         public void AddEntity(Entity[] eList)
@@ -334,7 +337,7 @@ namespace AdventureGame.Engine
 
         public virtual void _Update(GameTime gameTime)
         {
-
+            // MOVE to SystemManager?
             // Call before deleting any entities
             foreach (System s in EngineGlobals.systemManager.systems)
             {
@@ -362,15 +365,18 @@ namespace AdventureGame.Engine
             // Should also be called when changing an entity's scene
             foreach (Entity e in EntitiesToAdd)
             {
-                AddEntity(e);
-                Console.WriteLine($"Added entity {e.Id} from Added set");
+                // Change? Only used when dropping item from InventoryManager
+                if (!EntityList.Contains(e))
+                    AddEntity(e);
 
-                // Call before deleting any entities
+                //Console.WriteLine($"Added entity {e.Id} from Added set");
+
+                // Call after adding an entity to the scene
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
                     // Update each relevant entity of a system
                     if (s.entityMapper.ContainsKey(e.Id))
-                        s.OnEntityAddedToScene(gameTime, this, e);
+                        s.OnEntityAddedToScene(e);// gameTime, this, e);
                 }
             }
             EntitiesToAdd.Clear();
@@ -383,6 +389,7 @@ namespace AdventureGame.Engine
 
                 _componentManager.RemoveQueuedComponents();
                 _systemManager.UpdateEntityLists(e);
+                //_systemManager.UpdateEntityLists(gameTime, this, e);
             }
             _componentManager.removedComponents.Clear();
             _componentManager.changedEntities.Clear();

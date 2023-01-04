@@ -26,7 +26,7 @@ namespace AdventureGame.Engine
         public virtual void DrawEntity(GameTime gameTime, Scene scene, Entity entity) { }
 
         // Called when an Entity is added to a scene
-        public virtual void OnEntityAddedToScene(GameTime gameTime, Scene scene, Entity entity) { }
+        public virtual void OnEntityAddedToScene(Entity entity) { }
 
         // Called when an Entity is destroyed
         public virtual void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity) { }
