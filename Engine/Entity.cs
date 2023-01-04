@@ -46,18 +46,19 @@ namespace AdventureGame.Engine
             return entityManager.IsPlayerType(this);
         }
 
+        // Change to return the component??
         // Add a component to the entity
-        public void AddComponent(Component component)
+        public void AddComponent(Component component, bool instant = false)
         {
-            componentManager.AddComponent(this, component);
+            componentManager.AddComponent(this, component, instant);
         }
-
+        
         // Remove a given component from the entity
-        public void RemoveComponent<T>() where T : Component
+        public void RemoveComponent<T>(bool instant = false) where T : Component
         {
             Component component = GetComponent<T>();
             if (component != null)
-                componentManager.RemoveComponent(this, component);
+                componentManager.RemoveComponent(this, component, instant);
         }
 
         // Return a given component from the entity

@@ -49,7 +49,7 @@ namespace AdventureGame.Engine
         }
 
         // Adds a component to an entity and updates the entity signature
-        public void AddComponent(Entity e, Component component)
+        public void AddComponent(Entity e, Component component, bool instant = false)
         {
             // Add component object to the list and entity to the component
             e.Components.Add(component);
@@ -66,8 +66,11 @@ namespace AdventureGame.Engine
             // Call the OnCreate method
             component.OnCreate(e);
 
-            // Add entity to the changed entities set
-            changedEntities.Add(e);
+            // Update the system lists instantly or in the next tick
+            if (instant)
+                EngineGlobals.systemManager.UpdateEntityLists(e);
+            else
+                changedEntities.Add(e);
 
             // Testing
             /*
@@ -78,7 +81,7 @@ namespace AdventureGame.Engine
         }
 
         // Queues the entity and component to be removed
-        public void RemoveComponent(Entity e, Component component)
+        public void RemoveComponent(Entity e, Component component, bool instant = false)
         {
             // Pushes the entity and component to the removed queue
             removedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
@@ -86,8 +89,16 @@ namespace AdventureGame.Engine
             // Call the OnDestroy method
             component.OnDestroy(e);
 
+            // Update the system lists instantly or in the next tick
+            if (instant)
+                EngineGlobals.systemManager.UpdateEntityLists(e);
+            else
+                changedEntities.Add(e);
+
             // Add entity to the changed entities set
-            changedEntities.Add(e);
+            //changedEntities.Add(e);
+
+            Console.WriteLine($"\nEntity {e.Id} removed component {component}");
         }
 
         // Removes all components from an entity

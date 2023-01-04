@@ -118,6 +118,11 @@ namespace AdventureGame.Engine
         {
             return position != previousPosition;
         }
+
+        public Vector2 DistanceMoved()
+        {
+            return position - previousPosition;
+        }
     }
 
 }

@@ -34,7 +34,7 @@ namespace AdventureGame.Engine
             return 0;
         }
 
-        public override void OnEntityDestroy(GameTime gameTime, Scene scene, Entity entity)
+        public override void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity)
         {
             // CollidedEntities hashset?
             // Find out which entities were intersecting

@@ -23,7 +23,7 @@ namespace AdventureGame
 
             enemyEntity.AddComponent(new Engine.IntentionComponent());
             enemyEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
-            enemyEntity.AddComponent(new Engine.PhysicsComponent(1));
+            enemyEntity.AddComponent(new Engine.PhysicsComponent(100));
             enemyEntity.AddComponent(new Engine.ColliderComponent(imageSize));
             enemyEntity.AddComponent(new Engine.HealthComponent());
             enemyEntity.AddComponent(new Engine.HitboxComponent(imageSize));

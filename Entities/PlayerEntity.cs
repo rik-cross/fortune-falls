@@ -12,7 +12,7 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, string idTag = null)
+        public static Engine.Entity Create(int x, int y, float speed = 100, string idTag = null)
         {
             // Check if the player entity already exists
             Engine.Entity playerEntity;
@@ -71,7 +71,7 @@ namespace AdventureGame
             // Add the other components
             playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));
             playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: 2));
+            playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
 
             int colliderWidth = (int)(drawWidth * 0.6f);
             int colliderHeight = (int)(drawHeight * 0.3f);
@@ -90,6 +90,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.HealthComponent());
             playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
             playerEntity.AddComponent(new Engine.InventoryComponent(40));
+            playerEntity.AddComponent(new Engine.CanCollectComponent());
 
             playerEntity.AddComponent(new Engine.InputComponent(
                 null, //Engine.Inputs.keyboard,

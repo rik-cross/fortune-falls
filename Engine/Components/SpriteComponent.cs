@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AdventureGame.Engine
 {
@@ -147,7 +147,7 @@ namespace AdventureGame.Engine
         public void ModifyAnimationDelay(float modifier)
         {
             foreach (Sprite sprite in SpriteDict.Values)
-                sprite.animationDelay = (int)(sprite.animationDelay * modifier);
+                sprite.animationDelay = (int)Math.Ceiling(sprite.animationDelay * modifier);
         }
 
         // Assumes the row contains all the sprites for the animation

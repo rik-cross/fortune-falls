@@ -32,8 +32,9 @@ namespace AdventureGame
             //Console.WriteLine($"Item image width {imageSize.X} height {imageSize.Y}");
 
             itemEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
-            itemEntity.AddComponent(new Engine.ColliderComponent(imageSize));
+            itemEntity.AddComponent(new Engine.ColliderComponent(imageSize, isSolid: false));
             itemEntity.AddComponent(new Engine.ItemComponent(item));
+
             if (isCollectable)
                 itemEntity.AddComponent(new Engine.CollectableComponent(collectableByType));
 

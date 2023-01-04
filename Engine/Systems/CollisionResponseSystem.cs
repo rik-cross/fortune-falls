@@ -49,7 +49,7 @@ namespace AdventureGame.Engine
 
 
                 // Get the entity's direction
-                string direction = physicsComponent.Direction;
+                string direction = physicsComponent.DirectionString;
                 //Console.WriteLine($"\nPhysics component direction: {direction}");
 
                 // Check if the entity is not trying to move in any direction
@@ -92,7 +92,7 @@ namespace AdventureGame.Engine
                 // should be based on the velocity and direction of both entities
                 if (otherPhysicsComponent != null)
                 {
-                    otherDirection = otherPhysicsComponent.Direction;
+                    otherDirection = otherPhysicsComponent.DirectionString;
                     otherVelocityX = otherPhysicsComponent.VelocityX;
                     otherVelocityY = otherPhysicsComponent.VelocityY;
                     absOtherVelocityX = Math.Abs(otherVelocityX);
@@ -408,7 +408,7 @@ namespace AdventureGame.Engine
                     {
                         // Return if the collision has already been resolved if
                         // both X and Y overlaps used to be at the maximum values
-                        if (!colliderComponent.BoundingBox.Intersects(otherColliderComponent.BoundingBox))
+                        if (!colliderComponent.Box.Intersects(otherColliderComponent.Box))
                         {
                             Console.WriteLine("Collision already resolved");
                             return;
@@ -576,7 +576,7 @@ namespace AdventureGame.Engine
                             // in the X axis if both X and Y overlaps used to be
                             // equal and the maximum overlap amount
                             if (isMaxOverlapY &&
-                                !colliderComponent.BoundingBox.Intersects(otherColliderComponent.BoundingBox))
+                                !colliderComponent.Box.Intersects(otherColliderComponent.Box))
                             {
                                 Console.WriteLine("Collision already resolved");
                                 return;
@@ -684,12 +684,12 @@ namespace AdventureGame.Engine
             if (direction.Equals('X'))
             {
                 transformComponent.position.X += amount;
-                colliderComponent.BoundingBox.X += amount;
+                colliderComponent.Box.X += amount;
             }
             else if (direction.Equals('Y'))
             {
                 transformComponent.position.Y += amount;
-                colliderComponent.BoundingBox.Y += amount;
+                colliderComponent.Box.Y += amount;
             }
         }
 

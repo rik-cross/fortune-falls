@@ -18,84 +18,111 @@ namespace AdventureGame.Engine
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            string direction = ""; // Can be N, NE, E, SE etc.
-
             // Set the previous position to the current position
             transformComponent.previousPosition = transformComponent.position;
 
-            // Action anything that is player only
+            // Process anything that is player-only physics
             if (entity.IsPlayerType())
             {
                 // If the run button is pressed increase the players speed by 50%
                 if (EngineGlobals.inputManager.IsPressed(Globals.button2Input)) // OR IntentionComponent?
-                {
-                    // Increase the speed multipler by x2
-                    physicsComponent.MultiplySpeed(2);
+                    IncreaseSpeed(entity, 1.5f);
 
-                    // TO DO: change this so that a modified delay is applied to the
-                    // sprite component instead of being recalculated here
-                    // Halve the animation delay of the sprite
-                    SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
-                    if (spriteComponent != null)
-                        spriteComponent.ModifyAnimationDelay(0.5f);
-
-                    Console.WriteLine("Button 2 pressed");
-                    Console.WriteLine($"Speed is {physicsComponent.Speed}");
-                }
-
-                // FIX this is not called if released during scene transition / pause
-                // Should a check by made on prev / current input state and updated?
+                // FIX this is not called if released during scene transition
                 if (EngineGlobals.inputManager.IsReleased(Globals.button2Input))
-                {
-                    // Decrease the speed multipler by x0.5
-                    physicsComponent.MultiplySpeed(0.5);
-
-                    // Double the animation delay of the sprite
-                    SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
-                    if (spriteComponent != null)
-                        spriteComponent.ModifyAnimationDelay(2.0f);
-
-                    Console.WriteLine("Button 2 released");
-                    Console.WriteLine($"Speed is now {physicsComponent.Speed}");
-                }
+                    DecreaseSpeed(entity, 1.5f);
             }
 
-            // CHANGE up to north, right to east etc?
-            if (intentionComponent.up && !intentionComponent.down)
-            {
-                physicsComponent.VelocityY = -physicsComponent.Speed;
-                transformComponent.position.Y += physicsComponent.VelocityY;
-                direction = "N"; // Moving north
-            }
-            else if (intentionComponent.down && !intentionComponent.up)
-            {
-                physicsComponent.VelocityY = physicsComponent.Speed;
-                transformComponent.position.Y += physicsComponent.VelocityY;
-                direction = "S"; // Moving south
-            }
-            else
-            {
-                physicsComponent.VelocityY = 0;
-            }
+            // Set the direction vector and string
+            Vector2 direction = Vector2.Zero;
 
-            if (intentionComponent.right && !intentionComponent.left)
-            {
-                physicsComponent.VelocityX = physicsComponent.Speed;
-                transformComponent.position.X += physicsComponent.VelocityX;
-                direction += "E"; // Moving east
-            }
-            else if (intentionComponent.left && !intentionComponent.right)
-            {
-                physicsComponent.VelocityX = -physicsComponent.Speed;
-                transformComponent.position.X += physicsComponent.VelocityX;
-                direction += "W"; // Moving west
-            }
-            else
-            {
-                physicsComponent.VelocityX = 0;
-            }
+            if (intentionComponent.up)
+                direction.Y -= 1;
+            if (intentionComponent.down)
+                direction.Y += 1;
+            if (intentionComponent.left)
+                direction.X -= 1;
+            if (intentionComponent.right)
+                direction.X += 1;
 
+            string directionString = GetDirectionString(direction);
+
+            // Update the physics component
             physicsComponent.Direction = direction;
+            physicsComponent.DirectionString = directionString;
+            /*
+            // Calculate the velocity
+            if (direction != Vector2.Zero)
+                direction.Normalize();
+
+            float speed = physicsComponent.Speed; // units/second
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            transformComponent.position += direction * speed * deltaTime;
+            */
+
+            // Calculate the velocity
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+
+                float speed = physicsComponent.Speed; // units/second
+                float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                transformComponent.position += direction * speed * deltaTime;
+                physicsComponent.Velocity = direction * speed * deltaTime;
+
+                // physicsComponent.Distance?
+                // Or in another system?
+            }
+            else
+            {
+                physicsComponent.Velocity = Vector2.Zero;
+            }
+        }
+
+        // Gets the cardinal and ordinal direction based on the direction vector
+        public string GetDirectionString(Vector2 direction)
+        {
+            string directionString = ""; // Can be N, NE, E, SE etc.
+
+            if (direction.Y == -1)
+                directionString = "N";
+            else if (direction.Y == 1)
+                directionString = "S";
+
+            if (direction.X == 1)
+                directionString += "E";
+            else if (direction.X == -1)
+                directionString += "W";
+
+            return directionString;
+        }
+
+        // Increase the movement and animation speed of an entity
+        public void IncreaseSpeed(Entity entity, float speedModifier)
+        {
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+            SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
+
+            physicsComponent.ApplySpeedModifier(speedModifier);
+            Console.WriteLine($"Speed is {physicsComponent.Speed}");
+
+            if (spriteComponent != null)
+                spriteComponent.ModifyAnimationDelay(1 / speedModifier);
+        }
+
+        // Decrease the movement and animation speed of an entity
+        public void DecreaseSpeed(Entity entity, float speedModifier)
+        {
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+            SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
+
+            physicsComponent.ApplySpeedModifier(1 / speedModifier);
+            Console.WriteLine($"Speed is {physicsComponent.Speed}");
+
+            if (spriteComponent != null)
+                spriteComponent.ModifyAnimationDelay(speedModifier);
         }
     }
 }

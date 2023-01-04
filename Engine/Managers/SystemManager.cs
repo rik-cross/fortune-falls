@@ -1,8 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace AdventureGame.Engine
 {
@@ -41,8 +38,8 @@ namespace AdventureGame.Engine
             AddSystem(new DamageSystem());
             AddSystem(new HealthSystem());
             AddSystem(new MapCollisionSystem());
-            AddSystem(new CollisionSystem());
-            AddSystem(new CollisionResponseSystem());
+            AddSystem(new CollisionSystem3());
+            AddSystem(new CollisionResponseSystem3());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
             AddSystem(new AnimationSystem());
@@ -58,7 +55,7 @@ namespace AdventureGame.Engine
         }
 
         // Updates the system's lists when components are added or removed
-        public void UpdateEntityLists(Entity e)
+        public void UpdateEntityLists(Entity e)//GameTime gameTime, Scene scene, Entity e)
         {
             // CHECK that this only executes if the entity is part of the
             // current scene or it is the scene below and Update/DrawSceneBelow = true
@@ -76,6 +73,7 @@ namespace AdventureGame.Engine
                         // Add entity to the list and mapper
                         s.entityList.Add(e);
                         s.entityMapper[e.Id] = s.entityList.Count - 1;
+                        //s.OnEntityAddedToScene(e);//gameTime, scene, e);
 
                         /*
                         Console.WriteLine($"Add Entity {e.Id} to System {s}");

@@ -37,19 +37,19 @@ namespace AdventureGame.Engine
         }
 
         // Return whether an entity can collect the item
-        public bool CanCollect(string tag)
+        public bool IsCollectableBy(string tag)
         {
             return CollectableByType.HasType(tag);
         }
 
         // Return whether any given entities can collect the item
-        public bool CanCollect(Tags tags)//List<string> tags)
+        public bool IsCollectableBy(Tags tags)//List<string> tags)
         {
-            return CanCollect(tags.Type);
+            return IsCollectableBy(tags.Type);
         }
 
         // Return whether any given entities can collect the item
-        public bool CanCollect(List<string> tags)
+        public bool IsCollectableBy(List<string> tags)
         {
             foreach (string type in tags)
             {
