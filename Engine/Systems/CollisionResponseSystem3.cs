@@ -647,7 +647,7 @@ namespace AdventureGame.Engine
                 // Check if the collision has already been resolved
                 if (!box.Intersects(otherBox)) // axis == 'X' && 
                 {
-                    Console.WriteLine("\nCollision already resolved");
+                    Console.WriteLine("Collision already resolved");
                     continue;
                 }
 
@@ -688,34 +688,16 @@ namespace AdventureGame.Engine
             }
         }
 
-
+        // Resolve X collisions first and then Y collisions for all moveable entities
         public override void Update(GameTime gameTime, Scene scene)
         {
-            // TESTING
-
-            // Return all entities to their previous positions
-
-            // Move the position + velocity.X
-            // Check and resolve collisions
-
-            // Move the position + velocity.Y
-            // Check and resolve collisions
-
-            // OR
-
-            // Try returning to previous X position
-            // Check intersect
-            // If so, resolve other axis instead and return to previous?
-            // ...
-
-
             // Move all entities back to the previous position before the collision started
             foreach (Entity entity in entityList)
             {
                 MoveToPrevious(entity);
             }
 
-            // Resolve X-axis collisions first of all moving entities
+            // Move entities in the X-axis and resolve collisions first
             foreach (Entity entity in entityList)
             {
                 Console.WriteLine($"\nX-axis collision resolving for entity {entity.Id}");
@@ -723,7 +705,7 @@ namespace AdventureGame.Engine
                 HandleCollisions(entity, 'X');
             }
 
-            // Then resolve Y-axis collisions of all moving entities
+            // Then move entities in the Y-axis and resolve collisions
             foreach (Entity entity in entityList)
             {
                 Console.WriteLine($"\nY-axis collision resolving for entity {entity.Id}");

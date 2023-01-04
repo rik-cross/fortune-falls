@@ -52,13 +52,13 @@ namespace AdventureGame.Engine
         {
             componentManager.AddComponent(this, component, instant);
         }
-
+        
         // Remove a given component from the entity
-        public void RemoveComponent<T>() where T : Component
+        public void RemoveComponent<T>(bool instant = false) where T : Component
         {
             Component component = GetComponent<T>();
             if (component != null)
-                componentManager.RemoveComponent(this, component);
+                componentManager.RemoveComponent(this, component, instant);
         }
 
         // Return a given component from the entity
