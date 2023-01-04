@@ -19,163 +19,187 @@ namespace AdventureGame.Engine
             _collisionEnded = new HashSet<Entity>();
         }
 
-        public void TestingOutputSets()
+        public override void OnEntityAddedToScene(Entity entity)
         {
-            // Testing: output collided entities set
-            Console.WriteLine("\nCollision started set: ");
-            foreach (Entity entity in _collisionStarted)
-            {
-                ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-                Console.Write($"Entity {entity.Id}: ");
-                foreach (Entity otherEntity in colliderComponent.CollidedEntities)
-                {
-                    Console.Write($"{otherEntity.Id}  ");
-                }
-                Console.WriteLine();
-            }
-
-            // Testing: output collided entities ended set
-            Console.WriteLine("\nCollision ended set: ");
-            foreach (Entity entity in _collisionEnded)
-            {
-                ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-                Console.Write($"Entity {entity.Id}: ");
-                foreach (Entity otherEntity in colliderComponent.CollidedEntitiesEnded)
-                {
-                    Console.Write($"{otherEntity.Id}  ");
-                }
-                Console.WriteLine();
-            }
-        }
-
-        public void RemoveEntityFromAll(Entity entityToRemove)
-        {
-            ColliderComponent colliderComponent = entityToRemove.GetComponent<ColliderComponent>();
-
-            // Remove the entity from all of the collided entities sets
-            foreach (Entity otherEntity in colliderComponent.CollidedEntities)
-            {
-                ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
-                otherColliderComponent.CollidedEntities.Remove(entityToRemove);
-
-                // Check if the entity has any more collisions to handle
-                if (otherColliderComponent.CollidedEntities.Count == 0)
-                    _collisionStarted.Remove(otherEntity);
-            }
-            // Remove the entity from the collision started set
-            _collisionStarted.Remove(entityToRemove);
-
-            // Remove the entity from all of the collided entities ended sets
-            foreach (Entity otherEntity in colliderComponent.CollidedEntitiesEnded)
-            {
-                ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
-                otherColliderComponent.CollidedEntitiesEnded.Remove(entityToRemove);
-
-                // Check if the entity has any more collisions to handle
-                if (otherColliderComponent.CollidedEntitiesEnded.Count == 0)
-                    _collisionEnded.Remove(otherEntity);
-            }
-            // Remove the entity from the collision ended set
-            _collisionEnded.Remove(entityToRemove);
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            Console.WriteLine($"Entity {entity.Id} collider added to scene");
+            // Initialise the bounding box
+            colliderComponent.Box = new Rectangle(
+                (int)transformComponent.position.X + (int)colliderComponent.Offset.X,
+                (int)transformComponent.position.Y + (int)colliderComponent.Offset.Y,
+                (int)colliderComponent.Size.X, (int)colliderComponent.Size.Y
+            );
         }
 
         public override void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity)
         {
             //Console.WriteLine($"Remove {entity.Id} from all collision sets");
-            RemoveEntityFromAll(entity);
+            RemoveEntityFromAllSets(entity);
+        }
 
-            // Testing
-            //TestingOutputSets();
+        public void RemoveEntityFromAllSets(Entity entityToRemove)
+        {
+            Console.WriteLine("Remove entity from all collision sets");
+            TestingOutputSets();
+
+            HashSet<Entity> allCollisions = new HashSet<Entity>(_collisionStarted);
+            allCollisions.UnionWith(_collisionEnded);
+
+            // Check if the entity to remove belongs in any collision sets
+            foreach (Entity entity in allCollisions)
+            {
+                CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
+
+                if (handlerComponent == null)
+                    continue;
+
+                // Remove the entity from the collision started sets
+                if (handlerComponent.CollidedEntities.Contains(entityToRemove))
+                {
+                    handlerComponent.CollidedEntities.Remove(entityToRemove);
+                    if (handlerComponent.CollidedEntities.Count == 0)
+                        _collisionStarted.Remove(entity);
+                }
+
+                // Remove the entity from the collision ended sets
+                if (handlerComponent.CollidedEntitiesEnded.Contains(entityToRemove))
+                {
+                    handlerComponent.CollidedEntitiesEnded.Remove(entityToRemove);
+                    if (handlerComponent.CollidedEntitiesEnded.Count == 0)
+                        _collisionEnded.Remove(entity);
+                }
+
+                // Check if the entity has any more collisions to handle
+                if (handlerComponent.CollidedEntities.Count == 0
+                    && handlerComponent.CollidedEntitiesEnded.Count == 0)
+                    entity.RemoveComponent<CollisionHandlerComponent>();
+            }
+
+            // Remove the collision handler if the entity has one
+            CollisionHandlerComponent entityToRemoveHandler = entityToRemove.GetComponent<CollisionHandlerComponent>();
+            if (entityToRemoveHandler != null)
+                entityToRemove.RemoveComponent<CollisionHandlerComponent>();
+
+            TestingOutputSets();
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            colliderComponent.Rect = new Rectangle(
+            // Only check moving entities
+            if (!transformComponent.HasMoved() && !_collisionEnded.Contains(entity))
+                return;
+
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
+            //PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+
+            // Update the bounding box
+            colliderComponent.Box = new Rectangle(
                 (int)transformComponent.position.X + (int)colliderComponent.Offset.X,
                 (int)transformComponent.position.Y + (int)colliderComponent.Offset.Y,
                 (int)colliderComponent.Size.X, (int)colliderComponent.Size.Y
             );
 
+            // Testing
+            /*
+            if (physicsComponent != null)
+            {
+                Rectangle box = colliderComponent.Box;
+                colliderComponent.Sweep = new Rectangle(
+                    (int)Math.Ceiling(box.X + physicsComponent.Velocity.X * 2),
+                    (int)Math.Ceiling(box.Y + physicsComponent.Velocity.Y * 2),
+                    (int)Math.Ceiling(box.Width + physicsComponent.Velocity.X * 2),
+                    (int)Math.Ceiling(box.Height + physicsComponent.Velocity.Y * 2)
+                );
+
+                // Clear box if !transformComponent.HasMoved()
+            }*/
+
+            // CHANGE to use a grid or quadtree?
             // Check for collider intersects
             foreach (Entity otherEntity in entityList) // scene.EntityList)
             {
-                if (entityMapper.ContainsKey(otherEntity.Id) && entity != otherEntity)
+                //if (entityMapper.ContainsKey(otherEntity.Id) && entity != otherEntity)
+                if (entity != otherEntity)
                 {
                     ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
 
                     // Check if the entities have collided
-                    if (colliderComponent.Rect.Intersects(otherColliderComponent.Rect))
+                    if (colliderComponent.Box.Intersects(otherColliderComponent.Box))
                     {
                         //Console.WriteLine($"\nEntity {entity.Id} intersects with {otherEntity.Id}");
 
+                        // Check if the entity isn't handling any collisions currently
+                        if (handlerComponent == null)
+                        {
+                            entity.AddComponent(new CollisionHandlerComponent(), true);
+                            handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
+                        }
+
                         // Check if the entities are already colliding
                         if (!(_collisionStarted.Contains(entity)
-                            && colliderComponent.CollidedEntities.Contains(otherEntity)))
+                            && handlerComponent.CollidedEntities.Contains(otherEntity)))
                         {
-                            //Console.WriteLine($"Start collision: {entity.Id} & {otherEntity.Id}");
+                            Console.WriteLine($"\nStart collision: {entity.Id} & {otherEntity.Id}");
 
-                            // Add the entity and other entity to the collision started sets
+                            // Add the entity to the collision started sets
                             _collisionStarted.Add(entity);
-                            _collisionStarted.Add(otherEntity);
-                            colliderComponent.CollidedEntities.Add(otherEntity);
-                            otherColliderComponent.CollidedEntities.Add(entity);
+                            handlerComponent.CollidedEntities.Add(otherEntity);
 
                             // Testing: change component outline colour
                             colliderComponent.color = Color.Orange;
                             otherColliderComponent.color = Color.Orange;
 
-                            // Testing
-                            //TestingOutputSets();
+                            TestingOutputSets(); // Testing
                         }
                     }
 
                     // Check if the entities were colliding and now they are not
-                    else if (_collisionStarted.Contains(entity)
-                        && colliderComponent.CollidedEntities.Contains(otherEntity))
+                    else if (_collisionStarted.Contains(entity) && handlerComponent != null
+                        && handlerComponent.CollidedEntities.Contains(otherEntity))
                     {
+                        Console.WriteLine($"End collision: {entity.Id} & {otherEntity.Id}");
+
                         // Remove the collided entity from the component set
-                        colliderComponent.CollidedEntities.Remove(otherEntity);
-                        otherColliderComponent.CollidedEntities.Remove(entity);
+                        handlerComponent.CollidedEntities.Remove(otherEntity);
 
                         // Check if the entity has any more collisions to handle
-                        if (colliderComponent.CollidedEntities.Count == 0)
+                        if (handlerComponent.CollidedEntities.Count == 0)
                             _collisionStarted.Remove(entity);
-
-                        // Check if the other entity has any more collisions to handle
-                        if (otherColliderComponent.CollidedEntities.Count == 0)
-                            _collisionStarted.Remove(otherEntity);
 
                         // Add the entities to the collision ended sets
                         _collisionEnded.Add(entity);
-                        _collisionEnded.Add(otherEntity);
-                        colliderComponent.CollidedEntitiesEnded.Add(otherEntity);
-                        otherColliderComponent.CollidedEntitiesEnded.Add(entity);
+                        handlerComponent.CollidedEntitiesEnded.Add(otherEntity);
 
-                        // Testing
-                        //TestingOutputSets();
+                        TestingOutputSets(); // Testing
                     }
+
                     // Check if the entites are exiting a previous collision
-                    else if (_collisionEnded.Contains(entity)
-                        && colliderComponent.CollidedEntitiesEnded.Contains(otherEntity))
+                    else if (_collisionEnded.Contains(entity) && handlerComponent != null
+                        && handlerComponent.CollidedEntitiesEnded.Contains(otherEntity))
                     {
+                        Console.WriteLine($"Exiting collision: {entity.Id} & {otherEntity.Id}");
+
                         // Remove the collided entity from the component set
-                        colliderComponent.CollidedEntitiesEnded.Remove(otherEntity);
-                        otherColliderComponent.CollidedEntitiesEnded.Remove(entity);
+                        handlerComponent.CollidedEntitiesEnded.Remove(otherEntity);
 
                         // Check if the entity has any more ended collisions to handle
-                        if (colliderComponent.CollidedEntitiesEnded.Count == 0)
+                        if (handlerComponent.CollidedEntitiesEnded.Count == 0)
+                        {
                             _collisionEnded.Remove(entity);
 
-                        // Check if the other entity has any more ended collisions to handle
-                        if (otherColliderComponent.CollidedEntitiesEnded.Count == 0)
-                            _collisionEnded.Remove(otherEntity);
+                            if (handlerComponent.CollidedEntities.Count == 0)
+                                entity.RemoveComponent<CollisionHandlerComponent>();
+                        }
 
                         // Testing: change component outline colour
                         colliderComponent.color = Color.Yellow;
                         otherColliderComponent.color = Color.Yellow;
+
+                        TestingOutputSets(); // Testing
                     }
                 }
             }
@@ -196,7 +220,44 @@ namespace AdventureGame.Engine
             else
                 color = Color.LightGray;
 
-            Globals.spriteBatch.DrawRectangle(colliderComponent.Rect, color, lineWidth);
+            Globals.spriteBatch.DrawRectangle(colliderComponent.Box, color, lineWidth);
+            Globals.spriteBatch.DrawRectangle(colliderComponent.Sweep, Color.Black, lineWidth);
+        }
+
+        public void TestingOutputSets()
+        {
+            // Testing: output collided entities set
+            Console.WriteLine("\nCollision started set: ");
+            foreach (Entity entity in _collisionStarted)
+            {
+                CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
+                if (handlerComponent == null)
+                    continue;
+
+                Console.Write($"Entity {entity.Id}: ");
+                foreach (Entity otherEntity in handlerComponent.CollidedEntities)
+                {
+                    Console.Write($"{otherEntity.Id}  ");
+                }
+                Console.WriteLine();
+            }
+
+            // Testing: output collided entities ended set
+            Console.WriteLine("\nCollision ended set: ");
+            foreach (Entity entity in _collisionEnded)
+            {
+                CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
+                if (handlerComponent == null)
+                    continue;
+
+                Console.Write($"Entity {entity.Id}: ");
+                foreach (Entity otherEntity in handlerComponent.CollidedEntitiesEnded)
+                {
+                    Console.Write($"{otherEntity.Id}  ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
 
     }

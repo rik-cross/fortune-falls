@@ -128,7 +128,6 @@ namespace AdventureGame.Engine
             return item;
         }
 
-        // TO DO
         // Drop the item on the in-game ground using the entity's position
         public void DropItem(Item[] inventoryItems, Item item = null, int index = -1,
             Entity entity = null, bool dropMultiple = false, bool isCollectable = true,

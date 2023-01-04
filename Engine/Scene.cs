@@ -361,15 +361,18 @@ namespace AdventureGame.Engine
             }
             _entityManager.AddEntitiesToGame();*/
 
-            // NOT used currently
             // Should also be called when changing an entity's scene
             foreach (Entity e in EntitiesToAdd)
             {
                 // Change? Only used when dropping item from InventoryManager
                 if (!EntityList.Contains(e))
+                {
                     AddEntity(e);
+                    Console.WriteLine(e.Signature);
+                    _systemManager.UpdateEntityLists(e); // A bit hacky...
+                }
 
-                //Console.WriteLine($"Added entity {e.Id} from Added set");
+                Console.WriteLine($"Added entity {e.Id} from Added set");
 
                 // Call after adding an entity to the scene
                 foreach (System s in EngineGlobals.systemManager.systems)

@@ -6,13 +6,8 @@ namespace AdventureGame.Engine
 {
     class ColliderComponent : Component
     {
-        // Change to dictionaries with the direction as the value (both?)
-        public HashSet<Entity> CollidedEntities { get; set; } // DELETE
-        public HashSet<Entity> CollidedEntitiesEnded { get; set; } // DELETE
-
-        public Rectangle Box; // is this and rect both needed?
+        public Rectangle Box;
         public Rectangle Sweep;
-        public Rectangle Rect { get; set; } // DELETE
         public Vector2 Size { get; set; }
         public Vector2 Offset { get; set; }
         public bool IsSolid { get; set; }
@@ -22,9 +17,6 @@ namespace AdventureGame.Engine
         public ColliderComponent(Vector2 size, Vector2 offset = default, bool isSolid = true)
             //bool isActive = true)
         {
-            CollidedEntities = new HashSet<Entity>();
-            CollidedEntitiesEnded = new HashSet<Entity>();
-
             Size = size;
             Offset = offset;
             IsSolid = isSolid;
@@ -34,9 +26,6 @@ namespace AdventureGame.Engine
         public ColliderComponent(int width, int height, int offsetX = 0, int offsetY = 0,
             bool isSolid = true)//, bool isActive = true)
         {
-            CollidedEntities = new HashSet<Entity>();
-            CollidedEntitiesEnded = new HashSet<Entity>();
-
             Size = new Vector2(width, height);
             Offset = new Vector2(offsetX, offsetY);
             IsSolid = isSolid;
