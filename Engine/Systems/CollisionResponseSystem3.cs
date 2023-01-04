@@ -431,6 +431,76 @@ namespace AdventureGame.Engine
 
 
 
+        public void ResolveOppositeDirections(Entity entity, Entity otherEntity)
+        {
+            // Get the necessary components
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+            PhysicsComponent otherPhysicsComponent = otherEntity.GetComponent<PhysicsComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
+
+            if (otherPhysicsComponent == null)
+                return;
+
+            Console.WriteLine($"\nResolve opposite directions {entity.Id} and {otherEntity.Id}");
+
+            // Get the bounding boxes
+            Rectangle box = colliderComponent.Box;
+            Rectangle otherBox = otherColliderComponent.Box;
+
+            // Get the entity's direction and velocities
+            string direction = physicsComponent.DirectionString;
+            //int velocityX = physicsComponent.VelocityX;
+            //int velocityY = physicsComponent.VelocityY;
+            float velocityX = physicsComponent.Direction.X;
+            float velocityY = physicsComponent.Direction.Y;
+            float absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
+            float absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
+
+            // Declare the attributes of the other entity
+            string otherDirection = otherPhysicsComponent.DirectionString;
+            //int otherVelocityX = otherPhysicsComponent.VelocityX;
+            //int otherVelocityY = otherPhysicsComponent.VelocityY;
+            float otherVelocityX = otherPhysicsComponent.Direction.X;
+            float otherVelocityY = otherPhysicsComponent.Direction.Y;
+            float absOtherVelocityX = Math.Abs(otherVelocityX);
+            float absOtherVelocityY = Math.Abs(otherVelocityY);
+
+            // Calculate the total absolute X and Y velocities
+            float totalAbsVelocityX = absVelocityX + absOtherVelocityX;
+            float totalAbsVelocityY = absVelocityY + absOtherVelocityY;
+
+            // Calculate the distance 
+            Vector2 distance = transformComponent.position - transformComponent.previousPosition;
+            //distance.Normalize();
+
+            // Calculate the amount of overlap in each direction
+            int overlapTop = otherBox.Bottom - box.Top;
+            int overlapBottom = box.Bottom - otherBox.Top;
+            int overlapRight = box.Right - otherBox.Left;
+            int overlapLeft = otherBox.Right - box.Left;
+        }
+
+        public void ResolveSameDirection(Entity entity, Entity otherEntity)
+        {
+            Console.WriteLine($"\nResolve same direction {entity.Id} and {otherEntity.Id}");
+        }
+
+        public void ResolvePerpendicularDirection(Entity entity, Entity otherEntity)
+        {
+            Console.WriteLine($"\nResolve perpendicular directions {entity.Id} and {otherEntity.Id}");
+        }
+
+        public void ResolveOtherDirection(Entity entity, Entity otherEntity)
+        {
+            Console.WriteLine($"\nResolve other directions {entity.Id} and {otherEntity.Id}");
+        }
+
+
+
+
 
         public void ResolveStationary(Entity entity, Entity otherEntity, char axis)
         {
@@ -519,73 +589,6 @@ namespace AdventureGame.Engine
 
         }
 
-        public void ResolveOppositeDirections(Entity entity, Entity otherEntity)
-        {
-            // Get the necessary components
-            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
-            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-            PhysicsComponent otherPhysicsComponent = otherEntity.GetComponent<PhysicsComponent>();
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
-
-            if (otherPhysicsComponent == null)
-                return;
-
-            Console.WriteLine($"\nResolve opposite directions {entity.Id} and {otherEntity.Id}");
-
-            // Get the bounding boxes
-            Rectangle box = colliderComponent.Box;
-            Rectangle otherBox = otherColliderComponent.Box;
-
-            // Get the entity's direction and velocities
-            string direction = physicsComponent.DirectionString;
-            //int velocityX = physicsComponent.VelocityX;
-            //int velocityY = physicsComponent.VelocityY;
-            float velocityX = physicsComponent.Direction.X;
-            float velocityY = physicsComponent.Direction.Y;
-            float absVelocityX = Math.Abs(velocityX); // maxOverlapX  absVelocityX
-            float absVelocityY = Math.Abs(velocityY); // maxOverlapY  absVelocityY
-
-            // Declare the attributes of the other entity
-            string otherDirection = otherPhysicsComponent.DirectionString;
-            //int otherVelocityX = otherPhysicsComponent.VelocityX;
-            //int otherVelocityY = otherPhysicsComponent.VelocityY;
-            float otherVelocityX = otherPhysicsComponent.Direction.X;
-            float otherVelocityY = otherPhysicsComponent.Direction.Y;
-            float absOtherVelocityX = Math.Abs(otherVelocityX);
-            float absOtherVelocityY = Math.Abs(otherVelocityY);
-
-            // Calculate the total absolute X and Y velocities
-            float totalAbsVelocityX = absVelocityX + absOtherVelocityX;
-            float totalAbsVelocityY = absVelocityY + absOtherVelocityY;
-
-            // Calculate the distance 
-            Vector2 distance = transformComponent.position - transformComponent.previousPosition;
-            //distance.Normalize();
-
-            // Calculate the amount of overlap in each direction
-            int overlapTop = otherBox.Bottom - box.Top;
-            int overlapBottom = box.Bottom - otherBox.Top;
-            int overlapRight = box.Right - otherBox.Left;
-            int overlapLeft = otherBox.Right - box.Left;
-        }
-
-        public void ResolveSameDirection(Entity entity, Entity otherEntity)
-        {
-            Console.WriteLine($"\nResolve same direction {entity.Id} and {otherEntity.Id}");
-        }
-
-        public void ResolvePerpendicularDirection(Entity entity, Entity otherEntity)
-        {
-            Console.WriteLine($"\nResolve perpendicular directions {entity.Id} and {otherEntity.Id}");
-        }
-
-        public void ResolveOtherDirection(Entity entity, Entity otherEntity)
-        {
-            Console.WriteLine($"\nResolve other directions {entity.Id} and {otherEntity.Id}");
-        }
-
 
         public void HandleCollisions(Entity entity, char axis)
         {
@@ -630,6 +633,8 @@ namespace AdventureGame.Engine
                     hasOtherMoved = false;
                 else if (!otherPhysicsComponent.HasVelocity() && !otherTransformComponent.HasMoved())
                     hasOtherMoved = false;
+
+                // TO DO: change to previous position or temp position?
 
                 // Re-create the bounding boxes in case collisions have already been resolved
                 Rectangle box = colliderComponent.CreateBoundingBox(transformComponent.position);
@@ -704,10 +709,17 @@ namespace AdventureGame.Engine
             // ...
 
 
+            // Move all entities back to the previous position before the collision started
+            foreach (Entity entity in entityList)
+            {
+                MoveToPrevious(entity);
+            }
+
             // Resolve X-axis collisions first of all moving entities
             foreach (Entity entity in entityList)
             {
                 Console.WriteLine($"\nX-axis collision resolving for entity {entity.Id}");
+                MoveX(entity);
                 HandleCollisions(entity, 'X');
             }
 
@@ -715,6 +727,7 @@ namespace AdventureGame.Engine
             foreach (Entity entity in entityList)
             {
                 Console.WriteLine($"\nY-axis collision resolving for entity {entity.Id}");
+                MoveY(entity);
                 HandleCollisions(entity, 'Y');
             }
         }
@@ -1405,26 +1418,63 @@ namespace AdventureGame.Engine
         //transformComponent.position.X = newPosition;
         //transformComponent.position.X += physicsComponent.velocity;
 
+
         // Move the X position of an entity's transform component and bounding bounding
+        public void MoveToPrevious(Entity e)
+        {
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+
+            Vector2 distance = transformComponent.position - transformComponent.previousPosition;
+
+            transformComponent.position -= distance;
+            colliderComponent.Box.X -= (int)distance.X; //(int)Math.Ceiling(distance.X)
+            colliderComponent.Box.Y -= (int)distance.Y; //(int)Math.Ceiling(distance.Y)
+        }
+
+
+        // Move the X position based on the calculated velocity
+        public void MoveX(Entity e)
+        {
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+            PhysicsComponent physicsComponent = e.GetComponent<PhysicsComponent>();
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+
+            transformComponent.position.X += physicsComponent.Velocity.X;
+            colliderComponent.Box.X += (int)physicsComponent.Velocity.X;
+        }
+
+        // Move the Y position based on the calculated velocity
+        public void MoveY(Entity e)
+        {
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+            PhysicsComponent physicsComponent = e.GetComponent<PhysicsComponent>();
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+
+            transformComponent.position.Y += physicsComponent.Velocity.Y;
+            colliderComponent.Box.Y += (int)physicsComponent.Velocity.Y;
+        }
+
+        // Move the transform component and bounding bounding X position by a given amount
         public void MoveX(Entity e, int amount)
         {
-            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
             ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
 
             transformComponent.position.X += amount;
             colliderComponent.Box.X += amount;
         }
 
-        // Move the Y position of an entity's transform component and bounding bounding
+        // Move the transform component and bounding bounding Y position by a given amount
         public void MoveY(Entity e, int amount)
         {
-            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
             ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
 
             transformComponent.position.Y += amount;
             colliderComponent.Box.Y += amount;
         }
-
+        /*
         // Move the X position of an entity's transform component and bounding bounding
         public void MoveX(Entity e, float amount)
         {
@@ -1444,7 +1494,7 @@ namespace AdventureGame.Engine
             transformComponent.position.Y += amount;
             colliderComponent.Box.Y += (int)amount; // (int)Math.Ceiling(amount);
         }
-
+        */
 
         /*
         public void ResolveCollision(int overlap, int maxOverlap)
