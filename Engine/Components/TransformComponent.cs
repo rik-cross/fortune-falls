@@ -63,7 +63,7 @@ namespace AdventureGame.Engine
 
         public TransformComponent()
         {
-            this.position = new Vector2(0, 0);
+            this.position = new Vector2(0, 0); // change to Vector2.Zero
             this.previousPosition = position;
             this.size = new Vector2(0, 0);
         }

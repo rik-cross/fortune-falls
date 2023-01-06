@@ -20,6 +20,7 @@ namespace AdventureGame.Engine
 
             // Set the previous position to the current position
             transformComponent.previousPosition = transformComponent.position;
+            physicsComponent.PreviousVelocity = physicsComponent.Velocity;
 
             // Process anything that is player-only physics
             if (entity.IsPlayerType())
@@ -50,16 +51,6 @@ namespace AdventureGame.Engine
             // Update the physics component
             physicsComponent.Direction = direction;
             physicsComponent.DirectionString = directionString;
-            /*
-            // Calculate the velocity
-            if (direction != Vector2.Zero)
-                direction.Normalize();
-
-            float speed = physicsComponent.Speed; // units/second
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            transformComponent.position += direction * speed * deltaTime;
-            */
 
             // Calculate the velocity
             if (direction != Vector2.Zero)
@@ -68,12 +59,10 @@ namespace AdventureGame.Engine
 
                 float speed = physicsComponent.Speed; // units/second
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Vector2 velocity = direction * speed * deltaTime;
 
-                transformComponent.position += direction * speed * deltaTime;
-                physicsComponent.Velocity = direction * speed * deltaTime;
-
-                // physicsComponent.Distance?
-                // Or in another system?
+                transformComponent.position += velocity;
+                physicsComponent.Velocity = velocity;
             }
             else
             {

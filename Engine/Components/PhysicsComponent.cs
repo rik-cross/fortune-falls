@@ -5,7 +5,8 @@ namespace AdventureGame.Engine
 {
     class PhysicsComponent : Component
     {
-        public Vector2 Velocity { get; set; } // Testing
+        public Vector2 Velocity { get; set; }
+        public Vector2 PreviousVelocity { get; set; }
         public Vector2 Direction { get; set; }
         public string DirectionString { get; set; }
         public float Speed { get; set; }
@@ -14,12 +15,6 @@ namespace AdventureGame.Engine
         private float _speedMultiplier;
         private float _maxSpeed;
 
-        // TO delete
-        //public int Speed { get; set; }
-        public int VelocityX { get; set; }
-        public int VelocityY { get; set; }
-        //private int _baseSpeed;
-
         public PhysicsComponent(float baseSpeed = 100, float speedMultiplier = 1.0f,
             string directionString = "")
         {
@@ -27,16 +22,12 @@ namespace AdventureGame.Engine
             _speedMultiplier = speedMultiplier;
             _maxSpeed = 400;
 
+            Velocity = Vector2.Zero;
+            PreviousVelocity = Vector2.Zero;
             Direction = Vector2.Zero;
             DirectionString = directionString;
 
             CalculateSpeed();
-        }
-
-        public bool HasVelocity()
-        {
-            //return !(VelocityX == 0 && VelocityY == 0);
-            return Direction != Vector2.Zero;
         }
 
         public void ApplySpeedModifier(float multiplier)
@@ -76,6 +67,26 @@ namespace AdventureGame.Engine
 
             //Speed = Speed < 0 ? 0 : Speed;
             //Console.WriteLine($"Speed {Speed}");
+        }
+
+        public bool HasVelocity()
+        {
+            return Velocity != Vector2.Zero;
+        }
+
+        public bool WasMoving()
+        {
+            return Velocity != PreviousVelocity && Velocity == Vector2.Zero;
+        }
+
+        public bool IsMovingOneDirection()
+        {
+            return (Velocity.X != 0 && Velocity.Y == 0) || (Velocity.Y != 0 && Velocity.X == 0);
+        }
+
+        public bool IsMovingMultipleDirections()
+        {
+            return Velocity.X != 0 && Velocity.Y != 0;
         }
     }
 

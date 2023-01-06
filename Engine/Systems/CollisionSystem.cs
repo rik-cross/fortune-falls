@@ -23,13 +23,9 @@ namespace AdventureGame.Engine
         {
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            Console.WriteLine($"Entity {entity.Id} collider added to scene");
+
             // Initialise the bounding box
-            colliderComponent.Box = new Rectangle(
-                (int)transformComponent.position.X + (int)colliderComponent.Offset.X,
-                (int)transformComponent.position.Y + (int)colliderComponent.Offset.Y,
-                (int)colliderComponent.Size.X, (int)colliderComponent.Size.Y
-            );
+            colliderComponent.GetBoundingBox(transformComponent.position);
         }
 
         public override void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity)
@@ -86,39 +82,28 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+            // Testing: Broad-phasing
+            if (physicsComponent != null && physicsComponent.WasMoving())
+                colliderComponent.Broadphase = Rectangle.Empty;
 
             // Only check moving entities
             if (!transformComponent.HasMoved() && !_collisionEnded.Contains(entity))
                 return;
 
-            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
-            //PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-
             // Update the bounding box
-            colliderComponent.Box = new Rectangle(
-                (int)transformComponent.position.X + (int)colliderComponent.Offset.X,
-                (int)transformComponent.position.Y + (int)colliderComponent.Offset.Y,
-                (int)colliderComponent.Size.X, (int)colliderComponent.Size.Y
-            );
+            colliderComponent.GetBoundingBox(transformComponent.position);
 
-            // Testing
-            /*
+            // Testing: Broad-phasing
+            Rectangle broadphaseBox;
             if (physicsComponent != null)
-            {
-                Rectangle box = colliderComponent.Box;
-                colliderComponent.Sweep = new Rectangle(
-                    (int)Math.Ceiling(box.X + physicsComponent.Velocity.X * 2),
-                    (int)Math.Ceiling(box.Y + physicsComponent.Velocity.Y * 2),
-                    (int)Math.Ceiling(box.Width + physicsComponent.Velocity.X * 2),
-                    (int)Math.Ceiling(box.Height + physicsComponent.Velocity.Y * 2)
-                );
+                broadphaseBox = colliderComponent.GetBroadphaseBox(physicsComponent.Velocity);
 
-                // Clear box if !transformComponent.HasMoved()
-            }*/
-
-            // CHANGE to use a grid or quadtree?
+            // CHANGE to use broad-phasing, a grid or a quadtree?
             // Check for collider intersects
             foreach (Entity otherEntity in entityList) // scene.EntityList)
             {
@@ -221,7 +206,7 @@ namespace AdventureGame.Engine
                 color = Color.LightGray;
 
             Globals.spriteBatch.DrawRectangle(colliderComponent.Box, color, lineWidth);
-            Globals.spriteBatch.DrawRectangle(colliderComponent.Sweep, Color.Black, lineWidth);
+            Globals.spriteBatch.DrawRectangle(colliderComponent.Broadphase, Color.Black, lineWidth);
         }
 
         public void TestingOutputSets()

@@ -6,8 +6,8 @@ namespace AdventureGame.Engine
 {
     class ColliderComponent : Component
     {
-        public Rectangle Box;
-        public Rectangle Sweep;
+        public Rectangle Box; // Bounding box
+        public Rectangle Broadphase; // Broad-phase box
         public Vector2 Size { get; set; }
         public Vector2 Offset { get; set; }
         public bool IsSolid { get; set; }
@@ -33,7 +33,7 @@ namespace AdventureGame.Engine
         }
 
         // Create and return the bounding box based on the X and Y position
-        public Rectangle CreateBoundingBox(int positionX, int positionY)
+        public Rectangle GetBoundingBox(int positionX, int positionY)
         {
             Box = new Rectangle(
                 positionX + (int)Offset.X,
@@ -46,13 +46,33 @@ namespace AdventureGame.Engine
         }
 
         // Create and return the bounding box based on the X and Y position
-        public Rectangle CreateBoundingBox(Vector2 position)
+        public Rectangle GetBoundingBox(Vector2 position)
         {
-            Box = CreateBoundingBox((int)position.X, (int)position.Y);
+            Box = GetBoundingBox((int)position.X, (int)position.Y);
 
             return Box;
         }
 
-    }
+        // Create and return the broad-phase box based on the velocity
+        public Rectangle GetBroadphaseBox(Vector2 velocity)
+        {
+            int x = Box.X;
+            int y = Box.Y;
+            float vX = velocity.X;
+            float vY = velocity.Y;
+            int width = (int)Math.Ceiling(Box.Width + Math.Abs(vX) * 2);
+            int height = (int)Math.Ceiling(Box.Height + Math.Abs(vY) * 2);
 
+            if (vX < 0)
+                x += (int)Math.Floor(vX * 2); // Math.Ceiling
+
+            if (vY < 0)
+                y += (int)Math.Floor(vY * 2);
+
+            Broadphase = new Rectangle(x, y, width, height);
+
+            return Broadphase;
+        }
+
+    }
 }
