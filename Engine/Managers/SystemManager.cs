@@ -39,7 +39,7 @@ namespace AdventureGame.Engine
             AddSystem(new HealthSystem());
             AddSystem(new MapCollisionSystem());
             AddSystem(new CollisionSystem());
-            AddSystem(new CollisionResponseSystem());
+            AddSystem(new CollisionResponseSystem3());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
             AddSystem(new AnimationSystem());
