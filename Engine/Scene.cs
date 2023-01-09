@@ -629,7 +629,7 @@ namespace AdventureGame.Engine
 
                     Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     Globals.spriteBatch.DrawString(Theme.FontTertiary,
-                        "X:" + playerPosition.X.ToString() + "  Y:" + playerPosition.Y.ToString(),
+                        "X:" + Math.Round(playerPosition.X, 1).ToString() + "  Y:" + Math.Round(playerPosition.Y, 1).ToString(),
                         new Vector2(10, 10), Color.Black);
                     Globals.spriteBatch.End();
                 }
