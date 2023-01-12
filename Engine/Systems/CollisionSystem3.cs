@@ -208,15 +208,15 @@ namespace AdventureGame.Engine
                             AddToCollisionStarted(entity, otherEntity);
 
                             // Add the other entity if it is also moving
-                            if (otherTransformComponent.HasMoved())
-                                AddToCollisionStarted(otherEntity, entity);
+                            //if (otherTransformComponent.HasMoved())
+                            //    AddToCollisionStarted(otherEntity, entity);
 
                             // Check if this collision ended last frame
                             if (_collisionEnded.Contains(entity)
                                 && handlerComponent.CollidedEntitiesEnded.Contains(otherEntity))
                             {
                                 RemoveFromCollisionEnded(entity, otherEntity);
-                                RemoveFromCollisionEnded(otherEntity, entity);
+                                //RemoveFromCollisionEnded(otherEntity, entity);
                             }
 
                             // Testing: change component outline colour
@@ -237,11 +237,11 @@ namespace AdventureGame.Engine
                         AddToCollisionEnded(entity, otherEntity);
 
                         // Check if the other entity was handling collisions
-                        if (otherHandlerComponent != null)
-                        {
-                            RemoveFromCollisionStarted(otherEntity, entity);
-                            AddToCollisionEnded(otherEntity, entity);
-                        }
+                        //if (otherHandlerComponent != null)
+                        //{
+                        //    RemoveFromCollisionStarted(otherEntity, entity);
+                        //    AddToCollisionEnded(otherEntity, entity);
+                        //}
 
                         TestingOutputSets(); // Testing
                     }
@@ -255,8 +255,8 @@ namespace AdventureGame.Engine
                         RemoveFromCollisionEnded(entity, otherEntity);
 
                         // Check if the other entity was handling collisions
-                        if (otherHandlerComponent != null)
-                            RemoveFromCollisionEnded(otherEntity, entity);
+                        //if (otherHandlerComponent != null)
+                        //    RemoveFromCollisionEnded(otherEntity, entity);
 
                         // Testing: change component outline colour
                         colliderComponent.color = Color.Yellow;
