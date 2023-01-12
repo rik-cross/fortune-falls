@@ -139,10 +139,14 @@ namespace AdventureGame
             {
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
                 Vector2 playerPosition = new Vector2(20, 760);
-                //playerPosition = new Vector2(220, 700); // X left moving
-                //playerPosition = new Vector2(500, 700); // X right moving
-                playerPosition = new Vector2(410, 1080); // Y down moving
-                //playerPosition = new Vector2(410, 480); // Y up moving
+                //playerPosition = new Vector2(220, 700); // X left
+                //playerPosition = new Vector2(500, 700); // X right 
+                //playerPosition = new Vector2(410, 1080); // Y down
+                //playerPosition = new Vector2(410, 480); // Y up
+
+                //playerPosition = new Vector2(100, 300); // X left same
+                playerPosition = new Vector2(1200, 300); // X right same
+
                 //playerPosition = new Vector2(1747, 945); // Collision tiles testing
                 //playerPosition = new Vector2(1558, 1073); // Collision tiles testing
 

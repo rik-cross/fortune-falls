@@ -14,6 +14,32 @@ namespace AdventureGame.Engine
         //public bool IsActive { get; set; } // Remove?
         public Color color = Color.Yellow; // Testing: rectangle outline
 
+        // Properties to get the bounding box's relative position
+        public int Top
+        {
+            get { return Box.Y; }
+        }
+        public int Middle
+        {
+            get { return Box.Y + (int)(Size.Y / 2); }
+        }
+        public int Bottom
+        {
+            get { return Box.Y + (int)Size.Y; }
+        }
+        public int Left
+        {
+            get { return Box.X; }
+        }
+        public int Center
+        {
+            get { return Box.X + (int)(Size.X / 2); }
+        }
+        public int Right
+        {
+            get { return Box.X + (int)Size.X; }
+        }
+
         public ColliderComponent(Vector2 size, Vector2 offset = default, bool isSolid = true)
             //bool isActive = true)
         {

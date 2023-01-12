@@ -69,6 +69,12 @@ namespace AdventureGame.Engine
             //Console.WriteLine($"Speed {Speed}");
         }
 
+        /*public Vector2 CalculateVelocity(Vector2 direction, float deltaTime)
+        {
+            Velocity = direction * Speed * deltaTime;
+            return Velocity;
+        }*/
+
         public bool HasVelocity()
         {
             return Velocity != Vector2.Zero;

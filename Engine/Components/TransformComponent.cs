@@ -8,7 +8,6 @@ namespace AdventureGame.Engine
         public Vector2 previousPosition;
         public Vector2 size;
 
-        // Change to ints?
         // Properties to get and set the size and position
         public float Width
         {
