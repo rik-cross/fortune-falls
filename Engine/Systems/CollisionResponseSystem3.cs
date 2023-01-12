@@ -902,6 +902,8 @@ namespace AdventureGame.Engine
             // ToMoveY = AllCollisions/Moving
             // MoveX() => if (!ToMoveX.Contains(entity), move)
 
+            if (entityList.Count > 0)
+                Console.WriteLine("Collisions to resolve!!");
 
             // All collisions set stores the active collisions that are valid
             // e.g. entities that are moving.

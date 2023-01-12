@@ -27,11 +27,11 @@ namespace AdventureGame.Engine
             {
                 // If the run button is pressed increase the players speed by 50%
                 if (EngineGlobals.inputManager.IsPressed(Globals.button2Input)) // OR IntentionComponent?
-                    IncreaseSpeed(entity, 1.5f); //3.5f);//1.5f);
+                    IncreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
 
                 // FIX this is not called if released during scene transition
                 if (EngineGlobals.inputManager.IsReleased(Globals.button2Input))
-                    DecreaseSpeed(entity, 1.5f); //3.5f);//1.5f);
+                    DecreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
             }
 
             // Set the direction vector and string
