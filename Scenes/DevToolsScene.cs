@@ -127,17 +127,18 @@ namespace AdventureGame
             else
                 InputCharacter(character);
         }
-
+        public override void Input(GameTime gameTime)
+        {
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
+            {
+                //if (EngineGlobals.entityManager.GetLocalPlayer() != null)
+                //    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Pop();
+                EngineGlobals.sceneManager.RemoveScene(this);
+            }
+        }
         public override void Update(GameTime gameTime)
         {
             // Move to OnInput()?
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-            {
-                if (EngineGlobals.entityManager.GetLocalPlayer() != null)
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Pop();
-                // or EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().Pop();
-                EngineGlobals.sceneManager.RemoveScene(this);
-            }
         }
 
         public override void Draw(GameTime gameTime)

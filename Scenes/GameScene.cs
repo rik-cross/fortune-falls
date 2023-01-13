@@ -201,22 +201,16 @@ namespace AdventureGame
 
             //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
         }
-
-        public override void Update(GameTime gameTime)
+        public override void Input(GameTime gameTime)
         {
-            // update scene time and set light level
-            // commented out DayNightCycle for testing
-            //DayNightCycle.Update(gameTime);
-            //lightLevel = DayNightCycle.GetLightLevel();
-
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
                 EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
             {
-                if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
-                    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerDevToolsInputController);
+                //if (EngineGlobals.entityManager.GetEntityByIdTag("localPlayer") != null)
+                //    EngineGlobals.entityManager.GetEntityByIdTag("localPlayer").GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerDevToolsInputController);
                 EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(false, false, false);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
@@ -227,6 +221,13 @@ namespace AdventureGame
             {
                 EngineGlobals.sceneManager.SetActiveScene<InventoryScene>(false, false, false);
             }
+        }
+        public override void Update(GameTime gameTime)
+        {
+            // update scene time and set light level
+            // commented out DayNightCycle for testing
+            //DayNightCycle.Update(gameTime);
+            //lightLevel = DayNightCycle.GetLightLevel();
 
             // Make entities transparent if in front of player
 

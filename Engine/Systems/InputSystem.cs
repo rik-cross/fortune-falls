@@ -10,7 +10,7 @@ namespace AdventureGame.Engine
             RequiredComponent<IntentionComponent>();
         }
 
-        public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
+        public override void InputEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 
             InputComponent inputComponent = entity.GetComponent<InputComponent>();

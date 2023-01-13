@@ -41,14 +41,8 @@ namespace AdventureGame
             AddCamera("main");
             //AddCamera("minimap");
         }
-
-        public override void Update(GameTime gameTime)
+        public override void Input(GameTime gameTime)
         {
-            // update scene time and set light level
-            // commented out DayNightCycle for testing
-            //DayNightCycle.Update(gameTime);
-            //lightLevel = DayNightCycle.GetLightLevel();
-
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
                 EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
@@ -57,6 +51,13 @@ namespace AdventureGame
             {
                 EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
             }
+        }
+        public override void Update(GameTime gameTime)
+        {
+            // update scene time and set light level
+            // commented out DayNightCycle for testing
+            //DayNightCycle.Update(gameTime);
+            //lightLevel = DayNightCycle.GetLightLevel();
 
             Utilities.SetBuildingAlpha(EntityList);
 

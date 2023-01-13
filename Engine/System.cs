@@ -13,6 +13,9 @@ namespace AdventureGame.Engine
         public List<Entity> entityList = new List<Entity>();
         public bool aboveMap = false;
 
+        public virtual void Input(GameTime gameTime, Scene scene) { }
+        public virtual void InputEntity(GameTime gameTime, Scene scene, Entity entity) { }
+
         // Update is called once per frame
         public virtual void Update(GameTime gameTime, Scene scene) { }
         

@@ -517,8 +517,7 @@ namespace AdventureGame
             //isItemDragged = false;
             // _isStackSplit / _isDraggedItemStackSplit
         }
-
-        public override void Update(GameTime gameTime)
+        public override void Input(GameTime gameTime)
         {
             if (_inputManager.IsPressed(Globals.inventoryInput)
                 || _inputManager.IsPressed(Globals.backInput))
@@ -585,14 +584,14 @@ namespace AdventureGame
 
             // Release a click and dragged item
             if (_inputManager.IsReleased(Globals.primaryCursorInput))
-                //&& isItemDragged)
+            //&& isItemDragged)
             {
                 OnDragEnd();
             }
 
             // Drop an item
             if (_inputManager.IsPressed(Globals.secondaryCursorInput)) // SelectInput?
-               // || _inputManager.IsDown(Globals.secondaryCursorInput))
+                                                                       // || _inputManager.IsDown(Globals.secondaryCursorInput))
             {
                 // right click / right shoulder?
                 //Console.WriteLine("Secondary cursor input");
@@ -607,6 +606,10 @@ namespace AdventureGame
                 Console.WriteLine("Secondary cursor input");
                 DropOneItem();
             }*/
+        }
+        public override void Update(GameTime gameTime)
+        {
+
         }
 
         // Draw the item image

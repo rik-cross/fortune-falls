@@ -79,7 +79,10 @@ namespace AdventureGame
                 Exit();
 
             EngineGlobals.inputManager.Update(gameTime);
+
+            EngineGlobals.sceneManager.Input(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
+            
             EngineGlobals.soundManager.Update(gameTime);
             base.Update(gameTime);
         }

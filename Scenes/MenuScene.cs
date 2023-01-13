@@ -120,9 +120,8 @@ namespace AdventureGame
             _controllerButton.Stop();
             _keyboardButton.Stop();
         }
-        public override void Update(GameTime gameTime)
+        public override void Input(GameTime gameTime)
         {
-
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
                 EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
@@ -195,6 +194,9 @@ namespace AdventureGame
                 _keyboardButton.Reset();
                 _keyboardButton.Play();
             }
+        }
+        public override void Update(GameTime gameTime)
+        {
 
             //_playerAnimation.Update();
             _controllerButton.Update();

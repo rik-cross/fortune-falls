@@ -34,6 +34,7 @@ namespace AdventureGame.Engine
         public TiledMapRenderer MapRenderer { get; private set; }
         public List<Rectangle> CollisionTiles { get; private set; }
 
+        public bool InputSceneBelow { get; set; }
         public bool UpdateSceneBelow { get; set; }
         public bool DrawSceneBelow { get; set; }
 
@@ -55,6 +56,7 @@ namespace AdventureGame.Engine
 
             Map = null;
             MapRenderer = null;
+            InputSceneBelow = false;
             UpdateSceneBelow = false;
             DrawSceneBelow = false;
             LightLevel = 0.6f;
@@ -335,6 +337,32 @@ namespace AdventureGame.Engine
             return 0;
         }
 
+        public virtual void _Input(GameTime gameTime)
+        {
+            if(InputSceneBelow)
+            {
+                Scene sceneBelow = _sceneManager.GetSceneBelow(this);
+                if (sceneBelow != null)
+                    sceneBelow._Input(gameTime);
+            }
+
+            // update each system
+            foreach (System s in EngineGlobals.systemManager.systems)
+            {
+                // main system update
+                s.Input(gameTime, this);
+
+                // update each relevant entity of a system
+                foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
+                    if (s.entityMapper.ContainsKey(e.Id))
+                        s.InputEntity(gameTime, this, e);
+            }
+
+            Input(gameTime);
+        }
+
+
+
         public virtual void _Update(GameTime gameTime)
         {
             // MOVE to SystemManager?
@@ -435,8 +463,6 @@ namespace AdventureGame.Engine
             }
 
         }
-
-        public virtual void Update(GameTime gameTime) { }
 
         public void _Draw(GameTime gameTime)
         {
@@ -644,6 +670,8 @@ namespace AdventureGame.Engine
 
         }
 
+        public virtual void Input(GameTime gameTime) { }
+        public virtual void Update(GameTime gameTime) { }
         public virtual void Draw(GameTime gameTime) { }
     }
 }

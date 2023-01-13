@@ -27,6 +27,14 @@ namespace AdventureGame.Engine
                 SetScreenSize(screenWidth, screenHeight);
         }
 
+        public void Input(GameTime gameTime)
+        {
+            if (ActiveScene != null)
+            {
+                ActiveScene._Input(gameTime);
+            }
+        }
+
         public void Update(GameTime gameTime)
         {
             if (Transition != null)

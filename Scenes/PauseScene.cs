@@ -19,8 +19,9 @@ namespace AdventureGame
 
         public override void Init()
         {
+            //InputSceneBelow = false;
             DrawSceneBelow = true;
-            UpdateSceneBelow = true;
+            //UpdateSceneBelow = true;
         }
 
         public override void OnEnter()
@@ -34,14 +35,17 @@ namespace AdventureGame
             EngineGlobals.soundManager.Volume = 1.0f;
             //MediaPlayer.Volume = 1.0f;
         }
-
-        public override void Update(GameTime gameTime)
+        public override void Input(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed( Globals.pauseInput)
                 || EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
                 EngineGlobals.sceneManager.RemoveScene(this);
             }
+        }
+        public override void Update(GameTime gameTime)
+        {
+
 
         }
 
