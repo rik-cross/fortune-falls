@@ -161,7 +161,7 @@ namespace AdventureGame.Engine
                 colliderComponent.Broadphase = Rectangle.Empty;
 
             // Only check moving entities
-            if (!transformComponent.HasMoved() && !_collisionEnded.Contains(entity))
+            if (!transformComponent.HasMoved())// && !_collisionEnded.Contains(entity))
                 return;
 
             // Update the bounding box
