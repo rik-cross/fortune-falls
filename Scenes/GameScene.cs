@@ -131,18 +131,20 @@ namespace AdventureGame
             // Testing
             //Entity npcChild = NPCEntity.Create(410, 700, "Townfolk-Child-M02", canMove: true);
             //Entity npcChild = NPCEntity.Create(750, 300, "Townfolk-Child-M02", canMove: true); // opposite
+
             //Entity npcChild = NPCEntity.Create(1150, 300, "Townfolk-Child-M02", canMove: true); // same
-            //npcChild.GetComponent<IntentionComponent>().left = true;
-            //npcChild.State = "walkWest";
+            Entity npcChild = NPCEntity.Create(1350, 100, "Townfolk-Child-M02", canMove: true); // multiple
+            npcChild.GetComponent<IntentionComponent>().left = true;
+            npcChild.State = "walkWest";
 
             //Entity npcChild = NPCEntity.Create(210, 700, "Townfolk-Child-M02", canMove: true);
 
-            Entity npcChild = NPCEntity.Create(150, 300, "Townfolk-Child-M02", canMove: true); // same
-            npcChild.GetComponent<IntentionComponent>().right = true;
-            npcChild.State = "walkEast";
+            //Entity npcChild = NPCEntity.Create(150, 300, "Townfolk-Child-M02", canMove: true); // same
+            //npcChild.GetComponent<IntentionComponent>().right = true;
+            //npcChild.State = "walkEast";
 
             //Entity npcChild = NPCEntity.Create(1240, 200, "Townfolk-Child-M02", canMove: true); // same
-            //npcChild.GetComponent<IntentionComponent>().down = true;
+            npcChild.GetComponent<IntentionComponent>().down = true;
             //npcChild.State = "walkSouth";
 
             //Entity npcChild = NPCEntity.Create(1240, 800, "Townfolk-Child-M02", canMove: true); // same
