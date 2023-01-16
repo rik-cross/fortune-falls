@@ -144,10 +144,12 @@ namespace AdventureGame
                 //playerPosition = new Vector2(410, 1080); // Y down
                 //playerPosition = new Vector2(410, 480); // Y up
 
-                playerPosition = new Vector2(100, 300); // X left same
+                playerPosition = new Vector2(500, 300); // X left same  // 100
                 //playerPosition = new Vector2(1200, 300); // X right same
+                //playerPosition = new Vector2(1240, 100); // Y down same
+                //playerPosition = new Vector2(1240, 900); // Y up same
 
-                playerPosition = new Vector2(1747, 945); // Collision tiles testing
+                //playerPosition = new Vector2(1747, 945); // Collision tiles testing
                 //playerPosition = new Vector2(1558, 1073); // Collision tiles testing
 
                 // Add the MenuScene to the scene stack

@@ -149,6 +149,23 @@ namespace AdventureGame.Engine
             }
         }
 
+        public override void Update(GameTime gameTime, Scene scene)
+        {
+            foreach (Entity e in entityList)
+            {
+                TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+
+                // Update the bounding box of all moving entities
+                if (transformComponent.HasMoved())
+                {
+                    ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+                    colliderComponent.GetBoundingBox(transformComponent.position);
+                }
+
+                // Broad-phase here too??
+            }
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
@@ -165,7 +182,7 @@ namespace AdventureGame.Engine
                 return;
 
             // Update the bounding box
-            colliderComponent.GetBoundingBox(transformComponent.position);
+            //colliderComponent.GetBoundingBox(transformComponent.position);
 
             // Testing: Broad-phasing
             Rectangle broadphaseBox;
@@ -202,7 +219,7 @@ namespace AdventureGame.Engine
                         if (!(_collisionStarted.Contains(entity)
                             && handlerComponent.CollidedEntities.Contains(otherEntity)))
                         {
-                            Console.WriteLine($"\nStart collision: {entity.Id} & {otherEntity.Id}");
+                            Console.WriteLine($"Start collision: {entity.Id} & {otherEntity.Id}");
 
                             // Add the entity to the collision started sets
                             AddToCollisionStarted(entity, otherEntity);
@@ -228,10 +245,10 @@ namespace AdventureGame.Engine
                     }
 
                     // Check if the entities were colliding and now they are not
-                    else if (_collisionStarted.Contains(entity) //&& handlerComponent != null
+                    else if (_collisionStarted.Contains(entity) && handlerComponent != null
                         && handlerComponent.CollidedEntities.Contains(otherEntity))
                     {
-                        Console.WriteLine($"End collision: {entity.Id} & {otherEntity.Id}");
+                        Console.WriteLine($"\nEnd collision: {entity.Id} & {otherEntity.Id}");
 
                         RemoveFromCollisionStarted(entity, otherEntity);
                         AddToCollisionEnded(entity, otherEntity);
@@ -246,11 +263,12 @@ namespace AdventureGame.Engine
                         TestingOutputSets(); // Testing
                     }
 
+                    // TO DO - should it also check collisionStarted / collidedEntities??
                     // Check if the entites are exiting a previous collision
-                    else if (_collisionEnded.Contains(entity) //&& handlerComponent != null
+                    else if (_collisionEnded.Contains(entity) && handlerComponent != null
                         && handlerComponent.CollidedEntitiesEnded.Contains(otherEntity))
                     {
-                        Console.WriteLine($"Exiting collision: {entity.Id} & {otherEntity.Id}");
+                        Console.WriteLine($"\nExiting collision: {entity.Id} & {otherEntity.Id}");
 
                         RemoveFromCollisionEnded(entity, otherEntity);
 
@@ -290,7 +308,7 @@ namespace AdventureGame.Engine
         public void TestingOutputSets()
         {
             // Testing: output collided entities set
-            Console.WriteLine("\nCollision started set: ");
+            Console.WriteLine("Collision started set: ");
             foreach (Entity entity in _collisionStarted)
             {
                 CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();
@@ -306,7 +324,7 @@ namespace AdventureGame.Engine
             }
 
             // Testing: output collided entities ended set
-            Console.WriteLine("\nCollision ended set: ");
+            Console.WriteLine("Collision ended set: ");
             foreach (Entity entity in _collisionEnded)
             {
                 CollisionHandlerComponent handlerComponent = entity.GetComponent<CollisionHandlerComponent>();

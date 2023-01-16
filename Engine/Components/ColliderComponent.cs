@@ -75,6 +75,7 @@ namespace AdventureGame.Engine
         public Rectangle GetBoundingBox(Vector2 position)
         {
             Box = GetBoundingBox((int)position.X, (int)position.Y);
+            //Box = GetBoundingBox((int)Math.Round(position.X), (int)Math.Round(position.Y));
 
             return Box;
         }

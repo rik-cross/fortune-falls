@@ -40,6 +40,8 @@ namespace AdventureGame.Engine
 
 
 
+
+
         //public void ResolveSameDirection(Entity entity, Entity otherEntity, char axis)
         //{
         //    ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
@@ -87,162 +89,154 @@ namespace AdventureGame.Engine
         //    bool multipleDirections = physicsComponent.IsMovingMultipleDirections();
 
         //    //Console.WriteLine($"One direction {oneDirection}, multiple directions {multipleDirections}");
-        //    Console.WriteLine($"Total velocity X:{totalVelocity.X} Y:{totalVelocity.Y}");
+        //    //Console.WriteLine($"Velocity {physicsComponent.Velocity}, other velocity {otherPhysicsComponent.Velocity}");
+        //    //Console.WriteLine($"Total velocity X:{totalVelocity.X} Y:{totalVelocity.Y}");
 
+        //    // Only resolve collisions if the entity is faster than the other entity.
+        //    // Snap the faster entity just behind the slower entity
 
-
-        //    // CHECK
-        //    // How to resolve when one entity (faster or smaller) hasn't moved yet?
-        //    // Check HasMoved()?
-        //    // Or move all moving entities first?
-
-
-
-
-        //    // Resolve X-axis collisions
-        //    if (axis == 'X')
+        //    // CHECK complex collisions: > or >= ?
+        //    // Check for an in-range overlap in the X-axis
+        //    if (axis == 'X' && absVelocityX > absOtherVelocityX)
         //    {
-        //        // CHECK what happens if collision is registered one way
-        //        // and the larger velocity entity is never resolved
-        //        // Move the entity with the smaller velocity first
-        //        //if (absVelocityX > absOtherVelocityX) // && otherCollider.collided.contains(entity)
-        //        //    return;
+        //        //Console.WriteLine($"Entity {entity.Id} is faster in X");
+        //        //Console.WriteLine($"Max overlap: {maxOverlapX}");
+        //        //Console.WriteLine($"Entity left:{colliderComponent.Left}, right:{colliderComponent.Right}. OtherEntity left:{otherColliderComponent.Left}, right:{otherColliderComponent.Right}");
+        //        //Console.WriteLine($"Distance moved e:{transformComponent.DistanceMoved()} otherE{otherTransformComponent.DistanceMoved()}");
 
-        //        // Check if the entity is faster than the other entity
-        //        bool isFaster = false;
-        //        if (absVelocityX > absOtherVelocityX)
-        //            isFaster = true;
-
-        //        int overlapX = 0;
-        //        //float maxOverlapX = absVelocityX - absOtherVelocityX; // Math.Abs()
-        //        float maxOverlapX = absVelocityX;
-        //        if (isFaster)
-        //            maxOverlapX = absVelocityX - absOtherVelocityX;
-
-        //        Console.WriteLine($"Entity is faster: {isFaster}");
-        //        Console.WriteLine($"Max overlap X:{maxOverlapX}");
-
-        //        // Only resolve the faster entity since it should anchor right
-        //        // behind the slower entity
-
-        //        //if (!isFaster)
-        //        //    return;
-        //        if (isFaster)
-        //        {
-        //            // Check for a valid right overlap
-
-        //            // Anchor to the left side of the other entity
-
-
-        //            // Check for a valid left overlap
-
-        //            // Anchor to the right side of the other entity
-        //        }
-
-
-        //        // Check for an in-range overlap in the X-axis
+        //        // Check for a valid right overlap
         //        if (direction.X > 0)
         //        {
-        //            // Check for a valid right overlap
-        //            overlapX = box.Left - otherBox.Right;//otherBox.Right - box.Left;
-        //            Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(totalVelocity.X)}");
-        //            if (overlapX > 0 || Math.Abs(overlapX) > Math.Ceiling(maxOverlapX))
-        //                overlapX = 0;
+        //            int overlapX = box.Right - otherBox.Left;
+        //            int maxOverlapX = (int)(Math.Ceiling(velocity.X) - Math.Floor(otherVelocity.X));
+        //            Console.WriteLine($"Overlap (X-right) {overlapX}, max {maxOverlapX}");
+
+        //            if (overlapX > 0 && overlapX <= maxOverlapX)
+        //                SnapToSideOfOtherEntity(entity, otherEntity, "left");
         //        }
+        //        // Check for a valid left overlap
         //        else if (direction.X < 0)
         //        {
-        //            // Check for a valid left overlap
-        //            overlapX = box.Right - otherBox.Left;//otherBox.Left - box.Right;
-        //            Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(totalVelocity.X)}");
-        //            if (overlapX < 0 || overlapX > Math.Ceiling(maxOverlapX))//Math.Ceiling(Math.Abs(totalVelocity.X)))
-        //                overlapX = 0;
+        //            int overlapX = box.Left - otherBox.Right;
+        //            int maxOverlapX = (int)(Math.Floor(velocity.X) - Math.Ceiling(otherVelocity.X));
+        //            Console.WriteLine($"Overlap (X-left) {overlapX}, max {maxOverlapX}");
+
+        //            if (overlapX < 0 && overlapX >= maxOverlapX)
+        //                SnapToSideOfOtherEntity(entity, otherEntity, "right");
         //        }
-
-        //        Console.WriteLine($"Valid overlap X:{overlapX}");
-
-        //        // Return if there is no valid overlap to resolve
-        //        if (overlapX == 0)
-        //            return;
-        //        else
-        //        {
-        //            // CHECK this will potentially move the other entity
-        //            // before it has been moved to it's new position
-
-
-        //            // CHECK what happens if collision is registered one way
-        //            // and the larger velocity entity is never resolved
-        //            // Move the entity with the smaller velocity first
-        //            //if (absVelocityX > absOtherVelocityX
-        //            //    && AllCollisions.Contains(otherEntity)) // && otherCollider.collided.contains(entity)
-        //            //    return;
-
-        //            if (isFaster && !AllCollisions.Contains(otherEntity))
-        //                MoveX(entity, overlapX);
-        //            else
-        //                MoveX(otherEntity, overlapX);
-        //        }
-
-        //        //entity.GetComponent<PhysicsComponent>().Speed = 0;
-        //        //otherEntity.GetComponent<PhysicsComponent>().Speed = 0;
         //    }
 
-        //    // Resolve Y-axis collisions
+        //    // Check for an in-range overlap in the Y-axis
         //    else if (axis == 'Y')
         //    {
-        //        int overlapY = 0;
-
-        //        // Check for an in-range overlap in the Y-axis
+        //        // Check for a valid top overlap
         //        if (direction.Y < 0)
         //        {
-        //            // CHANGE overlap Bottom back
-        //            // Check for a valid top overlap
-        //            overlapY = otherBox.Top - box.Top;
-        //            Console.WriteLine($"Overlap (Y-top) {overlapY}  {Math.Floor(totalVelocity.Y)}");
-        //            if (overlapY < 0 || overlapY > Math.Ceiling(Math.Abs(totalVelocity.Y)))
-        //                overlapY = 0;
+        //            int overlapY = box.Top - otherBox.Bottom;
+        //            int maxOverlapY = (int)(Math.Floor(velocity.Y) - Math.Ceiling(otherVelocity.Y));
+        //            Console.WriteLine($"Overlap (Y-top) {overlapY}, max {maxOverlapY}");
+
+        //            if (overlapY < 0 && overlapY >= maxOverlapY)
+        //                SnapToSideOfOtherEntity(entity, otherEntity, "bottom");
         //        }
+        //        // Check for a valid bottom overlap
         //        else if (direction.Y > 0)
         //        {
-        //            // Check for a valid bottom overlap
-        //            overlapY = otherBox.Bottom - box.Bottom;
-        //            Console.WriteLine($"Overlap (Y-bottom) {overlapY}  {Math.Ceiling(totalVelocity.Y)}");
-        //            if (overlapY > 0 || Math.Abs(overlapY) > Math.Ceiling(totalVelocity.Y))  // -2 < overlap < 0
-        //                overlapY = 0;
-        //        }
+        //            int overlapY = box.Bottom - otherBox.Top;
+        //            int maxOverlapY = (int)(Math.Ceiling(velocity.Y) - Math.Floor(otherVelocity.Y));
+        //            Console.WriteLine($"Overlap (Y-bottom) {overlapY}, max {maxOverlapY}");
 
-        //        Console.WriteLine($"Valid overlap Y:{overlapY}");
-
-        //        // Return if there is no valid overlap to resolve
-        //        if (overlapY == 0)
-        //            return;
-
-        //        // Check if the X overlap is the largest it can be
-        //        bool isMaxOverlapY = Math.Abs(overlapY) == Math.Ceiling(Math.Abs(totalVelocity.X));
-        //        Console.WriteLine($"Is Max Overlap Y {isMaxOverlapY}");
-        //        if (isMaxOverlapY)
-        //        {
-        //            // Move both entities back to their original Y positions
-        //            MoveY(entity, overlapY);
-        //            MoveY(otherEntity, -overlapY);
-        //        }
-        //        else
-        //        {
-        //            // Calculate the amount of offset based on the velocity of each entity
-        //            double offsetRatio = absVelocityY / (double)totalAbsVelocityY * overlapY;
-        //            int offsetY = (int)Math.Round(offsetRatio);
-        //            int otherOffsetY = overlapY - offsetY;
-
-        //            Console.WriteLine($"Offset:{offsetY}  Other offset:{otherOffsetY}");
-
-        //            // Move both entities based on their offset values
-        //            MoveY(entity, offsetY);
-        //            MoveY(otherEntity, -otherOffsetY);
+        //            if (overlapY > 0 && overlapY <= maxOverlapY)
+        //                SnapToSideOfOtherEntity(entity, otherEntity, "top");
         //        }
         //    }
-
 
         //}
 
+
+
+
+        public void ResolvePerpendicularDirection(Entity entity, Entity otherEntity)
+        {
+            Console.WriteLine($"\nResolve perpendicular directions {entity.Id} and {otherEntity.Id}");
+        }
+
+        public void ResolveOtherDirection(Entity entity, Entity otherEntity)
+        {
+            Console.WriteLine($"\nResolve other directions {entity.Id} and {otherEntity.Id}");
+        }
+
+
+
+        public void ResolveStationary(Entity entity, Entity otherEntity, char axis)
+        {
+            // Get the necessary components
+            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+            ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+            Console.WriteLine($"\nResolve stationary {axis}-axis: {entity.Id} and {otherEntity.Id}");
+
+            // Get the bounding boxes
+            Rectangle box = colliderComponent.Box;
+            Rectangle otherBox = otherColliderComponent.Box;
+
+            // Get the entity's distance moved and direction
+            Vector2 distanceMoved = transformComponent.DistanceMoved();
+            Vector2 direction = physicsComponent.Direction;
+
+            // Check for an in-range overlap in the X-axis
+            if (axis == 'X')
+            {
+                // Check for a valid right overlap
+                if (direction.X > 0)
+                {
+                    int overlapX = box.Right - otherBox.Left;
+                    Console.WriteLine($"Overlap (X-right) {overlapX}, max {Math.Ceiling(distanceMoved.X)}");
+
+                    if (overlapX > 0 && overlapX <= Math.Ceiling(distanceMoved.X))
+                        SnapToSideOfOtherEntity(entity, otherEntity, "left");
+                }
+                // Check for a valid left overlap
+                else if (direction.X < 0)
+                {
+                    int overlapX = box.Left - otherBox.Right;
+                    Console.WriteLine($"Overlap (X-left) {overlapX}, max {Math.Floor(distanceMoved.X)}");
+
+                    if (overlapX < 0 && overlapX >= Math.Floor(distanceMoved.X))
+                        SnapToSideOfOtherEntity(entity, otherEntity, "right");
+                }
+            }
+
+            // Check for an in-range overlap in the Y-axis
+            else if (axis == 'Y')
+            {
+                // Check for a valid top overlap
+                if (direction.Y < 0)
+                {
+                    int overlapY = box.Top - otherBox.Bottom; // -10
+                    //Console.WriteLine($"Overlap (Y-top) {overlapY}, max {Math.Floor(distanceMoved.Y)}");
+
+                    if (overlapY < 0 && overlapY >= Math.Floor(distanceMoved.Y))
+                        SnapToSideOfOtherEntity(entity, otherEntity, "bottom");
+                }
+                // Check for a valid bottom overlap
+                else if (direction.Y > 0)
+                {
+                    int overlapY = box.Bottom - otherBox.Top; // 10
+                    //Console.WriteLine($"Overlap (Y-bottom) {overlapY}, max {Math.Ceiling(distanceMoved.Y)}");
+
+                    if (overlapY > 0 && overlapY <= Math.Ceiling(distanceMoved.Y))
+                        SnapToSideOfOtherEntity(entity, otherEntity, "top");
+                }
+            }
+
+        }
+
+
+        // Only resolve collisions if the entity is faster than the other entity.
+        // Snap the faster entity just behind the slower entity
         public void ResolveSameDirection(Entity entity, Entity otherEntity, char axis)
         {
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
@@ -262,219 +256,70 @@ namespace AdventureGame.Engine
             Rectangle otherBox = otherColliderComponent.Box;
 
             // Get the entity's distance moved, direction and velocity
-            Vector2 distanceMoved = transformComponent.DistanceMoved();
             Vector2 direction = physicsComponent.Direction;
             Vector2 velocity = physicsComponent.Velocity;
-            //float velocityX = physicsComponent.Velocity.X;
-            //float velocityY = physicsComponent.Velocity.Y;
-            float absVelocityX = Math.Abs(velocity.X); // maxOverlapX  absVelocityX
-            float absVelocityY = Math.Abs(velocity.Y); // maxOverlapY  absVelocityY
+            float absVelocityX = Math.Abs(velocity.X);
+            float absVelocityY = Math.Abs(velocity.Y);
 
             // Get the other entity's distance moved, direction and velocity
-            Vector2 otherDistanceMoved = otherTransformComponent.DistanceMoved();
-            Vector2 otherDirection = otherPhysicsComponent.Direction;
             Vector2 otherVelocity = otherPhysicsComponent.Velocity;
-            //int otherVelocityX = otherPhysicsComponent.Velocity.X;
-            //int otherVelocityY = otherPhysicsComponent.Velocity.Y;
             float absOtherVelocityX = Math.Abs(otherVelocity.X);
             float absOtherVelocityY = Math.Abs(otherVelocity.Y);
 
-            // Calculate the total absolute X and Y velocities
-            Vector2 totalVelocity = velocity - otherVelocity;
-            float totalAbsVelocityX = absVelocityX + absOtherVelocityX;
-            float totalAbsVelocityY = absVelocityY + absOtherVelocityY;
-
-            // Get the entity's direction
-            string directionString = physicsComponent.DirectionString;
-            bool oneDirection = physicsComponent.IsMovingOneDirection();
-            bool multipleDirections = physicsComponent.IsMovingMultipleDirections();
-
-            //Console.WriteLine($"One direction {oneDirection}, multiple directions {multipleDirections}");
-            Console.WriteLine($"Velocity {physicsComponent.Velocity}, other velocity {otherPhysicsComponent.Velocity}");
-            Console.WriteLine($"Total velocity X:{totalVelocity.X} Y:{totalVelocity.Y}");
-
-            // Resolve X-axis collisions if entity is faster than other entity and
-            // snap the faster entity just behind the slower entity
-            if (axis == 'X' && absVelocityX > absOtherVelocityX)
-            {
-                int overlapX = 0;
-                float maxOverlapX = absVelocityX - absOtherVelocityX;
-                // Change to int?
-                maxOverlapX = (float)(Math.Ceiling(absVelocityX) - Math.Floor(absOtherVelocityX));
-
-                Console.WriteLine($"Entity {entity.Id} is faster in X");
-                Console.WriteLine($"Max overlap: {maxOverlapX}");
-                Console.WriteLine($"Entity left:{colliderComponent.Left}, right:{colliderComponent.Right}. OtherEntity left:{otherColliderComponent.Left}, right:{otherColliderComponent.Right}");
-                Console.WriteLine($"Distance moved e:{transformComponent.DistanceMoved()} otherE{otherTransformComponent.DistanceMoved()}");
-
-                // Check for an in-range overlap in the X-axis
-                if (direction.X > 0)
-                {
-                    // Check for a valid right overlap
-                    overlapX = box.Right - otherBox.Left;
-                    Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(totalVelocity.X)}");
-                    if (overlapX > 0 && overlapX <= Math.Ceiling(maxOverlapX))
-                        SnapToSideOfOtherEntity(entity, otherEntity, "left");
-
-                    //overlapX = box.Left - otherBox.Right;//otherBox.Right - box.Left;
-                    //Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(totalVelocity.X)}");
-                    //if (overlapX > 0 || Math.Abs(overlapX) > Math.Ceiling(maxOverlapX))
-                    //    overlapX = 0;
-                    //else
-                    //    SnapToSideOfOtherEntity(entity, otherEntity, "left");
-                }
-                else if (direction.X < 0)
-                {
-                    // Check for a valid left overlap
-                    overlapX = otherBox.Right - box.Left;//otherBox.Left - box.Right;
-                    Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(totalVelocity.X)}");
-                    if (overlapX > 0 && overlapX <= Math.Ceiling(Math.Abs(maxOverlapX)))//Math.Ceiling(Math.Abs(totalVelocity.X)))
-                        SnapToSideOfOtherEntity(entity, otherEntity, "right");
-
-                    //overlapX = box.Right - otherBox.Left;//otherBox.Left - box.Right;
-                    //Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(totalVelocity.X)}");
-                    //if (overlapX < 0 || overlapX > Math.Ceiling(maxOverlapX))//Math.Ceiling(Math.Abs(totalVelocity.X)))
-                    //    overlapX = 0;
-                    //else
-                    //    SnapToSideOfOtherEntity(entity, otherEntity, "right");
-                }
-
-                Console.WriteLine($"Distance moved e:{transformComponent.DistanceMoved()} otherE{otherTransformComponent.DistanceMoved()}");
-
-                Console.WriteLine($"Valid overlap X:{overlapX}");
-
-                // Return if there is no valid overlap to resolve
-                if (overlapX == 0)
-                    return;
-            }
-
-            // Resolve Y-axis collisions
-            else if (axis == 'Y')
-            {
-                int overlapY = 0;
-
-                // Check for an in-range overlap in the Y-axis
-                if (direction.Y < 0)
-                {
-                    // CHANGE overlap Bottom back
-                    // Check for a valid top overlap
-                    overlapY = otherBox.Top - box.Top;
-                    Console.WriteLine($"Overlap (Y-top) {overlapY}  {Math.Floor(totalVelocity.Y)}");
-                    if (overlapY < 0 || overlapY > Math.Ceiling(Math.Abs(totalVelocity.Y)))
-                        overlapY = 0;
-                }
-                else if (direction.Y > 0)
-                {
-                    // Check for a valid bottom overlap
-                    overlapY = otherBox.Bottom - box.Bottom;
-                    Console.WriteLine($"Overlap (Y-bottom) {overlapY}  {Math.Ceiling(totalVelocity.Y)}");
-                    if (overlapY > 0 || Math.Abs(overlapY) > Math.Ceiling(totalVelocity.Y))  // -2 < overlap < 0
-                        overlapY = 0;
-                }
-
-                Console.WriteLine($"Valid overlap Y:{overlapY}");
-
-                // Return if there is no valid overlap to resolve
-                if (overlapY == 0)
-                    return;
-
-                // Check if the X overlap is the largest it can be
-                bool isMaxOverlapY = Math.Abs(overlapY) == Math.Ceiling(Math.Abs(totalVelocity.X));
-                Console.WriteLine($"Is Max Overlap Y {isMaxOverlapY}");
-                if (isMaxOverlapY)
-                {
-                    // Move both entities back to their original Y positions
-                    MoveY(entity, overlapY);
-                    MoveY(otherEntity, -overlapY);
-                }
-                else
-                {
-                    // Calculate the amount of offset based on the velocity of each entity
-                    double offsetRatio = absVelocityY / (double)totalAbsVelocityY * overlapY;
-                    int offsetY = (int)Math.Round(offsetRatio);
-                    int otherOffsetY = overlapY - offsetY;
-
-                    Console.WriteLine($"Offset:{offsetY}  Other offset:{otherOffsetY}");
-
-                    // Move both entities based on their offset values
-                    MoveY(entity, offsetY);
-                    MoveY(otherEntity, -otherOffsetY);
-                }
-            }
-
-        }
-
-        public void ResolvePerpendicularDirection(Entity entity, Entity otherEntity)
-        {
-            Console.WriteLine($"\nResolve perpendicular directions {entity.Id} and {otherEntity.Id}");
-        }
-
-        public void ResolveOtherDirection(Entity entity, Entity otherEntity)
-        {
-            Console.WriteLine($"\nResolve other directions {entity.Id} and {otherEntity.Id}");
-        }
-
-
-        public void ResolveStationary(Entity entity, Entity otherEntity, char axis)
-        {
-            // Get the necessary components
-            ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
-            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-            //Console.WriteLine($"\nResolve stationary {axis}-axis: {entity.Id} and {otherEntity.Id}");
-
-            // Get the bounding boxes
-            Rectangle box = colliderComponent.Box;
-            Rectangle otherBox = otherColliderComponent.Box;
-
-            // Get the entity's distance moved and direction
-            Vector2 distanceMoved = transformComponent.DistanceMoved();
-            Vector2 direction = physicsComponent.Direction;
-
+            // CHECK complex collisions: > or >= ?
             // Check for an in-range overlap in the X-axis
-            if (axis == 'X')
+            if (axis == 'X' && absVelocityX > absOtherVelocityX) // needed?
             {
+                //Console.WriteLine($"Velocity X:{velocity.X}, other velocity X:{otherVelocity.X}");
+                //Console.WriteLine($"Total velocity: {velocity.X - otherVelocity.X} or {otherVelocity.X - velocity.X}");
+                //Console.WriteLine($"T Entity left:{transformComponent.Left} Other right:{otherTransformComponent.Right}, Entity right:{transformComponent.Right} Other left:{otherTransformComponent.Left}");
+                //Console.WriteLine($"B Entity left:{colliderComponent.Left} Other right:{otherColliderComponent.Right}, Entity right:{colliderComponent.Right} Other left:{otherColliderComponent.Left}");
+
                 // Check for a valid right overlap
                 if (direction.X > 0)
                 {
                     int overlapX = box.Right - otherBox.Left;
-                    //Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(distanceMoved.X)}");
+                    int maxOverlapX = (int)(Math.Ceiling(velocity.X) - Math.Floor(otherVelocity.X));// + 1;
+                    Console.WriteLine($"Overlap (X-right) {overlapX}, max {maxOverlapX}");
 
-                    if (overlapX > 0 && overlapX <= Math.Ceiling(distanceMoved.X))
+                    if (overlapX > 0 && overlapX <= maxOverlapX)
                         SnapToSideOfOtherEntity(entity, otherEntity, "left");
                 }
                 // Check for a valid left overlap
                 else if (direction.X < 0)
                 {
                     int overlapX = box.Left - otherBox.Right;
-                    //Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(distanceMoved.X)}");
+                    int maxOverlapX = (int)(Math.Floor(velocity.X) - Math.Ceiling(otherVelocity.X));// - 1;
+                    Console.WriteLine($"Overlap (X-left) {overlapX}, max {maxOverlapX}");
 
-                    if (overlapX < 0 && overlapX >= Math.Floor(distanceMoved.X))
+                    if (overlapX < 0 && overlapX >= maxOverlapX)
                         SnapToSideOfOtherEntity(entity, otherEntity, "right");
                 }
+                //Console.WriteLine($"T Entity left:{transformComponent.Left} Other right:{otherTransformComponent.Right}, Entity right:{transformComponent.Right} Other left:{otherTransformComponent.Left}");
+                //Console.WriteLine($"B Entity left:{colliderComponent.Left} Other right:{otherColliderComponent.Right}, Entity right:{colliderComponent.Right} Other left:{otherColliderComponent.Left}");
             }
 
             // Check for an in-range overlap in the Y-axis
-            else if (axis == 'Y')
+            else if (axis == 'Y' && absVelocityY > absOtherVelocityY) // needed?
             {
                 // Check for a valid top overlap
                 if (direction.Y < 0)
                 {
-                    int overlapY = box.Top - otherBox.Bottom; // -10
-                    //Console.WriteLine($"Overlap (Y-top) {overlapY}  {Math.Floor(distanceMoved.Y)}");
+                    int overlapY = box.Top - otherBox.Bottom;
+                    int maxOverlapY = (int)(Math.Floor(velocity.Y) - Math.Ceiling(otherVelocity.Y));
+                    Console.WriteLine($"Overlap (Y-top) {overlapY}, max {maxOverlapY}");
 
-                    if (overlapY < 0 && overlapY >= Math.Floor(distanceMoved.Y))
+                    if (overlapY < 0 && overlapY >= maxOverlapY)
                         SnapToSideOfOtherEntity(entity, otherEntity, "bottom");
                 }
                 // Check for a valid bottom overlap
                 else if (direction.Y > 0)
                 {
-                    int overlapY = box.Bottom - otherBox.Top; // 10
-                    //Console.WriteLine($"Overlap (Y-bottom) {overlapY}  {Math.Ceiling(distanceMoved.Y)}");
+                    int overlapY = box.Bottom - otherBox.Top;
+                    int maxOverlapY = (int)(Math.Ceiling(velocity.Y) - Math.Floor(otherVelocity.Y));
+                    Console.WriteLine($"Overlap (Y-bottom) {overlapY}, max {maxOverlapY}");
 
-                    if (overlapY > 0 && overlapY <= Math.Ceiling(distanceMoved.Y))
+                    if (overlapY > 0 && overlapY <= maxOverlapY)
                         SnapToSideOfOtherEntity(entity, otherEntity, "top");
                 }
             }
@@ -520,90 +365,161 @@ namespace AdventureGame.Engine
 
             Console.WriteLine($"Total velocity X:{totalVelocity.X}, {totalAbsVelocityX} Y:{totalVelocity.Y}, {totalAbsVelocityY}");
 
-            /*
             // Check for an in-range overlap in the X-axis
-            if (axis == 'X')
+            if (axis == 'X') // && absVelocityX >= absOtherVelocityX) ??
             {
+                int maxOverlapXTop = (int)(Math.Ceiling(absVelocityX) + Math.Ceiling(absOtherVelocityX));
+                int maxOverlapXBot = (int)(Math.Floor(absVelocityX) + Math.Floor(absOtherVelocityX));
+
+
                 // Check for a valid right overlap
                 if (direction.X > 0)
                 {
                     int overlapX = box.Right - otherBox.Left;
-                    //Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(distanceMoved.X)}");
+                    int maxOverlapX = (int)(Math.Ceiling(velocity.X) + Math.Ceiling(absOtherVelocityX));
+                    Console.WriteLine($"Overlap (X-right) {overlapX}, max {maxOverlapX}");
 
-                    if (overlapX > 0 && overlapX <= Math.Ceiling(distanceMoved.X))
-                        SnapToSideOfOtherEntity(entity, otherEntity, "left");
+                    if (overlapX > 0 && overlapX <= maxOverlapX)
+                    {
+                        //if (overlapX == maxOverlapX)
+                        if (overlapX >= (int)(Math.Floor(velocity.X) + Math.Floor(absOtherVelocityX))
+                            && overlapX <= maxOverlapX)
+                        {
+                            // Move both entities back to their original X positions
+                            //transformComponent.position.X = transformComponent.previousPosition.X;
+                            //otherTransformComponent.position.X = otherTransformComponent.previousPosition.X;
+
+                            MoveToPreviousX(entity);
+                            MoveToPreviousX(otherEntity);
+
+                            //MoveX(entity, overlapX);
+                            //MoveX(otherEntity, -overlapX);
+                        }
+                        else
+                        {
+                            // CHECK should velocities be rounded / ceiling / floor before totalAbs?
+                            // Calculate the amount of offset based on the velocity of each entity
+                            double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapX;
+                            int offsetX = (int)Math.Round(offsetRatio);
+                            int otherOffsetX = overlapX - offsetX;
+
+                            Console.WriteLine($"Offset:{offsetX}  Other offset:{otherOffsetX}");
+
+                            // Move both entities based on their offset values
+                            MoveX(entity, -offsetX);
+                            //MoveX(otherEntity, -otherOffsetX);
+                            SnapToSideOfOtherEntity(otherEntity, entity, "right");
+                        }
+                    }
+
+                    //overlapX = otherBox.Left - box.Right;
+                    //Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(totalVelocity.X)}");
+                    //if (overlapX > 0 || Math.Abs(overlapX) > Math.Ceiling(totalVelocity.X))
+                    //    overlapX = 0;
                 }
                 // Check for a valid left overlap
-                else if (direction.X < 0)
+                else if (direction.X < 0) // && absVelocityY >= absOtherVelocityY) ??
                 {
                     int overlapX = box.Left - otherBox.Right;
-                    //Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(distanceMoved.X)}");
+                    int maxOverlapX = (int)(Math.Floor(velocity.X) - Math.Floor(absOtherVelocityX));
+                    Console.WriteLine($"Overlap (X-left) {overlapX}, max {maxOverlapX}");
 
-                    if (overlapX < 0 && overlapX >= Math.Floor(distanceMoved.X))
-                        SnapToSideOfOtherEntity(entity, otherEntity, "right");
+                    if (overlapX < 0 && overlapX >= maxOverlapX)
+                    {
+                        //if (overlapX == maxOverlapX)
+                        if (overlapX <= (int)(Math.Ceiling(velocity.X) - Math.Ceiling(absOtherVelocityX))
+                            && overlapX >= maxOverlapX)
+                        {
+                            // Move both entities back to their original X positions
+                            //transformComponent.position.X = transformComponent.previousPosition.X;
+                            //otherTransformComponent.position.X = otherTransformComponent.previousPosition.X;
+
+                            MoveToPreviousX(entity);
+                            MoveToPreviousX(otherEntity);
+
+                            //MoveX(entity, overlapX);
+                            //MoveX(otherEntity, -overlapX);
+                        }
+                        else
+                        {
+                            // CHECK should velocities be rounded / ceiling / floor before totalAbs?
+                            // Calculate the amount of offset based on the velocity of each entity
+                            double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapX;
+                            int offsetX = (int)Math.Round(offsetRatio); // round for - ??
+                            int otherOffsetX = overlapX - offsetX;
+
+                            Console.WriteLine($"Offset:{offsetX}  Other offset:{otherOffsetX}");
+
+                            // Move both entities based on their offset values
+                            MoveX(entity, offsetX);
+                            //MoveX(otherEntity, -otherOffsetX);
+                            SnapToSideOfOtherEntity(otherEntity, entity, "left");
+                        }
+                    }
+
+                    //int overlapX = box.Left - otherBox.Right;
+                    //int maxOverlapX = (int)(Math.Floor(velocity.X) - Math.Ceiling(otherVelocity.X));
+                    //Console.WriteLine($"Overlap (X-left) {overlapX}, max {maxOverlapX}");
+
+                    //if (overlapX < 0 && overlapX >= maxOverlapX)
+                    //    SnapToSideOfOtherEntity(entity, otherEntity, "right");
                 }
             }
-            */
 
 
-            // Resolve X-axis collisions
-            if (axis == 'X')
-            {
-                int overlapX = 0;
+            //// Resolve X-axis collisions
+            //if (axis == 'X')
+            //{
+            //    int overlapX = 0;
 
-                // Check for an in-range overlap in the X-axis
-                if (direction.X > 0)
-                {
-                    // Check for a valid right overlap
+            //    // Check for an in-range overlap in the X-axis
+            //    if (direction.X > 0)
+            //    {
+            //        // Check for a valid right overlap
+            //        overlapX = otherBox.Left - box.Right;
+            //        Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(totalVelocity.X)}");
+            //        if (overlapX > 0 || Math.Abs(overlapX) > Math.Ceiling(totalVelocity.X))
+            //            overlapX = 0;
+            //    }
+            //    else if (direction.X < 0)
+            //    {
+            //        // Check for a valid left overlap
+            //        overlapX = otherBox.Right - box.Left;
+            //        Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(totalVelocity.X)}");
+            //        if (overlapX < 0 || overlapX > Math.Ceiling(Math.Abs(totalVelocity.X)))
+            //            overlapX = 0;
+            //    }
 
-                    //overlapX =
+            //    Console.WriteLine($"Valid overlap X:{overlapX}");
 
+            //    // Return if there is no valid overlap to resolve
+            //    if (overlapX == 0)
+            //        return;
 
+            //    // TO DO max overlap is never reached since entities are moved one at a time
+            //    // Check if the X overlap is the largest it can be
+            //    bool isMaxOverlapX = Math.Abs(overlapX) == Math.Ceiling(Math.Abs(totalVelocity.X));
+            //    Console.WriteLine($"Is Max Overlap X {isMaxOverlapX}");
+            //    if (isMaxOverlapX)
+            //    {
+            //        // Move both entities back to their original X positions
+            //        MoveX(entity, overlapX);
+            //        MoveX(otherEntity, -overlapX);
+            //    }
+            //    else
+            //    {
+            //        // Calculate the amount of offset based on the velocity of each entity
+            //        double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapX;
+            //        int offsetX = (int)Math.Round(offsetRatio);
+            //        int otherOffsetX = overlapX - offsetX;
 
-                    overlapX = otherBox.Left - box.Right;
-                    Console.WriteLine($"Overlap (X-right) {overlapX}  {Math.Ceiling(totalVelocity.X)}");
-                    if (overlapX > 0 || Math.Abs(overlapX) > Math.Ceiling(totalVelocity.X))
-                        overlapX = 0;
-                }
-                else if (direction.X < 0)
-                {
-                    // Check for a valid left overlap
-                    overlapX = otherBox.Right - box.Left;
-                    Console.WriteLine($"Overlap (X-left) {overlapX}  {Math.Floor(totalVelocity.X)}");
-                    if (overlapX < 0 || overlapX > Math.Ceiling(Math.Abs(totalVelocity.X)))
-                        overlapX = 0;
-                }
+            //        Console.WriteLine($"Offset:{offsetX}  Other offset:{otherOffsetX}");
 
-                Console.WriteLine($"Valid overlap X:{overlapX}");
-
-                // Return if there is no valid overlap to resolve
-                if (overlapX == 0)
-                    return;
-
-                // TO DO max overlap is never reached since entities are moved one at a time
-                // Check if the X overlap is the largest it can be
-                bool isMaxOverlapX = Math.Abs(overlapX) == Math.Ceiling(Math.Abs(totalVelocity.X));
-                Console.WriteLine($"Is Max Overlap X {isMaxOverlapX}");
-                if (isMaxOverlapX)
-                {
-                    // Move both entities back to their original X positions
-                    MoveX(entity, overlapX);
-                    MoveX(otherEntity, -overlapX);
-                }
-                else
-                {
-                    // Calculate the amount of offset based on the velocity of each entity
-                    double offsetRatio = absVelocityX / (double)totalAbsVelocityX * overlapX;
-                    int offsetX = (int)Math.Round(offsetRatio);
-                    int otherOffsetX = overlapX - offsetX;
-
-                    Console.WriteLine($"Offset:{offsetX}  Other offset:{otherOffsetX}");
-
-                    // Move both entities based on their offset values
-                    MoveX(entity, offsetX);
-                    MoveX(otherEntity, -otherOffsetX);
-                }
-            }
+            //        // Move both entities based on their offset values
+            //        MoveX(entity, offsetX);
+            //        MoveX(otherEntity, -otherOffsetX);
+            //    }
+            //}
 
             // Resolve Y-axis collisions
             else if (axis == 'Y')
@@ -686,45 +602,68 @@ namespace AdventureGame.Engine
         }
 
 
-
         // Move the transform component and bounding bounding X position by a given amount
         public void SnapToSideOfOtherEntity(Entity entity, Entity otherEntity, string side)
         {
             ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
             ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
 
             //float positionToBoxDifference;
             //float otherPositionToBoxDifference;
             int positionToBoxDifference;
+            int otherPositionToBoxDifference;
+            // OR float??
+
+            // TO DO?
+            // Re-calculate the new transform position using the other entities
+            // current TRANSFORM position
+
+            // Test with a non-moving .x position entity
+            Vector2 originalPosition = transformComponent.position;
 
             if (side == "left")
             {
                 // Snap right side of entity to left side of other entity
                 positionToBoxDifference = (int)transformComponent.Right - colliderComponent.Right;
                 //otherPositionToBoxDifference = otherTransformComponent.position.X - otherColliderComponent.Box.X;
+                otherPositionToBoxDifference = otherColliderComponent.Left - (int)otherTransformComponent.Left;
 
-                transformComponent.Right = otherColliderComponent.Left + positionToBoxDifference;
+                //transformComponent.Right = otherColliderComponent.Left + positionToBoxDifference;
+                transformComponent.Right = otherTransformComponent.Left + otherPositionToBoxDifference + positionToBoxDifference;
             }
             else if (side == "right")
             {
                 // Snap left side of entity to right side of other entity
                 positionToBoxDifference = colliderComponent.Left - (int)transformComponent.Left;
-                transformComponent.Left = otherColliderComponent.Right - positionToBoxDifference;
+                otherPositionToBoxDifference = (int)otherTransformComponent.Right - otherColliderComponent.Right;
+
+                //transformComponent.Left = otherColliderComponent.Right - positionToBoxDifference;
+                transformComponent.Left = otherTransformComponent.Right - otherPositionToBoxDifference - positionToBoxDifference;
             }
             else if (side == "top")
             {
                 // Snap bottom side of entity to top side of other entity
-                positionToBoxDifference = colliderComponent.Bottom - (int)transformComponent.Bottom;
-                transformComponent.Bottom = otherColliderComponent.Top + positionToBoxDifference;
+                //positionToBoxDifference = colliderComponent.Bottom - (int)transformComponent.Bottom;
+                positionToBoxDifference = (int)transformComponent.Bottom - colliderComponent.Bottom;
+                otherPositionToBoxDifference = otherColliderComponent.Top - (int)otherTransformComponent.Top;
+
+                //transformComponent.Bottom = otherColliderComponent.Top + positionToBoxDifference;
+                transformComponent.Bottom = otherTransformComponent.Top + otherPositionToBoxDifference + positionToBoxDifference;
             }
             else if (side == "bottom")
             {
                 // Snap top side of entity to bottom side of other entity
                 positionToBoxDifference = colliderComponent.Top - (int)transformComponent.Top;
-                transformComponent.Top = otherColliderComponent.Bottom - positionToBoxDifference;
+                //otherPositionToBoxDifference = otherColliderComponent.Bottom - (int)otherTransformComponent.Bottom;
+                otherPositionToBoxDifference = (int)otherTransformComponent.Bottom - otherColliderComponent.Bottom;
+
+                //transformComponent.Top = otherColliderComponent.Bottom - positionToBoxDifference;
+                transformComponent.Top = otherTransformComponent.Bottom - otherPositionToBoxDifference - positionToBoxDifference;
             }
 
+            Console.WriteLine($"Snap position {transformComponent.position}, prev position {transformComponent.previousPosition}");
             colliderComponent.GetBoundingBox(transformComponent.position);
 
             //transformComponent.position.X += amount;
@@ -925,7 +864,17 @@ namespace AdventureGame.Engine
             // MoveX() => if (!ToMoveX.Contains(entity), move)
 
             if (entityList.Count > 0)
-                Console.WriteLine("Collisions to resolve!!");
+            {
+                Console.Write("Collisions to resolve!! ");
+                foreach (Entity e in entityList)
+                    Console.Write(e.Id + ", ");
+                Console.WriteLine();
+
+                //ColliderComponent eC = EngineGlobals.entityManager.GetEntity(0).GetComponent<ColliderComponent>();
+                //ColliderComponent oC = EngineGlobals.entityManager.GetEntity(110).GetComponent<ColliderComponent>();
+                //bool inter = eC.Box.Intersects(oC.Box);
+                //Console.WriteLine($"Entity 0 intersects with 110? {inter}");
+            }
 
             // All collisions set stores the active collisions that are valid
             // e.g. entities that are moving.
@@ -953,6 +902,11 @@ namespace AdventureGame.Engine
                 {
                     AllCollisions.Add(entity);
                     MoveEntityToPreviousPosition(entity);
+
+                    // CHANGE
+                    // MOVE to HandleSimple method
+                    //MoveToPreviousY(entity);
+                    // Remove MoveX(entity);
                 }
 
                 // Multiple collisions
@@ -960,6 +914,11 @@ namespace AdventureGame.Engine
                 {
                     AllCollisions.Add(entity);
                     MoveEntityToPreviousPosition(entity);
+
+                    // CHANGE
+                    // MOVE to HandleSimple method
+                    //MoveToPreviousY(entity);
+                    // Remove MoveX(entity);
 
                     bool complex = false;
                     foreach (Entity otherEntity in handler.CollidedEntities)
@@ -979,7 +938,7 @@ namespace AdventureGame.Engine
             }
 
             // TESTING!
-            AllCollisions = new HashSet<Entity>(entityList);
+            //AllCollisions = new HashSet<Entity>(entityList);
 
             // The complex collisions set may contain entities that do not need to be
             // resolved e.g. non-moving entities. So remove them from the set.
@@ -1743,19 +1702,41 @@ namespace AdventureGame.Engine
         //transformComponent.position.X = newPosition;
         //transformComponent.position.X += physicsComponent.velocity;
 
-
+        // TO DELETE
         // Move the X position of an entity's transform component and bounding bounding
         public void MoveEntityToPreviousPosition(Entity e)
         {
             ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = e.GetComponent<TransformComponent>();
-
+            
             Vector2 distance = transformComponent.position - transformComponent.previousPosition;
 
             transformComponent.position -= distance;
             colliderComponent.Box.X -= (int)distance.X; //(int)Math.Ceiling(distance.X)
             colliderComponent.Box.Y -= (int)distance.Y; //(int)Math.Ceiling(distance.Y)
+            
         }
+
+        // Move the entity back to it's previous X position and redraw the bounding box
+        public void MoveToPreviousX(Entity e)
+        {
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+            
+            transformComponent.position.X = transformComponent.previousPosition.X;
+            colliderComponent.GetBoundingBox(transformComponent.position);
+        }
+
+        // Move the entity back to it's previous Y position and redraw the bounding box
+        public void MoveToPreviousY(Entity e)
+        {
+            ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
+            TransformComponent transformComponent = e.GetComponent<TransformComponent>();
+
+            transformComponent.position.Y = transformComponent.previousPosition.Y;
+            colliderComponent.GetBoundingBox(transformComponent.position);
+        }
+
 
 
         // Move the X position based on the calculated velocity

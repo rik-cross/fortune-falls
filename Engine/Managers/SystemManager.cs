@@ -90,7 +90,7 @@ namespace AdventureGame.Engine
                     {
                         // Testing
                         /*Console.WriteLine($"System {s}");
-                        Console.WriteLine(String.Join(", ", s.entityList));
+                        Console.WriteLine(string.Join(", ", s.entityList));
                         foreach (KeyValuePair<int, int> kv in s.entityMapper)
                             Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
                         */
@@ -120,7 +120,7 @@ namespace AdventureGame.Engine
 
                         // Testing
                         /*Console.WriteLine("New:");
-                        Console.WriteLine(String.Join(", ", s.entityList));
+                        Console.WriteLine(string.Join(", ", s.entityList));
                         foreach (KeyValuePair<int, int> kv in s.entityMapper)
                             Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
                         */
