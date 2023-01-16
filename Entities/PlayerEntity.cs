@@ -12,7 +12,7 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, float speed = 100, string idTag = null)
+        public static Engine.Entity Create(int x, int y, float speed = 90, string idTag = null)
         {
             // Check if the player entity already exists
             Engine.Entity playerEntity;
