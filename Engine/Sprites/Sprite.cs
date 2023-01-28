@@ -16,7 +16,7 @@ namespace AdventureGame.Engine
         public int currentPosition;
         public int animationDelay;
         public int timer;
-        public Action OnComplete;
+        public Action<Entity> OnComplete;
 
         public Sprite(Texture2D texture/*, Vector2 size = default*/)
         {
@@ -32,7 +32,7 @@ namespace AdventureGame.Engine
             Reset();
         }
 
-        public Sprite(List<Texture2D> textureList, bool loop = true, int animationDelay = 10, Action a = null)
+        public Sprite(List<Texture2D> textureList, bool loop = true, int animationDelay = 10, Action<Entity> a = null)
         {
             this.textureList = textureList;
 

@@ -41,7 +41,7 @@ namespace AdventureGame.Engine
                     }
                     if (spritesComponent.SpriteDict[entity.State].OnComplete != null)
                     {
-                        spritesComponent.SpriteDict[entity.State].OnComplete();
+                        spritesComponent.SpriteDict[entity.State].OnComplete(entity);
                     }
                 }
             }
