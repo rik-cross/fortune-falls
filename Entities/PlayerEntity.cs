@@ -70,6 +70,7 @@ namespace AdventureGame
             spriteComponent.AddSprite("idle_south", playerSpriteSheet, 2, 1, 1);
             spriteComponent.AddSprite("idle_east", playerSpriteSheet, 1, 1, 1);
             spriteComponent.AddSprite("idle_west", playerSpriteSheet, 3, 1, 1);
+
             spriteComponent.SetAnimationDelay(8);
 
             // Add the other components

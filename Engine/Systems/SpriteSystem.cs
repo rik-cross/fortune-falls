@@ -36,7 +36,13 @@ namespace AdventureGame.Engine
                     if (spritesComponent.SpriteDict[entity.State].loop)
                         spritesComponent.SpriteDict[entity.State].currentPosition = 0;
                     else
+                    {
                         spritesComponent.SpriteDict[entity.State].currentPosition = spritesComponent.SpriteDict[entity.State].textureList.Count - 1;
+                    }
+                    if (spritesComponent.SpriteDict[entity.State].OnComplete != null)
+                    {
+                        spritesComponent.SpriteDict[entity.State].OnComplete();
+                    }
                 }
             }
 
