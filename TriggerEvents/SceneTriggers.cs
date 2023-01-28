@@ -100,22 +100,26 @@ namespace AdventureGame.Engine
                 colliderEntity.AddComponent(new Engine.EmoteComponent("Emojis/emoji_melting"));
             else
                 colliderEntity.GetComponent<EmoteComponent>().Show();
-            colliderEntity.GetComponent<DialogueComponent>().AddPage(
-                new Engine.Dialogue("Wow, it's getting warm!", texture: Globals.content.Load<Texture2D>("Emojis/emoji_melting")));
-            colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Add(
-                new Engine.Dialogue(
-                    "Wow, I'm so warm!",
-                    entity: EngineGlobals.entityManager.GetLocalPlayer()));
+            if (colliderEntity.GetComponent<DialogueComponent>() != null)
+            {
+                colliderEntity.GetComponent<DialogueComponent>().AddPage(
+                    new Engine.Dialogue("Wow, it's getting warm!", texture: Globals.content.Load<Texture2D>("Emojis/emoji_melting")));
+            }
         }
         public static void LightOnCollisionExit(Entity triggerEntity, Entity colliderEntity, float distance)
         {
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(1.5f, 0.01f);
+            
             if (colliderEntity.GetComponent<EmoteComponent>() != null)
             {
                 colliderEntity.GetComponent<EmoteComponent>().Hide();
+
             }
-            colliderEntity.GetComponent<DialogueComponent>().RemovePage();
+            if (colliderEntity.GetComponent<DialogueComponent>() != null && colliderEntity.GetComponent<DialogueComponent>().dialoguePages.Count > 0)
+            {
+                colliderEntity.GetComponent<DialogueComponent>().RemovePage();
+            }
         }
     }
 }
