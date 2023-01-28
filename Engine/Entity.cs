@@ -16,6 +16,8 @@ namespace AdventureGame.Engine
         private readonly EntityManager entityManager;
         private readonly ComponentManager componentManager;
 
+        public List<TimedAction> timedActionList = new List<TimedAction>();
+
         public Entity(int id)
         {
             Id = id;
@@ -82,6 +84,11 @@ namespace AdventureGame.Engine
         }
 
         public virtual void OnDestroy() { }
+
+        public void After(int frames, Action<Entity> f)
+        {
+            timedActionList.Add(new TimedAction(this, frames, f));
+        }
     }
 
 }

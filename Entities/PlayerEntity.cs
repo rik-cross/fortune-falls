@@ -186,10 +186,6 @@ namespace AdventureGame
             if (entity.State == "walk_west" && EngineGlobals.inputManager.IsDown(inputComponent.input.left) == false)
                 entity.State = "idle_west";
             
-            // todo: "idle" needs to be the default state
-            //if (entity.State == "idle_south")
-            //    entity.State = "idle";
-
         }
 
         public static void PlayerDevToolsInputController(Entity entity)
