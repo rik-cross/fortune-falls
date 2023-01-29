@@ -27,7 +27,7 @@ namespace AdventureGame.Engine
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
         public EmoteComponent(string emoteImageURI)
         {
-            EmoteSize = new Vector2(8, 8);
+            EmoteSize = new Vector2(16, 16);
 
             emoteImage = new Image(
                 Globals.content.Load<Texture2D>(emoteImageURI),

@@ -572,21 +572,6 @@ namespace AdventureGame.Engine
                 }
                 Globals.spriteBatch.End();
 
-                // draw systems above map
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
-                // draw each system
-                foreach (System s in EngineGlobals.systemManager.systems)
-                {
-                    if (s.aboveMap)
-                    {
-                        // entity-specific draw
-                        foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
-                            if (s.entityMapper.ContainsKey(e.Id))
-                                s.DrawEntity(gameTime, this, e);
-                    }
-                }
-                Globals.spriteBatch.End();
-
                 // scene light level
                 Globals.graphicsDevice.SetRenderTarget(Globals.lightRenderTarget);
                 Globals.graphicsDevice.Viewport = c.getViewport();
@@ -633,6 +618,21 @@ namespace AdventureGame.Engine
 
                 Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
                 Globals.graphicsDevice.Viewport = c.getViewport();
+
+                // draw systems above map
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                // draw each system
+                foreach (System s in EngineGlobals.systemManager.systems)
+                {
+                    if (s.aboveMap)
+                    {
+                        // entity-specific draw
+                        foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
+                            if (s.entityMapper.ContainsKey(e.Id))
+                                s.DrawEntity(gameTime, this, e);
+                    }
+                }
+                Globals.spriteBatch.End();
 
                 // draw the camera border
                 if (c.borderThickness > 0)
