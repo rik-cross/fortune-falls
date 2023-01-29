@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -74,6 +75,15 @@ namespace AdventureGame.Engine
                 }
             }
             return null;
+        }
+
+        // Reset entity components
+        public void Reset()
+        {
+            foreach(Component c in Components)
+            {
+                c.Reset();
+            }
         }
 
         // Destroy the entity

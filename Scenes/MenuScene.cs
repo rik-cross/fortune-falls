@@ -114,6 +114,17 @@ namespace AdventureGame
             _keyboardButton.Stop();
             _keyboardButton.Reverse(false);
             _keyboardButton.Reset();
+
+            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
+            {
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Pop();
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel = "";
+            }
+            EngineGlobals.entityManager.GetLocalPlayer().Reset();
+            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
+
         }
         public override void OnExit()
         {

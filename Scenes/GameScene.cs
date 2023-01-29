@@ -215,6 +215,7 @@ namespace AdventureGame
         {
             // Add the player and minimap cameras
             AddCamera("main");
+            GetCameraByName("main").SetZoom(1.5f, instant: true);
             //AddCamera("minimap");
 
             //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));

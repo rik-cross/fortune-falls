@@ -38,5 +38,9 @@ namespace AdventureGame.Engine
             dialoguePages.Clear();
             alpha.Value = 0;
         }
+        public override void Reset()
+        {
+            Clear();
+        }
     }
 }

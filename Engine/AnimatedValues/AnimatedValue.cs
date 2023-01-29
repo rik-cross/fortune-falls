@@ -26,6 +26,11 @@ namespace AdventureGame.Engine
             Increment = increment;
         }
         public abstract void Update();
+        public void Set(T value)
+        {
+            _value = value;
+            _target = value;
+        }
     }
 
 }

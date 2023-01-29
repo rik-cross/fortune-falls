@@ -94,7 +94,7 @@ namespace AdventureGame.Engine
                 return;
 
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = triggerEntity;
-            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(2.5f, 0.02f);
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(2.5f);
             //colliderEntity.AddComponent(new Engine.TextComponent("Hello! Here is some text, hopefully split over a few lines!"));
             if (colliderEntity.GetComponent<EmoteComponent>() == null)
                 colliderEntity.AddComponent(new Engine.EmoteComponent("Emojis/emoji_melting"));
@@ -109,7 +109,7 @@ namespace AdventureGame.Engine
         public static void LightOnCollisionExit(Entity triggerEntity, Entity colliderEntity, float distance)
         {
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
-            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(1.5f, 0.01f);
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(1.5f);
             
             if (colliderEntity.GetComponent<EmoteComponent>() != null)
             {

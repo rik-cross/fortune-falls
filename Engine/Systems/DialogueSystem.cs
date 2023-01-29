@@ -15,10 +15,42 @@ namespace AdventureGame.Engine
         {
             RequiredComponent<DialogueComponent>();
         }
+        public void DialogueInputController(Entity e)
+        {
+            Engine.InputComponent ic = e.GetComponent<Engine.InputComponent>();
+            Engine.DialogueComponent dc = e.GetComponent<Engine.DialogueComponent>();
+            if(ic != null && dc != null)
+            {
+                if(EngineGlobals.inputManager.IsPressed(ic.input.button1) && dc.dialoguePages.Count > 0)
+                {
+                    // if dialogue not yet finished
+                    if(false) // todo
+                    {
+
+                    }
+                    else
+                    {
+                        dc.RemovePage();
+                    }
+                }
+            }
+        }
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
 
             DialogueComponent dialogueComponent = entity.GetComponent<DialogueComponent>();
+
+            // ensure that the top inputController is for dialogue
+            Engine.InputComponent ic = entity.GetComponent<InputComponent>();
+            if (ic != null && dialogueComponent.dialoguePages.Count > 0 && ic.topControllerLabel != "dialogue")
+            {
+                if (entity.GetComponent<IntentionComponent>() != null)
+                    entity.GetComponent<IntentionComponent>().Reset();
+                if (entity.State.Split("_").Length == 2)
+                    entity.State = "idle_" + entity.State.Split("_")[1];
+                ic.inputControllerStack.Push(DialogueInputController);
+                ic.topControllerLabel = "dialogue";
+            }
 
             dialogueComponent.alpha.Update();
 
@@ -37,8 +69,16 @@ namespace AdventureGame.Engine
             }
 
             if (dialogueComponent.dialoguePages.Count == 0)
-                return;
+            {
+                if (ic.topControllerLabel == "dialogue" && ic.inputControllerStack.Count > 0)
+                {
+                    ic.Pop();
+                    ic.topControllerLabel = "";
+                }
+            }
 
+            if (dialogueComponent.dialoguePages.Count == 0)
+                return;
             if (dialogueComponent.dialoguePages[0].entity == null)
                 return;
             if (entity.GetComponent<SpriteComponent>() == null)

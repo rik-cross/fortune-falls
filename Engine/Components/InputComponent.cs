@@ -13,6 +13,7 @@ namespace AdventureGame.Engine
         public InputMethod input;
         // input controller stack
         public Stack<Action<Entity>> inputControllerStack = new Stack<Action<Entity>>();
+        public string topControllerLabel = "";
 
         public InputComponent(
                     InputMethod input,

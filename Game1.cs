@@ -67,7 +67,7 @@ namespace AdventureGame
             // Leave here or move to scene that checks if player already exists?
             // Create player entity
             string playerId = "localPlayer";
-            Engine.Entity playerEntity = PlayerEntity.Create(x: 20, y: 760, idTag: playerId);
+            Engine.Entity playerEntity = PlayerEntity.Create(x: 0, y: 0, idTag: playerId);
 
             // Create the menu and set as the active scene
             EngineGlobals.sceneManager.SetActiveScene<MenuScene>();

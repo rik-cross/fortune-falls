@@ -20,7 +20,7 @@ namespace AdventureGame.Engine
 
         public float zoom;
         public float targetZoom;
-        public float zoomIncrement = 0f;
+        public float zoomIncrement = 0.02f;
 
         public Color backgroundColour;
         public Color borderColour;
@@ -55,7 +55,7 @@ namespace AdventureGame.Engine
 
             this.zoom = zoom;
             this.targetZoom = zoom;
-            this.zoomIncrement = 0.0f;
+            //this.zoomIncrement = 0.0f;
 
             this.backgroundColour = backgroundColour;
             this.borderColour = borderColour;
@@ -76,13 +76,15 @@ namespace AdventureGame.Engine
             }
         }
 
-        public void SetZoom(float newZoom, float newIncrement = 0.0f)
+        public void SetZoom(float newZoom, bool instant = false)
         {
             this.targetZoom = newZoom;
             Globals.globalZoomLevel = targetZoom;
-            this.zoomIncrement = newIncrement;
-            if (newIncrement == 0.0f)
+            if (instant == true)
+            {
                 this.zoom = newZoom;
+                this.targetZoom = newZoom;
+            }
         }
 
         public Viewport getViewport()

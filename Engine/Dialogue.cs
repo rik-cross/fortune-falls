@@ -21,7 +21,7 @@ namespace AdventureGame.Engine
         public bool markForRemoval = false;
         public Dialogue(string text = null, Entity entity = null, Texture2D texture = null)
         {
-            this.text = text;
+            this.text = text + " >";
             this.entity = entity;
             this.texture = texture;
         }

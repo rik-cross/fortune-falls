@@ -12,8 +12,8 @@
     },
     "Players": [
         {
-            "X": 100,
-            "Y": 100,
+            "X": 0,
+            "Y": 0,
             "Width": 26,
             "Height": 36,
             "Filename": "playerSpriteSheet",
