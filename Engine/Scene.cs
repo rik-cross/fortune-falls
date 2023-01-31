@@ -380,6 +380,21 @@ namespace AdventureGame.Engine
                 EntityList.Remove(e);
             _entityManager.DeleteEntitiesFromGame();
 
+
+            // Repeats for each entity whose components have changed
+            foreach (Entity e in _componentManager.changedEntities)
+            {
+                // CHECK should this or the UpdateEntityList only be executed
+                // if e is in the scene EntityList / Mapper?
+
+                _componentManager.RemoveQueuedComponents();
+                _systemManager.UpdateEntityLists(e);
+                //_systemManager.UpdateEntityLists(gameTime, this, e);
+            }
+            _componentManager.removedComponents.Clear();
+            _componentManager.changedEntities.Clear();
+
+
             // Add entities from the added set
             /*foreach (Entity e in _entityManager.Added)
             //    AddEntity(e);
@@ -411,18 +426,6 @@ namespace AdventureGame.Engine
             }
             EntitiesToAdd.Clear();
 
-            // Repeats for each entity whose components have changed
-            foreach (Entity e in _componentManager.changedEntities)
-            {
-                // CHECK should this or the UpdateEntityList only be executed
-                // if e is in the scene EntityList / Mapper?
-
-                _componentManager.RemoveQueuedComponents();
-                _systemManager.UpdateEntityLists(e);
-                //_systemManager.UpdateEntityLists(gameTime, this, e);
-            }
-            _componentManager.removedComponents.Clear();
-            _componentManager.changedEntities.Clear();
 
             // update timers here??
 

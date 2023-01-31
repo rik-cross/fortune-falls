@@ -63,12 +63,12 @@ namespace AdventureGame.Engine
 
                 transformComponent.position += velocity;
                 physicsComponent.Velocity = velocity;
-                Console.WriteLine($"\nPHYSICS position:{transformComponent.position}, previous{transformComponent.previousPosition}");
-                ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-                // NOT up to date
-                Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
-                colliderComponent.GetBoundingBox(transformComponent.position);
-                Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
+                //Console.WriteLine($"\nPHYSICS position:{transformComponent.position}, previous{transformComponent.previousPosition}");
+                //ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
+                //// NOT up to date
+                //Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
+                //colliderComponent.GetBoundingBox(transformComponent.position);
+                //Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
             }
             else
             {

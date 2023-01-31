@@ -12,9 +12,9 @@ namespace AdventureGame
 {
     public static class ChestEntity {
 
-        public static Engine.Entity Create(int x, int y)
+        public static Engine.Entity Create(int x, int y, int inventorySize = 20)
         {
-            Vector2 chestSize = new Vector2(36,42);
+            Vector2 chestSize = new Vector2(36, 42);
 
             Engine.Entity entity;
             entity = Engine.EngineGlobals.entityManager.CreateEntity();
@@ -34,19 +34,18 @@ namespace AdventureGame
             // TODO -- add to constrctor
             spriteComponent.GetSprite("open").loop = false;
 
-            // TODO -- why isn't this working?
             entity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(30, 30),
                 offset: new Vector2(0, 30)
             ));
-
-            
 
             entity.AddComponent(new Engine.TriggerComponent(
                 size: new Vector2(chestSize.X + 10, chestSize.Y + 10),
                 offset: new Vector2(-5, -5),
                 onCollisionEnter: SwitchToOpenState
             ));
+
+            entity.AddComponent(new Engine.InventoryComponent(inventorySize));
 
             spriteComponent.GetSprite("open").OnComplete = DropLoot;
 
@@ -60,9 +59,14 @@ namespace AdventureGame
 
         public static void DropLoot(Entity entity)
         {
-            if (entity.GetComponent<Engine.InventoryComponent>() != null)
+            InventoryComponent inventoryComponent = entity.GetComponent<Engine.InventoryComponent>();
+            if (inventoryComponent != null)
             {
                 // TODO - how to drop all inventory items?
+                EngineGlobals.inventoryManager.DropAllItems(
+                    inventoryComponent.InventoryItems,
+                    entity
+                );
             }
         }
 

@@ -125,32 +125,9 @@ namespace AdventureGame
             //
 
             AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
-            //AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
+            AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
             AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
             AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
-            // Testing
-            //Entity npcChild = NPCEntity.Create(410, 700, "Townfolk-Child-M02", canMove: true);
-            //Entity npcChild = NPCEntity.Create(750, 300, "Townfolk-Child-M02", canMove: true); // opposite
-
-            //Entity npcChild = NPCEntity.Create(1150, 300, "Townfolk-Child-M02", canMove: true); // same
-            Entity npcChild = NPCEntity.Create(1350, 100, "Townfolk-Child-M02", canMove: true); // multiple
-            npcChild.GetComponent<IntentionComponent>().left = true;
-            npcChild.State = "walkWest";
-
-            //Entity npcChild = NPCEntity.Create(210, 700, "Townfolk-Child-M02", canMove: true);
-
-            //Entity npcChild = NPCEntity.Create(150, 300, "Townfolk-Child-M02", canMove: true); // same
-            //npcChild.GetComponent<IntentionComponent>().right = true;
-            //npcChild.State = "walkEast";
-
-            //Entity npcChild = NPCEntity.Create(1240, 200, "Townfolk-Child-M02", canMove: true); // same
-            npcChild.GetComponent<IntentionComponent>().down = true;
-            //npcChild.State = "walkSouth";
-
-            //Entity npcChild = NPCEntity.Create(1240, 800, "Townfolk-Child-M02", canMove: true); // same
-            //npcChild.GetComponent<IntentionComponent>().up = true;
-            //npcChild.State = "walkNorth";
-            AddEntity(npcChild);
 
             //
             // Add enemy entities
@@ -189,6 +166,12 @@ namespace AdventureGame
             /*Engine.Entity chestEntity = EngineGlobals.entityManager.CreateEntity();
             chestEntity.Tags.AddTag("chest");
             chestEntity.AddComponent(new Engine.InventoryComponent(10));
+            */
+
+            // test chest
+            Entity chestEntity = ChestEntity.Create(1000, 300, 10);
+            AddEntity(chestEntity);
+
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
 
             Item coin = new Item(
@@ -206,7 +189,6 @@ namespace AdventureGame
             EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, potionBlue);
 
             AddEntity(chestEntity);
-            */
 
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
         }
@@ -219,12 +201,8 @@ namespace AdventureGame
             //AddCamera("minimap");
 
             //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
-
-            // test chest
-            Entity chestEntity = ChestEntity.Create(1000, 300);
-            AddEntity(chestEntity);
-
         }
+
         public override void Input(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
@@ -246,6 +224,7 @@ namespace AdventureGame
                 EngineGlobals.sceneManager.SetActiveScene<InventoryScene>(false, false, false);
             }
         }
+
         public override void Update(GameTime gameTime)
         {
             // update scene time and set light level
