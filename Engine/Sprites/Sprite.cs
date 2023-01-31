@@ -17,6 +17,7 @@ namespace AdventureGame.Engine
         public int animationDelay;
         public int timer;
         public Action<Entity> OnComplete;
+        public bool completed = false;
 
         public Sprite(Texture2D texture/*, Vector2 size = default*/)
         {
@@ -54,6 +55,7 @@ namespace AdventureGame.Engine
         {
             this.currentPosition = 0;
             this.timer = 0;
+            this.completed = false;
         }
 
     }

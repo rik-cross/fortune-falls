@@ -14,7 +14,7 @@ namespace AdventureGame.Engine
         {
             entity = e;
             framesLeft = f;
-            method = new Action<Entity>(a);
+            method = a;
         }
 
         public void Update()

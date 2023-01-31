@@ -51,9 +51,10 @@ namespace AdventureGame.Engine
 
         // Change to return the component??
         // Add a component to the entity
-        public void AddComponent(Component component, bool instant = false)
+        public Component AddComponent(Component component, bool instant = false)
         {
             componentManager.AddComponent(this, component, instant);
+            return component;
         }
         
         // Remove a given component from the entity

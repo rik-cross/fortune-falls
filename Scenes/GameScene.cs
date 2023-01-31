@@ -219,6 +219,11 @@ namespace AdventureGame
             //AddCamera("minimap");
 
             //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
+
+            // test chest
+            Entity chestEntity = ChestEntity.Create(1000, 300);
+            AddEntity(chestEntity);
+
         }
         public override void Input(GameTime gameTime)
         {
