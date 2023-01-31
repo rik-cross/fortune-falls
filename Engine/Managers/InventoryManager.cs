@@ -151,7 +151,7 @@ namespace AdventureGame.Engine
             int randomX = 0;
             int randomY = 0;
 
-            if (entity.IsPlayerType())
+            if (entity.IsPlayerType() || entity.Tags.HasType("chest"))
             {
                 // Initialise the item position to below the bottom center of the entity
                 itemX = (int)transformComponent.Center - item.Texture.Width / 2;

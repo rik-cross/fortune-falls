@@ -62,7 +62,6 @@ namespace AdventureGame
             InventoryComponent inventoryComponent = entity.GetComponent<Engine.InventoryComponent>();
             if (inventoryComponent != null)
             {
-                // TODO - how to drop all inventory items?
                 EngineGlobals.inventoryManager.DropAllItems(
                     inventoryComponent.InventoryItems,
                     entity
