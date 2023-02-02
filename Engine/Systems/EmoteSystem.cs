@@ -37,7 +37,8 @@ namespace AdventureGame.Engine
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
-            Globals.spriteBatch.FillRectangle(emoteComponent.emoteBackground, Theme.ColorTertiary * (float)emoteComponent.alpha.Value);
+            if (emoteComponent.showBackground)
+                Globals.spriteBatch.FillRectangle(emoteComponent.emoteBackground, Theme.ColorTertiary * (float)emoteComponent.alpha.Value);
             emoteComponent.emoteImage.Draw();
         }
     }

@@ -11,6 +11,7 @@ namespace AdventureGame.Engine
     {
         public Image emoteImage;
         public Rectangle emoteBackground;
+        public bool showBackground;
         private Vector2 _emoteSize;
         public Vector2 EmoteSize {
             get {
@@ -25,7 +26,7 @@ namespace AdventureGame.Engine
             }
         }
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
-        public EmoteComponent(string emoteImageURI)
+        public EmoteComponent(string emoteImageURI, bool background = true)
         {
             EmoteSize = new Vector2(16, 16);
 
@@ -39,8 +40,33 @@ namespace AdventureGame.Engine
                 (int)(EmoteSize.X + Theme.BorderTiny * 2),
                 (int)(EmoteSize.Y + Theme.BorderTiny * 2));
 
+            showBackground = background;
+
             Show();
         }
+
+        public EmoteComponent(Image image, bool background = true)
+        {
+            EmoteSize = new Vector2(16, 16);
+
+            //emoteImage = new Image(
+            //    Globals.content.Load<Texture2D>(emoteImageURI),
+            //    size: EmoteSize);
+
+            emoteImage = image;
+            image.Size = EmoteSize;
+
+            emoteBackground = new Rectangle(
+                0,
+                0,
+                (int)(EmoteSize.X + Theme.BorderTiny * 2),
+                (int)(EmoteSize.Y + Theme.BorderTiny * 2));
+
+            showBackground = background;
+
+            Show();
+        }
+
         public void Show()
         {
             alpha.Value = 1.0;
