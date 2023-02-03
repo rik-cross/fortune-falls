@@ -118,6 +118,16 @@ namespace AdventureGame.Engine
             return position != previousPosition;
         }
 
+        public bool HasMovedX()
+        {
+            return position.X != previousPosition.X;
+        }
+
+        public bool HasMovedY()
+        {
+            return position.Y != previousPosition.Y;
+        }
+
         public Vector2 DistanceMoved()
         {
             return position - previousPosition;

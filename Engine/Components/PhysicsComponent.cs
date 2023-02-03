@@ -80,6 +80,16 @@ namespace AdventureGame.Engine
             return Velocity != Vector2.Zero;
         }
 
+        public bool HasVelocityX()
+        {
+            return Velocity.X != Vector2.Zero.X;
+        }
+
+        public bool HasVelocityY()
+        {
+            return Velocity.Y != Vector2.Zero.Y;
+        }
+
         public bool WasMoving()
         {
             return Velocity != PreviousVelocity && Velocity == Vector2.Zero;
