@@ -23,11 +23,12 @@ namespace AdventureGame.Engine
             {
                 if(EngineGlobals.inputManager.IsPressed(ic.input.button1) && dc.dialoguePages.Count > 0)
                 {
-                    // if dialogue not yet finished
-                    if(false) // todo
+                    // if dialogue not yet finished then skip to the end
+                    if(dc.dialoguePages[0].index < dc.dialoguePages[0].text.Length)
                     {
-
+                        dc.dialoguePages[0].index = dc.dialoguePages[0].text.Length;
                     }
+                    // if dialogue at end then remove the page
                     else
                     {
                         dc.RemovePage();
@@ -91,20 +92,19 @@ namespace AdventureGame.Engine
         }
         public override void Draw(GameTime gameTime, Scene scene)
         {
-            foreach (Entity entity in entityList) // scene.EntityList)
+            foreach (Entity entity in entityList)
             {
-
-                //if (entity.GetComponent<DialogueComponent>() == null)
-                //    continue;
-
                 DialogueComponent dialogueComponent = entity.GetComponent<DialogueComponent>();
-                
 
                 foreach (Camera camera in scene.CameraList)
                 {
                     if (camera.ownerEntity == entity)
                     {
+
+                        //
                         // Draw background
+                        //
+
                         Globals.spriteBatch.FillRectangle(
                             new Rectangle(
                                 (int)(camera.screenPosition.X + Theme.BorderLarge),
@@ -112,36 +112,96 @@ namespace AdventureGame.Engine
                                 (int)(camera.size.X - (2 * Theme.BorderLarge)),
                                 (int)(200)), Theme.ColorTertiary * (float)dialogueComponent.alpha.Value);
                         
+                        // Don't draw anything else if there aren't any pages of dialogue
                         if (dialogueComponent.dialoguePages.Count == 0)
                             continue;
 
+                        //
                         // Draw text
+                        //
 
-                        // Text only
-                        if (dialogueComponent.dialoguePages[0].texture == null)
+                        // Offset the text to appear to the right of an image if there is one
+                        int xOffset = 0;
+                        if (dialogueComponent.dialoguePages[0].texture != null)
+                            xOffset += 200;
+
+                        // Split the text into multiple lines no wider than the containing box
+
+                        List<string> splitText = new List<string>();
+                        string words = dialogueComponent.dialoguePages[0].text;
+                        string currentRow = "";
+
+                        // Calculate space available for text
+                        int availableWidth = (int)(camera.size.X - (4 * Theme.BorderLarge));
+                        // Less space available if there's an image
+                        if (dialogueComponent.dialoguePages[0].texture != null)
+                            availableWidth -= (200 + (Theme.BorderLarge * 2));
+
+                        foreach (string word in words.Split())
                         {
+                            if (Theme.FontPrimary.MeasureString(currentRow).X + Theme.FontPrimary.MeasureString(word).X < availableWidth)
+                            {
+                                if (currentRow == "")
+                                    currentRow += word;
+                                else
+                                    currentRow += " " + word;
+
+                            }
+                            else
+                            {
+                                splitText.Add(currentRow);
+                                currentRow = word;
+                            }
+                        }
+
+                        if (currentRow != "")
+                            splitText.Add(currentRow);
+
+                        // Draw
+
+                        int y = (int)(camera.screenPosition.Y + camera.size.Y - 200);
+
+                        int ind = dialogueComponent.dialoguePages[0].index;
+                        int acc = 0;
+
+                        foreach (string line in splitText)
+                        {
+
+                            int s = 0;
+                            int e = Math.Clamp(ind - acc, 0, line.Length);
+
                             Globals.spriteBatch.DrawString(Theme.FontPrimary,
-                                dialogueComponent.dialoguePages[0].text.Substring(0, dialogueComponent.dialoguePages[0].index),
-                                new Vector2(camera.screenPosition.X + (Theme.BorderLarge*2),
-                                    camera.screenPosition.Y + camera.size.Y - 200),
+                                line.Substring(s, e),
+                                new Vector2(camera.screenPosition.X + (Theme.BorderLarge * 2) + xOffset,
+                                    y),
                                 Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].alpha.Value);
-                        } else
-                        // Text -- including a texture
-                        {
 
-                            // Image background
+                            y += (int)(Theme.FontPrimary.MeasureString(currentRow).Y);
+                            acc += line.Length;
+                        }
+
+                        //
+                        // Draw an image if one exists
+                        //
+
+                        if (dialogueComponent.dialoguePages[0].texture != null) {
+
+                            // Draw image border
+
                             Globals.spriteBatch.DrawRectangle(
-                            new Rectangle(
-                                (int)(camera.screenPosition.X + (2*Theme.BorderLarge)),
-                                (int)(camera.screenPosition.Y + camera.size.Y - 200),
-                                (int)(200 - Theme.BorderLarge),
-                                (int)(200 - (2*Theme.BorderLarge))), Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].alpha.Value, thickness:Theme.BorderLarge);
+                                new Rectangle(
+                                    (int)(camera.screenPosition.X + (2 * Theme.BorderLarge)),
+                                    (int)(camera.screenPosition.Y + camera.size.Y - 200),
+                                    (int)(200 - Theme.BorderLarge),
+                                    (int)(200 - (2 * Theme.BorderLarge))), Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].alpha.Value, thickness: Theme.BorderLarge);
+
+                            // Calculate image size
 
                             Texture2D t = dialogueComponent.dialoguePages[0].texture;
                             float requiredSize = (200 - (4 * Theme.BorderLarge));
                             Vector2 newSize = new Vector2();
                             Vector2 padding = new Vector2();
-                            
+
                             if (t.Height > t.Width)
                             {
                                 float factor = requiredSize / t.Height;
@@ -149,7 +209,8 @@ namespace AdventureGame.Engine
                                 newSize.Y = t.Height * factor;
                                 padding.X = (requiredSize - newSize.X) / 2;
                                 padding.Y = (requiredSize - newSize.Y) / 2;
-                            } else
+                            }
+                            else
                             {
                                 float factor = requiredSize / t.Width;
                                 newSize.X = t.Width * factor;
@@ -158,6 +219,8 @@ namespace AdventureGame.Engine
                                 padding.Y = (requiredSize - newSize.Y) / 2;
                             }
 
+                            // Draw the image
+
                             Globals.spriteBatch.Draw(t,
                                 new Rectangle(
                                     (int)(camera.screenPosition.X + (3 * Theme.BorderLarge) + padding.X),
@@ -165,12 +228,9 @@ namespace AdventureGame.Engine
                                     (int)(newSize.X + Theme.BorderLarge),
                                     (int)(newSize.Y)), Color.White * (float)dialogueComponent.dialoguePages[0].alpha.Value);
 
-                            Globals.spriteBatch.DrawString(Theme.FontPrimary,
-                                dialogueComponent.dialoguePages[0].text.Substring(0, dialogueComponent.dialoguePages[0].index),
-                                new Vector2(camera.screenPosition.X + (Theme.BorderLarge * 2) + 200,
-                                    camera.screenPosition.Y + camera.size.Y - 200),
-                                Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].alpha.Value);
+                            
                         }
+
                     }
                 }
             }

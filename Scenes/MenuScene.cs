@@ -161,7 +161,7 @@ namespace AdventureGame
 
                 //playerPosition = new Vector2(950, 200); // perpendicular
 
-                playerPosition = new Vector2(1113, 330); // opposite SW, X
+                playerPosition = new Vector2(130, 30); // opposite SW, X
                 //playerPosition = new Vector2(1120, 330); // opposite SW, Y
 
                 //playerPosition = new Vector2(1747, 945); // Collision tiles testing

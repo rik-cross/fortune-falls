@@ -103,7 +103,7 @@ namespace AdventureGame.Engine
             if (colliderEntity.GetComponent<DialogueComponent>() != null)
             {
                 colliderEntity.GetComponent<DialogueComponent>().AddPage(
-                    new Engine.Dialogue("Wow, it's getting warm!", texture: Globals.content.Load<Texture2D>("Emojis/emoji_melting")));
+                    new Engine.Dialogue("Wow, it's getting warm! I should probably not stand so close to this fire.", texture: Globals.content.Load<Texture2D>("Emojis/emoji_melting")));
             }
         }
         public static void LightOnCollisionExit(Entity triggerEntity, Entity colliderEntity, float distance)

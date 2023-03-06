@@ -70,7 +70,23 @@ namespace AdventureGame
             Engine.Entity playerEntity = PlayerEntity.Create(x: 0, y: 0, idTag: playerId);
 
             // Create the menu and set as the active scene
-            EngineGlobals.sceneManager.SetActiveScene<MenuScene>();
+            //EngineGlobals.sceneManager.SetActiveScene<MenuScene>();
+
+
+
+
+            //remove after testing!!
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
+
+            Vector2 playerPosition = new Vector2(230, 30);
+
+            // Add the MenuScene to the scene stack
+            EngineGlobals.sceneManager.SetActiveScene<GameScene>(
+                removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+
+            EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
+
+
         }
 
         protected override void Update(GameTime gameTime)
