@@ -602,8 +602,11 @@ namespace AdventureGame.Engine
                     {
                         Globals.spriteBatch.Draw(_alphaMask,
                             new Rectangle(
-                                (int)transformComponent.position.X + (int)transformComponent.size.X / 2 - lightComponent.radius,
-                                (int)transformComponent.position.Y + (int)transformComponent.size.X / 2 - lightComponent.radius,
+                                //(int)transformComponent.position.X + (int)transformComponent.size.X / 2 - lightComponent.radius,
+                                //(int)transformComponent.position.Y + (int)transformComponent.size.X / 2 - lightComponent.radius,
+                                (int)(transformComponent.position.X - lightComponent.radius + lightComponent.offset.X),
+                                (int)(transformComponent.position.Y - lightComponent.radius + lightComponent.offset.Y),
+
                                 lightComponent.radius * 2,
                                 lightComponent.radius * 2
                             ),

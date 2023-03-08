@@ -107,11 +107,11 @@ namespace AdventureGame
 
             // Light entity
             Engine.Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
-            lightSourceEntity.Tags.AddTag("light");
+            //lightSourceEntity.Tags.AddTag("light");
             lightSourceEntity.AddComponent(new Engine.SpriteComponent("candleTest", 32, 32, 0, 0, 3));
             lightSourceEntity.AddComponent(new Engine.TransformComponent(450, 150, 32, 32));
             lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(12, 6), new Vector2(10, 26)));
-            lightSourceEntity.AddComponent(new Engine.LightComponent(100));
+            //lightSourceEntity.AddComponent(new Engine.LightComponent(100));
             lightSourceEntity.AddComponent(new Engine.TriggerComponent(
                 size: new Vector2(132, 132),
                 offset: new Vector2(-50, -50),
@@ -119,6 +119,10 @@ namespace AdventureGame
                 onCollisionExit: SceneTriggers.LightOnCollisionExit
             ));
             AddEntity(lightSourceEntity);
+
+            // Add some streetlights
+            AddEntity(StreetLightEntity.Create(450, 350));
+            AddEntity(StreetLightEntity.Create(700, 350));
 
             //
             // Add NPC entities
@@ -229,13 +233,18 @@ namespace AdventureGame
         {
             // update scene time and set light level
             // commented out DayNightCycle for testing
-            //DayNightCycle.Update(gameTime);
-            //lightLevel = DayNightCycle.GetLightLevel();
+            DayNightCycle.Update(gameTime);
+            LightLevel = DayNightCycle.GetLightLevel();
 
             // Make entities transparent if in front of player
 
             Utilities.SetBuildingAlpha(EntityList);
 
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            DayNightCycle.Draw(gameTime);
         }
 
     }

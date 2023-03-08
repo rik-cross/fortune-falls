@@ -29,16 +29,16 @@ namespace AdventureGame.Engine
         static DayNightCycle()
         {
             day = 1;
-            secondsPerDay = 100.0f;
-            currentSeconds = 0.0f;
+            secondsPerDay = 50.0f;
+            currentSeconds = secondsPerDay * 0.1;
             month = 1;
             year = 1;
 
             countMonths = true;
-            daysPerMonth = 2;
+            daysPerMonth = 3;
 
             countYears = true;
-            monthsPerYear = 3;
+            monthsPerYear = 1;
 
             lightTimes = new List<int>
             { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
@@ -54,7 +54,7 @@ namespace AdventureGame.Engine
                 { 60, 1.0f },
                 { 70, 0.7f },
                 { 80, 0.7f },
-                { 90, 0.2f },
+                { 90, 0.1f },
                 { 100, 0.1f }
             };
 
@@ -112,23 +112,30 @@ namespace AdventureGame.Engine
 
         public static void Draw(GameTime gameTime)
         {
-            Globals.spriteBatch.Draw(dayNightOverlay, new Rectangle(740, 10, 50, 50), Color.White);
-            Globals.spriteBatch.Draw(dayNight, new Vector2(765, 35), null, Color.White, (float)((Math.PI * 2) / 100 * GetPercentage()), new Vector2(25, 25), 1, SpriteEffects.None, 0);
-            
+
+            // Draw clock face
+            Globals.spriteBatch.Draw(dayNightOverlay, new Vector2(Globals.ScreenWidth - dayNightOverlay.Width - 20, 20), Color.White);
+            // Draw clock hand
+            Globals.spriteBatch.Draw(dayNight, new Vector2(Globals.ScreenWidth - (dayNightOverlay.Width/2) - 20, 20+(dayNightOverlay.Height/2)), null, Color.White, (float)((Math.PI * 2) / 100 * GetPercentage()), new Vector2(32, 32), 1, SpriteEffects.None, 0);
+            // Draw year
+            Globals.spriteBatch.DrawString(Theme.FontTertiary, "Year " + year, new Vector2(Globals.ScreenWidth - (dayNightOverlay.Width) - 20 + (((dayNightOverlay.Width) - (Theme.FontTertiary.MeasureString("Year " + year).X)) / 2), 20 + dayNightOverlay.Height), Color.White);
+            // Draw day
+            Globals.spriteBatch.DrawString(Theme.FontTertiary, "Day " + day, new Vector2(Globals.ScreenWidth - (dayNightOverlay.Width) - 20 + (((dayNightOverlay.Width) -(Theme.FontTertiary.MeasureString("Day " + day).X))/2), 20 + dayNightOverlay.Height + (Theme.FontTertiary.MeasureString("Year " + year).Y)), Color.White);
+
             // build date string
-            string date = day.ToString().PadLeft(2, '0');
-            int pos = 755;
-            if (countMonths)
-            {
-                date = date + " / " + month.ToString().PadLeft(2, '0');
-                pos -= 20;
-                if (countYears)
-                {
-                    date = date + " / " + year.ToString().PadLeft(2, '0');
-                    pos -= 20;
-                }
-            }
-            Globals.spriteBatch.DrawString(Theme.FontTertiary, date, new Vector2(pos, 65), Color.White);
+            // string date = day.ToString().PadLeft(2, '0');
+            //int pos = 755;
+            //if (countMonths)
+            //{
+            //    date = date + " / " + month.ToString().PadLeft(2, '0');
+            //    pos -= 20;
+            //    if (countYears)
+            //    {
+            //        date = date + " / " + year.ToString().PadLeft(2, '0');
+            //        pos -= 20;
+            //    }
+            //}
+            //Globals.spriteBatch.DrawString(Theme.FontTertiary, date, new Vector2(pos, 65), Color.White);
         }
 
 
