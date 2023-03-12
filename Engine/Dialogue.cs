@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using S = System.Diagnostics.Debug;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace AdventureGame.Engine
 {
@@ -15,23 +10,28 @@ namespace AdventureGame.Engine
         public Texture2D texture;
         public int index = 0;
         public int timer = 0;
-        public int tickDelay = 5;
-        public int initialDelay = 40;
+        public int tickDelay;
+        public bool playTickSoundEffect;
+        public SoundEffect tickSoundEffect = Globals.content.Load<SoundEffect>("Sounds/blip");
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
         public bool markForRemoval = false;
-        public Dialogue(string text = null, Entity entity = null, Texture2D texture = null)
+        public Dialogue(string text = null, Entity entity = null, Texture2D texture = null,
+                        int tickDelay = 5, bool playTickSoundEffect = true,
+                        SoundEffect tickSoundEffect = default)
         {
             this.text = text + " >";
             this.entity = entity;
             this.texture = texture;
+            this.tickDelay = tickDelay;
+            this.playTickSoundEffect = playTickSoundEffect;
+            if (tickSoundEffect != default)
+                this.tickSoundEffect = tickSoundEffect;
         }
-        // todo -- 
         public void Update()
         {
-            initialDelay = Math.Max(0, initialDelay-1);
             alpha.Update();
-
-            if (initialDelay > 0)
+            // Don't display text until the dialogue is fully visible
+            if (alpha.Value < 1)
                 return;
 
             timer++;
@@ -41,11 +41,10 @@ namespace AdventureGame.Engine
                 {
                     timer = 0;
                     index +=1;
-                    // if (component.playTickSoundEffect)
-                    EngineGlobals.soundManager.PlaySoundEffect(Globals.dialogueTickSound);
+                    if (playTickSoundEffect)
+                        EngineGlobals.soundManager.PlaySoundEffect(tickSoundEffect);
                 }
             }
-            //S.WriteLine(index);
         }
     }
 }
