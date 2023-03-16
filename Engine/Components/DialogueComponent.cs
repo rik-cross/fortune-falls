@@ -42,5 +42,10 @@ namespace AdventureGame.Engine
         {
             Clear();
         }
+
+        public bool HasPages()
+        {
+            return dialoguePages.Count > 0;
+        }
     }
 }

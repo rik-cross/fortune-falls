@@ -128,7 +128,11 @@ namespace AdventureGame
             // Add NPC entities
             //
 
-            AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
+            //AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
+            Engine.Entity oldManEntity = NPCEntity.Create(290, 575, "Townfolk-Old-M01");
+            oldManEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.OldManTalk;
+            AddEntity(oldManEntity);
+
             AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
             AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
             AddEntity(NPCEntity.Create(710, 400, "Cultist02"));

@@ -35,6 +35,25 @@ namespace AdventureGame.Engine
             }
         }
 
+        // Test for NPC interactions
+        public static void OldManTalk(Entity triggerEntity, Entity colliderEntity, float distance)
+        {
+            if (colliderEntity.IsPlayerType())
+            {
+                InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
+                if (playerInputComponent != null
+                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+                {
+                    DialogueComponent dialogueComponent = colliderEntity.GetComponent<DialogueComponent>();
+                    if (dialogueComponent != null && !dialogueComponent.HasPages())
+                    {
+                        dialogueComponent.AddPage(new Engine.Dialogue("Hello there young whipper snapper. What can I do for ya?"));
+                        dialogueComponent.AddPage(new Engine.Dialogue("Ooo, a key you say. Would you help an old boy if I have seen it?"));
+                    }
+                }
+            }
+        }
+
         // How to create a genric ChangeScene event with below params?
         public static void ChangeScene(Entity triggerEntity, Entity colliderEntity, float distance)
             // Scene nextScene, Vector2 playerPosition = default, bool player = true
