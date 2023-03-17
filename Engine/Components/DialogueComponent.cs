@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
@@ -18,6 +19,13 @@ namespace AdventureGame.Engine
                 alpha.Value = 1;
             }
         }
+
+        public void AddPage(string text, Texture2D texture = null)
+        {
+            Dialogue newDialogue = new Dialogue(text, texture: texture);
+            AddPage(newDialogue);
+        }
+
         public void RemovePage()
         {
             //dialoguePages.RemoveAt(0);
@@ -30,11 +38,13 @@ namespace AdventureGame.Engine
             }
             //S.WriteLine(alpha.Value);
         }
+
         public void Clear()
         {
             dialoguePages.Clear();
             alpha.Value = 0;
         }
+
         public override void Reset()
         {
             Clear();

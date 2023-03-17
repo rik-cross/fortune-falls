@@ -36,7 +36,7 @@ namespace AdventureGame.Engine
         }
 
         // Test for NPC interactions
-        public static void OldManTalk(Entity triggerEntity, Entity colliderEntity, float distance)
+        public static void BlacksmithDialogue(Entity triggerEntity, Entity colliderEntity, float distance)
         {
             if (colliderEntity.IsPlayerType())
             {
@@ -47,8 +47,31 @@ namespace AdventureGame.Engine
                     DialogueComponent dialogueComponent = colliderEntity.GetComponent<DialogueComponent>();
                     if (dialogueComponent != null && !dialogueComponent.HasPages())
                     {
-                        dialogueComponent.AddPage(new Engine.Dialogue("Hello there young whipper snapper. What can I do for ya?"));
-                        dialogueComponent.AddPage(new Engine.Dialogue("Ooo, a key you say. Would you help an old boy if I have seen it?"));
+                        Texture2D thumbnail = triggerEntity.GetComponent<ThumbnailComponent>().ThumbnailImage;
+                        
+                        // Choose the dialogue options depending on the player progress
+
+                        // if (!keyItems.Contains("keyPlayerHouse"))
+                        dialogueComponent.AddPage("..........", thumbnail);
+                        dialogueComponent.AddPage("You must be the newbie in town. Word gets around here fast.", thumbnail);
+                    }
+                }
+            }
+        }
+
+        public static void OldManDialogue(Entity triggerEntity, Entity colliderEntity, float distance)
+        {
+            if (colliderEntity.IsPlayerType())
+            {
+                InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
+                if (playerInputComponent != null
+                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+                {
+                    DialogueComponent dialogueComponent = colliderEntity.GetComponent<DialogueComponent>();
+                    if (dialogueComponent != null && !dialogueComponent.HasPages())
+                    {
+                        dialogueComponent.AddPage("Hello there young whipper snapper. What can I do for ya?");
+                        dialogueComponent.AddPage("Ooo, a key you say. Would you help an old boy if I have seen it?");
                     }
                 }
             }

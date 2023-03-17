@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using AdventureGame.Engine;
-
+using System;
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
     public static class NPCEntity {
 
-        public static Engine.Entity Create(int x, int y, string filename,
+        public static Engine.Entity Create(int x, int y, string filename, string thumbnail = null,
             bool canMove = false, float speed = 100, string idTag = null) // Action movementScript
         {
             Engine.Entity npcEntity;
@@ -51,9 +50,8 @@ namespace AdventureGame
 
             // CHANGE so the spritesheet is created using the file path??
             Engine.SpriteSheet npcSpriteSheet = new Engine.SpriteSheet(filePath, spriteWidth, spriteHeight);
-            npcEntity.AddComponent(new Engine.SpriteComponent(npcSpriteSheet, 1, 2, "idle"));
+            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)npcEntity.AddComponent(new Engine.SpriteComponent(npcSpriteSheet, 1, 2, "idle"));
             //npcEntity.AddComponent(new Engine.SpriteComponent(filePath, spriteWidth, spriteHeight, 2, 1, "idle"));
-            Engine.SpriteComponent spriteComponent = npcEntity.GetComponent<Engine.SpriteComponent>();
             Vector2 spriteSize = spriteComponent.GetSpriteSize();
 
             // Add the other sprites
@@ -62,6 +60,10 @@ namespace AdventureGame
             spriteComponent.AddSprite("walkEast", npcSpriteSheet, 1, 0, 2, true, 1);
             spriteComponent.AddSprite("walkWest", npcSpriteSheet, 3, 0, 2, true, 1);
             spriteComponent.SetAnimationDelay(8);
+
+            // Add the thumbnail component
+            if (thumbnail != null)
+                npcEntity.AddComponent(new Engine.ThumbnailComponent(directory + thumbnail));
 
             // Add the other components
             npcEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));

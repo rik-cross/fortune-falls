@@ -125,8 +125,12 @@ namespace AdventureGame
 
             //AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
             Engine.Entity oldManEntity = NPCEntity.Create(290, 575, "Townfolk-Old-M01");
-            oldManEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.OldManTalk;
+            oldManEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.OldManDialogue;
             AddEntity(oldManEntity);
+
+            Engine.Entity blacksmithEntity = NPCEntity.Create(290, 175, "Blacksmith-M06", "Blacksmith-M06-thumb");
+            blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
+            AddEntity(blacksmithEntity);
 
             AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
             AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
