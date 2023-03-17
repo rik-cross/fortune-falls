@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,6 +8,7 @@ using MonoGame.Extended.Tiled.Renderers;
 
 using S = System.Diagnostics.Debug;
 using System;
+using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {

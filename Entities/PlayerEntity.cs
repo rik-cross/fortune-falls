@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-using AdventureGame.Engine;
-
+using System;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
@@ -57,8 +52,7 @@ namespace AdventureGame
 
             // CHANGE so the spritesheet is created using the file path??
             Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet(filePath, spriteWidth, spriteHeight);
-            playerEntity.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 1, 2));
-            Engine.SpriteComponent spriteComponent = playerEntity.GetComponent<Engine.SpriteComponent>();
+            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)playerEntity.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 1, 2));
             Vector2 spriteSize = spriteComponent.GetSpriteSize();
 
             // Add the other sprites

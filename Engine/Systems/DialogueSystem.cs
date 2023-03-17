@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using MonoGame.Extended;
 
+using System;
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine

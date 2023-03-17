@@ -3,11 +3,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-
-using System.Collections.Generic;
+using MonoGame.Extended;
 
 using System;
-using MonoGame.Extended;
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
 
