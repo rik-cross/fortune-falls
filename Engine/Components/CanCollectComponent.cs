@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace AdventureGame.Engine
+﻿namespace AdventureGame.Engine
 {
-
     public class CanCollectComponent : Component
     {
         public bool IsActive { get; set; }

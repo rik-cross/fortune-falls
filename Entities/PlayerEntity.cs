@@ -89,6 +89,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.HealthComponent());
             playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
             playerEntity.AddComponent(new Engine.InventoryComponent(40));
+            playerEntity.AddComponent(new Engine.KeyItemsComponent());
             playerEntity.AddComponent(new Engine.CanCollectComponent());
 
             playerEntity.AddComponent(new Engine.InputComponent(

@@ -161,6 +161,10 @@ namespace AdventureGame
 
             string itemsDirectory = "Items/";
 
+            Item key = new Item("KeyPlayerHouse", itemsDirectory + "I_Key01",
+                itemTags: new Tags("keyItem"));
+            AddEntity(ItemEntity.Create(x: 230, y: 140, item: key));
+
             Item potionRed = new Item("PotionRed", itemsDirectory + "P_Red01",
                 quantity: 7, stackSize: 20);
             AddEntity(ItemEntity.Create(x: 335, y: 610, item: potionRed));

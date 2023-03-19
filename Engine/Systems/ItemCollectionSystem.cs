@@ -16,13 +16,9 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            //ItemComponent itemComponent = entity.GetComponent<ItemComponent>();
-            //CollectableComponent collectableComponent = entity.GetComponent<CollectableComponent>();
             CanCollectComponent canCollectComponent = entity.GetComponent<CanCollectComponent>();
             CollisionHandlerComponent collisionHandlerComponent = entity.GetComponent<CollisionHandlerComponent>();
             InventoryComponent inventoryComponent = entity.GetComponent<InventoryComponent>();
-            //ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-            //TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             if (!canCollectComponent.IsActive)
                 return;
@@ -43,36 +39,26 @@ namespace AdventureGame.Engine
                     && collectableComponent.IsActive
                     && !collectableComponent.HasBeenCollected)
                 {
-                    // Test - delete or move the item entity
-                    // Should this be broadcast as a message instead to be picked up by InventorySystem?
-                    // E.g. broadcast("itemPickup / itemCollected", entity, otherEntity) scene,time?
-
-                    Console.WriteLine($"\nOriginal item: {itemComponent.Item.ItemId} Quantity{itemComponent.Item.Quantity} Stack{itemComponent.Item.StackSize} Health{itemComponent.Item.ItemHealth}");
+                    // Check if the item is a key item
+                    if (itemComponent.Item.ItemTags.HasType("keyItem"))
+                    {
+                        KeyItemsComponent keyItems = entity.GetComponent<KeyItemsComponent>();
+                        if (keyItems != null)
+                        {
+                            keyItems.AddItem(itemComponent.Item);
+                            if (collectableComponent.DestroyOnCollect)
+                                otherEntity.Destroy();
+                        }
+                    }
 
                     // Try to add the item to the other entity's inventory
-                    Item item = EngineGlobals.inventoryManager.AddItem(
-                        inventoryComponent.InventoryItems, itemComponent.Item);
-
-                    if (item == null)
-                    {
-                        //Console.WriteLine("Item collected!");
-                        otherEntity.Destroy();
-
-                        /* // Testing
-                        otherEntity.GetComponent<TransformComponent>().position.X += 50;
-                        itemComponent.Item.Quantity = origQuantity;
-
-                        if (itemComponent.Item.HasItemHealth())
-                        {
-                            Random random = new Random();
-                            itemComponent.Item.ItemHealth = random.Next(0, itemComponent.Item.MaxHealth);
-                        }
-                        */
-                    }
                     else
                     {
-                        Console.WriteLine("Inventory full!");
-                        Console.WriteLine($"Item {item.ItemId} has {item.Quantity} remaining");
+                        Item item = EngineGlobals.inventoryManager.AddItem(
+                            inventoryComponent.InventoryItems, itemComponent.Item);
+
+                        if (item == null)
+                            otherEntity.Destroy();
                     }
                 }
             }

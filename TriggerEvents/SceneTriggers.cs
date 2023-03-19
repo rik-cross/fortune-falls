@@ -36,24 +36,30 @@ namespace AdventureGame.Engine
         }
 
         // Test for NPC interactions
-        public static void BlacksmithDialogue(Entity triggerEntity, Entity colliderEntity, float distance)
+        public static void BlacksmithDialogue(Entity triggerEntity, Entity playerEntity, float distance)
         {
-            if (colliderEntity.IsPlayerType())
-            {
-                InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
-                if (playerInputComponent != null
-                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
-                {
-                    DialogueComponent dialogueComponent = colliderEntity.GetComponent<DialogueComponent>();
-                    if (dialogueComponent != null && !dialogueComponent.HasPages())
-                    {
-                        Texture2D thumbnail = triggerEntity.GetComponent<ThumbnailComponent>().ThumbnailImage;
-                        
-                        // Choose the dialogue options depending on the player progress
+            if (!playerEntity.IsPlayerType())
+                return;
 
-                        // if (!keyItems.Contains("keyPlayerHouse"))
+            InputComponent playerInputComponent = playerEntity.GetComponent<InputComponent>();
+            if (playerInputComponent != null
+                && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+            {
+                DialogueComponent dialogueComponent = playerEntity.GetComponent<DialogueComponent>();
+                if (dialogueComponent != null && !dialogueComponent.HasPages())
+                {
+                    Texture2D thumbnail = triggerEntity.GetComponent<ThumbnailComponent>().ThumbnailImage;
+
+                    // Choose the dialogue options depending on the player progress
+                    KeyItemsComponent keyItems = playerEntity.GetComponent<KeyItemsComponent>();
+                    if (!keyItems.ContainsItem("KeyPlayerHouse"))
+                    {
                         dialogueComponent.AddPage("..........", thumbnail);
                         dialogueComponent.AddPage("You must be the newbie in town. Word gets around here fast.", thumbnail);
+                    }
+                    else
+                    {
+                        dialogueComponent.AddPage("You found your house key! Huzzah!!", thumbnail);
                     }
                 }
             }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AdventureGame.Engine
+﻿namespace AdventureGame.Engine
 {
 
     public class InventoryComponent : Component
