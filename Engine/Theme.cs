@@ -25,7 +25,7 @@ namespace AdventureGame.Engine
 
         public static readonly int BorderTiny = 1;
         public static readonly int BorderSmall = 3;
-        public static readonly int BorderMedium = 5;
+        public static readonly int BorderMedium = 4;
         public static readonly int BorderLarge = 12;
         public static readonly int BorderExtraLarge = 20;
 

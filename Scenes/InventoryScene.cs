@@ -16,14 +16,19 @@ namespace AdventureGame
         private InputManager _inputManager;
         private InventoryManager _inventoryManager;
         private InventoryComponent _inventory;
+        private KeyItemsComponent _keyItems;
         // Inventory
         private int _inventorySize, _columns, _rows;
-        // Inventory container
+        // Key items
+        private int _keyItemsToDisplay;
+        private int _keyItemsColumns;
+        private int _keyItemsRows;
+        // Container
         private Rectangle _containerRectangle;
         private double _containerRelativeSize; // _containerSizePercentage
         private int _containerWidth, _containerHeight, _containerBorder;
         private int _containerX, _containerY, _innerX, _innerY;
-        // Inventory slots
+        // Container slots
         private Rectangle[] _slotRectangles; // Update on screen size change?
         private double _slotSizeRatio;
         private int _slotWidth, _slotHeight, _slotPadding, _slotBorder;
@@ -58,6 +63,14 @@ namespace AdventureGame
             _inventorySize = _inventory.InventorySize;
             _columns = 10;
             _rows = (int)Math.Ceiling((double)_inventorySize / _columns);
+
+            // Key items component
+            _keyItems = _player.GetComponent<KeyItemsComponent>();
+
+            // Key items layout
+            _keyItemsToDisplay = 12;
+            _keyItemsColumns = 3;
+            _keyItemsRows = (int)Math.Ceiling((double)_keyItemsToDisplay / _keyItemsColumns);
 
             // Container
             _containerRelativeSize = 0.8;
@@ -297,9 +310,7 @@ namespace AdventureGame
             {
                 slot = _slotRectangles[i];
                 if (slot.Contains(_inputManager.CursorPosition))
-                {
                     return i;
-                }
             }
             return -1;
         }
@@ -323,10 +334,10 @@ namespace AdventureGame
         }
 
         // Select a slot when hovering over it.
-        // Disabled when an item is being dragged.
+        // Disabled when an item is being dragged or the cursor input is held down.
         public void OnCursorMove()
         {
-            if (_isItemDragged)
+            if (_isItemDragged || _inputManager.IsDown(Globals.primaryCursorInput))
                 return;
 
             //Console.WriteLine($"Hovered over slot {i}");
@@ -378,7 +389,7 @@ namespace AdventureGame
 
                     Item newSplitItem = _inventoryManager.SplitItemStack(
                         _inventory.InventoryItems, _dragItemIndex);
-
+                    
                     // Set the drag item to the new split item if not null
                     if (newSplitItem != null)
                         _dragItem = newSplitItem;
@@ -697,7 +708,7 @@ namespace AdventureGame
             );
 
             // Draw the container
-            Globals.spriteBatch.FillRectangle(_containerRectangle, Theme.ColorPrimary);
+            Globals.spriteBatch.FillRectangle(_containerRectangle, Color.DarkSlateGray);
             
             // Draw the container's border
             Globals.spriteBatch.DrawRectangle(
@@ -708,14 +719,26 @@ namespace AdventureGame
                 Theme.BorderColorPrimary,
                 thickness: _containerBorder);
 
+            // Draw the inventory header text
+            string inventoryText = "Inventory";
+            Globals.spriteBatch.DrawString(Theme.FontPrimary,
+                inventoryText,
+                new Vector2(_innerX + _slotPadding, _innerY + _slotPadding),
+                Theme.TextColorTertiary);
+
+            // Calculate the initial inventory slot padding
+            Vector2 inventoryTextSize = Theme.FontPrimary.MeasureString(inventoryText);
+            int xInventoryPad = _innerX + _slotPadding;
+            int yInventoryPad = _innerY + (int)inventoryTextSize.Y + _slotPadding * 2;
+
             // Draw every inventory slot and each item
             for (int i = 0; i < _inventorySize; i++)
             {
                 int rowIndex = i / _columns;
                 int columnIndex = i % _columns;
 
-                int slotX = _innerX + _slotPadding + (_slotWidth + _slotPadding) * columnIndex;
-                int slotY = _innerY + _slotPadding + (_slotHeight + _slotPadding) * rowIndex;
+                int slotX = xInventoryPad + (_slotWidth + _slotPadding) * columnIndex;
+                int slotY = yInventoryPad + (_slotHeight + _slotPadding) * rowIndex;
                 Rectangle slotRect = new Rectangle(slotX, slotY, _slotWidth, _slotHeight);
 
                 // Add the slot rectangle to the clickable array
@@ -756,6 +779,48 @@ namespace AdventureGame
                     DrawIcon(item, slotRect);
                     DrawQuantity(item, slotRect);
                     DrawHealthBar(item, slotRect);
+                }
+            }
+
+            // Draw the key items header text
+            int xInitialPad = (_slotWidth + _slotPadding) * _columns + _slotWidth;
+            string keyItemsText = "Key Items";
+            Globals.spriteBatch.DrawString(Theme.FontPrimary,
+                keyItemsText,
+                new Vector2(_innerX + _slotPadding + xInitialPad, _innerY + _slotPadding),
+                Theme.TextColorTertiary);
+
+            // Calculate the initial key items slot padding
+            Vector2 keyItemsTextSize = Theme.FontPrimary.MeasureString(keyItemsText);
+            int xKeyItemsPad = _innerX + _slotPadding;
+            int yKeyItemsPad = _innerY + (int)keyItemsTextSize.Y + _slotPadding * 2;
+
+            // Draw the key items
+            for (int i = 0; i < _keyItemsToDisplay; i++)
+            {
+                int rowIndex = i / _keyItemsColumns;
+                int columnIndex = i % _keyItemsColumns;
+
+                int slotX = xInitialPad + xKeyItemsPad + (_slotWidth + _slotPadding) * columnIndex;
+                int slotY = yKeyItemsPad + (_slotHeight + _slotPadding) * rowIndex;
+                Rectangle slotRect = new Rectangle(slotX, slotY, _slotWidth, _slotHeight);
+
+                // Draw the slot
+                Globals.spriteBatch.FillRectangle(slotRect, Theme.ColorTertiary);
+
+                // Draw the slot's border
+                Globals.spriteBatch.DrawRectangle(slotRect, Theme.BorderColorPrimary,
+                    thickness: _slotBorder);
+
+                // Draw the item if it exists
+                if (i < _keyItems.KeyItems.Count)
+                {
+                    Item item = _keyItems.KeyItems[i];
+                    if (item != null)
+                    {
+                        DrawIcon(item, slotRect);
+                        DrawQuantity(item, slotRect);
+                    }
                 }
             }
 
