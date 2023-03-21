@@ -17,6 +17,14 @@
             DropOnDestroy = dropOnDestroy;
             Tags = new Tags(type);
         }
+
+        public bool ContainsItem(string itemId)
+        {
+            foreach (Item item in InventoryItems)
+                if (item.ItemId == itemId)
+                    return true;
+            return false;
+        }
     }
 
 }
