@@ -11,6 +11,11 @@ namespace AdventureGame
         public Game1()
         {
             Globals.graphics = new GraphicsDeviceManager(this);
+            //Globals.gameWindow = GameWindow.Create(this, Globals.ScreenWidth, Globals.ScreenHeight);
+            //Globals.gameWindow = this.Window;
+            
+            //this.Window.IsBorderless = false;
+
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
             // Globals.graphics.HardwareModeSwitch = false; // Fix for fullscreen issues
@@ -19,9 +24,15 @@ namespace AdventureGame
 
         protected override void Initialize()
         {
+
+            Globals.ScreenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Globals.ScreenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
             Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
             Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
+            
             Globals.graphics.ApplyChanges();
+
             base.Initialize();
         }
 
@@ -31,6 +42,13 @@ namespace AdventureGame
             Globals.content = Content;
             Globals.graphicsDevice = GraphicsDevice;
             Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Fullscreen
+            Globals.graphics.IsFullScreen = true;
+
+            // Borderless window
+            //Globals.gameWindow.IsBorderless = true;
+            Globals.graphics.ApplyChanges();
 
             // Move??
             Globals.sceneRenderTarget = new RenderTarget2D(

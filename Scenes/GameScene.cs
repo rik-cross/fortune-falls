@@ -100,21 +100,6 @@ namespace AdventureGame
             AddEntity(ObjectEntity.Create(x: 32, y: 480, objectsDirectory + "S_TreeSingle01",
                 canWalkBehind: true));
 
-            // Light entity
-            Engine.Entity lightSourceEntity = EngineGlobals.entityManager.CreateEntity();
-            //lightSourceEntity.Tags.AddTag("light");
-            lightSourceEntity.AddComponent(new Engine.SpriteComponent("candleTest", 32, 32, 0, 0, 3));
-            lightSourceEntity.AddComponent(new Engine.TransformComponent(450, 150, 32, 32));
-            lightSourceEntity.AddComponent(new Engine.ColliderComponent(new Vector2(12, 6), new Vector2(10, 26)));
-            //lightSourceEntity.AddComponent(new Engine.LightComponent(100));
-            lightSourceEntity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(132, 132),
-                offset: new Vector2(-50, -50),
-                onCollisionEnter: SceneTriggers.LightOnCollisionEnter,
-                onCollisionExit: SceneTriggers.LightOnCollisionExit
-            ));
-            AddEntity(lightSourceEntity);
-
             // Add some streetlights
             AddEntity(StreetLightEntity.Create(450, 350));
             AddEntity(StreetLightEntity.Create(700, 350));
@@ -135,25 +120,6 @@ namespace AdventureGame
             AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
             AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
             AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
-
-            //
-            // Add enemy entities
-            //
-
-            // Enemy entity
-            //AddEntity(EnemyEntity.Create(200, 120, "spriteenemy"));
-            /*
-            Entity enemyEntity = EnemyEntity.Create(200, 120, "spriteenemy");
-            enemyEntity.AddComponent(new DamageComponent("touch", 10));
-            InventoryComponent enemyInventory = enemyEntity.GetComponent<InventoryComponent>();
-            Item enemyJewels = new Item("ArrowStandard", "Items/I_Amethist", 10, 20);
-            Item enemyPotions = new Item("PotionBlue", "Items/P_Blue01", 3, 10);
-            Item enemyMace = new Item("Mace01", "Items/W_Mace007", 1, 1, 75, 100);
-            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyJewels);
-            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyPotions);
-            EngineGlobals.inventoryManager.AddItem(enemyInventory.InventoryItems, enemyMace);
-            AddEntity(enemyEntity);
-            */
 
             //
             // Add item entities
@@ -208,8 +174,7 @@ namespace AdventureGame
         {
             // Add the player and minimap cameras
             AddCamera("main");
-            GetCameraByName("main").SetZoom(1.5f, instant: true);
-            //AddCamera("minimap");
+            GetCameraByName("main").SetZoom(2.5f, instant: true);
 
             //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/forest"));
         }

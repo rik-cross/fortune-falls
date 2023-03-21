@@ -29,7 +29,7 @@ namespace AdventureGame.Engine
         static DayNightCycle()
         {
             day = 1;
-            secondsPerDay = 50.0f;
+            secondsPerDay = 5000.0f;
             currentSeconds = secondsPerDay * 0.1;
             month = 1;
             year = 1;

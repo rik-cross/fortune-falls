@@ -55,7 +55,7 @@ namespace AdventureGame
         public static Engine.Scene homeScene;
         public static Engine.Scene beachScene;
 
-        public static float globalZoomLevel = 1.5f;
+        public static float globalZoomLevel = 2.5f;
 
         public static SoundEffect dialogueTickSound;
 
