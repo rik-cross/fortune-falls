@@ -52,14 +52,28 @@ namespace AdventureGame.Engine
 
                     // Choose the dialogue options depending on the player progress
                     KeyItemsComponent keyItems = playerEntity.GetComponent<KeyItemsComponent>();
-                    if (!keyItems.ContainsItem("KeyPlayerHouse"))
+                    string itemNeeded = "PotionRed";
+                    if (playerEntity.GetComponent<InventoryComponent>().ContainsItem(itemNeeded))
                     {
-                        dialogueComponent.AddPage("..........", thumbnail);
-                        dialogueComponent.AddPage("You must be the newbie in town. Word gets around here fast.", thumbnail);
+                        dialogueComponent.AddPage("Oh yes indeedy, a fine healing potion if I ever saw one!", thumbnail);
+                        dialogueComponent.AddPage("Here's a handsome reward for being so generous.", thumbnail);
+                        // Remove the red potion and give the player 3 coins
+                        // Add trigger to remove red potion
+                        // "Received: 3 gold coins!" (image of the gold coin item)
+                        dialogueComponent.AddPage("The world could sure do with more kind folk like you.", thumbnail);
+
+                    }
+                    else if (keyItems.ContainsItem("KeyPlayerHouse"))
+                    {
+                        dialogueComponent.AddPage("I see you'll be able to access that house of yours now.", thumbnail);
+                        dialogueComponent.AddPage("Let me know if you do find a healing potion amongst your things.", thumbnail);
                     }
                     else
                     {
-                        dialogueComponent.AddPage("You found your house key! Huzzah!!", thumbnail);
+                        dialogueComponent.AddPage("..........", thumbnail);
+                        dialogueComponent.AddPage("You must be the newbie in town. Word gets around here fast.", thumbnail);
+                        dialogueComponent.AddPage("Missing your key hey? Well I ain't seen it sad to say.", thumbnail);
+                        dialogueComponent.AddPage("But if you find a healing potion then I'd be mighty interested.", thumbnail);
                     }
                 }
             }

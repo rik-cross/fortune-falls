@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -15,9 +16,12 @@ namespace AdventureGame.Engine
         public SoundEffect tickSoundEffect = Globals.content.Load<SoundEffect>("Sounds/blip");
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
         public bool markForRemoval = false;
+        public Action<Entity, Entity, float> onDialogueComplete;
+
         public Dialogue(string text = null, Entity entity = null, Texture2D texture = null,
                         int tickDelay = 5, bool playTickSoundEffect = true,
-                        SoundEffect tickSoundEffect = default)
+                        SoundEffect tickSoundEffect = default,
+                        Action<Entity, Entity, float> onDialogueComplete = null)
         {
             this.text = text + " >";
             this.entity = entity;
@@ -26,6 +30,7 @@ namespace AdventureGame.Engine
             this.playTickSoundEffect = playTickSoundEffect;
             if (tickSoundEffect != default)
                 this.tickSoundEffect = tickSoundEffect;
+            this.onDialogueComplete = onDialogueComplete;
         }
         public void Update()
         {

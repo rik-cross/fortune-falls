@@ -61,6 +61,10 @@ namespace AdventureGame.Engine
 
             if (dialogueComponent.dialoguePages[0].markForRemoval && dialogueComponent.dialoguePages[0].alpha.Value == 0)
             {
+                // To do: Trigger any actions at the end of a page
+                //if (dialogueComponent.dialoguePages[0].onDialogueComplete != null)
+                //    triggerComponent.onCollide(entity, e, distance);
+
                 dialogueComponent.dialoguePages.RemoveAt(0);
                 if (dialogueComponent.dialoguePages.Count > 0)
                 {
