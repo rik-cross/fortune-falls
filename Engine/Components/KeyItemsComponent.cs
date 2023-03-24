@@ -45,7 +45,7 @@ namespace AdventureGame.Engine
         public bool ContainsItem(string itemId)
         {
             foreach (Item item in KeyItems)
-                if (item.ItemId == itemId)
+                if (item != null && item.ItemId == itemId)
                     return true;
             return false;
         }
