@@ -64,8 +64,8 @@ Content/.DS_Store
 !Entities/*.cs
 !Scenes/
 !Scenes/*.cs
-!UICustomisations/
-!UICustomisations/*.cs
+!Customisations/
+!Customisations/*.cs
 !Data/
 !Data/*
 !TriggerEvents
