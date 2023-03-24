@@ -264,6 +264,11 @@ namespace AdventureGame.Engine
             return false;
         }
 
+        public bool IsControllerConnected()
+        {
+            return GamePad.GetState(0).IsConnected;
+        }
+
         public void ShowCursor()
         {
             _isCursorVisible = true;

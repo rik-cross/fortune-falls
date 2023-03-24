@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using AdventureGame.Engine;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -25,8 +26,8 @@ namespace AdventureGame
         protected override void Initialize()
         {
 
-            Globals.ScreenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            Globals.ScreenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            Globals.ScreenWidth = 1500;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Globals.ScreenHeight = 800;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
             Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
             Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
@@ -44,7 +45,7 @@ namespace AdventureGame
             Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Fullscreen
-            Globals.graphics.IsFullScreen = true;
+            //Globals.graphics.IsFullScreen = true;
 
             // Borderless window
             //Globals.gameWindow.IsBorderless = true;
@@ -90,16 +91,15 @@ namespace AdventureGame
             // Create the menu and set as the active scene
             //EngineGlobals.sceneManager.SetActiveScene<MenuScene>();
 
-
-
-
-            //remove after testing!!
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
+            if (EngineGlobals.inputManager.IsControllerConnected())
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;
+            else
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
 
             Vector2 playerPosition = new Vector2(230, 30);
 
             // Add the MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<GameScene>(
+            EngineGlobals.sceneManager.SetActiveScene<MenuScene>(
                 removeCurrentSceneFromStack: false, unloadCurrentScene: false);
 
             EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);

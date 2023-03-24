@@ -16,8 +16,11 @@ namespace AdventureGame.Engine
         }
         private SpriteFont _font;
         private Color _colour;
+        private bool _outline;
+        private Color _outlineColour;
+        private int _outlineThickness;
 
-        public Text(string caption, Vector2 position = default, SpriteFont font = null, Color colour = default, Anchor anchor = Anchor.None, Rectangle anchorParent = default, Padding padding = default, float alpha = 1.0f, bool visible = true) : base(position, anchor, anchorParent, padding, alpha, visible)
+        public Text(string caption, Vector2 position = default, SpriteFont font = null, Color colour = default, Anchor anchor = Anchor.None, Rectangle anchorParent = default, Padding padding = default, float alpha = 1.0f, bool visible = true, bool outline = false, Color outlineColour = default, int outlineThickness = 1) : base(position, anchor, anchorParent, padding, alpha, visible)
         {
             _caption = caption;
 
@@ -30,9 +33,20 @@ namespace AdventureGame.Engine
                 _colour = Color.White;
             else
                 _colour = colour;
-            
+
+            _outline = outline;
+            _outlineColour = outlineColour;
+            _outlineThickness = outlineThickness;
+
             Size.X = _font.MeasureString(_caption).X;
             Size.Y = _font.MeasureString(_caption).Y;
+
+            if (outline)
+            {
+                Size.X += outlineThickness;
+                Size.Y += outlineThickness;
+            }
+
             CalculateAnchors();
         }
 
@@ -41,11 +55,23 @@ namespace AdventureGame.Engine
             if (!Visible)
                 return;
 
+            // Outline
+            if (_outline)
+            {
+                for (int i = 1; i < _outlineThickness; i++)
+                {
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y - i), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y - i), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y + i), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y + i), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y - i), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y + i), _outlineColour * Alpha);
+                }
+            }
             Globals.spriteBatch.DrawString(_font, _caption, Position, _colour * Alpha);
-            /*
-            Globals.spriteBatch.DrawRectangle(
-                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y),
-                Color.BlueViolet, 1);*/
+
         }
 
         public void AdjustSize()

@@ -11,6 +11,8 @@ Engine/*
 !Engine/Components/*
 !Engine/Systems
 !Engine/Systems/*
+!Engine/UI
+!Engine/UI/*
 !Engine/Managers
 !Engine/Managers/*
 !Engine/SceneTransitions
@@ -62,6 +64,8 @@ Content/.DS_Store
 !Entities/*.cs
 !Scenes/
 !Scenes/*.cs
+!UICustomisations/
+!UICustomisations/*.cs
 !Data/
 !Data/*
 !TriggerEvents

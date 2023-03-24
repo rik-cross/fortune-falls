@@ -93,7 +93,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.CanCollectComponent());
 
             playerEntity.AddComponent(new Engine.InputComponent(
-                null, //Engine.Inputs.keyboard,
+                null, //Engine.Inputs.controller,
                 PlayerInputController
             ));
 

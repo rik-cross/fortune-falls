@@ -38,6 +38,10 @@ namespace AdventureGame.Engine
         public bool UpdateSceneBelow { get; set; }
         public bool DrawSceneBelow { get; set; }
 
+        public UIMenu UIMenu;
+
+        public int frame = 0;
+
         public Scene()
         {
             _sceneManager = EngineGlobals.sceneManager;
@@ -61,6 +65,8 @@ namespace AdventureGame.Engine
             DrawSceneBelow = false;
             LightLevel = 0.6f;
             _alphaMask = Globals.content.Load<Texture2D>("light");
+
+            UIMenu = new UIMenu();
 
             Init();
         }
@@ -133,7 +139,6 @@ namespace AdventureGame.Engine
             OnExit();
         }
         public virtual void OnExit() { }
-
 
         public void AddMap(string newMapLocation)
         {
@@ -473,12 +478,18 @@ namespace AdventureGame.Engine
             // update the scene
             Update(gameTime);
 
+            // Update the menu
+            if (UIMenu != null)
+                UIMenu.Update();
+
             if (UpdateSceneBelow)
             {
                 Scene sceneBelow = _sceneManager.GetSceneBelow(this);
                 if (sceneBelow != null)
                     sceneBelow._Update(gameTime);
             }
+
+            frame++;
 
         }
 
@@ -681,6 +692,12 @@ namespace AdventureGame.Engine
                     Globals.spriteBatch.End();
                 }
             }
+
+            // Draw UI elements
+            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            if (UIMenu != null)
+                UIMenu.Draw();
+            Globals.spriteBatch.End();
 
             // switch back to the main backbuffer
             // and draw the scene

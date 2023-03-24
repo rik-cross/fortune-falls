@@ -13,6 +13,9 @@ namespace AdventureGame.Engine
         public static Color TextColorSecondary = Color.Gray;
         public static Color TextColorTertiary = Color.Yellow;
 
+        public static readonly SpriteFont FontTitle = Globals.content.Load<SpriteFont>("Fonts/Title");
+        public static readonly SpriteFont FontSubtitle = Globals.content.Load<SpriteFont>("Fonts/Subtitle");
+
         public static readonly SpriteFont FontPrimary = Globals.content.Load<SpriteFont>("Fonts/Large");
         public static readonly SpriteFont FontSecondary = Globals.content.Load<SpriteFont>("Fonts/Medium");
         public static readonly SpriteFont FontTertiary = Globals.content.Load<SpriteFont>("Fonts/Small");
