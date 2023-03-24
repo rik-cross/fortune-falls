@@ -22,7 +22,8 @@ namespace AdventureGame
 
         public void LoadGameScene()
         {
-            Vector2 playerPosition = new Vector2(20, 760);
+            //Vector2 playerPosition = new Vector2(20, 760);
+            Vector2 playerPosition = new Vector2(220, 170);
 
             // Add the MenuScene to the scene stack
             EngineGlobals.sceneManager.SetActiveScene<GameScene>(

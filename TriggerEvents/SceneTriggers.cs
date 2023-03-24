@@ -48,6 +48,8 @@ namespace AdventureGame.Engine
                 DialogueComponent dialogueComponent = playerEntity.GetComponent<DialogueComponent>();
                 if (dialogueComponent != null && !dialogueComponent.HasPages())
                 {
+                    Cutscene.Test();
+
                     Texture2D thumbnail = triggerEntity.GetComponent<ThumbnailComponent>().ThumbnailImage;
 
                     // Choose the dialogue options depending on the player progress

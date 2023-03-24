@@ -113,7 +113,7 @@ namespace AdventureGame
             oldManEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.OldManDialogue;
             AddEntity(oldManEntity);
 
-            Engine.Entity blacksmithEntity = NPCEntity.Create(290, 175, "Blacksmith-M06", "Blacksmith-M06-thumb");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(290, 175, "Blacksmith-M06", "Blacksmith-M06-thumb", idTag: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
@@ -208,8 +208,10 @@ namespace AdventureGame
             DayNightCycle.Update(gameTime);
             LightLevel = DayNightCycle.GetLightLevel();
 
-            // Make entities transparent if in front of player
+            // Update the cutscene if it is active
+            Cutscene.Update(gameTime);
 
+            // Make entities transparent if in front of player
             Utilities.SetBuildingAlpha(EntityList);
 
         }
@@ -217,6 +219,9 @@ namespace AdventureGame
         public override void Draw(GameTime gameTime)
         {
             DayNightCycle.Draw(gameTime);
+
+            // Draw the cutscene if it is active
+            Cutscene.Draw(gameTime);
         }
 
     }
