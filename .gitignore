@@ -46,6 +46,8 @@ Content/.DS_Store
 !Content/Sounds/*
 !Content/Fonts
 !Content/Fonts/*
+!Content/UI
+!Content/UI/*
 !Content/Buildings
 !Content/Buildings/*
 !Content/Characters
