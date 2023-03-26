@@ -83,11 +83,11 @@ namespace AdventureGame
                 offset: new Vector2((spriteSize.X - triggerWidth) / 2, (spriteSize.Y - triggerHeight) / 2 + (spriteSize.Y - drawHeight) / 2)
             ));
 
-            if (canMove)
-            {
+            //if (canMove)
+            //{
                 npcEntity.AddComponent(new Engine.IntentionComponent());
                 npcEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
-            }
+            //}
 
             return npcEntity;
         }

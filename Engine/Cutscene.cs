@@ -10,9 +10,8 @@ namespace AdventureGame.Engine
         private static List<bool> _waitList = new List<bool>();
 
         private static int _actionIndex = 0;
-        private static float _delayDuration = 0f;
-        private static float _delayStartTime = 0f;
-        private static float _currentTime = 0f;
+        private static float _delaySeconds = 0f;
+        private static float _timer = 0f;
         private static int _fadePercentage = 0;
 
         /*public Cutscene()
@@ -33,42 +32,37 @@ namespace AdventureGame.Engine
             Entity npcEntity = EngineGlobals.entityManager.GetEntityByIdTag("blacksmith");
 
             AddAction(() => Fade(2));
-            AddAction(() => SetDelayDuration(4)); // check - does the 4 sec delay not include the 2 sec fade?
-            AddAction(() => MoveCharacter(playerEntity, 50, 0, 4), false);
+            AddAction(() => SetDelayDuration(1)); // check - does the 4 sec delay not include the 2 sec fade?
+            AddAction(() => MoveCharacter(playerEntity, 60, 20, 4), false);
             AddAction(() => SetDelayDuration(1)); // check - NPC should move after 1 second whilst player is moving
             AddAction(() => MoveCharacter(npcEntity, 10, 20, 2));
-            AddAction(() => SetDelayDuration(6));
+            AddAction(() => SetDelayDuration(2));
             AddAction(() => Fade(3));
             // check - is another delay needed?
         }
 
         // Set delay
-        public static void SetDelayDuration(float amount)
+        public static void SetDelayDuration(float seconds)
         {
-            _delayDuration = amount;
-        }
-
-        public static void SetDelayStartTime()
-        {
-            Console.WriteLine($"Delay start time: {_currentTime}");
-            //_currentTime = currentTime;
-            _delayStartTime = _currentTime;
+            _delaySeconds = seconds;
         }
 
         public static void ClearDelay()
         {
-            _delayDuration = 0f;
-            _delayStartTime = 0f;
+            _delaySeconds = 0f;
+            _timer = 0f;
         }
 
         public static bool IsDelayActive()
         {
-            float secondsPassed = _currentTime - _delayStartTime;
-            Console.WriteLine($"Delay active at {_currentTime}: {secondsPassed} secs passed out of {_delayDuration}");
-            //if (_delayDuration == 0f || _delayStartTime == 0f)
-            //    return false;
-            if (_currentTime - _delayStartTime >= _delayDuration)
+            //Console.WriteLine($"Delay active at {_timer}: {secondsPassed} secs passed out of {_delaySeconds}");
+            if (_delaySeconds == 0f)
                 return false;
+            if (_timer >= _delaySeconds)
+            {
+                ClearDelay();
+                return false;
+            }
             return true;
         }
 
@@ -82,10 +76,8 @@ namespace AdventureGame.Engine
             _actionList.Clear();
             _waitList.Clear();
             _actionIndex = 0;
-            _delayDuration = 0f;
-            _delayStartTime = 0f;
-            //ClearDelay();
             _fadePercentage = 0;
+            ClearDelay();
         }
 
         public static void AddAction(Action action, bool waitToComplete = true)
@@ -99,42 +91,35 @@ namespace AdventureGame.Engine
             if (_actionList.Count == 0)
                 return;
 
-            _currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             // Check if there is an action to execute
             if (_actionIndex < _actionList.Count)
             {
-                if (_delayDuration > 0f && _delayStartTime == 0f)
-                    SetDelayStartTime();
-
-                if (IsDelayActive())
-                    return;
-
-                //if (_delayDuration > 0)
-                //    _delayDuration -= 1;
-
-                if (_delayDuration <= 0)
+                // Check if a delay is active
+                if (_delaySeconds > 0f)
                 {
-                    ClearDelay(); // Here or in IsDelayActive or elsewhere?
+                    _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                    // Execute the action
-                    _actionList[_actionIndex]();
+                    if (IsDelayActive())
+                        return;
+                }
 
-                    // Should the next action wait for the current action to complete
-                    bool wait = _waitList[_actionIndex];
+                // Execute the action
+                _actionList[_actionIndex]();
 
-                    // Advance the cutscene
-                    Advance();
+                // Should the next action wait for the current action to complete
+                bool wait = _waitList[_actionIndex];
 
-                    // Repeat while the next actions are executed concurrently
-                    while (!wait)
+                // Advance the cutscene
+                Advance();
+
+                // Repeat while the next actions are executed concurrently
+                while (!wait)
+                {
+                    if (_actionIndex < _actionList.Count)
                     {
-                        if (_actionIndex < _actionList.Count)
-                        {
-                            _actionList[_actionIndex]();
-                            wait = _waitList[_actionIndex];
-                            Advance();
-                        }
+                        _actionList[_actionIndex]();
+                        wait = _waitList[_actionIndex];
+                        Advance();
                     }
                 }
 
@@ -159,6 +144,10 @@ namespace AdventureGame.Engine
         public static void MoveCharacter(Entity entity, float xAmount, float yAmount, int time)
         {
             Console.WriteLine($"Move: entity {entity.Id}, X {xAmount}, Y {yAmount}, time {time}");
+
+            MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
+            if (moveComponent == null)
+                entity.AddComponent(new MoveComponent(xAmount, yAmount));
         }
     }
 }

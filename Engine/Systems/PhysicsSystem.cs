@@ -22,6 +22,10 @@ namespace AdventureGame.Engine
             transformComponent.previousPosition = transformComponent.position;
             physicsComponent.PreviousVelocity = physicsComponent.Velocity;
 
+            // Change:
+            // Use PreviousSpeed in PhysicsComponent and apply modifier (0.0-X)
+            // if different, then set previous to current speed
+
             // Process anything that is player-only physics
             if (entity.IsPlayerType())
             {
@@ -32,6 +36,16 @@ namespace AdventureGame.Engine
                 // FIX this is not called if released during scene transition
                 if (EngineGlobals.inputManager.IsReleased(Globals.button2Input))
                     DecreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
+            }
+
+            // Check if the entity should move over time
+            MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
+            if (moveComponent != null && moveComponent.CurrentMove != Vector2.Zero)
+            {
+                moveComponent.UpdateMove();
+                if (moveComponent.NoMovesRemaining())
+                    entity.RemoveComponent<MoveComponent>();
+                //MoveByAmount(entity, moveComponent.CurrentMove.X, moveComponent.CurrentMove.Y);
             }
 
             // Set the direction vector and string
@@ -63,12 +77,14 @@ namespace AdventureGame.Engine
 
                 transformComponent.position += velocity;
                 physicsComponent.Velocity = velocity;
-                //Console.WriteLine($"\nPHYSICS position:{transformComponent.position}, previous{transformComponent.previousPosition}");
-                //ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-                //// NOT up to date
-                //Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
-                //colliderComponent.GetBoundingBox(transformComponent.position);
-                //Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
+
+                // Check if the move component should be updated
+                if (moveComponent != null)
+                {
+                    moveComponent.ReduceMove(velocity);
+                    if (moveComponent.CurrentMove == Vector2.Zero)
+                        entity.RemoveComponent<MoveComponent>();
+                }
             }
             else
             {
@@ -118,6 +134,48 @@ namespace AdventureGame.Engine
 
             if (spriteComponent != null)
                 spriteComponent.ModifyAnimationDelay(speedModifier);
+        }
+
+        // Move an entity by a given amount over time
+        public void MoveByAmount(Entity entity, float xAmount, float yAmount)
+        {
+            Console.WriteLine("Move by amount");
+
+            if (xAmount == 0.0f && yAmount == 0.0f)
+                return;
+
+            if (Math.Abs(xAmount) > Math.Abs(yAmount))
+            {
+                if (xAmount > 0.0f)
+                {
+                    entity.GetComponent<IntentionComponent>().right = true;
+                    entity.State = "walk_east";
+                }
+                else
+                {
+                    entity.GetComponent<IntentionComponent>().left = true;
+                    entity.State = "walk_west";
+                }
+            }
+            else
+            {
+                if (yAmount > 0.0f)
+                {
+                    entity.GetComponent<IntentionComponent>().down = true;
+                    entity.State = "walk_south";
+                }
+                else
+                {
+                    entity.GetComponent<IntentionComponent>().up = true;
+                    entity.State = "walk_north";
+                }
+            }
+        }
+
+        // Move an entity to a given position
+        public void MoveToPostion()
+        {
+
         }
     }
 }
