@@ -61,7 +61,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, 700),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 100),
                     size: new Vector2(120, 45),
                     text: "Back",
                     textColour: Color.White,

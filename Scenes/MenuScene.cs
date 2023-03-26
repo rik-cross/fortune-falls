@@ -18,7 +18,10 @@ namespace AdventureGame
         private Engine.Image keyboardImage;
         private Engine.Image controllerImage;
         private Engine.Image inputImage;
-        private Engine.Image titleImage;
+        private Engine.Text inputText;
+
+        private Engine.Camera camera;
+        private Engine.Entity mainMenuPlayer;
 
         public void LoadGameScene()
         {
@@ -32,7 +35,7 @@ namespace AdventureGame
         }
         public void LoadOptionsScene()
         {
-
+            EngineGlobals.sceneManager.SetActiveScene<OptionsScene>(applyTransition: true, removeCurrentSceneFromStack: false, unloadCurrentScene: false);
         }
         public void LoadCreditsScene()
         {
@@ -48,12 +51,37 @@ namespace AdventureGame
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
-            titleImage = new Engine.Image(
-                Globals.content.Load<Texture2D>("title_image"),
-                position: new Vector2(Globals.ScreenWidth/2, Globals.ScreenHeight/2),
-                size: new Vector2(1338*2, 889*2),
-                anchor: Anchor.MiddleCenter
-            );
+            AddMap("Maps/Map_MainMenu");
+            
+            camera = new Engine.Camera(
+                    name: "main",
+                    size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
+                    //worldPosition: new Vector2(-1200, -870),
+                    zoom: 4.0f,
+                    backgroundColour: Color.DarkSlateBlue
+                );
+
+
+            camera.SetWorldPosition(new Vector2(1300, 830), instant: true);
+            //camera.zoomIncrement = 0.005f;
+            //camera.SetZoom(3.0f);
+            //AddCamera(n);
+            CameraList.Add(camera);
+            
+            LightLevel = 1.0f;
+
+
+            mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
+
+            mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1140, 820), new Vector2(96,64)));
+
+            Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_waiting_strip9", new Vector2(96,64));
+            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)mainMenuPlayer.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 0, 0));
+            spriteComponent.AddSprite("fishing", playerSpriteSheet, 0, 0, 3);
+
+            mainMenuPlayer.State = "fishing";
+
+            AddEntity(mainMenuPlayer);
 
             // title text
             _title = new Engine.Text(
@@ -67,9 +95,21 @@ namespace AdventureGame
                 outlineThickness: 8
             );
 
+            // title text
+            inputText = new Engine.Text(
+                caption: "Keyboard controls",
+                font: Theme.FontSecondary,
+                colour: Color.White,
+                anchor: Anchor.BottomLeft,
+                padding: new Padding(bottom: 0, left: 15),
+                outline: true,
+                outlineColour: Color.Black,
+                outlineThickness: 4
+            );
+
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, 550),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 300),
                     size: new Vector2(120, 45),
                     text: "Start",
                     textColour: Color.White,
@@ -82,7 +122,20 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, 600),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 250),
+                    size: new Vector2(120, 45),
+                    text: "Test",
+                    textColour: Color.White,
+                    outlineColour: Color.White,
+                    outlineThickness: 2,
+                    backgroundColour: Color.DarkSlateGray,
+                    func: null
+                )
+            );
+
+            UIMenu.AddUIElement(
+                new UIButton(
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 200),
                     size: new Vector2(120, 45),
                     text: "Options",
                     textColour: Color.White,
@@ -95,7 +148,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, 650),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 150),
                     size: new Vector2(120, 45),
                     text: "Credits",
                     textColour: Color.White,
@@ -108,7 +161,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, 700),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 100),
                     size: new Vector2(120, 45),
                     text: "Quit",
                     textColour: Color.White,
@@ -138,7 +191,7 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
+            EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
 
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
             {
@@ -151,9 +204,11 @@ namespace AdventureGame
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
 
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
-                inputImage = keyboardImage;
+                //inputImage = keyboardImage;
+                inputText.Caption = "Keyboard";
             else
-                inputImage = controllerImage;
+                //inputImage = controllerImage;
+                inputText.Caption = "Controller";
 
         }
         public override void OnExit()
@@ -180,9 +235,10 @@ namespace AdventureGame
 
         public override void Draw(GameTime gameTime)
         {
-            titleImage.Draw();
+            //titleImage.Draw();
             _title.Draw();
-            inputImage.Draw();
+            //inputImage.Draw();
+            inputText.Draw();
         }
 
     }

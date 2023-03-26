@@ -23,6 +23,8 @@ namespace AdventureGame.Engine
                 _targetVolume = value;
             }
         }
+        public float SFXVolume;
+
         private float volumeIncrement = 0.03f;
         private Song _currentSong = null;
         private Song _nextSong = null;
@@ -31,6 +33,7 @@ namespace AdventureGame.Engine
             MediaPlayer.Volume = 1.0f;
             _targetVolume = 1.0f;
             MediaPlayer.IsRepeating = true;
+            SFXVolume = 1.0f;
         }
         public void Update(GameTime gameTime)
         {
@@ -74,7 +77,7 @@ namespace AdventureGame.Engine
         }
         public void PlaySoundEffect(SoundEffect soundEffect)
         {
-            soundEffect.Play(Volume, 0, 0);
+            soundEffect.Play(SFXVolume, 0, 0);
         }
     }
 }
