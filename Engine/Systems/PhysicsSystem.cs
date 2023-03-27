@@ -38,16 +38,6 @@ namespace AdventureGame.Engine
                     DecreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
             }
 
-            // Check if the entity should move over time
-            MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
-            if (moveComponent != null && moveComponent.CurrentMove != Vector2.Zero)
-            {
-                moveComponent.UpdateMove();
-                if (moveComponent.NoMovesRemaining())
-                    entity.RemoveComponent<MoveComponent>();
-                //MoveByAmount(entity, moveComponent.CurrentMove.X, moveComponent.CurrentMove.Y);
-            }
-
             // Set the direction vector and string
             Vector2 direction = Vector2.Zero;
 
@@ -77,14 +67,6 @@ namespace AdventureGame.Engine
 
                 transformComponent.position += velocity;
                 physicsComponent.Velocity = velocity;
-
-                // Check if the move component should be updated
-                if (moveComponent != null)
-                {
-                    moveComponent.ReduceMove(velocity);
-                    if (moveComponent.CurrentMove == Vector2.Zero)
-                        entity.RemoveComponent<MoveComponent>();
-                }
             }
             else
             {
@@ -134,48 +116,6 @@ namespace AdventureGame.Engine
 
             if (spriteComponent != null)
                 spriteComponent.ModifyAnimationDelay(speedModifier);
-        }
-
-        // Move an entity by a given amount over time
-        public void MoveByAmount(Entity entity, float xAmount, float yAmount)
-        {
-            Console.WriteLine("Move by amount");
-
-            if (xAmount == 0.0f && yAmount == 0.0f)
-                return;
-
-            if (Math.Abs(xAmount) > Math.Abs(yAmount))
-            {
-                if (xAmount > 0.0f)
-                {
-                    entity.GetComponent<IntentionComponent>().right = true;
-                    entity.State = "walk_east";
-                }
-                else
-                {
-                    entity.GetComponent<IntentionComponent>().left = true;
-                    entity.State = "walk_west";
-                }
-            }
-            else
-            {
-                if (yAmount > 0.0f)
-                {
-                    entity.GetComponent<IntentionComponent>().down = true;
-                    entity.State = "walk_south";
-                }
-                else
-                {
-                    entity.GetComponent<IntentionComponent>().up = true;
-                    entity.State = "walk_north";
-                }
-            }
-        }
-
-        // Move an entity to a given position
-        public void MoveToPostion()
-        {
-
         }
     }
 }

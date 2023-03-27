@@ -55,10 +55,15 @@ namespace AdventureGame
             Vector2 spriteSize = spriteComponent.GetSpriteSize();
 
             // Add the other sprites
-            spriteComponent.AddSprite("walkNorth", npcSpriteSheet, 0, 0, 2, true, 1);
-            spriteComponent.AddSprite("walkSouth", npcSpriteSheet, 2, 0, 2, true, 1);
-            spriteComponent.AddSprite("walkEast", npcSpriteSheet, 1, 0, 2, true, 1);
-            spriteComponent.AddSprite("walkWest", npcSpriteSheet, 3, 0, 2, true, 1);
+            spriteComponent.AddSprite("walk_north", npcSpriteSheet, 0, 0, 2, true, 1);
+            spriteComponent.AddSprite("walk_south", npcSpriteSheet, 2, 0, 2, true, 1);
+            spriteComponent.AddSprite("walk_east", npcSpriteSheet, 1, 0, 2, true, 1);
+            spriteComponent.AddSprite("walk_west", npcSpriteSheet, 3, 0, 2, true, 1);
+            spriteComponent.AddSprite("idle_north", npcSpriteSheet, 0, 1, 1);
+            spriteComponent.AddSprite("idle_south", npcSpriteSheet, 2, 1, 1);
+            spriteComponent.AddSprite("idle_east", npcSpriteSheet, 1, 1, 1);
+            spriteComponent.AddSprite("idle_west", npcSpriteSheet, 3, 1, 1);
+
             spriteComponent.SetAnimationDelay(8);
 
             // Add the thumbnail component

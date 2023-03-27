@@ -31,12 +31,16 @@ namespace AdventureGame.Engine
             Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
             Entity npcEntity = EngineGlobals.entityManager.GetEntityByIdTag("blacksmith");
 
+            MoveSystem moveSystem = EngineGlobals.systemManager.GetSystem<MoveSystem>();
+
             AddAction(() => Fade(2));
-            AddAction(() => SetDelayDuration(1)); // check - does the 4 sec delay not include the 2 sec fade?
-            AddAction(() => MoveCharacter(playerEntity, 60, 20, 4), false);
-            AddAction(() => SetDelayDuration(1)); // check - NPC should move after 1 second whilst player is moving
-            AddAction(() => MoveCharacter(npcEntity, 10, 20, 2));
+            AddAction(() => SetDelayDuration(1)); // check - does the 1 sec delay not include the 2 sec fade?
+            AddAction(() => moveSystem.MoveCharacter(playerEntity, 30, 20));
+            AddAction(() => moveSystem.MoveCharacter(playerEntity, 0, -10));
+            AddAction(() => moveSystem.MoveCharacter(playerEntity, -30, 40));
             AddAction(() => SetDelayDuration(2));
+            AddAction(() => moveSystem.MoveCharacter(npcEntity, -30, 40));
+            AddAction(() => SetDelayDuration(3));
             AddAction(() => Fade(3));
             // check - is another delay needed?
         }
@@ -139,15 +143,6 @@ namespace AdventureGame.Engine
         public static void Fade(int time)
         {
             Console.WriteLine($"Fade: time {time}");
-        }
-
-        public static void MoveCharacter(Entity entity, float xAmount, float yAmount, int time)
-        {
-            Console.WriteLine($"Move: entity {entity.Id}, X {xAmount}, Y {yAmount}, time {time}");
-
-            MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
-            if (moveComponent == null)
-                entity.AddComponent(new MoveComponent(xAmount, yAmount));
         }
     }
 }
