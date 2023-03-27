@@ -22,6 +22,10 @@ namespace AdventureGame.Engine
             transformComponent.previousPosition = transformComponent.position;
             physicsComponent.PreviousVelocity = physicsComponent.Velocity;
 
+            // Change:
+            // Use PreviousSpeed in PhysicsComponent and apply modifier (0.0-X)
+            // if different, then set previous to current speed
+
             // Process anything that is player-only physics
             if (entity.IsPlayerType())
             {
@@ -63,12 +67,6 @@ namespace AdventureGame.Engine
 
                 transformComponent.position += velocity;
                 physicsComponent.Velocity = velocity;
-                //Console.WriteLine($"\nPHYSICS position:{transformComponent.position}, previous{transformComponent.previousPosition}");
-                //ColliderComponent colliderComponent = entity.GetComponent<ColliderComponent>();
-                //// NOT up to date
-                //Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
-                //colliderComponent.GetBoundingBox(transformComponent.position);
-                //Console.WriteLine($"BBox left:{colliderComponent.Left}, right:{colliderComponent.Right}");
             }
             else
             {

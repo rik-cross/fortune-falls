@@ -31,6 +31,7 @@ namespace AdventureGame.Engine
 
             // Add all builtin systems
             AddSystem(new InputSystem());
+            AddSystem(new MoveSystem()); // here or after Collision?
             AddSystem(new PhysicsSystem());
             //AddSystem(new ClickableSystem());
             AddSystem(new HitboxSystem());
@@ -52,6 +53,19 @@ namespace AdventureGame.Engine
             // generate the signatures for all the systems
             //foreach (System s in systems)
             //    s.systemSignature = componentManager.SystemComponents(s.requiredComponents);
+        }
+
+        // Return a given system from the systems list
+        public T GetSystem<T>() where T : System
+        {
+            foreach (System s in systems)
+            {
+                if (s.GetType().Equals(typeof(T)))
+                {
+                    return (T)s;
+                }
+            }
+            return null;
         }
 
         // Updates the system's lists when components are added or removed
