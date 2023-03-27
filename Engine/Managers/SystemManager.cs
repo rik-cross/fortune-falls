@@ -55,6 +55,19 @@ namespace AdventureGame.Engine
             //    s.systemSignature = componentManager.SystemComponents(s.requiredComponents);
         }
 
+        // Return a given system from the systems list
+        public T GetSystem<T>() where T : System
+        {
+            foreach (System s in systems)
+            {
+                if (s.GetType().Equals(typeof(T)))
+                {
+                    return (T)s;
+                }
+            }
+            return null;
+        }
+
         // Updates the system's lists when components are added or removed
         public void UpdateEntityLists(Entity e)//GameTime gameTime, Scene scene, Entity e)
         {
