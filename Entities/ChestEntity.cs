@@ -26,7 +26,8 @@ namespace AdventureGame
 
             // TODO -- sprite component code is messy!
             Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet("Objects/chest", (int)chestSize.X, (int)chestSize.Y);
-            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)entity.AddComponent(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0,0))));
+            //Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)entity.AddComponent(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0,0))));
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))));
             spriteComponent.AddSprite("open", spriteSheet, 0, 0, 4, repeatNeutral: false);
             // TODO -- add to constrctor
             spriteComponent.GetSprite("open").loop = false;

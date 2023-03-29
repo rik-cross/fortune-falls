@@ -50,7 +50,7 @@ namespace AdventureGame
 
             // CHANGE so the spritesheet is created using the file path??
             Engine.SpriteSheet npcSpriteSheet = new Engine.SpriteSheet(filePath, spriteWidth, spriteHeight);
-            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)npcEntity.AddComponent(new Engine.SpriteComponent(npcSpriteSheet, 1, 2, "idle"));
+            Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(npcSpriteSheet, 1, 2, "idle"));
             //npcEntity.AddComponent(new Engine.SpriteComponent(filePath, spriteWidth, spriteHeight, 2, 1, "idle"));
             Vector2 spriteSize = spriteComponent.GetSpriteSize();
 

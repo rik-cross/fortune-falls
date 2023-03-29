@@ -77,7 +77,7 @@ namespace AdventureGame
             mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1140, 820), new Vector2(96,64)));
 
             Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_waiting_strip9", new Vector2(96,64));
-            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)mainMenuPlayer.AddComponent(new Engine.SpriteComponent(playerSpriteSheet, 0, 0));
+            Engine.SpriteComponent spriteComponent = mainMenuPlayer.AddComponent<SpriteComponent>(new Engine.SpriteComponent(playerSpriteSheet, 0, 0));
             spriteComponent.AddSprite("fishing", playerSpriteSheet, 0, 0, 3);
 
             mainMenuPlayer.State = "fishing";

@@ -21,7 +21,7 @@ namespace AdventureGame
             ));
 
             Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet("Objects/light", (int)entitySize.X, (int)entitySize.Y);
-            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)entity.AddComponent(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))));
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))));
             spriteComponent.AddSprite("on", spriteSheet, 0, 1, 1);
             spriteComponent.GetSprite("on").loop = false;
 
