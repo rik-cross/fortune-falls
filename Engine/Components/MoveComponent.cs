@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace AdventureGame.Engine
 {
     // Could this store IntentionComponent (movement values)
-    // and movement states e.g. walk_north?
+    // and movement states e.g. walk_up?
 
     public class MoveComponent : Component
     {

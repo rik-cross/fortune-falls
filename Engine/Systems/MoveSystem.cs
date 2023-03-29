@@ -133,12 +133,12 @@ namespace AdventureGame.Engine
             {
                 // MOVE handle intention and state elsewhere?
                 intentionComponent.right = true;
-                entity.State = "walk_east";
+                entity.State = "walk_right";
             }
             else
             {
                 intentionComponent.left = true;
-                entity.State = "walk_west";
+                entity.State = "walk_left";
             }
         }
 
@@ -152,12 +152,12 @@ namespace AdventureGame.Engine
             if (yAmount > 0.0f)
             {
                 intentionComponent.down = true;
-                entity.State = "walk_south";
+                entity.State = "walk_down";
             }
             else
             {
                 intentionComponent.up = true;
-                entity.State = "walk_north";
+                entity.State = "walk_up";
             }
         }
 
@@ -172,13 +172,13 @@ namespace AdventureGame.Engine
             if (intentionComponent.left)
             {
                 intentionComponent.left = false;
-                entity.State = "idle_west";
+                entity.State = "idle_left";
             }
 
             if (intentionComponent.right)
             {
                 intentionComponent.right = false;
-                entity.State = "idle_east";
+                entity.State = "idle_right";
             }
         }
 
@@ -193,13 +193,13 @@ namespace AdventureGame.Engine
             if (intentionComponent.up)
             {
                 intentionComponent.up = false;
-                entity.State = "idle_north";
+                entity.State = "idle_up";
             }
 
             if (intentionComponent.down)
             {
                 intentionComponent.down = false;
-                entity.State = "idle_south";
+                entity.State = "idle_down";
             }
         }
 
@@ -217,12 +217,12 @@ namespace AdventureGame.Engine
                 if (xAmount > 0.0f)
                 {
                     entity.GetComponent<IntentionComponent>().right = true;
-                    entity.State = "walk_east";
+                    entity.State = "walk_right";
                 }
                 else
                 {
                     entity.GetComponent<IntentionComponent>().left = true;
-                    entity.State = "walk_west";
+                    entity.State = "walk_left";
                 }
             }
             else
@@ -230,12 +230,12 @@ namespace AdventureGame.Engine
                 if (yAmount > 0.0f)
                 {
                     entity.GetComponent<IntentionComponent>().down = true;
-                    entity.State = "walk_south";
+                    entity.State = "walk_down";
                 }
                 else
                 {
                     entity.GetComponent<IntentionComponent>().up = true;
-                    entity.State = "walk_north";
+                    entity.State = "walk_up";
                 }
             }
         }

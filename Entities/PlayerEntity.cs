@@ -56,14 +56,14 @@ namespace AdventureGame
             Vector2 spriteSize = spriteComponent.GetSpriteSize();
 
             // Add the other sprites
-            spriteComponent.AddSprite("walk_north", playerSpriteSheet, 0, 0, 2, true, 1);
-            spriteComponent.AddSprite("walk_south", playerSpriteSheet, 2, 0, 2, true, 1);
-            spriteComponent.AddSprite("walk_east", playerSpriteSheet, 1, 0, 2, true, 1);
-            spriteComponent.AddSprite("walk_west", playerSpriteSheet, 3, 0, 2, true, 1);
-            spriteComponent.AddSprite("idle_north", playerSpriteSheet, 0, 1, 1);
-            spriteComponent.AddSprite("idle_south", playerSpriteSheet, 2, 1, 1);
-            spriteComponent.AddSprite("idle_east", playerSpriteSheet, 1, 1, 1);
-            spriteComponent.AddSprite("idle_west", playerSpriteSheet, 3, 1, 1);
+            spriteComponent.AddSprite("walk_up", playerSpriteSheet, 0, 0, 2, true, 1);
+            spriteComponent.AddSprite("walk_down", playerSpriteSheet, 2, 0, 2, true, 1);
+            spriteComponent.AddSprite("walk_right", playerSpriteSheet, 1, 0, 2, true, 1);
+            spriteComponent.AddSprite("walk_left", playerSpriteSheet, 3, 0, 2, true, 1);
+            spriteComponent.AddSprite("idle_up", playerSpriteSheet, 0, 1, 1);
+            spriteComponent.AddSprite("idle_down", playerSpriteSheet, 2, 1, 1);
+            spriteComponent.AddSprite("idle_right", playerSpriteSheet, 1, 1, 1);
+            spriteComponent.AddSprite("idle_left", playerSpriteSheet, 3, 1, 1);
 
             spriteComponent.SetAnimationDelay(8);
 
@@ -116,14 +116,14 @@ namespace AdventureGame
             Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
 
             // default state
-            //entity.State = "idle_south";
+            //entity.State = "idle_down";
 
             // up keys
 
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
             {
                 intentionComponent.up = true;
-                entity.State = "walk_north";
+                entity.State = "walk_up";
             }
             else
             {
@@ -134,7 +134,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.down))
             {
                 intentionComponent.down = true;
-                entity.State = "walk_south";
+                entity.State = "walk_down";
             }
             else
             {
@@ -145,7 +145,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.left))
             {
                 intentionComponent.left = true;
-                entity.State = "walk_west";
+                entity.State = "walk_left";
             }
             else
             {
@@ -156,7 +156,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.right))
             {
                 intentionComponent.right = true;
-                entity.State = "walk_east";
+                entity.State = "walk_right";
             }
             else
             {
@@ -173,14 +173,14 @@ namespace AdventureGame
                 intentionComponent.button2 = false;
             }
 
-            if (entity.State == "walk_north" && EngineGlobals.inputManager.IsDown(inputComponent.input.up) == false)
-                entity.State = "idle_north";
-            if (entity.State == "walk_south" && EngineGlobals.inputManager.IsDown(inputComponent.input.down) == false)
-                entity.State = "idle_south";
-            if (entity.State == "walk_east" && EngineGlobals.inputManager.IsDown(inputComponent.input.right) == false)
-                entity.State = "idle_east";
-            if (entity.State == "walk_west" && EngineGlobals.inputManager.IsDown(inputComponent.input.left) == false)
-                entity.State = "idle_west";
+            if (entity.State == "walk_up" && EngineGlobals.inputManager.IsDown(inputComponent.input.up) == false)
+                entity.State = "idle_up";
+            if (entity.State == "walk_down" && EngineGlobals.inputManager.IsDown(inputComponent.input.down) == false)
+                entity.State = "idle_down";
+            if (entity.State == "walk_right" && EngineGlobals.inputManager.IsDown(inputComponent.input.right) == false)
+                entity.State = "idle_right";
+            if (entity.State == "walk_left" && EngineGlobals.inputManager.IsDown(inputComponent.input.left) == false)
+                entity.State = "idle_left";
             
         }
 
