@@ -34,11 +34,11 @@ namespace AdventureGame.Engine
             MoveSystem moveSystem = EngineGlobals.systemManager.GetSystem<MoveSystem>();
 
             AddAction(() => Fade(2));
-            AddAction(() => SetDelayDuration(1)); // check - does the 1 sec delay not include the 2 sec fade?
+            AddAction(() => SetDelayDuration(5)); // check - does the 1 sec delay not include the 2 sec fade?
             AddAction(() => moveSystem.MoveCharacter(playerEntity, 30, 20));
             AddAction(() => moveSystem.MoveCharacter(playerEntity, 0, -10));
             AddAction(() => moveSystem.MoveCharacter(playerEntity, -30, 40));
-            AddAction(() => SetDelayDuration(2));
+            AddAction(() => SetDelayDuration(5));
             AddAction(() => moveSystem.MoveCharacter(npcEntity, -30, 40));
             AddAction(() => SetDelayDuration(3));
             AddAction(() => Fade(3));
@@ -88,6 +88,14 @@ namespace AdventureGame.Engine
         {
             _actionList.Add(action);
             _waitList.Add(waitToComplete);
+        }
+
+
+        // To do: disable all input controller. Allow inputs to be overridden
+        // Method here or InputSystem etc for Add / Remove input action? Or MoveSystem??
+        public void CutsceneInputController(Entity entity)
+        {
+            
         }
 
         public static void Update(GameTime gameTime)

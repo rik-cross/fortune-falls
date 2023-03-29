@@ -45,6 +45,10 @@ namespace AdventureGame.Engine
             MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            // Bug:
+            // If the dialogue system ends before or during the update then the
+            // distance stops being updated - is it because the input / states are reset?
+
             Console.WriteLine($"Update move: {moveComponent.CurrentMove}");
             if (moveComponent.HasMoveEnded)
             {
@@ -56,7 +60,7 @@ namespace AdventureGame.Engine
             Vector2 previousMove = moveComponent.CurrentMove;
             moveComponent.CurrentMove -= transformComponent.DistanceMoved();
 
-            // Issue:
+            // Bug / issue:
             // If the entity cannot move, the distance moved is not reduced
             // and the move component is never removed
 
