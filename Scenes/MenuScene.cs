@@ -62,7 +62,7 @@ namespace AdventureGame
         public MenuScene()
         {
 
-            EngineGlobals.DEBUG = true;
+            EngineGlobals.DEBUG = false;
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
@@ -96,15 +96,10 @@ namespace AdventureGame
             Engine.SpriteSheet caughtSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_caught_strip10", new Vector2(96, 64));
             Engine.SpriteSheet swimSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_swimming_strip12", new Vector2(96, 64));
 
-<<<<<<< Updated upstream
-            Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_waiting_strip9", new Vector2(96,64));
-            Engine.SpriteComponent spriteComponent = mainMenuPlayer.AddComponent<SpriteComponent>(new Engine.SpriteComponent(playerSpriteSheet, 0, 0));
-            spriteComponent.AddSprite("fishing", playerSpriteSheet, 0, 0, 3);
-=======
-            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)mainMenuPlayer.AddComponent(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
+            Engine.SpriteComponent spriteComponent = mainMenuPlayer.AddComponent<Engine.SpriteComponent>(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
             spriteComponent.AddSprite("waiting", waitingSpriteSheet, 0, 0, 8);
             spriteComponent.GetSprite("waiting").offset = new Vector2(-41, -21);
->>>>>>> Stashed changes
+            //spriteComponent.GetSprite("waiting").size = new Vector2(20,20);
 
             //Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)mainMenuPlayer.AddComponent(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
             spriteComponent.AddSprite("casting", castingSpriteSheet, 0, 0, 14);
@@ -280,7 +275,6 @@ namespace AdventureGame
             //S.WriteLine(frameOdo + " " + nextCatch);
             if (frameOdo == nextCatch)
             {
-                S.WriteLine("caught");
                 frameOdo = 0;
                 nextCatch = (int)r.Next(1500, 5000);
                 mainMenuPlayer.State = "caught";

@@ -491,7 +491,7 @@ namespace AdventureGame.Engine
 
             frame++;
 
-        }
+         }
 
         public void _Draw(GameTime gameTime)
         {

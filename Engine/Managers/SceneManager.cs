@@ -52,7 +52,13 @@ namespace AdventureGame.Engine
                     ActiveScene.EntityList.Remove(e);
                 }
                 ActiveScene.ClearEntitiesToRemove();
+
+                //foreach (Entity e in ActiveScene.EntityList)
+                //    e.PrevState = e.State;
+
             }
+
+            
 
             // CHECK update scene below if stack is > 1 here??
             // Repeat EntitiesToDelete code too??

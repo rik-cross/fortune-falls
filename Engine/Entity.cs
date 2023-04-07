@@ -11,6 +11,7 @@ namespace AdventureGame.Engine
         public ulong Signature { get; set; }
         //public Scene Scene { get; set; }
         public string State { get; set; }
+        public string PrevState { get; set; }
         public Tags Tags { get; set; }
 
         public List<Component> Components { get; set; } // Dictionary/HashSet?
@@ -29,6 +30,8 @@ namespace AdventureGame.Engine
             Components = new List<Component>();
             entityManager = EngineGlobals.entityManager;
             componentManager = EngineGlobals.componentManager;
+
+            PrevState = State;
         }
 
         // Generate a unique GUID for the entity

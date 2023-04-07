@@ -95,11 +95,7 @@ namespace AdventureGame.Engine
 
         public Vector2 GetSpriteSize(string state = "idle")
         {
-            Sprite sprite = SpriteDict[state];
-            Texture2D texture = sprite.textureList[0];
-            Vector2 spriteSize = new Vector2(texture.Width, texture.Height);
-
-            return spriteSize;
+            return SpriteDict[state].size;
         }
 
         public void AddSprite(string key, Sprite sprite)
