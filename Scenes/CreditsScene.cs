@@ -19,7 +19,7 @@ namespace AdventureGame
         List<Engine.Text> creditsList = new List<Text>();
         List<string> creditsText;
 
-        public void UnloadCreditsScene()
+        public void UnloadCreditsScene(UIButton button)
         {
             EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
         }

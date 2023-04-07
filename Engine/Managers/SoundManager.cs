@@ -12,7 +12,34 @@ namespace AdventureGame.Engine
 {
     public class SoundManager
     {
-        private float _targetVolume;
+        public bool _mute = false;
+        public float prevVolume;
+        public float prevSFXVol;
+        public bool Mute
+        {
+            get
+            {
+                return _mute;
+            }
+            set
+            {
+                if (value == true)
+                {
+                    prevVolume = Volume;
+                    prevSFXVol = SFXVolume;
+                    Volume = 0;
+                    SFXVolume = 0;
+                    _mute = value;
+                }
+                else
+                {
+                    _targetVolume = prevVolume;
+                    SFXVolume = prevSFXVol;
+                    _mute = value;
+                }
+            }
+        }
+        public float _targetVolume;
         public float Volume {
             get
             {
@@ -21,6 +48,8 @@ namespace AdventureGame.Engine
             set
             {
                 _targetVolume = value;
+                //if (value > 0)
+                //    Mute = false;
             }
         }
         public float SFXVolume;
@@ -34,9 +63,15 @@ namespace AdventureGame.Engine
             _targetVolume = 1.0f;
             MediaPlayer.IsRepeating = true;
             SFXVolume = 1.0f;
+
+            prevVolume = _targetVolume;
+            prevSFXVol = SFXVolume;
         }
         public void Update(GameTime gameTime)
         {
+
+            //S.WriteLine(Mute);
+
             if (_nextSong != null)
             {
                 MediaPlayer.Volume -= volumeIncrement;
@@ -76,7 +111,7 @@ namespace AdventureGame.Engine
             _nextSong = song;
         }
         public void PlaySoundEffect(SoundEffect soundEffect)
-        {
+        { 
             soundEffect.Play(SFXVolume, 0, 0);
         }
     }

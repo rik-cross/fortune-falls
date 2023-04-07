@@ -11,7 +11,7 @@ namespace AdventureGame.Engine
     {
 
         public List<Texture2D> textureList;
-        //public Vector2 size;
+        public Vector2 offset;
         public bool loop;
         public int currentPosition;
         public int animationDelay;
@@ -19,7 +19,7 @@ namespace AdventureGame.Engine
         public Action<Entity> OnComplete;
         public bool completed = false;
 
-        public Sprite(Texture2D texture/*, Vector2 size = default*/)
+        public Sprite(Texture2D texture/*, Vector2 size = default*/, Vector2 offset = default)
         {
             this.textureList = new List<Texture2D> { texture };
 
@@ -27,6 +27,11 @@ namespace AdventureGame.Engine
             //    this.size = size;
             //else
             //    this.size = new Vector2(texture.Width, texture.Height);
+
+            if (offset == default)
+                this.offset = new Vector2(0, 0);
+            else
+                this.offset = offset;
 
             this.loop = false;
             this.animationDelay = 0;

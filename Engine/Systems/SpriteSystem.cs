@@ -95,8 +95,9 @@ namespace AdventureGame.Engine
             Globals.spriteBatch.Draw(
                 currentTexture,
                 new Rectangle(
-                    (int)transformComponent.position.X, (int)transformComponent.position.Y,
-                    (int)transformComponent.size.X, (int)transformComponent.size.Y
+                    (int)(transformComponent.position.X + currentSprite.offset.X), (int)(transformComponent.position.Y + currentSprite.offset.Y),
+                    //(int)transformComponent.size.X, (int)transformComponent.size.Y
+                    (int)currentTexture.Width, (int)currentTexture.Height
                 ),
                 Color.White * spritesComponent.alpha
             );

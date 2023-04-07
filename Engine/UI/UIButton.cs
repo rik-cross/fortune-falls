@@ -19,8 +19,10 @@ namespace AdventureGame.Engine
         public Color backgroundColour;
 
         public static Action<UIButton> drawMethod = null;
+        public static Action<UIButton> updateMethod = null;
         public Action<UIButton> buttonSpecificDrawMethod;
-        public Action func;
+        public Action<UIButton> buttonSpecificUpdateMethod;
+        public Action<UIButton> func;
 
         public UIButton(Vector2 position = default,
             Vector2 size = default,
@@ -32,7 +34,8 @@ namespace AdventureGame.Engine
             Color backgroundColour = default,
             Color activeColour = default,
             Action<UIButton> buttonSpecificDrawMethod = null,
-            Action func = null
+            Action<UIButton> buttonSpecificUpdateMethod = null,
+            Action<UIButton> func = null
         ) : base(position, size)
         {
             this.text = text;
@@ -50,6 +53,7 @@ namespace AdventureGame.Engine
             else
                 this.activeColour = activeColour;
             this.buttonSpecificDrawMethod = buttonSpecificDrawMethod;
+            this.buttonSpecificUpdateMethod = buttonSpecificUpdateMethod;
             this.func = func;
             Init();
         }
@@ -64,8 +68,30 @@ namespace AdventureGame.Engine
         }
         public override void Update()
         {
+            if (buttonSpecificUpdateMethod != null)
+            {
+                buttonSpecificUpdateMethod(this);
+                return;
+            }
+
+            if (updateMethod != null)
+            {
+                updateMethod(this);
+                return;
+            }
+
+            HandleInput();
+
+        }
+
+        public void HandleInput()
+        {
+            if (!selected)
+                return;
+
+            
             if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button1))
-                func?.Invoke();
+                func?.Invoke(this);
         }
         public override void Draw()
         {
@@ -82,19 +108,25 @@ namespace AdventureGame.Engine
                 return;
             }
 
+            float a;
+            if (!active)
+                a = 0.5f;
+            else
+                a = 1.0f;
+
             // Draw background
-            Globals.spriteBatch.FillRectangle(position, size, backgroundColour);
+            Globals.spriteBatch.FillRectangle(position, size, backgroundColour*a);
 
             // Draw outline
             //Globals.spriteBatch.DrawRectangle(position, size, outlineColour, outlineThickness);
 
             // Draw text
-            Globals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour);
+            Globals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour * a);
 
             // Draw active button indicator
-            if (active)
+            if (selected)
             {
-                Globals.spriteBatch.DrawRectangle(position, size, activeColour, outlineThickness);
+                Globals.spriteBatch.DrawRectangle(position, size, activeColour * a, outlineThickness);
             }
 
         }

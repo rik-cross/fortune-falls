@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame.Engine
 {
     public class UIMenu
@@ -17,7 +19,7 @@ namespace AdventureGame.Engine
         {
             UIElements.Add(UIElement);
             if (UIElements.Count == 1)
-                UIElement.active = true;
+                UIElement.selected = true;
         }
         public void Update()
         {
@@ -30,30 +32,62 @@ namespace AdventureGame.Engine
 
             if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down))
             {
+
+                // check for another active element below...
+
                 if (activeElementIndex == UIElements.Count - 1)
                     return;
 
-                UIElements[activeElementIndex].active = false;
-                activeElementIndex++;
-                UIElements[activeElementIndex].active = true;
+
+                //int newIndex = activeElementIndex;
+
+                for (int i=activeElementIndex+1; i<UIElements.Count; i++)
+                {
+                    if(UIElements[i].active)
+                    {
+                        UIElements[activeElementIndex].selected = false;
+                        //newIndex = i;
+                        activeElementIndex = i;
+                        UIElements[activeElementIndex].selected = true;
+                        break;
+                    }
+                }
+
+
+                //activeElementIndex = newIndex;
+
             }
             if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up))
             {
                 if (activeElementIndex == 0)
                     return;
 
-                UIElements[activeElementIndex].active = false;
-                activeElementIndex--;
-                UIElements[activeElementIndex].active = true;
+                for (int i = activeElementIndex - 1; i>=0; i--)
+                {
+                    if (UIElements[i].active)
+                    {
+                        UIElements[activeElementIndex].selected = false;
+                        //newIndex = i;
+                        activeElementIndex = i;
+                        UIElements[activeElementIndex].selected = true;
+                        break;
+                    }
+                }
+
             }
-            
-            if (activeElementIndex >= 0 && activeElementIndex < UIElements.Count)
-                UIElements[activeElementIndex].Update();
-            
+
+            //if (activeElementIndex >= 0 && activeElementIndex < UIElements.Count)
+            //UIElements[activeElementIndex].Update();
+
             //if (EngineGlobals.inputManager.IsPressed(Inputs.keyboard.button1))
             //{
             //    UIElements[activeElementIndex].Execute();
             //}
+            
+            foreach (UIElement UIElement in UIElements)
+            {
+                UIElement.Update();
+            }
         }
         public void Draw()
         {

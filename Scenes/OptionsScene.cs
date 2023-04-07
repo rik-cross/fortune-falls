@@ -1,13 +1,6 @@
 ﻿using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended;
-
-using System;
-using System.Collections.Generic;
-using S = System.Diagnostics.Debug;
 
 
 namespace AdventureGame
@@ -16,10 +9,59 @@ namespace AdventureGame
     {
         Engine.Text _title;
 
-        public void UnloadOptionsScene()
+        public void UnloadOptionsScene(UIButton button)
         {
             EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
         }
+
+        public void SetMute(UIButton button)
+        {
+            EngineGlobals.soundManager.Mute = !EngineGlobals.soundManager.Mute;
+            if (EngineGlobals.soundManager.Mute)
+                button.text = "Muted";
+            else
+                button.text = "Unmuted";
+            button.Init();
+        }
+
+        public void UpdateMusicVolume(UISlider button)
+        {
+
+            button.HandleInput();
+            if (EngineGlobals.soundManager.Mute)
+            {
+                button.active = false;
+                //S.WriteLine("fff");
+            }
+            else
+            {
+                button.active = true;
+                //S.WriteLine("ttt");
+            }
+
+            button.currentValue = EngineGlobals.soundManager._targetVolume;
+
+        }
+
+        public void UpdateSFXVolume(UISlider button)
+        {
+
+            button.HandleInput();
+            if (EngineGlobals.soundManager.Mute)
+            {
+                button.active = false;
+                //S.WriteLine("fff");
+            }
+            else
+            {
+                button.active = true;
+                //S.WriteLine("ttt");
+            }
+
+            button.currentValue = EngineGlobals.soundManager.SFXVolume;
+
+        }
+
 
         public OptionsScene()
         {
@@ -38,37 +80,47 @@ namespace AdventureGame
 
             float screenMiddle = Globals.ScreenHeight / 2;
 
-            double cval = 0;
-            string t = "Keys";
+            //double cval = 0;
+            string t = "Keyboard";
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
             {
-                cval = 1;
-                t = "Con";
+                //cval = 1;
+                t = "Controller";
             }
 
             UIMenu.AddUIElement(
-                new UISlider(
+                new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle),
                     size: new Vector2(120, 45),
                     text: t,
                     textColour: Color.White,
                     outlineColour: Color.White,
-                    onColour: new Color(99, 199, 77, 255),
-                    offColour: new Color(228, 59, 68, 255),
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    buttonSpecificDrawMethod: UICustomisations.DrawControlSlider,
-                    func: UICustomisations.SetControls,
-                    currentValue: cval,
-                    minValue: 0,
-                    maxValue: 1,
-                    stepValue: 1
+                    func: UICustomisations.SetControls
                 )
             );
 
+            double m = 1;
+            if (EngineGlobals.soundManager.Mute)
+                m = 0;
+            
+            UIMenu.AddUIElement(
+                new UIButton(
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 50),
+                    size: new Vector2(120, 45),
+                    text: "Unmuted",
+                    textColour: Color.White,
+                    outlineColour: Color.White,
+                    outlineThickness: 2,
+                    backgroundColour: Color.DarkSlateGray,
+                    func: SetMute
+                )
+            );
+            
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 50),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 100),
                     size: new Vector2(120, 45),
                     text: "Music",
                     textColour: Color.White,
@@ -77,6 +129,7 @@ namespace AdventureGame
                     offColour: new Color(228,59,68,255),
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
+                    buttonSpecificUpdateMethod: UpdateMusicVolume,
                     func: UICustomisations.SetMusicVolume,
                     currentValue: EngineGlobals.soundManager.Volume
                 )
@@ -84,7 +137,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 100),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
                     size: new Vector2(120, 45),
                     text: "SFX",
                     textColour: Color.White,
@@ -93,6 +146,7 @@ namespace AdventureGame
                     offColour: new Color(228, 59, 68, 255),
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
+                    buttonSpecificUpdateMethod: UpdateSFXVolume,
                     func: UICustomisations.SetSFXVolume,
                     currentValue: EngineGlobals.soundManager.SFXVolume
                 )
@@ -100,7 +154,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 200),
                     size: new Vector2(120, 45),
                     text: "Back",
                     textColour: Color.White,

@@ -25,14 +25,16 @@ namespace AdventureGame.Engine
         public Color offColour;
 
         public static Action<UISlider> drawMethod = null;
+        public static Action<UISlider> updateMethod = null;
         public Action<UISlider> buttonSpecificDrawMethod;
+        public Action<UISlider> buttonSpecificUpdateMethod;
         public Action<UISlider, double> func;
 
         public int notches = 5;
         public int currentNotch = 0;
 
         public double currentValue;
-        double prevValue;
+        public double prevValue;
         public double minValue;
         public double maxValue;
         public double stepValue;
@@ -49,6 +51,7 @@ namespace AdventureGame.Engine
             Color backgroundColour = default,
             Color activeColour = default,
             Action<UISlider> buttonSpecificDrawMethod = null,
+            Action<UISlider> buttonSpecificUpdateMethod = null,
             Action<UISlider, double> func = null,
             double minValue = 0,
             double maxValue = 1,
@@ -56,6 +59,7 @@ namespace AdventureGame.Engine
             double currentValue = 0 
         ) : base(position, size)
         {
+
             this.text = text;
             this.textColour = textColour;
             if (font == default)
@@ -82,6 +86,7 @@ namespace AdventureGame.Engine
             else
                 this.activeColour = activeColour;
             this.buttonSpecificDrawMethod = buttonSpecificDrawMethod;
+            this.buttonSpecificUpdateMethod = buttonSpecificUpdateMethod;
             this.func = func;
             this.currentValue = currentValue;
             this.prevValue = currentValue;
@@ -101,6 +106,39 @@ namespace AdventureGame.Engine
         }
         public override void Update()
         {
+            //S.WriteLine("dldldldld");
+            if (buttonSpecificUpdateMethod != null)
+            {
+                //S.WriteLine("fffff");
+                buttonSpecificUpdateMethod(this);
+                return;
+            }
+
+            if (updateMethod != null)
+            {
+                //S.WriteLine("slslsl");
+                updateMethod(this);
+                return;
+            }
+            HandleInput();
+        }
+
+        public void HandleInput()
+        {
+
+            S.WriteLine("here");
+
+            //if (currentValue == prevValue)
+            //    return;
+
+            if (!selected)
+            {
+                prevValue = currentValue;
+                return;
+            }
+
+            S.WriteLine("jer");
+
             if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left))
             {
                 currentValue = Math.Max(minValue, currentValue - stepValue);
@@ -130,8 +168,14 @@ namespace AdventureGame.Engine
                 return;
             }
 
+            float a;
+            if (!active)
+                a = 0.5f;
+            else
+                a = 1.0f;
+
             // Draw background
-            Globals.spriteBatch.FillRectangle(position, size, backgroundColour);
+            Globals.spriteBatch.FillRectangle(position, size, backgroundColour*a);
 
             // Draw outline
             //Globals.spriteBatch.DrawRectangle(position, size, outlineColour, outlineThickness);
@@ -139,16 +183,17 @@ namespace AdventureGame.Engine
             // Draw value
             float t = size.X - outlineThickness * 2;
             float p = (float)(currentValue/(maxValue-minValue)*100);
-            Globals.spriteBatch.FillRectangle(new Vector2(position.X+outlineThickness, position.Y+outlineThickness), new Vector2(t/100*p,size.Y-outlineThickness*2), onColour);
-            Globals.spriteBatch.FillRectangle(new Vector2(position.X + outlineThickness + (t / 100 * p), position.Y + outlineThickness), new Vector2((t) - (t / 100 * p), size.Y - outlineThickness * 2), offColour);
+            Globals.spriteBatch.FillRectangle(new Vector2(position.X+outlineThickness, position.Y+outlineThickness), new Vector2(t/100*p,size.Y-outlineThickness*2), onColour * a);
+            Globals.spriteBatch.FillRectangle(new Vector2(position.X + outlineThickness + (t / 100 * p), position.Y + outlineThickness), new Vector2((t) - (t / 100 * p), size.Y - outlineThickness * 2), offColour * a);
 
             // Draw text
-            Globals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour);
+            
+            Globals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour*a);
 
             // Draw active button indicator
-            if (active)
+            if (selected)
             {
-                Globals.spriteBatch.DrawRectangle(position, size, activeColour, outlineThickness);
+                Globals.spriteBatch.DrawRectangle(position, size, activeColour * a, outlineThickness);
             }
 
         }

@@ -22,8 +22,10 @@ namespace AdventureGame
 
         private Engine.Camera camera;
         private Engine.Entity mainMenuPlayer;
-
-        public void LoadGameScene()
+        private int nextCatch;
+        private int frameOdo;
+        private Random r;
+        public void LoadGameScene(UIButton button)
         {
             //Vector2 playerPosition = new Vector2(20, 760);
             Vector2 playerPosition = new Vector2(220, 170);
@@ -33,22 +35,34 @@ namespace AdventureGame
                 removeCurrentSceneFromStack: false, unloadCurrentScene: false);
 
             EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
+
         }
-        public void LoadOptionsScene()
+        public void LoadOptionsScene(UIButton button)
         {
             EngineGlobals.sceneManager.SetActiveScene<OptionsScene>(applyTransition: true, removeCurrentSceneFromStack: false, unloadCurrentScene: false);
         }
-        public void LoadCreditsScene()
+        public void LoadCreditsScene(UIButton button)
         {
             EngineGlobals.sceneManager.SetActiveScene<CreditsScene>(applyTransition: true, removeCurrentSceneFromStack: false, unloadCurrentScene: false);
         }
-        public void UnloadMenuScene()
+        public void UnloadMenuScene(UIButton button)
         {
             EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
         }
 
+        public void SwitchToWaiting(Engine.Entity entity)
+        {
+            entity.State = "waiting";
+        }
+        public void SwitchToCasting(Engine.Entity entity)
+        {
+            entity.State = "casting";
+        }
+
         public MenuScene()
         {
+
+            EngineGlobals.DEBUG = true;
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
@@ -74,13 +88,43 @@ namespace AdventureGame
 
             mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
 
-            mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1140, 820), new Vector2(96,64)));
+            mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1180, 840), new Vector2(15,20)));
+            mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15,20)));
 
+            Engine.SpriteSheet waitingSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_waiting_strip9", new Vector2(96,64));
+            Engine.SpriteSheet castingSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_casting_strip15", new Vector2(96, 64));
+            Engine.SpriteSheet caughtSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_caught_strip10", new Vector2(96, 64));
+            Engine.SpriteSheet swimSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_swimming_strip12", new Vector2(96, 64));
+
+<<<<<<< Updated upstream
             Engine.SpriteSheet playerSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_waiting_strip9", new Vector2(96,64));
             Engine.SpriteComponent spriteComponent = mainMenuPlayer.AddComponent<SpriteComponent>(new Engine.SpriteComponent(playerSpriteSheet, 0, 0));
             spriteComponent.AddSprite("fishing", playerSpriteSheet, 0, 0, 3);
+=======
+            Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)mainMenuPlayer.AddComponent(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
+            spriteComponent.AddSprite("waiting", waitingSpriteSheet, 0, 0, 8);
+            spriteComponent.GetSprite("waiting").offset = new Vector2(-41, -21);
+>>>>>>> Stashed changes
 
-            mainMenuPlayer.State = "fishing";
+            //Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)mainMenuPlayer.AddComponent(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
+            spriteComponent.AddSprite("casting", castingSpriteSheet, 0, 0, 14);
+            spriteComponent.GetSprite("casting").offset = new Vector2(-41, -21);
+            //spriteComponent.GetSprite("casting").loop = false;
+
+            spriteComponent.GetSprite("casting").OnComplete = SwitchToWaiting;
+
+            spriteComponent.AddSprite("caught", caughtSpriteSheet, 0, 0, 9);
+            spriteComponent.GetSprite("caught").offset = new Vector2(-41, -21);
+            //spriteComponent.GetSprite("caught").loop = false;
+            spriteComponent.GetSprite("caught").OnComplete = SwitchToCasting;
+
+            spriteComponent.AddSprite("swimming", swimSpriteSheet, 0, 0, 11);
+
+            mainMenuPlayer.State = "casting";
+
+            r = new Random();
+            nextCatch = (int)r.Next(1500, 5000);
+            frameOdo = 0;
 
             AddEntity(mainMenuPlayer);
 
@@ -231,7 +275,16 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
-            
+            frameOdo++;
+
+            //S.WriteLine(frameOdo + " " + nextCatch);
+            if (frameOdo == nextCatch)
+            {
+                S.WriteLine("caught");
+                frameOdo = 0;
+                nextCatch = (int)r.Next(1500, 5000);
+                mainMenuPlayer.State = "caught";
+            }
         }
 
         public override void Draw(GameTime gameTime)

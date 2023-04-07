@@ -9,7 +9,8 @@ namespace AdventureGame.Engine
     {
         public Vector2 position;
         public Vector2 size;
-        public bool active = false;
+        public bool selected = false;
+        public bool active = true; // todo
         public UIElement(Vector2 position = default, Vector2 size = default)
         {
             this.position = position;
