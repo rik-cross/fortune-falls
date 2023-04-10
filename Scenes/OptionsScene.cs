@@ -66,6 +66,7 @@ namespace AdventureGame
         public OptionsScene()
         {
 
+            backgroundColour = Color.DarkSlateGray;
             UISlider.drawMethod = UICustomisations.DrawSlider;
 
             // title text
@@ -74,7 +75,10 @@ namespace AdventureGame
                 font: Theme.FontSubtitle,
                 colour: Theme.TextColorTertiary,
                 anchor: Anchor.TopCenter,
-                padding: new Padding(top: 100)
+                padding: new Padding(top: 100),
+                outline: true,
+                outlineThickness: 6,
+                outlineColour: Color.Black
             );
 
 

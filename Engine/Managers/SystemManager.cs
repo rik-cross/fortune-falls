@@ -12,7 +12,6 @@ namespace AdventureGame.Engine
         {
             systems = new List<System>();
             componentManager = EngineGlobals.componentManager;
-            
             RegisterSystems();
         }
 
@@ -33,7 +32,6 @@ namespace AdventureGame.Engine
             AddSystem(new InputSystem());
             AddSystem(new MoveSystem()); // here or after Collision?
             AddSystem(new PhysicsSystem());
-            //AddSystem(new ClickableSystem());
             AddSystem(new HitboxSystem());
             AddSystem(new HurtboxSystem());
             AddSystem(new DamageSystem());
@@ -43,7 +41,6 @@ namespace AdventureGame.Engine
             AddSystem(new CollisionResponseSystem());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
-            AddSystem(new AnimationSystem());
             AddSystem(new EmoteSystem());
             AddSystem(new ItemCollectionSystem());
             AddSystem(new DialogueSystem());

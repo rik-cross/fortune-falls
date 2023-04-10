@@ -93,11 +93,13 @@ namespace AdventureGame
             // Draw text
             Globals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour * a);
             // Draw arrows
-            if (button.currentValue > button.minValue)
-                Globals.spriteBatch.DrawString(button.font, "<", new Vector2((button.position.X + 10), button.position.Y + button.textOffset.Y), button.textColour * a);
-            if (button.currentValue < button.maxValue)
-                Globals.spriteBatch.DrawString(button.font, ">", new Vector2((button.position.X + button.size.X - (button.font.MeasureString(">").X) - 10), button.position.Y + button.textOffset.Y), button.textColour * a);
-
+            if (button.active)
+            {
+                if (button.currentValue > button.minValue)
+                    Globals.spriteBatch.DrawString(button.font, "<", new Vector2((button.position.X + 10), button.position.Y + button.textOffset.Y), button.textColour * a);
+                if (button.currentValue < button.maxValue)
+                    Globals.spriteBatch.DrawString(button.font, ">", new Vector2((button.position.X + button.size.X - (button.font.MeasureString(">").X) - 10), button.position.Y + button.textOffset.Y), button.textColour * a);
+            }
             // Draw highlight if active
             if (button.selected)
             {

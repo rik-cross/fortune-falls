@@ -98,6 +98,23 @@ namespace AdventureGame.Engine
 
             Sprite currentSprite = spritesComponent.SpriteDict[entity.State];
             Texture2D currentTexture = currentSprite.textureList[currentSprite.currentPosition];
+            bool h = currentSprite.flipH;
+            bool v = currentSprite.flipV;
+
+            SpriteEffects se = SpriteEffects.None;
+            if (h == true && v == false)
+            {
+                se = SpriteEffects.FlipHorizontally;
+            }
+            if (h == false && v == true)
+            {
+                se = SpriteEffects.FlipVertically;
+            }
+            if (h == true && v == true)
+            {
+                se = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
+            }
+
 
             Globals.spriteBatch.Draw(
                 currentTexture,
@@ -107,8 +124,16 @@ namespace AdventureGame.Engine
                     //(int)currentTexture.Width, (int)currentTexture.Height
                     (int)currentSprite.size.X, (int)currentSprite.size.Y
                 ),
-                Color.White * spritesComponent.alpha
+                sourceRectangle: null,
+                Color.White * spritesComponent.alpha,
+                rotation: 0.0f,
+                origin: Vector2.Zero,
+                effects: se,
+                layerDepth: 0.0f
             );
+
+
+
 
         }
 

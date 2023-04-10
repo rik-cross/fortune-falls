@@ -27,13 +27,19 @@ namespace AdventureGame
         public CreditsScene()
         {
 
+            LightLevel = 1.0f;
+            backgroundColour = Color.DarkSlateGray;
+
             // title text
             _title = new Engine.Text(
                 caption: "Credits",
                 font: Theme.FontSubtitle,
                 colour: Theme.TextColorTertiary,
                 anchor: Anchor.TopCenter,
-                padding: new Padding(top: 100)
+                padding: new Padding(top: 100),
+                outline: true,
+                outlineThickness: 6,
+                outlineColour: Color.Black
             );
 
             creditsText = new List<string>() {
@@ -49,7 +55,7 @@ namespace AdventureGame
                     new Engine.Text(
                         caption: creditsText[i],
                         font: Theme.FontSecondary,
-                        colour: Theme.TextColorSecondary,
+                        colour: Color.White,//Theme.TextColorSecondary,
                         anchor: Anchor.TopCenter,
                         padding: new Padding(top: padding)
                     )
@@ -72,6 +78,7 @@ namespace AdventureGame
                 )
             );
 
+            
 
         }
 

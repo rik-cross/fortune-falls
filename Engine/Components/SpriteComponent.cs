@@ -1,18 +1,20 @@
-﻿//using MonoGame.Extended.Sprites;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using System;
-using System.Collections.Generic;
-
 namespace AdventureGame.Engine
 {
+    /// <summary>
+    /// Contains a dictionary of {State -> Sprite} pairings,
+    /// along with the visibility and opacity of the entity.
+    /// </summary>
     public class SpriteComponent : Component
     {
-
         public Dictionary<string, Sprite> SpriteDict { get; private set; }
         public bool visible;
         public float alpha = 1.0f;
+        //public bool flipH = true;
         public string lastState;
 
         public SpriteComponent()
@@ -88,6 +90,11 @@ namespace AdventureGame.Engine
             lastState = "idle";
         }
 
+        /// <summary>
+        /// Gets the Sprite for a given state.
+        /// </summary>
+        /// <param name="state">The state associated with the Sprite to retrieve.</param>
+        /// <returns>Sprite, or null if no state exists for the state provided.</returns>
         public Sprite GetSprite(string state = "idle")
         {
             return SpriteDict[state];

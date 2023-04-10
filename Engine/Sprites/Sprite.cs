@@ -20,6 +20,8 @@ namespace AdventureGame.Engine
         public Action<Entity> OnComplete;
         public bool completed = false;
 
+        public bool flipH = false;
+        public bool flipV = false;
 
         // todo -- add sprite size and offset to all constructors
 
@@ -42,7 +44,7 @@ namespace AdventureGame.Engine
             Reset();
         }
 
-        public Sprite(List<Texture2D> textureList, Vector2 size = default, Vector2 offset = default, bool loop = true, int animationDelay = 10, Action<Entity> a = null)
+        public Sprite(List<Texture2D> textureList, Vector2 size = default, Vector2 offset = default, bool loop = true, int animationDelay = 8, Action<Entity> a = null)
         {
             this.textureList = textureList;
 

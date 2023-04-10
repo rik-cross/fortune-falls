@@ -14,7 +14,7 @@ namespace AdventureGame
             Globals.graphics = new GraphicsDeviceManager(this);
             //Globals.gameWindow = GameWindow.Create(this, Globals.ScreenWidth, Globals.ScreenHeight);
             //Globals.gameWindow = this.Window;
-            
+               
             //this.Window.IsBorderless = false;
 
             Content.RootDirectory = "Content";

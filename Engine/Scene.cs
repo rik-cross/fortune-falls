@@ -20,6 +20,8 @@ namespace AdventureGame.Engine
         private SystemManager _systemManager;
         private ContentManager _sceneContent; // Not used but could replace Globals.content
 
+        public Color backgroundColour = Color.Black;
+
         //private ListMapper<Entity> EntityList; // combines a list and a dictionary
         public List<Entity> EntityList { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
         //public Dictionary<Entity, int> EntityMapper { get; set; }
@@ -511,6 +513,11 @@ namespace AdventureGame.Engine
             };
 
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
+
+            // scene background
+            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            Globals.spriteBatch.FillRectangle(new RectangleF(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), backgroundColour);
+            Globals.spriteBatch.End();
 
             foreach (Engine.Camera c in CameraList)
             {
