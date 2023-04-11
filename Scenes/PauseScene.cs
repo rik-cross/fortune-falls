@@ -16,24 +16,19 @@ namespace AdventureGame
 {
     public class PauseScene : Engine.Scene
     {
-
         public override void Init()
         {
-            //InputSceneBelow = false;
             DrawSceneBelow = true;
-            //UpdateSceneBelow = true;
+            backgroundColour = Color.Black * 0.5f;
         }
 
         public override void OnEnter()
         {
-            EngineGlobals.soundManager.Volume = 0.3f;
-            //MediaPlayer.Volume = 0.3f;
-
+            EngineGlobals.soundManager.Volume /= 3;
         }
         public override void OnExit()
         {
-            EngineGlobals.soundManager.Volume = 1.0f;
-            //MediaPlayer.Volume = 1.0f;
+            EngineGlobals.soundManager.Volume *= 3;
         }
         public override void Input(GameTime gameTime)
         {
@@ -52,9 +47,9 @@ namespace AdventureGame
         public override void Draw(GameTime gameTime)
         {
 
-            Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), Color.Black * 0.5f
-            );
+            //Globals.spriteBatch.FillRectangle(
+            //    new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), Color.Black * 0.5f
+            //);
 
             Vector2 fontSize = Theme.FontPrimary.MeasureString("Paused");
             Globals.spriteBatch.DrawString(Theme.FontPrimary,
