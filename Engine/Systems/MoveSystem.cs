@@ -7,7 +7,7 @@ namespace AdventureGame.Engine
     {
         public MoveSystem()
         {
-            RequiredComponent<IntentionComponent>();
+            RequiredComponent<IntentionComponent>(); // Remove?
             RequiredComponent<MoveComponent>();
             RequiredComponent<TransformComponent>();
         }
@@ -22,34 +22,46 @@ namespace AdventureGame.Engine
                 StartMove(entity);
             else
                 EndMove(entity);
-
-            //if (moveComponent.NoMovesRemaining())
-            //{
-            //    Console.WriteLine("Remove move component");
-            //    entity.RemoveComponent<MoveComponent>();
-            //}
         }
 
-        public void MoveCharacter(Entity entity, float xAmount, float yAmount)//, int time)
+        public void MoveByAmount(Entity entity, float xDistance, float yDistance)
         {
             MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
 
             if (moveComponent == null)
-                entity.AddComponent(new MoveComponent(xAmount, yAmount));
+                entity.AddComponent(new MoveComponent(xDistance, yDistance));
             else
-                moveComponent.AddMoveToQueue(xAmount, yAmount);
+                moveComponent.AddMoveToQueue(xDistance, yDistance);
         }
 
-        public void UpdateMove(Entity entity)
+        // Move an entity to a given position
+        public void MoveTo(Entity entity, float xPosition, float yPosition)
+        {
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+            Console.WriteLine("Move To");
+            // Bug / potential issue:
+            // Calculated before entity has potentially moved i.e. added to the MoveQueue
+
+            // Calculate the distance to move
+            float xDistance = xPosition - transformComponent.position.X;
+            float yDistance = yPosition - transformComponent.position.Y;
+
+            MoveByAmount(entity, xDistance, yDistance);
+        }
+
+        private void UpdateMove(Entity entity)
         {
             MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
+            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+            //Console.WriteLine($"Update move: {moveComponent.CurrentMove}");
 
             // Bug:
             // If the dialogue system ends before or during the update then the
             // distance stops being updated - is it because the input / states are reset?
 
-            Console.WriteLine($"Update move: {moveComponent.CurrentMove}");
             if (moveComponent.HasMoveEnded)
             {
                 moveComponent.NextMove();
@@ -57,12 +69,19 @@ namespace AdventureGame.Engine
                     EndMove(entity);
             }
 
-            Vector2 previousMove = moveComponent.CurrentMove;
-            moveComponent.CurrentMove -= transformComponent.DistanceMoved();
+            // Bug warning: if using the transform component and a collision occurs,
+            // the distance moved may not change and UpdateMove() may get stuck on a loop.
 
-            // Bug / issue:
-            // If the entity cannot move, the distance moved is not reduced
-            // and the move component is never removed
+            // Try to move the entity based on the move, physics or transform component
+            Vector2 previousMove = moveComponent.CurrentMove;
+            if (moveComponent.HasMoveAmount())
+                moveComponent.CurrentMove -= moveComponent.MoveVelocity;
+            else if (physicsComponent != null && physicsComponent.HasVelocity())
+                moveComponent.CurrentMove -= physicsComponent.Velocity;
+            else if (transformComponent != null && transformComponent.HasMoved())
+                moveComponent.CurrentMove -= transformComponent.DistanceMoved();
+            else
+                return;
 
             // Check if the maximum X movement has been reached
             if (moveComponent.CurrentMove.X <= 0 && previousMove.X > 0
@@ -91,7 +110,7 @@ namespace AdventureGame.Engine
             }
         }
 
-        public void StartMove(Entity entity)
+        private void StartMove(Entity entity)
         {
             Console.WriteLine("Start move");
             MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
@@ -115,14 +134,13 @@ namespace AdventureGame.Engine
                 StartMovingY(entity, yAmount);
         }
 
-        // DELETE?
-        public void EndMove(Entity entity)
+        private void EndMove(Entity entity)
         {
             Console.WriteLine("End move");
             entity.RemoveComponent<MoveComponent>();
         }
 
-        public void StartMovingX(Entity entity, float xAmount)
+        private void StartMovingX(Entity entity, float xAmount)
         {
             Console.WriteLine("Start moving X");
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
@@ -142,7 +160,7 @@ namespace AdventureGame.Engine
             }
         }
 
-        public void StartMovingY(Entity entity, float yAmount)
+        private void StartMovingY(Entity entity, float yAmount)
         {
             Console.WriteLine("Start moving Y");
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
@@ -161,7 +179,7 @@ namespace AdventureGame.Engine
             }
         }
 
-        public void StopMovingX(Entity entity)
+        private void StopMovingX(Entity entity)
         {
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
             MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
@@ -182,7 +200,7 @@ namespace AdventureGame.Engine
             }
         }
 
-        public void StopMovingY(Entity entity)
+        private void StopMovingY(Entity entity)
         {
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
             MoveComponent moveComponent = entity.GetComponent<MoveComponent>();
@@ -201,49 +219,6 @@ namespace AdventureGame.Engine
                 intentionComponent.down = false;
                 entity.State = "idle_down";
             }
-        }
-
-        // DELETE?
-        // Move an entity by a given amount over time
-        public void MoveByAmount(Entity entity, float xAmount, float yAmount)
-        {
-            Console.WriteLine("Move by amount");
-
-            if (xAmount == 0.0f && yAmount == 0.0f)
-                return;
-
-            if (Math.Abs(xAmount) > Math.Abs(yAmount))
-            {
-                if (xAmount > 0.0f)
-                {
-                    entity.GetComponent<IntentionComponent>().right = true;
-                    entity.State = "walk_right";
-                }
-                else
-                {
-                    entity.GetComponent<IntentionComponent>().left = true;
-                    entity.State = "walk_left";
-                }
-            }
-            else
-            {
-                if (yAmount > 0.0f)
-                {
-                    entity.GetComponent<IntentionComponent>().down = true;
-                    entity.State = "walk_down";
-                }
-                else
-                {
-                    entity.GetComponent<IntentionComponent>().up = true;
-                    entity.State = "walk_up";
-                }
-            }
-        }
-
-        // Move an entity to a given position
-        public void MoveToPostion()
-        {
-
         }
     }
 }

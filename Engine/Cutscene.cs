@@ -34,19 +34,22 @@ namespace AdventureGame.Engine
             MoveSystem moveSystem = EngineGlobals.systemManager.GetSystem<MoveSystem>();
 
             AddAction(() => Fade(2));
-            AddAction(() => SetDelayDuration(5)); // check - does the 1 sec delay not include the 2 sec fade?
-            AddAction(() => moveSystem.MoveCharacter(playerEntity, 30, 20));
-            AddAction(() => moveSystem.MoveCharacter(playerEntity, 0, -10));
-            AddAction(() => moveSystem.MoveCharacter(playerEntity, -30, 40));
-            AddAction(() => SetDelayDuration(5));
-            AddAction(() => moveSystem.MoveCharacter(npcEntity, -30, 40));
-            AddAction(() => SetDelayDuration(3));
+            AddAction(() => Wait(5)); // check - does the 1 sec delay not include the 2 sec fade?
+            AddAction(() => moveSystem.MoveByAmount(playerEntity, 30, 20));
+            AddAction(() => moveSystem.MoveByAmount(playerEntity, 0, -10));
+            AddAction(() => moveSystem.MoveByAmount(playerEntity, -30, 40));
+            AddAction(() => moveSystem.MoveByAmount(playerEntity, -100, 20));
+            AddAction(() => moveSystem.MoveTo(playerEntity, 100, 100));
+            // ...MoveToFinished:Wait() or optional waitUntilEnd param?
+            AddAction(() => Wait(5));
+            AddAction(() => moveSystem.MoveByAmount(npcEntity, -30, 40));
+            AddAction(() => Wait(3));
             AddAction(() => Fade(3));
             // check - is another delay needed?
         }
 
         // Set delay
-        public static void SetDelayDuration(float seconds)
+        public static void Wait(float seconds)
         {
             _delaySeconds = seconds;
         }

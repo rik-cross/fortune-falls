@@ -10,6 +10,7 @@ namespace AdventureGame.Engine
     {
         public Queue<Vector2> MoveQueue { get; private set; }
         public Vector2 CurrentMove { get; set; }
+        public Vector2 MoveVelocity { get; set; }
 
         public bool HasMoveStarted { get; set; }
         public bool HasMoveEnded
@@ -19,24 +20,10 @@ namespace AdventureGame.Engine
         public bool IsMovingX { get; set; }
         public bool IsMovingY { get; set; }
 
-        // Option for moving in both directions? SetMoveDirection() ?
-
-        //public MoveComponent(List<Vector2> moveList)//, bool movingBothDirections)
-        //{
-        //    MoveQueue = new Queue<Vector2>(moveList);
-        //    if (MoveQueue.Count > 0)
-        //        CurrentMove = MoveQueue.Dequeue();
-
-        //    //HasMoveStarted = false;
-        //    ResetIsMoving();
-        //}
-
-        public MoveComponent(float moveX, float moveY)
+        public MoveComponent(float xDistance, float yDistance)
         {
             MoveQueue = new Queue<Vector2>();
-            CurrentMove = new Vector2(moveX, moveY);
-
-            //HasMoveStarted = false;
+            CurrentMove = new Vector2(xDistance, yDistance);
             ResetIsMoving();
         }
 
@@ -47,9 +34,9 @@ namespace AdventureGame.Engine
             HasMoveStarted = false;
         }
 
-        public void AddMoveToQueue(float x, float y)
+        public void AddMoveToQueue(float xDistance, float yDistance)
         {
-            MoveQueue.Enqueue(new Vector2(x, y));
+            MoveQueue.Enqueue(new Vector2(xDistance, yDistance));
         }
 
         public void NextMove()
@@ -65,6 +52,11 @@ namespace AdventureGame.Engine
                 return false;
             else
                 return true;
+        }
+
+        public bool HasMoveAmount()
+        {
+            return MoveVelocity != Vector2.Zero;
         }
     }
 
