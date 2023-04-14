@@ -197,7 +197,7 @@ namespace AdventureGame
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<InventoryScene>(false, false, false);
+                EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(false, false, false);
             }
         }
 
