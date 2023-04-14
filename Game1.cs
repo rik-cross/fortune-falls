@@ -25,9 +25,8 @@ namespace AdventureGame
 
         protected override void Initialize()
         {
-
-            Globals.ScreenWidth = 1500;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            Globals.ScreenHeight = 800;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //Globals.ScreenWidth = 1280;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            //Globals.ScreenHeight = 720;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
             Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
             Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;

@@ -48,6 +48,9 @@ namespace AdventureGame
         public override void Init()
         {
             DrawSceneBelow = true;
+            backgroundColour = Color.Black * 0.5f;
+
+            // Managers
             _inputManager = EngineGlobals.inputManager;
             _inventoryManager = EngineGlobals.inventoryManager;
 
