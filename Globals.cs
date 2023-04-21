@@ -54,6 +54,7 @@ namespace AdventureGame
         public static Engine.Scene gameScene;
         public static Engine.Scene homeScene;
         public static Engine.Scene beachScene;
+        public static Engine.Scene villageScene;
 
         public static float globalZoomLevel = 2.5f;
 

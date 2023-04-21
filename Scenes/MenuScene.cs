@@ -27,7 +27,20 @@ namespace AdventureGame
         private int nextCatch;
         private int frameOdo;
         private Random r;
+
         public void LoadGameScene(UIButton button)
+        {
+            //Vector2 playerPosition = new Vector2(20, 760);
+            Vector2 playerPosition = new Vector2(100, 100);
+
+            // Add the MenuScene to the scene stack
+            EngineGlobals.sceneManager.SetActiveScene<VillageScene>(
+                removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+
+            EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
+
+        }
+        public void LoadTestScene(UIButton button)
         {
             //Vector2 playerPosition = new Vector2(20, 760);
             Vector2 playerPosition = new Vector2(220, 170);
@@ -49,7 +62,8 @@ namespace AdventureGame
         }
         public void UnloadMenuScene(UIButton button)
         {
-            EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
+            //EngineGlobals.sceneManager.SetActiveScene<ExitScene>(applyTransition: true);
+            EngineGlobals.sceneManager.RemoveScene(this);
         }
 
         public void SwitchToWaiting(Engine.Entity entity)
@@ -73,9 +87,8 @@ namespace AdventureGame
             camera = new Engine.Camera(
                     name: "main",
                     size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                    //worldPosition: new Vector2(-1200, -870),
                     zoom: 4.0f,
-                    backgroundColour: Color.DarkSlateBlue
+                    backgroundColour: Color.Black
                 );
 
 
@@ -209,7 +222,7 @@ namespace AdventureGame
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: null
+                    func: LoadTestScene
                 )
             );
 
@@ -271,6 +284,7 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
+            EngineGlobals.DEBUG = false;
             EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
 
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
@@ -297,16 +311,9 @@ namespace AdventureGame
         }
         public override void Input(GameTime gameTime)
         {
+            // todo -- remove this
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-            {
-                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
-
-                // Handle exit game logic here?
-            }
-
-
-
-
+                UnloadMenuScene(null);
         }
         public override void Update(GameTime gameTime)
         {
@@ -323,9 +330,7 @@ namespace AdventureGame
 
         public override void Draw(GameTime gameTime)
         {
-            //titleImage.Draw();
             _title.Draw();
-            //inputImage.Draw();
             inputText.Draw();
             versionText.Draw();
         }

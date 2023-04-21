@@ -125,9 +125,6 @@ namespace AdventureGame.Engine
 
         public void HandleInput()
         {
-
-            S.WriteLine("here");
-
             //if (currentValue == prevValue)
             //    return;
 
@@ -136,8 +133,6 @@ namespace AdventureGame.Engine
                 prevValue = currentValue;
                 return;
             }
-
-            S.WriteLine("jer");
 
             if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left))
             {

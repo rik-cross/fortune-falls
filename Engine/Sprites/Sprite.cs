@@ -44,7 +44,7 @@ namespace AdventureGame.Engine
             Reset();
         }
 
-        public Sprite(List<Texture2D> textureList, Vector2 size = default, Vector2 offset = default, bool loop = true, int animationDelay = 8, Action<Entity> a = null)
+        public Sprite(List<Texture2D> textureList, Vector2 size = default, Vector2 offset = default, bool loop = true, int animationDelay = 6, Action<Entity> a = null)
         {
             this.textureList = textureList;
 

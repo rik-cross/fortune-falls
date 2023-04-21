@@ -108,15 +108,15 @@ namespace AdventureGame.Engine
 
         public void _OnEnter()
         {
-            /*EntitiesToDelete.Clear();
-            foreach (Entity e in EntityList)
+            //EntitiesToDelete.Clear();
+            foreach (Entity e in EngineGlobals.entityManager.GetAllEntities())
             {
                 TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
                 if (triggerComponent != null)
                 {
                     triggerComponent.collidedEntities.Clear();
                 }
-            }*/
+            }
 
             // TO DO
             // Reset the keyboard, mouse and controller states
