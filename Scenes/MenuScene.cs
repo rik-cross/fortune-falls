@@ -79,7 +79,7 @@ namespace AdventureGame
                 );
 
 
-            camera.SetWorldPosition(new Vector2(1300, 852), instant: true);
+            camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
             //camera.zoomIncrement = 0.005f;
             //camera.SetZoom(3.0f);
             //AddCamera(n);
@@ -131,7 +131,7 @@ namespace AdventureGame
 
             mainMenuPlayer2 = EngineGlobals.entityManager.CreateEntity();
 
-            mainMenuPlayer2.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(1445, 915), new Vector2(15, 20)));
+            mainMenuPlayer2.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(1400, 920), new Vector2(15, 20)));
             mainMenuPlayer2.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.SpriteSheet waitingSpriteSheet2 = new Engine.SpriteSheet("Characters/Players/long_hair/spr_waiting_strip9", new Vector2(96, 64));
