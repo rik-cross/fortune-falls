@@ -11,8 +11,22 @@ namespace AdventureGame.Engine
             RequiredComponent<HealthComponent>();
         }
 
-        public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
+        public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+            if (EngineGlobals.DEBUG == false)
+                return;
+
+            if (entity.GetComponent<Engine.HealthComponent>() == null)
+                return;
+
+            Engine.HealthComponent hc = entity.GetComponent<Engine.HealthComponent>();
+            Engine.TransformComponent tc = entity.GetComponent<Engine.TransformComponent>();
+
+            Globals.spriteBatch.DrawString(Theme.FontSecondary, hc.Health.ToString(), new Vector2(tc.position.X, tc.position.Y-20), Color.White);
+        }
+
+        public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
+        {/*
             HealthComponent healthComponent = entity.GetComponent<HealthComponent>();
 
             if (!healthComponent.HasHealth())
@@ -37,7 +51,7 @@ namespace AdventureGame.Engine
                 {
                     // Player destroyed logic
                 }
-            }
+            }*/
         }
 
     }

@@ -148,9 +148,12 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.InventoryComponent(40));
             playerEntity.AddComponent(new Engine.KeyItemsComponent());
             playerEntity.AddComponent(new Engine.CanCollectComponent());
-            
-            playerEntity.AddComponent(new Engine.WeaponComponent());
-            playerEntity.GetComponent<Engine.WeaponComponent>().weapon = Weapons.axe;
+
+            playerEntity.AddComponent(new Engine.BattleComponent());
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(0, 0), new Vector2(15, 20)));
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(15, 0), new Vector2(20, 20), frame: 6));
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(-20, 0), new Vector2(20, 20), frame: 6));
+            playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
 
             playerEntity.AddComponent(new Engine.InputComponent(
                 null, //Engine.Inputs.controller,
@@ -180,7 +183,7 @@ namespace AdventureGame
 
             // up keys
 
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
             {
                 intentionComponent.up = true;
                 if(
@@ -197,7 +200,7 @@ namespace AdventureGame
             }
 
             // down keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
             {
                 intentionComponent.down = true;
                 if (
@@ -214,7 +217,7 @@ namespace AdventureGame
             }
 
             // left keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
             {
                 intentionComponent.left = true;
                 entity.State = "walk_left";
@@ -225,7 +228,7 @@ namespace AdventureGame
             }
 
             // right keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
             {
                 intentionComponent.right = true;
                 entity.State = "walk_right";
@@ -241,10 +244,10 @@ namespace AdventureGame
                 intentionComponent.button1 = true;
                 if (entity.State.Contains("_"))
                 {
-                    if (entity.GetComponent<Engine.WeaponComponent>() != null
-                        && entity.GetComponent<Engine.WeaponComponent>().weapon != null
-                        && entity.GetComponent<Engine.WeaponComponent>().weapon.name != null)
-                        entity.State = entity.GetComponent<Engine.WeaponComponent>().weapon.name + "_" + entity.State.Split("_")[1];
+                    if (entity.GetComponent<Engine.BattleComponent>() != null
+                        && entity.GetComponent<Engine.BattleComponent>().weapon != null
+                        && entity.GetComponent<Engine.BattleComponent>().weapon.name != null)
+                        entity.State = entity.GetComponent<Engine.BattleComponent>().weapon.name + "_" + entity.State.Split("_")[1];
                 }
             }
             else

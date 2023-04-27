@@ -2,7 +2,7 @@
 {
     class HealthComponent : Component
     {
-        public int Health { get; private set; }
+        public int Health { get; set; }
         public int MaxHealth { get; set; }
         // DamageAmount / Damage (amount, multiplier)
         // IsInvincible()

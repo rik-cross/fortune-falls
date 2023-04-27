@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace AdventureGame.Engine
 {
@@ -10,25 +11,28 @@ namespace AdventureGame.Engine
     {
         public string name;
         public Texture2D image;
-        public List<string> canHurt;
-        public Weapon(string name, Texture2D image, List<string> canHurt)
+        public SoundEffect hitSound;
+        public SoundEffect missSound;
+        public Weapon(string name, Texture2D image = null, SoundEffect hitSound = null, SoundEffect missSound = null)
         {
             this.name = name;
             this.image = image;
-            this.canHurt = canHurt;
+            this.hitSound = hitSound;
+            this.missSound = missSound;
         }
         
     }
-
     public static class Weapons
     {
         public static Texture2D swordThumbnail = Globals.content.Load<Texture2D>("Weapons/sword");
         public static Texture2D hammerThumbnail = Globals.content.Load<Texture2D>("Weapons/hammer");
         public static Texture2D axeThumbnail = Globals.content.Load<Texture2D>("Weapons/axe");
 
-        public static Weapon sword = new Weapon("sword", swordThumbnail, new List<string> {"tree"});
-        public static Weapon hammer = new Weapon("hammer", hammerThumbnail, new List<string> { "tree" });
-        public static Weapon axe = new Weapon("axe", axeThumbnail, new List<string> { "tree" });
+        public static SoundEffect axeSwipeSoundEffect = Globals.content.Load<SoundEffect>("Sounds/swipe");
+
+        public static Weapon sword = new Weapon("sword", swordThumbnail);
+        public static Weapon hammer = new Weapon("hammer", hammerThumbnail);
+        public static Weapon axe = new Weapon("axe", axeThumbnail, missSound: axeSwipeSoundEffect);
     }
     
 
