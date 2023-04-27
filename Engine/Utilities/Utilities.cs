@@ -52,7 +52,7 @@ namespace AdventureGame.Engine
                     foreach (Entity o in entityList)
                     {
                         // only reduce the alpha of buildings
-                        if (e != o && o.Tags.HasType("building"))
+                        if (e != o && (o.Tags.HasType("building") || o.Tags.HasType("tree")))
                         {
                             // ensure required components are present
                             if (e.GetComponent<TransformComponent>() != null && o.GetComponent<TransformComponent>() != null 

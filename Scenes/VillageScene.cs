@@ -26,7 +26,8 @@ namespace AdventureGame
             //
             // add entities
             //
-
+            AddEntity(TreeEntity.Create(40, 40));
+            
 
 
         }
@@ -34,7 +35,7 @@ namespace AdventureGame
         public override void OnEnter()
         {
             // Add the player and minimap cameras
-            
+
             //
             EngineGlobals.DEBUG = false;
             //AddCamera("minimap");
@@ -52,21 +53,13 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
-            // update scene time and set light level
-            // commented out DayNightCycle for testing
-            
-            DayNightCycle.Update(gameTime);
-            LightLevel = DayNightCycle.GetLightLevel();
-
-            //lightLevel = DayNightCycle.GetLightLevel();
-
             Utilities.SetBuildingAlpha(EntityList);
-
+            //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            DayNightCycle.Draw(gameTime);
+
         }
 
     }

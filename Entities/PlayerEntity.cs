@@ -7,7 +7,7 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, float speed = 40, string idTag = null)
+        public static Engine.Entity Create(int x, int y, float speed = 60, string idTag = null)
         {
             // Check if the player entity already exists
             Engine.Entity playerEntity;
@@ -52,6 +52,10 @@ namespace AdventureGame
 
             Engine.SpriteSheet playerIdleSpriteSheet = new Engine.SpriteSheet(directory + "spr_idle_strip9", spriteWidth, spriteHeight);
             Engine.SpriteSheet playerWalkSpriteSheet = new Engine.SpriteSheet(directory + "spr_walk_strip8", spriteWidth, spriteHeight);
+            Engine.SpriteSheet playerSwordSpriteSheet = new Engine.SpriteSheet(directory + "spr_sword_strip10", spriteWidth, spriteHeight);
+            Engine.SpriteSheet playerAxeSpriteSheet = new Engine.SpriteSheet(directory + "spr_axe_strip10", spriteWidth, spriteHeight);
+            Engine.SpriteSheet playerHammerSpriteSheet = new Engine.SpriteSheet(directory + "spr_hammer_strip23", spriteWidth, spriteHeight);
+            Engine.SpriteSheet playerPickaxeSpriteSheet = new Engine.SpriteSheet(directory + "spr_pickaxe_strip10", spriteWidth, spriteHeight);
 
             Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(playerIdleSpriteSheet, 0, 0));
             spriteComponent.GetSprite("idle").offset = new Vector2(-41, -21);
@@ -70,6 +74,50 @@ namespace AdventureGame
             spriteComponent.AddSprite("idle_right", playerIdleSpriteSheet, 0, 0, 8);
             spriteComponent.GetSprite("idle_right").offset = new Vector2(-41, -21);
 
+            spriteComponent.AddSprite("sword_left", playerSwordSpriteSheet, 0, 0, 9);
+            spriteComponent.GetSprite("sword_left").offset = new Vector2(-41, -21);
+            spriteComponent.GetSprite("sword_left").flipH = true;
+            //spriteComponent.GetSprite("sword_left").loop = false;
+            spriteComponent.GetSprite("sword_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
+
+            spriteComponent.AddSprite("sword_right", playerSwordSpriteSheet, 0, 0, 9);
+            spriteComponent.GetSprite("sword_right").offset = new Vector2(-41, -21);
+            //spriteComponent.GetSprite("sword_right").loop = false;
+            spriteComponent.GetSprite("sword_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+
+            spriteComponent.AddSprite("axe_left", playerAxeSpriteSheet, 0, 0, 9);
+            spriteComponent.GetSprite("axe_left").offset = new Vector2(-41, -21);
+            spriteComponent.GetSprite("axe_left").flipH = true;
+            //spriteComponent.GetSprite("axe_left").loop = false;
+            spriteComponent.GetSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
+
+            spriteComponent.AddSprite("axe_right", playerAxeSpriteSheet, 0, 0, 9);
+            spriteComponent.GetSprite("axe_right").offset = new Vector2(-41, -21);
+            //spriteComponent.GetSprite("axe_right").loop = false;
+            spriteComponent.GetSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+
+            spriteComponent.AddSprite("hammer_left", playerHammerSpriteSheet, 0, 0, 22);
+            spriteComponent.GetSprite("hammer_left").offset = new Vector2(-41, -21);
+            spriteComponent.GetSprite("hammer_left").flipH = true;
+            //spriteComponent.GetSprite("hammer_left").loop = false;
+            spriteComponent.GetSprite("hammer_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
+
+            spriteComponent.AddSprite("hammer_right", playerHammerSpriteSheet, 0, 0, 22);
+            spriteComponent.GetSprite("hammer_right").offset = new Vector2(-41, -21);
+            //spriteComponent.GetSprite("hammer_right").loop = false;
+            spriteComponent.GetSprite("hammer_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+
+            spriteComponent.AddSprite("pickaxe_left", playerPickaxeSpriteSheet, 0, 0, 9);
+            spriteComponent.GetSprite("pickaxe_left").offset = new Vector2(-41, -21);
+            spriteComponent.GetSprite("pickaxe_left").flipH = true;
+            //spriteComponent.GetSprite("pickaxe_left").loop = false;
+            spriteComponent.GetSprite("pickaxe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
+
+            spriteComponent.AddSprite("pickaxe_right", playerPickaxeSpriteSheet, 0, 0, 9);
+            spriteComponent.GetSprite("pickaxe_right").offset = new Vector2(-41, -21);
+            //spriteComponent.GetSprite("pickaxe_right").loop = false;
+            spriteComponent.GetSprite("pickaxe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+
             playerEntity.State = "idle_right";
 
             // Add the other components
@@ -77,12 +125,14 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
 
-            //            int colliderWidth = (int)(drawWidth * 0.6f);
-            //            int colliderHeight = (int)(drawHeight * 0.3f);
+
             playerEntity.AddComponent(new Engine.ColliderComponent(
-                size: new Vector2(15,10),
-                offset: new Vector2(0,10)
+                size: new Vector2(15, 6),
+                offset: new Vector2(0, 14)
             ));
+
+
+
 /*
             playerEntity.AddComponent(new Engine.HitboxComponent( // Remove
                 size: new Vector2(drawWidth, drawHeight),
@@ -98,6 +148,9 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.InventoryComponent(40));
             playerEntity.AddComponent(new Engine.KeyItemsComponent());
             playerEntity.AddComponent(new Engine.CanCollectComponent());
+            
+            playerEntity.AddComponent(new Engine.WeaponComponent());
+            playerEntity.GetComponent<Engine.WeaponComponent>().weapon = Weapons.axe;
 
             playerEntity.AddComponent(new Engine.InputComponent(
                 null, //Engine.Inputs.controller,
@@ -105,8 +158,8 @@ namespace AdventureGame
             ));
 
             playerEntity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(15,10),
-                offset: new Vector2(0,10)
+                size: new Vector2(15, 6),
+                offset: new Vector2(0, 14)
             ));
 
             playerEntity.AddComponent(new Engine.DialogueComponent());
@@ -182,6 +235,23 @@ namespace AdventureGame
                 intentionComponent.right = false;
             }
 
+            // button 1 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button1))
+            {
+                intentionComponent.button1 = true;
+                if (entity.State.Contains("_"))
+                {
+                    if (entity.GetComponent<Engine.WeaponComponent>() != null
+                        && entity.GetComponent<Engine.WeaponComponent>().weapon != null
+                        && entity.GetComponent<Engine.WeaponComponent>().weapon.name != null)
+                        entity.State = entity.GetComponent<Engine.WeaponComponent>().weapon.name + "_" + entity.State.Split("_")[1];
+                }
+            }
+            else
+            {
+                intentionComponent.button1 = false;
+            }
+
             // button 2 keys
             if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
             {
@@ -197,7 +267,7 @@ namespace AdventureGame
                     EngineGlobals.inputManager.IsDown(inputComponent.input.down) == false &&
                     EngineGlobals.inputManager.IsDown(inputComponent.input.left) == false &&
                     EngineGlobals.inputManager.IsDown(inputComponent.input.right) == false &&
-                    entity.State.Contains("_")
+                    entity.State.Contains("walk_")
                 )
             {
                 entity.State = "idle_" + entity.State.Split("_")[1];
