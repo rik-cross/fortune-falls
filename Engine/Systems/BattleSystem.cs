@@ -109,7 +109,7 @@ namespace AdventureGame.Engine
             {
                 if (scene.EntityList.Contains(c.ownerEntity))
                 {
-                    if (c.ownerEntity.GetComponent<Engine.WeaponComponent>() != null)
+                    if (c.ownerEntity.GetComponent<Engine.BattleComponent>() != null)
                     {
                         int w = 64;
                         int h = 64;
@@ -119,10 +119,10 @@ namespace AdventureGame.Engine
                         Globals.spriteBatch.Draw(UICustomisations.labelLeft, new Rectangle(x, y, 16, h), Color.White);
                         Globals.spriteBatch.Draw(UICustomisations.labelMiddle, new Rectangle(x+16, y, w-(16*2), h), Color.White);
                         Globals.spriteBatch.Draw(UICustomisations.labelRight, new Rectangle(x+(w-16), y, 16, h), Color.White);
-                        if (c.ownerEntity.GetComponent<Engine.WeaponComponent>().weapon != null)
+                        if (c.ownerEntity.GetComponent<Engine.BattleComponent>().weapon != null)
                         {
                             Engine.Image i = new Engine.Image(
-                                c.ownerEntity.GetComponent<Engine.WeaponComponent>().weapon.image,
+                                c.ownerEntity.GetComponent<Engine.BattleComponent>().weapon.image,
                                 size: new Vector2(40, 40),
                                 position: new Vector2(x+((64-40)/2), y+((64-40)/2))
                             );
