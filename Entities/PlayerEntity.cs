@@ -52,6 +52,7 @@ namespace AdventureGame
 
             Engine.SpriteSheet playerIdleSpriteSheet = new Engine.SpriteSheet(directory + "spr_idle_strip9", spriteWidth, spriteHeight);
             Engine.SpriteSheet playerWalkSpriteSheet = new Engine.SpriteSheet(directory + "spr_walk_strip8", spriteWidth, spriteHeight);
+            Engine.SpriteSheet playerRunSpriteSheet = new Engine.SpriteSheet(directory + "spr_run_strip8", spriteWidth, spriteHeight);
             Engine.SpriteSheet playerSwordSpriteSheet = new Engine.SpriteSheet(directory + "spr_sword_strip10", spriteWidth, spriteHeight);
             Engine.SpriteSheet playerAxeSpriteSheet = new Engine.SpriteSheet(directory + "spr_axe_strip10", spriteWidth, spriteHeight);
             Engine.SpriteSheet playerHammerSpriteSheet = new Engine.SpriteSheet(directory + "spr_hammer_strip23", spriteWidth, spriteHeight);
@@ -66,6 +67,13 @@ namespace AdventureGame
 
             spriteComponent.AddSprite("walk_right", playerWalkSpriteSheet, 0, 0, 7);
             spriteComponent.GetSprite("walk_right").offset = new Vector2(-41, -21);
+
+            spriteComponent.AddSprite("run_left", playerRunSpriteSheet, 0, 0, 7);
+            spriteComponent.GetSprite("run_left").offset = new Vector2(-41, -21);
+            spriteComponent.GetSprite("run_left").flipH = true;
+
+            spriteComponent.AddSprite("run_right", playerRunSpriteSheet, 0, 0, 7);
+            spriteComponent.GetSprite("run_right").offset = new Vector2(-41, -21);
 
             spriteComponent.AddSprite("idle_left", playerIdleSpriteSheet, 0, 0, 8);
             spriteComponent.GetSprite("idle_left").offset = new Vector2(-41, -21);
@@ -183,7 +191,7 @@ namespace AdventureGame
 
             // up keys
 
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
             {
                 intentionComponent.up = true;
                 if(
@@ -200,7 +208,7 @@ namespace AdventureGame
             }
 
             // down keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
             {
                 intentionComponent.down = true;
                 if (
@@ -217,7 +225,7 @@ namespace AdventureGame
             }
 
             // left keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
             {
                 intentionComponent.left = true;
                 entity.State = "walk_left";
@@ -228,7 +236,7 @@ namespace AdventureGame
             }
 
             // right keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right) && (entity.State.Contains("idle") || entity.State.Contains("walk")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
             {
                 intentionComponent.right = true;
                 entity.State = "walk_right";
