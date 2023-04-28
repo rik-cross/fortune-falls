@@ -263,27 +263,30 @@ namespace AdventureGame
                 intentionComponent.button1 = false;
             }
 
-            // button 2 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
-            {
-                intentionComponent.button2 = true;
-            }
-            else
-            {
-                intentionComponent.button2 = false;
-            }
+
 
             if (
                     EngineGlobals.inputManager.IsDown(inputComponent.input.up) == false &&
                     EngineGlobals.inputManager.IsDown(inputComponent.input.down) == false &&
                     EngineGlobals.inputManager.IsDown(inputComponent.input.left) == false &&
                     EngineGlobals.inputManager.IsDown(inputComponent.input.right) == false &&
-                    entity.State.Contains("walk_")
+                    (entity.State.Contains("walk_") || entity.State.Contains("run_"))
                 )
             {
                 entity.State = "idle_" + entity.State.Split("_")[1];
             }
 
+            // button 2 keys
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2)
+                && entity.State.Contains("walk_"))
+            {
+                intentionComponent.button2 = true;
+                entity.State = "run_" + entity.State.Split("_")[1];
+            }
+            else
+            {
+                intentionComponent.button2 = false;
+            }
             //if (entity.State == "walk_up" && EngineGlobals.inputManager.IsDown(inputComponent.input.up) == false)
             //    entity.State = "idle_up";
             //if (entity.State == "walk_down" && EngineGlobals.inputManager.IsDown(inputComponent.input.down) == false)

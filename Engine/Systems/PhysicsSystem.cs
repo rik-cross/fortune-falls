@@ -101,8 +101,8 @@ namespace AdventureGame.Engine
             physicsComponent.ApplySpeedModifier(speedModifier);
             Console.WriteLine($"Speed is {physicsComponent.Speed}");
 
-            if (spriteComponent != null)
-                spriteComponent.ModifyAnimationDelay(1 / speedModifier);
+            //if (spriteComponent != null)
+            //    spriteComponent.ModifyAnimationDelay(1 / speedModifier);
         }
 
         // Decrease the movement and animation speed of an entity
@@ -114,8 +114,8 @@ namespace AdventureGame.Engine
             physicsComponent.ApplySpeedModifier(1 / speedModifier);
             Console.WriteLine($"Speed is {physicsComponent.Speed}");
 
-            if (spriteComponent != null)
-                spriteComponent.ModifyAnimationDelay(speedModifier);
+            //if (spriteComponent != null)
+            //    spriteComponent.ModifyAnimationDelay(speedModifier);
         }
     }
 }
