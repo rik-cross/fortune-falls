@@ -58,6 +58,14 @@ namespace AdventureGame.Engine
                     if (thisEnt.GetComponent<HealthComponent>().Health == 0)
                     {
                         //thisEnt.State = "tree_fall";
+                        thisEnt.AddComponent(new ParticleComponent(
+                            lifetime: 20,
+                            delayBetweenParticles: 3,
+                            particleSize: 15,
+                            particleColour: Color.LightGray,
+                            offset: new Vector2(13, 17),
+                            particleSpeed: 0.5
+                        ));
                         thisEnt.State = "tree_stump";
                     }
                 }

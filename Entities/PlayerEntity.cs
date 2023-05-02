@@ -157,6 +157,8 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.KeyItemsComponent());
             playerEntity.AddComponent(new Engine.CanCollectComponent());
 
+            //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
+
             playerEntity.AddComponent(new Engine.BattleComponent());
             playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(0, 0), new Vector2(15, 20)));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(15, 0), new Vector2(20, 20), frame: 6));
@@ -189,57 +191,116 @@ namespace AdventureGame
             // default state
             //entity.State = "idle_down";
 
-            // up keys
-
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
+            // up key
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up) && (entity.State.Contains("_")))
             {
                 intentionComponent.up = true;
-                if(
-                    entity.State.Contains("_")
-                )
+                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                {
+                    if (entity.State.Contains("walk_"))
+                    {
+                        entity.AddComponent(new Engine.ParticleComponent(
+                            lifetime: 1,
+                            delayBetweenParticles: 1,
+                            particleSize: 5,
+                            offset: new Vector2(entity.State.Contains("right") ? 3 : 12, 17),
+                            particleSpeed: 0.5,
+                            particlesAtOnce: 3
+                        ));
+                    }
+                    entity.State = "run_" + entity.State.Split("_")[1];
+                }
+                else
                 {
                     entity.State = "walk_" + entity.State.Split("_")[1];
                 }
-                //entity.State = "walk_up";
             }
             else
             {
                 intentionComponent.up = false;
             }
 
-            // down keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
+            // down key
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down) && (entity.State.Contains("_")))
             {
                 intentionComponent.down = true;
-                if (
-                    entity.State.Contains("_")
-                )
+                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                {
+                    if (entity.State.Contains("walk_"))
+                    {
+                        entity.AddComponent(new Engine.ParticleComponent(
+                            lifetime: 1,
+                            delayBetweenParticles: 1,
+                            particleSize: 5,
+                            offset: new Vector2(entity.State.Contains("right") ? 3 : 12, 17),
+                            particleSpeed: 0.5,
+                            particlesAtOnce: 3
+                        ));
+                    }
+                    entity.State = "run_" + entity.State.Split("_")[1];
+                }
+                else
                 {
                     entity.State = "walk_" + entity.State.Split("_")[1];
                 }
-                //entity.State = "walk_down";
             }
             else
             {
                 intentionComponent.down = false;
             }
 
-            // left keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
+            // left key
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left) && (entity.State.Contains("_")))
             {
                 intentionComponent.left = true;
-                entity.State = "walk_left";
+                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                {
+                    if (entity.State.Contains("walk_"))
+                    {
+                        entity.AddComponent(new Engine.ParticleComponent(
+                            lifetime: 1,
+                            delayBetweenParticles: 1,
+                            particleSize: 5,
+                            offset: new Vector2(12, 17),
+                            particleSpeed: 0.5,
+                            particlesAtOnce: 3
+                        ));
+                    }
+                    entity.State = "run_left";
+                }
+                else
+                {
+                    entity.State = "walk_left";
+                }
             }
             else
             {
                 intentionComponent.left = false;
             }
 
-            // right keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right) && (entity.State.Contains("idle") || entity.State.Contains("walk") || entity.State.Contains("run")))
+            // right key
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right) && (entity.State.Contains("_")))
             {
                 intentionComponent.right = true;
-                entity.State = "walk_right";
+                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                {
+                    if (entity.State.Contains("walk_"))
+                    {
+                        entity.AddComponent(new Engine.ParticleComponent(
+                            lifetime: 1,
+                            delayBetweenParticles: 1,
+                            particleSize: 5,
+                            offset: new Vector2(3, 17),
+                            particleSpeed: 0.5,
+                            particlesAtOnce: 3
+                        ));
+                    }
+                    entity.State = "run_right";
+                }
+                else
+                {
+                    entity.State = "walk_right";
+                }
             }
             else
             {
@@ -277,25 +338,15 @@ namespace AdventureGame
             }
 
             // button 2 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2)
-                && entity.State.Contains("walk_"))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
             {
                 intentionComponent.button2 = true;
-                entity.State = "run_" + entity.State.Split("_")[1];
             }
             else
             {
                 intentionComponent.button2 = false;
             }
-            //if (entity.State == "walk_up" && EngineGlobals.inputManager.IsDown(inputComponent.input.up) == false)
-            //    entity.State = "idle_up";
-            //if (entity.State == "walk_down" && EngineGlobals.inputManager.IsDown(inputComponent.input.down) == false)
-            //    entity.State = "idle_down";
-            //if (entity.State == "walk_right" && EngineGlobals.inputManager.IsDown(inputComponent.input.right) == false)
-            //    entity.State = "idle_right";
-            //if (entity.State == "walk_left" && EngineGlobals.inputManager.IsDown(inputComponent.input.left) == false)
-            //    entity.State = "idle_left";
-            
+
         }
 
         public static void PlayerDevToolsInputController(Entity entity)

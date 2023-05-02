@@ -46,6 +46,7 @@ namespace AdventureGame.Engine
             AddSystem(new DialogueSystem());
             AddSystem(new StreetLightSystem());
             AddSystem(new BattleSystem());
+            AddSystem(new ParticleSystem());
             //AddSystem(new HitboxSystem2());
 
             // Register components and bit flags if they don't exist and
