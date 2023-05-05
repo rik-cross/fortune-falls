@@ -46,6 +46,15 @@ namespace AdventureGame.Engine
                 )    
             );
 
+
+            InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(new Engine.InventoryComponent(5));
+            Item coin = new Item(
+                itemId: "GoldCoin",
+                filename: "Items/I_GoldCoin",
+                quantity: 10,
+                stackSize: 20);
+            EngineGlobals.inventoryManager.AddItem(inventory.InventoryItems, coin);
+
             entity.AddComponent(new Engine.BattleComponent());
             entity.GetComponent<Engine.BattleComponent>().SetHurtbox("tree", new Engine.HBox(new Vector2(5, 15), new Vector2(16, 33-15)));
             entity.GetComponent<Engine.BattleComponent>().OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
@@ -67,6 +76,13 @@ namespace AdventureGame.Engine
                             particleSpeed: 0.5
                         ));
                         thisEnt.State = "tree_stump";
+
+                        InventoryComponent inventoryComponent = thisEnt.GetComponent<InventoryComponent>();
+                        if (inventoryComponent != null && inventoryComponent.DropOnDestroy)
+                        {
+                            EngineGlobals.inventoryManager.DropAllItems(
+                                inventoryComponent.InventoryItems, thisEnt);
+                        }
                     }
                 }
             };
