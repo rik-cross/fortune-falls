@@ -70,14 +70,14 @@ namespace AdventureGame
 
             // Bush entity with droppable items
             Item bush1 = new Item("Bush01", objectsDirectory + "S_Bush01");
-            Entity bushEntity1 = ItemEntity.Create(90, 960, bush1, false);
+            Entity bushEntity1 = ItemEntity.Create(90, 90, bush1, false);
             bushEntity1.AddComponent(new HealthComponent());
             bushEntity1.AddComponent(new HurtboxComponent(new Vector2(42, 42)));
             bushEntity1.AddComponent(new InventoryComponent(5, "bush"));
             InventoryComponent bush1Inventory = bushEntity1.GetComponent<InventoryComponent>();
             //Item bush1Bow = new Item("Bow02", "Items/W_Bow02", 1, 1, 50, 100);
             Item bush1GoldCoin = new Item("Coin", "Items/I_GoldCoin", 12, 20);
-            EngineGlobals.inventoryManager.AddItem(bush1Inventory.InventoryItems, bush1GoldCoin);
+            bush1Inventory.AddItem(bush1GoldCoin);
             AddEntity(bushEntity1);
 
             // Bridge boulder
@@ -146,26 +146,12 @@ namespace AdventureGame
             */
 
             // test chest
-            Entity chestEntity = ChestEntity.Create(1000, 300, 10);
+            Entity chestEntity = ChestEntity.Create(100, 300, 10);
             AddEntity(chestEntity);
 
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-
-            Item coin = new Item(
-                itemId: "GoldCoin",
-                filename: itemsDirectory + "I_GoldCoin",
-                quantity: 10,
-                stackSize: 20);
-            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, coin);
-
-            Item potionBlue = new Item(
-                itemId: "PotionBlue",
-                filename: itemsDirectory + "P_Blue01",
-                quantity: 10,
-                stackSize: 10);
-            EngineGlobals.inventoryManager.AddItem(chestInventory.InventoryItems, potionBlue);
-
-            AddEntity(chestEntity);
+            chestInventory.AddItem(new Item("GoldCoin", itemsDirectory + "I_GoldCoin", quantity: 10, stackSize: 20));
+            chestInventory.AddItem(new Item("PotionBlue", itemsDirectory + "P_Blue01", quantity: 10, stackSize: 10));
 
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
         }

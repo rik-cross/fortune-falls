@@ -18,6 +18,21 @@
             Tags = new Tags(type);
         }
 
+        // Adds a new item to the first available position
+        // Returns True if there is space to add the item
+        public bool AddItem(Item newItem)
+        {
+            for (int i = 0; i < InventoryItems.Length; i++)
+            {
+                if (InventoryItems[i] == null)
+                {
+                    InventoryItems[i] = newItem;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool ContainsItem(string itemId)
         {
             foreach (Item item in InventoryItems)

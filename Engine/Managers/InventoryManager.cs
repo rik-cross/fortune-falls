@@ -61,10 +61,10 @@ namespace AdventureGame.Engine
 
         // Add an item to the inventory
         // Return the item or a null item if there is no quantity remaining
-        public Item AddItem(Item[] inventoryItems, Item item)
+        public Item AddAndStackItem(Item[] inventoryItems, Item item, bool stack = true)
         {
             // Try to stack the item with existing inventory items first
-            if (item.IsStackable())
+            if (item.IsStackable() && stack)
             {
                 for (int i = 0; i < inventoryItems.Length; i++)
                 {
@@ -94,7 +94,7 @@ namespace AdventureGame.Engine
             {
                 // Try adding the item to the inventory
                 Console.WriteLine("Stack unable to be returned - try adding to inventory");
-                item = AddItem(inventoryItems, item);
+                item = AddAndStackItem(inventoryItems, item);
 
                 // Check if the inventory is full 
                 if (item != null)

@@ -54,7 +54,7 @@ namespace AdventureGame.Engine
                     // Try to add the item to the other entity's inventory
                     else
                     {
-                        Item item = EngineGlobals.inventoryManager.AddItem(
+                        Item item = EngineGlobals.inventoryManager.AddAndStackItem(
                             inventoryComponent.InventoryItems, itemComponent.Item);
 
                         if (item == null)

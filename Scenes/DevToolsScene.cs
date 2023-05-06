@@ -552,7 +552,7 @@ namespace AdventureGame
 
                     int originalQuantity = item.Quantity;
 
-                    Item returnedItem = EngineGlobals.inventoryManager.AddItem(
+                    Item returnedItem = EngineGlobals.inventoryManager.AddAndStackItem(
                         playerInventory.InventoryItems, item);
 
                     if (returnedItem == null)
@@ -601,7 +601,7 @@ namespace AdventureGame
 
                         int originalQuantity = items[i].Quantity;
 
-                        Item returnedItem = EngineGlobals.inventoryManager.AddItem(
+                        Item returnedItem = EngineGlobals.inventoryManager.AddAndStackItem(
                             playerInventory.InventoryItems, items[i]);
 
                         if (returnedItem == null)

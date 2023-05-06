@@ -92,7 +92,7 @@ namespace AdventureGame.Engine
         public bool HasFreeSpace() { return Quantity < StackSize; }
 
         // Increase the health of the inventory item
-        public void IncreaseItemHealth(int amount = 1)
+        public void IncreaseHealth(int amount = 1)
         {
             int newHealth = ItemHealth + amount;
 

@@ -47,13 +47,9 @@ namespace AdventureGame.Engine
             );
 
 
-            InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(new Engine.InventoryComponent(5));
-            Item coin = new Item(
-                itemId: "GoldCoin",
-                filename: "Items/I_GoldCoin",
-                quantity: 10,
-                stackSize: 20);
-            EngineGlobals.inventoryManager.AddItem(inventory.InventoryItems, coin);
+            InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(new Engine.InventoryComponent(3));
+            inventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 10, stackSize: 20));
+            //EngineGlobals.inventoryManager.AddAndStackItem(inventory.InventoryItems, coin);
 
             entity.AddComponent(new Engine.BattleComponent());
             entity.GetComponent<Engine.BattleComponent>().SetHurtbox("tree", new Engine.HBox(new Vector2(5, 15), new Vector2(16, 33-15)));
