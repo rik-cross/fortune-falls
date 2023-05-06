@@ -47,15 +47,19 @@ namespace AdventureGame.Engine
             );
 
 
-            InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(new Engine.InventoryComponent(3));
-            inventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 10, stackSize: 20));
+            InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(
+                new Engine.InventoryComponent(3));
+
+            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
+            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
+            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
             //EngineGlobals.inventoryManager.AddAndStackItem(inventory.InventoryItems, coin);
 
             entity.AddComponent(new Engine.BattleComponent());
             entity.GetComponent<Engine.BattleComponent>().SetHurtbox("tree", new Engine.HBox(new Vector2(5, 15), new Vector2(16, 33-15)));
             entity.GetComponent<Engine.BattleComponent>().OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
             {
-                if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe");
+                if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe")
                 {
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
                     thisEnt.GetComponent<HealthComponent>().Health -= 20;
