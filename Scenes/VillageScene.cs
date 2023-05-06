@@ -17,7 +17,7 @@ namespace AdventureGame
         public override void LoadContent()
         {
             // add map
-            AddMap("Maps/Map_Home");
+            AddMap("Maps/Map_Village");
 
             // add camera
             AddCamera("main");
@@ -27,9 +27,6 @@ namespace AdventureGame
             // add entities
             //
             AddEntity(TreeEntity.Create(40, 40));
-            
-
-
         }
 
         public override void OnEnter()
@@ -43,13 +40,17 @@ namespace AdventureGame
         public override void Input(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-            {
                 EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true);
-            }
+            
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
-            {
                 EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
-            }
+            
+            if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
+                EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(false, false, false);
+            
+            if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
+                EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(false, false, false);
+            
         }
         public override void Update(GameTime gameTime)
         {

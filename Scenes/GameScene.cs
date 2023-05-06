@@ -15,7 +15,7 @@ namespace AdventureGame
         public override void LoadContent()
         {
             // Add map
-            AddMap("Maps/Map_Village"); // add Maps directory within AddMap()?
+            AddMap("Maps/Map_Test"); // add Maps directory within AddMap()?
 
             //
             // Add map trigger entities

@@ -2,6 +2,9 @@
 <map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="40" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="16" nextobjectid="1">
  <tileset firstgid="1" source="spr_tileset_sunnysideworld_16px.tsx"/>
  <layer id="1" name="ground" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,131,67,67,67,67,67,67,131,67,67,67,200,67,67,67,67,67,
 67,67,67,67,67,67,67,67,67,67,195,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,67,195,67,67,135,67,67,259,67,67,195,
@@ -31,6 +34,9 @@
 </data>
  </layer>
  <layer id="12" name="ground_above" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,267,2684354828,263,262,0,0,0,0,262,262,0,0,0,0,0,0,264,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,203,204,267,204,263,262,262,264,204,2684354828,263,262,262,262,262,264,269,
@@ -60,6 +66,9 @@
 </data>
  </layer>
  <layer id="13" name="path" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -89,6 +98,9 @@
 </data>
  </layer>
  <layer id="10" name="buildings_below" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -118,6 +130,9 @@
 </data>
  </layer>
  <layer id="2" name="buildings_base" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -147,6 +162,9 @@
 </data>
  </layer>
  <layer id="4" name="buildings_above" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -176,6 +194,9 @@
 </data>
  </layer>
  <layer id="7" name="door_closed" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -205,6 +226,9 @@
 </data>
  </layer>
  <layer id="8" name="door_open" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -234,6 +258,9 @@
 </data>
  </layer>
  <layer id="15" name="scenery_below" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -263,6 +290,9 @@
 </data>
  </layer>
  <layer id="3" name="scenery" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 312,313,314,315,316,317,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 376,377,378,379,380,381,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -292,6 +322,9 @@
 </data>
  </layer>
  <layer id="14" name="scenery_above" width="40" height="25">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

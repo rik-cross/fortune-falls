@@ -41,6 +41,7 @@ namespace AdventureGame
         {
             DrawSceneBelow = true;
             //UpdateSceneBelow = true;
+            backgroundColour = Color.Black * 0.5f;
 
             // Dictionary of command words and descriptions
             _commandDict = new SortedDictionary<string, string>();
