@@ -151,6 +151,19 @@ namespace AdventureGame
             // Draw the text feed and input text
             _textDisplayOutput.Draw();
             _textDisplayInput.Draw();
+
+            // Draw the player's X,Y position
+            if (EngineGlobals.entityManager.GetLocalPlayer() != null)
+            {
+                Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+                Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
+
+                //Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                Globals.spriteBatch.DrawString(Theme.FontTertiary,
+                    "X:" + Math.Round(playerPosition.X, 1).ToString() + "  Y:" + Math.Round(playerPosition.Y, 1).ToString(),
+                    new Vector2(10, 10), Color.Black);
+                //Globals.spriteBatch.End();
+            }
         }
 
         public void InputCharacter(char character)

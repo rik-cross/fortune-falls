@@ -6,12 +6,11 @@ using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
-
     public class VillageScene : Scene
     {
-
         public VillageScene()
         {
+            EngineGlobals.DEBUG = false;
         }
 
         public override void LoadContent()
@@ -24,7 +23,14 @@ namespace AdventureGame
             GetCameraByName("main").SetZoom(4.0f, instant: true);
 
             //
-            // add entities
+            // add NPCs
+            //
+            Engine.Entity blacksmithEntity = NPCEntity2.Create(215, 152, "spr_hammering_strip23", "Blacksmith-M06-thumb", idTag: "blacksmith");
+            blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
+            AddEntity(blacksmithEntity);
+
+            //
+            // add objects
             //
             AddEntity(TreeEntity.Create(40, 40));
         }
@@ -32,11 +38,9 @@ namespace AdventureGame
         public override void OnEnter()
         {
             // Add the player and minimap cameras
-
-            //
-            EngineGlobals.DEBUG = false;
             //AddCamera("minimap");
         }
+
         public override void Input(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
@@ -52,6 +56,7 @@ namespace AdventureGame
                 EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(false, false, false);
             
         }
+
         public override void Update(GameTime gameTime)
         {
             Utilities.SetBuildingAlpha(EntityList);

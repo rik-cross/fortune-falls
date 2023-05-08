@@ -53,15 +53,18 @@ namespace AdventureGame.Engine
                     Texture2D thumbnail = triggerEntity.GetComponent<ThumbnailComponent>().ThumbnailImage;
 
                     // Choose the dialogue options depending on the player progress
+                    InventoryComponent playerInventory = playerEntity.GetComponent<InventoryComponent>();
                     KeyItemsComponent keyItems = playerEntity.GetComponent<KeyItemsComponent>();
                     string itemNeeded = "PotionRed";
-                    if (playerEntity.GetComponent<InventoryComponent>().ContainsItem(itemNeeded))
+                    if (playerInventory.ContainsItem(itemNeeded))
                     {
                         dialogueComponent.AddPage("Oh yes indeedy, a fine healing potion if I ever saw one!", thumbnail);
                         dialogueComponent.AddPage("Here's a handsome reward for being so generous.", thumbnail);
                         // Remove the red potion and give the player 3 coins
                         // Add trigger to remove red potion
                         // "Received: 3 gold coins!" (image of the gold coin item)
+                        //playerInventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 3, stackSize: 20));
+
                         dialogueComponent.AddPage("The world could sure do with more kind folk like you.", thumbnail);
 
                     }

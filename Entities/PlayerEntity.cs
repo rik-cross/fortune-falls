@@ -133,15 +133,22 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
 
-
             playerEntity.AddComponent(new Engine.ColliderComponent(
+                size: new Vector2(13, 6),
+                offset: new Vector2(0, 11)
+            ));
+
+            playerEntity.AddComponent(new Engine.TriggerComponent(
                 size: new Vector2(15, 6),
                 offset: new Vector2(0, 14)
             ));
 
+            playerEntity.AddComponent(new Engine.InputComponent(
+                null, //Engine.Inputs.controller,
+                PlayerInputController
+            ));
 
-
-/*
+            /*
             playerEntity.AddComponent(new Engine.HitboxComponent( // Remove
                 size: new Vector2(drawWidth, drawHeight),
                 offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
@@ -150,7 +157,7 @@ namespace AdventureGame
                 size: new Vector2(drawWidth, drawHeight),
                 offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
             ));
-*/
+            */
             playerEntity.AddComponent(new Engine.HealthComponent());
             playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
             playerEntity.AddComponent(new Engine.InventoryComponent(40));
@@ -164,16 +171,6 @@ namespace AdventureGame
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(15, 0), new Vector2(20, 20), frame: 6));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(-20, 0), new Vector2(20, 20), frame: 6));
             playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
-
-            playerEntity.AddComponent(new Engine.InputComponent(
-                null, //Engine.Inputs.controller,
-                PlayerInputController
-            ));
-
-            playerEntity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(15, 6),
-                offset: new Vector2(0, 14)
-            ));
 
             playerEntity.AddComponent(new Engine.DialogueComponent());
 

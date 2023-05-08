@@ -34,7 +34,7 @@ namespace AdventureGame.Engine
 
         public TiledMap Map { get; private set; }
         public TiledMapRenderer MapRenderer { get; private set; }
-        public List<Rectangle> CollisionTiles { get; private set; }
+        public List<Rectangle> CollisionTiles { get; private set; } // Change to entities?
 
         public bool InputSceneBelow { get; set; }
         public bool UpdateSceneBelow { get; set; }
@@ -148,45 +148,63 @@ namespace AdventureGame.Engine
             MapRenderer = new TiledMapRenderer(Globals.graphicsDevice, Map);
             CollisionTiles.Clear();
 
-            int tileWidth = Map.TileWidth;
-            int tileHeight = Map.TileHeight;
+            //int tileWidth = Map.TileWidth;
+            //int tileHeight = Map.TileHeight;
 
             //TiledMapTileLayer collisionLayer = Map.GetLayer<TiledMapTileLayer>("Collision");
+            TiledMapObjectLayer collisionLayer = Map.GetLayer<TiledMapObjectLayer>("collision");
 
-            foreach (TiledMapTileLayer layer in Map.Layers)
+            if (collisionLayer != null)
             {
-                if (layer.Properties.ContainsValue("collision"))
+                // Only works for rectangular objects
+                foreach (TiledMapObject collisionObject in collisionLayer.Objects)
                 {
-                    for (int x = 0; x < layer.Width; x++)
-                    {
-                        for (int y = 0; y < layer.Height; y++)
-                        {
-                            TiledMapTile? tile;
-                            if (layer.TryGetTile((ushort)x, (ushort)y, out tile))
-                            {
-                                if (!tile.Value.IsBlank)
-                                {
-                                    CreateCollisionTile(x, y, tileWidth, tileHeight);
-                                }
-                            }
-                        }
-                    }
+                    Console.WriteLine($"Collider object: {collisionObject.Position}, {collisionObject.Size}");
+                    CreateCollisionTile(
+                        (int)collisionObject.Position.X,
+                        (int)collisionObject.Position.Y,
+                        (int)collisionObject.Size.Width,
+                        (int)collisionObject.Size.Height
+                    );
                 }
             }
 
+            //foreach (TiledMapTileLayer layer in Map.Layers)
+            //{
+            //    if (layer.Properties.ContainsValue("collision"))
+            //    {
+            //        for (int x = 0; x < layer.Width; x++)
+            //        {
+            //            for (int y = 0; y < layer.Height; y++)
+            //            {
+            //                TiledMapTile? tile;
+            //                if (layer.TryGetTile((ushort)x, (ushort)y, out tile))
+            //                {
+            //                    if (!tile.Value.IsBlank)
+            //                    {
+            //                        CreateCollisionTile(x, y, tileWidth, tileHeight);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+
         }
 
-        public void CreateCollisionTile(int x, int y, int tileWidth, int tileHeight)
+        // Create a rectangular collision entity based on position and size
+        public void CreateCollisionTile(int x, int y, int width, int height)
         {
-            Rectangle rect = new Rectangle(x * tileWidth, y * tileHeight,
-                tileWidth, tileHeight);
+            //Rectangle rect = new Rectangle(x * width, y * height,
+            //    width, height);
+            Rectangle rect = new Rectangle(x, y, width, height);
 
             CollisionTiles.Add(rect);
 
             Entity tileEntity = EngineGlobals.entityManager.CreateEntity();
             tileEntity.Tags.AddTag("collision");
             tileEntity.AddComponent(new TransformComponent(rect));
-            tileEntity.AddComponent(new ColliderComponent(tileWidth, tileHeight));
+            tileEntity.AddComponent(new ColliderComponent(width, height));
             AddEntity(tileEntity);
         }
 
@@ -195,7 +213,7 @@ namespace AdventureGame.Engine
             Map = null;
             MapRenderer = null;
 
-            // TO DO
+            // Todo
             // delete collision tiles
             // remove collision tiles from ColliderSystem etc.
 
