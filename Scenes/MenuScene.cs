@@ -326,6 +326,7 @@ namespace AdventureGame
                 nextCatch = (int)r.Next(1500, 5000);
                 mainMenuPlayer.State = "caught";
             }
+            //S.WriteLine(EngineGlobals.sceneManager._sceneStack.Count + "  " + EngineGlobals.sceneManager.SceneList.Count);
         }
 
         public override void Draw(GameTime gameTime)

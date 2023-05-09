@@ -10,7 +10,7 @@ namespace AdventureGame
     {
         public VillageScene()
         {
-            EngineGlobals.DEBUG = false;
+            EngineGlobals.DEBUG = true;
         }
 
         public override void LoadContent()
@@ -33,6 +33,13 @@ namespace AdventureGame
             // add objects
             //
             AddEntity(TreeEntity.Create(40, 40));
+
+            //
+            // add buildings
+            //
+            AddEntity(PlayerHouseEntity.Create(422, 110));
+
+
         }
 
         public override void OnEnter()

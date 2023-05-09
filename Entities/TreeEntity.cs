@@ -18,7 +18,7 @@ namespace AdventureGame.Engine
 
             entity.AddComponent(new Engine.TransformComponent(
                 position: new Vector2(x, y),
-                size: new Vector2(26, 31)
+                size: new Vector2(26, 33)
             ));
 
             Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet("Objects/tree", new Vector2(26,33));
