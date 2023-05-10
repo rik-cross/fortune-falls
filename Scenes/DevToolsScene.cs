@@ -134,7 +134,7 @@ namespace AdventureGame
             {
                 //if (EngineGlobals.entityManager.GetLocalPlayer() != null)
                 //    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Pop();
-                EngineGlobals.sceneManager.RemoveScene(this);
+                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
             }
         }
         public override void Update(GameTime gameTime)

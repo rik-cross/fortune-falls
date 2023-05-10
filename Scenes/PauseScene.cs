@@ -35,7 +35,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed( Globals.pauseInput)
                 || EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.RemoveScene(this);
+                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
             }
         }
         public override void Update(GameTime gameTime)

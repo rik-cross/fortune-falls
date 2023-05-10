@@ -98,17 +98,18 @@ namespace AdventureGame
             Vector2 playerPosition = new Vector2(230, 30);
 
             // Add the MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<MenuScene>(
-                removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+            EngineGlobals.sceneManager.SetActiveScene<MenuScene>(unloadCurrentScene: false);
 
-            EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
+            // Todo - remove from here, load player on appropriate scene
+            //
+            //EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
 
 
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (EngineGlobals.sceneManager.IsSceneListEmpty())
+            if (EngineGlobals.sceneManager.IsSceneStackEmpty())
                 Exit();
 
             EngineGlobals.inputManager.Update(gameTime);

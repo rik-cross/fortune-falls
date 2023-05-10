@@ -11,18 +11,15 @@ namespace AdventureGame.Engine
         private SceneManager _sceneManager;
 
         protected Scene ToScene { get; set; }
-        protected bool RemoveCurrentSceneFromStack { get; set; }
         protected bool UnloadCurrentScene { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
 
-        public SceneTransition(Scene toScene, bool removeCurrentSceneFromStack = true,
-            bool unloadCurrentScene = true)
+        public SceneTransition(Scene toScene, bool unloadCurrentScene = true)
         {
             _sceneManager = EngineGlobals.sceneManager;
 
             ToScene = toScene;
-            RemoveCurrentSceneFromStack = removeCurrentSceneFromStack;
             UnloadCurrentScene = unloadCurrentScene;
             Increment = 1.0f;
         }
@@ -44,7 +41,7 @@ namespace AdventureGame.Engine
                     //_sceneManager.PopScene();
                 }*/
 
-                _sceneManager.ChangeScene(ToScene, RemoveCurrentSceneFromStack, UnloadCurrentScene);
+                _sceneManager.ChangeScene(ToScene, UnloadCurrentScene);
             }
 
             if (Percentage == 100)

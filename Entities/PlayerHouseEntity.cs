@@ -51,10 +51,8 @@ namespace AdventureGame
                 onCollide: (Entity entity, Entity otherEntity, float distance) => {
                     if (otherEntity == EngineGlobals.entityManager.GetLocalPlayer())
                     {
-                        EngineGlobals.sceneManager.SetActiveScene<HomeScene>(
-                            removeCurrentSceneFromStack: true, unloadCurrentScene: false);
-
-                        EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(new Vector2(0, 0));
+                        EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
+                        EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(new Vector2(50, 50));
                     }
                 }
             ));

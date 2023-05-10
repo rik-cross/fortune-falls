@@ -39,7 +39,7 @@ namespace AdventureGame
             tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
                 if (otherEntity.IsLocalPlayer())
                 {
-                    EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, removeCurrentSceneFromStack: true, unloadCurrentScene: false);
+                    EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
                     EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(new Vector2(505, 55));
                 }
             };
@@ -59,11 +59,12 @@ namespace AdventureGame
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: true, unloadScene: false);
+                EngineGlobals.sceneManager.RemoveScene(this);
             }
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(false, false, false);
+                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
+                    applyTransition: false, unloadCurrentScene: false);
             }
         }
         public override void Update(GameTime gameTime)

@@ -159,7 +159,7 @@ namespace AdventureGame.Engine
                 // Only works for rectangular objects
                 foreach (TiledMapObject collisionObject in collisionLayer.Objects)
                 {
-                    Console.WriteLine($"Collider object: {collisionObject.Position}, {collisionObject.Size}");
+                    //Console.WriteLine($"Collider object: {collisionObject.Position}, {collisionObject.Size}");
                     CreateCollisionTile(
                         (int)collisionObject.Position.X,
                         (int)collisionObject.Position.Y,
@@ -367,7 +367,7 @@ namespace AdventureGame.Engine
         {
             if(InputSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow(this);
+                Scene sceneBelow = _sceneManager.GetSceneBelow();
                 if (sceneBelow != null)
                     sceneBelow._Input(gameTime);
             }
@@ -505,7 +505,7 @@ namespace AdventureGame.Engine
 
             if (UpdateSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow(this);
+                Scene sceneBelow = _sceneManager.GetSceneBelow();
                 if (sceneBelow != null)
                     sceneBelow._Update(gameTime);
             }
@@ -519,7 +519,7 @@ namespace AdventureGame.Engine
 
             if (DrawSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow(this);
+                Scene sceneBelow = _sceneManager.GetSceneBelow();
                 if (sceneBelow != null)
                     sceneBelow._Draw(gameTime);
             }

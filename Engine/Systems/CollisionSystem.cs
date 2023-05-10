@@ -37,8 +37,8 @@ namespace AdventureGame.Engine
 
         public void RemoveEntityFromAllSets(Entity entityToRemove)
         {
-            Console.WriteLine("Remove entity from all collision sets");
-            TestingOutputSets();
+            //Console.WriteLine("Remove entity from all collision sets");
+            //TestingOutputSets();
 
             HashSet<Entity> allCollisions = new HashSet<Entity>(_collisionStarted);
             allCollisions.UnionWith(_collisionEnded);
@@ -78,7 +78,7 @@ namespace AdventureGame.Engine
             if (entityToRemoveHandler != null)
                 entityToRemove.RemoveComponent<CollisionHandlerComponent>();
 
-            TestingOutputSets();
+            //TestingOutputSets();
         }
 
         public void AddCollisionHandler(Entity entity)
@@ -241,7 +241,7 @@ namespace AdventureGame.Engine
                             colliderComponent.color = Color.Orange;
                             otherColliderComponent.color = Color.Orange;
 
-                            TestingOutputSets(); // Testing
+                            //TestingOutputSets(); // Testing
                         }
                     }
 
@@ -261,7 +261,7 @@ namespace AdventureGame.Engine
                         //    AddToCollisionEnded(otherEntity, entity);
                         //}
 
-                        TestingOutputSets(); // Testing
+                        //TestingOutputSets(); // Testing
                     }
 
                     // TO DO - should it also check collisionStarted / collidedEntities??
@@ -281,7 +281,7 @@ namespace AdventureGame.Engine
                         colliderComponent.color = Color.Yellow;
                         otherColliderComponent.color = Color.Yellow;
 
-                        TestingOutputSets(); // Testing
+                        //TestingOutputSets(); // Testing
                     }
                 }
             }

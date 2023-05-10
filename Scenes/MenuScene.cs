@@ -34,8 +34,7 @@ namespace AdventureGame
             Vector2 playerPosition = new Vector2(100, 100);
 
             // Add the MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<VillageScene>(
-                removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+            EngineGlobals.sceneManager.SetActiveScene<VillageScene>(unloadCurrentScene: false);
 
             EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
 
@@ -46,24 +45,23 @@ namespace AdventureGame
             Vector2 playerPosition = new Vector2(220, 170);
 
             // Add the MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<GameScene>(
-                removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+            EngineGlobals.sceneManager.SetActiveScene<GameScene>(unloadCurrentScene: false);
 
             EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
 
         }
         public void LoadOptionsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.SetActiveScene<OptionsScene>(applyTransition: true, removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+            EngineGlobals.sceneManager.SetActiveScene<OptionsScene>(unloadCurrentScene: false);
         }
         public void LoadCreditsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.SetActiveScene<CreditsScene>(applyTransition: true, removeCurrentSceneFromStack: false, unloadCurrentScene: false);
+            EngineGlobals.sceneManager.SetActiveScene<CreditsScene>(unloadCurrentScene: false);
         }
         public void UnloadMenuScene(UIButton button)
         {
             //EngineGlobals.sceneManager.SetActiveScene<ExitScene>(applyTransition: true);
-            EngineGlobals.sceneManager.RemoveScene(this);
+            EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
         }
 
         public void SwitchToWaiting(Engine.Entity entity)

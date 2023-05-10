@@ -9,8 +9,8 @@ namespace AdventureGame.Engine
     
     public class FadeSceneTransition : SceneTransition
     {
-        public FadeSceneTransition(Scene toScene, bool removeCurrentSceneFromStack = true,
-            bool unloadCurrentScene = true) : base(toScene, removeCurrentSceneFromStack, unloadCurrentScene)
+        public FadeSceneTransition(Scene toScene, bool unloadCurrentScene = true)
+            : base(toScene, unloadCurrentScene)
         {
         }
 
