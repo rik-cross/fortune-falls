@@ -89,15 +89,16 @@ namespace AdventureGame.Engine
                 scene.Init();
                 scene._LoadContent();
                 _sceneStack.Add(scene);
+
+                Console.WriteLine($"Loaded scene {scene} - count {_sceneStack.Count}");
+                Console.WriteLine(string.Join(", ", _sceneStack));
+                Console.WriteLine();
             }
         }
 
         // Removes the scene from the scene stack
         private void UnloadScene(Scene scene)
         {
-            //Console.WriteLine($"Unload scene {scene} - count {_sceneStack.Count}");
-            //Console.WriteLine(string.Join(", ", _sceneStack));
-
             int index = _sceneStack.IndexOf(scene);
             if (index != -1)
             {
@@ -105,8 +106,10 @@ namespace AdventureGame.Engine
                 scene._UnloadContent();
                 _sceneStack.RemoveAt(index);
                 // Or add it to a ScenesToRemove list and remove next tick?
-                //Console.WriteLine($"Scene unloaded successfully - count {_sceneStack.Count}");
-                //Console.WriteLine(string.Join(", ", _sceneStack));
+
+                Console.WriteLine($"Unload scene {scene} - count {_sceneStack.Count}");
+                Console.WriteLine(string.Join(", ", _sceneStack));
+                Console.WriteLine();
             }
         }
 
@@ -142,13 +145,13 @@ namespace AdventureGame.Engine
         // Checks whether the scene already exists in the scene list
         public Scene CheckSceneExists<T>()
         {
-            Console.WriteLine($"Checking if scene {typeof(T)} already exists - count {_sceneStack.Count}");
+            //Console.WriteLine($"Checking if scene {typeof(T)} already exists - count {_sceneStack.Count}");
 
             Scene scene = null;
 
             foreach (Scene s in _sceneStack)
             {
-                Console.WriteLine($"- Compare scene {s} with {typeof(T)}");
+                //Console.WriteLine($"- Compare scene {s} with {typeof(T)}");
                 if (s is T)
                 {
                     //Console.WriteLine($"Scene {typeof(T)} already exists at index {_sceneStack.IndexOf(s)}");
@@ -169,6 +172,9 @@ namespace AdventureGame.Engine
             {
                 UnloadScene(ActiveScene);
             }
+
+            if (!_sceneStack.Contains(nextScene))
+                LoadScene(nextScene);
 
             // Set the next scene as active
             nextScene._OnEnter();
