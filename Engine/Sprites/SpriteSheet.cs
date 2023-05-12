@@ -36,7 +36,7 @@ namespace AdventureGame.Engine
         public SpriteSheet(string filePath)
         {
             texture = Globals.content.Load<Texture2D>(filePath);
-            spriteSize = new Vector2(texture.Width, texture.Height);
+            //spriteSize = new Vector2(texture.Width, texture.Height);
         }
 
         public Texture2D GetSubTexture(int x, int y)

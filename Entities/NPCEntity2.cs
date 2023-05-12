@@ -41,30 +41,43 @@ namespace AdventureGame
             }
             npcEntity.Tags.AddTag("npc");
 
-            string directory = "Characters/NPC/";
-            string filePath = directory + filename;
+            string dir = "Characters/NPC/";
             int spriteWidth = 96;
             int spriteHeight = 64;
             int drawWidth = 36;
             int drawHeight = 56;
 
 
-            Engine.SpriteSheet idleSpriteSheet = new Engine.SpriteSheet(directory + "spr_idle_strip9", spriteWidth, spriteHeight);
-            Engine.SpriteSheet hammerSpriteSheet = new Engine.SpriteSheet(directory + "spr_hammering_strip23", spriteWidth, spriteHeight);
-
+            Engine.SpriteSheet idleSpriteSheet = new Engine.SpriteSheet(dir + "spr_idle_strip9", spriteWidth, spriteHeight);
 
             Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(
                 new Engine.SpriteComponent(idleSpriteSheet, 0, 0));
             spriteComponent.GetSprite("idle").offset = new Vector2(-41, -21);
 
-            Vector2 spriteSize = spriteComponent.GetSpriteSize();
+            //Engine.SpriteSheet hammerSpriteSheet = new Engine.SpriteSheet(directory + "spr_hammering_strip23", spriteWidth, spriteHeight);
+            //spriteComponent.AddSprite("hammer_left", hammerSpriteSheet, 0, 0, 8);
+            //spriteComponent.GetSprite("hammer_left").offset = new Vector2(-41, -21);
+            //spriteComponent.GetSprite("hammer_left").flipH = true;
+            //spriteComponent.GetSprite("hammer_left").loop = true;
 
-            spriteComponent.AddSprite("hammer_left", hammerSpriteSheet, 0, 0, 8);
+            //Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(new SpriteComponent());
+            //spriteComponent.AddSpriteSheet("idle", directory + "spr_idle_strip9", 8);
+            //spriteComponent.GetSprite("idle").offset = new Vector2(-41, -21);
+
+            spriteComponent.AddSpriteSheet("idle_left", dir + "spr_idle_strip9", 8);
+            spriteComponent.GetSprite("idle_left").offset = new Vector2(-41, -21);
+            spriteComponent.GetSprite("idle_left").flipH = true;
+
+            spriteComponent.AddSpriteSheet("hammer_left", dir + "spr_hammering_strip23",
+                totalFrames: 23, rows: 3, framesPerRow: 10);
             spriteComponent.GetSprite("hammer_left").offset = new Vector2(-41, -21);
             spriteComponent.GetSprite("hammer_left").flipH = true;
             spriteComponent.GetSprite("hammer_left").loop = true;
 
             npcEntity.State = "hammer_left";
+            //npcEntity.State = "idle_left";
+
+            Vector2 spriteSize = spriteComponent.GetSpriteSize(npcEntity.State);
 
             // TODO
             // Pass the spritesheet(s) and current state as parameters
@@ -98,7 +111,7 @@ namespace AdventureGame
 
             // Add the thumbnail component
             if (thumbnail != null)
-                npcEntity.AddComponent(new Engine.ThumbnailComponent(directory + thumbnail));
+                npcEntity.AddComponent(new Engine.ThumbnailComponent(dir + thumbnail));
 
             // Add the other components
             npcEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));
@@ -120,12 +133,12 @@ namespace AdventureGame
 
             npcEntity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(15, 6),
-                offset: new Vector2(14, 14)
+                offset: new Vector2(0, 14)
             ));
 
             npcEntity.AddComponent(new Engine.TriggerComponent(
                 size: new Vector2(15, 6),
-                offset: new Vector2(14, 14)
+                offset: new Vector2(0, 14)
             ));
 
             //if (canMove)

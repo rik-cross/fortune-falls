@@ -1,11 +1,13 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace AdventureGame
 {
-    public static class PlayerHouseEntity
+    public static class BuildingEntity2
     {
-        public static Engine.Entity Create(string filename, int x, int y, int width, int height)
+        public static Engine.Entity Create(string filename, int x, int y, int width, int height,
+            Dictionary<string, Vector2> spriteData = null)
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
             entity.Tags.Id = "player_house";
@@ -32,6 +34,26 @@ namespace AdventureGame
                 "door_open",
                 new Engine.Sprite(spriteSheet.GetSubTexture(1, 0))
             );
+
+
+
+            // Testing
+
+            // Create a sprite sheet from the file path (without state="idle" ?)
+            //Engine.SpriteComponent spriteComponent = entity.AddComponent<Engine.SpriteComponent>(
+            //    dir + filename
+            //);
+
+            // OR
+            // Create a sprite sheet from the file path with the default sprite
+            // which may not be "idle" (defaultState property?)
+
+            // Assign a key to each sprite subtexture
+            foreach (KeyValuePair<string, Vector2> sprite in spriteData)
+            {
+                spriteComponent.AddSprite(sprite.Key, (int)sprite.Value.X, (int)sprite.Value.Y);
+            }
+
 
             entity.State = "door_closed";
 

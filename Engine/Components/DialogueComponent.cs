@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
@@ -21,8 +22,10 @@ namespace AdventureGame.Engine
         }
 
         public void AddPage(string text, Texture2D texture = null)
+            //Action<Entity, Entity, float> onDialogueComplete = null)
         {
             Dialogue newDialogue = new Dialogue(text, texture: texture);
+            //Dialogue newDialogue = new Dialogue(text, texture: texture, onDialogueComplete: onDialogueComplete);
             AddPage(newDialogue);
         }
 

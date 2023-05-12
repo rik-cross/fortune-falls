@@ -70,14 +70,14 @@ namespace AdventureGame.Engine
             lastState = "idle";
         }
 
-        public SpriteComponent(SpriteSheet spriteSheet, List<List<int>> subTextureValues,
-            string key = "idle", bool visible = true)
-        {
-            SpriteDict = new Dictionary<string, Sprite>();
-            AddSprite(key, spriteSheet, subTextureValues);
-            this.visible = visible;
-            lastState = "idle";
-        }
+        //public SpriteComponent(SpriteSheet spriteSheet, List<List<int>> subTextureValues,
+        //    string key = "idle", bool visible = true)
+        //{
+        //    SpriteDict = new Dictionary<string, Sprite>();
+        //    AddSprite(key, spriteSheet, subTextureValues);
+        //    this.visible = visible;
+        //    lastState = "idle";
+        //}
 
         public SpriteComponent(string filePath, int width, int height,
             int rowIndex, int startColumn, int endColumn,
@@ -110,20 +110,6 @@ namespace AdventureGame.Engine
             SpriteDict[key] = sprite;
         }
 
-        public void AddSprite(string key, SpriteSheet spriteSheet,
-            List<List<int>> subTextureValues)
-        {
-            List<Texture2D> subTextures = new List<Texture2D>();
-
-            foreach (List<int> sub in subTextureValues)
-            {
-                subTextures.Add(spriteSheet.GetSubTexture(sub[0], sub[1]));
-            }
-
-            Sprite sprite = new Sprite(subTextures);
-            AddSprite(key, sprite);
-        }
-
         // Indices start from 0. Use neutral to repeat a texture at the end of the loop
         public void AddSprite(string key, SpriteSheet spriteSheet, int rowIndex,
             int startColumn, int endColumn, bool repeatNeutral = false, int neutralIndex = -1)
@@ -140,6 +126,65 @@ namespace AdventureGame.Engine
             Sprite sprite = new Sprite(subTextures);
             AddSprite(key, sprite);
         }
+
+        //
+        // NEW METHODS
+        //
+
+
+        public void AddSprite(string key, int x, int y)
+        {
+            //Sprite sprite = spriteSheet.GetSubTexture(x, y);
+            //SpriteDict[key] = sprite;
+        }
+
+        // Creates a new sprite sheet and slices sprites based on
+        // total frames and number of rows
+        public void AddSpriteSheet(string key, string filePath,
+            int totalFrames, int rows = 1, int framesPerRow = -1)
+        {
+            // Load the sprite sheet texture
+            SpriteSheet spriteSheet = new SpriteSheet(filePath);
+
+            // Calculate frames per row if not given
+            if (rows <= 1)
+                framesPerRow = totalFrames;
+            else if (rows > 1 && framesPerRow < 1)
+                framesPerRow = totalFrames / rows;
+
+            // Calculate the width and height of a sprite
+            int spriteWidth = spriteSheet.texture.Width / framesPerRow;
+            int spriteHeight = spriteSheet.texture.Height / rows;
+            spriteSheet.spriteSize = new Vector2(spriteWidth, spriteHeight);
+
+            // Slice each individual sprite texture
+            List<Texture2D> subTextures = new List<Texture2D>();
+            int x = 0;
+            int y = 0;
+            for (int i = 0; i < totalFrames; i++)
+            {
+                x = i % framesPerRow;
+                y = i / framesPerRow;
+                subTextures.Add(spriteSheet.GetSubTexture(x, y));
+            }
+
+            Sprite sprite = new Sprite(subTextures);
+            AddSprite(key, sprite);
+        }
+
+        //public void AddSprite(string key, SpriteSheet spriteSheet,
+        //    List<List<int>> subTextureValues)
+        //{
+        //    List<Texture2D> subTextures = new List<Texture2D>();
+
+        //    foreach (List<int> sub in subTextureValues)
+        //    {
+        //        subTextures.Add(spriteSheet.GetSubTexture(sub[0], sub[1]));
+        //    }
+
+        //    Sprite sprite = new Sprite(subTextures);
+        //    AddSprite(key, sprite);
+        //}
 
         public void SetAnimationDelay(int delay)
         {

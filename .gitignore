@@ -72,3 +72,6 @@ Content/.DS_Store
 !Data/*
 !TriggerEvents
 !TriggerEvents/*.cs
+Content/.DS_Store
+Content/*/.DS_Store
+Content/*/*/.DS_Store

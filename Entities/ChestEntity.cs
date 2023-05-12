@@ -28,7 +28,7 @@ namespace AdventureGame
             Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet("Objects/chest", (int)chestSize.X, (int)chestSize.Y);
             //Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)entity.AddComponent(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0,0))));
             Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))));
-            spriteComponent.AddSprite("open", spriteSheet, 0, 0, 4, repeatNeutral: false);
+            spriteComponent.AddSprite("open", spriteSheet, 0, 0, 4);
             // TODO -- add to constrctor
             spriteComponent.GetSprite("open").loop = false;
             spriteComponent.GetSprite("open").animationDelay = 6;

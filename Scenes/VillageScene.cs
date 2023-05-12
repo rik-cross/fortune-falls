@@ -25,7 +25,7 @@ namespace AdventureGame
             //
             // add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity2.Create(215, 152, "spr_hammering_strip23", "Blacksmith-M06-thumb", idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity2.Create(225, 150, "spr_hammering_strip23", "Blacksmith-M06-thumb", idTag: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
@@ -37,7 +37,13 @@ namespace AdventureGame
             //
             // add buildings
             //
-            AddEntity(PlayerHouseEntity.Create(422, 110));
+            AddEntity(PlayerHouseEntity.Create("player_house_01", 422, 110, 66, 67));
+
+            // Options for adding buildings:
+            // 1. Single sprite (default key idle?)
+            //      file, position, size (optional)
+            // 2. Sprite sheet with multiple keys
+            //      file, position, size (optional), Dictionary key/x,y
 
 
         }
