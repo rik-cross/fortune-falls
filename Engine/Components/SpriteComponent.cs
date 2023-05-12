@@ -17,6 +17,9 @@ namespace AdventureGame.Engine
         //public bool flipH = true;
         public string lastState;
 
+        // Todo?
+        // public string defaultState = "default";
+
         public SpriteComponent()
         {
             SpriteDict = new Dictionary<string, Sprite>();
@@ -40,25 +43,6 @@ namespace AdventureGame.Engine
             lastState = "idle";
         }
 
-        public SpriteComponent(Texture2D texture, string key = "idle", bool visible = true)
-        {
-            SpriteDict = new Dictionary<string, Sprite>();
-            Sprite sprite = new Sprite(texture);
-            AddSprite(key, sprite);
-            this.visible = visible;
-            lastState = "idle";
-        }
-
-        public SpriteComponent(SpriteSheet spriteSheet, string key = "idle",
-            bool visible = true)
-        {
-            SpriteDict = new Dictionary<string, Sprite>();
-            Sprite sprite = new Sprite(spriteSheet.texture);
-            AddSprite(key, sprite);
-            this.visible = visible;
-            lastState = "idle";
-        }
-
         // Change x, y to row, column to match AddSprite methods below?
         public SpriteComponent(SpriteSheet spriteSheet, int x, int y, string key = "idle",
             bool visible = true)
@@ -70,6 +54,17 @@ namespace AdventureGame.Engine
             lastState = "idle";
         }
 
+        //public SpriteComponent(string filePath, int width, int height,
+        //    int rowIndex, int startColumn, int endColumn,
+        //    string key = "idle", bool visible = true)
+        //{
+        //    SpriteSheet spriteSheet = new SpriteSheet(filePath, width, height);
+        //    SpriteDict = new Dictionary<string, Sprite>();
+        //    AddSprite(key, spriteSheet, rowIndex, startColumn, endColumn);
+        //    this.visible = visible;
+        //    lastState = "idle";
+        //}
+
         //public SpriteComponent(SpriteSheet spriteSheet, List<List<int>> subTextureValues,
         //    string key = "idle", bool visible = true)
         //{
@@ -78,17 +73,6 @@ namespace AdventureGame.Engine
         //    this.visible = visible;
         //    lastState = "idle";
         //}
-
-        public SpriteComponent(string filePath, int width, int height,
-            int rowIndex, int startColumn, int endColumn,
-            string key = "idle", bool visible = true)
-        {
-            SpriteSheet spriteSheet = new SpriteSheet(filePath, width, height);
-            SpriteDict = new Dictionary<string, Sprite>();
-            AddSprite(key, spriteSheet, rowIndex, startColumn, endColumn);
-            this.visible = visible;
-            lastState = "idle";
-        }
 
         /// <summary>
         /// Gets the Sprite for a given state.
@@ -112,16 +96,12 @@ namespace AdventureGame.Engine
 
         // Indices start from 0. Use neutral to repeat a texture at the end of the loop
         public void AddSprite(string key, SpriteSheet spriteSheet, int rowIndex,
-            int startColumn, int endColumn, bool repeatNeutral = false, int neutralIndex = -1)
+            int startColumn, int endColumn)
         {
             List<Texture2D> subTextures = new List<Texture2D>();
 
             for (int i = startColumn; i <= endColumn; i++)
                 subTextures.Add(spriteSheet.GetSubTexture(i, rowIndex));
-
-            // Repeat the neutral sprite so the spritesheet loops nicely
-            if (repeatNeutral && neutralIndex >= 0 && neutralIndex <= endColumn)
-                subTextures.Add(spriteSheet.GetSubTexture(neutralIndex, rowIndex));
 
             Sprite sprite = new Sprite(subTextures);
             AddSprite(key, sprite);
@@ -145,6 +125,8 @@ namespace AdventureGame.Engine
         {
             // Load the sprite sheet texture
             SpriteSheet spriteSheet = new SpriteSheet(filePath);
+
+            // Todo - sprite size calculated in the method above based on the full size
 
             // Calculate frames per row if not given
             if (rows <= 1)
@@ -186,17 +168,6 @@ namespace AdventureGame.Engine
         //    AddSprite(key, sprite);
         //}
 
-        public void SetAnimationDelay(int delay)
-        {
-            foreach (Sprite sprite in SpriteDict.Values)
-                sprite.animationDelay = delay;
-        }
-
-        public void ModifyAnimationDelay(float modifier)
-        {
-            foreach (Sprite sprite in SpriteDict.Values)
-                sprite.animationDelay = (int)Math.Ceiling(sprite.animationDelay * modifier);
-        }
 
         // Assumes the row contains all the sprites for the animation
         /*public void AddSprite(string key, SpriteSheet spriteSheet, int rowIndex,
@@ -212,6 +183,18 @@ namespace AdventureGame.Engine
             Sprite sprite = new Sprite(subTextures);
             AddSprite(key, sprite);
         }*/
+
+        public void SetAnimationDelay(int delay)
+        {
+            foreach (Sprite sprite in SpriteDict.Values)
+                sprite.animationDelay = delay;
+        }
+
+        public void ModifyAnimationDelay(float modifier)
+        {
+            foreach (Sprite sprite in SpriteDict.Values)
+                sprite.animationDelay = (int)Math.Ceiling(sprite.animationDelay * modifier);
+        }
 
     }
 }

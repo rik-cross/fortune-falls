@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +8,6 @@ namespace AdventureGame.Engine
 {
     public class Sprite
     {
-
         public List<Texture2D> textureList;
         public Vector2 size;
         public Vector2 offset;
@@ -63,17 +61,17 @@ namespace AdventureGame.Engine
             OnComplete = a;
             Reset();
         }
+
         public Texture2D GetCurrentTexture()
         {
             return textureList[currentPosition];
         }
+
         public void Reset()
         {
             this.currentPosition = 0;
             this.timer = 0;
             this.completed = false;
         }
-
     }
-
 }

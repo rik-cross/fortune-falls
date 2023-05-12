@@ -1,7 +1,6 @@
 ﻿using AdventureGame.Engine;
-
 using Microsoft.Xna.Framework;
-
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
@@ -37,7 +36,14 @@ namespace AdventureGame
             //
             // add buildings
             //
-            AddEntity(PlayerHouseEntity.Create("player_house_01", 422, 110, 66, 67));
+            // Todo - remove size
+            AddEntity(PlayerHouseEntity.Create("player_house_01", 422, 110, 66, 66));
+
+            AddEntity(BuildingEntity2.Create("blacksmith_01", 150, 50));
+
+            List<string> keys = new List<string>() { "door_closed", "door_open" };
+            AddEntity(BuildingEntity2.Create("shop_01", 300, 200, keys));
+
 
             // Options for adding buildings:
             // 1. Single sprite (default key idle?)
