@@ -3,13 +3,19 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
+using Microsoft.Xna.Framework.Graphics;
+
 namespace AdventureGame
 {
     public class VillageScene : Scene
     {
+        public Engine.SpriteSheet em;
+        public Engine.Image emote_pickaxe;
+
         public VillageScene()
         {
             EngineGlobals.DEBUG = true;
+            
         }
 
         public override void LoadContent()
@@ -53,6 +59,7 @@ namespace AdventureGame
             tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
                 if (otherEntity.IsLocalPlayer())
                 {
+                    otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                     EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
                     EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
                 }
@@ -70,8 +77,7 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            // Add the player and minimap cameras
-            //AddCamera("minimap");
+            //EngineGlobals.entityManager.GetLocalPlayer().AddComponent(new Engine.EmoteComponent(GameAssets.emote_pickaxe));
         }
 
         public override void Input(GameTime gameTime)
