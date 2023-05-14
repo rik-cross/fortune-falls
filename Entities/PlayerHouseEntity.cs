@@ -54,7 +54,7 @@ namespace AdventureGame
                         otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                         entity.State = "door_open";
                         EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
-                        EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(new Vector2(150, 110));
+                        EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(new Vector2(114, 127));
                     }
                 }
             ));

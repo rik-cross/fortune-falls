@@ -44,6 +44,20 @@ namespace AdventureGame
             List<string> keys = new List<string>() { "door_closed", "door_open" };
             AddEntity(BuildingEntity2.Create("shop_01", 300, 200, keys));
 
+            //  cave entrance
+            Engine.Entity caveEntranceEntity = EngineGlobals.entityManager.CreateEntity();
+            caveEntranceEntity.AddComponent(new Engine.TransformComponent(new Vector2(496, 18), new Vector2(32, 6)));
+            Engine.TriggerComponent tc = caveEntranceEntity.AddComponent<Engine.TriggerComponent>(
+                new Engine.TriggerComponent(new Vector2(32, 16))
+            );
+            tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
+                if (otherEntity.IsLocalPlayer())
+                {
+                    EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
+                    EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
+                }
+            };
+            AddEntity(caveEntranceEntity);
 
             // Options for adding buildings:
             // 1. Single sprite (default key idle?)
