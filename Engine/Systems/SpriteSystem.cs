@@ -93,8 +93,8 @@ namespace AdventureGame.Engine
             if (!spritesComponent.SpriteDict.ContainsKey(entity.State))
                 return;
 
-            if (!spritesComponent.visible)
-                return;
+            //if (!spritesComponent.visible)
+            //    return;
 
             Sprite currentSprite = spritesComponent.SpriteDict[entity.State];
             Texture2D currentTexture = currentSprite.textureList[currentSprite.currentPosition];

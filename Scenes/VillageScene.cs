@@ -24,7 +24,7 @@ namespace AdventureGame
             //
             // add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity2.Create(225, 150, "spr_hammering_strip23", "Blacksmith-M06-thumb", idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity2.Create(225, 150, idTag: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
@@ -39,10 +39,12 @@ namespace AdventureGame
             // Todo - remove size
             AddEntity(PlayerHouseEntity.Create("player_house_01", 422, 110, 66, 66));
 
-            AddEntity(BuildingEntity2.Create("blacksmith_01", 150, 50));
+            //AddEntity(BuildingEntity2.Create("blacksmith_01", 150, 50));
+            AddEntity(BuildingEntity3.Create("blacksmith_01", 150, 50));
 
-            List<string> keys = new List<string>() { "door_closed", "door_open" };
-            AddEntity(BuildingEntity2.Create("shop_01", 300, 200, keys));
+            //List<string> keys = new List<string>() { "door_closed", "door_open" };
+            //AddEntity(BuildingEntity2.Create("shop_01", 300, 200, keys));
+            //AddEntity(BuildingEntity3.Create(300, 200, 50, 50));
 
 
             // Options for adding buildings:
