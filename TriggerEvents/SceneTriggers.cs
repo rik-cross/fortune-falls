@@ -148,9 +148,10 @@ namespace AdventureGame.Engine
         {
             if (colliderEntity.IsPlayerType())
             {
-                Vector2 playerPosition = new Vector2(85, 120);
-                EngineGlobals.sceneManager.SetActiveScene<GameScene>();
-                EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
+                colliderEntity.State = "idle_" + colliderEntity.State.Split("_")[1];
+                Vector2 playerPosition = new Vector2(450, 175);
+                EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
+                EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
             }
         }
 

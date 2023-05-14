@@ -37,7 +37,7 @@ namespace AdventureGame
             // add buildings
             //
             // Todo - remove size
-            AddEntity(PlayerHouseEntity.Create("player_house_01", 422, 110, 66, 66));
+            AddEntity(PlayerHouseEntity.Create("player_house_01", 423, 111, 66, 66));
 
             AddEntity(BuildingEntity2.Create("blacksmith_01", 150, 50));
 

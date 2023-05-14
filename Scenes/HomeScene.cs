@@ -14,13 +14,13 @@ namespace AdventureGame
 
         public override void Init()
         {
-            LightLevel = 0.3f;
+            LightLevel = 1.0f;
         }
 
         public override void LoadContent()
         {
             // add map
-            AddMap("home");
+            AddMap("Maps/Map_Home");
 
             //
             // add entities
@@ -34,7 +34,7 @@ namespace AdventureGame
                 new Vector2(150, 75),
                 new Vector2(32, 32)));
             homeLightEntity.AddComponent(new Engine.LightComponent(150));
-            AddEntity(homeLightEntity);
+            //AddEntity(homeLightEntity);
 
             // Home light switch entity
             Entity lightSwitchEntity = EngineGlobals.entityManager.CreateEntity();
@@ -48,18 +48,17 @@ namespace AdventureGame
                 new Vector2(8, 8),
                 onCollide: SceneTriggers.HomeLightSwitch
             ));
-            AddEntity(lightSwitchEntity);
+            //AddEntity(lightSwitchEntity);
 
             // Home trigger entity
             Engine.Entity homeTrigger = EngineGlobals.entityManager.CreateEntity();
             homeTrigger.Tags.AddTag("homeTrigger");
-            homeTrigger.AddComponent(new Engine.TransformComponent(155, 135));
+            homeTrigger.AddComponent(new Engine.TransformComponent(128-16, 155));
             homeTrigger.AddComponent(new Engine.TriggerComponent(
-                new Vector2(20, 10),
+                new Vector2(16, 10),
                 onCollisionEnter: SceneTriggers.EnterGameSceneFromHome
             ));
             AddEntity(homeTrigger);
-            //AddEntity(new TriggerEntity());
         }
 
         public override void OnEnter()
