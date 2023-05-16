@@ -24,7 +24,7 @@ namespace AdventureGame.Engine
         {
             Id = id;
             GenerateGuid();
-            State = "idle";
+            State = "default";
             Tags = new Tags();
 
             Components = new List<Component>();

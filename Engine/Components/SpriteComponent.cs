@@ -22,7 +22,7 @@ namespace AdventureGame.Engine
         }
 
         // Constructor for a single static sprite
-        public SpriteComponent(string filePath, string key = "idle")
+        public SpriteComponent(string filePath, string key = "default")
         {
             SpriteDict = new Dictionary<string, Sprite>();
             AddSprite(filePath, key);
@@ -30,7 +30,7 @@ namespace AdventureGame.Engine
         }
 
         // Todo delete?
-        public SpriteComponent(Sprite sprite, string key = "idle")
+        public SpriteComponent(Sprite sprite, string key = "default")
         {
             SpriteDict = new Dictionary<string, Sprite>();
             AddSprite(key, sprite);
@@ -45,7 +45,7 @@ namespace AdventureGame.Engine
         }
 
         // Add a static sprite from a single image
-        public void AddSprite(string filePath, string key = "idle")
+        public void AddSprite(string filePath, string key = "default")
         {
             Sprite sprite = new Sprite(Globals.content.Load<Texture2D>(filePath));
             SpriteDict[key] = sprite;
@@ -147,12 +147,12 @@ namespace AdventureGame.Engine
         /// </summary>
         /// <param name="state">The state associated with the Sprite to retrieve.</param>
         /// <returns>Sprite, or null if no state exists for the state provided.</returns>
-        public Sprite GetSprite(string state = "idle")
+        public Sprite GetSprite(string state = "default")
         {
             return SpriteDict[state];
         }
 
-        public Vector2 GetSpriteSize(string state = "idle")
+        public Vector2 GetSpriteSize(string state = "default")
         {
             return SpriteDict[state].size;
         }

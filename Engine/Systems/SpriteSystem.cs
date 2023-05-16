@@ -29,6 +29,11 @@ namespace AdventureGame.Engine
             if (spritesComponent.SpriteDict.ContainsKey(entity.State) == false)
                 return;
 
+            // Todo need to test use of play property
+            // don't update if there's no animation to play
+            if (spritesComponent.SpriteDict[entity.State].play == false)
+                return;
+
             // get current sprite and sprite position data
             Sprite sprite = spritesComponent.SpriteDict[entity.State];
             int curPosition = spritesComponent.SpriteDict[entity.State].currentPosition;
