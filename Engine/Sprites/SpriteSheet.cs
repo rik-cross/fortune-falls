@@ -10,12 +10,14 @@ namespace AdventureGame.Engine
 
         public SpriteSheet(string filePath, Vector2 spriteSize)
         {
+            //texture = GameAssets.LoadTexture(filePath);
             texture = Globals.content.Load<Texture2D>(filePath);
             this.spriteSize = spriteSize;
         }
 
         public SpriteSheet(string filePath, int width, int height)
         {
+            //texture = GameAssets.LoadTexture(filePath);
             texture = Globals.content.Load<Texture2D>(filePath);
             spriteSize = new Vector2(width, height);
         }
@@ -23,6 +25,7 @@ namespace AdventureGame.Engine
         // Todo - add totalFrames, rows, spritesPerRow??
         public SpriteSheet(string filePath)
         {
+            //texture = GameAssets.LoadTexture(filePath);
             texture = Globals.content.Load<Texture2D>(filePath);
             spriteSize = new Vector2(texture.Width, texture.Height);
         }

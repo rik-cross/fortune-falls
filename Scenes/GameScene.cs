@@ -21,36 +21,9 @@ namespace AdventureGame
             // Add map trigger entities
             //
 
-            // Beach scene trigger
-            Engine.Entity enterBeachTrigger = EngineGlobals.entityManager.CreateEntity();
-            //enterBeachTrigger.Tags.Id = "m";
-            enterBeachTrigger.Tags.AddTag("mapTrigger"); // trigger / sceneChangeTrigger
-            enterBeachTrigger.AddComponent(new Engine.TransformComponent(225, 0));
-            enterBeachTrigger.AddComponent(new Engine.TriggerComponent(
-                new Vector2(75, 30),
-                onCollisionEnter: SceneTriggers.EnterBeach
-            ));
-            AddEntity(enterBeachTrigger);
-
             //
             // Add building entities
             //
-
-            // Home entity
-            Entity homeEntity = EngineGlobals.entityManager.CreateEntity();
-            homeEntity.Tags.Id = "home";
-            homeEntity.Tags.AddTag("building"); // home or building?
-            homeEntity.AddComponent(new TransformComponent(
-                new Vector2(50, 20),
-                new Vector2(88, 89)));
-            homeEntity.AddComponent(new Engine.SpriteComponent("homeImage"));
-            homeEntity.AddComponent(new ColliderComponent(new Vector2(80, 20), new Vector2(5, 68)));
-            homeEntity.AddComponent(new TriggerComponent(
-                new Vector2(20, 3),
-                new Vector2(35, 88),
-                onCollisionEnter: SceneTriggers.EnterHouse
-            ));
-            AddEntity(homeEntity);
 
             // Town buildings
             AddEntity(BuildingEntity.Create(165, 448, "B_HouseSmallBlue03"));

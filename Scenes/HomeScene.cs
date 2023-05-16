@@ -14,59 +14,41 @@ namespace AdventureGame
 
         public override void Init()
         {
-            LightLevel = 0.3f;
+            LightLevel = 1.0f;
         }
 
         public override void LoadContent()
         {
             // add map
-            AddMap("home");
+            AddMap("Maps/Map_Home");
 
             //
             // add entities
             //
 
-            // Home light entity
-            Entity homeLightEntity = EngineGlobals.entityManager.CreateEntity();
-            homeLightEntity.Tags.Id = "homeLight1";
-            homeLightEntity.Tags.AddTag("light");
-            homeLightEntity.AddComponent(new Engine.TransformComponent(
-                new Vector2(150, 75),
-                new Vector2(32, 32)));
-            homeLightEntity.AddComponent(new Engine.LightComponent(150));
-            AddEntity(homeLightEntity);
-
-            // Home light switch entity
-            Entity lightSwitchEntity = EngineGlobals.entityManager.CreateEntity();
-            //entity.Tags.Id = "lightSwitch1";
-            lightSwitchEntity.Tags.AddTag("lightSwitch");
-            lightSwitchEntity.AddComponent(new Engine.TransformComponent(
-                new Vector2(120, 135),
-                new Vector2(8, 8)));
-            lightSwitchEntity.AddComponent(new Engine.SpriteComponent("lightSwitch"));
-            lightSwitchEntity.AddComponent(new TriggerComponent(
-                new Vector2(8, 8),
-                onCollide: SceneTriggers.HomeLightSwitch
-            ));
-            AddEntity(lightSwitchEntity);
-
             // Home trigger entity
             Engine.Entity homeTrigger = EngineGlobals.entityManager.CreateEntity();
             homeTrigger.Tags.AddTag("homeTrigger");
-            homeTrigger.AddComponent(new Engine.TransformComponent(155, 135));
+            homeTrigger.AddComponent(new Engine.TransformComponent(128-16, 155));
             homeTrigger.AddComponent(new Engine.TriggerComponent(
-                new Vector2(20, 10),
-                onCollisionEnter: SceneTriggers.EnterGameSceneFromHome
+                new Vector2(16, 10),
+                onCollisionEnter: (Entity triggerEntity, Entity otherEntity, float distance) =>
+                {
+                    if (otherEntity.IsPlayerType())
+                    {
+                        otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
+                        Vector2 playerPosition = new Vector2(450, 175);
+                        EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
+                        EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
+                    }
+                }
             ));
             AddEntity(homeTrigger);
-            //AddEntity(new TriggerEntity());
         }
 
         public override void OnEnter()
         {
-            // Add the player and minimap cameras
             AddCamera("main");
-            //AddCamera("minimap");
         }
         public override void Input(GameTime gameTime)
         {

@@ -3,13 +3,19 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
+using Microsoft.Xna.Framework.Graphics;
+
 namespace AdventureGame
 {
     public class VillageScene : Scene
     {
+        public Engine.SpriteSheet em;
+        public Engine.Image emote_pickaxe;
+
         public VillageScene()
         {
             EngineGlobals.DEBUG = true;
+            
         }
 
         public override void LoadContent()
@@ -37,7 +43,7 @@ namespace AdventureGame
             // add buildings
             //
             // Todo - remove size
-            AddEntity(PlayerHouseEntity.Create("player_house_01", 422, 110, 66, 66));
+            AddEntity(PlayerHouseEntity.Create("player_house_01", 423, 111, 66, 66));
 
             //AddEntity(BuildingEntity2.Create("blacksmith_01", 150, 50));
             AddEntity(BuildingEntity3.Create(150, 50, "blacksmith_01"));
@@ -83,8 +89,10 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            // Add the player and minimap cameras
-            //AddCamera("minimap");
+            // Test code only, remove once content loading works.
+            Engine.EmoteComponent ec = new Engine.EmoteComponent(GameAssets.emote_pickaxe);
+            ec.showBackground = false;
+            EngineGlobals.entityManager.GetLocalPlayer().AddComponent(ec);
         }
 
         public override void Input(GameTime gameTime)

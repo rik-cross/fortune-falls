@@ -28,6 +28,8 @@ namespace AdventureGame
             //Globals.ScreenWidth = 1280;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             //Globals.ScreenHeight = 720;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
+            //S.WriteLine(System.IO.Directory.GetCurrentDirectory());
+
             Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
             Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
             

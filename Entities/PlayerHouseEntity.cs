@@ -49,10 +49,12 @@ namespace AdventureGame
                 size: new Vector2(16, 10),
                 offset: new Vector2(25, 60),
                 onCollide: (Entity entity, Entity otherEntity, float distance) => {
-                    if (otherEntity == EngineGlobals.entityManager.GetLocalPlayer())
+                    if (otherEntity.IsPlayerType())
                     {
+                        otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
+                        entity.State = "door_open";
                         EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
-                        EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(new Vector2(50, 50));
+                        EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(new Vector2(114, 127));
                     }
                 }
             ));
