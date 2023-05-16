@@ -1,55 +1,54 @@
-﻿using Microsoft.Xna.Framework;
-
-using System;
+﻿using AdventureGame.Engine;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-
-using AdventureGame.Engine;
 
 namespace AdventureGame
 {
     public static class BuildingEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            bool canEnter = false, Vector2 doorOffset = default, string idTag = null)
-            //List<string> type = default)
-            //List<string> triggers = default) // Action[3] triggers = default )
+            List<string> spriteKeys = null, string defaultState = "default",
+            string idTag = null)
         {
-            string directory = "Buildings/";
+            Entity entity = EngineGlobals.entityManager.CreateEntity();
 
-            Entity buildingEntity = EngineGlobals.entityManager.CreateEntity();
-            buildingEntity.Tags.Id = idTag;
-            buildingEntity.Tags.AddTag("building");
-            //buildingEntity.Tags.AddTags(type);
+            // Add tags
+            if (idTag != null)
+                entity.Tags.Id = idTag;
+            entity.Tags.AddTag("building");
+            entity.Tags.AddTag(filename);
 
-            buildingEntity.AddComponent(new Engine.SpriteComponent(directory + filename));
-            Vector2 imageSize = buildingEntity.GetComponent<SpriteComponent>().GetSpriteSize();
-            buildingEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
+            // Add sprites
+            string dir = "Buildings/";
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<Engine.SpriteComponent>();
 
-            int colliderHeight = (int)imageSize.Y / 2;
-            buildingEntity.AddComponent(new Engine.ColliderComponent(
-                (int)imageSize.X, colliderHeight,
-                0, (int)imageSize.Y - colliderHeight - 10));
+            if (spriteKeys == null)
+                spriteComponent.AddSprite(dir + filename, defaultState);
+            else
+            {
+                spriteComponent.AddMultipleStaticSprites(dir + filename, spriteKeys);
+                // Set the state to the first key if none given
+                if (!spriteKeys.Contains(defaultState))
+                    defaultState = spriteKeys[0];
+            }
 
+            // Set state
+            entity.State = defaultState;
 
-            // DoorOffset
+            // Add other components
+            Vector2 position = new Vector2(x, y);
+            Vector2 size = spriteComponent.GetSpriteSize(defaultState);
+            entity.AddComponent(new TransformComponent(position, size));
 
+            float colliderHeightPercentage = 0.7f;
+            entity.AddComponent<Engine.ColliderComponent>(
+                new Engine.ColliderComponent(
+                    size: new Vector2(size.X, size.Y * colliderHeightPercentage),
+                    offset: new Vector2(0, size.Y * (1 - colliderHeightPercentage))
+                )
+            );
 
-            // Add triggers here or elsewhere?
-            // How to handle multiple triggers in one building e.g. a front and side door
-
-            /*
-            entity.AddComponent(new TriggerComponent(
-                triggerSize,
-                triggerOffset,
-                onCollisionEnter: SceneTriggers.EnterHouse,
-                onCollisionEnter: SceneTriggers.EnterHouse,
-                onCollisionEnter: SceneTriggers.EnterHouse
-            ));
-            */
-
-            return buildingEntity;
-
+            return entity;
         }
-
     }
 }

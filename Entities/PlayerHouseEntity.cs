@@ -1,41 +1,41 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace AdventureGame
 {
     public static class PlayerHouseEntity
     {
-        public static Engine.Entity Create(string filename, int x, int y, int width, int height)
+        public static Engine.Entity Create(int x, int y, string filename,
+            List<string> spriteKeys = null, string defaultState = "default")
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
+
+            // Add tags
             entity.Tags.Id = "player_house";
             entity.Tags.AddTag("building");
+            entity.Tags.AddTag(filename);
+
+            // Add sprites
             string dir = "Buildings/";
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<Engine.SpriteComponent>();
+
+            if (spriteKeys == null)
+                spriteComponent.AddSprite(dir + filename, defaultState);
+            else
+            {
+                spriteComponent.AddMultipleStaticSprites(dir + filename, spriteKeys);
+                // Set the state to the first key if none given
+                if (!spriteKeys.Contains(defaultState))
+                    defaultState = spriteKeys[0];
+            }
+
+            // Set state
+            entity.State = defaultState;
+
+            // Add other components
             Vector2 position = new Vector2(x, y);
-            Vector2 size = new Vector2(width, height);
-
-            // Sprites
-            Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet(dir + filename, size);
-
-            Engine.SpriteComponent spriteComponent = entity.AddComponent<Engine.SpriteComponent>(
-                new Engine.SpriteComponent(
-                    new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))
-                )
-            );
-
-            spriteComponent.AddSprite(
-                "door_closed",
-                new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))
-            );
-
-            spriteComponent.AddSprite(
-                "door_open",
-                new Engine.Sprite(spriteSheet.GetSubTexture(1, 0))
-            );
-
-            entity.State = "door_closed";
-
-            // Components
+            Vector2 size = spriteComponent.GetSpriteSize(defaultState);
             entity.AddComponent(new TransformComponent(position, size));
 
             entity.AddComponent<Engine.ColliderComponent>(

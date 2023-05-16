@@ -48,8 +48,6 @@ namespace AdventureGame
         public static List<Engine.InputItem> leftInput = new List<Engine.InputItem>() { Engine.KeyboardInput.A, Engine.ControllerInput.LeftThumbLeft };
         public static List<Engine.InputItem> rightInput = new List<Engine.InputItem>() { Engine.KeyboardInput.D, Engine.ControllerInput.LeftThumbRight };
 
-        public static Engine.SpriteSheet playerSpriteSheet; // Move to MenuScene?
-
         public static Engine.Scene menuScene;
         public static Engine.Scene gameScene;
         public static Engine.Scene homeScene;

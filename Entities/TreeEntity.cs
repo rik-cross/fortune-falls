@@ -9,58 +9,51 @@ namespace AdventureGame.Engine
 {
     public static class TreeEntity
     {
-        public static SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
-        public static Engine.Entity Create(int x, int y, bool stump = false)
+        public static Engine.Entity Create(int x, int y, string filename,
+            string defaultState = "tree")//, bool stump = false)
         {
             Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
-
             entity.Tags.AddTag("tree");
 
+            // Add sprites
+            string dir = "Objects/";
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();
+
+            spriteComponent.AddSprite(dir + filename, "tree", 0, 1);
+            spriteComponent.AddSprite(dir + filename, "tree_stump", 1, 1);
+
+            // Set state
+            entity.State = defaultState;
+
+            // Add other components
+            Vector2 size = spriteComponent.GetSpriteSize(defaultState);
             entity.AddComponent(new Engine.TransformComponent(
                 position: new Vector2(x, y),
                 size: new Vector2(26, 33)
             ));
 
-            Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet("Objects/tree", new Vector2(26,33));
-            Engine.SpriteComponent spriteComponent = entity.AddComponent<Engine.SpriteComponent>(
-                new Engine.SpriteComponent(
-                    new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))
-                )
-            );
-
-
-            spriteComponent.AddSprite(
-                "tree",
-                new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))
-            );
-
-            spriteComponent.AddSprite(
-                "tree_stump",
-                new Engine.Sprite(spriteSheet.GetSubTexture(1, 0))
-            );
-
             entity.AddComponent<Engine.ColliderComponent>(
                 new Engine.ColliderComponent(
                     size: new Vector2(14, 10),
                     offset: new Vector2(6, 21)
-                )    
+                )
             );
-
 
             InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(
                 new Engine.InventoryComponent(3));
-
             inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
             inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
             inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
             //EngineGlobals.inventoryManager.AddAndStackItem(inventory.InventoryItems, coin);
 
-            entity.AddComponent(new Engine.BattleComponent());
-            entity.GetComponent<Engine.BattleComponent>().SetHurtbox("tree", new Engine.HBox(new Vector2(5, 15), new Vector2(16, 33-15)));
-            entity.GetComponent<Engine.BattleComponent>().OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
+            //entity.AddComponent(new Engine.BattleComponent());
+            BattleComponent battleComponent = entity.AddComponent<BattleComponent>();
+            battleComponent.SetHurtbox("tree", new Engine.HBox(new Vector2(5, 15), new Vector2(16, 33-15)));
+            battleComponent.OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
             {
                 if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe")
                 {
+                    SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
                     thisEnt.GetComponent<HealthComponent>().Health -= 20;
                     //thisEnt.State = "tree_shake";
@@ -88,11 +81,6 @@ namespace AdventureGame.Engine
             };
 
             entity.AddComponent(new Engine.HealthComponent());
-
-            if (stump)
-                entity.State = "tree_stump";
-            else
-                entity.State = "tree";
 
             return entity;
         }

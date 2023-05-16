@@ -6,24 +6,22 @@ namespace AdventureGame
     public static class StreetLightEntity
     {
 
-        public static Engine.Entity Create(int x, int y)
+        public static Engine.Entity Create(int x, int y, string filename)
         {
-            Vector2 entitySize = new Vector2(20, 138);
-
-            Engine.Entity entity;
-            entity = Engine.EngineGlobals.entityManager.CreateEntity();
-
+            Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
             entity.Tags.AddTag("streetlight");
 
+            // Add sprites
+            string dir = "Objects/";
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>(
+                new SpriteComponent(dir + filename));
+
+            // Add other components
+            Vector2 size = spriteComponent.GetSpriteSize();
             entity.AddComponent(new Engine.TransformComponent(
                 new Vector2(x, y),
-                entitySize
+                size
             ));
-
-            Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet("Objects/light", (int)entitySize.X, (int)entitySize.Y);
-            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))));
-            spriteComponent.AddSprite("on", spriteSheet, 0, 1, 1);
-            spriteComponent.GetSprite("on").loop = false;
 
             entity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(20, 5),
@@ -37,28 +35,6 @@ namespace AdventureGame
             );
 
             return entity;
-        }
-
-        public static void SwitchToOpenState(Entity entity, Entity otherEntity, float distance)
-        {
-            Engine.InputComponent inputComponent = otherEntity.GetComponent<Engine.InputComponent>();
-            if (inputComponent != null && EngineGlobals.inputManager.IsPressed(inputComponent.input.button1))
-            {
-                entity.State = "open";
-                entity.RemoveComponent<Engine.TriggerComponent>();
-            }
-        }
-
-        public static void DropLoot(Entity entity)
-        {
-            InventoryComponent inventoryComponent = entity.GetComponent<Engine.InventoryComponent>();
-            if (inventoryComponent != null)
-            {
-                EngineGlobals.inventoryManager.DropAllItems(
-                    inventoryComponent.InventoryItems,
-                    entity
-                );
-            }
         }
 
     }

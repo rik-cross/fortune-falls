@@ -30,7 +30,6 @@ namespace AdventureGame
 
         public void LoadGameScene(UIButton button)
         {
-            //Vector2 playerPosition = new Vector2(20, 760);
             Vector2 playerPosition = new Vector2(100, 100);
 
             // Add the MenuScene to the scene stack
@@ -39,9 +38,9 @@ namespace AdventureGame
             EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
 
         }
+
         public void LoadTestScene(UIButton button)
         {
-            //Vector2 playerPosition = new Vector2(20, 760);
             Vector2 playerPosition = new Vector2(220, 170);
 
             // Add the MenuScene to the scene stack
@@ -60,22 +59,11 @@ namespace AdventureGame
         }
         public void UnloadMenuScene(UIButton button)
         {
-            //EngineGlobals.sceneManager.SetActiveScene<ExitScene>(applyTransition: true);
             EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
-        }
-
-        public void SwitchToWaiting(Engine.Entity entity)
-        {
-            entity.State = "waiting";
-        }
-        public void SwitchToCasting(Engine.Entity entity)
-        {
-            entity.State = "casting";
         }
 
         public MenuScene()
         {
-
             EngineGlobals.DEBUG = false;
 
             UIButton.drawMethod = UICustomisations.DrawButton;
@@ -89,7 +77,6 @@ namespace AdventureGame
                     backgroundColour: Color.Black
                 );
 
-
             camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
             //camera.zoomIncrement = 0.005f;
             //camera.SetZoom(3.0f);
@@ -99,35 +86,21 @@ namespace AdventureGame
             LightLevel = 1.0f;
 
 
+            // Player fishing
             mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
             mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1184, 870), new Vector2(15,20)));
-            mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15,20)));
+            mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
-            Engine.SpriteSheet waitingSpriteSheet = new Engine.SpriteSheet("Characters/Players/long_hair/spr_waiting_strip9", new Vector2(96,64));
-            Engine.SpriteSheet castingSpriteSheet = new Engine.SpriteSheet("Characters/Players/long_hair/spr_casting_strip15", new Vector2(96, 64));
-            Engine.SpriteSheet caughtSpriteSheet = new Engine.SpriteSheet("Characters/Players/long_hair/spr_caught_strip10", new Vector2(96, 64));
-            Engine.SpriteSheet swimSpriteSheet = new Engine.SpriteSheet("Characters/Players/spr_swimming_strip12", new Vector2(96, 64));
+            string dir = "Characters/Players/long_hair/";
+            Vector2 offset = new Vector2(-41, -21);
 
-            Engine.SpriteComponent spriteComponent = mainMenuPlayer.AddComponent<Engine.SpriteComponent>(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
-            spriteComponent.AddSprite("waiting", waitingSpriteSheet, 0, 0, 8);
-            spriteComponent.GetSprite("waiting").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("waiting").flipH = true;
-            //spriteComponent.GetSprite("waiting").flipV = true;
-            //spriteComponent.GetSprite("waiting").size = new Vector2(20,20);
+            Engine.SpriteComponent spriteComponent = mainMenuPlayer.AddComponent<Engine.SpriteComponent>();
+            spriteComponent.AddAnimatedSprite(dir + "spr_waiting_strip9", "waiting", 0, 8, offset: offset);
+            spriteComponent.AddAnimatedSprite(dir + "spr_casting_strip15", "casting", 0, 14, offset: offset);
+            spriteComponent.AddAnimatedSprite(dir + "spr_caught_strip10", "caught", 0, 9, offset: offset);
 
-            //Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)mainMenuPlayer.AddComponent(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
-            spriteComponent.AddSprite("casting", castingSpriteSheet, 0, 0, 14);
-            spriteComponent.GetSprite("casting").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("casting").loop = false;
-
-            spriteComponent.GetSprite("casting").OnComplete = SwitchToWaiting;
-
-            spriteComponent.AddSprite("caught", caughtSpriteSheet, 0, 0, 9);
-            spriteComponent.GetSprite("caught").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("caught").loop = false;
-            spriteComponent.GetSprite("caught").OnComplete = SwitchToCasting;
-
-            spriteComponent.AddSprite("swimming", swimSpriteSheet, 0, 0, 11);
+            spriteComponent.GetSprite("casting").OnComplete = (Engine.Entity e) => e.State = "waiting";
+            spriteComponent.GetSprite("caught").OnComplete = (Engine.Entity e) => e.State = "casting";
 
             mainMenuPlayer.State = "casting";
 
@@ -138,28 +111,20 @@ namespace AdventureGame
             AddEntity(mainMenuPlayer);
 
 
-
-
+            // Player 2 swimming
             mainMenuPlayer2 = EngineGlobals.entityManager.CreateEntity();
-
             mainMenuPlayer2.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(1400, 920), new Vector2(15, 20)));
             mainMenuPlayer2.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
-            Engine.SpriteSheet waitingSpriteSheet2 = new Engine.SpriteSheet("Characters/Players/long_hair/spr_waiting_strip9", new Vector2(96, 64));
-            Engine.SpriteSheet castingSpriteSheet2 = new Engine.SpriteSheet("Characters/Players/spr_casting_strip15", new Vector2(96, 64));
-            Engine.SpriteSheet caughtSpriteSheet2 = new Engine.SpriteSheet("Characters/Players/spr_caught_strip10", new Vector2(96, 64));
-            Engine.SpriteSheet swimSpriteSheet2 = new Engine.SpriteSheet("Characters/Players/spr_swimming_strip12", new Vector2(96, 64));
+            string dirPlayer2 = "Characters/Players/";
+            Vector2 offsetPlayer2 = new Vector2(-41, -21);
 
-            Engine.SpriteComponent spriteComponent2 = mainMenuPlayer2.AddComponent<Engine.SpriteComponent>(new Engine.SpriteComponent(waitingSpriteSheet, 0, 0));
-            spriteComponent2.AddSprite("swimming", swimSpriteSheet2, 0, 0, 11);
-            spriteComponent2.GetSprite("swimming").offset = new Vector2(-41, -21);
-            spriteComponent2.GetSprite("swimming").flipH = true;
+            Engine.SpriteComponent spriteComponentP2 = mainMenuPlayer2.AddComponent<Engine.SpriteComponent>();
+            spriteComponentP2.AddAnimatedSprite(dirPlayer2 + "spr_swimming_strip12", "swimming", 0, 11, offset: offsetPlayer2, flipH: true);
+
             mainMenuPlayer2.State = "swimming";
 
             AddEntity(mainMenuPlayer2);
-
-
-
 
 
             // title text
@@ -313,6 +278,7 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
                 UnloadMenuScene(null);
         }
+
         public override void Update(GameTime gameTime)
         {
             frameOdo++;

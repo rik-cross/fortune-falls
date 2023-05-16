@@ -74,25 +74,25 @@ namespace AdventureGame
                 canWalkBehind: true));
 
             // Add some streetlights
-            AddEntity(StreetLightEntity.Create(450, 350));
-            AddEntity(StreetLightEntity.Create(700, 350));
+            AddEntity(StreetLightEntity.Create(450, 350, "light"));
+            AddEntity(StreetLightEntity.Create(700, 350, "light"));
 
             //
             // Add NPC entities
             //
 
             //AddEntity(NPCEntity.Create(290, 575, "Townfolk-Old-M01"));
-            Engine.Entity oldManEntity = NPCEntity.Create(290, 575, "Townfolk-Old-M01");
-            oldManEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.OldManDialogue;
-            AddEntity(oldManEntity);
+            //Engine.Entity oldManEntity = NPCEntity.Create(290, 575, "Townfolk-Old-M01");
+            //oldManEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.OldManDialogue;
+            //AddEntity(oldManEntity);
 
-            Engine.Entity blacksmithEntity = NPCEntity.Create(290, 175, "Blacksmith-M06", "Blacksmith-M06-thumb", idTag: "blacksmith");
-            blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
-            AddEntity(blacksmithEntity);
+            //Engine.Entity blacksmithEntity = NPCEntity.Create(290, 175, "Blacksmith-M06", "Blacksmith-M06-thumb", idTag: "blacksmith");
+            //blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
+            //AddEntity(blacksmithEntity);
 
-            AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
-            AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
-            AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
+            //AddEntity(NPCEntity.Create(410, 730, "Townfolk-Child-M02"));
+            //AddEntity(NPCEntity.Create(500, 500, "Townfolk-F03"));
+            //AddEntity(NPCEntity.Create(710, 400, "Cultist02"));
 
             //
             // Add item entities
@@ -118,13 +118,13 @@ namespace AdventureGame
             chestEntity.AddComponent(new Engine.InventoryComponent(10));
             */
 
-            // test chest
-            Entity chestEntity = ChestEntity.Create(100, 300, 10);
-            AddEntity(chestEntity);
+            //// test chest
+            //Entity chestEntity = ChestEntity.Create(100, 100, 10);
+            //AddEntity(chestEntity);
 
-            InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-            chestInventory.AddItem(new Item("GoldCoin", itemsDirectory + "I_GoldCoin", quantity: 10, stackSize: 20));
-            chestInventory.AddItem(new Item("PotionBlue", itemsDirectory + "P_Blue01", quantity: 10, stackSize: 10));
+            //InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
+            //chestInventory.AddItem(new Item("GoldCoin", itemsDirectory + "I_GoldCoin", quantity: 10, stackSize: 20));
+            //chestInventory.AddItem(new Item("PotionBlue", itemsDirectory + "P_Blue01", quantity: 10, stackSize: 10));
 
             //AddEntity(EngineGlobals.entityManager.GetAllEntitiesByTag("item"));
         }

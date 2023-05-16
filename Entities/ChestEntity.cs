@@ -6,33 +6,27 @@ namespace AdventureGame
 {
     public static class ChestEntity {
 
-        public static Engine.Entity Create(int x, int y, int inventorySize = 20)
+        public static Engine.Entity Create(int x, int y, string filename,
+            string defaultState = "closed", int inventorySize = 20)
         {
-            Vector2 chestSize = new Vector2(36, 42);
-
-            Engine.Entity entity;
-            entity = Engine.EngineGlobals.entityManager.CreateEntity();
-
+            Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
             entity.Tags.AddTag("chest");
 
-            entity.AddComponent(new Engine.TransformComponent(
-                new Vector2(x,y),
-                chestSize
-            ));
+            // Add sprites
+            string dir = "Objects/";
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();
 
-            // TODO -- is this needed?
-            //entity.AddComponent(new Engine.PhysicsComponent());
-            // should we add an intention component to all entities by default?
+            spriteComponent.AddSprite(dir + filename, "closed", 0, 4);
+            spriteComponent.AddSprite(dir + filename, "open", 4, 4);
+            spriteComponent.AddAnimatedSprite(dir + filename, "open_animation", 0, 4, loop: false);
+            spriteComponent.GetSprite("open_animation").OnComplete = DropLoot;
 
-            // TODO -- sprite component code is messy!
-            Engine.SpriteSheet spriteSheet = new Engine.SpriteSheet("Objects/chest", (int)chestSize.X, (int)chestSize.Y);
-            //Engine.SpriteComponent spriteComponent = (Engine.SpriteComponent)entity.AddComponent(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0,0))));
-            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(new Engine.Sprite(spriteSheet.GetSubTexture(0, 0))));
-            spriteComponent.AddSprite("open", spriteSheet, 0, 0, 4);
-            // TODO -- add to constrctor
-            spriteComponent.GetSprite("open").loop = false;
-            spriteComponent.GetSprite("open").animationDelay = 6;
-            spriteComponent.GetSprite("open").OnComplete = DropLoot;
+            // Set state
+            entity.State = defaultState;
+
+            // Add other components
+            Vector2 size = spriteComponent.GetSpriteSize(defaultState);
+            entity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), size));
 
             entity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(30, 12),
@@ -40,7 +34,7 @@ namespace AdventureGame
             ));
 
             entity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(chestSize.X + 20, chestSize.Y),
+                size: new Vector2(size.X + 20, size.Y),
                 offset: new Vector2(-10, +10),
                 onCollide: SwitchToOpenState
             ));
@@ -54,21 +48,20 @@ namespace AdventureGame
         {
             Engine.InputComponent inputComponent = otherEntity.GetComponent<Engine.InputComponent>();
             if (inputComponent != null && EngineGlobals.inputManager.IsPressed(inputComponent.input.button1))
+                // && inventory.CanOpen())
             {
-                entity.State = "open";
+                entity.State = "open_animation";
                 entity.RemoveComponent<Engine.TriggerComponent>();
             }
         }
 
         public static void DropLoot(Entity entity)
         {
-            InventoryComponent inventoryComponent = entity.GetComponent<Engine.InventoryComponent>();
-            if (inventoryComponent != null)
+            InventoryComponent inventory = entity.GetComponent<Engine.InventoryComponent>();
+            if (inventory != null) // && inventory.CanOpen()
             {
-                EngineGlobals.inventoryManager.DropAllItems(
-                    inventoryComponent.InventoryItems,
-                    entity
-                );
+                entity.State = "open";
+                EngineGlobals.inventoryManager.DropAllItems(inventory.InventoryItems, entity);
             }
         }
 

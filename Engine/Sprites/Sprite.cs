@@ -14,6 +14,7 @@ namespace AdventureGame.Engine
         public bool flipH;
         public bool flipV;
 
+        public bool play;
         public bool loop;
         public int currentPosition; // change to currentFrame
         public int animationDelay;
@@ -39,7 +40,7 @@ namespace AdventureGame.Engine
             this.flipH = flipH;
             this.flipV = flipV;
 
-            // Needed?
+            play = false;
             loop = false;
             animationDelay = 0;
             completed = false;
@@ -48,7 +49,8 @@ namespace AdventureGame.Engine
         }
 
         public Sprite(List<Texture2D> textureList, Vector2 offset = default,
-            bool flipH = false, bool flipV = false, bool loop = true, int delay = 6)
+            bool flipH = false, bool flipV = false,
+            bool play = true, bool loop = true, int delay = 6)
         {
             this.textureList = textureList;
             size = new Vector2(textureList[0].Width, textureList[0].Height);
@@ -60,32 +62,14 @@ namespace AdventureGame.Engine
 
             this.flipH = flipH;
             this.flipV = flipV;
+
+            this.play = play;
             this.loop = loop;
             animationDelay = delay;
             //OnComplete = a;
 
             Reset();
         }
-
-        //public Sprite(List<Texture2D> textureList, Vector2 size = default, Vector2 offset = default, bool loop = true, int animationDelay = 6, Action<Entity> a = null)
-        //{
-        //    this.textureList = textureList;
-
-        //    if (size != default)
-        //        this.size = size;
-        //    else
-        //        this.size = new Vector2(textureList[0].Width, textureList[0].Height);
-
-        //    if (offset == default)
-        //        this.offset = new Vector2(0, 0);
-        //    else
-        //        this.offset = offset;
-
-        //    this.loop = loop;
-        //    this.animationDelay = animationDelay;
-        //    OnComplete = a;
-        //    Reset();
-        //}
 
         public Texture2D GetCurrentTexture()
         {

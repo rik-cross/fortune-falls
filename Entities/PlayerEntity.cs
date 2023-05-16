@@ -7,10 +7,13 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, float speed = 60, string idTag = null)
+        public static Engine.Entity Create(int x, int y, string defaultState = "default",
+            float speed = 60, string idTag = null)
         {
             Engine.Entity playerEntity;
 
+            // Todo turn into a static CheckEntityExists method?
+            
             // Check if the player entity already exists
             if (!string.IsNullOrEmpty(idTag))
             {
@@ -41,94 +44,51 @@ namespace AdventureGame
             }
             playerEntity.Tags.AddTag("player");
 
-            string directory = "Characters/Players/long_hair/";
-            string filename = "spr_walk_strip8";
-            string filePath = directory + filename;
-            int spriteWidth = 96;
-            int spriteHeight = 64;
+
+            // Add sprites
+            string dir = "Characters/Players/long_hair/";
+            //int spriteWidth = 96;
+            //int spriteHeight = 64;
             //int drawWidth = 36;
             //int drawHeight = 56;
+            Vector2 offset = new Vector2(-41, -21);
+            Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent());
 
-            Engine.SpriteSheet playerIdleSpriteSheet = new Engine.SpriteSheet(directory + "spr_idle_strip9", spriteWidth, spriteHeight);
-            Engine.SpriteSheet playerWalkSpriteSheet = new Engine.SpriteSheet(directory + "spr_walk_strip8", spriteWidth, spriteHeight);
-            Engine.SpriteSheet playerRunSpriteSheet = new Engine.SpriteSheet(directory + "spr_run_strip8", spriteWidth, spriteHeight);
-            Engine.SpriteSheet playerSwordSpriteSheet = new Engine.SpriteSheet(directory + "spr_sword_strip10", spriteWidth, spriteHeight);
-            Engine.SpriteSheet playerAxeSpriteSheet = new Engine.SpriteSheet(directory + "spr_axe_strip10", spriteWidth, spriteHeight);
-            Engine.SpriteSheet playerHammerSpriteSheet = new Engine.SpriteSheet(directory + "spr_hammer_strip23", spriteWidth, spriteHeight);
-            Engine.SpriteSheet playerPickaxeSpriteSheet = new Engine.SpriteSheet(directory + "spr_pickaxe_strip10", spriteWidth, spriteHeight);
+            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_left", 0, 8, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_right", 0, 8, offset: offset);
 
-            Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(playerIdleSpriteSheet, 0, 0));
-            spriteComponent.GetSprite("idle").offset = new Vector2(-41, -21);
+            spriteComponent.AddAnimatedSprite(dir + "spr_walk_strip8", "walk_left", 0, 7, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_walk_strip8", "walk_right", 0, 7, offset: offset);
 
-            spriteComponent.AddSprite("walk_left", playerWalkSpriteSheet, 0, 0, 7);
-            spriteComponent.GetSprite("walk_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("walk_left").flipH = true;
+            spriteComponent.AddAnimatedSprite(dir + "spr_run_strip8", "run_left", 0, 7, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_run_strip8", "run_right", 0, 7, offset: offset);
 
-            spriteComponent.AddSprite("walk_right", playerWalkSpriteSheet, 0, 0, 7);
-            spriteComponent.GetSprite("walk_right").offset = new Vector2(-41, -21);
-
-            spriteComponent.AddSprite("run_left", playerRunSpriteSheet, 0, 0, 7);
-            spriteComponent.GetSprite("run_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("run_left").flipH = true;
-
-            spriteComponent.AddSprite("run_right", playerRunSpriteSheet, 0, 0, 7);
-            spriteComponent.GetSprite("run_right").offset = new Vector2(-41, -21);
-
-            spriteComponent.AddSprite("idle_left", playerIdleSpriteSheet, 0, 0, 8);
-            spriteComponent.GetSprite("idle_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("idle_left").flipH = true;
-
-            spriteComponent.AddSprite("idle_right", playerIdleSpriteSheet, 0, 0, 8);
-            spriteComponent.GetSprite("idle_right").offset = new Vector2(-41, -21);
-
-            spriteComponent.AddSprite("sword_left", playerSwordSpriteSheet, 0, 0, 9);
-            spriteComponent.GetSprite("sword_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("sword_left").flipH = true;
-            //spriteComponent.GetSprite("sword_left").loop = false;
+            spriteComponent.AddAnimatedSprite(dir + "spr_sword_strip10", "sword_left", 0, 9, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_sword_strip10", "sword_right", 0, 9, offset: offset);
             spriteComponent.GetSprite("sword_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-
-            spriteComponent.AddSprite("sword_right", playerSwordSpriteSheet, 0, 0, 9);
-            spriteComponent.GetSprite("sword_right").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("sword_right").loop = false;
             spriteComponent.GetSprite("sword_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
-            spriteComponent.AddSprite("axe_left", playerAxeSpriteSheet, 0, 0, 9);
-            spriteComponent.GetSprite("axe_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("axe_left").flipH = true;
-            //spriteComponent.GetSprite("axe_left").loop = false;
+            spriteComponent.AddAnimatedSprite(dir + "spr_axe_strip10", "axe_left", 0, 9, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_axe_strip10", "axe_right", 0, 9, offset: offset);
             spriteComponent.GetSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-
-            spriteComponent.AddSprite("axe_right", playerAxeSpriteSheet, 0, 0, 9);
-            spriteComponent.GetSprite("axe_right").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("axe_right").loop = false;
             spriteComponent.GetSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
-            spriteComponent.AddSprite("hammer_left", playerHammerSpriteSheet, 0, 0, 22);
-            spriteComponent.GetSprite("hammer_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("hammer_left").flipH = true;
-            //spriteComponent.GetSprite("hammer_left").loop = false;
+            spriteComponent.AddAnimatedSprite(dir + "spr_hammer_strip23", "hammer_left", 0, 22, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_hammer_strip23", "hammer_right", 0, 22, offset: offset);
             spriteComponent.GetSprite("hammer_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-
-            spriteComponent.AddSprite("hammer_right", playerHammerSpriteSheet, 0, 0, 22);
-            spriteComponent.GetSprite("hammer_right").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("hammer_right").loop = false;
             spriteComponent.GetSprite("hammer_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
-            spriteComponent.AddSprite("pickaxe_left", playerPickaxeSpriteSheet, 0, 0, 9);
-            spriteComponent.GetSprite("pickaxe_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("pickaxe_left").flipH = true;
-            //spriteComponent.GetSprite("pickaxe_left").loop = false;
+            spriteComponent.AddAnimatedSprite(dir + "spr_pickaxe_strip10", "pickaxe_left", 0, 9, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_pickaxe_strip10", "pickaxe_right", 0, 9, offset: offset);
             spriteComponent.GetSprite("pickaxe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-
-            spriteComponent.AddSprite("pickaxe_right", playerPickaxeSpriteSheet, 0, 0, 9);
-            spriteComponent.GetSprite("pickaxe_right").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("pickaxe_right").loop = false;
             spriteComponent.GetSprite("pickaxe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
+            // Set state
             playerEntity.State = "idle_right";
 
-            // Add the other components
-            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(15,20)));
+            // Add other components
+            Vector2 size = spriteComponent.GetSpriteSize(playerEntity.State);
+            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(15, 20)));
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
 

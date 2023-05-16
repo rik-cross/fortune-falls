@@ -65,6 +65,22 @@ namespace AdventureGame.Engine
             return (T)component;
         }
 
+        // Add a component with an empty constructor using reflection
+        public T AddComponent<T>(bool instant = false) where T : new()
+        {
+            object component;
+
+            // Create a new instance of the given component
+            component = new T();
+            if (component is Component)
+            {
+                componentManager.AddComponent(this, (Component)component, instant);
+                return (T)component;
+            }
+            else
+                return default;
+        }
+
         // Remove a given component from the entity
         public void RemoveComponent<T>(bool instant = false) where T : Component
         {
