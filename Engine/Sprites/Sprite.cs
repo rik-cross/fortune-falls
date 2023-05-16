@@ -8,7 +8,7 @@ namespace AdventureGame.Engine
 {
     public class Sprite
     {
-        public List<Texture2D> textureList;
+        public List<Texture2D> textureList = new List<Texture2D>();
         public Vector2 size;  // frameSize / textureSize?
         public Vector2 offset;
         public bool flipH;
@@ -21,11 +21,10 @@ namespace AdventureGame.Engine
         public bool completed;
         public Action<Entity> OnComplete;
 
-        // todo -- add sprite size and offset to all constructors
-
-        public Sprite(Texture2D texture, Vector2 size = default, Vector2 offset = default)
+        public Sprite(Texture2D texture, Vector2 size = default, Vector2 offset = default,
+            bool flipH = false, bool flipV = false)
         {
-            this.textureList = new List<Texture2D> { texture };
+            textureList.Add(texture);
 
             if (size != default)
                 this.size = size;
@@ -37,9 +36,10 @@ namespace AdventureGame.Engine
             else
                 this.offset = offset;
 
-            flipH = false;
-            flipV = false;
+            this.flipH = flipH;
+            this.flipV = flipV;
 
+            // Needed?
             loop = false;
             animationDelay = 0;
             completed = false;

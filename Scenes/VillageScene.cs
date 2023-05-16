@@ -40,12 +40,21 @@ namespace AdventureGame
             AddEntity(PlayerHouseEntity.Create("player_house_01", 422, 110, 66, 66));
 
             //AddEntity(BuildingEntity2.Create("blacksmith_01", 150, 50));
-            AddEntity(BuildingEntity3.Create("blacksmith_01", 150, 50));
+            AddEntity(BuildingEntity3.Create(150, 50, "blacksmith_01"));
 
             //List<string> keys = new List<string>() { "door_closed", "door_open" };
             //AddEntity(BuildingEntity2.Create("shop_01", 300, 200, keys));
             //AddEntity(BuildingEntity3.Create(300, 200, 50, 50));
 
+            //string buildingsDir = "Buildings/";
+            //int shopWidth = 98;
+            //int shopHeight = 98;
+            //Entity shopEntity = BuildingEntity3.Create(300, 200, shopWidth, shopHeight);
+            //SpriteComponent shopSprite = shopEntity.GetComponent<SpriteComponent>();
+            //shopSprite.AddSprite(buildingsDir + "shop_01", shopWidth, shopHeight);
+
+            List<string> buildingKeys = new List<string>() { "door_closed", "door_open" };
+            AddEntity(BuildingEntity3.Create(30, 100, "shop_01", buildingKeys, "door_open"));
 
             // Options for adding buildings:
             // 1. Single sprite (default key idle?)

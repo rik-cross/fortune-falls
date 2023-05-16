@@ -53,6 +53,7 @@ namespace AdventureGame
             spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_left", 0, 7, offset: offset, flipH: true);
             spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_right", 0, 7, offset: offset);
 
+            // Change to parameter for NPC action?
             spriteComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_left", 0, 22, 3, 10, offset, true);
             spriteComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_right", 0, 22, 3, 10, offset);
 
