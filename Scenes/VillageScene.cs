@@ -54,8 +54,9 @@ namespace AdventureGame
                 buildingKeys, "door_closed"));
 
             // Other buildings
-            AddEntity(BuildingEntity.Create(150, 50, "blacksmith_01"));
-            AddEntity(BuildingEntity.Create(300, 200, "shop_01", buildingKeys, "door_open"));
+            AddEntity(BuildingEntity.Create(250, 120, "blacksmith_01"));
+            AddEntity(BuildingEntity.Create(262, 245, "shop_01", buildingKeys, "door_closed"));
+            AddEntity(BuildingEntity.Create(520, 215, "woodworker_01", buildingKeys, "door_closed"));
 
             //
             // Add objects
@@ -64,7 +65,7 @@ namespace AdventureGame
 
             // Chest
             // Todo add List<Items> to the constructor?
-            Entity chestEntity = ChestEntity.Create(100, 100, "chest", "closed", 10);
+            Entity chestEntity = ChestEntity.Create(50, 150, "chest", "closed", 10);
             AddEntity(chestEntity);
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
             chestInventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 10, stackSize: 20));
