@@ -14,6 +14,12 @@ namespace AdventureGame.Engine
             ThumbnailSize = new Vector2(ThumbnailImage.Width, ThumbnailImage.Height);
         }
 
+        public ThumbnailComponent(Texture2D texture)
+        {
+            ThumbnailImage = texture;
+            ThumbnailSize = new Vector2(ThumbnailImage.Width, ThumbnailImage.Height);
+        }
+
         /*
         public Image ThumbnailImage { get; set; }
 

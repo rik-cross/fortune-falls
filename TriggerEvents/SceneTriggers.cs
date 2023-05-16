@@ -36,6 +36,7 @@ namespace AdventureGame.Engine
                 {
                     Cutscene.Test();
 
+                    // Change to try to get thumbnail image
                     Texture2D thumbnail = triggerEntity.GetComponent<ThumbnailComponent>().ThumbnailImage;
 
                     // Choose the dialogue options depending on the player progress

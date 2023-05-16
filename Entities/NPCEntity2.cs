@@ -11,8 +11,10 @@ namespace AdventureGame
 {
     public static class NPCEntity2 {
 
-        public static Engine.Entity Create(int x, int y, string filename, string thumbnail = null,
-            bool canMove = false, float speed = 100, string idTag = null) // Action movementScript
+        public static Engine.Entity Create(int x, int y, string defaultState = "default",
+            //string filename = null, string thumbnail = null,
+            bool canMove = false, float speed = 100, string idTag = null)
+            // Action movementScript
         {
             Engine.Entity npcEntity;
 
@@ -41,81 +43,38 @@ namespace AdventureGame
             }
             npcEntity.Tags.AddTag("npc");
 
+
+            // Add the sprites
             string dir = "Characters/NPC/";
-            int spriteWidth = 96;
-            int spriteHeight = 64;
-            int drawWidth = 36;
-            int drawHeight = 56;
+            Vector2 offset = new Vector2(-41, -21);
 
+            Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(new SpriteComponent());
 
-            Engine.SpriteSheet idleSpriteSheet = new Engine.SpriteSheet(dir + "spr_idle_strip9", spriteWidth, spriteHeight);
+            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_left", 0, 7, offset: offset, flipH: true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_right", 0, 7, offset: offset);
 
-            Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(
-                new Engine.SpriteComponent(idleSpriteSheet, 0, 0));
-            spriteComponent.GetSprite("idle").offset = new Vector2(-41, -21);
-
-            //Engine.SpriteSheet hammerSpriteSheet = new Engine.SpriteSheet(directory + "spr_hammering_strip23", spriteWidth, spriteHeight);
-            //spriteComponent.AddSprite("hammer_left", hammerSpriteSheet, 0, 0, 8);
-            //spriteComponent.GetSprite("hammer_left").offset = new Vector2(-41, -21);
-            //spriteComponent.GetSprite("hammer_left").flipH = true;
-            //spriteComponent.GetSprite("hammer_left").loop = true;
-
-            //Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(new SpriteComponent());
-            //spriteComponent.AddSpriteSheet("idle", directory + "spr_idle_strip9", 8);
-            //spriteComponent.GetSprite("idle").offset = new Vector2(-41, -21);
-
-            spriteComponent.AddSpriteSheet("idle_left", dir + "spr_idle_strip9", 8);
-            spriteComponent.GetSprite("idle_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("idle_left").flipH = true;
-
-            spriteComponent.AddSpriteSheet("hammer_left", dir + "spr_hammering_strip23",
-                totalFrames: 23, rows: 3, framesPerRow: 10);
-            spriteComponent.GetSprite("hammer_left").offset = new Vector2(-41, -21);
-            spriteComponent.GetSprite("hammer_left").flipH = true;
-            spriteComponent.GetSprite("hammer_left").loop = true;
+            // Change to parameter for NPC action?
+            spriteComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_left", 0, 22, 3, 10, offset, true);
+            spriteComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_right", 0, 22, 3, 10, offset);
 
             npcEntity.State = "hammer_left";
-            //npcEntity.State = "idle_left";
-
             Vector2 spriteSize = spriteComponent.GetSpriteSize(npcEntity.State);
 
-            // TODO
-            // Pass the spritesheet(s) and current state as parameters
-            // OR assume each NPC has a maximum number of states and check for nulls
-            // e.g. idle, walk, run, action, weapon
+            // Add the thumbnail component
+            //if (thumbnail != null)
+            //npcEntity.AddComponent(new Engine.ThumbnailComponent(dir + thumbnail));
+            npcEntity.AddComponent(new Engine.ThumbnailComponent(spriteComponent.GetSprite("idle_right").GetTexture(0)));
 
+
+            // Todo
             // Add an optional battle component
             // OR add separately along with weapon and spritesheet(s)
 
 
-
-
-            //// CHANGE so the spritesheet is created using the file path??
-            //Engine.SpriteSheet npcSpriteSheet = new Engine.SpriteSheet(filePath, spriteWidth, spriteHeight);
-            //Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(npcSpriteSheet, 0, 0, "idle"));
-            ////Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent(npcSpriteSheet, 1, 2, "idle"));
-            ////npcEntity.AddComponent(new Engine.SpriteComponent(filePath, spriteWidth, spriteHeight, 2, 1, "idle"));
-            //Vector2 spriteSize = spriteComponent.GetSpriteSize();
-
-            //// Add the other sprites
-            //spriteComponent.AddSprite("walk_up", npcSpriteSheet, 0, 0, 2, true, 1);
-            //spriteComponent.AddSprite("walk_down", npcSpriteSheet, 2, 0, 2, true, 1);
-            //spriteComponent.AddSprite("walk_right", npcSpriteSheet, 1, 0, 2, true, 1);
-            //spriteComponent.AddSprite("walk_left", npcSpriteSheet, 3, 0, 2, true, 1);
-            //spriteComponent.AddSprite("idle_up", npcSpriteSheet, 0, 1, 1);
-            //spriteComponent.AddSprite("idle_down", npcSpriteSheet, 2, 1, 1);
-            //spriteComponent.AddSprite("idle_right", npcSpriteSheet, 1, 1, 1);
-            //spriteComponent.AddSprite("idle_left", npcSpriteSheet, 3, 1, 1);
-
-            //spriteComponent.SetAnimationDelay(8);
-
-            // Add the thumbnail component
-            if (thumbnail != null)
-                npcEntity.AddComponent(new Engine.ThumbnailComponent(dir + thumbnail));
-
             // Add the other components
             npcEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), spriteSize));
             npcEntity.AddComponent(new Engine.InventoryComponent(5));
+
 
             //int colliderWidth = (int)(drawWidth * 0.6f);
             //int colliderHeight = (int)(drawHeight * 0.3f);

@@ -129,6 +129,10 @@ namespace AdventureGame.Engine
             worldPosition.X = (worldPosition.X * (1 - followPercentage)) + (targetWorldPosition.X * followPercentage);
             worldPosition.Y = (worldPosition.Y * (1 - followPercentage)) + (targetWorldPosition.Y * followPercentage);
 
+            // testing camera jitter
+            //worldPosition.X = targetWorldPosition.X;
+            //worldPosition.Y = targetWorldPosition.Y;
+
             //
             // clamp camera to map
             //
