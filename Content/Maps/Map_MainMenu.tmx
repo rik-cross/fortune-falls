@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="150" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
- <tileset firstgid="1" source="Sunnyside.tsx"/>
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="150" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
+ <tileset firstgid="1" source="spr_tileset_sunnysideworld_16px.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="100">
   <properties>
    <property name="type" value="below"/>

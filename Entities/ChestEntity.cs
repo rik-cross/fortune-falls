@@ -29,13 +29,13 @@ namespace AdventureGame
             entity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), size));
 
             entity.AddComponent(new Engine.ColliderComponent(
-                size: new Vector2(30, 12),
-                offset: new Vector2(0, 30)
+                size: new Vector2(size.X, size.Y * 0.6f),
+                offset: new Vector2(0, size.Y * (1 - 0.6f))
             ));
 
             entity.AddComponent(new Engine.TriggerComponent(
                 size: new Vector2(size.X + 20, size.Y),
-                offset: new Vector2(-10, +10),
+                offset: new Vector2(-10, 10),
                 onCollide: SwitchToOpenState
             ));
 

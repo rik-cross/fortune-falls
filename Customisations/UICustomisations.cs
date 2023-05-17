@@ -26,8 +26,8 @@ namespace AdventureGame
 
         public static SoundEffect soundEffect = Globals.content.Load<SoundEffect>("Sounds/pickupCoin");
 
-        public static Texture2D full = Globals.content.Load<Texture2D>("full");
-        public static Texture2D window = Globals.content.Load<Texture2D>("window");
+        public static Texture2D full = Globals.content.Load<Texture2D>("UI/full");
+        public static Texture2D window = Globals.content.Load<Texture2D>("UI/window");
 
         public static int activeBorder = 10;
 

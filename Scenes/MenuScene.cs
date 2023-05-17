@@ -44,9 +44,9 @@ namespace AdventureGame
             Vector2 playerPosition = new Vector2(220, 170);
 
             // Add the MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<GameScene>(unloadCurrentScene: false);
+            EngineGlobals.sceneManager.SetActiveScene<TestScene>(unloadCurrentScene: false);
 
-            EngineGlobals.sceneManager.SetPlayerScene<GameScene>(playerPosition);
+            EngineGlobals.sceneManager.SetPlayerScene<TestScene>(playerPosition);
 
         }
         public void LoadOptionsScene(UIButton button)
@@ -231,13 +231,13 @@ namespace AdventureGame
 
             // control images
             controllerImage = new Engine.Image(
-                Globals.content.Load<Texture2D>("X360"),
+                Globals.content.Load<Texture2D>("UI/xbox360"),
                 size: new Vector2(118, 76),
                 anchor: Anchor.BottomLeft,
                 padding: new Padding(bottom: 30, left: 30)
             );
             keyboardImage = new Engine.Image(
-                Globals.content.Load<Texture2D>("Keyboard"),
+                Globals.content.Load<Texture2D>("UI/keyboard"),
                 size: new Vector2(198, 63),
                 anchor: Anchor.BottomLeft,
                 padding: new Padding(bottom: 30, left: 30)

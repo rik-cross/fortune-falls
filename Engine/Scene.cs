@@ -66,7 +66,7 @@ namespace AdventureGame.Engine
             UpdateSceneBelow = false;
             DrawSceneBelow = false;
             LightLevel = 1.0f;
-            _alphaMask = Globals.content.Load<Texture2D>("light");
+            _alphaMask = Globals.content.Load<Texture2D>("VFX/light");
 
             UIMenu = new UIMenu();
 

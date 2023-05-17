@@ -42,7 +42,7 @@ namespace AdventureGame.Engine
         public InputManager()
         {
             delayDictionary = new Dictionary<InputItem, Timer>();
-            CursorTexture = Globals.content.Load<Texture2D>("cursor");
+            CursorTexture = Globals.content.Load<Texture2D>("UI/cursor");
             _isCursorVisible = false;
         }
 
