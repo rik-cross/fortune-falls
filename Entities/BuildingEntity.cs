@@ -32,6 +32,8 @@ namespace AdventureGame
                     defaultState = spriteKeys[0];
             }
 
+            //spriteComponent.GetSprite(defaultState).layerDepth = 0.6f;
+
             // Set state
             entity.State = defaultState;
 

@@ -66,7 +66,7 @@ namespace AdventureGame
 
             // Inventory layout
             _inventorySize = _inventory.InventorySize;
-            _columns = 10;
+            _columns = 5;
             _rows = (int)Math.Ceiling((double)_inventorySize / _columns);
 
             // Key items component
@@ -131,18 +131,18 @@ namespace AdventureGame
             );
 
             // TEST - UI buttons
-            UIMenu.AddUIElement(
-                new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 250),
-                    size: new Vector2(120, 45),
-                    text: "Test",
-                    textColour: Color.White,
-                    outlineColour: Color.White,
-                    outlineThickness: 2,
-                    backgroundColour: Color.DarkSlateGray,
-                    func: null
-                )
-            );
+            //UIMenu.AddUIElement(
+            //    new UIButton(
+            //        position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 250),
+            //        size: new Vector2(120, 45),
+            //        text: "Test",
+            //        textColour: Color.White,
+            //        outlineColour: Color.White,
+            //        outlineThickness: 2,
+            //        backgroundColour: Color.DarkSlateGray,
+            //        func: null
+            //    )
+            //);
 
             // Display the cursor image
             _inputManager.ShowCursor();
