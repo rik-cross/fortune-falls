@@ -54,13 +54,14 @@ namespace AdventureGame
                 buildingKeys, "door_closed"));
 
             // Other buildings
-            AddEntity(BuildingEntity.Create(250, 120, "blacksmith_01"));
+            AddEntity(BuildingEntity.Create(270, 120, "blacksmith_01"));
             AddEntity(BuildingEntity.Create(262, 245, "shop_01", buildingKeys, "door_closed"));
             AddEntity(BuildingEntity.Create(520, 215, "woodworker_01", buildingKeys, "door_closed"));
 
             //
             // Add objects
             //
+            AddEntity(ObjectEntity.Create(250, 130, "chimney", canWalkBehind: true));
             AddEntity(TreeEntity.Create(40, 40, "tree"));
 
             // Chest

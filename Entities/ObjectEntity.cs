@@ -1,9 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-
-using System;
-using System.Collections.Generic;
-
-using AdventureGame.Engine;
+﻿using AdventureGame.Engine;
+using Microsoft.Xna.Framework;
 
 namespace AdventureGame
 {
@@ -18,7 +14,11 @@ namespace AdventureGame
             objectEntity.Tags.Id = idTag;
             objectEntity.Tags.AddTag("object");
 
-            objectEntity.AddComponent(new Engine.SpriteComponent(filename));
+            // Add sprites
+            string dir = "Objects/";
+            objectEntity.AddComponent(new Engine.SpriteComponent(dir + filename));
+
+            // Add other components
             Vector2 imageSize = objectEntity.GetComponent<SpriteComponent>().GetSpriteSize();
             objectEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
 
@@ -46,8 +46,6 @@ namespace AdventureGame
             }
 
             return objectEntity;
-
         }
-
     }
 }
