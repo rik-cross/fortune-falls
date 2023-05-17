@@ -65,6 +65,11 @@ namespace AdventureGame.Engine
                 //if (dialogueComponent.dialoguePages[0].onDialogueComplete != null)
                 //    triggerComponent.onCollide(entity, e, distance);
 
+                if (dialogueComponent.dialoguePages[0].onDialogueComplete != null)
+                {
+                    dialogueComponent.dialoguePages[0].onDialogueComplete(entity);
+                }
+
                 dialogueComponent.dialoguePages.RemoveAt(0);
                 if (dialogueComponent.dialoguePages.Count > 0)
                 {

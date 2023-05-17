@@ -16,12 +16,14 @@ namespace AdventureGame.Engine
         public SoundEffect tickSoundEffect = Globals.content.Load<SoundEffect>("Sounds/blip");
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
         public bool markForRemoval = false;
-        public Action<Entity, Entity, float> onDialogueComplete;
+        //public Action<Entity, Entity, float> onDialogueComplete;
+        public Action<Entity> onDialogueComplete;
 
         public Dialogue(string text = null, Entity entity = null, Texture2D texture = null,
                         int tickDelay = 5, bool playTickSoundEffect = true,
                         SoundEffect tickSoundEffect = default,
-                        Action<Entity, Entity, float> onDialogueComplete = null)
+                        //Action<Entity, Entity, float> onDialogueComplete = null)
+                        Action<Entity> onDialogueComplete = null)
         {
             this.text = text + " >";
             this.entity = entity;

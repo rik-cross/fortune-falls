@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -22,7 +23,7 @@ namespace AdventureGame.Engine
         }
 
         // Test for NPC interactions
-        public static void BlacksmithDialogue(Entity triggerEntity, Entity playerEntity, float distance)
+        public static void BlacksmithDialogue(Entity npcEntity, Entity playerEntity, float distance)
         {
             if (!playerEntity.IsPlayerType())
                 return;
@@ -34,10 +35,21 @@ namespace AdventureGame.Engine
                 DialogueComponent dialogueComponent = playerEntity.GetComponent<DialogueComponent>();
                 if (dialogueComponent != null && !dialogueComponent.HasPages())
                 {
-                    Cutscene.Test();
+                    //Cutscene.Test();
 
-                    // Change to try to get thumbnail image
-                    Texture2D thumbnail = triggerEntity.GetComponent<ThumbnailComponent>().ThumbnailImage;
+                    // Set the idle state depending on which direction the player is
+                    npcEntity.PrevState = npcEntity.State;
+                    Console.WriteLine(npcEntity.PrevState);
+                    if (playerEntity.GetComponent<TransformComponent>().X > npcEntity.GetComponent<TransformComponent>().X)
+                        npcEntity.State = "idle_right";
+                    else
+                        npcEntity.State = "idle_left";
+
+                    // Try to get thumbnail image
+                    ThumbnailComponent thumbnailComponent = npcEntity.GetComponent<ThumbnailComponent>();
+                    Texture2D thumbnail = null;
+                    if (thumbnailComponent != null && thumbnailComponent.ThumbnailImage != null)
+                        thumbnail = thumbnailComponent.ThumbnailImage;
 
                     // Choose the dialogue options depending on the player progress
                     InventoryComponent playerInventory = playerEntity.GetComponent<InventoryComponent>();
@@ -54,11 +66,17 @@ namespace AdventureGame.Engine
 
                         dialogueComponent.AddPage("The world could sure do with more kind folk like you.", thumbnail);
 
+                        // Bug: tries to set player state rather than NPC state
+                        //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
+
                     }
                     else if (keyItems.ContainsItem("KeyPlayerHouse"))
                     {
                         dialogueComponent.AddPage("I see you'll be able to access that house of yours now.", thumbnail);
                         dialogueComponent.AddPage("Let me know if you do find a healing potion amongst your things.", thumbnail);
+
+                        // Bug: tries to set player state rather than NPC state
+                        //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
                     }
                     else
                     {
@@ -66,6 +84,9 @@ namespace AdventureGame.Engine
                         dialogueComponent.AddPage("You must be the newbie in town. Word gets around here fast.", thumbnail);
                         dialogueComponent.AddPage("Missing your key hey? Well I ain't seen it sad to say.", thumbnail);
                         dialogueComponent.AddPage("But if you find a healing potion then I'd be mighty interested.", thumbnail);
+
+                        // Bug: tries to set player state rather than NPC state
+                        //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
                     }
                 }
             }

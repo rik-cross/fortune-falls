@@ -18,12 +18,16 @@ namespace AdventureGame
             Engine.SpriteComponent spriteComponent = vfxEntity.AddComponent<Engine.SpriteComponent>();
             spriteComponent.AddAnimatedSprite(dir + filename, defaultState, startFrame, endFrame);
 
+            // Set the layer depth to draw above the default sprite layer depth
+            if (layerAbove)
+                spriteComponent.GetSprite(defaultState).layerDepth = 0.3f;
+
+            // Set state
+            vfxEntity.State = defaultState;
+
             // Add other components
             Vector2 imageSize = spriteComponent.GetSpriteSize(defaultState);
             vfxEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
-
-            // Todo
-            // How to make the entity draw layer above other layers?
 
             return vfxEntity;
         }

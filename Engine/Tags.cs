@@ -36,7 +36,7 @@ namespace AdventureGame.Engine
         // Clear the Id tag
         public void ClearId()
         {
-            Id = "";
+            Id = string.Empty;
         }
 
         // Clear the Type tags

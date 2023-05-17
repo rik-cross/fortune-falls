@@ -62,8 +62,14 @@ namespace AdventureGame.Engine
                 {
                     Globals.spriteBatch.DrawCircle(
                         new CircleF(
-                            new Vector2(tc.position.X + pc.offset.X + p.offset.X, tc.position.Y + pc.offset.Y + p.offset.Y),
-                            (float)p.size/2), 20, p.colour, thickness: (float)p.size/2);
+                            new Vector2(
+                                tc.position.X + pc.offset.X + p.offset.X, tc.position.Y + pc.offset.Y + p.offset.Y),
+                                (float)p.size / 2),
+                        sides: 20,
+                        color: p.colour,
+                        thickness: (float)p.size / 2,
+                        layerDepth: 0.3f
+                    );
                 }
             }
         }

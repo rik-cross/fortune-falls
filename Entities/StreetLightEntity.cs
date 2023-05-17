@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using AdventureGame.Engine;
+using System.Collections.Generic;
 
 namespace AdventureGame
 {
@@ -13,14 +14,19 @@ namespace AdventureGame
 
             // Add sprites
             string dir = "Objects/";
-            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>(
-                new SpriteComponent(dir + filename));
+            Engine.SpriteComponent spriteComponent = entity.AddComponent<Engine.SpriteComponent>();
+
+            List<string> spriteKeys = new List<string>() { "light_off", "light_on" };
+            spriteComponent.AddMultipleStaticSprites(dir + filename, spriteKeys);
+
+            // Set state
+            entity.State = "light_off";
 
             // Add other components
-            Vector2 size = spriteComponent.GetSpriteSize();
+            Vector2 size = spriteComponent.GetSpriteSize(entity.State);
             entity.AddComponent(new Engine.TransformComponent(
-                new Vector2(x, y),
-                size
+                position: new Vector2(x, y),
+                size: size
             ));
 
             entity.AddComponent(new Engine.ColliderComponent(

@@ -38,7 +38,11 @@ namespace AdventureGame.Engine
         {
             EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
             if (emoteComponent.showBackground)
-                Globals.spriteBatch.FillRectangle(emoteComponent.emoteBackground, Theme.ColorTertiary * (float)emoteComponent.alpha.Value);
+                Globals.spriteBatch.FillRectangle(
+                    emoteComponent.emoteBackground,
+                    Theme.ColorTertiary * (float)emoteComponent.alpha.Value,
+                    layerDepth: 0.1f
+                );
             emoteComponent.emoteImage.Draw();
         }
     }

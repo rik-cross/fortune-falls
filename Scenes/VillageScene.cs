@@ -55,20 +55,21 @@ namespace AdventureGame
             AddEntity(BuildingEntity.Create(520, 218, "woodworker_01", buildingKeys, "door_closed"));
 
             //
-            // Add objects and VFX
+            // Add objects
             //
             AddEntity(TreeEntity.Create(40, 90, "tree"));
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
-            AddEntity(VFXEntity.Create(257, 95, "chimneysmoke_01_strip30", 0, 29));
+            AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
 
             // Chest
             // Todo add List<Items> to the constructor?
             Entity chestEntity = ChestEntity.Create(50, 150, "chest", "closed", 10);
             AddEntity(chestEntity);
             InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-            //chestInventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 10, stackSize: 20));
-            //chestInventory.AddItem(new Item("PotionBlue", "Items/P_Blue01", quantity: 10, stackSize: 10));
+            chestInventory.AddItem(new Item("coin", "Items/coin", quantity: 1, stackSize: 100));
+            chestInventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
+            chestInventory.AddItem(new Item("coin", "Items/coin", quantity: 1, stackSize: 100));
 
             //
             // Add NPCs
@@ -81,10 +82,7 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            // Test code only, remove once content loading works.
-            Engine.EmoteComponent ec = new Engine.EmoteComponent(GameAssets.emote_pickaxe);
-            ec.showBackground = false;
-            EngineGlobals.entityManager.GetLocalPlayer().AddComponent(ec);
+
         }
 
         public override void Input(GameTime gameTime)

@@ -63,7 +63,7 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(40, 90, "tree"));
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
-            AddEntity(VFXEntity.Create(257, 95, "chimneysmoke_01_strip30", 0, 29));
+            AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
 
             // Chest
             // Todo add List<Items> to the constructor?

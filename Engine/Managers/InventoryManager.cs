@@ -153,11 +153,11 @@ namespace AdventureGame.Engine
             {
                 // Initialise the item position to below the bottom center of the entity
                 itemX = (int)transformComponent.Center - item.Texture.Width / 2;
-                itemY = (int)transformComponent.Bottom + 5;
+                itemY = (int)transformComponent.Bottom;
 
                 // Offset the item X and Y position by a pseudo-random amount
-                randomX = random.Next(0, 30);
-                randomY = random.Next(0, 11);
+                randomX = random.Next(0, 20);
+                randomY = random.Next(0, 4);
             }
             else
             {

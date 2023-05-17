@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-
 using Microsoft.Xna.Framework.Graphics;
 
 using S = System.Diagnostics.Debug;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -134,7 +134,7 @@ namespace AdventureGame.Engine
                 rotation: 0.0f,
                 origin: Vector2.Zero,
                 effects: se,
-                layerDepth: 0.0f
+                layerDepth: currentSprite.layerDepth
             );
 
 

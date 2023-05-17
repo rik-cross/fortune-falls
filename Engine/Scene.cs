@@ -585,7 +585,7 @@ namespace AdventureGame.Engine
 
 
                 // draw systems below map
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
