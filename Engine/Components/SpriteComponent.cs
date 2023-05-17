@@ -47,7 +47,8 @@ namespace AdventureGame.Engine
         // Add a static sprite from a single image
         public void AddSprite(string filePath, string key = "default")
         {
-            Sprite sprite = new Sprite(Globals.content.Load<Texture2D>(filePath));
+            //Sprite sprite = new Sprite(Globals.content.Load<Texture2D>(filePath));
+            Sprite sprite = new Sprite(Engine.Utils.LoadTexture(filePath + ".png"));
             SpriteDict[key] = sprite;
         }
 
