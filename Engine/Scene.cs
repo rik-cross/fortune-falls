@@ -363,6 +363,32 @@ namespace AdventureGame.Engine
             return 0;
         }
 
+        public static int CompareLayerDepth(Entity a, Entity b)
+        {
+            SpriteComponent scA = a.GetComponent<SpriteComponent>();
+            SpriteComponent scB = b.GetComponent<SpriteComponent>();
+
+            if (scA == null && scB == null) return 0;
+            else if (scA == null) return -1;
+            else if (scB == null) return 1;
+
+            Sprite spriteA = scA.GetSprite(a.State);
+            Sprite spriteB = scB.GetSprite(b.State);
+
+            if (spriteA == null && spriteB == null) return 0;
+            else if (spriteA == null) return -1;
+            else if (spriteB == null) return 1;
+
+            int layerDepthA = spriteA.layerDepth;
+            int layerDepthB = spriteB.layerDepth;
+
+            if (layerDepthA == layerDepthB) return 0;
+            else if (layerDepthA > layerDepthB) return 1;
+            else if (layerDepthA < layerDepthB) return -1;
+
+            return 0;
+        }
+
         public virtual void _Input(GameTime gameTime)
         {
             if(InputSceneBelow)
@@ -472,7 +498,8 @@ namespace AdventureGame.Engine
                 }
             }
             // sort entities in scene
-            EntityList.Sort(CompareY);
+            //EntityList.Sort(CompareY);
+            EntityList.Sort(CompareLayerDepth);
 
 
             // update cameras
@@ -585,7 +612,9 @@ namespace AdventureGame.Engine
 
 
                 // draw systems below map
-                Globals.spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                //Globals.spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                //Globals.spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {

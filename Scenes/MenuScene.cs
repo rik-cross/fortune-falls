@@ -41,7 +41,7 @@ namespace AdventureGame
 
         public void LoadTestScene(UIButton button)
         {
-            Vector2 playerPosition = new Vector2(220, 170);
+            Vector2 playerPosition = new Vector2(100, 100);
 
             // Add the MenuScene to the scene stack
             EngineGlobals.sceneManager.SetActiveScene<TestScene>(unloadCurrentScene: false);

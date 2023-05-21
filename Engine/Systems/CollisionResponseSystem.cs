@@ -678,13 +678,13 @@ namespace AdventureGame.Engine
         public override void Update(GameTime gameTime, Scene scene)
         {
             // Testing
-            if (entityList.Count > 0)
-            {
-                Console.Write("Collisions to resolve!! ");
-                foreach (Entity e in entityList)
-                    Console.Write(e.Id + ", ");
-                Console.WriteLine();
-            }
+            //if (entityList.Count > 0)
+            //{
+            //    Console.Write("Collisions to resolve!! ");
+            //    foreach (Entity e in entityList)
+            //        Console.Write(e.Id + ", ");
+            //    Console.WriteLine();
+            //}
 
             // All collisions set stores the active collisions that are valid
             // e.g. entities that are moving.

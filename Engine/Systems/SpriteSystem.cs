@@ -134,7 +134,7 @@ namespace AdventureGame.Engine
                 rotation: 0.0f,
                 origin: Vector2.Zero,
                 effects: se,
-                layerDepth: currentSprite.layerDepth
+                layerDepth: 0.0f //currentSprite.layerDepth
             );
 
 

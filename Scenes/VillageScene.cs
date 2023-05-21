@@ -57,19 +57,40 @@ namespace AdventureGame
             //
             // Add objects
             //
+            string dirObj = "Objects/";
+            string dirItem = "Items/";
+
             AddEntity(TreeEntity.Create(40, 90, "tree"));
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
             AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
 
             // Chest
-            // Todo add List<Items> to the constructor?
-            Entity chestEntity = ChestEntity.Create(50, 150, "chest", "closed", 10);
-            AddEntity(chestEntity);
-            InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-            chestInventory.AddItem(new Item("coin", "Items/coin", quantity: 1, stackSize: 100));
-            chestInventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
-            chestInventory.AddItem(new Item("coin", "Items/coin", quantity: 1, stackSize: 100));
+            List<Item> chestItems = new List<Item>()
+            {
+                new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100),
+                new Item("wood", dirItem + "wood", quantity: 1, stackSize: 10),
+                new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100)
+            };
+            AddEntity(ChestEntity.Create(199, 122, "chest", "closed", 10, chestItems));
+
+            // Shop outside tables
+            AddEntity(ObjectEntity.Create(272, 330, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(273, 327, "cup_01"));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(336, 330, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(339, 328, "book_01"));//, layerDepth: 0.3f));
+
+            // Campfire
+            AddEntity(ObjectEntity.Create(485, 245, "campfire"));
+            AddEntity(VFXEntity.Create(494, 244, "spr_deco_fire_01_strip4", 0, 3, "fire"));
+            AddEntity(VFXEntity.Create(475, 225, "chimneysmoke_05_strip30", 0, 29, "smoke"));
+
+            //
+            // Add items
+            //
+            Item blacksmithSword = new Item("sword", dirObj + "sword", itemHealth: 100);
+            AddEntity(ItemEntity.Create(206, 159, blacksmithSword, false));
+
 
             //
             // Add NPCs

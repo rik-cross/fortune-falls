@@ -1,5 +1,6 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
@@ -7,7 +8,7 @@ namespace AdventureGame
     public static class ChestEntity {
 
         public static Engine.Entity Create(int x, int y, string filename,
-            string defaultState = "closed", int inventorySize = 20)
+            string defaultState = "closed", int inventorySize = 20, List<Item> items = null)
         {
             Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
             entity.Tags.AddTag("chest");
@@ -39,7 +40,12 @@ namespace AdventureGame
                 onCollide: SwitchToOpenState
             ));
 
-            entity.AddComponent(new Engine.InventoryComponent(inventorySize));
+            // Add inventory and items
+            InventoryComponent inventory = entity.AddComponent<InventoryComponent>(
+                new Engine.InventoryComponent(inventorySize));
+
+            foreach (Item item in items)
+                inventory.AddItem(item);
 
             return entity;
         }

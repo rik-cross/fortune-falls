@@ -8,6 +8,14 @@ namespace AdventureGame.Engine
         public Vector2 previousPosition;
         public Vector2 size;
 
+        // Todo
+        // Make above properites get & set
+        // Add property for Z offset
+        // Calculate Z when setting Y using Y and Z-Offset
+        // Remove all layerDepth from Sprite?
+        // Groups for static and non-static entities? No...
+        // Check whether Z should be Y or Bottom
+
         // Properties to get and set the size and position
         public float Width
         {

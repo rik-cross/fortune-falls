@@ -13,7 +13,7 @@ namespace AdventureGame
 
         public TestScene()
         {
-            EngineGlobals.DEBUG = true;
+            EngineGlobals.DEBUG = false;
         }
 
         public override void LoadContent()
@@ -60,18 +60,44 @@ namespace AdventureGame
             //
             // Add objects
             //
-            AddEntity(TreeEntity.Create(40, 90, "tree"));
+            string dirObj = "Objects/";
+            string dirItem = "Items/";
+
+            // Layer test trees
+            AddEntity(TreeEntity.Create(40, 90, "tree"));//, layerDepth: 0.7f)); // top
+            AddEntity(TreeEntity.Create(45, 150, "tree"));//, layerDepth: 0.4f)); // bottom
+            AddEntity(TreeEntity.Create(40, 130, "tree"));//, layerDepth: 0.5f)); // mid-bottom
+            AddEntity(TreeEntity.Create(45, 110, "tree"));//, layerDepth: 0.6f)); // mid-top
+
+            // Layer test tables
+            AddEntity(ObjectEntity.Create(90, 80, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(91, 77, "cup_01"));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(113, 78, "book_01"));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(110, 80, "table_01"));//, layerDepth: 0.4f));
+
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
             AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
 
             // Chest
-            // Todo add List<Items> to the constructor?
-            Entity chestEntity = ChestEntity.Create(50, 150, "chest", "closed", 10);
-            AddEntity(chestEntity);
-            InventoryComponent chestInventory = chestEntity.GetComponent<InventoryComponent>();
-            //chestInventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 10, stackSize: 20));
-            //chestInventory.AddItem(new Item("PotionBlue", "Items/P_Blue01", quantity: 10, stackSize: 10));
+            List<Item> chestItems = new List<Item>()
+            {
+                new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100),
+                new Item("wood", dirItem + "wood", quantity: 1, stackSize: 10),
+                new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100)
+            };
+            AddEntity(ChestEntity.Create(199, 122, "chest", "closed", 10, chestItems));
+
+            // Shop outside tables
+            AddEntity(ObjectEntity.Create(272, 330, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(273, 327, "cup_01"));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(336, 330, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(339, 328, "book_01"));//, layerDepth: 0.3f));
+
+            // Campfire
+            AddEntity(ObjectEntity.Create(485, 245, "campfire"));
+            AddEntity(VFXEntity.Create(494, 244, "spr_deco_fire_01_strip4", 0, 3, "fire"));
+            AddEntity(VFXEntity.Create(475, 225, "chimneysmoke_05_strip30", 0, 29, "smoke"));
 
             // Street lights
             AddEntity(StreetLightEntity.Create(30, 260, "light"));
