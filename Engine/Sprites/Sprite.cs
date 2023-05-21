@@ -13,7 +13,6 @@ namespace AdventureGame.Engine
         public Vector2 offset;
         public bool flipH;
         public bool flipV;
-        public int layerDepth;
 
         public bool play;
         public bool loop;
@@ -24,7 +23,7 @@ namespace AdventureGame.Engine
         public Action<Entity> OnComplete;
 
         public Sprite(Texture2D texture, Vector2 size = default, Vector2 offset = default,
-            bool flipH = false, bool flipV = false, int layerDepth = 0)
+            bool flipH = false, bool flipV = false)
         {
             textureList.Add(texture);
 
@@ -40,7 +39,6 @@ namespace AdventureGame.Engine
 
             this.flipH = flipH;
             this.flipV = flipV;
-            this.layerDepth = layerDepth;
 
             play = false;
             loop = false;
@@ -51,7 +49,7 @@ namespace AdventureGame.Engine
         }
 
         public Sprite(List<Texture2D> textureList, Vector2 offset = default,
-            bool flipH = false, bool flipV = false, int layerDepth = 0,
+            bool flipH = false, bool flipV = false,
             bool play = true, bool loop = true, int delay = 6)
         {
             this.textureList = textureList;
@@ -64,7 +62,6 @@ namespace AdventureGame.Engine
 
             this.flipH = flipH;
             this.flipV = flipV;
-            this.layerDepth = layerDepth;
 
             this.play = play;
             this.loop = loop;

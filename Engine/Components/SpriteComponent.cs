@@ -22,10 +22,10 @@ namespace AdventureGame.Engine
         }
 
         // Constructor for a single static sprite
-        public SpriteComponent(string filePath, string key = "default", int layerDepth = 0)
+        public SpriteComponent(string filePath, string key = "default")
         {
             SpriteDict = new Dictionary<string, Sprite>();
-            AddSprite(filePath, key, layerDepth: layerDepth);
+            AddSprite(filePath, key);
             lastState = key;
         }
 
@@ -45,18 +45,16 @@ namespace AdventureGame.Engine
         }
 
         // Add a static sprite from a single image
-        public void AddSprite(string filePath, string key = "default", int layerDepth = 0)
+        public void AddSprite(string filePath, string key = "default")
         {
-            Sprite sprite = new Sprite(Globals.content.Load<Texture2D>(filePath),
-                layerDepth: layerDepth);
+            Sprite sprite = new Sprite(Globals.content.Load<Texture2D>(filePath));
             //Sprite sprite = new Sprite(Engine.Utils.LoadTexture(filePath + ".png"));
             SpriteDict[key] = sprite;
         }
 
         // Add a static sprite from a sprite sheet
         public void AddSprite(string filePath, string key,
-            int frame, int endFrame, int totalRows = 1, int framesPerRow = -1,
-            int layerDepth = 0)
+            int frame, int endFrame, int totalRows = 1, int framesPerRow = -1)
         {
             // Load the sprite sheet
             Texture2D spriteSheet = Globals.content.Load<Texture2D>(filePath);
@@ -76,7 +74,7 @@ namespace AdventureGame.Engine
             // Add the sprite
             Texture2D texture = GetSubTexture(spriteSheet, x, y, frameWidth, frameHeight);
             //Sprite sprite = new Sprite(texture, spriteSize, offset, flipH, flipV);
-            AddSprite(key, new Sprite(texture, layerDepth: layerDepth));
+            AddSprite(key, new Sprite(texture));
         }
 
         // Add multiple static sprites from a single spritesheet
@@ -116,7 +114,7 @@ namespace AdventureGame.Engine
         // Todo change delay to speed (FPS)?
         public void AddAnimatedSprite(string filePath, string key,
             int startFrame, int endFrame, int totalRows = 1, int framesPerRow = -1,
-            Vector2 offset = default, bool flipH = false, bool flipV = false, int layerDepth = 0,
+            Vector2 offset = default, bool flipH = false, bool flipV = false,
             bool play = true, bool loop = true, int delay = 6)
         {
             // Load the sprite sheet
@@ -141,7 +139,7 @@ namespace AdventureGame.Engine
                 subTextures.Add(GetSubTexture(spriteSheet, x, y, frameWidth, frameHeight));
             }
 
-            Sprite sprite = new Sprite(subTextures, offset, flipH, flipV, layerDepth, play, loop, delay);
+            Sprite sprite = new Sprite(subTextures, offset, flipH, flipV, play, loop, delay);
             AddSprite(key, sprite);
         }
 

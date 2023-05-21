@@ -362,7 +362,7 @@ namespace AdventureGame.Engine
             
             return 0;
         }
-
+        /*
         public static int CompareLayerDepth(Entity a, Entity b)
         {
             SpriteComponent scA = a.GetComponent<SpriteComponent>();
@@ -387,7 +387,7 @@ namespace AdventureGame.Engine
             else if (layerDepthA < layerDepthB) return -1;
 
             return 0;
-        }
+        }*/
 
         public virtual void _Input(GameTime gameTime)
         {
@@ -499,7 +499,7 @@ namespace AdventureGame.Engine
             }
             // sort entities in scene
             //EntityList.Sort(CompareY);
-            EntityList.Sort(CompareLayerDepth);
+            //EntityList.Sort(CompareLayerDepth);
 
 
             // update cameras
