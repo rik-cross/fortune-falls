@@ -8,8 +8,7 @@ namespace AdventureGame
     public static class ChestEntity {
 
         public static Engine.Entity Create(int x, int y, string filename,
-            string defaultState = "closed", int inventorySize = 20,
-            List<Item> items = null)
+            string defaultState = "closed", int inventorySize = 20, List<Item> items = null)
         {
             Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
             entity.Tags.AddTag("chest");
@@ -41,10 +40,10 @@ namespace AdventureGame
                 onCollide: SwitchToOpenState
             ));
 
+            // Add inventory and items
             InventoryComponent inventory = entity.AddComponent<InventoryComponent>(
                 new Engine.InventoryComponent(inventorySize));
 
-            // Add items
             foreach (Item item in items)
                 inventory.AddItem(item);
 

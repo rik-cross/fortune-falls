@@ -13,7 +13,6 @@ namespace AdventureGame.Engine
         public Vector2 offset;
         public bool flipH;
         public bool flipV;
-        public float layerDepth;
 
         public bool play;
         public bool loop;
@@ -40,7 +39,6 @@ namespace AdventureGame.Engine
 
             this.flipH = flipH;
             this.flipV = flipV;
-            layerDepth = 0.5f;
 
             play = false;
             loop = false;
@@ -64,7 +62,6 @@ namespace AdventureGame.Engine
 
             this.flipH = flipH;
             this.flipV = flipV;
-            layerDepth = 0.5f;
 
             this.play = play;
             this.loop = loop;

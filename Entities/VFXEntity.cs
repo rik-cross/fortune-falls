@@ -19,8 +19,8 @@ namespace AdventureGame
             spriteComponent.AddAnimatedSprite(dir + filename, defaultState, startFrame, endFrame);
 
             // Set the layer depth to draw above the default sprite layer depth
-            if (layerAbove)
-                spriteComponent.GetSprite(defaultState).layerDepth = 0.2f;
+            //if (layerAbove)
+                // raise Z level
 
             // Set state
             vfxEntity.State = defaultState;

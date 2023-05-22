@@ -79,10 +79,10 @@ namespace AdventureGame
             AddEntity(ChestEntity.Create(199, 122, "chest", "closed", 10, chestItems));
 
             // Shop outside tables
-            //AddEntity(ObjectEntity.Create(272, 330, "table_01", layerDepth: 0.4f));
-            //AddEntity(ObjectEntity.Create(273, 327, "cup_01", layerDepth: 0.3f));
-            //AddEntity(ObjectEntity.Create(336, 330, "table_01", layerDepth: 0.4f));
-            //AddEntity(ObjectEntity.Create(339, 328, "book_01", layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(272, 330, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(273, 327, "cup_01"));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(336, 330, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(339, 328, "book_01"));//, layerDepth: 0.3f));
 
             // Campfire
             AddEntity(ObjectEntity.Create(485, 245, "campfire"));
