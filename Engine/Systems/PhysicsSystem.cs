@@ -19,7 +19,7 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // Set the previous position to the current position
-            transformComponent.previousPosition = transformComponent.position;
+            transformComponent.PreviousPosition = transformComponent.Position;
             physicsComponent.PreviousVelocity = physicsComponent.Velocity;
 
             // Change:
@@ -65,7 +65,7 @@ namespace AdventureGame.Engine
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 Vector2 velocity = direction * speed * deltaTime;
 
-                transformComponent.position += velocity;
+                transformComponent.Position += velocity;
                 physicsComponent.Velocity = velocity;
             }
             else

@@ -63,7 +63,7 @@ namespace AdventureGame.Engine
                     Globals.spriteBatch.DrawCircle(
                         new CircleF(
                             new Vector2(
-                                tc.position.X + pc.offset.X + p.offset.X, tc.position.Y + pc.offset.Y + p.offset.Y),
+                                tc.Position.X + pc.offset.X + p.offset.X, tc.Position.Y + pc.offset.Y + p.offset.Y),
                                 (float)p.size / 2),
                         sides: 20,
                         color: p.colour,

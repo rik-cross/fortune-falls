@@ -306,7 +306,7 @@ namespace AdventureGame.Engine
 
             // Add the player to the next scene
             TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
-            transformComponent.position = playerPosition;
+            transformComponent.Position = playerPosition;
             nextScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
             //nextScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
             nextScene.AddEntity(player);

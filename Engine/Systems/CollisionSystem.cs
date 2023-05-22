@@ -26,7 +26,7 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // Initialise the bounding box
-            colliderComponent.GetBoundingBox(transformComponent.position);
+            colliderComponent.GetBoundingBox(transformComponent.Position);
         }
 
         public override void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity)
@@ -160,7 +160,7 @@ namespace AdventureGame.Engine
                 if (transformComponent.HasMoved())
                 {
                     ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
-                    colliderComponent.GetBoundingBox(transformComponent.position);
+                    colliderComponent.GetBoundingBox(transformComponent.Position);
                 }
 
                 // Broad-phase here too??

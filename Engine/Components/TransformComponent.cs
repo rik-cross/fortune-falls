@@ -4,9 +4,9 @@ namespace AdventureGame.Engine
 {
     class TransformComponent : Component
     {
-        public Vector2 position;
-        public Vector2 previousPosition;
-        public Vector2 size;
+        public Vector2 Position;
+        public Vector2 PreviousPosition;
+        public Vector2 Size;
         public int DrawOrder { get; private set; }
         public int DrawOrderOffset { get; private set; }
         public bool UpdateDrawOrder { get; set; }
@@ -14,76 +14,76 @@ namespace AdventureGame.Engine
         // Properties to get and set the size and position
         public float Width
         {
-            get { return size.X; }
-            set { size.X = value; }
+            get { return Size.X; }
+            set { Size.X = value; }
         }
         public float Height
         {
-            get { return size.Y; }
-            set { size.Y = value; }
+            get { return Size.Y; }
+            set { Size.Y = value; }
         }
         public float X
         {
-            get { return position.X; }
-            set { position.X = value; }
+            get { return Position.X; }
+            set { Position.X = value; }
         }
         public float Y
         {
-            get { return position.Y; }
-            set { position.Y = value; }
+            get { return Position.Y; }
+            set { Position.Y = value; }
         }
         public float Top
         {
-            get { return position.Y; }
-            set { position.Y = value; }
+            get { return Position.Y; }
+            set { Position.Y = value; }
         }
         public float Middle
         {
-            get { return position.Y + (size.Y / 2); }
-            set { position.Y = value - (size.Y / 2); }
+            get { return Position.Y + (Size.Y / 2); }
+            set { Position.Y = value - (Size.Y / 2); }
         }
         public float Bottom
         {
-            get { return position.Y + size.Y; }
-            set { position.Y = value - size.Y; }
+            get { return Position.Y + Size.Y; }
+            set { Position.Y = value - Size.Y; }
         }
         public float Left
         {
-            get { return position.X; }
-            set { position.X = value; }
+            get { return Position.X; }
+            set { Position.X = value; }
         }
         public float Center
         {
-            get { return position.X + (size.X / 2); }
-            set { position.X = value - (size.X / 2); }
+            get { return Position.X + (Size.X / 2); }
+            set { Position.X = value - (Size.X / 2); }
         }
         public float Right
         {
-            get { return position.X + size.X; }
-            set { position.X = value - size.X; }
+            get { return Position.X + Size.X; }
+            set { Position.X = value - Size.X; }
         }
 
         public TransformComponent(Vector2 position, Vector2 size)
         {
-            this.position = position;
-            this.previousPosition = position;
-            this.size = size;
+            this.Position = position;
+            this.PreviousPosition = position;
+            this.Size = size;
             InitDrawOrder();
         }
 
         public TransformComponent(int x, int y, int w, int h)
         {
-            this.position = new Vector2(x, y);
-            this.previousPosition = position;
-            this.size = new Vector2(w, h);
+            this.Position = new Vector2(x, y);
+            this.PreviousPosition = Position;
+            this.Size = new Vector2(w, h);
             InitDrawOrder();
         }
 
         public TransformComponent(Rectangle rect)
         {
-            position = new Vector2(rect.X, rect.Y);
-            previousPosition = position;
-            size = new Vector2(rect.Width, rect.Height);
+            Position = new Vector2(rect.X, rect.Y);
+            PreviousPosition = Position;
+            Size = new Vector2(rect.Width, rect.Height);
             InitDrawOrder();
         }
 
@@ -108,54 +108,54 @@ namespace AdventureGame.Engine
         public Vector2 GetCenter()
         {
             return new Vector2(
-                position.X + (size.X / 2),
-                position.Y + (size.Y / 2)
+                Position.X + (Size.X / 2),
+                Position.Y + (Size.Y / 2)
             );
         }
 
         public Rectangle GetRectangle()
         {
             return new Rectangle(
-                (int)position.X,
-                (int)position.Y,
-                (int)size.X,
-                (int)size.Y
+                (int)Position.X,
+                (int)Position.Y,
+                (int)Size.X,
+                (int)Size.Y
             );
         }
 
         public bool HasMoved()
         {
-            return position != previousPosition;
+            return Position != PreviousPosition;
         }
 
         public bool HasMovedX()
         {
-            return position.X != previousPosition.X;
+            return Position.X != PreviousPosition.X;
         }
 
         public bool HasMovedY()
         {
-            return position.Y != previousPosition.Y;
+            return Position.Y != PreviousPosition.Y;
         }
 
         public Vector2 DistanceMoved()
         {
-            return position - previousPosition;
+            return Position - PreviousPosition;
         }
 
         public void ToPrevious()
         {
-            position = previousPosition;
+            Position = PreviousPosition;
         }
 
         public void ToPreviousX()
         {
-            position = new Vector2(previousPosition.X, position.Y);
+            Position = new Vector2(PreviousPosition.X, Position.Y);
         }
 
         public void ToPreviousY()
         {
-            position = new Vector2(position.X, previousPosition.Y);
+            Position = new Vector2(Position.X, PreviousPosition.Y);
         }
     }
 

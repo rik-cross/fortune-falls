@@ -156,7 +156,7 @@ namespace AdventureGame
             if (EngineGlobals.entityManager.GetLocalPlayer() != null)
             {
                 Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-                Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
+                Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
 
                 //Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                 Globals.spriteBatch.DrawString(Theme.FontTertiary,
@@ -524,7 +524,7 @@ namespace AdventureGame
 
             // Move the player to the given position
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            player.GetComponent<TransformComponent>().position = new Vector2(x, y);
+            player.GetComponent<TransformComponent>().Position = new Vector2(x, y);
         }
 
         public void CollectAllItemsById()

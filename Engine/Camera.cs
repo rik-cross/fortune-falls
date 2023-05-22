@@ -119,8 +119,8 @@ namespace AdventureGame.Engine
                 if (transformComponent != null)
                 {
                     SetWorldPosition(new Vector2(
-                        (int)transformComponent.position.X + (transformComponent.size.X / 2),
-                        (int)transformComponent.position.Y + (transformComponent.size.Y / 2))
+                        (int)transformComponent.Position.X + (transformComponent.Size.X / 2),
+                        (int)transformComponent.Position.Y + (transformComponent.Size.Y / 2))
                     );
                 }
             }

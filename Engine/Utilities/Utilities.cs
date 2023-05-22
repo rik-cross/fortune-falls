@@ -68,7 +68,7 @@ namespace AdventureGame.Engine
 
                                 // reduce alpha if there's an overlap
                                 if (tce.GetRectangle().Intersects(tco.GetRectangle()) &&
-                                    tce.position.Y + cce.Offset.Y + cce.Size.Y - 5 < tco.position.Y + cco.Offset.Y )
+                                    tce.Position.Y + cce.Offset.Y + cce.Size.Y - 5 < tco.Position.Y + cco.Offset.Y )
                                 {
                                     sco.alpha = 0.5f;
                                 }

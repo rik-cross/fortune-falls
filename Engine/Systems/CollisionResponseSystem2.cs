@@ -448,10 +448,10 @@ namespace AdventureGame.Engine
                 bool isOtherMoving = IsEntityMoving(otherEntity);
 
                 // Re-create the bounding boxes in case collisions have already been resolved
-                Rectangle box = colliderComponent.GetBoundingBox(transformComponent.position);
+                Rectangle box = colliderComponent.GetBoundingBox(transformComponent.Position);
                 Rectangle otherBox;
                 if (isOtherMoving)
-                    otherBox = otherColliderComponent.GetBoundingBox(otherTransformComponent.position);
+                    otherBox = otherColliderComponent.GetBoundingBox(otherTransformComponent.Position);
                 else
                     otherBox = otherColliderComponent.Box;
 
@@ -775,10 +775,10 @@ namespace AdventureGame.Engine
                     bool isOtherMoving = IsEntityMoving(otherEntity);
 
                     // Re-create the bounding boxes in case collisions have already been resolved
-                    Rectangle box = colliderComponent.GetBoundingBox(transformComponent.position);
+                    Rectangle box = colliderComponent.GetBoundingBox(transformComponent.Position);
                     Rectangle otherBox;
                     if (isOtherMoving)
-                        otherBox = otherColliderComponent.GetBoundingBox(otherTransformComponent.position);
+                        otherBox = otherColliderComponent.GetBoundingBox(otherTransformComponent.Position);
                     else
                         otherBox = otherColliderComponent.Box;
 
@@ -934,10 +934,10 @@ namespace AdventureGame.Engine
                 bool isOtherMoving = IsEntityMoving(otherEntity);
 
                 // Re-create the bounding boxes in case collisions have already been resolved
-                Rectangle box = colliderComponent.GetBoundingBox(transformComponent.position);
+                Rectangle box = colliderComponent.GetBoundingBox(transformComponent.Position);
                 Rectangle otherBox;
                 if (isOtherMoving)
-                    otherBox = otherColliderComponent.GetBoundingBox(otherTransformComponent.position);
+                    otherBox = otherColliderComponent.GetBoundingBox(otherTransformComponent.Position);
                 else
                     otherBox = otherColliderComponent.Box;
 
@@ -1234,7 +1234,7 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = e.GetComponent<TransformComponent>();
             
             transformComponent.ToPreviousX();
-            colliderComponent.GetBoundingBox(transformComponent.position);
+            colliderComponent.GetBoundingBox(transformComponent.Position);
         }
 
         // Move the entity back to it's previous Y position and redraw the bounding box
@@ -1244,7 +1244,7 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = e.GetComponent<TransformComponent>();
 
             transformComponent.ToPreviousY();
-            colliderComponent.GetBoundingBox(transformComponent.position);
+            colliderComponent.GetBoundingBox(transformComponent.Position);
         }
 
         // Move the X position based on the calculated velocity
@@ -1257,7 +1257,7 @@ namespace AdventureGame.Engine
             if (physicsComponent == null) // Testing
                 return;
 
-            transformComponent.position.X += physicsComponent.Velocity.X;
+            transformComponent.Position.X += physicsComponent.Velocity.X;
             colliderComponent.Box.X += (int)physicsComponent.Velocity.X;
         }
 
@@ -1271,7 +1271,7 @@ namespace AdventureGame.Engine
             if (physicsComponent == null) // Testing
                 return;
 
-            transformComponent.position.Y += physicsComponent.Velocity.Y;
+            transformComponent.Position.Y += physicsComponent.Velocity.Y;
             colliderComponent.Box.Y += (int)physicsComponent.Velocity.Y;
         }
 
@@ -1281,7 +1281,7 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = e.GetComponent<TransformComponent>();
 
-            transformComponent.position.X += amount;
+            transformComponent.Position.X += amount;
             colliderComponent.Box.X += amount;
         }
 
@@ -1291,7 +1291,7 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = e.GetComponent<TransformComponent>();
 
-            transformComponent.position.Y += amount;
+            transformComponent.Position.Y += amount;
             colliderComponent.Box.Y += amount;
         }
 
@@ -1341,7 +1341,7 @@ namespace AdventureGame.Engine
             }
 
             //Console.WriteLine($"Snap position {transformComponent.position}, prev position {transformComponent.previousPosition}");
-            colliderComponent.GetBoundingBox(transformComponent.position);
+            colliderComponent.GetBoundingBox(transformComponent.Position);
         }
 
         /*

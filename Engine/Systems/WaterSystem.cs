@@ -30,8 +30,8 @@ namespace AdventureGame.Engine
 
             // create trigger rectangle
             triggerComponent.rect = new Rectangle(
-                (int)(transformComponent.position.X + triggerComponent.offset.X),
-                (int)(transformComponent.position.Y + triggerComponent.offset.Y),
+                (int)(transformComponent.Position.X + triggerComponent.offset.X),
+                (int)(transformComponent.Position.Y + triggerComponent.offset.Y),
                 (int)(triggerComponent.size.X),
                 (int)(triggerComponent.size.Y)
             );
@@ -48,10 +48,10 @@ namespace AdventureGame.Engine
                     {
 
                         // calculate distance
-                        float thisXMiddle = transformComponent.position.X + triggerComponent.offset.X + (triggerComponent.size.X / 2);
-                        float otherXMiddle = otherTransformComponent.position.X + otherTriggerComponent.offset.X + (otherTriggerComponent.size.X / 2);
-                        float thisYMiddle = transformComponent.position.Y + triggerComponent.offset.Y + (triggerComponent.size.Y / 2);
-                        float otherYMiddle = otherTransformComponent.position.Y + otherTriggerComponent.offset.Y + (otherTriggerComponent.size.Y / 2);
+                        float thisXMiddle = transformComponent.Position.X + triggerComponent.offset.X + (triggerComponent.size.X / 2);
+                        float otherXMiddle = otherTransformComponent.Position.X + otherTriggerComponent.offset.X + (otherTriggerComponent.size.X / 2);
+                        float thisYMiddle = transformComponent.Position.Y + triggerComponent.offset.Y + (triggerComponent.size.Y / 2);
+                        float otherYMiddle = otherTransformComponent.Position.Y + otherTriggerComponent.offset.Y + (otherTriggerComponent.size.Y / 2);
                         float xDiff = Math.Abs(thisXMiddle - otherXMiddle);
                         float yDiff = Math.Abs(thisYMiddle - otherYMiddle);
                         float distance = (float)Math.Sqrt((xDiff*xDiff)+(yDiff*yDiff));
@@ -113,8 +113,8 @@ namespace AdventureGame.Engine
 
             Globals.spriteBatch.DrawString(Theme.FontSecondary, triggerComponent.collidedEntities.Count.ToString(),
                 new Vector2(
-                    (int)(transformComponent.position.X + triggerComponent.offset.X),
-                    (int)(transformComponent.position.Y + triggerComponent.offset.Y)
+                    (int)(transformComponent.Position.X + triggerComponent.offset.X),
+                    (int)(transformComponent.Position.Y + triggerComponent.offset.Y)
                 ), Color.White);
         }
 

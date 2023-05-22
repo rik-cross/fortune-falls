@@ -44,8 +44,8 @@ namespace AdventureGame.Engine
             // Calculated before entity has potentially moved i.e. added to the MoveQueue
 
             // Calculate the distance to move
-            float xDistance = xPosition - transformComponent.position.X;
-            float yDistance = yPosition - transformComponent.position.Y;
+            float xDistance = xPosition - transformComponent.Position.X;
+            float yDistance = yPosition - transformComponent.Position.Y;
 
             MoveByAmount(entity, xDistance, yDistance);
         }

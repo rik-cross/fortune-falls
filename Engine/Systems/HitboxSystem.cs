@@ -17,8 +17,8 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             hitboxComponent.Rect = new Rectangle(
-                (int)transformComponent.position.X + (int)hitboxComponent.Offset.X,
-                (int)transformComponent.position.Y + (int)hitboxComponent.Offset.Y,
+                (int)transformComponent.Position.X + (int)hitboxComponent.Offset.X,
+                (int)transformComponent.Position.Y + (int)hitboxComponent.Offset.Y,
                 (int)hitboxComponent.Size.X, (int)hitboxComponent.Size.Y
             );
 

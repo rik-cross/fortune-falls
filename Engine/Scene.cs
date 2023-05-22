@@ -344,8 +344,8 @@ namespace AdventureGame.Engine
             else if (ty == null)
                 return 1;
 
-            double posX = tx.position.Y + tx.size.Y;
-            double posY = ty.position.Y + ty.size.Y;
+            double posX = tx.Position.Y + tx.Size.Y;
+            double posY = ty.Position.Y + ty.Size.Y;
 
             if (posX == posY)
             {
@@ -660,8 +660,8 @@ namespace AdventureGame.Engine
                             new Rectangle(
                                 //(int)transformComponent.position.X + (int)transformComponent.size.X / 2 - lightComponent.radius,
                                 //(int)transformComponent.position.Y + (int)transformComponent.size.X / 2 - lightComponent.radius,
-                                (int)(transformComponent.position.X - lightComponent.radius + lightComponent.offset.X),
-                                (int)(transformComponent.position.Y - lightComponent.radius + lightComponent.offset.Y),
+                                (int)(transformComponent.Position.X - lightComponent.radius + lightComponent.offset.X),
+                                (int)(transformComponent.Position.Y - lightComponent.radius + lightComponent.offset.Y),
 
                                 lightComponent.radius * 2,
                                 lightComponent.radius * 2
@@ -728,7 +728,7 @@ namespace AdventureGame.Engine
                 if (_entityManager.GetLocalPlayer() != null)
                 {
                     Entity player = _entityManager.GetLocalPlayer();
-                    Vector2 playerPosition = player.GetComponent<TransformComponent>().position;
+                    Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
 
                     Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
                     Globals.spriteBatch.DrawString(Theme.FontTertiary,

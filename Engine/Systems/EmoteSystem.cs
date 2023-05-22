@@ -19,8 +19,8 @@ namespace AdventureGame.Engine
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
 
-            Vector2 entityPosition = transformComponent.position;
-            Vector2 entitySize = transformComponent.size;
+            Vector2 entityPosition = transformComponent.Position;
+            Vector2 entitySize = transformComponent.Size;
 
             Image emoteImage = emoteComponent.emoteImage;
             emoteImage.Center = entityPosition.X + (entitySize.X / 2);
