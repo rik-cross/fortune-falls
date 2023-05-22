@@ -1233,7 +1233,7 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = e.GetComponent<TransformComponent>();
             
-            transformComponent.position.X = transformComponent.previousPosition.X;
+            transformComponent.ToPreviousX();
             colliderComponent.GetBoundingBox(transformComponent.position);
         }
 
@@ -1243,7 +1243,7 @@ namespace AdventureGame.Engine
             ColliderComponent colliderComponent = e.GetComponent<ColliderComponent>();
             TransformComponent transformComponent = e.GetComponent<TransformComponent>();
 
-            transformComponent.position.Y = transformComponent.previousPosition.Y;
+            transformComponent.ToPreviousY();
             colliderComponent.GetBoundingBox(transformComponent.position);
         }
 

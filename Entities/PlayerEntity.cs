@@ -83,6 +83,10 @@ namespace AdventureGame
             spriteComponent.GetSprite("pickaxe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
             spriteComponent.GetSprite("pickaxe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
+            // Testing - Set layer depth
+            //spriteComponent.GetSprite("idle_left").layerDepth = 0.4f;
+            //spriteComponent.GetSprite("idle_right").layerDepth = 0.4f;
+
             // Set state
             playerEntity.State = "idle_right";
 
@@ -119,7 +123,7 @@ namespace AdventureGame
             */
             playerEntity.AddComponent(new Engine.HealthComponent());
             playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
-            playerEntity.AddComponent(new Engine.InventoryComponent(40));
+            playerEntity.AddComponent(new Engine.InventoryComponent(20));
             playerEntity.AddComponent(new Engine.KeyItemsComponent());
             playerEntity.AddComponent(new Engine.CanCollectComponent());
 

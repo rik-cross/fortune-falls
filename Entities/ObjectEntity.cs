@@ -6,7 +6,7 @@ namespace AdventureGame
     public static class ObjectEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            bool isSolid = true, bool canWalkBehind = false,
+            float layerDepth = 0.5f, bool isSolid = true, bool canWalkBehind = false,
             Vector2 colliderSize = default, Vector2 colliderOffset = default,
             string idTag = null) // , bool isInteractive = false)
         {
@@ -17,6 +17,7 @@ namespace AdventureGame
             // Add sprites
             string dir = "Objects/";
             objectEntity.AddComponent(new Engine.SpriteComponent(dir + filename));
+            objectEntity.GetComponent<SpriteComponent>().GetSprite().layerDepth = layerDepth;
 
             // Add other components
             Vector2 imageSize = objectEntity.GetComponent<SpriteComponent>().GetSpriteSize();

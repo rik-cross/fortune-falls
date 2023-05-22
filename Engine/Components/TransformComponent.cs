@@ -8,10 +8,14 @@ namespace AdventureGame.Engine
         public Vector2 previousPosition;
         public Vector2 size;
 
+        public int DrawOrder { get; set; }
+        public int DrawOrderOffset { get; set; }
+        public bool UpdateDrawOrder { get; set; }
+
         // Todo
         // Make above properites get & set
         // Add property for Z offset
-        // Calculate Z when setting Y using Y and Z-Offset
+        // Calculate Z when setting all Y positions using Y and Z-Offset
         // Remove all layerDepth from Sprite?
         // Groups for static and non-static entities? No...
         // Check whether Z should be Y or Bottom
@@ -70,9 +74,10 @@ namespace AdventureGame.Engine
 
         public TransformComponent()
         {
-            this.position = new Vector2(0, 0); // change to Vector2.Zero
+            this.position = new Vector2(0, 0);
             this.previousPosition = position;
             this.size = new Vector2(0, 0);
+            InitDrawOrder();
         }
 
         public TransformComponent(Vector2 position)
@@ -80,6 +85,7 @@ namespace AdventureGame.Engine
             this.position = position;
             this.previousPosition = position;
             this.size = new Vector2(0, 0);
+            InitDrawOrder();
         }
 
         public TransformComponent(Vector2 position, Vector2 size)
@@ -87,13 +93,7 @@ namespace AdventureGame.Engine
             this.position = position;
             this.previousPosition = position;
             this.size = size;
-        }
-
-        public TransformComponent(Rectangle rect)
-        {
-            position = new Vector2(rect.X, rect.Y);
-            previousPosition = position;
-            size = new Vector2(rect.Width, rect.Y);
+            InitDrawOrder();
         }
 
         public TransformComponent(int x, int y, int w = 0, int h = 0)
@@ -101,6 +101,22 @@ namespace AdventureGame.Engine
             this.position = new Vector2(x, y);
             this.previousPosition = position;
             this.size = new Vector2(w, h);
+            InitDrawOrder();
+        }
+
+        public TransformComponent(Rectangle rect)
+        {
+            position = new Vector2(rect.X, rect.Y);
+            previousPosition = position;
+            size = new Vector2(rect.Width, rect.Y);
+            InitDrawOrder();
+        }
+
+        public void InitDrawOrder()
+        {
+            DrawOrder = (int)position.Y;
+            DrawOrderOffset = 0;
+            UpdateDrawOrder = true;
         }
 
         public Vector2 GetCenter()
@@ -139,6 +155,21 @@ namespace AdventureGame.Engine
         public Vector2 DistanceMoved()
         {
             return position - previousPosition;
+        }
+
+        public void ToPrevious()
+        {
+            position = previousPosition;
+        }
+
+        public void ToPreviousX()
+        {
+            position = new Vector2(previousPosition.X, position.Y);
+        }
+
+        public void ToPreviousY()
+        {
+            position = new Vector2(position.X, previousPosition.Y);
         }
     }
 

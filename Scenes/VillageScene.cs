@@ -19,9 +19,11 @@ namespace AdventureGame
             // Add map
             AddMap("Maps/Map_Village");
 
+
             // Add camera
             AddCamera("main");
             GetCameraByName("main").SetZoom(4.0f, instant: true);
+
 
             //
             // Add cave entrance
@@ -41,6 +43,7 @@ namespace AdventureGame
             };
             AddEntity(caveEntranceEntity);
 
+
             //
             // Add buildings
             //
@@ -50,9 +53,10 @@ namespace AdventureGame
             AddEntity(PlayerHouseEntity.Create(423, 111, "player_house_01", buildingKeys, "door_closed"));
 
             // Other buildings
-            AddEntity(BuildingEntity.Create(270, 120, "blacksmith_01"));
+            AddEntity(BuildingEntity.Create(270, 122, "blacksmith_01"));
             AddEntity(BuildingEntity.Create(262, 245, "shop_01", buildingKeys, "door_closed"));
             AddEntity(BuildingEntity.Create(520, 218, "woodworker_01", buildingKeys, "door_closed"));
+
 
             //
             // Add objects
@@ -63,7 +67,7 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(40, 90, "tree"));
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
-            AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
+            AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoke"));
 
             // Chest
             List<Item> chestItems = new List<Item>()
@@ -95,7 +99,7 @@ namespace AdventureGame
             //
             // Add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity.Create(225, 150, idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(230, 150, idTag: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 

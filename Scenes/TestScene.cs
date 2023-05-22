@@ -21,9 +21,11 @@ namespace AdventureGame
             // Add map
             AddMap("Maps/Map_Test");
 
+
             // Add camera
             AddCamera("main");
             GetCameraByName("main").SetZoom(4.0f, instant: true);
+
 
             //
             // Add cave entrance
@@ -43,6 +45,7 @@ namespace AdventureGame
             };
             AddEntity(caveEntranceEntity);
 
+
             //
             // Add buildings
             //
@@ -53,9 +56,10 @@ namespace AdventureGame
                 buildingKeys, "door_closed"));
 
             // Other buildings
-            AddEntity(BuildingEntity.Create(270, 120, "blacksmith_01"));
+            AddEntity(BuildingEntity.Create(270, 122, "blacksmith_01"));
             AddEntity(BuildingEntity.Create(262, 245, "shop_01", buildingKeys, "door_closed"));
             AddEntity(BuildingEntity.Create(520, 218, "woodworker_01", buildingKeys, "door_closed"));
+
 
             //
             // Add objects
@@ -74,7 +78,6 @@ namespace AdventureGame
             AddEntity(ObjectEntity.Create(91, 77, "cup_01"));//, layerDepth: 0.3f));
             AddEntity(ObjectEntity.Create(113, 78, "book_01"));//, layerDepth: 0.3f));
             AddEntity(ObjectEntity.Create(110, 80, "table_01"));//, layerDepth: 0.4f));
-
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
             AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
@@ -108,28 +111,26 @@ namespace AdventureGame
             //AddEntity(ObjectEntity.Create(x: 150, y: 200, "S_Sign04",
             //    canWalkBehind: true));
 
+
             //
             // Add items
             //
-
-            string itemsDirectory = "Items/";
+            Item blacksmithSword = new Item("sword", dirObj + "sword", itemHealth: 100);
+            AddEntity(ItemEntity.Create(206, 159, blacksmithSword, false));
 
             //Item key = new Item("KeyPlayerHouse", itemsDirectory + "I_Key01",
             //    itemTags: new Tags("keyItem"));
             //AddEntity(ItemEntity.Create(x: 30, y: 100, item: key));
 
-            //Item potionRed = new Item("PotionRed", itemsDirectory + "P_Red01",
-            //    quantity: 7, stackSize: 20);
-            //AddEntity(ItemEntity.Create(x: 60, y: 100, item: potionRed));
-
             //Item sword = new Item("Sword003", itemsDirectory + "W_Sword003",
             //    itemHealth: 35, maxHealth: 100);
             //AddEntity(ItemEntity.Create(x: 90, y: 100, item: sword));
 
+
             //
             // Add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity.Create(225, 150, idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(230, 150, idTag: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 

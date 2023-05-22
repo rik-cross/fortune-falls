@@ -68,7 +68,7 @@ namespace AdventureGame.Engine
                         sides: 20,
                         color: p.colour,
                         thickness: (float)p.size / 2,
-                        layerDepth: 0.3f
+                        layerDepth: 0.2f
                     );
                 }
             }
