@@ -7,18 +7,9 @@ namespace AdventureGame.Engine
         public Vector2 position;
         public Vector2 previousPosition;
         public Vector2 size;
-
-        public int DrawOrder { get; set; }
-        public int DrawOrderOffset { get; set; }
+        public int DrawOrder { get; private set; }
+        public int DrawOrderOffset { get; private set; }
         public bool UpdateDrawOrder { get; set; }
-
-        // Todo
-        // Make above properites get & set
-        // Add property for Z offset
-        // Calculate Z when setting all Y positions using Y and Z-Offset
-        // Remove all layerDepth from Sprite?
-        // Groups for static and non-static entities? No...
-        // Check whether Z should be Y or Bottom
 
         // Properties to get and set the size and position
         public float Width
@@ -72,22 +63,6 @@ namespace AdventureGame.Engine
             set { position.X = value - size.X; }
         }
 
-        public TransformComponent()
-        {
-            this.position = new Vector2(0, 0);
-            this.previousPosition = position;
-            this.size = new Vector2(0, 0);
-            InitDrawOrder();
-        }
-
-        public TransformComponent(Vector2 position)
-        {
-            this.position = position;
-            this.previousPosition = position;
-            this.size = new Vector2(0, 0);
-            InitDrawOrder();
-        }
-
         public TransformComponent(Vector2 position, Vector2 size)
         {
             this.position = position;
@@ -96,7 +71,7 @@ namespace AdventureGame.Engine
             InitDrawOrder();
         }
 
-        public TransformComponent(int x, int y, int w = 0, int h = 0)
+        public TransformComponent(int x, int y, int w, int h)
         {
             this.position = new Vector2(x, y);
             this.previousPosition = position;
@@ -108,15 +83,26 @@ namespace AdventureGame.Engine
         {
             position = new Vector2(rect.X, rect.Y);
             previousPosition = position;
-            size = new Vector2(rect.Width, rect.Y);
+            size = new Vector2(rect.Width, rect.Height);
             InitDrawOrder();
         }
 
         public void InitDrawOrder()
         {
-            DrawOrder = (int)position.Y;
+            DrawOrder = (int)Bottom;
             DrawOrderOffset = 0;
             UpdateDrawOrder = true;
+        }
+
+        public void ChangeDrawOrder()
+        {
+            DrawOrder = (int)Bottom + DrawOrderOffset;
+        }
+
+        public void ChangeDrawOrderOffset(int drawOrderOffset)
+        {
+            DrawOrderOffset = drawOrderOffset;
+            ChangeDrawOrder();
         }
 
         public Vector2 GetCenter()

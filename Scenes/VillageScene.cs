@@ -79,10 +79,10 @@ namespace AdventureGame
             AddEntity(ChestEntity.Create(199, 122, "chest", "closed", 10, chestItems));
 
             // Shop outside tables
-            AddEntity(ObjectEntity.Create(272, 330, "table_01"));//, layerDepth: 0.4f));
-            AddEntity(ObjectEntity.Create(273, 327, "cup_01"));//, layerDepth: 0.3f));
-            AddEntity(ObjectEntity.Create(336, 330, "table_01"));//, layerDepth: 0.4f));
-            AddEntity(ObjectEntity.Create(339, 328, "book_01"));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(272, 330, "table_01"));
+            AddEntity(ObjectEntity.Create(273, 327, "cup_01", drawOrderOffset: 10, isSolid: false));
+            AddEntity(ObjectEntity.Create(336, 330, "table_01"));
+            AddEntity(ObjectEntity.Create(339, 328, "book_01", drawOrderOffset: 10, isSolid: false));
 
             // Campfire
             AddEntity(ObjectEntity.Create(485, 245, "campfire"));
@@ -99,7 +99,7 @@ namespace AdventureGame
             //
             // Add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity.Create(230, 150, idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(227, 150, 15, 20, idTag: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 

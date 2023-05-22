@@ -7,8 +7,8 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Engine.Entity Create(int x, int y, string defaultState = "default",
-            float speed = 60, string idTag = null)
+        public static Engine.Entity Create(int x, int y, int width, int height,
+            string defaultState = "default", float speed = 60, string idTag = null)
         {
             Engine.Entity playerEntity;
 
@@ -91,8 +91,7 @@ namespace AdventureGame
             playerEntity.State = "idle_right";
 
             // Add other components
-            Vector2 size = spriteComponent.GetSpriteSize(playerEntity.State);
-            playerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), new Vector2(15, 20)));
+            playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
 

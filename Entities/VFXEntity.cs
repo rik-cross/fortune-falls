@@ -7,7 +7,7 @@ namespace AdventureGame
     {
         public static Engine.Entity Create(int x, int y, string filename,
             int startFrame, int endFrame, string defaultState = "default",
-            bool layerAbove = true, string idTag = null)
+            bool drawAbove = true, string idTag = null)
         {
             Entity vfxEntity = EngineGlobals.entityManager.CreateEntity();
             vfxEntity.Tags.Id = idTag;
@@ -18,16 +18,16 @@ namespace AdventureGame
             Engine.SpriteComponent spriteComponent = vfxEntity.AddComponent<Engine.SpriteComponent>();
             spriteComponent.AddAnimatedSprite(dir + filename, defaultState, startFrame, endFrame);
 
-            // Set the layer depth to draw above the default sprite layer depth
-            //if (layerAbove)
-                // raise Z level
-
             // Set state
             vfxEntity.State = defaultState;
 
             // Add other components
             Vector2 imageSize = spriteComponent.GetSpriteSize(defaultState);
             vfxEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
+
+            // Set the draw order offset to be higher than the default position
+            if (drawAbove)
+                vfxEntity.GetComponent<TransformComponent>().ChangeDrawOrderOffset(100);
 
             return vfxEntity;
         }

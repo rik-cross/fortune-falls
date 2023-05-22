@@ -40,7 +40,7 @@ namespace AdventureGame
                 if (otherEntity.IsLocalPlayer())
                 {
                     otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
-                    EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
+                    EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
                     EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(new Vector2(505, 55));
                 }
             };

@@ -168,6 +168,9 @@ namespace AdventureGame.Engine
 
             // Testing
             return SpriteDict[state].size;
+
+            // Todo Account for offset?
+            //return SpriteDict[state].size + SpriteDict[state].offset;
         }
 
         public Texture2D GetSubTexture(Texture2D texture, int x, int y, int width, int height)

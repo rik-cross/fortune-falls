@@ -13,7 +13,7 @@ namespace AdventureGame
 
         public TestScene()
         {
-            EngineGlobals.DEBUG = false;
+            EngineGlobals.DEBUG = true;
         }
 
         public override void LoadContent()
@@ -74,10 +74,10 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(45, 110, "tree"));//, layerDepth: 0.6f)); // mid-top
 
             // Layer test tables
-            AddEntity(ObjectEntity.Create(90, 80, "table_01"));//, layerDepth: 0.4f));
-            AddEntity(ObjectEntity.Create(91, 77, "cup_01"));//, layerDepth: 0.3f));
-            AddEntity(ObjectEntity.Create(113, 78, "book_01"));//, layerDepth: 0.3f));
-            AddEntity(ObjectEntity.Create(110, 80, "table_01"));//, layerDepth: 0.4f));
+            AddEntity(ObjectEntity.Create(90, 80, "table_01"));
+            AddEntity(ObjectEntity.Create(91, 77, "cup_01", drawOrderOffset: 10, isSolid: false));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(113, 78, "book_01", drawOrderOffset: 10, isSolid: false));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(110, 80, "table_01"));
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
             AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
@@ -92,10 +92,10 @@ namespace AdventureGame
             AddEntity(ChestEntity.Create(199, 122, "chest", "closed", 10, chestItems));
 
             // Shop outside tables
-            AddEntity(ObjectEntity.Create(272, 330, "table_01"));//, layerDepth: 0.4f));
-            AddEntity(ObjectEntity.Create(273, 327, "cup_01"));//, layerDepth: 0.3f));
-            AddEntity(ObjectEntity.Create(336, 330, "table_01"));//, layerDepth: 0.4f));
-            AddEntity(ObjectEntity.Create(339, 328, "book_01"));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(272, 330, "table_01"));
+            AddEntity(ObjectEntity.Create(273, 327, "cup_01", drawOrderOffset: 10, isSolid: false));
+            AddEntity(ObjectEntity.Create(336, 330, "table_01"));
+            AddEntity(ObjectEntity.Create(339, 328, "book_01", drawOrderOffset: 10, isSolid: false));
 
             // Campfire
             AddEntity(ObjectEntity.Create(485, 245, "campfire"));
@@ -130,7 +130,7 @@ namespace AdventureGame
             //
             // Add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity.Create(230, 150, idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(227, 150, 15, 20, idTag: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 

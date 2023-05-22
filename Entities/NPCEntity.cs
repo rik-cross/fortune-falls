@@ -6,7 +6,8 @@ namespace AdventureGame
 {
     public static class NPCEntity {
 
-        public static Engine.Entity Create(int x, int y, string defaultState = "default",
+        public static Engine.Entity Create(int x, int y, int width, int height,
+            string defaultState = "default",
             //string filename = null, string thumbnail = null,
             bool canMove = false, float speed = 100, string idTag = null)
             // Action movementScript
@@ -62,9 +63,11 @@ namespace AdventureGame
 
 
             // Add other components
-            Vector2 size = spriteComponent.GetSpriteSize(npcEntity.State);
-            npcEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), size));
+            npcEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
             npcEntity.AddComponent(new Engine.InventoryComponent(5));
+
+            // Testing
+            Console.WriteLine(npcEntity.GetComponent<TransformComponent>().DrawOrder);
 
             //int colliderWidth = (int)(drawWidth * 0.6f);
             //int colliderHeight = (int)(drawHeight * 0.3f);

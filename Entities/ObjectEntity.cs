@@ -6,7 +6,7 @@ namespace AdventureGame
     public static class ObjectEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            bool isSolid = true, bool canWalkBehind = false,
+            int drawOrderOffset = 0, bool isSolid = true, bool canWalkBehind = false,
             Vector2 colliderSize = default, Vector2 colliderOffset = default,
             string idTag = null) // , bool isInteractive = false)
         {
@@ -21,6 +21,10 @@ namespace AdventureGame
             // Add other components
             Vector2 imageSize = objectEntity.GetComponent<SpriteComponent>().GetSpriteSize();
             objectEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
+
+            // Draw order offset
+            if (drawOrderOffset != 0)
+                objectEntity.GetComponent<TransformComponent>().ChangeDrawOrderOffset(drawOrderOffset);
 
             // Add a collider component if required
             if (isSolid)

@@ -20,7 +20,7 @@ namespace AdventureGame
             //triggerEntity.Tags.Id = triggerId;
             triggerEntity.Tags.AddTag("trigger");
 
-            triggerEntity.AddComponent(new Engine.TransformComponent(x, y));
+            triggerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), triggerSize));
 
             triggerEntity.AddComponent(new Engine.TriggerComponent(
                 size: triggerSize, offset: triggerOffset,

@@ -30,15 +30,16 @@ namespace AdventureGame.Engine
 
             // Add all builtin systems
             AddSystem(new InputSystem());
-            AddSystem(new MoveSystem()); // here or after Collision?
+            AddSystem(new MoveSystem()); // here or after Collision & DrawOrder?
             AddSystem(new PhysicsSystem());
-            AddSystem(new HitboxSystem());
+            AddSystem(new HitboxSystem()); // here or after Collision & DrawOrder?
             AddSystem(new HurtboxSystem());
             AddSystem(new DamageSystem());
             AddSystem(new HealthSystem());
             AddSystem(new MapCollisionSystem());
             AddSystem(new CollisionSystem());
             AddSystem(new CollisionResponseSystem());
+            AddSystem(new DrawOrderSystem());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
             AddSystem(new EmoteSystem());
