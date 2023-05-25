@@ -337,28 +337,16 @@ namespace AdventureGame.Engine
             TransformComponent tx = x.GetComponent<TransformComponent>();
             TransformComponent ty = y.GetComponent<TransformComponent>();
 
-            if (tx == null && ty == null)
-                return 0;
-            else if (tx == null)
-                return -1;
-            else if (ty == null)
-                return 1;
+            if (tx == null && ty == null) return 0;
+            else if (tx == null) return -1;
+            else if (ty == null) return 1;
 
-            double posX = tx.Position.Y + tx.Size.Y;
-            double posY = ty.Position.Y + ty.Size.Y;
+            float posX = tx.Position.Y + tx.Size.Y;
+            float posY = ty.Position.Y + ty.Size.Y;
 
-            if (posX == posY)
-            {
-                return 0;
-            }
-            else if (posX > posY)
-            {
-                return 1;
-            }
-            else if (posX < posY)
-            {
-                return -1;
-            }
+            if (posX == posY) return 0;
+            else if (posX > posY) return 1;
+            else if (posX < posY) return -1;
             
             return 0;
         }
@@ -377,6 +365,49 @@ namespace AdventureGame.Engine
             else if (tA.DrawOrder < tB.DrawOrder) return -1;
 
             return 0;
+        }
+
+        public void DrawOrderInsertionSort()
+        {
+            for (int i = 1; i < EntityList.Count; ++i)
+            {
+                Entity e = EntityList[i];
+                int pos = i - 1;
+
+                while (pos >= 0 && EntityList[pos].GetComponent<TransformComponent>().DrawOrder > e.GetComponent<TransformComponent>().DrawOrder)
+                {
+                    EntityList[pos + 1] = EntityList[pos];
+                    pos--;
+                }
+                EntityList[pos + 1] = e;
+            }
+            //for (int i = 1; i < EntityList.Count; ++i)
+            //{
+            //    Entity e = EntityList[i];
+            //    int pos = i - 1;
+
+            //    int eOrder = 0;
+            //    int posOrder = 0;
+
+            //    TransformComponent eTransform = e.GetComponent<TransformComponent>();
+            //    TransformComponent posTransform = EntityList[pos].GetComponent<TransformComponent>();
+
+            //    if (eTransform != null)
+            //        eOrder = eTransform.DrawOrder;
+            //    if (posTransform != null)
+            //        posOrder = posTransform.DrawOrder;
+
+            //    while (pos >= 0 && posOrder > eOrder)
+            //    {
+            //        EntityList[pos + 1] = EntityList[pos];
+            //        pos--;
+
+            //        posTransform = EntityList[pos].GetComponent<TransformComponent>();
+            //        if (posTransform != null)
+            //            posOrder = posTransform.DrawOrder;
+            //    }
+            //    EntityList[pos + 1] = e;
+            //}
         }
 
         public virtual void _Input(GameTime gameTime)
@@ -489,7 +520,8 @@ namespace AdventureGame.Engine
             }
             // sort entities in scene
             //EntityList.Sort(CompareY);
-            EntityList.Sort(CompareDrawOrder);
+            //EntityList.Sort(CompareDrawOrder);
+            DrawOrderInsertionSort();
 
 
             // update cameras
