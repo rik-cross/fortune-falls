@@ -7,14 +7,14 @@ namespace AdventureGame.Engine
 {
     public class HBox
     {
-        public Vector2 offset;
         public Vector2 size;
+        public Vector2 offset;
         public int frame;
         //public string prevState;
-        public HBox(Vector2 offset, Vector2 size, int frame = -1)
+        public HBox(Vector2 size, Vector2 offset = default, int frame = -1)
         {
-            this.offset = offset;
             this.size = size;
+            this.offset = offset;
             this.frame = frame;
             //this.prevState = "";
         }

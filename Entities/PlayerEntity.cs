@@ -129,9 +129,9 @@ namespace AdventureGame
             //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
 
             playerEntity.AddComponent(new Engine.BattleComponent());
-            playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(0, 0), new Vector2(15, 20)));
-            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(15, 0), new Vector2(20, 20), frame: 6));
-            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(-20, 0), new Vector2(20, 20), frame: 6));
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(15, 20)));
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(20, 20), new Vector2(15, 0), frame: 6));
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(20, 20), new Vector2(-20, 0), frame: 6));
             playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
 
             playerEntity.AddComponent(new Engine.DialogueComponent());

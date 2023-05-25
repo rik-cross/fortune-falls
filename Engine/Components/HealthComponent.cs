@@ -36,7 +36,7 @@
         }
 
         // Return whether the item has any health remaining
-        public bool HasHealth() { return Health != 0; }
+        public bool HasHealth() { return Health > 0; }
 
         // Return the amount of health remaining out of 100
         public int GetHealthPercentage()

@@ -64,8 +64,6 @@ namespace AdventureGame
             string dirObj = "Objects/";
             string dirItem = "Items/";
 
-            AddEntity(TreeEntity.Create(40, 90, "tree_01"));
-
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
             AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoke"));
 
@@ -88,6 +86,19 @@ namespace AdventureGame
             AddEntity(ObjectEntity.Create(485, 245, "campfire"));
             AddEntity(VFXEntity.Create(494, 244, "spr_deco_fire_01_strip4", 0, 3, "fire"));
             AddEntity(VFXEntity.Create(475, 225, "chimneysmoke_05_strip30", 0, 29, "smoke"));
+
+
+            //
+            // Add scenery
+            //
+            AddEntity(TreeEntity.Create(40, 90, "tree_01"));
+
+            AddEntity(ObjectEntity.Create(245, 70, "tree_02", canWalkBehind: true));
+            AddEntity(ObjectEntity.Create(257, 95, "bush_04"));
+            AddEntity(BushEntity.Create(270, 85, "bush_03", dropItem: "berry_orange"));
+            AddEntity(ObjectEntity.Create(295, 105, "bush_04"));
+            AddEntity(ObjectEntity.Create(305, 80, "tree_02", canWalkBehind: true));
+
 
             //
             // Add items

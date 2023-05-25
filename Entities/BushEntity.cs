@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using S = System.Diagnostics.Debug;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
+﻿using Microsoft.Xna.Framework;
 
 namespace AdventureGame.Engine
 {
-    public static class TreeEntity
+    public static class BushEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            string defaultState = "tree")//, bool stump = false)
+            string defaultState = "berries", string dropItem = null)//, bool bare = false)
         {
             Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
-            entity.Tags.AddTag("tree");
+            entity.Tags.AddTag("bush");
 
             // Add sprites
             string dir = "Objects/";
             Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();
 
-            spriteComponent.AddSprite(dir + filename, "tree", 0, 1);
-            spriteComponent.AddSprite(dir + filename, "tree_stump", 1, 1);
+            spriteComponent.AddSprite(dir + filename, "berries", 0, 1);
+            spriteComponent.AddSprite(dir + filename, "no_berries", 1, 1);
 
             // Set state
             entity.State = defaultState;
@@ -32,30 +27,29 @@ namespace AdventureGame.Engine
                 size: size
             ));
 
-            entity.AddComponent<Engine.ColliderComponent>(
-                new Engine.ColliderComponent(
-                    size: new Vector2(16, 16),
-                    offset: new Vector2(6, 17)
-                )
-            );
+            entity.AddComponent<Engine.ColliderComponent>(new Engine.ColliderComponent(
+                size: new Vector2(size.X - 6, size.Y - 6),
+                offset: new Vector2(3, 1)
+            ));
 
             InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(
                 new Engine.InventoryComponent(3));
-            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
-            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
-            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
-            //EngineGlobals.inventoryManager.AddAndStackItem(inventory.InventoryItems, coin);
 
-            //entity.AddComponent(new Engine.BattleComponent());
+            if (!string.IsNullOrEmpty(dropItem))
+            {
+                inventory.AddItem(new Item(dropItem, "Items/" + dropItem, quantity: 1, stackSize: 10));
+                inventory.AddItem(new Item(dropItem, "Items/" + dropItem, quantity: 1, stackSize: 10));
+            }
+
             BattleComponent battleComponent = entity.AddComponent<BattleComponent>();
-            battleComponent.SetHurtbox("tree", new Engine.HBox(new Vector2(18, 18), new Vector2(5, 15)));
+            battleComponent.SetHurtbox("berries", new Engine.HBox(size));
             battleComponent.OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
             {
-                if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe")
+                if (thisEnt.State != "no_berries" && otherWeapon.name == "axe")
                 {
-                    SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
-                    EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
-                    thisEnt.GetComponent<HealthComponent>().Health -= 20;
+                    //SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
+                    //EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
+                    thisEnt.GetComponent<HealthComponent>().Health -= 35;
                     //thisEnt.State = "tree_shake";
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())
                     {
@@ -68,7 +62,7 @@ namespace AdventureGame.Engine
                             offset: new Vector2(13, 17),
                             particleSpeed: 0.5
                         ));
-                        thisEnt.State = "tree_stump";
+                        thisEnt.State = "no_berries";
 
                         InventoryComponent inventoryComponent = thisEnt.GetComponent<InventoryComponent>();
                         if (inventoryComponent != null && inventoryComponent.DropOnDestroy)

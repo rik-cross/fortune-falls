@@ -73,8 +73,6 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(40, 130, "tree_01"));//, layerDepth: 0.5f)); // mid-bottom
             AddEntity(TreeEntity.Create(45, 110, "tree_01"));//, layerDepth: 0.6f)); // mid-top
 
-            AddEntity(TreeEntity.Create(65, 110, "tree_02"));
-
             // Layer test tables
             AddEntity(ObjectEntity.Create(90, 80, "table_01"));
             AddEntity(ObjectEntity.Create(91, 77, "cup_01", drawOrderOffset: 10, isSolid: false));//, layerDepth: 0.3f));
@@ -105,13 +103,23 @@ namespace AdventureGame
             AddEntity(VFXEntity.Create(475, 225, "chimneysmoke_05_strip30", 0, 29, "smoke"));
 
             // Street lights
-            AddEntity(StreetLightEntity.Create(30, 260, "light"));
-            AddEntity(StreetLightEntity.Create(90, 260, "light"));
+            //AddEntity(StreetLightEntity.Create(30, 260, "light"));
+            //AddEntity(StreetLightEntity.Create(90, 260, "light"));
 
             // Signposts - change to InterativeObjectEntity instead?
             //AddEntity(ObjectEntity.Create(x: 100, y: 200, "S_Sign03"));
             //AddEntity(ObjectEntity.Create(x: 150, y: 200, "S_Sign04",
             //    canWalkBehind: true));
+
+
+            //
+            // Add scenery
+            //
+            AddEntity(ObjectEntity.Create(245, 70, "tree_02", canWalkBehind: true));
+            AddEntity(ObjectEntity.Create(257, 95, "bush_04"));
+            AddEntity(BushEntity.Create(270, 85, "bush_03", dropItem: "berry_orange"));
+            AddEntity(ObjectEntity.Create(295, 105, "bush_04"));
+            AddEntity(ObjectEntity.Create(305, 80, "tree_02", canWalkBehind: true));
 
 
             //
