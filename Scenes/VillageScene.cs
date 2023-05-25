@@ -64,7 +64,7 @@ namespace AdventureGame
             string dirObj = "Objects/";
             string dirItem = "Items/";
 
-            AddEntity(TreeEntity.Create(40, 90, "tree"));
+            AddEntity(TreeEntity.Create(40, 90, "tree_01"));
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
             AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoke"));

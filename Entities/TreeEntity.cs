@@ -29,13 +29,13 @@ namespace AdventureGame.Engine
             Vector2 size = spriteComponent.GetSpriteSize(defaultState);
             entity.AddComponent(new Engine.TransformComponent(
                 position: new Vector2(x, y),
-                size: new Vector2(26, 33)
+                size: size
             ));
 
             entity.AddComponent<Engine.ColliderComponent>(
                 new Engine.ColliderComponent(
-                    size: new Vector2(14, 10),
-                    offset: new Vector2(6, 21)
+                    size: new Vector2(16, 16),
+                    offset: new Vector2(6, 17)
                 )
             );
 
@@ -48,7 +48,7 @@ namespace AdventureGame.Engine
 
             //entity.AddComponent(new Engine.BattleComponent());
             BattleComponent battleComponent = entity.AddComponent<BattleComponent>();
-            battleComponent.SetHurtbox("tree", new Engine.HBox(new Vector2(5, 15), new Vector2(16, 33-15)));
+            battleComponent.SetHurtbox("tree", new Engine.HBox(new Vector2(5, 15), new Vector2(18, 18)));
             battleComponent.OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
             {
                 if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe")

@@ -68,10 +68,12 @@ namespace AdventureGame
             string dirItem = "Items/";
 
             // Layer test trees
-            AddEntity(TreeEntity.Create(40, 90, "tree"));//, layerDepth: 0.7f)); // top
-            AddEntity(TreeEntity.Create(45, 150, "tree"));//, layerDepth: 0.4f)); // bottom
-            AddEntity(TreeEntity.Create(40, 130, "tree"));//, layerDepth: 0.5f)); // mid-bottom
-            AddEntity(TreeEntity.Create(45, 110, "tree"));//, layerDepth: 0.6f)); // mid-top
+            AddEntity(TreeEntity.Create(40, 90, "tree_01"));//, layerDepth: 0.7f)); // top
+            AddEntity(TreeEntity.Create(45, 150, "tree_01"));//, layerDepth: 0.4f)); // bottom
+            AddEntity(TreeEntity.Create(40, 130, "tree_01"));//, layerDepth: 0.5f)); // mid-bottom
+            AddEntity(TreeEntity.Create(45, 110, "tree_01"));//, layerDepth: 0.6f)); // mid-top
+
+            AddEntity(TreeEntity.Create(65, 110, "tree_02"));
 
             // Layer test tables
             AddEntity(ObjectEntity.Create(90, 80, "table_01"));
