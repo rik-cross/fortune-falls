@@ -149,34 +149,37 @@ namespace AdventureGame.Engine
             int randomX = 0;
             int randomY = 0;
 
-            if (entity.IsPlayerType() || entity.Tags.HasType("chest"))
-            {
-                // Initialise the item position to below the bottom center of the entity
-                itemX = (int)transformComponent.Center - item.Texture.Width / 2;
-                itemY = (int)transformComponent.Bottom;
+            //if (entity.IsPlayerType() || entity.Tags.HasType("chest"))
+            //{
+            // Initialise the item position to below the bottom center of the entity
+            itemX = (int)transformComponent.Center - item.Texture.Width / 2;
+            itemY = (int)transformComponent.Bottom;
 
+            if (dropMultiple)
+            {
                 // Offset the item X and Y position by a pseudo-random amount
-                randomX = random.Next(0, 20);
+                randomX = random.Next(0, 15);
                 randomY = random.Next(0, 4);
             }
-            else
-            {
-                // Initialise the item position to the middle center of the entity
-                itemX = (int)transformComponent.Center - item.Texture.Width / 2;
-                itemY = (int)transformComponent.Middle - item.Texture.Height / 2;
+            //}
+            //else
+            //{
+            //    // Initialise the item position to the middle center of the entity
+            //    itemX = (int)transformComponent.Center - item.Texture.Width / 2;
+            //    itemY = (int)transformComponent.Middle - item.Texture.Height / 2;
 
-                // Offset the item X and Y position by a pseudo-random amount
-                if (dropMultiple)
-                {
-                    randomX = random.Next(0, 16);
-                    randomY = random.Next(0, 16);
+            //    // Offset the item X and Y position by a pseudo-random amount
+            //    if (dropMultiple)
+            //    {
+            //        randomX = random.Next(0, 16);
+            //        randomY = random.Next(0, 16);
 
-                    // Randomise +- item Y offset amount
-                    randomSign = random.Next(0, 2);
-                    if (randomSign == 0)
-                        randomY *= -1;
-                }
-            }
+            //        // Randomise +- item Y offset amount
+            //        randomSign = random.Next(0, 2);
+            //        if (randomSign == 0)
+            //            randomY *= -1;
+            //    }
+            //}
 
             // Randomise +- item X offset amount
             randomSign = random.Next(0, 2);

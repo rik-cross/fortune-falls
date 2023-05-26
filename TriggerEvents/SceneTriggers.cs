@@ -70,7 +70,7 @@ namespace AdventureGame.Engine
                         //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
 
                     }
-                    else if (keyItems.ContainsItem("KeyPlayerHouse"))
+                    else if (keyItems.ContainsItem("key_player_house"))
                     {
                         dialogueComponent.AddPage("I see you'll be able to access that house of yours now.", thumbnail);
                         dialogueComponent.AddPage("Let me know if you do find a healing potion amongst your things.", thumbnail);

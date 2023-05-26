@@ -34,16 +34,18 @@ namespace AdventureGame.Engine
 
             entity.AddComponent<Engine.ColliderComponent>(
                 new Engine.ColliderComponent(
-                    size: new Vector2(16, 16),
-                    offset: new Vector2(6, 17)
+                    size: new Vector2(size.X / 2, 12),
+                    offset: new Vector2(6, 20)
                 )
             );
 
             InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(
                 new Engine.InventoryComponent(3));
-            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
-            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
-            inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
+
+            Random random = new Random();
+            for (int i = 0; i <= random.Next(1, 3); i++)
+                inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
+
             //EngineGlobals.inventoryManager.AddAndStackItem(inventory.InventoryItems, coin);
 
             //entity.AddComponent(new Engine.BattleComponent());

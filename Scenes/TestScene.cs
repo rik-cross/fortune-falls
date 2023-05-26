@@ -68,16 +68,16 @@ namespace AdventureGame
             string dirItem = "Items/";
 
             // Layer test trees
-            AddEntity(TreeEntity.Create(40, 90, "tree_01"));//, layerDepth: 0.7f)); // top
-            AddEntity(TreeEntity.Create(45, 150, "tree_01"));//, layerDepth: 0.4f)); // bottom
-            AddEntity(TreeEntity.Create(40, 130, "tree_01"));//, layerDepth: 0.5f)); // mid-bottom
-            AddEntity(TreeEntity.Create(45, 110, "tree_01"));//, layerDepth: 0.6f)); // mid-top
+            AddEntity(TreeEntity.Create(40, 120, "tree_01"));//, layerDepth: 0.7f)); // top
+            AddEntity(TreeEntity.Create(45, 180, "tree_01"));//, layerDepth: 0.4f)); // bottom
+            AddEntity(TreeEntity.Create(40, 160, "tree_01"));//, layerDepth: 0.5f)); // mid-bottom
+            AddEntity(TreeEntity.Create(45, 140, "tree_01"));//, layerDepth: 0.6f)); // mid-top
 
             // Layer test tables
-            AddEntity(ObjectEntity.Create(90, 80, "table_01"));
-            AddEntity(ObjectEntity.Create(91, 77, "cup_01", drawOrderOffset: 10, isSolid: false));//, layerDepth: 0.3f));
-            AddEntity(ObjectEntity.Create(113, 78, "book_01", drawOrderOffset: 10, isSolid: false));//, layerDepth: 0.3f));
-            AddEntity(ObjectEntity.Create(110, 80, "table_01"));
+            AddEntity(ObjectEntity.Create(90, 120, "table_01"));
+            AddEntity(ObjectEntity.Create(91, 117, "cup_01", drawOrderOffset: 10, isSolid: false));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(113, 118, "book_01", drawOrderOffset: 10, isSolid: false));//, layerDepth: 0.3f));
+            AddEntity(ObjectEntity.Create(110, 120, "table_01"));
 
             AddEntity(ObjectEntity.Create(252, 130, "chimney", canWalkBehind: true));
             AddEntity(VFXEntity.Create(257, 98, "chimneysmoke_01_strip30", 0, 29, "smoking"));
@@ -85,17 +85,18 @@ namespace AdventureGame
             // Chest
             List<Item> chestItems = new List<Item>()
             {
-                new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100),
-                new Item("wood", dirItem + "wood", quantity: 1, stackSize: 10),
-                new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100)
+                //new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100),
+                new Item("key_player_house", dirItem + "key_01", itemTags: new Tags("key_item")),
+                //new Item("coin", dirItem + "coin", quantity: 1, stackSize: 100)
             };
             AddEntity(ChestEntity.Create(199, 122, "chest", "closed", 10, chestItems));
 
-            // Shop outside tables
+            // Shop outside
             AddEntity(ObjectEntity.Create(272, 330, "table_01"));
             AddEntity(ObjectEntity.Create(273, 327, "cup_01", drawOrderOffset: 10, isSolid: false));
             AddEntity(ObjectEntity.Create(336, 330, "table_01"));
             AddEntity(ObjectEntity.Create(339, 328, "book_01", drawOrderOffset: 10, isSolid: false));
+            AddEntity(ObjectEntity.Create(247, 327, "pot_03"));
 
             // Campfire
             AddEntity(ObjectEntity.Create(485, 245, "campfire"));
@@ -115,12 +116,35 @@ namespace AdventureGame
             //
             // Add scenery
             //
-            AddEntity(ObjectEntity.Create(245, 70, "tree_02", canWalkBehind: true));
-            AddEntity(ObjectEntity.Create(257, 95, "bush_04"));
-            AddEntity(BushEntity.Create(270, 85, "bush_03", dropItem: "berry_orange"));
-            AddEntity(ObjectEntity.Create(295, 105, "bush_04"));
-            AddEntity(ObjectEntity.Create(305, 80, "tree_02", canWalkBehind: true));
 
+            // Top left corner
+            AddEntity(TreeEntity.Create(0, 75, "tree_01"));
+            AddEntity(TreeEntity.Create(25, 65, "tree_01"));
+            AddEntity(TreeEntity.Create(50, 55, "tree_01"));
+            AddEntity(ObjectEntity.Create(65, 50, "bush_01"));
+            AddEntity(TreeEntity.Create(85, 35, "tree_01"));
+            AddEntity(ObjectEntity.Create(110, 45, "bush_04"));
+            AddEntity(TreeEntity.Create(110, 15, "tree_01"));
+            AddEntity(TreeEntity.Create(125, 0, "tree_01"));
+            AddEntity(ObjectEntity.Create(150, 15, "bush_04"));
+            AddEntity(TreeEntity.Create(150, -20, "tree_01"));
+
+            // Above blacksmith
+            AddEntity(TreeEntity.Create(245, 70, "tree_02"));
+            AddEntity(ObjectEntity.Create(257, 95, "bush_04"));
+            AddEntity(BushEntity.Create(269, 89, "bush_03", dropItem: "berry_orange"));
+            AddEntity(ObjectEntity.Create(295, 105, "bush_04"));
+            AddEntity(TreeEntity.Create(305, 80, "tree_02"));
+
+            // By player house
+            AddEntity(BushEntity.Create(372, 155, "bush_02", dropItem: "berry_red"));
+            AddEntity(TreeEntity.Create(365, 125, "tree_02"));
+            AddEntity(TreeEntity.Create(385, 117, "tree_03"));
+            AddEntity(TreeEntity.Create(405, 125, "tree_03"));
+            AddEntity(ObjectEntity.Create(398, 145, "bush_04"));
+
+            // By river
+            //AddEntity(BushEntity.Create(20, 185, "bush_02", dropItem: "berry_red"));
 
             //
             // Add items

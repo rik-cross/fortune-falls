@@ -699,7 +699,7 @@ namespace AdventureGame
                     anchor: Anchor.BottomRight,
                     anchorParent: parentRect,
                     padding: new Padding(
-                        bottom: _slotBorder + 1,
+                        bottom: _slotBorder,// + 1,
                         right: _slotBorder + 2)
                 );
                 quantity.Draw();

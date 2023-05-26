@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -37,8 +39,9 @@ namespace AdventureGame.Engine
 
             if (!string.IsNullOrEmpty(dropItem))
             {
-                inventory.AddItem(new Item(dropItem, "Items/" + dropItem, quantity: 1, stackSize: 10));
-                inventory.AddItem(new Item(dropItem, "Items/" + dropItem, quantity: 1, stackSize: 10));
+                Random random = new Random();
+                for (int i = 0; i <= random.Next(1, 3); i++)
+                    inventory.AddItem(new Item(dropItem, "Items/" + dropItem, quantity: 1, stackSize: 20));
             }
 
             BattleComponent battleComponent = entity.AddComponent<BattleComponent>();
@@ -47,8 +50,8 @@ namespace AdventureGame.Engine
             {
                 if (thisEnt.State != "no_berries" && otherWeapon.name == "axe")
                 {
-                    //SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
-                    //EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
+                    SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
+                    EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
                     thisEnt.GetComponent<HealthComponent>().Health -= 35;
                     //thisEnt.State = "tree_shake";
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())

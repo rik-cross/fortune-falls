@@ -89,8 +89,8 @@ namespace AdventureGame
             ));
 
             npcEntity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(15, 6),
-                offset: new Vector2(0, 14)
+                size: new Vector2(35, 30),
+                offset: new Vector2(-10, 0)
             ));
 
             // Todo

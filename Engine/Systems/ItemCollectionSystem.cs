@@ -40,7 +40,7 @@ namespace AdventureGame.Engine
                     && !collectableComponent.HasBeenCollected)
                 {
                     // Check if the item is a key item
-                    if (itemComponent.Item.ItemTags.HasType("keyItem"))
+                    if (itemComponent.Item.ItemTags.HasType("key_item"))
                     {
                         KeyItemsComponent keyItems = entity.GetComponent<KeyItemsComponent>();
                         if (keyItems != null)
