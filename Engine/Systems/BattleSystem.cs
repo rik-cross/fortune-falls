@@ -21,6 +21,9 @@ namespace AdventureGame.Engine
             HBox hitBox = battleComponent.GetHitbox(entity.State);
             Sprite sprite = spriteComponent.GetSprite(entity.State);
 
+            if (sprite == null)
+                return;
+
             if (battleComponent.GetHitbox(entity.State) != null
                 && (sprite.currentPosition == hitBox.frame || hitBox.frame == -1)
                 && sprite.timer == 0)

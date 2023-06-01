@@ -20,18 +20,18 @@ namespace AdventureGame.Engine
 
             //if (entity.State != entity.PrevState)
             //{
-                //spritesComponent.GetSprite(entity.PrevState).Reset();
-                //spritesComponent.GetSprite(entity.State).Reset();
+            //spritesComponent.GetSprite(entity.PrevState).Reset();
+            //spritesComponent.GetSprite(entity.State).Reset();
             //    S.WriteLine("state changed");
             //}
 
             // don't update if there's no Sprite for the current state
-            if (spritesComponent.SpriteDict.ContainsKey(entity.State) == false)
+            if (!spritesComponent.SpriteDict.ContainsKey(entity.State))
                 return;
 
             // Todo need to test use of play property
             // don't update if there's no animation to play
-            if (spritesComponent.SpriteDict[entity.State].play == false)
+            if (!spritesComponent.SpriteDict[entity.State].play)
                 return;
 
             // get current sprite and sprite position data

@@ -150,13 +150,13 @@ namespace AdventureGame.Engine
         /// <returns>Sprite, or null if no state exists for the state provided.</returns>
         public Sprite GetSprite(string state = "default")
         {
-            //if (SpriteDict.ContainsKey(state))
-            //    return SpriteDict[state];
-            //else
-            //    return null;
+            if (SpriteDict.ContainsKey(state))
+                return SpriteDict[state];
+            else
+                return null;
 
             // Testing
-            return SpriteDict[state];
+            //return SpriteDict[state];
         }
 
         public Vector2 GetSpriteSize(string state = "default")

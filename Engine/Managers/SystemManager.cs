@@ -42,6 +42,7 @@ namespace AdventureGame.Engine
             AddSystem(new DrawOrderSystem());
             AddSystem(new TriggerSystem());
             AddSystem(new SpriteSystem());
+            AddSystem(new AnimatedSpriteSystem());
             AddSystem(new EmoteSystem());
             AddSystem(new ItemCollectionSystem());
             AddSystem(new DialogueSystem());
