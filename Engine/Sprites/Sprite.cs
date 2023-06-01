@@ -8,42 +8,43 @@ namespace AdventureGame.Engine
 {
     public class Sprite
     {
-        public List<Texture2D> textureList = new List<Texture2D>();
-        public Vector2 size;  // frameSize / textureSize?
-        public Vector2 offset;
-        public bool flipH;
-        public bool flipV;
+        public List<Texture2D> TextureList { get; private set; }
+        public Vector2 Size { get; private set; }  // frameSize / textureSize?
+        public Vector2 Offset { get; private set; }
+        public bool FlipH { get; private set; }
+        public bool FlipV { get; private set; }
 
-        public bool play;
-        public bool loop;
-        public int currentPosition; // change to currentFrame
-        public int animationDelay;
-        public int timer;
-        public bool completed;
+        public bool Play;
+        public bool Loop;
+        public int CurrentFrame;
+        public int AnimationDelay;
+        public int Timer;
+        public bool Completed;
         public Action<Entity> OnComplete;
 
         public Sprite(Texture2D texture, Vector2 size = default, Vector2 offset = default,
             bool flipH = false, bool flipV = false)
         {
-            textureList.Add(texture);
+            TextureList = new List<Texture2D>() { texture };
+            //TextureList.Add(texture);
 
             if (size != default)
-                this.size = size;
+                Size = size;
             else
-                this.size = new Vector2(texture.Width, texture.Height);
+                Size = new Vector2(texture.Width, texture.Height);
 
             if (offset == default)
-                this.offset = new Vector2(0, 0);
+                Offset = new Vector2(0, 0);
             else
-                this.offset = offset;
+                Offset = offset;
 
-            this.flipH = flipH;
-            this.flipV = flipV;
+            FlipH = flipH;
+            FlipV = flipV;
 
-            play = false;
-            loop = false;
-            animationDelay = 0;
-            completed = false;
+            Play = false;
+            Loop = false;
+            AnimationDelay = 0;
+            Completed = false;
 
             Reset();
         }
@@ -53,20 +54,20 @@ namespace AdventureGame.Engine
             bool play = true, bool loop = true, int delay = 6,
             Action<Entity> onComplete = null)
         {
-            this.textureList = textureList;
-            size = new Vector2(textureList[0].Width, textureList[0].Height);
+            TextureList = textureList;
+            Size = new Vector2(textureList[0].Width, textureList[0].Height);
 
             if (offset == default)
-                this.offset = new Vector2(0, 0);
+                Offset = new Vector2(0, 0);
             else
-                this.offset = offset;
+                Offset = offset;
 
-            this.flipH = flipH;
-            this.flipV = flipV;
+            FlipH = flipH;
+            FlipV = flipV;
 
-            this.play = play;
-            this.loop = loop;
-            animationDelay = delay;
+            Play = play;
+            Loop = loop;
+            AnimationDelay = delay;
             OnComplete = onComplete;
 
             Reset();
@@ -74,22 +75,22 @@ namespace AdventureGame.Engine
 
         public Texture2D GetCurrentTexture()
         {
-            return textureList[currentPosition];
+            return TextureList[CurrentFrame];
         }
 
         public Texture2D GetTexture(int frame)
         {
-            if (frame >= 0 && frame < textureList.Count)
-                return textureList[frame];
+            if (frame >= 0 && frame < TextureList.Count)
+                return TextureList[frame];
             else
                 return null;
         }
 
         public void Reset()
         {
-            currentPosition = 0;
-            timer = 0;
-            completed = false;
+            CurrentFrame = 0;
+            Timer = 0;
+            Completed = false;
         }
     }
 }

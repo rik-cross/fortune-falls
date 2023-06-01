@@ -31,20 +31,20 @@ namespace AdventureGame.Engine
 
             // Todo need to test use of play property
             // don't update if there's no animation to play
-            if (!spritesComponent.SpriteDict[entity.State].play)
+            if (!spritesComponent.SpriteDict[entity.State].Play)
                 return;
 
             // get current sprite and sprite position data
             Sprite sprite = spritesComponent.SpriteDict[entity.State];
-            int curPosition = spritesComponent.SpriteDict[entity.State].currentPosition;
-            int maxPosition = spritesComponent.SpriteDict[entity.State].textureList.Count - 1;
+            int curPosition = spritesComponent.SpriteDict[entity.State].CurrentFrame;
+            int maxPosition = spritesComponent.SpriteDict[entity.State].TextureList.Count - 1;
 
             // don't update if the current Sprite only has one texture (or less)
-            if (sprite.textureList.Count <= 1)
+            if (sprite.TextureList.Count <= 1)
                 return;
 
             // don't update if the current sprite has completed
-            if (sprite.completed)
+            if (sprite.Completed)
                 return;
 
             // reset sprite if switching from another active sprite
@@ -52,31 +52,31 @@ namespace AdventureGame.Engine
                 spritesComponent.SpriteDict[entity.State].Reset();
 
             // increment timer
-            spritesComponent.SpriteDict[entity.State].timer += 1;
+            spritesComponent.SpriteDict[entity.State].Timer += 1;
 
             // if the timer has reached the animation limit (or past)
-            if (spritesComponent.SpriteDict[entity.State].timer >= spritesComponent.SpriteDict[entity.State].animationDelay)
+            if (spritesComponent.SpriteDict[entity.State].Timer >= spritesComponent.SpriteDict[entity.State].AnimationDelay)
             {
                 // reset the timer
-                spritesComponent.SpriteDict[entity.State].timer = 0;
+                spritesComponent.SpriteDict[entity.State].Timer = 0;
 
                 // increment the position
-                spritesComponent.SpriteDict[entity.State].currentPosition += 1;
+                spritesComponent.SpriteDict[entity.State].CurrentFrame += 1;
 
                 // if the position has reached the maximum
-                if (spritesComponent.SpriteDict[entity.State].currentPosition > maxPosition)
+                if (spritesComponent.SpriteDict[entity.State].CurrentFrame > maxPosition)
                 {
                     // if the sprite loops
-                    if (sprite.loop)
+                    if (sprite.Loop)
                     {
                         // reset to the first texture
-                        spritesComponent.SpriteDict[entity.State].currentPosition = 0;
+                        spritesComponent.SpriteDict[entity.State].CurrentFrame = 0;
                     }
                     else
                     {
                         // else stay on the last texture
-                        spritesComponent.SpriteDict[entity.State].currentPosition = maxPosition;
-                        sprite.completed = true;
+                        spritesComponent.SpriteDict[entity.State].CurrentFrame = maxPosition;
+                        sprite.Completed = true;
                     }
                     if (sprite.OnComplete != null)
                     {
@@ -102,9 +102,9 @@ namespace AdventureGame.Engine
             //    return;
 
             Sprite currentSprite = spritesComponent.SpriteDict[entity.State];
-            Texture2D currentTexture = currentSprite.textureList[currentSprite.currentPosition];
-            bool h = currentSprite.flipH;
-            bool v = currentSprite.flipV;
+            Texture2D currentTexture = currentSprite.TextureList[currentSprite.CurrentFrame];
+            bool h = currentSprite.FlipH;
+            bool v = currentSprite.FlipV;
 
             SpriteEffects se = SpriteEffects.None;
             if (h == true && v == false)
@@ -124,10 +124,10 @@ namespace AdventureGame.Engine
             Globals.spriteBatch.Draw(
                 currentTexture,
                 new Rectangle(
-                    (int)(transformComponent.Position.X + currentSprite.offset.X), (int)(transformComponent.Position.Y + currentSprite.offset.Y),
+                    (int)(transformComponent.Position.X + currentSprite.Offset.X), (int)(transformComponent.Position.Y + currentSprite.Offset.Y),
                     //(int)transformComponent.size.X, (int)transformComponent.size.Y
                     //(int)currentTexture.Width, (int)currentTexture.Height
-                    (int)currentSprite.size.X, (int)currentSprite.size.Y
+                    (int)currentSprite.Size.X, (int)currentSprite.Size.Y
                 ),
                 sourceRectangle: null,
                 Color.White * spritesComponent.alpha,

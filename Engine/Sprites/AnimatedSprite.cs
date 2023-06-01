@@ -7,48 +7,49 @@ namespace AdventureGame.Engine
     public class AnimatedSprite
     {
         //public List<Texture2D> textureList = new List<Texture2D>();
-        public List<Sprite> spriteList = new List<Sprite>();
+        public List<Sprite> SpriteList { get; private set; }
 
         public Entity ChildEntity { get; set; }
 
         //public string defaultDirection; // left/right to automate flipH 
 
-        public Vector2 size;  // frameSize / textureSize?
-        public Vector2 offset;
-        public bool flipH;
-        public bool flipV;
+        public Vector2 Size { get; private set; }
+        public Vector2 Offset { get; private set; }
+        public bool FlipH { get; private set; }
+        public bool FlipV { get; private set; }
 
-        public bool play;
-        public bool loop;
-        public int currentPosition; // change to currentFrame
-        public int animationDelay;
-        public int timer;
-        public bool completed;
-        public Action<Entity> OnComplete;
+        public bool Play { get; set; }
+        public bool Loop { get; private set; }
+        public int CurrentFrame { get; set; }
+        public int AnimationDelay { get; private set; }
+        public int Timer { get; set; }
+        public bool Completed { get; set; }
+        public Action<Entity> OnComplete { get; set; }
 
         public AnimatedSprite(Sprite sprite, Vector2 size = default,
             Vector2 offset = default, bool flipH = false, bool flipV = false,
             bool play = true, bool loop = true, int delay = 6,
             Action<Entity> onComplete = null)
         {
-            spriteList.Add(sprite);
+            SpriteList = new List<Sprite>() { sprite };
+            //SpriteList.Add(sprite);
 
             if (size != default)
-                this.size = size;
+                this.Size = size;
             else
-                this.size = sprite.size;
+                this.Size = sprite.Size;
 
             if (offset == default)
-                this.offset = new Vector2(0, 0);
+                this.Offset = new Vector2(0, 0);
             else
-                this.offset = offset;
+                this.Offset = offset;
 
-            this.flipH = flipH;
-            this.flipV = flipV;
+            this.FlipH = flipH;
+            this.FlipV = flipV;
 
-            this.play = play;
-            this.loop = loop;
-            animationDelay = delay;
+            this.Play = play;
+            this.Loop = loop;
+            AnimationDelay = delay;
             OnComplete = onComplete;
 
             Reset();
@@ -59,20 +60,20 @@ namespace AdventureGame.Engine
             bool play = true, bool loop = true, int delay = 6,
             Action<Entity> onComplete = null)
         {
-            this.spriteList = spriteList;
-            size = spriteList[0].size;
+            this.SpriteList = spriteList;
+            Size = spriteList[0].Size;
 
             if (offset == default)
-                this.offset = new Vector2(0, 0);
+                this.Offset = new Vector2(0, 0);
             else
-                this.offset = offset;
+                this.Offset = offset;
 
-            this.flipH = flipH;
-            this.flipV = flipV;
+            this.FlipH = flipH;
+            this.FlipV = flipV;
 
-            this.play = play;
-            this.loop = loop;
-            animationDelay = delay;
+            this.Play = play;
+            this.Loop = loop;
+            AnimationDelay = delay;
             OnComplete = onComplete;
 
             Reset();
@@ -98,9 +99,9 @@ namespace AdventureGame.Engine
 
         public void Reset()
         {
-            currentPosition = 0;
-            timer = 0;
-            completed = false;
+            CurrentFrame = 0;
+            Timer = 0;
+            Completed = false;
         }
     }
 }

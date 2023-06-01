@@ -25,8 +25,8 @@ namespace AdventureGame.Engine
                 return;
 
             if (battleComponent.GetHitbox(entity.State) != null
-                && (sprite.currentPosition == hitBox.frame || hitBox.frame == -1)
-                && sprite.timer == 0)
+                && (sprite.CurrentFrame == hitBox.frame || hitBox.frame == -1)
+                && sprite.Timer == 0)
             {
 
                 bool hit = false;

@@ -28,20 +28,20 @@ namespace AdventureGame.Engine
             if (animatedComponent.AnimatedSprites.Count == 0)
                 return;
 
-            // don't update if there's no Sprite for the current state
-            if (animatedComponent.AnimatedSprites.ContainsKey(entity.State) == false)
+            // don't update if there's no sprite for the current state
+            if (!animatedComponent.AnimatedSprites.ContainsKey(entity.State))
                 return;
 
             // Todo need to test use of play property
             // don't update if there's no animation to play
-            if (animatedComponent.AnimatedSprites[entity.State].play == false)
+            if (!animatedComponent.AnimatedSprites[entity.State].Play)
                 return;
 
             // get the animated sprites and their position data
             AnimatedSprite animatedSprites = animatedComponent.AnimatedSprites[entity.State];
-            Sprite firstSprite = animatedSprites.spriteList[0];
-            int curPosition = animatedSprites.currentPosition;
-            int maxPosition = firstSprite.textureList.Count - 1;
+            Sprite firstSprite = animatedSprites.SpriteList[0];
+            int curPosition = animatedSprites.CurrentFrame;
+            int maxPosition = firstSprite.TextureList.Count - 1;
 
             // Todo: Skip for loop if  necessary
             // OR place repeated code in a function
@@ -49,11 +49,11 @@ namespace AdventureGame.Engine
             // update the AnimatedSprite component
 
             // don't update if the current sprite only has one texture (or less)
-            if (firstSprite.textureList.Count <= 1)
+            if (firstSprite.TextureList.Count <= 1)
                 return;
 
             // don't update if the current sprite has completed
-            if (animatedSprites.completed)
+            if (animatedSprites.Completed)
                 return;
 
             // reset sprite if switching from another active sprite
@@ -61,31 +61,31 @@ namespace AdventureGame.Engine
                 animatedSprites.Reset();
 
             // increment timer
-            animatedSprites.timer += 1;
+            animatedSprites.Timer += 1;
 
             // if the timer has reached the animation limit (or past)
-            if (animatedSprites.timer >= animatedSprites.animationDelay)
+            if (animatedSprites.Timer >= animatedSprites.AnimationDelay)
             {
                 // reset the timer
-                animatedSprites.timer = 0;
+                animatedSprites.Timer = 0;
 
                 // increment the position
-                animatedSprites.currentPosition += 1;
+                animatedSprites.CurrentFrame += 1;
 
                 // if the position has reached the maximum
-                if (animatedSprites.currentPosition > maxPosition)
+                if (animatedSprites.CurrentFrame > maxPosition)
                 {
                     // if the sprite loops
-                    if (animatedSprites.loop)
+                    if (animatedSprites.Loop)
                     {
                         // reset to the first texture
-                        animatedSprites.currentPosition = 0;
+                        animatedSprites.CurrentFrame = 0;
                     }
                     else
                     {
                         // else stay on the last texture
-                        animatedSprites.currentPosition = maxPosition;
-                        animatedSprites.completed = true;
+                        animatedSprites.CurrentFrame = maxPosition;
+                        animatedSprites.Completed = true;
                     }
                     if (animatedSprites.OnComplete != null)
                     {
@@ -97,14 +97,14 @@ namespace AdventureGame.Engine
             // Todo: Remove the top level changes e.g. OnComplete
 
             // repeat for each sprite
-            foreach (Sprite sprite in animatedSprites.spriteList)
+            foreach (Sprite sprite in animatedSprites.SpriteList)
             {
                 // don't update if the current sprite only has one texture (or less)
-                if (sprite.textureList.Count <= 1)
+                if (sprite.TextureList.Count <= 1)
                     continue;
 
                 // don't update if the current sprite has completed
-                if (sprite.completed)
+                if (sprite.Completed)
                     continue;
 
                 // reset sprite if switching from another active sprite
@@ -112,31 +112,31 @@ namespace AdventureGame.Engine
                     sprite.Reset();
 
                 // increment timer
-                sprite.timer += 1;
+                sprite.Timer += 1;
 
                 // if the timer has reached the animation limit (or past)
-                if (sprite.timer >= sprite.animationDelay)
+                if (sprite.Timer >= sprite.AnimationDelay)
                 {
                     // reset the timer
-                    sprite.timer = 0;
+                    sprite.Timer = 0;
 
                     // increment the position
-                    sprite.currentPosition += 1;
+                    sprite.CurrentFrame += 1;
 
                     // if the position has reached the maximum
-                    if (sprite.currentPosition > maxPosition)
+                    if (sprite.CurrentFrame > maxPosition)
                     {
                         // if the sprite loops
-                        if (sprite.loop)
+                        if (sprite.Loop)
                         {
                             // reset to the first texture
-                            sprite.currentPosition = 0;
+                            sprite.CurrentFrame = 0;
                         }
                         else
                         {
                             // else stay on the last texture
-                            sprite.currentPosition = maxPosition;
-                            sprite.completed = true;
+                            sprite.CurrentFrame = maxPosition;
+                            sprite.Completed = true;
                         }
                         if (sprite.OnComplete != null)
                         {
@@ -163,12 +163,12 @@ namespace AdventureGame.Engine
             //    return;
 
             AnimatedSprite animatedSprite = animatedComponent.AnimatedSprites[entity.State];
-            bool h = animatedSprite.flipH;
-            bool v = animatedSprite.flipV;
+            bool h = animatedSprite.FlipH;
+            bool v = animatedSprite.FlipV;
 
-            foreach (Sprite sprite in animatedSprite.spriteList)
+            foreach (Sprite sprite in animatedSprite.SpriteList)
             {
-                Texture2D currentTexture = sprite.textureList[sprite.currentPosition];
+                Texture2D currentTexture = sprite.TextureList[sprite.CurrentFrame];
                 //bool h = currentSprite.flipH;
                 //bool v = currentSprite.flipV;
 
@@ -189,12 +189,12 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.Draw(
                     currentTexture,
                     new Rectangle(
-                        (int)(transformComponent.Position.X + animatedSprite.offset.X), (int)(transformComponent.Position.Y + animatedSprite.offset.Y),
+                        (int)(transformComponent.Position.X + animatedSprite.Offset.X), (int)(transformComponent.Position.Y + animatedSprite.Offset.Y),
                         //(int)(transformComponent.Position.X + currentSprite.offset.X), (int)(transformComponent.Position.Y + currentSprite.offset.Y),
                         //(int)transformComponent.size.X, (int)transformComponent.size.Y
                         //(int)currentTexture.Width, (int)currentTexture.Height
                         //(int)currentSprite.size.X, (int)currentSprite.size.Y
-                        (int)animatedSprite.size.X, (int)animatedSprite.size.Y
+                        (int)animatedSprite.Size.X, (int)animatedSprite.Size.Y
                     ),
                     sourceRectangle: null,
                     Color.White * animatedComponent.alpha,

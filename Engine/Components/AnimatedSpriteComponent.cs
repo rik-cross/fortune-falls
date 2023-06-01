@@ -70,11 +70,11 @@ namespace AdventureGame.Engine
             // SpriteLayerDepth (relative to all children AND world?)
 
             if (AnimatedSprites.ContainsKey(key))
-                AnimatedSprites[key].spriteList.Add(sprite);
+                AnimatedSprites[key].SpriteList.Add(sprite);
             else
                 AnimatedSprites.Add(key, new AnimatedSprite(
-                    sprite, sprite.size, sprite.offset, sprite.flipH, sprite.flipV,
-                    sprite.play, sprite.loop, sprite.animationDelay));
+                    sprite, sprite.Size, sprite.Offset, sprite.FlipH, sprite.FlipV,
+                    sprite.Play, sprite.Loop, sprite.AnimationDelay));
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace AdventureGame.Engine
             //    return null;
 
             // Testing
-            return AnimatedSprites[state].spriteList[index];
+            return AnimatedSprites[state].SpriteList[index];
         }
 
         public Vector2 GetSpriteSize(string state = "default")
@@ -112,7 +112,7 @@ namespace AdventureGame.Engine
             //    return new Vector2(0, 0);
 
             // Testing
-            return AnimatedSprites[state].size;
+            return AnimatedSprites[state].Size;
 
             // Todo Account for offset?
             //return SpriteDict[state].size + SpriteDict[state].offset;

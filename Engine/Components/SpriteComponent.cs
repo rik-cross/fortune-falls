@@ -167,7 +167,7 @@ namespace AdventureGame.Engine
             //    return new Vector2(0, 0);
 
             // Testing
-            return SpriteDict[state].size;
+            return SpriteDict[state].Size;
 
             // Todo Account for offset?
             //return SpriteDict[state].size + SpriteDict[state].offset;
@@ -190,13 +190,13 @@ namespace AdventureGame.Engine
         public void SetAnimationDelay(int delay)
         {
             foreach (Sprite sprite in SpriteDict.Values)
-                sprite.animationDelay = delay;
+                sprite.AnimationDelay = delay;
         }
 
         public void ModifyAnimationDelay(float modifier)
         {
             foreach (Sprite sprite in SpriteDict.Values)
-                sprite.animationDelay = (int)Math.Ceiling(sprite.animationDelay * modifier);
+                sprite.AnimationDelay = (int)Math.Ceiling(sprite.AnimationDelay * modifier);
         }
 
     }

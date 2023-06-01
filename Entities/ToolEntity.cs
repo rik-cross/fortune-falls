@@ -28,7 +28,7 @@ namespace AdventureGame
             }
 
             // Add sprites
-            string filePath = "";
+            //string filePath = "";
             string dir = "Characters/Human/"; // parameter??
             string toolStr = "tools";
             string folder = ""; // parameter??
