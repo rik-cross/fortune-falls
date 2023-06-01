@@ -39,6 +39,9 @@ Content/bin/*
 !Content/Buildings/*
 !Content/Characters
 !Content/Characters/*
+!Content/Characters/Human/
+!Content/Characters/Human/*
+!Content/Characters/Human/*/*
 !Content/Characters/Players/
 !Content/Characters/Players/*
 !Content/Characters/NPC/
