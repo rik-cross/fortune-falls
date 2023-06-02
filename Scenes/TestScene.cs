@@ -43,7 +43,7 @@ namespace AdventureGame
                     EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
                 }
             };
-            AddEntity(caveEntranceEntity);
+            //AddEntity(caveEntranceEntity);
 
 
             //

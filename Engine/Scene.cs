@@ -504,7 +504,7 @@ namespace AdventureGame.Engine
 
             foreach(Entity e in EntityList)
             {
-                foreach(TimedAction ta in e.timedActionList)
+                foreach(TimedAction ta in e.TimedActionList)
                 {
                     ta.Update();
                 }
@@ -512,10 +512,10 @@ namespace AdventureGame.Engine
 
             foreach (Entity e in EntityList)
             {
-                for (int i = e.timedActionList.Count - 1; i >= 0; i--)
+                for (int i = e.TimedActionList.Count - 1; i >= 0; i--)
                 {
-                    if (e.timedActionList[i].framesLeft == 0)
-                        e.timedActionList.RemoveAt(i);
+                    if (e.TimedActionList[i].framesLeft == 0)
+                        e.TimedActionList.RemoveAt(i);
                 }
             }
             // sort entities in scene
