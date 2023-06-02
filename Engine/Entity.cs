@@ -9,27 +9,29 @@ namespace AdventureGame.Engine
         public int Id { get; set; }
         public Guid Guid { get; private set; }
         public ulong Signature { get; set; }
-        //public Scene Scene { get; set; }
+
+        public Entity Owner { get; set; }
+        public Tags Tags { get; set; }
         public string State { get; set; }
         public string PrevState { get; set; }
-        public Tags Tags { get; set; }
 
         public List<Component> Components { get; set; } // Dictionary/HashSet?
-        private readonly EntityManager entityManager;
-        private readonly ComponentManager componentManager;
+        private readonly EntityManager _entityManager;
+        private readonly ComponentManager _componentManager;
 
-        public List<TimedAction> timedActionList = new List<TimedAction>();
+        public List<TimedAction> TimedActionList = new List<TimedAction>(); // delete?
 
         public Entity(int id)
         {
             Id = id;
             GenerateGuid();
-            State = "default";
+            Owner = this;
             Tags = new Tags();
+            State = "default";
 
             Components = new List<Component>();
-            entityManager = EngineGlobals.entityManager;
-            componentManager = EngineGlobals.componentManager;
+            _entityManager = EngineGlobals.entityManager;
+            _componentManager = EngineGlobals.componentManager;
 
             PrevState = State;
         }
@@ -43,25 +45,25 @@ namespace AdventureGame.Engine
         // Return if the entity is the local player
         public bool IsLocalPlayer()
         {
-            return entityManager.IsLocalPlayer(this);
+            return _entityManager.IsLocalPlayer(this);
         }
 
         // Return if the entity has a player type Tag
         public bool IsPlayerType()
         {
-            return entityManager.IsPlayerType(this);
+            return _entityManager.IsPlayerType(this);
         }
 
         // Add a component to the entity
         public void AddComponent(Component component, bool instant = false)
         {
-            componentManager.AddComponent(this, component, instant);
+            _componentManager.AddComponent(this, component, instant);
         }
 
         // Add and return a component from the entity
         public T AddComponent<T>(Component component, bool instant = false) where T : Component
         {
-            componentManager.AddComponent(this, component, instant);
+            _componentManager.AddComponent(this, component, instant);
             return (T)component;
         }
 
@@ -74,7 +76,7 @@ namespace AdventureGame.Engine
             component = new T();
             if (component is Component)
             {
-                componentManager.AddComponent(this, (Component)component, instant);
+                _componentManager.AddComponent(this, (Component)component, instant);
                 return (T)component;
             }
             else
@@ -86,7 +88,7 @@ namespace AdventureGame.Engine
         {
             Component component = GetComponent<T>();
             if (component != null)
-                componentManager.RemoveComponent(this, component, instant);
+                _componentManager.RemoveComponent(this, component, instant);
         }
 
         // Return a given component from the entity
@@ -115,14 +117,14 @@ namespace AdventureGame.Engine
         public void Destroy()
         {
             OnDestroy();
-            entityManager.DeleteEntity(this);
+            _entityManager.DeleteEntity(this);
         }
 
         public virtual void OnDestroy() { }
 
         public void After(int frames, Action<Entity> f)
         {
-            timedActionList.Add(new TimedAction(this, frames, f));
+            TimedActionList.Add(new TimedAction(this, frames, f));
         }
     }
 
