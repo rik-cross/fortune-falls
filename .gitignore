@@ -42,8 +42,6 @@ Content/bin/*
 !Content/Characters/Human/
 !Content/Characters/Human/*
 !Content/Characters/Human/*/*
-!Content/Characters/Players/
-!Content/Characters/Players/*
 !Content/Characters/NPC/
 !Content/Characters/NPC/*
 !Content/Characters/Enemies/
