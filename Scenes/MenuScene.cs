@@ -103,38 +103,7 @@ namespace AdventureGame
             //mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.AnimatedSpriteComponent animatedComponent = mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
-
-            // Waiting
-            folder = "WAITING/";
-            keyStr = "_waiting_strip9";
-            animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
-                "waiting", 0, 8, offset: offset);
-            animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
-                "waiting", 0, 8, offset: offset);
-            animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
-                "waiting", 0, 8, offset: offset);
-
-            // Casting
-            folder = "CASTING/";
-            keyStr = "_casting_strip15";
-            animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
-                "casting", 0, 14, offset: offset);
-            animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
-                "casting", 0, 14, offset: offset);
-            animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
-                "casting", 0, 14, offset: offset);
-            animatedComponent.GetAnimatedSprite("casting").OnComplete = (Engine.Entity e) => e.State = "waiting";
-
-            // Caught
-            folder = "CAUGHT/";
-            keyStr = "_caught_strip10";
-            animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
-                "caught", 0, 9, offset: offset);
-            animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
-                "caught", 0, 9, offset: offset);
-            animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
-                "caught", 0, 9, offset: offset);
-            animatedComponent.GetAnimatedSprite("caught").OnComplete = (Engine.Entity e) => e.State = "casting";
+            CreatePlayerSprites();
 
             //string dir = "Characters/Players/long_hair/";
             //Vector2 offset = new Vector2(-41, -21);
@@ -358,6 +327,56 @@ namespace AdventureGame
             _title.Draw();
             inputText.Draw();
             versionText.Draw();
+        }
+
+        // Used to change the player style and re-create the sprites
+        public void CreatePlayerSprites()
+        {
+            AnimatedSpriteComponent animatedComponent = mainMenuPlayer.GetComponent<AnimatedSpriteComponent>();
+
+            // Character sprites
+            string dir = Globals.characterDir;
+            string characterStr = Globals.playerStr;
+            string baseStr = Globals.characterBaseStr;
+            string toolStr = Globals.characterToolStr;
+            string folder = "";
+            string keyStr = "";
+            Vector2 offset = new Vector2(-41, -21);
+
+            // Testing
+            //characterStr = "spikeyhair";
+
+            // Waiting
+            folder = "WAITING/";
+            keyStr = "_waiting_strip9";
+            animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
+                "waiting", 0, 8, offset: offset);
+            animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
+                "waiting", 0, 8, offset: offset);
+            animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
+                "waiting", 0, 8, offset: offset);
+
+            // Casting
+            folder = "CASTING/";
+            keyStr = "_casting_strip15";
+            animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
+                "casting", 0, 14, offset: offset);
+            animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
+                "casting", 0, 14, offset: offset);
+            animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
+                "casting", 0, 14, offset: offset);
+            animatedComponent.GetAnimatedSprite("casting").OnComplete = (Engine.Entity e) => e.State = "waiting";
+
+            // Caught
+            folder = "CAUGHT/";
+            keyStr = "_caught_strip10";
+            animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
+                "caught", 0, 9, offset: offset);
+            animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
+                "caught", 0, 9, offset: offset);
+            animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
+                "caught", 0, 9, offset: offset);
+            animatedComponent.GetAnimatedSprite("caught").OnComplete = (Engine.Entity e) => e.State = "casting";
         }
 
     }
