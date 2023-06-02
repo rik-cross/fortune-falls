@@ -10,23 +10,23 @@ namespace AdventureGame.Engine
         public BattleSystem()
         {
             RequiredComponent<BattleComponent>();
-            RequiredComponent<SpriteComponent>();
+            RequiredComponent<AnimatedSpriteComponent>();
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             BattleComponent battleComponent = entity.GetComponent<BattleComponent>();
-            SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
+            AnimatedSpriteComponent animatedComponent = entity.GetComponent<AnimatedSpriteComponent>();
 
             HBox hitBox = battleComponent.GetHitbox(entity.State);
-            Sprite sprite = spriteComponent.GetSprite(entity.State);
+            AnimatedSprite animatedSprite = animatedComponent.GetAnimatedSprite(entity.State);
 
-            if (sprite == null)
+            if (animatedSprite == null)
                 return;
 
             if (battleComponent.GetHitbox(entity.State) != null
-                && (sprite.CurrentFrame == hitBox.frame || hitBox.frame == -1)
-                && sprite.Timer == 0)
+                && (animatedSprite.SpriteList[0].CurrentFrame == hitBox.frame || hitBox.frame == -1)
+                && animatedSprite.Timer == 0)
             {
 
                 bool hit = false;

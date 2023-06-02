@@ -48,16 +48,20 @@ namespace AdventureGame
         public static List<Engine.InputItem> leftInput = new List<Engine.InputItem>() { Engine.KeyboardInput.A, Engine.ControllerInput.LeftThumbLeft };
         public static List<Engine.InputItem> rightInput = new List<Engine.InputItem>() { Engine.KeyboardInput.D, Engine.ControllerInput.LeftThumbRight };
 
-        public static Engine.Scene menuScene;
-        public static Engine.Scene gameScene;
-        public static Engine.Scene homeScene;
-        public static Engine.Scene beachScene;
-        public static Engine.Scene villageScene;
-
         public static float globalZoomLevel = 2.5f;
 
         public static SoundEffect dialogueTickSound;
 
+        // Character sprite sheets
+        public static string characterDir = "Characters/Human/";
+        public static string characterBaseStr = "base";
+        public static string characterToolStr = "tools";
+        public static string[] allCharacters = new string[6] {
+                "bowlhair", "curlyhair", "longhair", "mophair", "shorthair", "spikeyhair" };
+
+        // Player settings
+        public static int playerIndex = 2; // longhair
+        public static string playerStr = allCharacters[playerIndex];
     }
 
 }

@@ -70,11 +70,11 @@ namespace AdventureGame.Engine
                                 if (tce.GetRectangle().Intersects(tco.GetRectangle()) &&
                                     tce.Position.Y + cce.Offset.Y + cce.Size.Y - 5 < tco.Position.Y + cco.Offset.Y )
                                 {
-                                    sco.alpha = 0.5f;
+                                    sco.Alpha = 0.5f;
                                 }
                                 else
                                 {
-                                    sco.alpha = 1.0f;
+                                    sco.Alpha = 1.0f;
                                 }
                             }
                         }

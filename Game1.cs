@@ -86,7 +86,7 @@ namespace AdventureGame
 
             // Todo create player when the game is loaded and add it to active scene
             // Create player entity
-            PlayerEntity2.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
+            PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
 
             if (EngineGlobals.inputManager.IsControllerConnected())
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;

@@ -46,42 +46,109 @@ namespace AdventureGame
 
 
             // Add sprites
-            string dir = "Characters/Players/long_hair/";
+            string filePath = "";
+            string dir = Globals.characterDir;
+            string characterStr = Globals.playerStr;
+            string baseStr = Globals.characterBaseStr;
+            string toolStr = Globals.characterToolStr;
+            string folder = "";
+            string keyStr = "";
             //int spriteWidth = 96;
             //int spriteHeight = 64;
             //int drawWidth = 36;
             //int drawHeight = 56;
             Vector2 offset = new Vector2(-41, -21);
-            Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent());
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_left", 0, 8, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_right", 0, 8, offset: offset);
+            Engine.AnimatedSpriteComponent animatedComponent = playerEntity.AddComponent<AnimatedSpriteComponent>();
+            //Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent());
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_walk_strip8", "walk_left", 0, 7, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_walk_strip8", "walk_right", 0, 7, offset: offset);
+            // State e.g. idle_left
+            // Flip dynamically using isLeft/isRight?
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_run_strip8", "run_left", 0, 7, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_run_strip8", "run_right", 0, 7, offset: offset);
+            // base_idle_strip9
+            // longhair_idle_strip9
+            // tools_idle_strip9
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_sword_strip10", "sword_left", 0, 9, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_sword_strip10", "sword_right", 0, 9, offset: offset);
-            spriteComponent.GetSprite("sword_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-            spriteComponent.GetSprite("sword_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+            // Idle
+            folder = "IDLE/";
+            keyStr = "_idle_strip9";
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_axe_strip10", "axe_left", 0, 9, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_axe_strip10", "axe_right", 0, 9, offset: offset);
-            spriteComponent.GetSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-            spriteComponent.GetSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+            filePath = dir + folder + baseStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_hammer_strip23", "hammer_left", 0, 22, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_hammer_strip23", "hammer_right", 0, 22, offset: offset);
-            spriteComponent.GetSprite("hammer_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-            spriteComponent.GetSprite("hammer_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+            filePath = dir + folder + characterStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_pickaxe_strip10", "pickaxe_left", 0, 9, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_pickaxe_strip10", "pickaxe_right", 0, 9, offset: offset);
-            spriteComponent.GetSprite("pickaxe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-            spriteComponent.GetSprite("pickaxe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+            filePath = dir + folder + toolStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
+
+            // Walk
+            folder = "WALKING/";
+            keyStr = "_walk_strip8";
+
+            filePath = dir + folder + baseStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+
+            filePath = dir + folder + characterStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+
+            filePath = dir + folder + toolStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+
+            // Run
+            folder = "RUN/";
+            keyStr = "_run_strip8";
+
+            filePath = dir + folder + baseStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+
+            filePath = dir + folder + characterStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+
+            filePath = dir + folder + toolStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+
+            // Axe
+            folder = "AXE/";
+            keyStr = "_axe_strip10";
+
+            filePath = dir + folder + baseStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+
+            filePath = dir + folder + characterStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+
+            // Todo: change to create a new tool entity with a different layer depth
+            // Option 1:
+            // - OnStart action that creates the tool entity
+            // - OnCancel action that destroys the tool entity and sets new state
+            // - OnComplete action that destroys the tool entity and sets idle state
+
+            // The tool would need to be linked to the player entity (as a child?) so that
+            // the transform components of both are updated.
+
+            // The battle component would be associated with the tool (OnHit - do damage)
+            // and the player (e.g. OnHit - gain XP)
+
+            filePath = dir + folder + toolStr + keyStr;
+            animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
+            //    onComplete: (Engine.Entity e) => e.State = "idle_left");
+            animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+            //    onComplete: (Engine.Entity e) => e.State = "idle_right");
+
+            animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
+            animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
             // Testing - Set layer depth
             //spriteComponent.GetSprite("idle_left").layerDepth = 0.4f;

@@ -6,13 +6,10 @@ namespace AdventureGame.Engine
 {
     public class AnimatedSprite
     {
-        //public List<Texture2D> textureList = new List<Texture2D>();
         public List<Sprite> SpriteList { get; private set; }
+        public Entity ChildEntity { get; set; } // Todo: could be a list
 
-        public Entity ChildEntity { get; set; }
-
-        //public string defaultDirection; // left/right to automate flipH 
-
+        //public string DefaultDirection; // left/right to automate flipH
         public Vector2 Size { get; private set; }
         public Vector2 Offset { get; private set; }
         public bool FlipH { get; private set; }
@@ -20,7 +17,7 @@ namespace AdventureGame.Engine
 
         public bool Play { get; set; }
         public bool Loop { get; private set; }
-        public int CurrentFrame { get; set; }
+        //public int CurrentFrame { get; set; }
         public int AnimationDelay { get; private set; }
         public int Timer { get; set; }
         public bool Completed { get; set; }
@@ -32,23 +29,22 @@ namespace AdventureGame.Engine
             Action<Entity> onComplete = null)
         {
             SpriteList = new List<Sprite>() { sprite };
-            //SpriteList.Add(sprite);
 
             if (size != default)
-                this.Size = size;
+                Size = size;
             else
-                this.Size = sprite.Size;
+                Size = sprite.Size;
 
             if (offset == default)
-                this.Offset = new Vector2(0, 0);
+                Offset = new Vector2(0, 0);
             else
-                this.Offset = offset;
+                Offset = offset;
 
-            this.FlipH = flipH;
-            this.FlipV = flipV;
+            FlipH = flipH;
+            FlipV = flipV;
 
-            this.Play = play;
-            this.Loop = loop;
+            Play = play;
+            Loop = loop;
             AnimationDelay = delay;
             OnComplete = onComplete;
 
@@ -60,48 +56,44 @@ namespace AdventureGame.Engine
             bool play = true, bool loop = true, int delay = 6,
             Action<Entity> onComplete = null)
         {
-            this.SpriteList = spriteList;
+            SpriteList = spriteList;
             Size = spriteList[0].Size;
 
             if (offset == default)
-                this.Offset = new Vector2(0, 0);
+                Offset = new Vector2(0, 0);
             else
-                this.Offset = offset;
+                Offset = offset;
 
-            this.FlipH = flipH;
-            this.FlipV = flipV;
+            FlipH = flipH;
+            FlipV = flipV;
 
-            this.Play = play;
-            this.Loop = loop;
+            Play = play;
+            Loop = loop;
             AnimationDelay = delay;
             OnComplete = onComplete;
 
             Reset();
         }
 
-        //public Sprite GetCurrentSprite()
-        //{
-        //    return spriteList[currentPosition];
-        //}
-
-        //public Texture2D GetCurrentTexture()
-        //{
-        //    return textureList[currentPosition];
-        //}
-
-        //public Texture2D GetTexture(int frame)
-        //{
-        //    if (frame >= 0 && frame < textureList.Count)
-        //        return textureList[frame];
-        //    else
-        //        return null;
-        //}
-
         public void Reset()
         {
-            CurrentFrame = 0;
             Timer = 0;
             Completed = false;
+
+            foreach (Sprite sprite in SpriteList)
+                sprite.CurrentFrame = 0;
+        }
+
+        public void NextFrame()
+        {
+            foreach (Sprite sprite in SpriteList)
+                sprite.CurrentFrame += 1;
+        }
+
+        public void SetFrame(int frame)
+        {
+            foreach (Sprite sprite in SpriteList)
+                sprite.CurrentFrame = frame;
         }
     }
 }

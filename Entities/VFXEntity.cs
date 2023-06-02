@@ -15,14 +15,14 @@ namespace AdventureGame
 
             // Add sprites
             string dir = "VFX/";
-            Engine.SpriteComponent spriteComponent = vfxEntity.AddComponent<Engine.SpriteComponent>();
-            spriteComponent.AddAnimatedSprite(dir + filename, defaultState, startFrame, endFrame);
+            Engine.AnimatedSpriteComponent animatedComponent = vfxEntity.AddComponent<Engine.AnimatedSpriteComponent>();
+            animatedComponent.AddAnimatedSprite(dir + filename, defaultState, startFrame, endFrame);
 
             // Set state
             vfxEntity.State = defaultState;
 
             // Add other components
-            Vector2 imageSize = spriteComponent.GetSpriteSize(defaultState);
+            Vector2 imageSize = animatedComponent.GetAnimatedSpriteSize(defaultState);
             vfxEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), imageSize));
 
             // Set the draw order offset to be higher than the default position

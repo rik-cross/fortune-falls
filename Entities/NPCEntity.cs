@@ -45,21 +45,21 @@ namespace AdventureGame
             // Add sprites
             string dir = "Characters/NPC/";
             Vector2 offset = new Vector2(-41, -21);
-            Engine.SpriteComponent spriteComponent = npcEntity.AddComponent<SpriteComponent>(new SpriteComponent());
+            Engine.AnimatedSpriteComponent animatedComponent = npcEntity.AddComponent<AnimatedSpriteComponent>();
 
-            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_left", 0, 7, offset: offset, flipH: true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_right", 0, 7, offset: offset);
+            animatedComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_right", 0, 7, offset: offset);
 
             // Todo change to parameter for NPC action?
-            spriteComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_left", 0, 22, 3, 10, offset, true);
-            spriteComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_right", 0, 22, 3, 10, offset);
+            animatedComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_left", 0, 22, 3, 10, offset, true);
+            animatedComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_right", 0, 22, 3, 10, offset);
 
             // Set state
             npcEntity.State = "hammer_left";
 
             //if (thumbnail != null)
             //npcEntity.AddComponent(new Engine.ThumbnailComponent(dir + thumbnail));
-            npcEntity.AddComponent(new Engine.ThumbnailComponent(spriteComponent.GetSprite("idle_right").GetTexture(0)));
+            npcEntity.AddComponent(new Engine.ThumbnailComponent(animatedComponent.GetSprite("idle_right").GetTexture(0)));
 
 
             // Add other components

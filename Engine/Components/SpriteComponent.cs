@@ -13,32 +13,25 @@ namespace AdventureGame.Engine
     {
         public Dictionary<string, Sprite> SpriteDict { get; private set; }
         //public bool visible { get; set; }
-        public float alpha = 1.0f;
-        public string lastState;
+        public float Alpha { get; set; }
+        public string LastState { get; set; }
 
         public SpriteComponent()
         {
             SpriteDict = new Dictionary<string, Sprite>();
+            Alpha = 1.0f;
         }
 
         // Constructor for a single static sprite
         public SpriteComponent(string filePath, string key = "default")
         {
             SpriteDict = new Dictionary<string, Sprite>();
+            Alpha = 1.0f;
+            LastState = key;
             AddSprite(filePath, key);
-            lastState = key;
-        }
-
-        // Todo delete?
-        public SpriteComponent(Sprite sprite, string key = "default")
-        {
-            SpriteDict = new Dictionary<string, Sprite>();
-            AddSprite(key, sprite);
-            lastState = key;
         }
 
         // Add a sprite to the dictionary
-        // Todo swap parameter order?
         public void AddSprite(string key, Sprite sprite)
         {
             SpriteDict[key] = sprite;
@@ -109,40 +102,6 @@ namespace AdventureGame.Engine
             }
         }
 
-        // Add animated sprites using frames which start at 0.
-        // Width and height calculated using framesPerRow.
-        // Todo change delay to speed (FPS)?
-        public void AddAnimatedSprite(string filePath, string key,
-            int startFrame, int endFrame, int totalRows = 1, int framesPerRow = -1,
-            Vector2 offset = default, bool flipH = false, bool flipV = false,
-            bool play = true, bool loop = true, int delay = 6)
-        {
-            // Load the sprite sheet
-            Texture2D spriteSheet = Globals.content.Load<Texture2D>(filePath);
-
-            // Assume only one row if frames per row is not given
-            if (framesPerRow == -1)
-                framesPerRow = (endFrame - startFrame + 1) / totalRows;
-
-            // Calculate the width and height of a single frame
-            int frameWidth = spriteSheet.Width / framesPerRow;
-            int frameHeight = spriteSheet.Height / totalRows;
-
-            // Slice the sprite sheet using start and end frame
-            List<Texture2D> subTextures = new List<Texture2D>();
-            int x, y;
-            for (int i = startFrame; i <= endFrame; i++)
-            {
-                // Calculate the x and y index values
-                x = i % framesPerRow;
-                y = i / framesPerRow;
-                subTextures.Add(GetSubTexture(spriteSheet, x, y, frameWidth, frameHeight));
-            }
-
-            Sprite sprite = new Sprite(subTextures, offset, flipH, flipV, play, loop, delay);
-            AddSprite(key, sprite);
-        }
-
         /// <summary>
         /// Gets the Sprite for a given state.
         /// </summary>
@@ -185,18 +144,6 @@ namespace AdventureGame.Engine
             subTexture.SetData(data);
 
             return subTexture;
-        }
-
-        public void SetAnimationDelay(int delay)
-        {
-            foreach (Sprite sprite in SpriteDict.Values)
-                sprite.AnimationDelay = delay;
-        }
-
-        public void ModifyAnimationDelay(float modifier)
-        {
-            foreach (Sprite sprite in SpriteDict.Values)
-                sprite.AnimationDelay = (int)Math.Ceiling(sprite.AnimationDelay * modifier);
         }
 
     }

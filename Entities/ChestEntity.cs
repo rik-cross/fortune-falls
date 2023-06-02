@@ -16,11 +16,14 @@ namespace AdventureGame
             // Add sprites
             string dir = "Objects/";
             Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();
+            Engine.AnimatedSpriteComponent animatedComponent = entity.AddComponent<AnimatedSpriteComponent>();
 
             spriteComponent.AddSprite(dir + filename, "closed", 0, 4);
             spriteComponent.AddSprite(dir + filename, "open", 4, 4);
-            spriteComponent.AddAnimatedSprite(dir + filename, "open_animation", 0, 4, loop: false);
-            spriteComponent.GetSprite("open_animation").OnComplete = DropLoot;
+            animatedComponent.AddAnimatedSprite(dir + filename, "open_animation", 0, 4,
+                loop: false, onComplete: DropLoot);
+            //spriteComponent.AddAnimatedSprite(dir + filename, "open_animation", 0, 4, loop: false);
+            //spriteComponent.GetSprite("open_animation").OnComplete = DropLoot;
 
             // Set state
             entity.State = defaultState;

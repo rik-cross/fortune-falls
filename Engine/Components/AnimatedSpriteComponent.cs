@@ -13,19 +13,13 @@ namespace AdventureGame.Engine
     {
         public Dictionary<string, AnimatedSprite> AnimatedSprites { get; private set; }
         //public bool visible { get; set; }
-        public float alpha = 1.0f;
-        public string lastState;
+        public float Alpha { get; set; }
+        public string LastState { get; set; }
 
         public AnimatedSpriteComponent()
         {
             AnimatedSprites = new Dictionary<string, AnimatedSprite>();
-        }
-
-        // Add a sprite to the dictionary
-        public void AddSprite(string key, Sprite sprite)
-        {
-            //AnimatedSprites[key] = sprite;
-            AddToDictionary(key, sprite);
+            Alpha = 1.0f;
         }
 
         // Add animated sprites using frames which start at 0.
@@ -59,22 +53,28 @@ namespace AdventureGame.Engine
                 subTextures.Add(GetSubTexture(spriteSheet, x, y, frameWidth, frameHeight));
             }
 
-            Sprite sprite = new Sprite(subTextures, offset, flipH, flipV, play, loop, delay, onComplete);
-            //AddSprite(key, sprite);
-            AddToDictionary(key, sprite);
-        }
-
-        private void AddToDictionary(string key, Sprite sprite)
-        {
-            // Todo here or before?
-            // SpriteLayerDepth (relative to all children AND world?)
+            Sprite sprite = new Sprite(subTextures, offset, flipH, flipV);
+            //AddToDictionary(key, sprite);
 
             if (AnimatedSprites.ContainsKey(key))
                 AnimatedSprites[key].SpriteList.Add(sprite);
             else
                 AnimatedSprites.Add(key, new AnimatedSprite(
-                    sprite, sprite.Size, sprite.Offset, sprite.FlipH, sprite.FlipV,
-                    sprite.Play, sprite.Loop, sprite.AnimationDelay));
+                    sprite, sprite.Size, offset, flipH, flipV,
+                    play, loop, delay, onComplete));
+        }
+
+        public void AddAnimatedSprite(string key, Sprite sprite,
+            Vector2 offset = default, bool flipH = false, bool flipV = false,
+            bool play = true, bool loop = true, int delay = 6,
+            Action<Entity> onComplete = null)
+        {
+            if (AnimatedSprites.ContainsKey(key))
+                AnimatedSprites[key].SpriteList.Add(sprite);
+            else
+                AnimatedSprites.Add(key, new AnimatedSprite(
+                    sprite, sprite.Size, offset, flipH, flipV,
+                    play, loop, delay, onComplete));
         }
 
         /// <summary>
@@ -84,8 +84,8 @@ namespace AdventureGame.Engine
         /// <returns>AnimatedSprite, or null if no state exists for the state provided.</returns>
         public AnimatedSprite GetAnimatedSprite(string state = "default")
         {
-            //if (SpriteDict.ContainsKey(state))
-            //    return SpriteDict[state];
+            //if (AnimatedSprites.ContainsKey(state))
+            //    return AnimatedSprites[state];
             //else
             //    return null;
 
@@ -93,18 +93,7 @@ namespace AdventureGame.Engine
             return AnimatedSprites[state];
         }
 
-        public Sprite GetSprite(int index = 0, string state = "default")
-        {
-            //if (SpriteDict.ContainsKey(state))
-            //    return SpriteDict[state];
-            //else
-            //    return null;
-
-            // Testing
-            return AnimatedSprites[state].SpriteList[index];
-        }
-
-        public Vector2 GetSpriteSize(string state = "default")
+        public Vector2 GetAnimatedSpriteSize(string state = "default")
         {
             //if (SpriteDict.ContainsKey(state))
             //    return SpriteDict[state].size;
@@ -116,6 +105,22 @@ namespace AdventureGame.Engine
 
             // Todo Account for offset?
             //return SpriteDict[state].size + SpriteDict[state].offset;
+        }
+
+        public Sprite CloneSprite(Sprite sprite)
+        {
+            return new Sprite(sprite.TextureList, sprite.Offset, sprite.FlipH, sprite.FlipV);
+        }
+
+        public Sprite GetSprite(string state = "default", int index = 0)
+        {
+            //if (AnimatedSprites.ContainsKey(state))
+            //    return AnimatedSprites[state];
+            //else
+            //    return null;
+
+            // Testing
+            return AnimatedSprites[state].SpriteList[index];
         }
 
         public Texture2D GetSubTexture(Texture2D texture, int x, int y, int width, int height)

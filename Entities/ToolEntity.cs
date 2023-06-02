@@ -29,8 +29,8 @@ namespace AdventureGame
 
             // Add sprites
             //string filePath = "";
-            string dir = "Characters/Human/"; // parameter??
-            string toolStr = "tools";
+            string dir = Globals.characterDir;
+            string toolStr = Globals.characterToolStr;
             string folder = ""; // parameter??
             string keyStr = ""; // parameter??
             //Vector2 offset = new Vector2(-41, -21); // parameter!!
@@ -53,9 +53,8 @@ namespace AdventureGame
             animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
             animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
-
             // Set state
-            toolEntity.State = "default";
+            toolEntity.State = "none";
 
             // Add other components
             toolEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
