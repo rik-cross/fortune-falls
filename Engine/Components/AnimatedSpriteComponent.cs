@@ -22,6 +22,15 @@ namespace AdventureGame.Engine
             Alpha = 1.0f;
         }
 
+        public void ClearAllAnimatedSprites()
+        {
+            AnimatedSprites.Clear();
+        }
+        public void ClearAnimatedSprites(string key)
+        {
+            AnimatedSprites.Remove(key);
+        }
+
         // Add animated sprites using frames which start at 0.
         // Width and height calculated using framesPerRow.
         // Todo change delay to speed (FPS)?

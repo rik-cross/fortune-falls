@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -14,7 +15,6 @@ namespace AdventureGame.Engine
         public Vector2 Offset { get; private set; }
         public bool FlipH { get; private set; }
         public bool FlipV { get; private set; }
-
         public bool Play { get; set; }
         public bool Loop { get; private set; }
         //public int CurrentFrame { get; set; }

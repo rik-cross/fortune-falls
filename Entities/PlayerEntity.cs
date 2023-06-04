@@ -44,7 +44,83 @@ namespace AdventureGame
             }
             playerEntity.Tags.AddTag("player");
 
+            Vector2 offset = new Vector2(-41, -21);
 
+            AddSprites();
+
+            // Testing - Set layer depth
+            //spriteComponent.GetSprite("idle_left").layerDepth = 0.4f;
+            //spriteComponent.GetSprite("idle_right").layerDepth = 0.4f;
+
+            // Set state
+            playerEntity.State = "idle_right";
+
+            // Add other components
+            playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
+            playerEntity.AddComponent(new Engine.IntentionComponent());
+            playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
+
+            playerEntity.AddComponent(new Engine.ColliderComponent(
+                size: new Vector2(13, 6),
+                offset: new Vector2(0, 11)
+            ));
+
+            playerEntity.AddComponent(new Engine.TriggerComponent(
+                size: new Vector2(15, 6),
+                offset: new Vector2(0, 14)
+            ));
+
+            playerEntity.AddComponent(new Engine.InputComponent(
+                null, //Engine.Inputs.controller,
+                PlayerInputController
+            ));
+
+            /*
+            playerEntity.AddComponent(new Engine.HitboxComponent( // Remove
+                size: new Vector2(drawWidth, drawHeight),
+                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
+            ));
+            playerEntity.AddComponent(new Engine.HurtboxComponent(
+                size: new Vector2(drawWidth, drawHeight),
+                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
+            ));
+            */
+            playerEntity.AddComponent(new Engine.HealthComponent());
+            playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
+            playerEntity.AddComponent(new Engine.InventoryComponent(20));
+            playerEntity.AddComponent(new Engine.KeyItemsComponent());
+            playerEntity.AddComponent(new Engine.CanCollectComponent());
+
+            //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
+
+            playerEntity.AddComponent(new Engine.BattleComponent());
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(15, 20)));
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(20, 20), new Vector2(15, 0), frame: 6));
+            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(20, 20), new Vector2(-20, 0), frame: 6));
+            playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
+
+            playerEntity.AddComponent(new Engine.DialogueComponent());
+
+            return playerEntity;
+        }
+
+        public static void AddSprites()
+        {
+
+
+            Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            Globals.playerStr = Globals.allCharacters[Globals.playerIndex];
+
+            Engine.AnimatedSpriteComponent animatedComponent;
+            if (playerEntity.GetComponent<AnimatedSpriteComponent>() == null)
+            {
+                animatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
+            } else
+            {
+                animatedComponent = playerEntity.GetComponent<Engine.AnimatedSpriteComponent>();
+                animatedComponent.ClearAllAnimatedSprites();
+            }
+            
             // Add sprites
             string filePath = "";
             string dir = Globals.characterDir;
@@ -59,7 +135,7 @@ namespace AdventureGame
             //int drawHeight = 56;
             Vector2 offset = new Vector2(-41, -21);
 
-            Engine.AnimatedSpriteComponent animatedComponent = playerEntity.AddComponent<AnimatedSpriteComponent>();
+            //Engine.AnimatedSpriteComponent animatedComponent = playerEntity.AddComponent<AnimatedSpriteComponent>();
             //Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent());
 
             // State e.g. idle_left
@@ -150,60 +226,7 @@ namespace AdventureGame
             animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
             animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
-            // Testing - Set layer depth
-            //spriteComponent.GetSprite("idle_left").layerDepth = 0.4f;
-            //spriteComponent.GetSprite("idle_right").layerDepth = 0.4f;
 
-            // Set state
-            playerEntity.State = "idle_right";
-
-            // Add other components
-            playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
-            playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
-
-            playerEntity.AddComponent(new Engine.ColliderComponent(
-                size: new Vector2(13, 6),
-                offset: new Vector2(0, 11)
-            ));
-
-            playerEntity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(15, 6),
-                offset: new Vector2(0, 14)
-            ));
-
-            playerEntity.AddComponent(new Engine.InputComponent(
-                null, //Engine.Inputs.controller,
-                PlayerInputController
-            ));
-
-            /*
-            playerEntity.AddComponent(new Engine.HitboxComponent( // Remove
-                size: new Vector2(drawWidth, drawHeight),
-                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
-            ));
-            playerEntity.AddComponent(new Engine.HurtboxComponent(
-                size: new Vector2(drawWidth, drawHeight),
-                offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
-            ));
-            */
-            playerEntity.AddComponent(new Engine.HealthComponent());
-            playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
-            playerEntity.AddComponent(new Engine.InventoryComponent(20));
-            playerEntity.AddComponent(new Engine.KeyItemsComponent());
-            playerEntity.AddComponent(new Engine.CanCollectComponent());
-
-            //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
-
-            playerEntity.AddComponent(new Engine.BattleComponent());
-            playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(15, 20)));
-            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(20, 20), new Vector2(15, 0), frame: 6));
-            playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(20, 20), new Vector2(-20, 0), frame: 6));
-            playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
-
-            playerEntity.AddComponent(new Engine.DialogueComponent());
-
-            return playerEntity;
         }
 
 

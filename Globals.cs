@@ -57,10 +57,14 @@ namespace AdventureGame
         public static string characterBaseStr = "base";
         public static string characterToolStr = "tools";
         public static string[] allCharacters = new string[6] {
-                "bowlhair", "curlyhair", "longhair", "mophair", "shorthair", "spikeyhair" };
+                "longhair", "curlyhair", "bowlhair", "mophair", "shorthair", "spikeyhair" };
+        public static string[] characherNames = new string[6]
+        {
+            "First", "Second", "Third", "Fourth", "Fifth", "Sixth"
+        };
 
         // Player settings
-        public static int playerIndex = 2; // longhair
+        public static int playerIndex = 0;
         public static string playerStr = allCharacters[playerIndex];
     }
 

@@ -95,7 +95,7 @@ namespace AdventureGame.Engine
             this.stepValue = stepValue;
             Init();
         }
-        public override void Init()
+        public override void Init() // TODO - rename text adjust, or add to .text property
         {
             // Calculate text position
             Vector2 textSize = font.MeasureString(text);
@@ -177,7 +177,8 @@ namespace AdventureGame.Engine
 
             // Draw value
             float t = size.X - outlineThickness * 2;
-            float p = (float)(currentValue/(maxValue-minValue)*100);
+            float p = (float)((currentValue/(maxValue-minValue))*100);
+            //S.WriteLine(p); TODO - slider draw is incorrect if min value > 0
             Globals.spriteBatch.FillRectangle(new Vector2(position.X+outlineThickness, position.Y+outlineThickness), new Vector2(t/100*p,size.Y-outlineThickness*2), onColour * a);
             Globals.spriteBatch.FillRectangle(new Vector2(position.X + outlineThickness + (t / 100 * p), position.Y + outlineThickness), new Vector2((t) - (t / 100 * p), size.Y - outlineThickness * 2), offColour * a);
 

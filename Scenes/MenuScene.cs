@@ -222,6 +222,22 @@ namespace AdventureGame
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 200),
                     size: new Vector2(120, 45),
+                    text: "Player",
+                    textColour: Color.White,
+                    outlineColour: Color.White,
+                    outlineThickness: 2,
+                    backgroundColour: Color.DarkSlateGray,
+                    func: (UIButton button) => {
+                        EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(unloadCurrentScene: false);
+                        EngineGlobals.sceneManager.SetPlayerScene<PlayerSelectScene>(new Vector2(0, 0));
+                    }
+                )
+            );
+
+            UIMenu.AddUIElement(
+                new UIButton(
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 150),
+                    size: new Vector2(120, 45),
                     text: "Options",
                     textColour: Color.White,
                     outlineColour: Color.White,
@@ -233,7 +249,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 150),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 100),
                     size: new Vector2(120, 45),
                     text: "Credits",
                     textColour: Color.White,
@@ -246,7 +262,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 100),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 50),
                     size: new Vector2(120, 45),
                     text: "Quit",
                     textColour: Color.White,
