@@ -10,58 +10,78 @@ namespace AdventureGame.Engine
     {
         public SpriteSystem()
         {
-            RequiredComponent<SpriteComponent>();
             RequiredComponent<TransformComponent>();
+            OneOfComponent<SpriteComponent>();
+            OneOfComponent<AnimatedSpriteComponent>();
+
+            // OptionalComponent
+            // OneOfComponent
+            // ExcludeComponent
         }
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            SpriteComponent spritesComponent = entity.GetComponent<SpriteComponent>();
+            AnimatedSpriteComponent animatedComponent = entity.GetComponent<AnimatedSpriteComponent>();
+            SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            if (!spritesComponent.SpriteDict.ContainsKey(entity.State))
+            // Testing 
+            //TransformComponent transform = entity.GetComponent<TransformComponent>();
+            //Globals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
+
+            if (animatedComponent == null && spriteComponent == null)
                 return;
 
-            //if (!spritesComponent.visible)
-            //    return;
+            // Check if the sprite component contains a relevant sprite
+            if (spriteComponent != null
+                && spriteComponent.SpriteDict.ContainsKey(entity.State))
+            {
+                Sprite sprite = spriteComponent.SpriteDict[entity.State];
+                bool h = sprite.FlipH;
+                bool v = sprite.FlipV;
+                DrawSprite(entity, sprite, spriteComponent.Alpha, h, v);
+            }
 
-            Sprite currentSprite = spritesComponent.SpriteDict[entity.State];
-            Texture2D currentTexture = currentSprite.TextureList[currentSprite.CurrentFrame];
-            bool h = currentSprite.FlipH;
-            bool v = currentSprite.FlipV;
+            // Check if the animated sprite component contains a relevant animated sprite
+            if (animatedComponent != null
+                && animatedComponent.AnimatedSprites.ContainsKey(entity.State))
+            {
+                AnimatedSprite animatedSprite = animatedComponent.AnimatedSprites[entity.State];
+                bool h = animatedSprite.FlipH;
+                bool v = animatedSprite.FlipV;
+                foreach (Sprite sprite in animatedSprite.SpriteList)
+                    DrawSprite(entity, sprite, animatedComponent.Alpha, h, v);
+            }
+        }
+
+        private void DrawSprite(Entity entity, Sprite sprite, float alpha, bool h, bool v)
+        {
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+            Texture2D currentTexture = sprite.TextureList[sprite.CurrentFrame];
 
             SpriteEffects se = SpriteEffects.None;
             if (h == true && v == false)
-            {
                 se = SpriteEffects.FlipHorizontally;
-            }
             if (h == false && v == true)
-            {
                 se = SpriteEffects.FlipVertically;
-            }
             if (h == true && v == true)
-            {
                 se = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-            }
-
 
             Globals.spriteBatch.Draw(
                 currentTexture,
                 new Rectangle(
-                    (int)(transformComponent.Position.X + currentSprite.Offset.X), (int)(transformComponent.Position.Y + currentSprite.Offset.Y),
-                    //(int)transformComponent.size.X, (int)transformComponent.size.Y
-                    //(int)currentTexture.Width, (int)currentTexture.Height
-                    (int)currentSprite.Size.X, (int)currentSprite.Size.Y
+                    (int)(transformComponent.Position.X + sprite.Offset.X),
+                    (int)(transformComponent.Position.Y + sprite.Offset.Y),
+                    (int)sprite.Size.X,
+                    (int)sprite.Size.Y
                 ),
                 sourceRectangle: null,
-                Color.White * spritesComponent.Alpha,
+                Color.White * alpha,
                 rotation: 0.0f,
                 origin: Vector2.Zero,
                 effects: se,
                 layerDepth: 0.0f
             );
-
-
         }
 
     }
