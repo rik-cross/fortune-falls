@@ -215,32 +215,32 @@ namespace AdventureGame.Engine
             return signature & ~componentId;
         }
 
-        // Fastest way to check if an entity has the components a system requires
-        public bool CheckComponentsForSystem(ulong entitySignature, ulong systemSignature)
+        // Fast check if an entity has ALL of the components a system requires
+        public bool HasAllComponents(ulong entitySignature, ulong systemSignature)
         {
             return (entitySignature & systemSignature) == systemSignature;
         }
 
-        // Fastest way to check if an entity has the components a system requires
-        public bool CheckComponentsForSystem(Entity e, ulong systemSignature)
+        // Fast check if an entity has ALL of the components a system requires
+        public bool HasAllComponents(Entity e, ulong systemSignature)
         {
             return (e.Signature & systemSignature) == systemSignature;
         }
 
         // Fast check if an entity has AT LEAST ONE of the components a system requires
-        public bool HasOneOfComponents(Entity e, ulong systemSignature)
+        public bool HasAtLeastOneComponent(Entity e, ulong systemSignature)
         {
             return (e.Signature & systemSignature) > 0;
         }
 
-        // Fastest way to check if an entity has a specific component
-        public bool CheckEntityHasComponent(Entity e, ulong componentId)
+        // Fast check if an entity has a specific component
+        public bool EntityHasComponent(Entity e, ulong componentId)
         {
             return (e.Signature & componentId) == componentId;
         }
 
-        // Fastest way to check if an entity has a specific component
-        public bool CheckEntityHasComponent(Entity e, string componentName)
+        // Fast check if an entity has a specific component
+        public bool EntityHasComponent(Entity e, string componentName)
         {
             ulong componentId = GetComponentId(componentName);
             return (e.Signature & componentId) == componentId;

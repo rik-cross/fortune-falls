@@ -13,9 +13,6 @@ namespace AdventureGame.Engine
             RequiredComponent<TransformComponent>();
             OneOfComponent<SpriteComponent>();
             OneOfComponent<AnimatedSpriteComponent>();
-
-            // OptionalComponent
-            // OneOfComponent
             // ExcludeComponent
         }
 

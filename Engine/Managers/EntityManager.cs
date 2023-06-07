@@ -142,7 +142,7 @@ namespace AdventureGame.Engine
             List<Entity> entitiesByComponent = new List<Entity>();
             foreach (Entity e in _entityList)
             {
-                if (EngineGlobals.componentManager.CheckEntityHasComponent(e, componentId))
+                if (EngineGlobals.componentManager.EntityHasComponent(e, componentId))
                     entitiesByComponent.Add(e);
             }
             return entitiesByComponent;

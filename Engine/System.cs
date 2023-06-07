@@ -7,10 +7,12 @@ namespace AdventureGame.Engine
 {
     public abstract class System
     {
-        public ulong systemSignature; // Todo change to required signature
+        public ulong requiredComponentsSignature;
         public ulong oneOfComponentsSignature;
+        public ulong excludedComponentsSignature;
         public HashSet<string> requiredComponents = new HashSet<string>();
         public HashSet<string> oneOfComponents = new HashSet<string>();
+        public HashSet<string> excludedComponents = new HashSet<string>();
         public Dictionary<int, int> entityMapper = new Dictionary<int, int>();
         public List<Entity> entityList = new List<Entity>();
         public bool aboveMap = false;
@@ -47,6 +49,12 @@ namespace AdventureGame.Engine
         public void OneOfComponent<T>() where T : Component
         {
             oneOfComponents.Add(typeof(T).Name);
+        }
+
+        // Add a component's class name to the excluded components set
+        public void ExcludedComponent<T>() where T : Component
+        {
+            excludedComponents.Add(typeof(T).Name);
         }
 
     }

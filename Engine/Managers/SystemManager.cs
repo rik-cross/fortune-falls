@@ -17,18 +17,18 @@ namespace AdventureGame.Engine
 
         public void AddSystem(System system)
         {
-            // add system to the systems list
+            // Add system to the systems list
             systems.Add(system);
-            // generate a signature for the system
-            // Todo change to requiredSignature
-            system.systemSignature = componentManager.SystemComponents(system.requiredComponents);
+
+            // Generate a set of signatures for the system
+            system.requiredComponentsSignature = componentManager.SystemComponents(system.requiredComponents);
             system.oneOfComponentsSignature = componentManager.SystemComponents(system.oneOfComponents);
+            system.excludedComponentsSignature = componentManager.SystemComponents(system.excludedComponents);
         }
 
         public void RegisterSystems()
         {
-            // CHANGE to dynamically load in all systems from Systems folder
-            // but also ordered appropriately?
+            // Todo allow systems to be registered in a custom order
 
             // Add all builtin systems
             AddSystem(new InputSystem());
@@ -52,11 +52,6 @@ namespace AdventureGame.Engine
             AddSystem(new BattleSystem());
             AddSystem(new ParticleSystem());
             //AddSystem(new HitboxSystem2());
-
-            // Register components and bit flags if they don't exist and
-            // generate the signatures for all the systems
-            //foreach (System s in systems)
-            //    s.systemSignature = componentManager.SystemComponents(s.requiredComponents);
         }
 
         // Return a given system from the systems list
@@ -87,14 +82,16 @@ namespace AdventureGame.Engine
 
                 // Check if the system is interested in the entity
                 if (s.requiredComponents.Count > 0
-                    && !componentManager.CheckComponentsForSystem(e, s.systemSignature))
+                    && !componentManager.HasAllComponents(e, s.requiredComponentsSignature))
                     isInterested = false;
 
                 if (s.oneOfComponents.Count > 0
-                    && !componentManager.HasOneOfComponents(e, s.oneOfComponentsSignature))
+                    && !componentManager.HasAtLeastOneComponent(e, s.oneOfComponentsSignature))
                     isInterested = false;
 
-                // Todo excludeComponents check
+                if (s.excludedComponents.Count > 0
+                    && componentManager.HasAtLeastOneComponent(e, s.excludedComponentsSignature))
+                    isInterested = false;
 
 
                 // Check if the entity is relevant
