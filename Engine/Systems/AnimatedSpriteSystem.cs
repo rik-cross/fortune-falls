@@ -12,6 +12,8 @@ namespace AdventureGame.Engine
         {
             RequiredComponent<AnimatedSpriteComponent>();
             RequiredComponent<TransformComponent>();
+
+            // OptionalComponent
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)

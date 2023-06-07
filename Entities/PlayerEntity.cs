@@ -106,8 +106,6 @@ namespace AdventureGame
 
         public static void AddSprites()
         {
-
-
             Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
             Globals.playerStr = Globals.allCharacters[Globals.playerIndex];
 
@@ -115,7 +113,8 @@ namespace AdventureGame
             if (playerEntity.GetComponent<AnimatedSpriteComponent>() == null)
             {
                 animatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
-            } else
+            }
+            else
             {
                 animatedComponent = playerEntity.GetComponent<Engine.AnimatedSpriteComponent>();
                 animatedComponent.ClearAllAnimatedSprites();
@@ -148,6 +147,9 @@ namespace AdventureGame
             // Idle
             folder = "IDLE/";
             keyStr = "_idle_strip9";
+
+            //filePath = dir + folder + baseStr + keyStr;
+            //spriteComponent.AddSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
 
             filePath = dir + folder + baseStr + keyStr;
             animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
@@ -225,8 +227,6 @@ namespace AdventureGame
 
             animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
             animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
-
-
         }
 
 

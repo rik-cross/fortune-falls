@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -14,8 +15,9 @@ namespace AdventureGame.Engine
         {
             TransformComponent transform = entity.GetComponent<TransformComponent>();
 
-            if (!transform.HasMoved())
+            if (!transform.HasMovedY())
                 return;
+            //Console.WriteLine($"Entity {entity.Id}, draw order {transform.DrawOrder}");
 
             if (!transform.UpdateDrawOrder)
                 return;
@@ -23,16 +25,17 @@ namespace AdventureGame.Engine
             // Todo Use the sprite offset to influence the draw order value?
 
             transform.ChangeDrawOrder();
+            //Console.WriteLine($"Entity {entity.Id}, draw order {transform.DrawOrder}");
         }
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            //if (!EngineGlobals.DEBUG)
-            //    return;
+            if (!EngineGlobals.DEBUG)
+                return;
 
-            //TransformComponent transform = entity.GetComponent<TransformComponent>();
+            TransformComponent transform = entity.GetComponent<TransformComponent>();
 
-            //Globals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
+            Globals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
         }
     }
 }

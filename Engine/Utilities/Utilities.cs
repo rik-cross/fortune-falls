@@ -56,7 +56,7 @@ namespace AdventureGame.Engine
                         {
                             // ensure required components are present
                             if (e.GetComponent<TransformComponent>() != null && o.GetComponent<TransformComponent>() != null 
-                                && e.GetComponent<SpriteComponent>() != null && o.GetComponent<SpriteComponent>() != null
+                                && e.GetComponent<AnimatedSpriteComponent>() != null && o.GetComponent<SpriteComponent>() != null
                                 && e.GetComponent<ColliderComponent>() != null && o.GetComponent<ColliderComponent>() != null)
                             {
                                 SpriteComponent sco = o.GetComponent<SpriteComponent>();

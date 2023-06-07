@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -38,16 +37,20 @@ namespace AdventureGame.Engine
         }
 
         // Add a static sprite from a single image
-        public void AddSprite(string filePath, string key = "default")
+        public void AddSprite(string filePath, string key = "default",
+            Vector2 offset = default, bool flipH = false, bool flipV = false)
         {
-            Sprite sprite = new Sprite(Globals.content.Load<Texture2D>(filePath));
+            Texture2D texture = Globals.content.Load<Texture2D>(filePath);
+            Vector2 size = new Vector2(texture.Width, texture.Height);
+            Sprite sprite = new Sprite(texture, size, offset, flipH, flipV);
             //Sprite sprite = new Sprite(Engine.Utils.LoadTexture(filePath + ".png"));
             SpriteDict[key] = sprite;
         }
 
         // Add a static sprite from a sprite sheet
         public void AddSprite(string filePath, string key,
-            int frame, int endFrame, int totalRows = 1, int framesPerRow = -1)
+            int frame, int endFrame, int totalRows = 1, int framesPerRow = -1,
+            Vector2 offset = default, bool flipH = false, bool flipV = false)
         {
             // Load the sprite sheet
             Texture2D spriteSheet = Globals.content.Load<Texture2D>(filePath);
@@ -57,33 +60,34 @@ namespace AdventureGame.Engine
                 framesPerRow = endFrame + 1;
 
             // Calculate the width and height of a single frame
-            int frameWidth = spriteSheet.Width / framesPerRow;
-            int frameHeight = spriteSheet.Height / totalRows;
+            int spriteWidth = spriteSheet.Width / framesPerRow;
+            int spriteHeight = spriteSheet.Height / totalRows;
+            Vector2 spriteSize = new Vector2(spriteWidth, spriteHeight);
 
             // Calculate the x and y index values
             int x = frame % framesPerRow;
             int y = frame / framesPerRow;
 
             // Add the sprite
-            Texture2D texture = GetSubTexture(spriteSheet, x, y, frameWidth, frameHeight);
-            //Sprite sprite = new Sprite(texture, spriteSize, offset, flipH, flipV);
+            Texture2D texture = GetSubTexture(spriteSheet, x, y, spriteWidth, spriteHeight);
+            Sprite sprite = new Sprite(texture, spriteSize, offset, flipH, flipV);
             AddSprite(key, new Sprite(texture));
         }
 
         // Add multiple static sprites from a single spritesheet
         public void AddMultipleStaticSprites(string filePath, List<string> keys,
-            int totalRows = 1, int spritesPerRow = -1,
+            int totalRows = 1, int framesPerRow = -1,
             Vector2 offset = default, bool flipH = false, bool flipV = false)
         {
             // Load the sprite sheet
             Texture2D spriteSheet = Globals.content.Load<Texture2D>(filePath);
 
             // Assume only one row if sprites per row is not given
-            if (spritesPerRow == -1)
-                spritesPerRow = keys.Count / totalRows;
+            if (framesPerRow == -1)
+                framesPerRow = keys.Count / totalRows;
 
             // Calculate the width and height of a sprite
-            int spriteWidth = spriteSheet.Width / spritesPerRow;
+            int spriteWidth = spriteSheet.Width / framesPerRow;
             int spriteHeight = spriteSheet.Height / totalRows;
             Vector2 spriteSize = new Vector2(spriteWidth, spriteHeight);
 
@@ -92,8 +96,8 @@ namespace AdventureGame.Engine
             for (int i = 0; i < keys.Count; i++)
             {
                 // Calculate the x and y index values
-                x = i % spritesPerRow;
-                y = i / spritesPerRow;
+                x = i % framesPerRow;
+                y = i / framesPerRow;
 
                 // Add the sprite
                 Texture2D texture = GetSubTexture(spriteSheet, x, y, spriteWidth, spriteHeight);

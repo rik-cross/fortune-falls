@@ -117,6 +117,12 @@ namespace AdventureGame.Engine
             return e.Tags.Id == "localPlayer";
         }
 
+        // Return if the entity has a player type Tag
+        public bool IsPlayerType(Entity e)
+        {
+            return e.Tags.HasType("player");
+        }
+
         // Return a list of entities based on their type Tag
         public List<Entity> GetAllEntitiesByType(string type)
         {
@@ -127,12 +133,6 @@ namespace AdventureGame.Engine
                     entitiesByType.Add(e);
             }
             return entitiesByType;
-        }
-
-        // Return if the entity has a player type Tag
-        public bool IsPlayerType(Entity e)
-        {
-            return e.Tags.HasType("player");
         }
 
         // Return a list of entities that contain a given component
