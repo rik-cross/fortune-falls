@@ -7,8 +7,10 @@ namespace AdventureGame.Engine
 {
     public abstract class System
     {
-        public ulong systemSignature;
-        public List<string> requiredComponents = new List<string>(); // instantiate elsewhere?
+        public ulong systemSignature; // Todo change to required signature
+        public ulong oneOfComponentsSignature;
+        public HashSet<string> requiredComponents = new HashSet<string>();
+        public HashSet<string> oneOfComponents = new HashSet<string>();
         public Dictionary<int, int> entityMapper = new Dictionary<int, int>();
         public List<Entity> entityList = new List<Entity>();
         public bool aboveMap = false;
@@ -35,10 +37,16 @@ namespace AdventureGame.Engine
         public virtual void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity) { }
 
         // MOVE to SystemManager?
-        // Add a required component's name to the components list
+        // Add a component's class name to the required components set
         public void RequiredComponent<T>() where T : Component
         {
             requiredComponents.Add(typeof(T).Name);
+        }
+
+        // Add a component's class name to the one of components set
+        public void OneOfComponent<T>() where T : Component
+        {
+            oneOfComponents.Add(typeof(T).Name);
         }
 
     }

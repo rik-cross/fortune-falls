@@ -142,7 +142,7 @@ namespace AdventureGame.Engine
         }
 
         // Generate system signature based on components list
-        public ulong SystemComponents(List<string> components)
+        public ulong SystemComponents(HashSet<string> components)
         {
             if (components == null)
                 return 0;
@@ -153,6 +153,25 @@ namespace AdventureGame.Engine
                     RegisterComponent(c);
 
             return CreateSignature(components);
+        }
+
+        // Generate system signature based on components list
+        public ulong SystemComponents(HashSet<string> required, HashSet<string> oneOf)
+        {
+            if (required == null || required.Count == 0)
+                return 0;
+
+            // Add the component if it isn't registered
+            foreach (string c in required)
+                if (!componentsByName.ContainsKey(c))
+                    RegisterComponent(c);
+
+            // Add the component if it isn't registered
+            foreach (string c in oneOf)
+                if (!componentsByName.ContainsKey(c))
+                    RegisterComponent(c);
+
+            return CreateSignature(required);
         }
 
         // Register the component name and bit flag to the dictionary
@@ -174,11 +193,11 @@ namespace AdventureGame.Engine
         }
 
         // Create a signature from the components provided
-        public ulong CreateSignature(List<string> components)
+        public ulong CreateSignature(HashSet<string> components)
         {
             ulong signature = 0;
-            for (int i = 0; i < components.Count; i++)
-                signature += GetComponentId(components[i]);
+            foreach (string c in components)
+                signature += GetComponentId(c);
             return signature;
         }
 
@@ -206,6 +225,12 @@ namespace AdventureGame.Engine
         public bool CheckComponentsForSystem(Entity e, ulong systemSignature)
         {
             return (e.Signature & systemSignature) == systemSignature;
+        }
+
+        // Fast check if an entity has AT LEAST ONE of the components a system requires
+        public bool HasOneOfComponents(Entity e, ulong systemSignature)
+        {
+            return (e.Signature & systemSignature) > 0;
         }
 
         // Fastest way to check if an entity has a specific component

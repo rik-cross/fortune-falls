@@ -20,7 +20,9 @@ namespace AdventureGame.Engine
             // add system to the systems list
             systems.Add(system);
             // generate a signature for the system
+            // Todo change to requiredSignature
             system.systemSignature = componentManager.SystemComponents(system.requiredComponents);
+            system.oneOfComponentsSignature = componentManager.SystemComponents(system.oneOfComponents);
         }
 
         public void RegisterSystems()
@@ -78,8 +80,29 @@ namespace AdventureGame.Engine
 
             foreach (System s in systems)
             {
+                bool isInterested = true;
+
+                if (s.requiredComponents.Count == 0 && s.oneOfComponents.Count == 0)
+                    isInterested = false;
+
+                // Check if the system is interested in the entity
+                if (s.requiredComponents.Count > 0
+                    && !componentManager.CheckComponentsForSystem(e, s.systemSignature))
+                    isInterested = false;
+
+                if (s.oneOfComponents.Count > 0
+                    && !componentManager.HasOneOfComponents(e, s.oneOfComponentsSignature))
+                    isInterested = false;
+
+                // Todo excludeComponents check
+
+
                 // Check if the entity is relevant
-                if (componentManager.CheckComponentsForSystem(e, s.systemSignature))
+                // Todo rename CheckComponents to HasAllComponents
+                if (isInterested)
+                //if (componentManager.CheckComponentsForSystem(e, s.systemSignature)
+                //    && componentManager.HasOneOfComponents(e, s.oneOfComponentsSignature))
+                    // && !componentManager.HasOneOfComponents(e, s.excludeComponentsSig)
                 {
                     // Check if the entity doesn't already exist
                     if (!s.entityMapper.ContainsKey(e.Id))

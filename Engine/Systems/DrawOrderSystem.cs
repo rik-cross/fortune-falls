@@ -30,12 +30,12 @@ namespace AdventureGame.Engine
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            if (!EngineGlobals.DEBUG)
-                return;
+            //if (!EngineGlobals.DEBUG)
+            //    return;
 
-            TransformComponent transform = entity.GetComponent<TransformComponent>();
+            //TransformComponent transform = entity.GetComponent<TransformComponent>();
 
-            Globals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
+            //Globals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
         }
     }
 }
