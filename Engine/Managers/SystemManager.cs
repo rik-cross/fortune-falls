@@ -82,15 +82,15 @@ namespace AdventureGame.Engine
 
                 // Check if the system is interested in the entity
                 if (s.requiredComponents.Count > 0
-                    && !componentManager.HasAllComponents(e, s.requiredComponentsSignature))
+                    && !e.ComponentFlags.HasFlags(s.requiredComponentsSignature))//componentManager.HasAllComponents(e, s.requiredComponentsSignature))
                     isInterested = false;
 
                 if (s.oneOfComponents.Count > 0
-                    && !componentManager.HasAtLeastOneComponent(e, s.oneOfComponentsSignature))
+                    && !e.ComponentFlags.HasAtLeastOneFlag(s.oneOfComponentsSignature))//componentManager.HasAtLeastOneComponent(e, s.oneOfComponentsSignature))
                     isInterested = false;
 
                 if (s.excludedComponents.Count > 0
-                    && componentManager.HasAtLeastOneComponent(e, s.excludedComponentsSignature))
+                    && e.ComponentFlags.HasAtLeastOneFlag(s.excludedComponentsSignature))//componentManager.HasAtLeastOneComponent(e, s.excludedComponentsSignature))
                     isInterested = false;
 
 

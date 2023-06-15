@@ -8,7 +8,7 @@ namespace AdventureGame.Engine
     {
         public int Id { get; set; }
         public Guid Guid { get; private set; }
-        public ulong Signature { get; set; }
+        public Flags ComponentFlags;
 
         public Entity Owner { get; set; }
         public Tags Tags { get; set; }
@@ -25,6 +25,7 @@ namespace AdventureGame.Engine
         {
             Id = id;
             GenerateGuid();
+            ComponentFlags = new Flags();
             Owner = this;
             Tags = new Tags();
             State = "default";

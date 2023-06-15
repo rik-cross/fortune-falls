@@ -7,9 +7,9 @@ namespace AdventureGame.Engine
 {
     public abstract class System
     {
-        public ulong requiredComponentsSignature;
-        public ulong oneOfComponentsSignature;
-        public ulong excludedComponentsSignature;
+        public Flags requiredComponentsSignature;
+        public Flags oneOfComponentsSignature;
+        public Flags excludedComponentsSignature;
         public HashSet<string> requiredComponents = new HashSet<string>();
         public HashSet<string> oneOfComponents = new HashSet<string>();
         public HashSet<string> excludedComponents = new HashSet<string>();

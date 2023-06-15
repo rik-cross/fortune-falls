@@ -138,11 +138,13 @@ namespace AdventureGame.Engine
         // Return a list of entities that contain a given component
         public List<Entity> GetAllEntitiesByComponent(string componentName)
         {
-            ulong componentId = EngineGlobals.componentManager.GetComponentId(componentName);
+            //ulong componentId = EngineGlobals.componentManager.GetComponentId(componentName);
+            Flags componentId = EngineGlobals.componentManager.GetComponentId(componentName);
             List<Entity> entitiesByComponent = new List<Entity>();
             foreach (Entity e in _entityList)
             {
-                if (EngineGlobals.componentManager.EntityHasComponent(e, componentId))
+                //if (EngineGlobals.componentManager.EntityHasComponent(e, componentId))
+                if (e.ComponentFlags.HasFlags(componentId))
                     entitiesByComponent.Add(e);
             }
             return entitiesByComponent;

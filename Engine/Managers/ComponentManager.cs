@@ -8,11 +8,15 @@ namespace AdventureGame.Engine
 {
     public class ComponentManager
     {
+        public int TotalComponents { get; private set; }
+        private Flags _allComponentsFlag;
+
         //private Dictionary<ulong, Dictionary<ulong, Component>> components; move to ComponentMapper?
 
-        private Dictionary<string, ulong> componentsByName;
-        private ulong allComponentsSignature; // Remove?
-        private ulong bitFlag;
+        //private Dictionary<string, ulong> componentsByName;
+        private Dictionary<string, Flags> _componentFlagsByName;
+        //private ulong allComponentsSignature; // Remove?
+        //private ulong bitFlag;
         // if there are > 64 components, use a second ulong to increase to 128?
 
         public ConcurrentQueue<Tuple<Entity, Component>> removedComponents;
@@ -20,9 +24,15 @@ namespace AdventureGame.Engine
 
         public ComponentManager()
         {
+            TotalComponents = 0;
+
             // Create a dictionary of component names and bit flags
-            componentsByName = new Dictionary<string, ulong>() { { "None", 0 } };
-            bitFlag = 1;
+            //componentsByName = new Dictionary<string, ulong>() { { "None", 0 } };
+            _componentFlagsByName = new Dictionary<string, Flags>() {
+                { "None", new Flags(0) } };
+
+            _allComponentsFlag = new Flags(0);
+            //bitFlag = 1;
 
             // Queues components to be removed
             removedComponents = new ConcurrentQueue<Tuple<Entity, Component>>();
@@ -31,14 +41,35 @@ namespace AdventureGame.Engine
             changedEntities = new HashSet<Entity>();
         }
 
-        // Get the component id using the component name
-        public ulong GetComponentId(string componentName)
+        // Get the component id using the component
+        // Todo rename to GetComponentFlags
+        public Flags GetComponentId(Component component)
         {
-            if (!componentsByName.ContainsKey(componentName))
+            string componentName = GetComponentName(component);
+            if (!_componentFlagsByName.ContainsKey(componentName))
                 RegisterComponent(componentName);
 
-            return componentsByName[componentName];
+            return _componentFlagsByName[componentName];
         }
+
+        // Get the component id using the component name
+        // Todo rename to GetComponentFlags
+        public Flags GetComponentId(string componentName)
+        {
+            if (!_componentFlagsByName.ContainsKey(componentName))
+                RegisterComponent(componentName);
+
+            return _componentFlagsByName[componentName];
+        }
+
+        //// Get the component id using the component name
+        //public ulong GetComponentId(string componentName)
+        //{
+        //    if (!componentsByName.ContainsKey(componentName))
+        //        RegisterComponent(componentName);
+
+        //    return componentsByName[componentName];
+        //}
 
         // Get the component name from the component
         public string GetComponentName(Component component)
@@ -56,9 +87,13 @@ namespace AdventureGame.Engine
             component.entity = e;
 
             // Add component to entity signature
-            string componentName = GetComponentName(component);
-            e.Signature = AddToSignature(e.Signature, componentName);
+            // Todo remove componentName
+            //string componentName = GetComponentName(component);
+            //e.Signature = AddToSignature(e.Signature, componentName);
+            //Flags componentFlags = GetComponentId(componentName);
+            e.ComponentFlags.SetFlags(GetComponentId(component));
             //Console.WriteLine($"{e.Id} {e.Tags.Id} {e.Tags.Type[0]}: {e.Signature}");
+            Console.WriteLine($"{e.Id} {e.Tags.Id}: {e.ComponentFlags.BitFlags}");
 
             // Pushes the entity and component to the added queue
             //addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
@@ -108,7 +143,8 @@ namespace AdventureGame.Engine
             e.Components.Clear();
 
             // Reset the signature
-            e.Signature = 0;
+            //e.Signature = 0;
+            e.ComponentFlags.Clear();
 
             // Add entity to the changed entities set
             changedEntities.Add(e);
@@ -130,7 +166,8 @@ namespace AdventureGame.Engine
 
                 // Remove component from entity signature
                 string componentName = GetComponentName(component);
-                e.Signature = RemoveFromSignature(e.Signature, componentName);
+                //e.Signature = RemoveFromSignature(e.Signature, componentName);
+                e.ComponentFlags.RemoveFlags(GetComponentId(component));
 
                 // Testing
                 /*
@@ -141,34 +178,36 @@ namespace AdventureGame.Engine
             }
         }
 
-        // Generate system signature based on components list
-        public ulong SystemComponents(HashSet<string> components)
+        // Generate system signature based on components list and register components
+        public Flags SystemComponents(HashSet<string> components)
         {
             if (components == null)
-                return 0;
+                return new Flags();
+                //return 0;
 
             // Add the component if it isn't registered
             foreach (string c in components)
-                if (!componentsByName.ContainsKey(c))
+                if (!_componentFlagsByName.ContainsKey(c))
                     RegisterComponent(c);
 
             return CreateSignature(components);
         }
 
-        // Generate system signature based on components list
-        public ulong SystemComponents(HashSet<string> required, HashSet<string> oneOf)
+        // Generate system signature based on required components list and register components
+        public Flags SystemComponents(HashSet<string> required, HashSet<string> oneOf)
         {
             if (required == null || required.Count == 0)
-                return 0;
+                return new Flags();
+                //return 0;
 
             // Add the component if it isn't registered
             foreach (string c in required)
-                if (!componentsByName.ContainsKey(c))
+                if (!_componentFlagsByName.ContainsKey(c))
                     RegisterComponent(c);
 
             // Add the component if it isn't registered
             foreach (string c in oneOf)
-                if (!componentsByName.ContainsKey(c))
+                if (!_componentFlagsByName.ContainsKey(c))
                     RegisterComponent(c);
 
             return CreateSignature(required);
@@ -177,21 +216,44 @@ namespace AdventureGame.Engine
         // Register the component name and bit flag to the dictionary
         public void RegisterComponent(string componentName)
         {
-            componentsByName.Add(componentName, bitFlag);
+            //_componentFlagsByName.Add(componentName, bitFlag);
+
+            //_allComponentsFlag.NewFlag();
+            //Flags componentFlag = new Flags(_allComponentsFlag.Count);
+            //_componentFlagsByName.Add(componentName, );
 
             // Testing
             //Console.WriteLine($"Register: {componentName}  Signature: {bitFlag}");
             //Console.WriteLine(Convert.ToString((long)bitFlag, 2));
 
             // Set the next bit and bit signature for all of the components
-            bitFlag *= 2;
-            allComponentsSignature = bitFlag - 1;
+            //bitFlag *= 2;
+            //allComponentsSignature = bitFlag - 1;
 
-            // TO DO
-            // Check if the limit has been reached (64 bits)
-            // If so, use a second bitFlag or list of ulong?
+            TotalComponents++;
+            //TotalComponents = _allComponentsFlag.NewFlag();
+            _allComponentsFlag.NewFlag();
+            //_componentFlagsByName.Add(componentName, _allComponentsFlag);
+            _componentFlagsByName.Add(componentName, new Flags(
+                TotalComponents, TotalComponents));
+
+            // Testing
+            Flags componentFlags = _componentFlagsByName[componentName];
+            Console.Write($"Register: {componentName}  Signature: {componentFlags.BitFlags}  ");
+            Console.WriteLine(Convert.ToString((long)componentFlags.BitFlags, 2));
+            Console.Write($"All components flag:{_allComponentsFlag.BitFlags}, ");
+            Console.WriteLine(Convert.ToString((long)_allComponentsFlag.BitFlags, 2));
         }
 
+        // Create a signature from the components provided
+        public Flags CreateSignature(HashSet<string> components)
+        {
+            Flags flags = new Flags(components.Count);
+            foreach (string c in components)
+                flags.SetFlags(GetComponentId(c));
+            return flags;
+        }
+        /*
         // Create a signature from the components provided
         public ulong CreateSignature(HashSet<string> components)
         {
@@ -248,7 +310,7 @@ namespace AdventureGame.Engine
 
         // Get each component name of the entity?
         // public string[] GetComponentNames (Entity e)
-
+        */
 
     }
 }
