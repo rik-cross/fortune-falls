@@ -1042,10 +1042,10 @@ namespace AdventureGame.Engine
         public override void Update(GameTime gameTime, Scene scene)
         {
             // Testing
-            if (entityList.Count > 0)
+            if (EntityList.Count > 0)
             {
                 Console.Write("Collisions to resolve!! ");
-                foreach (Entity e in entityList)
+                foreach (Entity e in EntityList)
                     Console.Write(e.Id + ", ");
                 Console.WriteLine();
             }
@@ -1063,7 +1063,7 @@ namespace AdventureGame.Engine
             _simpleCollisionsSet = new HashSet<Entity>();
 
             // Loop through each moving entity in the system list
-            foreach (Entity entity in entityList)
+            foreach (Entity entity in EntityList)
             {
                 if (!IsEntityValid(entity))
                     continue;

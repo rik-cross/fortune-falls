@@ -427,7 +427,7 @@ namespace AdventureGame.Engine
 
                 // update each relevant entity of a system
                 foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
-                    if (s.entityMapper.ContainsKey(e.Id))
+                    if (s.EntityMapper.ContainsKey(e.Id))
                         s.InputEntity(gameTime, this, e);
             }
 
@@ -444,7 +444,7 @@ namespace AdventureGame.Engine
             {
                 // Update each relevant entity of a system
                 foreach (Entity e in _entityManager.Deleted)
-                    if (s.entityMapper.ContainsKey(e.Id))
+                    if (s.EntityMapper.ContainsKey(e.Id))
                         s.OnEntityDestroyed(gameTime, this, e);
             }
 
@@ -455,7 +455,7 @@ namespace AdventureGame.Engine
 
 
             // Repeats for each entity whose components have changed
-            foreach (Entity e in _componentManager.changedEntities)
+            foreach (Entity e in _componentManager.ChangedEntities)
             {
                 // CHECK should this or the UpdateEntityList only be executed
                 // if e is in the scene EntityList / Mapper?
@@ -464,8 +464,8 @@ namespace AdventureGame.Engine
                 _systemManager.UpdateEntityLists(e);
                 //_systemManager.UpdateEntityLists(gameTime, this, e);
             }
-            _componentManager.removedComponents.Clear();
-            _componentManager.changedEntities.Clear();
+            _componentManager.ClearRemovedComponents();
+            _componentManager.ClearChangedEntities();
 
 
             // Add entities from the added set
@@ -493,7 +493,7 @@ namespace AdventureGame.Engine
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
                     // Update each relevant entity of a system
-                    if (s.entityMapper.ContainsKey(e.Id))
+                    if (s.EntityMapper.ContainsKey(e.Id))
                         s.OnEntityAddedToScene(e);// gameTime, this, e);
                 }
             }
@@ -536,7 +536,7 @@ namespace AdventureGame.Engine
 
                 // update each relevant entity of a system
                 foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
-                    if (s.entityMapper.ContainsKey(e.Id))
+                    if (s.EntityMapper.ContainsKey(e.Id))
                         s.UpdateEntity(gameTime, this, e);
                 /*
                 foreach (Entity e in s.entityList)
@@ -640,11 +640,11 @@ namespace AdventureGame.Engine
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
-                    if (!s.aboveMap)
+                    if (!s.AboveMap)
                     {
                         // entity-specific draw
                         foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
-                            if (s.entityMapper.ContainsKey(e.Id))
+                            if (s.EntityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }
                 }
@@ -718,11 +718,11 @@ namespace AdventureGame.Engine
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
-                    if (s.aboveMap)
+                    if (s.AboveMap)
                     {
                         // entity-specific draw
                         foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
-                            if (s.entityMapper.ContainsKey(e.Id))
+                            if (s.EntityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }
                 }

@@ -12,7 +12,7 @@ namespace AdventureGame.Engine
         public EmoteSystem()
         {
             RequiredComponent<EmoteComponent>();
-            aboveMap = true;
+            AboveMap = true;
         }
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {

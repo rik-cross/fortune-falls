@@ -699,7 +699,7 @@ namespace AdventureGame.Engine
             _simpleCollisionsSet = new HashSet<Entity>();
 
             // Loop through each moving entity in the system list
-            foreach (Entity entity in entityList)
+            foreach (Entity entity in EntityList)
             {
                 if (!IsEntityValid(entity))
                     continue;

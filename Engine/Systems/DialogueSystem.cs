@@ -100,7 +100,7 @@ namespace AdventureGame.Engine
         }
         public override void Draw(GameTime gameTime, Scene scene)
         {
-            foreach (Entity entity in entityList)
+            foreach (Entity entity in EntityList)
             {
                 DialogueComponent dialogueComponent = entity.GetComponent<DialogueComponent>();
 

@@ -5,16 +5,10 @@ namespace AdventureGame.Engine
 {
     public class Flags
     {
-        public int Count { get; private set; }
         public BigInteger BitFlags { get; private set; }
 
-        public Flags(int size = 0, int bitToSet = 0)
+        public Flags(int bitToSet = 0)
         {
-            if (size > 0)
-                Count = size;
-            else
-                Count = 0;
-
             if (bitToSet > 0)
                 BitFlags = BigInteger.Pow(2, bitToSet - 1);
             else
@@ -22,30 +16,23 @@ namespace AdventureGame.Engine
         }
 
         // Add a new flag value by increasing the number of available bits by one.
-        public int NewFlag()
+        public void NewFlag()
         {
-            Count++;
-
             if (BitFlags == 0)
                 BitFlags = 1;
             else
                 BitFlags *= 2;
-
-            //Console.WriteLine($"Add flag: count {Count}, bitFlag {BitFlags}");
-            return Count;
         }
 
         // Perform a bitwise OR to set flags using the compare flags
         public void SetFlags(Flags compareFlags)
         {
-            // Perform a bitwise OR on the compare flags
             BitFlags |= compareFlags.BitFlags;
         }
 
-        // Perform a bitwise AND to remove flags using the compare flags
+        // Perform a bitwise AND to remove flags using the negated compare flags
         public void RemoveFlags(Flags compareFlags)
         {
-            // Perform a bitwise AND on the negated compare flags
             BitFlags &= ~compareFlags.BitFlags;
         }
 
@@ -62,10 +49,6 @@ namespace AdventureGame.Engine
         }
 
         // Clears all flags
-        public void Clear()
-        {
-            Count = 0;
-            BitFlags = 0;
-        }
+        public void Clear() { BitFlags = 0; }
     }
 }

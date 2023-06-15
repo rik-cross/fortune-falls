@@ -11,7 +11,6 @@ namespace AdventureGame.Engine
         private List<Component> _components;
         private Entity _localPlayer;
 
-        //public HashSet<Entity> KeepOnSceneChange { get; private set; } // Here or SceneManager?
         public HashSet<Entity> Added { get; private set; }
         public HashSet<Entity> Disabled { get; private set; } // Change to Entity?
         public HashSet<Entity> Deleted { get; private set; }
@@ -83,10 +82,8 @@ namespace AdventureGame.Engine
         public Entity GetEntityByIdTag(string id)
         {
             foreach(Entity e in _entityList)
-            {
                 if (e.Tags.Id == id)
                     return e;
-            }
             return null;
         }
 
@@ -99,15 +96,6 @@ namespace AdventureGame.Engine
         // Return the local player entity
         public Entity GetLocalPlayer()
         {
-            // Use PlayerManager instead??
-            /*
-            foreach (Entity e in _entityList)
-            {
-                if (e.Tags.Id == "localPlayer") // Use Type instead??
-                    return e;
-            }
-            return null;
-            */
             return _localPlayer;
         }
 
@@ -138,12 +126,10 @@ namespace AdventureGame.Engine
         // Return a list of entities that contain a given component
         public List<Entity> GetAllEntitiesByComponent(string componentName)
         {
-            //ulong componentId = EngineGlobals.componentManager.GetComponentId(componentName);
-            Flags componentId = EngineGlobals.componentManager.GetComponentId(componentName);
+            Flags componentId = EngineGlobals.componentManager.GetComponentFlag(componentName);
             List<Entity> entitiesByComponent = new List<Entity>();
             foreach (Entity e in _entityList)
             {
-                //if (EngineGlobals.componentManager.EntityHasComponent(e, componentId))
                 if (e.ComponentFlags.HasFlags(componentId))
                     entitiesByComponent.Add(e);
             }

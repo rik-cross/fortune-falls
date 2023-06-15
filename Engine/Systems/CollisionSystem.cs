@@ -152,7 +152,7 @@ namespace AdventureGame.Engine
 
         public override void Update(GameTime gameTime, Scene scene)
         {
-            foreach (Entity e in entityList)
+            foreach (Entity e in EntityList)
             {
                 TransformComponent transformComponent = e.GetComponent<TransformComponent>();
 
@@ -192,7 +192,7 @@ namespace AdventureGame.Engine
 
             // CHANGE to use broad-phasing, a grid or a quadtree?
             // Check for collider intersects
-            foreach (Entity otherEntity in entityList) // scene.EntityList)
+            foreach (Entity otherEntity in EntityList) // scene.EntityList)
             {
                 //if (entityMapper.ContainsKey(otherEntity.Id) && entity != otherEntity)
                 if (entity != otherEntity)
