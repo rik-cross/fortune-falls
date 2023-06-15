@@ -13,14 +13,12 @@ namespace AdventureGame.Engine
             RequiredComponent<TransformComponent>();
             OneOfComponent<SpriteComponent>();
             OneOfComponent<AnimatedSpriteComponent>();
-            // ExcludeComponent
         }
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             AnimatedSpriteComponent animatedComponent = entity.GetComponent<AnimatedSpriteComponent>();
             SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
             // Testing 
             //TransformComponent transform = entity.GetComponent<TransformComponent>();
@@ -34,9 +32,7 @@ namespace AdventureGame.Engine
                 && spriteComponent.SpriteDict.ContainsKey(entity.State))
             {
                 Sprite sprite = spriteComponent.SpriteDict[entity.State];
-                bool h = sprite.FlipH;
-                bool v = sprite.FlipV;
-                DrawSprite(entity, sprite, spriteComponent.Alpha, h, v);
+                DrawSprite(entity, sprite, spriteComponent.Alpha, sprite.FlipH, sprite.FlipV);
             }
 
             // Check if the animated sprite component contains a relevant animated sprite
@@ -44,10 +40,9 @@ namespace AdventureGame.Engine
                 && animatedComponent.AnimatedSprites.ContainsKey(entity.State))
             {
                 AnimatedSprite animatedSprite = animatedComponent.AnimatedSprites[entity.State];
-                bool h = animatedSprite.FlipH;
-                bool v = animatedSprite.FlipV;
                 foreach (Sprite sprite in animatedSprite.SpriteList)
-                    DrawSprite(entity, sprite, animatedComponent.Alpha, h, v);
+                    DrawSprite(entity, sprite, animatedComponent.Alpha,
+                        sprite.FlipH, sprite.FlipV);
             }
         }
 

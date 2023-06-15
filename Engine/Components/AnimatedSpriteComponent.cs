@@ -69,12 +69,10 @@ namespace AdventureGame.Engine
                 AnimatedSprites[key].SpriteList.Add(sprite);
             else
                 AnimatedSprites.Add(key, new AnimatedSprite(
-                    sprite, sprite.Size, offset, flipH, flipV,
-                    play, loop, delay, onComplete));
+                    sprite, play, loop, delay, onComplete));
         }
 
         public void AddAnimatedSprite(string key, Sprite sprite,
-            Vector2 offset = default, bool flipH = false, bool flipV = false,
             bool play = true, bool loop = true, int delay = 6,
             Action<Entity> onComplete = null)
         {
@@ -82,8 +80,7 @@ namespace AdventureGame.Engine
                 AnimatedSprites[key].SpriteList.Add(sprite);
             else
                 AnimatedSprites.Add(key, new AnimatedSprite(
-                    sprite, sprite.Size, offset, flipH, flipV,
-                    play, loop, delay, onComplete));
+                    sprite, play, loop, delay, onComplete));
         }
 
         /// <summary>
@@ -110,7 +107,7 @@ namespace AdventureGame.Engine
             //    return new Vector2(0, 0);
 
             // Testing
-            return AnimatedSprites[state].Size;
+            return AnimatedSprites[state].GetSize();
 
             // Todo Account for offset?
             //return SpriteDict[state].size + SpriteDict[state].offset;
