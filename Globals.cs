@@ -13,7 +13,7 @@ namespace AdventureGame
     public class Globals
     {
 
-        public static bool TEST = true;
+        public static bool TEST = false;
 
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
