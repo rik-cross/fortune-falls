@@ -113,13 +113,14 @@ namespace AdventureGame.Engine
                         // Draw background
                         //
 
-                        Globals.spriteBatch.FillRectangle(
-                            new Rectangle(
-                                (int)(camera.screenPosition.X + Theme.BorderLarge),
-                                (int)(camera.screenPosition.Y + camera.size.Y - Theme.BorderLarge - 200),
-                                (int)(camera.size.X - (2 * Theme.BorderLarge)),
-                                (int)(200)), Theme.ColorTertiary * (float)dialogueComponent.alpha.Value);
-                        
+                        UI.DrawRect(
+                            camera.screenPosition.X + Theme.BorderLarge,
+                            camera.screenPosition.Y + camera.size.Y - Theme.BorderLarge - 200,
+                            camera.size.X - (2 * Theme.BorderLarge),
+                            200,
+                            (float)dialogueComponent.alpha.Value
+                        );
+
                         // Don't draw anything else if there aren't any pages of dialogue
                         if (dialogueComponent.dialoguePages.Count == 0)
                             continue;
@@ -196,12 +197,13 @@ namespace AdventureGame.Engine
 
                             // Draw image border
 
-                            Globals.spriteBatch.DrawRectangle(
-                                new Rectangle(
-                                    (int)(camera.screenPosition.X + (2 * Theme.BorderLarge)),
-                                    (int)(camera.screenPosition.Y + camera.size.Y - 200),
-                                    (int)(200 - Theme.BorderLarge),
-                                    (int)(200 - (2 * Theme.BorderLarge))), Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].alpha.Value, thickness: Theme.BorderLarge);
+                            UI.DrawRect(
+                                camera.screenPosition.X + (2 * Theme.BorderLarge),
+                                camera.screenPosition.Y + camera.size.Y - 200,
+                                200 - Theme.BorderLarge,
+                                200 - (2 * Theme.BorderLarge),
+                                (float)dialogueComponent.dialoguePages[0].alpha.Value
+                            );
 
                             // Calculate image size
 

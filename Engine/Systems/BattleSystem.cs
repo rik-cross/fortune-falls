@@ -118,10 +118,9 @@ namespace AdventureGame.Engine
                         int h = 64;
                         int x = (int)(c.screenPosition.X + 28);
                         int y = (int)(c.screenPosition.Y + c.size.Y - 28 - h);
-                        
-                        Globals.spriteBatch.Draw(UICustomisations.labelLeft, new Rectangle(x, y, 16, h), Color.White);
-                        Globals.spriteBatch.Draw(UICustomisations.labelMiddle, new Rectangle(x+16, y, w-(16*2), h), Color.White);
-                        Globals.spriteBatch.Draw(UICustomisations.labelRight, new Rectangle(x+(w-16), y, 16, h), Color.White);
+
+                        UI.DrawRect(x, y, w, h);
+
                         if (c.ownerEntity.GetComponent<Engine.BattleComponent>().weapon != null)
                         {
                             Engine.Image i = new Engine.Image(
