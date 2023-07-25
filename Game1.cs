@@ -94,7 +94,17 @@ namespace AdventureGame
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
 
             // Create and add MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<MenuScene>(unloadCurrentScene: false);
+            if (Globals.TEST)
+            {
+                EngineGlobals.sceneManager.SetActiveScene<TestScene>(unloadCurrentScene: false);
+                EngineGlobals.sceneManager.SetPlayerScene<TestScene>(new Vector2(50, 50));
+            }
+            else
+            {
+                EngineGlobals.sceneManager.SetActiveScene<MenuScene>(unloadCurrentScene: false);
+            }
+                
+
         }
 
         protected override void Update(GameTime gameTime)
