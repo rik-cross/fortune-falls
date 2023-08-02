@@ -7,10 +7,11 @@ namespace AdventureGame
 {
     public static class ToolEntity {
 
-        public static Engine.Entity Create(string filePath, Entity parent,
+        public static Engine.Entity Create(string filePath, Entity owner,
             int x, int y, int width, int height, Vector2 offset, int layerDepthOffset,
             string state, string idTag = null)
         {
+            /*
             Engine.Entity toolEntity = null;
             
             // Check if the tool entity already exists
@@ -21,11 +22,20 @@ namespace AdventureGame
             if (toolEntity == null)
             {
                 toolEntity = EngineGlobals.entityManager.CreateEntity();
+                toolEntity.Owner = owner;
 
                 if (!string.IsNullOrEmpty(idTag))
                     toolEntity.Tags.Id = idTag;
                 toolEntity.Tags.AddTag("tool");
             }
+            */
+
+            Engine.Entity toolEntity = EngineGlobals.entityManager.CreateEntity();
+            toolEntity.Owner = owner;
+
+            if (!string.IsNullOrEmpty(idTag))
+                toolEntity.Tags.Id = idTag;
+            toolEntity.Tags.AddTag("tool");
 
             // Add sprites
             //string filePath = "";
@@ -36,10 +46,6 @@ namespace AdventureGame
             //Vector2 offset = new Vector2(-41, -21); // parameter!!
 
             Engine.AnimatedSpriteComponent animatedComponent = toolEntity.AddComponent<AnimatedSpriteComponent>();
-
-            // base_idle_strip9
-            // longhair_idle_strip9
-            // tools_idle_strip9
 
             // Axe
             folder = "AXE/";
@@ -54,7 +60,7 @@ namespace AdventureGame
             animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
             // Set state
-            toolEntity.State = "none";
+            toolEntity.State = "none"; // parameter?
 
             // Add other components
             toolEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
