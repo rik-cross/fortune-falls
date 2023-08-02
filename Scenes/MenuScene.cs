@@ -39,16 +39,6 @@ namespace AdventureGame
 
         }
 
-        public void LoadTestScene(UIButton button)
-        {
-            Vector2 playerPosition = new Vector2(100, 100);
-
-            // Add the MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<TestScene>(unloadCurrentScene: false);
-
-            EngineGlobals.sceneManager.SetPlayerScene<TestScene>(playerPosition);
-
-        }
         public void LoadOptionsScene(UIButton button)
         {
             EngineGlobals.sceneManager.SetActiveScene<OptionsScene>(unloadCurrentScene: false);
@@ -205,19 +195,7 @@ namespace AdventureGame
                 )
             );
 
-            UIMenu.AddUIElement(
-                new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 250),
-                    size: new Vector2(120, 45),
-                    text: "Test",
-                    textColour: Color.White,
-                    outlineColour: Color.White,
-                    outlineThickness: 2,
-                    backgroundColour: Color.DarkSlateGray,
-                    func: LoadTestScene
-                )
-            );
-
+            /*
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 200),
@@ -233,6 +211,7 @@ namespace AdventureGame
                     }
                 )
             );
+            */
 
             UIMenu.AddUIElement(
                 new UIButton(

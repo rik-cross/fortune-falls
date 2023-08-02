@@ -62,6 +62,8 @@ Content/bin/*
 !Content/Sounds/*
 !Content/UI
 !Content/UI/*
+!Content/UI/Box
+!Content/UI/Box/*
 !Content/VFX
 !Content/VFX/*
 !Content/Weapons
