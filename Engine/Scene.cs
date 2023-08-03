@@ -564,6 +564,7 @@ namespace AdventureGame.Engine
          }
 
         public void _Draw(GameTime gameTime)
+        
         {
 
             if (DrawSceneBelow)

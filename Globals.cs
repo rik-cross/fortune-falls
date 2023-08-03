@@ -14,6 +14,7 @@ namespace AdventureGame
     {
 
         public static bool TEST = false;
+        public static bool newGame = true;
 
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;

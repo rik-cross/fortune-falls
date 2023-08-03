@@ -150,6 +150,14 @@ namespace AdventureGame
         {
             Utilities.SetBuildingAlpha(EntityList);
             //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
+
+            // why does this have to be 60? a lower number doesn't work
+            if (frame == 60 && Globals.newGame)
+            {
+                Globals.newGame = false;
+                EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
+            }
+
         }
 
         public override void Draw(GameTime gameTime)

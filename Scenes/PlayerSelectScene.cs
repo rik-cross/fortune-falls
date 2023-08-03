@@ -16,38 +16,19 @@ namespace AdventureGame
     {
         private Engine.Text _title;
 
-        private Engine.Camera camera;
-
         public PlayerSelectScene()
         {
             EngineGlobals.DEBUG = false;
             UIButton.drawMethod = UICustomisations.DrawButton;
             UISlider.drawMethod = UICustomisations.DrawSlider;
-            backgroundColour = Color.DarkSlateGray;
 
-            //AddMap("Maps/Map_PlayerSelect");
-
-            camera = new Engine.Camera(
-                    name: "main",
-                    size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                    zoom: 6.0f
-                );
-
-            camera.SetWorldPosition(new Vector2(0, 0), instant: true);
-
-            //S.WriteLine(camera.worldPosition);
-            //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.TransformComponent>().Position);
-
-            //camera.zoomIncrement = 0.005f;
-            //camera.SetZoom(3.0f);
-            //AddCamera(n);
-            CameraList.Add(camera);
-            
-            LightLevel = 1.0f;
+            DrawSceneBelow = true;
+            UpdateSceneBelow = true;
+            backgroundColour = Color.Transparent;//DarkSlateGray * 0.5f;
 
             // title text
             _title = new Engine.Text(
-                caption: "Player Select",
+                caption: "Select player",
                 font: Theme.FontSubtitle,
                 colour: Theme.TextColorTertiary,
                 anchor: Anchor.TopCenter,
@@ -58,7 +39,7 @@ namespace AdventureGame
             );
 
             float screenMiddle = Globals.ScreenHeight / 2;
-
+            
             UIMenu.AddUIElement(
                 new UISlider(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
@@ -86,37 +67,40 @@ namespace AdventureGame
                     currentValue: Globals.playerIndex
                 )
             );
-
+            
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 200),
                     size: new Vector2(120, 45),
-                    text: "Back",
+                    text: "OK",
                     textColour: Color.White,
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: (UIButton button) => { EngineGlobals.sceneManager.RemoveScene(this); }
+                    func: (UIButton button) => { EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false); }
                 )
             );
+            
 
         }
 
         public override void OnEnter()
         {
-            EngineGlobals.DEBUG = false;
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Clear();
-            EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
+            //EngineGlobals.DEBUG = false;
+            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Clear();
+            //EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
+            EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
         }
         public override void OnExit()
         {
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
+            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
+            EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(4.0f);
         }
         public override void Input(GameTime gameTime)
         {
             // todo -- remove this
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-                EngineGlobals.sceneManager.RemoveScene(this);
+            //if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
+            //    EngineGlobals.sceneManager.RemoveScene(this);
             //    UnloadMenuScene(null);
         }
 
