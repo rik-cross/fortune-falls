@@ -44,7 +44,7 @@ namespace AdventureGame.Engine
 
             Random random = new Random();
             for (int i = 0; i <= random.Next(1, 3); i++)
-                inventory.AddItem(new Item("wood", "Items/wood", quantity: 1, stackSize: 10));
+                inventory.AddItem(new Item("wood", "Items/wood.png", quantity: 1, stackSize: 10));
 
             //EngineGlobals.inventoryManager.AddAndStackItem(inventory.InventoryItems, coin);
 
@@ -55,7 +55,7 @@ namespace AdventureGame.Engine
             {
                 if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe")
                 {
-                    SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
+                    SoundEffect chopSoundEffect = Utils.LoadSoundEffect("Sounds/chop.wav");
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
                     thisEnt.GetComponent<HealthComponent>().Health -= 20;
                     //thisEnt.State = "tree_shake";

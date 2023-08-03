@@ -34,15 +34,15 @@ namespace AdventureGame.Engine
             Filename = filename;
 
             if (texture == null && filename != null)
-                Texture = Globals.content.Load<Texture2D>(filename);
+                Texture = Utils.LoadTexture(filename);
             else
                 Texture = texture;
 
             if (successSoundFilepath != null)
-                SuccessSound = Globals.content.Load<SoundEffect>(successSoundFilepath);
+                SuccessSound = Utils.LoadSoundEffect(successSoundFilepath);
 
             if (failSoundFilepath != null)
-                FailSound = Globals.content.Load<SoundEffect>(failSoundFilepath);
+                FailSound = Utils.LoadSoundEffect(failSoundFilepath);
 
             Quantity = quantity;
             StackSize = stackSize;

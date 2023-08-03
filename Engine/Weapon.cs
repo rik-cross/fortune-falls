@@ -24,11 +24,11 @@ namespace AdventureGame.Engine
     }
     public static class Weapons
     {
-        public static Texture2D swordThumbnail = Globals.content.Load<Texture2D>("Weapons/sword");
-        public static Texture2D hammerThumbnail = Globals.content.Load<Texture2D>("Weapons/hammer");
-        public static Texture2D axeThumbnail = Globals.content.Load<Texture2D>("Weapons/axe");
+        public static Texture2D swordThumbnail = Utils.LoadTexture("Weapons/sword.png");
+        public static Texture2D hammerThumbnail = Utils.LoadTexture("Weapons/hammer.png");
+        public static Texture2D axeThumbnail = Utils.LoadTexture("Weapons/axe.png");
 
-        public static SoundEffect axeSwipeSoundEffect = Globals.content.Load<SoundEffect>("Sounds/swipe");
+        public static SoundEffect axeSwipeSoundEffect = Utils.LoadSoundEffect("Sounds/swipe.wav");
 
         public static Weapon sword = new Weapon("sword", swordThumbnail);
         public static Weapon hammer = new Weapon("hammer", hammerThumbnail);

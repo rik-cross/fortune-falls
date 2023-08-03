@@ -82,7 +82,7 @@ namespace AdventureGame
             EngineGlobals.soundManager = new SoundManager();
 
             // Todo move to another accessible place for the menu and scenes
-            Globals.dialogueTickSound = Globals.content.Load<SoundEffect>("Sounds/blip");
+            Globals.dialogueTickSound = Utils.LoadSoundEffect("Sounds/blip.wav");
 
             // Todo create player when the game is loaded and add it to active scene
             // Create player entity

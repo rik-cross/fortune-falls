@@ -47,12 +47,13 @@ namespace AdventureGame
             Vector2 offset = new Vector2(-41, -21);
             Engine.AnimatedSpriteComponent animatedComponent = npcEntity.AddComponent<AnimatedSpriteComponent>();
 
-            animatedComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_left", 0, 7, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(dir + "spr_idle_strip9", "idle_right", 0, 7, offset: offset);
+            // Todo match format of PlayerEntity: split base, character and tool?
+            animatedComponent.AddAnimatedSprite(dir + "spr_idle_strip9.png", "idle_left", 0, 7, offset: offset, flipH: true);
+            animatedComponent.AddAnimatedSprite(dir + "spr_idle_strip9.png", "idle_right", 0, 7, offset: offset);
 
             // Todo change to parameter for NPC action?
-            animatedComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_left", 0, 22, 3, 10, offset, true);
-            animatedComponent.AddAnimatedSprite(dir + "spr_hammering_strip23", "hammer_right", 0, 22, 3, 10, offset);
+            animatedComponent.AddAnimatedSprite(dir + "spr_hammering_strip23.png", "hammer_left", 0, 22, 3, 10, offset, true);
+            animatedComponent.AddAnimatedSprite(dir + "spr_hammering_strip23.png", "hammer_right", 0, 22, 3, 10, offset);
 
             // Set state
             npcEntity.State = "hammer_left";

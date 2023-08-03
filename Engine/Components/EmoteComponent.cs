@@ -31,7 +31,7 @@ namespace AdventureGame.Engine
             EmoteSize = new Vector2(16, 16);
 
             emoteImage = new Image(
-                Globals.content.Load<Texture2D>(emoteImageURI),
+                Utils.LoadTexture(emoteImageURI),
                 size: EmoteSize);
 
             emoteBackground = new Rectangle(
@@ -50,7 +50,7 @@ namespace AdventureGame.Engine
             EmoteSize = new Vector2(16, 16);
 
             //emoteImage = new Image(
-            //    Globals.content.Load<Texture2D>(emoteImageURI),
+            //    Utils.LoadTexture(emoteImageURI),
             //    size: EmoteSize);
 
             emoteImage = image;

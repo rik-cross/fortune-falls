@@ -58,8 +58,8 @@ namespace AdventureGame.Engine
                 { 100, 0.1f }
             };
 
-            dayNight = Globals.content.Load<Texture2D>("UI/daynight");
-            dayNightOverlay = Globals.content.Load<Texture2D>("UI/daynightoverlay");
+            dayNight = Utils.LoadTexture("UI/daynight.png");
+            dayNightOverlay = Utils.LoadTexture("UI/daynightoverlay.png");
         }
 
         public static void Update(GameTime gameTime)

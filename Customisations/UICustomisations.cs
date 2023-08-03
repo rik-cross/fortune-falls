@@ -15,19 +15,19 @@ namespace AdventureGame
     public static class UICustomisations
     {
 
-        public static Texture2D selectTopLeft = Globals.content.Load<Texture2D>("UI/selectbox_tl");
-        public static Texture2D selectTopRight = Globals.content.Load<Texture2D>("UI/selectbox_tr");
-        public static Texture2D selectBottomLeft = Globals.content.Load<Texture2D>("UI/selectbox_bl");
-        public static Texture2D selectBottomRight = Globals.content.Load<Texture2D>("UI/selectbox_br");
+        public static Texture2D selectTopLeft = Utils.LoadTexture("UI/selectbox_tl.png");
+        public static Texture2D selectTopRight = Utils.LoadTexture("UI/selectbox_tr.png");
+        public static Texture2D selectBottomLeft = Utils.LoadTexture("UI/selectbox_bl.png");
+        public static Texture2D selectBottomRight = Utils.LoadTexture("UI/selectbox_br.png");
 
-        public static Texture2D labelLeft = Globals.content.Load<Texture2D>("UI/label_left");
-        public static Texture2D labelMiddle = Globals.content.Load<Texture2D>("UI/label_middle");
-        public static Texture2D labelRight = Globals.content.Load<Texture2D>("UI/label_right");
+        public static Texture2D labelLeft = Utils.LoadTexture("UI/label_left.png");
+        public static Texture2D labelMiddle = Utils.LoadTexture("UI/label_middle.png");
+        public static Texture2D labelRight = Utils.LoadTexture("UI/label_right.png");
 
-        public static SoundEffect soundEffect = Globals.content.Load<SoundEffect>("Sounds/pickupCoin");
+        public static SoundEffect soundEffect = Utils.LoadSoundEffect("Sounds/pickupCoin.wav");
 
-        public static Texture2D full = Globals.content.Load<Texture2D>("UI/full");
-        public static Texture2D window = Globals.content.Load<Texture2D>("UI/window");
+        public static Texture2D full = Utils.LoadTexture("UI/full.png");
+        public static Texture2D window = Utils.LoadTexture("UI/window.png");
 
         public static int activeBorder = 10;
 

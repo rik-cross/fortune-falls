@@ -41,7 +41,7 @@ namespace AdventureGame.Engine
             Action<Entity> onComplete = null)
         {
             // Load the sprite sheet
-            Texture2D spriteSheet = Globals.content.Load<Texture2D>(filePath);
+            Texture2D spriteSheet = Utils.LoadTexture(filePath);
 
             // Assume only one row if frames per row is not given
             if (framesPerRow == -1)
