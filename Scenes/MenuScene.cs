@@ -272,8 +272,7 @@ namespace AdventureGame
         public override void OnEnter()
         {
             EngineGlobals.DEBUG = false;
-            //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
-            //EngineGlobals.soundManager.PlaySongFade(Utils.LoadSound("Music/citadel.ogg"));
+            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
 
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
             {

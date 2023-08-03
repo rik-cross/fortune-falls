@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Tiled;
 
 namespace AdventureGame.Engine
@@ -48,6 +51,56 @@ namespace AdventureGame.Engine
 				return sound;
 			}
 		}
+
+		public static Song LoadSong(string file)
+		{
+			if (LoadedAssets.TryGetValue(file, out var asset))
+			{
+				if (asset is Song song)
+					return song;
+			}
+
+			string absolutePath = ProjectPath + ContentLocation + file;
+            try
+            {
+				var song = Song.FromUri(file, new Uri(absolutePath));
+				LoadedAssets[file] = song;
+
+				return song;
+			}
+			catch (FileNotFoundException ex)
+			{
+				Console.WriteLine($"File not found: {ex}");
+			}
+            catch (FileLoadException ex)
+            {
+				Console.WriteLine($"Error loading song: {ex}");
+			}
+			return null;
+
+			/*using (var stream = File.OpenRead(absolutePath))
+			{
+				var song = Song.FromUri(file, new Uri(absolutePath));
+				LoadedAssets[file] = song;
+
+				return song;
+			}*/
+		}
+
+		/*public static TiledMap LoadTiledMap(string file)
+		{
+			if (LoadedAssets.TryGetValue(file, out var asset))
+			{
+				if (asset is TiledMap map)
+					return map;
+			}
+
+			string absolutePath = ProjectPath + ContentLocation + file;
+			using (var stream = TitleContainer.OpenStream(absolutePath))
+			{
+				//var map = 
+			}
+		}*/
 
 		/*
 		/// <summary>
