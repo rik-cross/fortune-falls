@@ -33,7 +33,6 @@ namespace AdventureGame
             Vector2 playerPosition = new Vector2(100, 100);
 
             // Add the MenuScene to the scene stack
-            Globals.newGame = true;
             EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
             EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
 
@@ -274,6 +273,8 @@ namespace AdventureGame
         public override void OnEnter()
         {
             EngineGlobals.DEBUG = false;
+            Globals.newGame = true;
+            
             EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
 
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
