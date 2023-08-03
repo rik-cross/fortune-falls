@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AdventureGame.Engine;
 
 namespace AdventureGame
 {
@@ -12,15 +13,15 @@ namespace AdventureGame
         *   bl---b---br
         *
         */
-        public static Texture2D tl = Globals.content.Load<Texture2D>("UI/Box/box_tl");
-        public static Texture2D tr = Globals.content.Load<Texture2D>("UI/Box/box_tr");
-        public static Texture2D bl = Globals.content.Load<Texture2D>("UI/Box/box_bl");
-        public static Texture2D br = Globals.content.Load<Texture2D>("UI/Box/box_br");
-        public static Texture2D l = Globals.content.Load<Texture2D>("UI/Box/box_l");
-        public static Texture2D r = Globals.content.Load<Texture2D>("UI/Box/box_r");
-        public static Texture2D t = Globals.content.Load<Texture2D>("UI/Box/box_t");
-        public static Texture2D b = Globals.content.Load<Texture2D>("UI/Box/box_b");
-        public static Texture2D m = Globals.content.Load<Texture2D>("UI/Box/box_m");
+        public static Texture2D tl = Utils.LoadTexture("UI/Box/box_tl.png");
+        public static Texture2D tr = Utils.LoadTexture("UI/Box/box_tr.png");
+        public static Texture2D bl = Utils.LoadTexture("UI/Box/box_bl.png");
+        public static Texture2D br = Utils.LoadTexture("UI/Box/box_br.png");
+        public static Texture2D l = Utils.LoadTexture("UI/Box/box_l.png");
+        public static Texture2D r = Utils.LoadTexture("UI/Box/box_r.png");
+        public static Texture2D t = Utils.LoadTexture("UI/Box/box_t.png");
+        public static Texture2D b = Utils.LoadTexture("UI/Box/box_b.png");
+        public static Texture2D m = Utils.LoadTexture("UI/Box/box_m.png");
 
         public static void DrawRect(float x, float y, float w, float h, float a = 1.0f, int borderWidth = 8)
         {

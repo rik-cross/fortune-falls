@@ -39,7 +39,7 @@ namespace AdventureGame.Engine
         /// <summary>
         /// Constructor for a single static sprite that creates a new <see cref="Sprite"/>.
         /// </summary>
-        /// <param name="filePath">The full path of the <see cref="Texture2D"/>.</param>
+        /// <param name="filePath">The relative path of the texture, including the file extension.</param>
         /// <param name="key">A unique state of an entity that maps to a <see cref="Sprite"/>.</param>
         public SpriteComponent(string filePath, string key = "default")
         {
@@ -70,17 +70,16 @@ namespace AdventureGame.Engine
         public void AddSprite(string filePath, string key = "default",
             Vector2 offset = default, bool flipH = false, bool flipV = false)
         {
-            Texture2D texture = Globals.content.Load<Texture2D>(filePath);
+            Texture2D texture = Utils.LoadTexture(filePath);
             Vector2 size = new Vector2(texture.Width, texture.Height);
             Sprite sprite = new Sprite(texture, size, offset, flipH, flipV);
-            //Sprite sprite = new Sprite(Engine.Utils.LoadTexture(filePath + ".png"));
             SpriteDict[key] = sprite;
         }
 
         /// <summary>
         /// Adds a static sprite from a sprite sheet using the frame number starting from 0.
         /// </summary>
-        /// <param name="filePath">The full path of the <see cref="Texture2D"/>.</param>
+        /// <param name="filePath">The relative path of the texture, including the file extension.</param>
         /// <param name="key">A unique state of an entity that maps to a <see cref="Sprite"/>.</param>
         /// <param name="frame">The frame to get the <see cref="Sprite"/> from, starting from 0.</param>
         /// <param name="endFrame">The final frame in the sprite sheet, starting from 0.</param>
@@ -94,7 +93,7 @@ namespace AdventureGame.Engine
             Vector2 offset = default, bool flipH = false, bool flipV = false)
         {
             // Load the sprite sheet
-            Texture2D spriteSheet = Globals.content.Load<Texture2D>(filePath);
+            Texture2D spriteSheet = Utils.LoadTexture(filePath);
 
             // Assume only one row if frames per row is not given
             if (framesPerRow == -1)
@@ -119,7 +118,7 @@ namespace AdventureGame.Engine
         /// <summary>
         /// Adds multiple static sprites from a single spritesheet using a list of keys.
         /// </summary>
-        /// <param name="filePath">The full path of the <see cref="Texture2D"/>.</param>
+        /// <param name="filePath">The relative path of the texture, including the file extension.</param>
         /// <param name="keys">A list of unique states of an entity that map to <see cref="Sprite"/>s.</param>
         /// <param name="totalRows">The total number of rows of sprites in the sprite sheet.</param>
         /// <param name="framesPerRow">The number of frames per row.</param>
@@ -131,7 +130,7 @@ namespace AdventureGame.Engine
             Vector2 offset = default, bool flipH = false, bool flipV = false)
         {
             // Load the sprite sheet
-            Texture2D spriteSheet = Globals.content.Load<Texture2D>(filePath);
+            Texture2D spriteSheet = Utils.LoadTexture(filePath);
 
             // Assume only one row if sprites per row is not given
             if (framesPerRow == -1)

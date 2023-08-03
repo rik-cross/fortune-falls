@@ -126,7 +126,7 @@ namespace AdventureGame
 
             // Swimming
             folder = "SWIMMING/";
-            keyStr = "_swimming_strip12";
+            keyStr = "_swimming_strip12.png";
             characterStr = "bowlhair";
             animatedComponentC1.AddAnimatedSprite(dir + folder + baseStr + keyStr,
                 "swimming", 0, 11, offset: offset, flipH: true);
@@ -255,13 +255,13 @@ namespace AdventureGame
 
             // control images
             controllerImage = new Engine.Image(
-                Globals.content.Load<Texture2D>("UI/xbox360"),
+                Utils.LoadTexture("UI/xbox360.png"),
                 size: new Vector2(118, 76),
                 anchor: Anchor.BottomLeft,
                 padding: new Padding(bottom: 30, left: 30)
             );
             keyboardImage = new Engine.Image(
-                Globals.content.Load<Texture2D>("UI/keyboard"),
+                Utils.LoadTexture("UI/keyboard.png"),
                 size: new Vector2(198, 63),
                 anchor: Anchor.BottomLeft,
                 padding: new Padding(bottom: 30, left: 30)
@@ -273,6 +273,7 @@ namespace AdventureGame
         {
             EngineGlobals.DEBUG = false;
             //EngineGlobals.soundManager.PlaySongFade(Globals.content.Load<Song>("Music/citadel"));
+            //EngineGlobals.soundManager.PlaySongFade(Utils.LoadSound("Music/citadel.ogg"));
 
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
             {
@@ -343,7 +344,7 @@ namespace AdventureGame
 
             // Waiting
             folder = "WAITING/";
-            keyStr = "_waiting_strip9";
+            keyStr = "_waiting_strip9.png";
             animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
                 "waiting", 0, 8, offset: offset);
             animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
@@ -353,7 +354,7 @@ namespace AdventureGame
 
             // Casting
             folder = "CASTING/";
-            keyStr = "_casting_strip15";
+            keyStr = "_casting_strip15.png";
             animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
                 "casting", 0, 14, offset: offset);
             animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,
@@ -364,7 +365,7 @@ namespace AdventureGame
 
             // Caught
             folder = "CAUGHT/";
-            keyStr = "_caught_strip10";
+            keyStr = "_caught_strip10.png";
             animatedComponent.AddAnimatedSprite(dir + folder + baseStr + keyStr,
                 "caught", 0, 9, offset: offset);
             animatedComponent.AddAnimatedSprite(dir + folder + characterStr + keyStr,

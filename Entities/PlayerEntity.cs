@@ -146,7 +146,7 @@ namespace AdventureGame
 
             // Idle
             folder = "IDLE/";
-            keyStr = "_idle_strip9";
+            keyStr = "_idle_strip9.png";
 
             //filePath = dir + folder + baseStr + keyStr;
             //spriteComponent.AddSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
@@ -165,7 +165,7 @@ namespace AdventureGame
 
             // Walk
             folder = "WALKING/";
-            keyStr = "_walk_strip8";
+            keyStr = "_walk_strip8.png";
 
             filePath = dir + folder + baseStr + keyStr;
             animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
@@ -181,7 +181,7 @@ namespace AdventureGame
 
             // Run
             folder = "RUN/";
-            keyStr = "_run_strip8";
+            keyStr = "_run_strip8.png";
 
             filePath = dir + folder + baseStr + keyStr;
             animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
@@ -197,7 +197,7 @@ namespace AdventureGame
 
             // Axe
             folder = "AXE/";
-            keyStr = "_axe_strip10";
+            keyStr = "_axe_strip10.png";
 
             filePath = dir + folder + baseStr + keyStr;
             animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);

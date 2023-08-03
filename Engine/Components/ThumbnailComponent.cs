@@ -10,7 +10,7 @@ namespace AdventureGame.Engine
 
         public ThumbnailComponent(string thumbnailImageURI)
         {
-            ThumbnailImage = Globals.content.Load<Texture2D>(thumbnailImageURI);
+            ThumbnailImage = Utils.LoadTexture(thumbnailImageURI);
             ThumbnailSize = new Vector2(ThumbnailImage.Width, ThumbnailImage.Height);
         }
 
@@ -37,7 +37,7 @@ namespace AdventureGame.Engine
 
         public ThumbnailComponent(string thumbnailImageURI)
         {
-            ThumbnailImage = new Image(Globals.content.Load<Texture2D>(thumbnailImageURI));
+            ThumbnailImage = new Image(Utils.LoadTexture(thumbnailImageURI));
             ThumbnailSize = ThumbnailImage.Size;
         }
         */

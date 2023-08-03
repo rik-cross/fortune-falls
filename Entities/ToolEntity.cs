@@ -49,7 +49,7 @@ namespace AdventureGame
 
             // Axe
             folder = "AXE/";
-            keyStr = "_axe_strip10";
+            keyStr = "_axe_strip10.png";
 
             // Todo: change to create a new entity with a different layer depth
             filePath = dir + folder + toolStr + keyStr;

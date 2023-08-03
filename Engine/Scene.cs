@@ -66,7 +66,7 @@ namespace AdventureGame.Engine
             UpdateSceneBelow = false;
             DrawSceneBelow = false;
             LightLevel = 1.0f;
-            _alphaMask = Globals.content.Load<Texture2D>("VFX/light");
+            _alphaMask = Utils.LoadTexture("VFX/light.png");
 
             UIMenu = new UIMenu();
 
@@ -680,7 +680,7 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix(), blendState: blend);
 
                 // MOVE so the light is only loaded once 
-                //var alphaMask = Globals.content.Load<Texture2D>("light");
+                //var alphaMask = Utils.LoadTexture("VFX/light.png");
 
                 foreach (Entity e in EntityList)
                 {

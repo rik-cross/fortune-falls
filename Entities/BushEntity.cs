@@ -41,7 +41,7 @@ namespace AdventureGame.Engine
             {
                 Random random = new Random();
                 for (int i = 0; i <= random.Next(1, 3); i++)
-                    inventory.AddItem(new Item(dropItem, "Items/" + dropItem, quantity: 1, stackSize: 20));
+                    inventory.AddItem(new Item(dropItem, "Items/" + dropItem + ".png", quantity: 1, stackSize: 20));
             }
 
             BattleComponent battleComponent = entity.AddComponent<BattleComponent>();
@@ -50,7 +50,7 @@ namespace AdventureGame.Engine
             {
                 if (thisEnt.State != "no_berries" && otherWeapon.name == "axe")
                 {
-                    SoundEffect chopSoundEffect = Globals.content.Load<SoundEffect>("Sounds/chop");
+                    SoundEffect chopSoundEffect = Utils.LoadSoundEffect("Sounds/chop.wav");
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
                     thisEnt.GetComponent<HealthComponent>().Health -= 35;
                     //thisEnt.State = "tree_shake";

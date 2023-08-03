@@ -29,7 +29,7 @@ namespace AdventureGame.Engine
             Filename = filename;
 
             if (texture == default && filename != default)
-                Texture = Globals.content.Load<Texture2D>(filename);
+                Texture = Utils.LoadTexture(filename);
             else
                 Texture = texture;
 
