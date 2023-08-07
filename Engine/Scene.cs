@@ -118,26 +118,12 @@ namespace AdventureGame.Engine
                 }
             }
 
-            // TO DO
-            // Reset the keyboard, mouse and controller states
-            // i.e. call IsReleased on everything that IsPressed or IsDown
-
             OnEnter();
         }
         public virtual void OnEnter() { }
 
         public void _OnExit()
         {
-            /*EntitiesToDelete.Clear();
-            foreach(Entity e in EntityList)
-            {
-                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
-                if(triggerComponent != null)
-                {
-                    triggerComponent.collidedEntities.Clear();
-                }
-            }*/
-
             OnExit();
         }
         public virtual void OnExit() { }

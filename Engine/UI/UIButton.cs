@@ -35,8 +35,9 @@ namespace AdventureGame.Engine
             Color activeColour = default,
             Action<UIButton> buttonSpecificDrawMethod = null,
             Action<UIButton> buttonSpecificUpdateMethod = null,
-            Action<UIButton> func = null
-        ) : base(position, size)
+            Action<UIButton> func = null,
+            bool active = true
+        ) : base(position, size, active)
         {
             this.text = text;
             this.textColour = textColour;

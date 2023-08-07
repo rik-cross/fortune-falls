@@ -148,9 +148,6 @@ namespace AdventureGame
             folder = "IDLE/";
             keyStr = "_idle_strip9.png";
 
-            //filePath = dir + folder + baseStr + keyStr;
-            //spriteComponent.AddSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
-
             filePath = dir + folder + baseStr + keyStr;
             animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
             animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);

@@ -20,7 +20,7 @@ namespace AdventureGame.Engine
 
         public float zoom;
         public float targetZoom;
-        public float zoomIncrement = 0.02f;
+        public float zoomIncrement = 0.01f;
 
         public Color backgroundColour;
         public Color borderColour;
@@ -34,7 +34,7 @@ namespace AdventureGame.Engine
             Vector2 screenPosition = default(Vector2),
             Vector2 size = default(Vector2),
             Vector2 worldPosition = default(Vector2),
-            float followPercentage = 0.05f,
+            float followPercentage = 0.7f,
             float zoom = 1,
             Color backgroundColour = default(Color),
             Color borderColour = default(Color),
@@ -186,10 +186,11 @@ namespace AdventureGame.Engine
 
             if (zoom != targetZoom)
             {
+                double f = zoomIncrement * Math.Log(zoom);
                 if (zoom < targetZoom)
-                    zoom = Math.Min(targetZoom, zoom + zoomIncrement);
+                    zoom = (float)Math.Min(targetZoom, zoom + f);
                 else
-                    zoom = Math.Max(targetZoom, zoom - zoomIncrement);
+                    zoom = (float)Math.Max(targetZoom, zoom - f);
             }
 
         }

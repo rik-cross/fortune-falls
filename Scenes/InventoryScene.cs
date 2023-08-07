@@ -530,8 +530,7 @@ namespace AdventureGame
         }
         public override void Input(GameTime gameTime)
         {
-            if (_inputManager.IsPressed(Globals.inventoryInput)
-                || _inputManager.IsPressed(Globals.backInput))
+            if (_inputManager.IsPressed(Globals.inventoryInput))
             {
                 _inputManager.HideCursor();
                 EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);

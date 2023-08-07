@@ -185,9 +185,9 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 300),
-                    size: new Vector2(120, 45),
-                    text: "Start",
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 300),
+                    size: new Vector2(140, 45),
+                    text: "New Game",
                     textColour: Color.White,
                     outlineColour: Color.White,
                     outlineThickness: 2,
@@ -196,28 +196,24 @@ namespace AdventureGame
                 )
             );
 
-            /*
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 200),
-                    size: new Vector2(120, 45),
-                    text: "Player",
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 250),
+                    size: new Vector2(140, 45),
+                    text: "Continue",
                     textColour: Color.White,
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: (UIButton button) => {
-                        EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(unloadCurrentScene: false);
-                        EngineGlobals.sceneManager.SetPlayerScene<PlayerSelectScene>(new Vector2(0, 0));
-                    }
+                    func: null,
+                    active: false
                 )
             );
-            */
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 150),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 200),
+                    size: new Vector2(140, 45),
                     text: "Options",
                     textColour: Color.White,
                     outlineColour: Color.White,
@@ -229,8 +225,8 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 100),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 150),
+                    size: new Vector2(140, 45),
                     text: "Credits",
                     textColour: Color.White,
                     outlineColour: Color.White,
@@ -242,8 +238,8 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, Globals.ScreenHeight - 50),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 100),
+                    size: new Vector2(140, 45),
                     text: "Quit",
                     textColour: Color.White,
                     outlineColour: Color.White,
@@ -301,9 +297,6 @@ namespace AdventureGame
         }
         public override void Input(GameTime gameTime)
         {
-            // todo -- remove this
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-                UnloadMenuScene(null);
         }
 
         public override void Update(GameTime gameTime)

@@ -84,24 +84,23 @@ namespace AdventureGame
 
             float screenMiddle = Globals.ScreenHeight / 2;
 
-            //double cval = 0;
             string t = "Keyboard";
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
             {
-                //cval = 1;
                 t = "Controller";
             }
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle - 100),
+                    size: new Vector2(140, 45),
                     text: t,
                     textColour: Color.White,
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: UICustomisations.SetControls
+                    func: UICustomisations.SetControls,
+                    active: EngineGlobals.inputManager.IsControllerConnected()
                 )
             );
 
@@ -111,8 +110,8 @@ namespace AdventureGame
             
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 50),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle - 50),
+                    size: new Vector2(140, 45),
                     text: "Unmuted",
                     textColour: Color.White,
                     outlineColour: Color.White,
@@ -124,8 +123,8 @@ namespace AdventureGame
             
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 100),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle),
+                    size: new Vector2(140, 45),
                     text: "Music",
                     textColour: Color.White,
                     outlineColour: Color.White,
@@ -141,8 +140,8 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 50),
+                    size: new Vector2(140, 45),
                     text: "SFX",
                     textColour: Color.White,
                     outlineColour: Color.White,
@@ -158,8 +157,8 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 200),
-                    size: new Vector2(120, 45),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 100),
+                    size: new Vector2(140, 45),
                     text: "Back",
                     textColour: Color.White,
                     outlineColour: Color.White,

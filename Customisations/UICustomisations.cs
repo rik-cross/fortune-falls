@@ -164,7 +164,6 @@ namespace AdventureGame
             EngineGlobals.soundManager.SFXVolume = (float)newVolume;
             if (changed)
                 EngineGlobals.soundManager.PlaySoundEffect(soundEffect);
-            S.WriteLine("ddd");
         }
 
         public static void SetControls(UIButton button)

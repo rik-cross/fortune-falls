@@ -10,11 +10,12 @@ namespace AdventureGame.Engine
         public Vector2 position;
         public Vector2 size;
         public bool selected = false;
-        public bool active = true; // todo
-        public UIElement(Vector2 position = default, Vector2 size = default)
+        public bool active = true;
+        public UIElement(Vector2 position = default, Vector2 size = default, bool active = true)
         {
             this.position = position;
             this.size = size;
+            this.active = active;
         }
         public abstract void Init();
         public abstract void Update();
