@@ -59,6 +59,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
+            playerEntity.AddComponent(new Engine.TutorialComponent());
 
             playerEntity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(13, 6),
@@ -97,7 +98,8 @@ namespace AdventureGame
             playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(15, 20)));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(20, 20), new Vector2(15, 0), frame: 6));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(20, 20), new Vector2(-20, 0), frame: 6));
-            playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
+            
+            //playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
 
             playerEntity.AddComponent(new Engine.DialogueComponent());
 

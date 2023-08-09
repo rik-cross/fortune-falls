@@ -46,7 +46,7 @@ namespace AdventureGame.Engine
             {
                 if (entity.GetComponent<IntentionComponent>() != null)
                     entity.GetComponent<IntentionComponent>().Reset();
-                if (entity.State.Split("_").Length == 2)
+                if (entity.State.Split("_").Length == 2 && (entity.State.Split("_")[0] == "walk" || entity.State.Split("_")[0] == "run"))
                     entity.State = "idle_" + entity.State.Split("_")[1];
                 ic.inputControllerStack.Push(DialogueInputController);
                 ic.topControllerLabel = "dialogue";
@@ -70,9 +70,16 @@ namespace AdventureGame.Engine
                     dialogueComponent.dialoguePages[0].onDialogueComplete(entity);
                 }
 
+                // remove the current dialogue page
                 dialogueComponent.dialoguePages.RemoveAt(0);
+
+                // load the next dialogue page
                 if (dialogueComponent.dialoguePages.Count > 0)
                 {
+                    // execute script if there is one
+                    if (dialogueComponent.dialoguePages[0].script != null)
+                        dialogueComponent.dialoguePages[0].script();
+                    // show dialogue
                     dialogueComponent.dialoguePages[0].alpha.Value = 1;
                 }
             }
@@ -185,7 +192,7 @@ namespace AdventureGame.Engine
                                     y),
                                 Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].alpha.Value);
 
-                            y += (int)(Theme.FontPrimary.MeasureString(currentRow).Y);
+                            y += (int)(Theme.FontPrimary.MeasureString(currentRow).Y / 4 * 3);
                             acc += line.Length;
                         }
 
@@ -197,13 +204,13 @@ namespace AdventureGame.Engine
 
                             // Draw image border
 
-                            UI.DrawRect(
+                            /*UI.DrawRect(
                                 camera.screenPosition.X + (2 * Theme.BorderLarge),
                                 camera.screenPosition.Y + camera.size.Y - 200,
                                 200 - Theme.BorderLarge,
                                 200 - (2 * Theme.BorderLarge),
                                 (float)dialogueComponent.dialoguePages[0].alpha.Value
-                            );
+                            );*/
 
                             // Calculate image size
 

@@ -6,6 +6,7 @@ namespace AdventureGame.Engine
 {
     public class Dialogue
     {
+        public int frame = 0;
         public string text;
         public Entity entity;
         public Texture2D texture;
@@ -17,12 +18,13 @@ namespace AdventureGame.Engine
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
         public bool markForRemoval = false;
         //public Action<Entity, Entity, float> onDialogueComplete;
+        public Action script;
         public Action<Entity> onDialogueComplete;
 
         public Dialogue(string text = null, Entity entity = null, Texture2D texture = null,
-                        int tickDelay = 5, bool playTickSoundEffect = true,
+                        int tickDelay = 3, bool playTickSoundEffect = true,
                         SoundEffect tickSoundEffect = default,
-                        //Action<Entity, Entity, float> onDialogueComplete = null)
+                        Action script = null,
                         Action<Entity> onDialogueComplete = null)
         {
             this.text = text + " >";
@@ -32,16 +34,21 @@ namespace AdventureGame.Engine
             this.playTickSoundEffect = playTickSoundEffect;
             if (tickSoundEffect != default)
                 this.tickSoundEffect = tickSoundEffect;
+            this.script = script;
             this.onDialogueComplete = onDialogueComplete;
         }
         public void Update()
         {
             alpha.Update();
+
             // Don't display text until the dialogue is fully visible
             if (alpha.Value < 1)
                 return;
 
             timer++;
+            frame++;
+            
+
             if (timer == tickDelay)
             {
                 if (index < text.Length)

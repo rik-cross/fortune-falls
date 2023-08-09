@@ -117,7 +117,7 @@ namespace AdventureGame.Engine
                         int w = 64;
                         int h = 64;
                         int x = (int)(c.screenPosition.X + 28);
-                        int y = (int)(c.screenPosition.Y + c.size.Y - 28 - h);
+                        int y = (int)(c.screenPosition.Y + 28);
 
                         UI.DrawRect(x, y, w, h);
 

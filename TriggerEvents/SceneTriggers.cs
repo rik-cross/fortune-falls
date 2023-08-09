@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -26,6 +27,9 @@ namespace AdventureGame.Engine
         public static void BlacksmithDialogue(Entity npcEntity, Entity playerEntity, float distance)
         {
             if (!playerEntity.IsPlayerType())
+                return;
+
+            if (playerEntity.GetComponent<TutorialComponent>().GetTutorials().Count > 0)
                 return;
 
             InputComponent playerInputComponent = playerEntity.GetComponent<InputComponent>();
@@ -55,39 +59,94 @@ namespace AdventureGame.Engine
                     InventoryComponent playerInventory = playerEntity.GetComponent<InventoryComponent>();
                     KeyItemsComponent keyItems = playerEntity.GetComponent<KeyItemsComponent>();
                     string itemNeeded = "PotionRed";
-                    if (playerInventory.ContainsItem(itemNeeded))
+
+                    if (playerEntity.GetComponent<BattleComponent>().weapon != Weapons.axe)
                     {
-                        dialogueComponent.AddPage("Oh yes indeedy, a fine healing potion if I ever saw one!", thumbnail);
-                        dialogueComponent.AddPage("Here's a handsome reward for being so generous.", thumbnail);
-                        // Remove the red potion and give the player 3 coins
-                        // Add trigger to remove red potion
-                        // "Received: 3 gold coins!" (image of the gold coin item)
-                        //playerInventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 3, stackSize: 20));
+                        dialogueComponent.AddPage("Well, I haven't seen you around here before. I am guessing you are the newbie I heard was coming to town. Barnie's distant relative right?",
+                        thumbnail);
 
-                        dialogueComponent.AddPage("The world could sure do with more kind folk like you.", thumbnail);
+                        dialogueComponent.AddPage("Welcome to [town name], it's been a long while since we had anyone new join us. My name is Magnus, and this is my smithy. My family have been crafting here for generations.",
+                           thumbnail);
 
-                        // Bug: tries to set player state rather than NPC state
-                        //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
+                        dialogueComponent.AddPage("But, you are not here for a history lesson. You will probably want to go check out the place Barnie left for ya. If I am being honest, it has seen better days.",
+                           thumbnail);
 
-                    }
-                    else if (keyItems.ContainsItem("key_player_house"))
+                        dialogueComponent.AddPage("You're going to need something to clear all those trees. Take this axe.",
+                           thumbnail,
+                           () => {
+                               EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
+                               EngineGlobals.soundManager.PlaySoundEffect(GameAssets.sound_notification);
+                           }
+                        );
+
+                        dialogueComponent.AddPage("Take a few practice swings, let me see your form!",
+                           thumbnail,
+                           () => {
+                               playerEntity.GetComponent<TutorialComponent>().AddTutorial(
+                                    new Tutorial(
+                                        name: "Use Axe",
+                                        description: "Show the Blacksmith that you can use an axe",
+                                        condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button1); },
+                                        numberOfTimes: 4,
+                                        onStart: () => {
+                                        //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha = 0.0f;
+                                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(new EmoteComponent(GameAssets.emote_pickaxe, background: false));
+                                        //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha = 1.0f;
+                                    },
+                                        onComplete: () => {
+                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                                            dialogueComponent.AddPage(
+                                                "That axe is on loan. Make sure you bring it back when you're finished. It's one of my favourites, that's folded steel that is. Barnie's place is the most northern.",
+                                                thumbnail
+                                            );
+                                        }
+                                    )
+                               );
+                           }
+                       );
+                    } else
                     {
-                        dialogueComponent.AddPage("I see you'll be able to access that house of yours now.", thumbnail);
-                        dialogueComponent.AddPage("Let me know if you do find a healing potion amongst your things.", thumbnail);
-
-                        // Bug: tries to set player state rather than NPC state
-                        //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
+                        dialogueComponent.AddPage("Hope you find the axe useful. Go find your new place!",
+                            thumbnail
+                        );
                     }
-                    else
-                    {
-                        dialogueComponent.AddPage("..........", thumbnail);
-                        dialogueComponent.AddPage("You must be the newbie in town. Word gets around here fast.", thumbnail);
-                        dialogueComponent.AddPage("Missing your key hey? Well I ain't seen it sad to say.", thumbnail);
-                        dialogueComponent.AddPage("But if you find a healing potion then I'd be mighty interested.", thumbnail);
 
-                        // Bug: tries to set player state rather than NPC state
-                        //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
-                    }
+                    
+
+
+                    //if (playerInventory.ContainsItem(itemNeeded))
+                    //{
+                    //dialogueComponent.AddPage("Oh yes indeedy, a fine healing potion if I ever saw one!", thumbnail);
+                    //dialogueComponent.AddPage("Here's a handsome reward for being so generous.", thumbnail);
+                    // Remove the red potion and give the player 3 coins
+                    // Add trigger to remove red potion
+                    // "Received: 3 gold coins!" (image of the gold coin item)
+                    //playerInventory.AddItem(new Item("GoldCoin", "Items/I_GoldCoin", quantity: 3, stackSize: 20));
+
+                    //dialogueComponent.AddPage("The world could sure do with more kind folk like you.", thumbnail);
+
+                    // Bug: tries to set player state rather than NPC state
+                    //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
+
+                    //}
+                    //else if (keyItems.ContainsItem("key_player_house"))
+                    //{
+                    //dialogueComponent.AddPage("I see you'll be able to access that house of yours now.", thumbnail);
+                    //dialogueComponent.AddPage("Let me know if you do find a healing potion amongst your things.", thumbnail);
+
+                    // Bug: tries to set player state rather than NPC state
+                    //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
+                    //}
+                    //else
+                    //{
+                    //dialogueComponent.AddPage("..........", thumbnail, () => { S.WriteLine("test"); });
+                    //dialogueComponent.AddPage("You must be the newbie in town. Word gets around here fast.", thumbnail, () => { S.WriteLine("test 2"); });
+                    //dialogueComponent.AddPage("Missing your key hey? Well I ain't seen it sad to say.", thumbnail);
+                    //dialogueComponent.AddPage("But if you find a healing potion then I'd be mighty interested.", thumbnail);
+
+                    // Bug: tries to set player state rather than NPC state
+                    //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
+                    //}
                 }
             }
         }

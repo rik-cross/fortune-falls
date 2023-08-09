@@ -51,6 +51,7 @@ namespace AdventureGame.Engine
             AddSystem(new StreetLightSystem());
             AddSystem(new BattleSystem());
             AddSystem(new ParticleSystem());
+            AddSystem(new TutorialSystem());
             //AddSystem(new HitboxSystem2());
         }
 
