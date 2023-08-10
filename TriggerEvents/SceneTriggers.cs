@@ -63,16 +63,16 @@ namespace AdventureGame.Engine
                     if (playerEntity.GetComponent<BattleComponent>().weapon != Weapons.axe)
                     {
                         dialogueComponent.AddPage("Well, I haven't seen you around here before. I am guessing you are the newbie I heard was coming to town. Barnie's distant relative right?",
-                        thumbnail);
+                        GameAssets.blacksmith_headshot);
 
                         dialogueComponent.AddPage("Welcome to [town name], it's been a long while since we had anyone new join us. My name is Magnus, and this is my smithy. My family have been crafting here for generations.",
-                           thumbnail);
+                           GameAssets.blacksmith_headshot);
 
                         dialogueComponent.AddPage("But, you are not here for a history lesson. You will probably want to go check out the place Barnie left for ya. If I am being honest, it has seen better days.",
-                           thumbnail);
+                           GameAssets.blacksmith_headshot);
 
                         dialogueComponent.AddPage("You're going to need something to clear all those trees. Take this axe.",
-                           thumbnail,
+                           GameAssets.blacksmith_headshot,
                            () => {
                                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
                                EngineGlobals.soundManager.PlaySoundEffect(GameAssets.sound_notification);
@@ -80,7 +80,7 @@ namespace AdventureGame.Engine
                         );
 
                         dialogueComponent.AddPage("Take a few practice swings, let me see your form!",
-                           thumbnail,
+                           GameAssets.blacksmith_headshot,
                            () => {
                                playerEntity.GetComponent<TutorialComponent>().AddTutorial(
                                     new Tutorial(
@@ -97,7 +97,7 @@ namespace AdventureGame.Engine
                                             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
                                             dialogueComponent.AddPage(
                                                 "That axe is on loan. Make sure you bring it back when you're finished. It's one of my favourites, that's folded steel that is. Barnie's place is the most northern.",
-                                                thumbnail
+                                                GameAssets.blacksmith_headshot
                                             );
                                         }
                                     )
@@ -107,7 +107,7 @@ namespace AdventureGame.Engine
                     } else
                     {
                         dialogueComponent.AddPage("Hope you find the axe useful. Go find your new place!",
-                            thumbnail
+                            GameAssets.blacksmith_headshot
                         );
                     }
 

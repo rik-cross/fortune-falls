@@ -201,23 +201,15 @@ namespace AdventureGame.Engine
                         //
 
                         if (dialogueComponent.dialoguePages[0].texture != null) {
-
-                            // Draw image border
-
-                            /*UI.DrawRect(
-                                camera.screenPosition.X + (2 * Theme.BorderLarge),
-                                camera.screenPosition.Y + camera.size.Y - 200,
-                                200 - Theme.BorderLarge,
-                                200 - (2 * Theme.BorderLarge),
-                                (float)dialogueComponent.dialoguePages[0].alpha.Value
-                            );*/
-
+                                                        
                             // Calculate image size
 
                             Texture2D t = dialogueComponent.dialoguePages[0].texture;
                             float requiredSize = (200 - (4 * Theme.BorderLarge));
                             Vector2 newSize = new Vector2();
                             Vector2 padding = new Vector2();
+
+                            S.WriteLine(t.Width + "  " + t.Height);
 
                             if (t.Height > t.Width)
                             {
@@ -244,7 +236,7 @@ namespace AdventureGame.Engine
                                     (int)(camera.screenPosition.Y + camera.size.Y - 200 + Theme.BorderLarge + padding.Y),
                                     (int)(newSize.X + Theme.BorderLarge),
                                     (int)(newSize.Y)), Color.White * (float)dialogueComponent.dialoguePages[0].alpha.Value);
-
+                            
                             
                         }
 
