@@ -18,7 +18,17 @@ namespace AdventureGame.Engine
         public void AddUIElement(UIElement UIElement)
         {
             UIElements.Add(UIElement);
-            if (UIElements.Count == 1)
+
+            for (int i = 0; i < UIElements.Count-1; i++)
+            {
+                if (UIElements[i].active)
+                {
+                    UIElements[i].selected = true;
+                    return;
+                }
+            }
+
+            if (UIElements.Count == 1 && UIElement.active == true)
                 UIElement.selected = true;
         }
         public void Update()
