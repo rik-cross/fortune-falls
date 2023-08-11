@@ -91,9 +91,7 @@ namespace AdventureGame.Engine
                                         condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button6); },
                                         numberOfTimes: 3,
                                         onStart: () => {
-                                        //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha = 0.0f;
-                                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(new EmoteComponent(GameAssets.emote_pickaxe, background: false));
-                                        //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha = 1.0f;
+                                        //EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(new EmoteComponent(GameAssets.emote_pickaxe, background: false));
                                     },
                                         onComplete: () => {
                                             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
