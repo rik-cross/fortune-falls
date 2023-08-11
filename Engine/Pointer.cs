@@ -50,7 +50,7 @@ namespace AdventureGame.Engine
                 pointerPos.X = Math.Max(pointerPos.X, 40); 
 
                 //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle + (float)(Math.PI/2), new Vector2(pointerTexture.Width / 2, 0), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
+                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/ 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
             }
             if (entity != null)
             {
@@ -78,7 +78,7 @@ namespace AdventureGame.Engine
                 pointerPos.X = Math.Max(pointerPos.X, 40);
 
                 //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle + (float)(Math.PI / 2), new Vector2(pointerTexture.Width / 2, 0), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
+                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
 
             }
 
