@@ -60,6 +60,11 @@ namespace AdventureGame
 
             //if (thumbnail != null)
             //npcEntity.AddComponent(new Engine.ThumbnailComponent(dir + thumbnail));
+
+            // UTILITY.cropTexture
+            // pass a rectangle for the crop area
+            // calculate rect based on offset and sprite size
+            // pass new texture to thumbnail
             npcEntity.AddComponent(new Engine.ThumbnailComponent(animatedComponent.GetSprite("idle_right").GetTexture(0)));
 
 

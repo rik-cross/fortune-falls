@@ -7,6 +7,16 @@ namespace AdventureGame.Engine
 {
     public static class Utilities
     {
+        //public static Texture2D CropTexture(Texture2D texture, Rectangle cropArea)
+        //{
+        //    Texture2D newTexture = texture;
+
+        //    if (newTexture.Bounds)
+
+        //    return newTexture;
+        //}
+
+
         // Return the relative center position to a parent
         // Use the screen width and height as the parent by default
         public static Vector2 CenterVectorToContainer(int width, int height, Vector2 parent = default)
