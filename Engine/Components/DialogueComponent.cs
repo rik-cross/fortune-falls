@@ -36,15 +36,15 @@ namespace AdventureGame.Engine
             //dialoguePages.RemoveAt(0);
             
             dialoguePages[0].markForRemoval = true;
-            //if (dialoguePages.Count > 1 && dialoguePages[0].texture == dialoguePages[1].texture)
-            //{
-                //dialoguePages[0].imageAlpha.Value = 1;
-                //dialoguePages[0].textAlpha.Value = 0;
-            //} else
-            //{
+            if (dialoguePages.Count > 1 && dialoguePages[0].texture == dialoguePages[1].texture)
+            {
+                dialoguePages[0].imageAlpha.Value = 1;
+                dialoguePages[0].textAlpha.Value = 0;
+            } else
+            {
                 dialoguePages[0].imageAlpha.Value = 0;
                 dialoguePages[0].textAlpha.Value = 0;
-            //}
+            }
             
             if (dialoguePages.Count == 1)
             {

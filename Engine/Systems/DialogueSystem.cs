@@ -70,6 +70,14 @@ namespace AdventureGame.Engine
                     dialogueComponent.dialoguePages[0].onDialogueComplete(entity);
                 }
 
+                
+
+                if (dialogueComponent.dialoguePages.Count > 1 && dialogueComponent.dialoguePages[0].texture == dialogueComponent.dialoguePages[1].texture)
+                {
+                    //dialogueComponent.dialoguePages[0].imageAlpha.Set(1);
+                    dialogueComponent.dialoguePages[1].imageAlpha.Set(1);
+                }
+                    
                 // remove the current dialogue page
                 dialogueComponent.dialoguePages.RemoveAt(0);
 
@@ -83,6 +91,7 @@ namespace AdventureGame.Engine
                     // I'm not sure this is needed. They always start at 1.
                     //dialogueComponent.dialoguePages[0].imageAlpha.Value = 1;
                     //dialogueComponent.dialoguePages[0].textAlpha.Value = 1;
+
                 }
             }
 
