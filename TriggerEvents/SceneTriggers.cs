@@ -94,7 +94,7 @@ namespace AdventureGame.Engine
                                         //EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(new EmoteComponent(GameAssets.emote_pickaxe, background: false));
                                     },
                                         onComplete: () => {
-                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                                            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
                                             dialogueComponent.AddPage(
                                                 "That axe is on loan. Make sure you bring it back when you're finished. It's one of my favourites, that's folded steel that is. Barnie's place is the most northern.",
                                                 GameAssets.blacksmith_headshot
