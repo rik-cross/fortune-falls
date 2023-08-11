@@ -34,7 +34,7 @@ namespace AdventureGame.Engine
             Vector2 screenPosition = default(Vector2),
             Vector2 size = default(Vector2),
             Vector2 worldPosition = default(Vector2),
-            float followPercentage = 0.7f,
+            float followPercentage = 0.03f,
             float zoom = 1,
             Color backgroundColour = default(Color),
             Color borderColour = default(Color),
@@ -124,6 +124,9 @@ namespace AdventureGame.Engine
                     );
                 }
             }
+
+            //if (Math.Round( worldPosition.X) != Math.Round(targetWorldPosition.X))
+            //    S.WriteLine("current: " + worldPosition.X + "  target: " + targetWorldPosition.X);
 
             // use target position to lazily update camera position
             worldPosition.X = (worldPosition.X * (1 - followPercentage)) + (targetWorldPosition.X * followPercentage);
