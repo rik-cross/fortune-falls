@@ -168,9 +168,16 @@ namespace AdventureGame.Engine
         public void ChangeScene(Scene nextScene, bool unloadCurrentScene = true)
         {
             // Check if the active scene needs to be unloaded
-            if (ActiveScene != null && unloadCurrentScene)
+            //if (ActiveScene != null && unloadCurrentScene)
+            //{
+            //    UnloadScene(ActiveScene);
+            //}
+            if (ActiveScene != null)
             {
-                UnloadScene(ActiveScene);
+                if (unloadCurrentScene)
+                    UnloadScene(ActiveScene);
+                else
+                    ActiveScene._OnExit();
             }
 
             if (!_sceneStack.Contains(nextScene))

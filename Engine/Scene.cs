@@ -124,6 +124,8 @@ namespace AdventureGame.Engine
 
         public void _OnExit()
         {
+            // TODO
+            //_entityManager.GetLocalPlayer().GetComponent<InputComponent>().Reset();
             OnExit();
         }
         public virtual void OnExit() { }
