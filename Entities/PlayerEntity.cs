@@ -356,7 +356,7 @@ namespace AdventureGame
             }
 
             // button 1 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button1))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button6))
             {
                 intentionComponent.button1 = true;
                 if (entity.State.Contains("_"))

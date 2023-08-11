@@ -16,10 +16,10 @@ namespace AdventureGame.Engine
             button2: KeyboardInput.LeftShift,
             button3: null,
             button4: null,
-            button5: null,
-            button6: null,
-            button7: KeyboardInput.Q,
-            button8: KeyboardInput.E
+            button5: KeyboardInput.Q,
+            button6: KeyboardInput.E,
+            button7: KeyboardInput.R,
+            button8: KeyboardInput.T
         );
 
         public static InputMethod controller = new InputMethod(
@@ -31,8 +31,8 @@ namespace AdventureGame.Engine
             button2: ControllerInput.B,
             button3: null,
             button4: null,
-            button5: null,
-            button6: null,
+            button5: ControllerInput.LeftTrigger,
+            button6: ControllerInput.RightTrigger,
             button7: ControllerInput.LeftShoulder,
             button8: ControllerInput.RightShoulder
         );

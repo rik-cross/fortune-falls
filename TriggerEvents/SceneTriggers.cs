@@ -88,8 +88,8 @@ namespace AdventureGame.Engine
                                     new Tutorial(
                                         name: "Use Axe",
                                         description: "Show the Blacksmith that you can use an axe",
-                                        condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button1); },
-                                        numberOfTimes: 4,
+                                        condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button6); },
+                                        numberOfTimes: 3,
                                         onStart: () => {
                                         //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha = 0.0f;
                                         EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(new EmoteComponent(GameAssets.emote_pickaxe, background: false));
