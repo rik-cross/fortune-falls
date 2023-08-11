@@ -40,6 +40,8 @@ namespace AdventureGame.Engine
         public bool UpdateSceneBelow { get; set; }
         public bool DrawSceneBelow { get; set; }
 
+        public Pointer pointer = new Pointer();
+
         public UIMenu UIMenu;
 
         public int frame = 0;
@@ -533,6 +535,8 @@ namespace AdventureGame.Engine
                 */
             }
 
+            pointer.Update(this);
+
             // update the scene
             Update(gameTime);
 
@@ -735,6 +739,7 @@ namespace AdventureGame.Engine
                 // main system draw
                 s.Draw(gameTime, this);
             }
+            pointer.Draw(this);
             Globals.spriteBatch.End();
 
             // draw the scene
@@ -758,6 +763,8 @@ namespace AdventureGame.Engine
                     Globals.spriteBatch.End();
                 }
             }
+
+            
 
             // Draw UI elements
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);

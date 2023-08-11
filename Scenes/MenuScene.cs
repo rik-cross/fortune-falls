@@ -55,6 +55,8 @@ namespace AdventureGame
 
         public MenuScene()
         {
+            
+
             EngineGlobals.DEBUG = false;
 
             UIButton.drawMethod = UICustomisations.DrawButton;
@@ -182,7 +184,7 @@ namespace AdventureGame
                 outlineColour: Color.Black,
                 outlineThickness: 4
             );
-
+            
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 300),
@@ -248,7 +250,7 @@ namespace AdventureGame
                     func: UnloadMenuScene
                 )
             );
-
+            
 
             // control images
             controllerImage = new Engine.Image(

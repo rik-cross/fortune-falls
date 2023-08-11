@@ -59,7 +59,7 @@ namespace AdventureGame.Engine
 
             dialogueComponent.dialoguePages[0].Update();
 
-            if (dialogueComponent.dialoguePages[0].markForRemoval && dialogueComponent.dialoguePages[0].alpha.Value == 0)
+            if (dialogueComponent.dialoguePages[0].markForRemoval && dialogueComponent.dialoguePages[0].textAlpha.Value == 0)
             {
                 // To do: Trigger any actions at the end of a page
                 //if (dialogueComponent.dialoguePages[0].onDialogueComplete != null)
@@ -80,7 +80,9 @@ namespace AdventureGame.Engine
                     if (dialogueComponent.dialoguePages[0].script != null)
                         dialogueComponent.dialoguePages[0].script();
                     // show dialogue
-                    dialogueComponent.dialoguePages[0].alpha.Value = 1;
+                    // I'm not sure this is needed. They always start at 1.
+                    //dialogueComponent.dialoguePages[0].imageAlpha.Value = 1;
+                    //dialogueComponent.dialoguePages[0].textAlpha.Value = 1;
                 }
             }
 
@@ -190,7 +192,7 @@ namespace AdventureGame.Engine
                                 line.Substring(s, e),
                                 new Vector2(camera.screenPosition.X + (Theme.BorderLarge * 2) + xOffset,
                                     y),
-                                Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].alpha.Value);
+                                Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].textAlpha.Value);
 
                             y += (int)(Theme.FontPrimary.MeasureString(currentRow).Y / 4 * 3);
                             acc += line.Length;
@@ -208,8 +210,6 @@ namespace AdventureGame.Engine
                             float requiredSize = (200 - (4 * Theme.BorderLarge));
                             Vector2 newSize = new Vector2();
                             Vector2 padding = new Vector2();
-
-                            S.WriteLine(t.Width + "  " + t.Height);
 
                             if (t.Height > t.Width)
                             {
@@ -235,7 +235,7 @@ namespace AdventureGame.Engine
                                     (int)(camera.screenPosition.X + (3 * Theme.BorderLarge) + padding.X),
                                     (int)(camera.screenPosition.Y + camera.size.Y - 200 + Theme.BorderLarge + padding.Y),
                                     (int)(newSize.X + Theme.BorderLarge),
-                                    (int)(newSize.Y)), Color.White * (float)dialogueComponent.dialoguePages[0].alpha.Value);
+                                    (int)(newSize.Y)), Color.White * (float)dialogueComponent.dialoguePages[0].imageAlpha.Value);
                             
                             
                         }

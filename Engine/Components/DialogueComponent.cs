@@ -14,7 +14,8 @@ namespace AdventureGame.Engine
         public void AddPage(Dialogue newDialogue)
         {
             dialoguePages.Add(newDialogue);
-            newDialogue.alpha.Value = 1;
+            newDialogue.imageAlpha.Value = 1;
+            newDialogue.textAlpha.Value = 1;
             if (dialoguePages.Count == 1)
             {
                 alpha.Value = 1;
@@ -35,7 +36,16 @@ namespace AdventureGame.Engine
             //dialoguePages.RemoveAt(0);
             
             dialoguePages[0].markForRemoval = true;
-            dialoguePages[0].alpha.Value = 0;
+            //if (dialoguePages.Count > 1 && dialoguePages[0].texture == dialoguePages[1].texture)
+            //{
+                //dialoguePages[0].imageAlpha.Value = 1;
+                //dialoguePages[0].textAlpha.Value = 0;
+            //} else
+            //{
+                dialoguePages[0].imageAlpha.Value = 0;
+                dialoguePages[0].textAlpha.Value = 0;
+            //}
+            
             if (dialoguePages.Count == 1)
             {
                 alpha.Value = 0;

@@ -15,7 +15,8 @@ namespace AdventureGame.Engine
         public int tickDelay;
         public bool playTickSoundEffect;
         public SoundEffect tickSoundEffect = Utils.LoadSoundEffect("Sounds/blip.wav");
-        public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
+        public DoubleAnimation imageAlpha = new DoubleAnimation(0, 0.02f);
+        public DoubleAnimation textAlpha = new DoubleAnimation(0, 0.02f);
         public bool markForRemoval = false;
         //public Action<Entity, Entity, float> onDialogueComplete;
         public Action script;
@@ -39,10 +40,11 @@ namespace AdventureGame.Engine
         }
         public void Update()
         {
-            alpha.Update();
+            imageAlpha.Update();
+            textAlpha.Update();
 
             // Don't display text until the dialogue is fully visible
-            if (alpha.Value < 1)
+            if (textAlpha.Value < 1)
                 return;
 
             timer++;

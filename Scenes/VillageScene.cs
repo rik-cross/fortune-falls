@@ -114,6 +114,9 @@ namespace AdventureGame
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
+            //pointer.Set(new Vector2(200, 100));
+            pointer.Set(blacksmithEntity);
+            pointer.visible = true;
         }
 
         public override void OnEnter()
@@ -151,8 +154,8 @@ namespace AdventureGame
             // why does this have to be 60? a lower number doesn't work
             if (frame == 60 && Globals.newGame)
             {
-                Globals.newGame = false;
-                EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
+                //Globals.newGame = false;
+                //EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
             }
 
         }

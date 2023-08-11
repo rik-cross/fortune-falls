@@ -62,6 +62,8 @@ namespace AdventureGame.Engine
 
                     if (playerEntity.GetComponent<BattleComponent>().weapon != Weapons.axe)
                     {
+                        EngineGlobals.sceneManager._sceneStack[^1].pointer.visible = false;
+
                         dialogueComponent.AddPage("Well, I haven't seen you around here before. I am guessing you are the newbie I heard was coming to town. Barnie's distant relative right?",
                         GameAssets.blacksmith_headshot);
 
