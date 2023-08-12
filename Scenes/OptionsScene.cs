@@ -1,6 +1,7 @@
 ﻿using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
+using S = System.Diagnostics.Debug;
 
 
 namespace AdventureGame
@@ -155,9 +156,36 @@ namespace AdventureGame
                 )
             );
 
+            string tt;
+            if (EngineGlobals.fullscreen)
+                tt = "Fullscreen";
+            else
+                tt = "Windowed";
+            
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 100),
+                    size: new Vector2(140, 45),
+                    text: tt,
+                    textColour: Color.White,
+                    outlineColour: Color.White,
+                    outlineThickness: 2,
+                    backgroundColour: Color.DarkSlateGray,
+                    func: (UIButton button) => {
+                        EngineGlobals.fullscreen = !EngineGlobals.fullscreen;
+                        if (EngineGlobals.fullscreen)
+                            button.text = "Fullscreen";
+                        else
+                            button.text = "Windowed";
+                        Globals.graphics.IsFullScreen = EngineGlobals.fullscreen; 
+                        Globals.graphics.ApplyChanges();
+                    }
+                )
+            );
+
+            UIMenu.AddUIElement(
+                new UIButton(
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 150),
                     size: new Vector2(140, 45),
                     text: "Back",
                     textColour: Color.White,

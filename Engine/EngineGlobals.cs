@@ -16,6 +16,7 @@ namespace AdventureGame.Engine
         public static SoundManager soundManager;
         //public static List<System> systems = new List<System>();
         public static bool DEBUG = true;
+        public static bool fullscreen = false;
     }
 
 }

@@ -24,14 +24,16 @@ namespace AdventureGame
 
         protected override void Initialize()
         {
-            //Globals.ScreenWidth = 1280;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //Globals.ScreenHeight = 720;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            Globals.ScreenWidth = 16 * 80;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Globals.ScreenHeight = 9 * 80;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
             //S.WriteLine(System.IO.Directory.GetCurrentDirectory());
 
             Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
             Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
-            
+            //Globals.graphics.PreferredBackBufferWidth  = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            //Globals.graphics.PreferredBackBufferHeight  = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
             Globals.graphics.ApplyChanges();
 
             base.Initialize();
@@ -45,7 +47,7 @@ namespace AdventureGame
             Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Fullscreen
-            //Globals.graphics.IsFullScreen = true;
+            Globals.graphics.IsFullScreen = EngineGlobals.fullscreen;
 
             // Borderless window
             //Globals.gameWindow.IsBorderless = true;
