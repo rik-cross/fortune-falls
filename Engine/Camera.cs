@@ -20,7 +20,7 @@ namespace AdventureGame.Engine
 
         public float zoom;
         public float targetZoom;
-        public float zoomIncrement = 0.01f;
+        public float zoomIncrement = 0.02f;
 
         public Color backgroundColour;
         public Color borderColour;

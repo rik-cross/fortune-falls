@@ -114,7 +114,7 @@ namespace AdventureGame
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
-            //pointer.Set(new Vector2(200, 100));
+            //pointer.Set(new Vector2(500, 400));
             pointer.Set(blacksmithEntity);
             pointer.visible = true;
         }

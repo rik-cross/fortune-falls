@@ -24,12 +24,15 @@ namespace AdventureGame.Engine
                 if (UIElements[i].active)
                 {
                     UIElements[i].selected = true;
+                    activeElementIndex = i;
                     return;
                 }
             }
 
-            if (UIElements.Count == 1 && UIElement.active == true)
-                UIElement.selected = true;
+            //if (UIElements.Count == 1 && UIElement.active == true)
+            //{
+            //    UIElement.selected = true;
+            //}
         }
         public void Update()
         {
