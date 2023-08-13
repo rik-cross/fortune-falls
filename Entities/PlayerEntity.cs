@@ -153,7 +153,7 @@ namespace AdventureGame
             filePath = dir + folder + baseStr + keyStr;
             animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
             animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
-
+            
             filePath = dir + folder + characterStr + keyStr;
             animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
             animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);

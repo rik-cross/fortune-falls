@@ -29,10 +29,10 @@ namespace AdventureGame.Engine
                 }
             }
 
-            //if (UIElements.Count == 1 && UIElement.active == true)
-            //{
-            //    UIElement.selected = true;
-            //}
+            if (UIElements.Count == 1 && UIElement.active == true)
+            {
+                UIElement.selected = true;
+            }
         }
         public void Update()
         {
