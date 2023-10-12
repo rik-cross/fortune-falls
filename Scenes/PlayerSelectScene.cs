@@ -44,7 +44,7 @@ namespace AdventureGame
                 new UISlider(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
                     size: new Vector2(120, 45),
-                    text: "Player",
+                    text: Globals.characherNames[Globals.playerIndex],
                     textColour: Color.White,
                     outlineColour: Color.White,
                     onColour: new Color(194, 133, 105, 255),
