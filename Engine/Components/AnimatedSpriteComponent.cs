@@ -11,7 +11,7 @@ namespace AdventureGame.Engine
     /// </summary>
     public class AnimatedSpriteComponent : Component
     {
-        public Dictionary<string, AnimatedSprite> AnimatedSprites { get; private set; }
+        public Dictionary<string, AnimatedSprite> AnimatedSprites { get; set; }
         //public bool visible { get; set; }
         public float Alpha { get; set; }
         public string LastState { get; set; }

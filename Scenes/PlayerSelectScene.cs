@@ -59,7 +59,7 @@ namespace AdventureGame
                     func: (UISlider slider, double currentValue) =>
                     {
                         Globals.playerIndex = (int)currentValue;
-                        PlayerEntity.AddSprites();
+                        PlayerEntity.UpdateSprites();
                     },
                     minValue: 0,
                     maxValue: 5,

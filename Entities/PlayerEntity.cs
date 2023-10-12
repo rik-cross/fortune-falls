@@ -1,11 +1,14 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
     public static class PlayerEntity {
+
+        public static Dictionary<string, AnimatedSpriteComponent> animatedSprites = new Dictionary<string, AnimatedSpriteComponent>();
 
         public static Engine.Entity Create(int x, int y, int width, int height,
             string defaultState = "default", float speed = 60, string idTag = null)
@@ -105,127 +108,165 @@ namespace AdventureGame
 
             return playerEntity;
         }
-
-        public static void AddSprites()
+        public static void UpdateSprites()
         {
             Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
             Globals.playerStr = Globals.allCharacters[Globals.playerIndex];
-
-            Engine.AnimatedSpriteComponent animatedComponent;
-            if (playerEntity.GetComponent<AnimatedSpriteComponent>() == null)
+            //S.WriteLine(Globals.playerIndex + Globals.playerStr);
+            //playerEntity.RemoveComponent<Engine.AnimatedSpriteComponent>();
+            //Engine.AnimatedSpriteComponent newAnimatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
+            Engine.AnimatedSpriteComponent newAnimatedComponent;
+            if (playerEntity.GetComponent<Engine.AnimatedSpriteComponent>() != null)
             {
-                animatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
-            }
-            else
+                newAnimatedComponent = playerEntity.GetComponent<Engine.AnimatedSpriteComponent>();
+            } else
             {
-                animatedComponent = playerEntity.GetComponent<Engine.AnimatedSpriteComponent>();
-                animatedComponent.ClearAllAnimatedSprites();
+                newAnimatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
             }
-            
-            // Add sprites
-            string filePath = "";
-            string dir = Globals.characterDir;
-            string characterStr = Globals.playerStr;
-            string baseStr = Globals.characterBaseStr;
-            string toolStr = Globals.characterToolStr;
-            string folder = "";
-            string keyStr = "";
-            //int spriteWidth = 96;
-            //int spriteHeight = 64;
-            //int drawWidth = 36;
-            //int drawHeight = 56;
-            Vector2 offset = new Vector2(-41, -21);
+            //newAnimatedComponent.ClearAllAnimatedSprites();
+            Engine.AnimatedSpriteComponent exiAnimatedComponent = animatedSprites[Globals.playerStr];
+            newAnimatedComponent.AnimatedSprites = exiAnimatedComponent.AnimatedSprites;
+            newAnimatedComponent.Alpha = exiAnimatedComponent.Alpha;
+        }
+        public static void AddSprites()
+        {
+            //Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            //Globals.playerStr = Globals.allCharacters[Globals.///];
 
-            //Engine.AnimatedSpriteComponent animatedComponent = playerEntity.AddComponent<AnimatedSpriteComponent>();
-            //Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent());
+            string playerStr;
 
-            // State e.g. idle_left
-            // Flip dynamically using isLeft/isRight?
+            for (int i = 0; i <= 5; i++)
+            {
 
-            // base_idle_strip9
-            // longhair_idle_strip9
-            // tools_idle_strip9
+                playerStr = Globals.allCharacters[i];
 
-            // Idle
-            folder = "IDLE/";
-            keyStr = "_idle_strip9.png";
+                Engine.AnimatedSpriteComponent animatedComponent = new AnimatedSpriteComponent();
 
-            filePath = dir + folder + baseStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
-            
-            filePath = dir + folder + characterStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
+                //if (playerEntity.GetComponent<AnimatedSpriteComponent>() == null)
+                //{
+                //    animatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
+                //}
+                //else
+                //{
+                //    animatedComponent = playerEntity.GetComponent<Engine.AnimatedSpriteComponent>();
+                //    animatedComponent.ClearAllAnimatedSprites();
+                //}
 
-            filePath = dir + folder + toolStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
+                // Add sprites
+                string filePath = "";
+                string dir = Globals.characterDir;
+                string characterStr = playerStr;
+                string baseStr = Globals.characterBaseStr;
+                string toolStr = Globals.characterToolStr;
+                string folder = "";
+                string keyStr = "";
+                //int spriteWidth = 96;
+                //int spriteHeight = 64;
+                //int drawWidth = 36;
+                //int drawHeight = 56;
+                Vector2 offset = new Vector2(-41, -21);
 
-            // Walk
-            folder = "WALKING/";
-            keyStr = "_walk_strip8.png";
+                //Engine.AnimatedSpriteComponent animatedComponent = playerEntity.AddComponent<AnimatedSpriteComponent>();
+                //Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent());
 
-            filePath = dir + folder + baseStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+                // State e.g. idle_left
+                // Flip dynamically using isLeft/isRight?
 
-            filePath = dir + folder + characterStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+                // base_idle_strip9
+                // longhair_idle_strip9
+                // tools_idle_strip9
 
-            filePath = dir + folder + toolStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+                // Idle
+                folder = "IDLE/";
+                keyStr = "_idle_strip9.png";
 
-            // Run
-            folder = "RUN/";
-            keyStr = "_run_strip8.png";
+                filePath = dir + folder + baseStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
 
-            filePath = dir + folder + baseStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+                filePath = dir + folder + characterStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
 
-            filePath = dir + folder + characterStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+                filePath = dir + folder + toolStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
 
-            filePath = dir + folder + toolStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+                // Walk
+                folder = "WALKING/";
+                keyStr = "_walk_strip8.png";
 
-            // Axe
-            folder = "AXE/";
-            keyStr = "_axe_strip10.png";
+                filePath = dir + folder + baseStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
 
-            filePath = dir + folder + baseStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+                filePath = dir + folder + characterStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
 
-            filePath = dir + folder + characterStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
-            animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+                filePath = dir + folder + toolStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
 
-            // Todo: change to create a new tool entity with a different layer depth
-            // Option 1:
-            // - OnStart action that creates the tool entity
-            // - OnCancel action that destroys the tool entity and sets new state
-            // - OnComplete action that destroys the tool entity and sets idle state
+                // Run
+                folder = "RUN/";
+                keyStr = "_run_strip8.png";
 
-            // The tool would need to be linked to the player entity (as a child?) so that
-            // the transform components of both are updated.
+                filePath = dir + folder + baseStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
 
-            // The battle component would be associated with the tool (OnHit - do damage)
-            // and the player (e.g. OnHit - gain XP)
+                filePath = dir + folder + characterStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
 
-            filePath = dir + folder + toolStr + keyStr;
-            animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
-            //    onComplete: (Engine.Entity e) => e.State = "idle_left");
-            animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
-            //    onComplete: (Engine.Entity e) => e.State = "idle_right");
+                filePath = dir + folder + toolStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
 
-            animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-            animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+                // Axe
+                folder = "AXE/";
+                keyStr = "_axe_strip10.png";
+
+                filePath = dir + folder + baseStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+
+                filePath = dir + folder + characterStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+
+                // Todo: change to create a new tool entity with a different layer depth
+                // Option 1:
+                // - OnStart action that creates the tool entity
+                // - OnCancel action that destroys the tool entity and sets new state
+                // - OnComplete action that destroys the tool entity and sets idle state
+
+                // The tool would need to be linked to the player entity (as a child?) so that
+                // the transform components of both are updated.
+
+                // The battle component would be associated with the tool (OnHit - do damage)
+                // and the player (e.g. OnHit - gain XP)
+
+                filePath = dir + folder + toolStr + keyStr;
+                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
+                //    onComplete: (Engine.Entity e) => e.State = "idle_left");
+                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+                //    onComplete: (Engine.Entity e) => e.State = "idle_right");
+
+                animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
+                animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+
+                animatedSprites[playerStr] = animatedComponent;
+                //foreach(string s in animatedSprites.Keys)
+                //{
+                //    S.WriteLine(s);
+                //}
+                
+            }
+            //Globals.playerIndex = 2;
+            UpdateSprites();
+
         }
 
 
