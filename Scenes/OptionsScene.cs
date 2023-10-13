@@ -19,9 +19,9 @@ namespace AdventureGame
         {
             EngineGlobals.soundManager.Mute = !EngineGlobals.soundManager.Mute;
             if (EngineGlobals.soundManager.Mute)
-                button.text = "Muted";
+                button.text = "Unmute";
             else
-                button.text = "Unmuted";
+                button.text = "Mute";
             button.Init();
         }
 
@@ -85,10 +85,10 @@ namespace AdventureGame
 
             float screenMiddle = Globals.ScreenHeight / 2;
 
-            string t = "Keyboard";
+            string t = "Controller";
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
             {
-                t = "Controller";
+                t = "Keyboard";
             }
 
             UIMenu.AddUIElement(
@@ -113,7 +113,7 @@ namespace AdventureGame
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle - 50),
                     size: new Vector2(140, 45),
-                    text: "Unmuted",
+                    text: "Mute",
                     textColour: Color.White,
                     outlineColour: Color.White,
                     outlineThickness: 2,
@@ -158,9 +158,9 @@ namespace AdventureGame
 
             string tt;
             if (EngineGlobals.fullscreen)
-                tt = "Fullscreen";
-            else
                 tt = "Windowed";
+            else
+                tt = "Fullscreen";
             
             UIMenu.AddUIElement(
                 new UIButton(
@@ -174,9 +174,9 @@ namespace AdventureGame
                     func: (UIButton button) => {
                         EngineGlobals.fullscreen = !EngineGlobals.fullscreen;
                         if (EngineGlobals.fullscreen)
-                            button.text = "Fullscreen";
-                        else
                             button.text = "Windowed";
+                        else
+                            button.text = "Fullscreen";
                         Globals.graphics.IsFullScreen = EngineGlobals.fullscreen; 
                         Globals.graphics.ApplyChanges();
                     }
