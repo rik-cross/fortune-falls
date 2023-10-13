@@ -137,7 +137,11 @@ namespace AdventureGame.Engine
 
             // Otherwise change the scene
             if (applyTransition)
+            {
+                // BUG: MainMenu transition = true then applies to PlayerSelectScene
+                // even though transition = false on Set and Remove scene
                 StartTransition((Scene)scene, unloadCurrentScene);
+            }
             else
                 ChangeScene((Scene)scene, unloadCurrentScene);
         }
