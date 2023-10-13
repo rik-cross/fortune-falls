@@ -12,7 +12,7 @@ namespace AdventureGame.Engine
         public bool visible = false;
         public Color colour = new Color(234, 212, 170);
         public Texture2D pointerTexture = GameAssets.pointer;
-        public Texture2D markerTexture = GameAssets.marker;
+        //public Texture2D markerTexture = GameAssets.marker;
         public Vector2 position = Vector2.Zero;
         public Entity entity = null;
         public void Update(Scene scene)
@@ -47,14 +47,22 @@ namespace AdventureGame.Engine
                 Vector2 pointerPos = new Vector2(px, py);
                 float angle = (float)(Math.Atan2(markerPos.Y - actualTargety, markerPos.X - actualTargetx));
 
-                pointerPos.X = Math.Max(pointerPos.X, 40); 
+                pointerPos.X = Math.Max(pointerPos.X, 40);
+
+                if ((Math.Abs(((worldPos.X * c.zoom) - (position.X * -1 * c.zoom))) < (c.size.X / 2)) && (Math.Abs(((worldPos.Y * c.zoom) - (position.Y * -1 * c.zoom))) < (c.size.Y / 2)))
+                {
+                    angle = (float)Math.PI / 2;
+                    pointerPos = new Vector2(mx, my - pointerTexture.Height - 20);
+                }
 
                 //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/ 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
+                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/ 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
             }
             if (entity != null)
             {
-                Vector2 pc = entity.GetComponent<TransformComponent>().GetCenter();
+                TransformComponent tc = entity.GetComponent<TransformComponent>();
+                Vector2 tt = new Vector2(tc.Position.X + (tc.Size.X/2), tc.Position.Y);
+                Vector2 pc = tc.GetCenter();
                 Camera c = scene.GetCameraByName("main");
                 Vector2 worldPos = c.worldPosition;
 
@@ -77,8 +85,14 @@ namespace AdventureGame.Engine
 
                 pointerPos.X = Math.Max(pointerPos.X, 40);
 
+                if ((Math.Abs(((worldPos.X * c.zoom) - (tt.X * -1 * c.zoom))) < (c.size.X / 2)) && ( Math.Abs(((worldPos.Y * c.zoom) - (tt.Y * -1 * c.zoom))) < (c.size.Y / 2)) )
+                {
+                    angle = (float)Math.PI/2;
+                    pointerPos = new Vector2(mx, my - tc.Size.Y/2 - pointerTexture.Height - 20);
+                }
+
                 //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
+                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/2), new Vector2(4,4), SpriteEffects.None, 1.0f);
 
             }
 
