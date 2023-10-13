@@ -33,8 +33,8 @@ namespace AdventureGame.Engine
                 float mx = c.screenPosition.X + (c.size.X / 2) + (position.X * c.zoom) + (worldPos.X * c.zoom);
                 float my = c.screenPosition.Y + (c.size.Y / 2) + (position.Y * c.zoom) + (worldPos.Y * c.zoom);
 
-                float px= mx;
-                float py= my;
+                float px = mx;
+                float py = my;
 
                 float actualTargetx = c.screenPosition.X + (c.targetWorldPosition.X * c.zoom * -1);
                 float actualTargety = c.screenPosition.Y + (c.targetWorldPosition.Y * c.zoom * -1);
@@ -56,12 +56,12 @@ namespace AdventureGame.Engine
                 }
 
                 //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/ 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
+                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height / 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
             }
             if (entity != null)
             {
                 TransformComponent tc = entity.GetComponent<TransformComponent>();
-                Vector2 tt = new Vector2(tc.Position.X + (tc.Size.X/2), tc.Position.Y);
+                Vector2 tt = new Vector2(tc.Position.X + (tc.Size.X / 2), tc.Position.Y);
                 Vector2 pc = tc.GetCenter();
                 Camera c = scene.GetCameraByName("main");
                 Vector2 worldPos = c.worldPosition;
@@ -85,14 +85,14 @@ namespace AdventureGame.Engine
 
                 pointerPos.X = Math.Max(pointerPos.X, 40);
 
-                if ((Math.Abs(((worldPos.X * c.zoom) - (tt.X * -1 * c.zoom))) < (c.size.X / 2)) && ( Math.Abs(((worldPos.Y * c.zoom) - (tt.Y * -1 * c.zoom))) < (c.size.Y / 2)) )
+                if ((Math.Abs(((worldPos.X * c.zoom) - (tt.X * -1 * c.zoom))) < (c.size.X / 2)) && (Math.Abs(((worldPos.Y * c.zoom) - (tt.Y * -1 * c.zoom))) < (c.size.Y / 2)))
                 {
-                    angle = (float)Math.PI/2;
-                    pointerPos = new Vector2(mx, my - tc.Size.Y/2 - pointerTexture.Height - 20);
+                    angle = (float)Math.PI / 2;
+                    pointerPos = new Vector2(mx, my - tc.Size.Y / 2 - pointerTexture.Height - 20);
                 }
 
                 //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height/2), new Vector2(4,4), SpriteEffects.None, 1.0f);
+                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height / 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
 
             }
 
