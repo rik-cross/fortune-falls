@@ -41,7 +41,7 @@ namespace AdventureGame.Engine
 
                 // add camera x and y to clamp
                 px = Math.Clamp(px, (pointerTexture.Width * c.zoom) + 10 - (pointerTexture.Width * c.zoom / 2), c.size.X - (c.zoom * pointerTexture.Width) + (pointerTexture.Width * c.zoom / 2) - 10);
-                py = Math.Clamp(py, (pointerTexture.Height * c.zoom) + 10 - (pointerTexture.Height * c.zoom / 2), c.size.Y - (c.zoom * pointerTexture.Height) + (pointerTexture.Height * c.zoom / 2) - 10);
+                py = Math.Clamp(py, (pointerTexture.Height * c.zoom) + 10 - (pointerTexture.Height * c.zoom / 2) + 90, c.size.Y - (c.zoom * pointerTexture.Height) + (pointerTexture.Height * c.zoom / 2) - 10);
 
                 Vector2 markerPos = new Vector2(mx, my);
                 Vector2 pointerPos = new Vector2(px, py);
@@ -78,7 +78,7 @@ namespace AdventureGame.Engine
 
                 // add camera x and y to clamp
                 px = Math.Clamp(px, (pointerTexture.Width * c.zoom) + 10 - (pointerTexture.Width * c.zoom / 2), c.size.X - (c.zoom * pointerTexture.Width) + (pointerTexture.Width * c.zoom / 2) - 10);
-                py = Math.Clamp(py, (pointerTexture.Height * c.zoom) + 10 - (pointerTexture.Height * c.zoom / 2), c.size.Y - (c.zoom * pointerTexture.Height) + (pointerTexture.Height * c.zoom / 2) - 10);
+                py = Math.Clamp(py, (pointerTexture.Height * c.zoom) + 10 - (pointerTexture.Height * c.zoom / 2) + 90, c.size.Y - (c.zoom * pointerTexture.Height) + (pointerTexture.Height * c.zoom / 2) - 10);
 
                 Vector2 markerPos = new Vector2(mx, my);
                 Vector2 pointerPos = new Vector2(px, py);
