@@ -14,17 +14,13 @@ namespace AdventureGame.Engine
         public Texture2D pointerTexture = GameAssets.pointer;
         //public Texture2D markerTexture = GameAssets.marker;
         public Vector2 position = Vector2.Zero;
+        public Vector2 markerPosition = Vector2.Zero;
+        public float markerAngle = 0f;
         public Entity entity = null;
         public void Update(Scene scene)
         {
-
-        }
-        public void Draw(Scene scene)
-        {
-
-            if (visible == false)
-                return;
-
+            // TODO: separate pointer position calculation here
+            // ...
             if (position != Vector2.Zero)
             {
                 Camera c = scene.GetCameraByName("main");
@@ -57,7 +53,9 @@ namespace AdventureGame.Engine
                 }
 
                 //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height / 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
+                //Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height / 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
+                markerPosition = pointerPos;
+                markerAngle = angle;
             }
             if (entity != null)
             {
@@ -92,11 +90,19 @@ namespace AdventureGame.Engine
                     pointerPos = new Vector2(mx, my - tc.Size.Y / 2 - pointerTexture.Height);
                     pointerPos.Y += (int)(Math.Sin(EngineGlobals.sceneManager.ActiveScene.frame / 10) * 15);
                 }
-                
-                //Globals.spriteBatch.Draw(markerTexture, markerPos, null, colour, 0, new Vector2(markerTexture.Width / 2, markerTexture.Height / 2), new Vector2(c.zoom, c.zoom), SpriteEffects.None, 1.0f);
-                Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height / 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
 
+                //Globals.spriteBatch.Draw(pointerTexture, pointerPos, null, colour, angle, new Vector2(pointerTexture.Width, pointerTexture.Height / 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
+                markerPosition = pointerPos;
+                markerAngle = angle;
             }
+        }
+        public void Draw(Scene scene)
+        {
+
+            if (visible == false)
+                return;
+
+            Globals.spriteBatch.Draw(pointerTexture, markerPosition, null, colour, markerAngle, new Vector2(pointerTexture.Width, pointerTexture.Height / 2), new Vector2(4, 4), SpriteEffects.None, 1.0f);
 
         }
         public void Set(Vector2 position)
