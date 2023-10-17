@@ -23,8 +23,8 @@ namespace AdventureGame.Engine
         // offset marker center, so that edges are flush
         private float halfMarkerWidth;
         private float distanceFromScreenEdge;
-        private float border = 40;
-        private float HUDHeight = 100;
+        private float border = 30;
+        private float HUDHeight = 80;
 
         public QuestMarker()
         {
