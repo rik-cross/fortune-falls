@@ -40,7 +40,7 @@ namespace AdventureGame.Engine
         public bool UpdateSceneBelow { get; set; }
         public bool DrawSceneBelow { get; set; }
 
-        public Pointer pointer = new Pointer();
+        public QuestMarker questMarker = new QuestMarker();
 
         public UIMenu UIMenu;
 
@@ -535,7 +535,7 @@ namespace AdventureGame.Engine
                 */
             }
 
-            pointer.Update(this);
+            questMarker.Update(this);
 
             // update the scene
             Update(gameTime);
@@ -739,7 +739,7 @@ namespace AdventureGame.Engine
                 // main system draw
                 s.Draw(gameTime, this);
             }
-            pointer.Draw(this);
+            questMarker.Draw();
             Globals.spriteBatch.End();
 
             // draw the scene

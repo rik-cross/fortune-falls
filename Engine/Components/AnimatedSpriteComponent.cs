@@ -126,7 +126,11 @@ namespace AdventureGame.Engine
             //    return null;
 
             // Testing
-            return AnimatedSprites[state].SpriteList[index];
+
+            if (AnimatedSprites.ContainsKey(state))
+                return AnimatedSprites[state].SpriteList[index];
+            else
+                return null;
         }
 
         public Texture2D GetSubTexture(Texture2D texture, int x, int y, int width, int height)

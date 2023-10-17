@@ -86,6 +86,20 @@ namespace AdventureGame.Engine
                 this.targetZoom = newZoom;
             }
         }
+        public Vector2 GetScreenPosition(Vector2 position)
+        {
+            return new Vector2(
+                GetScreenMiddle().X + (worldPosition.X * zoom) + (position.X * zoom),
+                GetScreenMiddle().Y + (worldPosition.Y * zoom) + (position.Y * zoom)
+            );
+        }
+        public Vector2 GetScreenMiddle()
+        {
+            return new Vector2(
+                screenPosition.X + size.X/2,
+                screenPosition.Y + size.Y/2
+            );
+        }
 
         public Viewport getViewport()
         {

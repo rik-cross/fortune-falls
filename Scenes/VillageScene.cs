@@ -114,9 +114,9 @@ namespace AdventureGame
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
-            //pointer.Set(new Vector2(500, 400));
-            pointer.Set(blacksmithEntity);
-            pointer.visible = true;
+            //questMarker.SetPOI(new Vector2(500, 300));
+            questMarker.SetPOI(blacksmithEntity);
+            questMarker.visible = true;
         }
 
         public override void OnEnter()
@@ -143,7 +143,6 @@ namespace AdventureGame
                 EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
                     applyTransition: false, unloadCurrentScene: false);
             }
-            
         }
 
         public override void Update(GameTime gameTime)
