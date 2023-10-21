@@ -16,7 +16,8 @@ namespace AdventureGame
     {
         private Engine.Text _title;
 
-        public PlayerSelectScene()
+        //public PlayerSelectScene()
+        public override void Init()
         {
             EngineGlobals.DEBUG = false;
             UIButton.drawMethod = UICustomisations.DrawButton;
@@ -77,7 +78,8 @@ namespace AdventureGame
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: (UIButton button) => { EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false); }
+                    func: (UIButton button) => {
+                        EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false); }
                 )
             );
             

@@ -135,6 +135,8 @@ namespace AdventureGame.Engine
             if (scene == null)
                 return;
 
+            Console.WriteLine($"SetActiveScene {scene.GetType().Name}, transition {applyTransition}");
+
             // Otherwise change the scene
             if (applyTransition)
             {
@@ -192,7 +194,7 @@ namespace AdventureGame.Engine
             ActiveScene = nextScene;
 
             //Console.WriteLine($"Scene stack size {_sceneStack.Count}");
-            //Console.WriteLine($"Active scene {ActiveScene}");
+            Console.WriteLine($"Active scene {ActiveScene}");
             //Console.WriteLine($"Total number of entities {EngineGlobals.entityManager.GetAllEntities().Count}\n");
 
             // Used to delay changing the player scene during a transition
@@ -267,6 +269,7 @@ namespace AdventureGame.Engine
         // Begins a scene transition from the active scene to another scene
         public void StartTransition(Scene nextScene, bool unloadCurrentScene = true)
         {
+            Console.WriteLine("Start transition");
             if (Transition == null)
                 Transition = new FadeSceneTransition(nextScene, unloadCurrentScene);
         }
@@ -274,6 +277,7 @@ namespace AdventureGame.Engine
         // Called once a scene transition has finished
         public void EndTransition()
         {
+            Console.WriteLine("End transition");
             Transition = null;
         }
 
