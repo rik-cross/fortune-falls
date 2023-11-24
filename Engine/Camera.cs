@@ -13,8 +13,9 @@ namespace AdventureGame.Engine
         public Vector2 screenPosition;
         public Vector2 size;
 
-        public Vector2 worldPosition;
-        public Vector2 targetWorldPosition;
+        public Vector2 WorldPosition;
+        public Vector2 PreviousWorldPosition;
+        public Vector2 TargetWorldPosition;
 
         public float followPercentage;
 
@@ -48,8 +49,9 @@ namespace AdventureGame.Engine
             this.screenPosition = screenPosition;
             this.size = size;
 
-            this.worldPosition = worldPosition * -1;
-            this.targetWorldPosition = worldPosition;
+            WorldPosition = worldPosition * -1;
+            PreviousWorldPosition = WorldPosition;
+            TargetWorldPosition = worldPosition;
 
             this.followPercentage = followPercentage;
 
@@ -69,10 +71,11 @@ namespace AdventureGame.Engine
         public void SetWorldPosition(Vector2 position, bool instant = false)
         {
             
-            targetWorldPosition = position * -1;
+            TargetWorldPosition = position * -1;
             if (instant)
             {
-                worldPosition = targetWorldPosition;
+                WorldPosition = TargetWorldPosition;
+                PreviousWorldPosition = WorldPosition;
             }
         }
 
@@ -89,8 +92,8 @@ namespace AdventureGame.Engine
         public Vector2 GetScreenPosition(Vector2 position)
         {
             return new Vector2(
-                GetScreenMiddle().X + (worldPosition.X * zoom) + (position.X * zoom),
-                GetScreenMiddle().Y + (worldPosition.Y * zoom) + (position.Y * zoom)
+                GetScreenMiddle().X + (WorldPosition.X * zoom) + (position.X * zoom),
+                GetScreenMiddle().Y + (WorldPosition.Y * zoom) + (position.Y * zoom)
             );
         }
         public Vector2 GetScreenMiddle()
@@ -104,13 +107,14 @@ namespace AdventureGame.Engine
         public Viewport getViewport()
         {
             return new Viewport((int)screenPosition.X, (int)screenPosition.Y, (int)size.X, (int)size.Y);
+            //return new Viewport((int)Math.Round(screenPosition.X), (int)Math.Floor(screenPosition.Y), (int)size.X, (int)size.Y);
         }
 
         public Matrix getTransformMatrix()
         {
-            Vector2 test = worldPosition;
-            test.X = worldPosition.X + (size.X / 2) / zoom;
-            test.Y = worldPosition.Y + (size.Y / 2) / zoom;
+            Vector2 test = WorldPosition;
+            test.X = WorldPosition.X + (size.X / 2) / zoom;
+            test.Y = WorldPosition.Y + (size.Y / 2) / zoom;
 
             return Matrix.CreateTranslation(
                     new Vector3(test.X, test.Y, 0.0f)) *
@@ -125,6 +129,8 @@ namespace AdventureGame.Engine
             //
             // update camera world position
             //
+
+            PreviousWorldPosition = WorldPosition;
 
             // follow tracked entity, if one is set
             if (trackedEntity != null)
@@ -142,13 +148,16 @@ namespace AdventureGame.Engine
             //if (Math.Round( worldPosition.X) != Math.Round(targetWorldPosition.X))
             //    S.WriteLine("current: " + worldPosition.X + "  target: " + targetWorldPosition.X);
 
-            // use target position to lazily update camera position
-            worldPosition.X = (worldPosition.X * (1 - followPercentage)) + (targetWorldPosition.X * followPercentage);
-            worldPosition.Y = (worldPosition.Y * (1 - followPercentage)) + (targetWorldPosition.Y * followPercentage);
-
             // testing camera jitter
-            //worldPosition.X = targetWorldPosition.X;
-            //worldPosition.Y = targetWorldPosition.Y;
+            //float xChange = WorldPosition.X - TargetWorldPosition.X;
+            //float yChange = WorldPosition.Y - TargetWorldPosition.Y;
+            //Console.WriteLine($"Camera X change: {Math.Round(xChange, 2)}");
+            //Console.WriteLine($"Camera Y change: {Math.Round(yChange, 2)}");
+            //Console.WriteLine($"Y world pos: {worldPosition.Y}, target pos: {targetWorldPosition.Y}");
+
+            // use target position to lazily update camera position
+            WorldPosition.X = (WorldPosition.X * (1 - followPercentage)) + (TargetWorldPosition.X * followPercentage);
+            WorldPosition.Y = (WorldPosition.Y * (1 - followPercentage)) + (TargetWorldPosition.Y * followPercentage);
 
             //
             // clamp camera to map
@@ -162,18 +171,18 @@ namespace AdventureGame.Engine
             // if camera is bigger than map
             if (size.X > (scene.Map.Width * scene.Map.TileWidth * zoom))
             {
-                worldPosition.X = (scene.Map.Width * scene.Map.TileWidth / 2) * -1;
+                WorldPosition.X = (scene.Map.Width * scene.Map.TileWidth / 2) * -1;
             } else
             {
                 // clamp to left
-                if (worldPosition.X * -1 < (size.X / zoom / 2))
+                if (WorldPosition.X * -1 < (size.X / zoom / 2))
                 {
-                    worldPosition.X = (size.X / zoom / 2) * -1;
+                    WorldPosition.X = (size.X / zoom / 2) * -1;
                 }
                 // clamp to right
-                if (worldPosition.X * -1 > (scene.Map.Width * scene.Map.TileWidth) - (size.X / zoom / 2))
+                if (WorldPosition.X * -1 > (scene.Map.Width * scene.Map.TileWidth) - (size.X / zoom / 2))
                 {
-                    worldPosition.X = ((scene.Map.Width * scene.Map.TileWidth) - (size.X / zoom / 2)) * -1;
+                    WorldPosition.X = ((scene.Map.Width * scene.Map.TileWidth) - (size.X / zoom / 2)) * -1;
                 }
             }
 
@@ -182,18 +191,18 @@ namespace AdventureGame.Engine
             // if camera is bigger than map
             if (size.Y > (scene.Map.Height * scene.Map.TileHeight * zoom))
             {
-                worldPosition.Y = (scene.Map.Height * scene.Map.TileHeight / 2) * -1;
+                WorldPosition.Y = (scene.Map.Height * scene.Map.TileHeight / 2) * -1;
             } else
             {
                 // clamp to top
-                if (worldPosition.Y * -1 < (size.Y / zoom /2))
+                if (WorldPosition.Y * -1 < (size.Y / zoom /2))
                 {
-                    worldPosition.Y = (size.Y / zoom / 2) * -1;
+                    WorldPosition.Y = (size.Y / zoom / 2) * -1;
                 }
                 // clamp to bottom
-                if (worldPosition.Y * -1 > (scene.Map.Height * scene.Map.TileHeight) - (size.Y / zoom / 2))
+                if (WorldPosition.Y * -1 > (scene.Map.Height * scene.Map.TileHeight) - (size.Y / zoom / 2))
                 {
-                    worldPosition.Y = ((scene.Map.Height * scene.Map.TileHeight) - (size.Y / zoom / 2)) * -1;
+                    WorldPosition.Y = ((scene.Map.Height * scene.Map.TileHeight) - (size.Y / zoom / 2)) * -1;
                 }
             }
 
