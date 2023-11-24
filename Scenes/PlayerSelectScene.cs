@@ -95,6 +95,37 @@ namespace AdventureGame
         {
             //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
             EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(4.0f);
+
+            Engine.EmoteComponent movementEmote;
+            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
+            {
+                movementEmote = GameAssets.controllerMovementEmote;
+            }
+            else
+            {
+                movementEmote = GameAssets.keyboardMovementEmote;
+            }
+            movementEmote.alpha.Value = 1;
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>().AddTutorial(
+                new Engine.Tutorial(
+                    name: "Walk",
+                    description: "Use controls to walk around the world",
+                    onStart: () => {
+                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(movementEmote);
+                    },
+                    condition: () => {
+                        return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
+                    },
+                    numberOfTimes: 120,
+                    onComplete: () => {
+                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                    }
+                )
+            );
+
         }
         public override void Input(GameTime gameTime)
         {

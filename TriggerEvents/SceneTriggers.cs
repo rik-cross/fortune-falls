@@ -92,7 +92,7 @@ namespace AdventureGame.Engine
                                         numberOfTimes: 3,
                                         onStart: () => {
                                         //EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(new EmoteComponent(GameAssets.emote_pickaxe, background: false));
-                                    },
+                                        },
                                         onComplete: () => {
                                             //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
                                             dialogueComponent.AddPage(

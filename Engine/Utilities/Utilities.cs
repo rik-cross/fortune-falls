@@ -2,11 +2,72 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
     public static class Utilities
     {
+        /// <summary>
+        /// Splits a textures into a 2D list of textures
+        /// </summary>
+        /// <param name="originalTexture">The texture to split</param>
+        /// <param name="subTextureSize">The size of each sub-texture</param>
+        /// <param name="subTextureClippingRect">Additional clipping of each sub-texture</param>
+        /// <returns>A 2D list of textures</returns>
+        public static List<List<Texture2D>> SplitTexture(
+            Texture2D originalTexture,
+            Vector2 subTextureSize,
+            Rectangle subTextureClippingRect = default
+        )
+        {
+            List<List<Texture2D>> subTextureList = new List<List<Texture2D>>();
+
+            for (int row = 0; row < originalTexture.Height; row += (int)subTextureSize.Y)
+            {
+                S.WriteLine("Row " + row);
+                List<Texture2D> textureRow = new List<Texture2D>();
+                for (int col = 0; col < originalTexture.Width; col += (int)subTextureSize.X)
+                {
+                    int x = col;
+                    int y = row;
+                    int w = (int)subTextureSize.X; 
+                    int h = (int)subTextureSize.Y;
+
+                    if (subTextureClippingRect != default)
+                    {
+                        x += subTextureClippingRect.X;
+                        y += subTextureClippingRect.Y;
+                        w = subTextureClippingRect.Width;
+                        h = subTextureClippingRect.Height;
+                    }
+                    S.WriteLine(x + " " + y + " " + w + " " + h);
+                    Texture2D t = GetSubTexture(originalTexture, x, y, w, h);
+                    textureRow.Add(t);
+                }
+                subTextureList.Add(textureRow);
+            }
+            return subTextureList;
+        }
+        public static Texture2D GetSubTexture(Texture2D texture, int x, int y, int width, int height)
+        {
+            // Create the new sub texture
+            Rectangle rect = new Rectangle(x, y, width, height);
+            Texture2D subTexture = new Texture2D(Globals.graphicsDevice, rect.Width, rect.Height);
+
+            // Set the texture data
+            Color[] data = new Color[rect.Width * rect.Height];
+            texture.GetData(0, rect, data, 0, data.Length);
+            subTexture.SetData(data);
+
+            return subTexture;
+        }
+        public static List<Texture2D> flatten2DList(List<List<Texture2D>> inputList)
+        {
+            List<Texture2D> returnList = new List<Texture2D>();
+            return returnList;
+        }
+
         //public static Texture2D CropTexture(Texture2D texture, Rectangle cropArea)
         //{
         //    Texture2D newTexture = texture;

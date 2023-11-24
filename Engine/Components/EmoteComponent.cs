@@ -26,12 +26,18 @@ namespace AdventureGame.Engine
             }
         }
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
-        public EmoteComponent(string emoteImageURI, bool background = true)
+        public EmoteComponent(string emoteImageURI, bool background = true, Vector2 emoteSize = default)
         {
-            EmoteSize = new Vector2(16, 16);
+
+            Texture2D t = Utils.LoadTexture(emoteImageURI);
+
+            if (emoteSize == default)
+                EmoteSize = new Vector2(t.Width, t.Height);
+            else
+                EmoteSize = emoteSize;
 
             emoteImage = new Image(
-                Utils.LoadTexture(emoteImageURI),
+                t,
                 size: EmoteSize);
 
             emoteBackground = new Rectangle(
@@ -45,9 +51,13 @@ namespace AdventureGame.Engine
             Show();
         }
 
-        public EmoteComponent(Image image, bool background = true)
+        public EmoteComponent(Image image, bool background = true, Vector2 emoteSize = default)
         {
-            EmoteSize = new Vector2(16, 16);
+
+            if (emoteSize == default)
+                EmoteSize = new Vector2(image.Width, image.Height);
+            else
+                EmoteSize = emoteSize;
 
             //emoteImage = new Image(
             //    Utils.LoadTexture(emoteImageURI),

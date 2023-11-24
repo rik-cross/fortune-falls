@@ -36,8 +36,6 @@ namespace AdventureGame
             EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
             EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
 
-            
-
         }
 
         public void LoadOptionsScene(UIButton button)
@@ -284,6 +282,7 @@ namespace AdventureGame
             EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
+            EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
 
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
                 //inputImage = keyboardImage;
