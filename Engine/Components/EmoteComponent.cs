@@ -26,6 +26,7 @@ namespace AdventureGame.Engine
             }
         }
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
+
         public EmoteComponent(string emoteImageURI, bool background = true, Vector2 emoteSize = default)
         {
 

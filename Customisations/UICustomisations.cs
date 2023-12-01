@@ -31,6 +31,77 @@ namespace AdventureGame
 
         public static int activeBorder = 10;
 
+        public static void DrawAnimatedEmote(Scene scene, Entity entity)
+        {
+            AnimatedEmoteComponent animatedEmoteComponent = entity.GetComponent<AnimatedEmoteComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+            // calculate bottom-middle of component
+            Vector2 playerTopMiddle = new Vector2(
+                transformComponent.Position.X + (transformComponent.Size.X / 2),
+                transformComponent.Position.Y
+            );
+
+            // draw border
+            UI.DrawRect(
+                (int)(playerTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
+                (int)(playerTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - Theme.BorderSmall),
+                animatedEmoteComponent.backgroundSize.X,
+                animatedEmoteComponent.backgroundSize.Y,
+                (float)animatedEmoteComponent.alpha.Value,
+                borderWidth: 2
+            );
+
+            // draw image
+            Globals.spriteBatch.Draw(
+                animatedEmoteComponent._textures[animatedEmoteComponent._currentIndex],
+                new Rectangle(
+                    (int)(playerTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
+                    (int)(playerTopMiddle.Y - animatedEmoteComponent.textureSize.Y - Theme.BorderSmall * 2),
+                    (int)animatedEmoteComponent.textureSize.X,
+                    (int)animatedEmoteComponent.textureSize.Y
+                ),
+                Color.White * (float)animatedEmoteComponent.alpha.Value
+            );
+
+        }
+
+        public static void DrawEmote(Scene scene, Entity entity)
+        {
+
+            EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+            // calculate bottom-middle of component
+            Vector2 playerTopMiddle = new Vector2(
+                transformComponent.Position.X + (transformComponent.Size.X / 2),
+                transformComponent.Position.Y
+            );
+
+            // draw border
+            UI.DrawRect( 100, 100, 100, 100, 1, 2
+                //(int)(playerTopMiddle.X - (emoteComponent.emoteBackground.X / 2)),
+                //(int)(playerTopMiddle.Y - emoteComponent.emoteBackground.Y - Theme.BorderSmall),
+                //emoteComponent.emoteBackground.X,
+                //emoteComponent.emoteBackground.Y,
+                //(float)emoteComponent.alpha.Value,
+                //borderWidth: 2
+            );
+
+            // draw image
+            /*Globals.spriteBatch.Draw(
+                emoteComponent._textures[emoteComponent._currentIndex],
+                new Rectangle(
+                    (int)(playerTopMiddle.X - (emoteComponent.textureSize.X / 2)),
+                    (int)(playerTopMiddle.Y - emoteComponent.textureSize.Y - Theme.BorderSmall * 2),
+                    (int)emoteComponent.textureSize.X,
+                    (int)emoteComponent.textureSize.Y
+                ),
+                Color.White * (float)emoteComponent.alpha.Value
+            );*/
+
+        }
+
         public static void DrawButton(Engine.UIButton button)
         {
 

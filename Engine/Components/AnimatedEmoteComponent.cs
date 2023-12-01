@@ -22,6 +22,10 @@ namespace AdventureGame.Engine
         public Vector2 textureSize;
         public bool showBackground;
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
+
+        public static Action<Scene, Entity> drawMethod;
+        public Action<Scene, Entity> componentSpecificDrawMethod;
+
         public AnimatedEmoteComponent(
             List<Texture2D> textures,
             int frameDelay = 8,
@@ -29,7 +33,9 @@ namespace AdventureGame.Engine
             bool showBackground = false,
             Color backgroundColor = default,
             Color borderColor = default,
-            int borderSize = 0
+            int borderSize = 0,
+            Action<Scene, Entity> drawMethod = null,
+            Action<Scene, Entity> componentSpecificDrawMethod = null
         )
         {
             //this._textures = new List<Texture2D>();
@@ -60,6 +66,9 @@ namespace AdventureGame.Engine
             else
                 this.borderColor = borderColor;
             this.borderSize = borderSize;
+
+            AnimatedEmoteComponent.drawMethod = drawMethod;
+            this.componentSpecificDrawMethod = componentSpecificDrawMethod;
 
         }
         public void Show()

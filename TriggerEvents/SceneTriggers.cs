@@ -91,10 +91,16 @@ namespace AdventureGame.Engine
                                         condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button6); },
                                         numberOfTimes: 3,
                                         onStart: () => {
-                                        //EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(new EmoteComponent(GameAssets.emote_pickaxe, background: false));
+                                            Engine.EmoteComponent weaponEmote;
+                                            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
+                                                weaponEmote = GameAssets.controllerWeaponEmote;
+                                            else
+                                                weaponEmote = GameAssets.keyboardWeaponEmote;
+                                            weaponEmote.alpha.Value = 1;
+                                            EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(weaponEmote);
                                         },
                                         onComplete: () => {
-                                            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
                                             dialogueComponent.AddPage(
                                                 "That axe is on loan. Make sure you bring it back when you're finished. It's one of my favourites, that's folded steel that is. Barnie's place is the most northern.",
                                                 GameAssets.blacksmith_headshot

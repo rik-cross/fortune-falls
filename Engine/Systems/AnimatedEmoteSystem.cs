@@ -40,6 +40,18 @@ namespace AdventureGame.Engine
             AnimatedEmoteComponent animatedEmoteComponent = entity.GetComponent<AnimatedEmoteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            if (animatedEmoteComponent.componentSpecificDrawMethod != null)
+            {
+                animatedEmoteComponent.componentSpecificDrawMethod(scene, entity);
+                return;
+            }
+
+            if (AnimatedEmoteComponent.drawMethod != null)
+            {
+                AnimatedEmoteComponent.drawMethod(scene, entity);
+                return;
+            }
+
             // calculate bottom-middle of component
             Vector2 playerTopMiddle = new Vector2(
                 transformComponent.Position.X + (transformComponent.Size.X / 2),
@@ -72,6 +84,7 @@ namespace AdventureGame.Engine
                 );
             }
 
+            // image
             Globals.spriteBatch.Draw(
                 animatedEmoteComponent._textures[animatedEmoteComponent._currentIndex],
                 new Rectangle(

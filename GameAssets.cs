@@ -17,6 +17,10 @@ namespace AdventureGame
         public static Texture2D marker = Engine.Utils.LoadTexture("UI/pointer.png");
         public static Texture2D texture_controller_movement = Engine.Utils.LoadTexture("Emojis/controller_movement.png");
         public static Texture2D texture_keyboard_movement = Engine.Utils.LoadTexture("Emojis/keyboard_movement.png");
+        public static Texture2D right_trigger = Engine.Utils.LoadTexture("Emojis/right_trigger.png");
+        public static Texture2D key_axe = Engine.Utils.LoadTexture("Emojis/key.png");
+
+
         // image lists
         public static List<Texture2D> list_texture_controller_movement = Engine.Utilities.SplitTexture(
             texture_controller_movement,
@@ -44,11 +48,19 @@ namespace AdventureGame
         // components
         
         public static Engine.AnimatedEmoteComponent controllerMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_controller_movement, frameDelay: 20, showBackground: false
+            list_texture_controller_movement, frameDelay: 20, showBackground: false, drawMethod: UICustomisations.DrawAnimatedEmote
         );
 
         public static Engine.AnimatedEmoteComponent keyboardMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_keyboard_movement, frameDelay: 20, showBackground: false
+            list_texture_keyboard_movement, frameDelay: 20, showBackground: false, drawMethod: UICustomisations.DrawAnimatedEmote
+        );
+
+        public static Engine.EmoteComponent controllerWeaponEmote = new Engine.EmoteComponent(
+            new Engine.Image(right_trigger)
+        );
+
+        public static Engine.EmoteComponent keyboardWeaponEmote = new Engine.EmoteComponent(
+            new Engine.Image(key_axe)
         );
 
     }

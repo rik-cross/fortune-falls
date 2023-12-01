@@ -107,7 +107,9 @@ namespace AdventureGame
             {
                 movementEmote = GameAssets.keyboardMovementEmote;
             }
+
             movementEmote.alpha.Value = 1;
+
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>().AddTutorial(
                 new Engine.Tutorial(
                     name: "Walk",
