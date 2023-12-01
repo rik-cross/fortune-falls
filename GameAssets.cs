@@ -48,19 +48,19 @@ namespace AdventureGame
         // components
         
         public static Engine.AnimatedEmoteComponent controllerMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_controller_movement, frameDelay: 20, showBackground: false, drawMethod: UICustomisations.DrawAnimatedEmote
+            list_texture_controller_movement, frameDelay: 20, drawMethod: UICustomisations.DrawAnimatedEmote
         );
 
         public static Engine.AnimatedEmoteComponent keyboardMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_keyboard_movement, frameDelay: 20, showBackground: false, drawMethod: UICustomisations.DrawAnimatedEmote
+            list_texture_keyboard_movement, frameDelay: 20, drawMethod: UICustomisations.DrawAnimatedEmote
         );
 
         public static Engine.EmoteComponent controllerWeaponEmote = new Engine.EmoteComponent(
-            new Engine.Image(right_trigger)
+            new Engine.Image(right_trigger), drawMethod: UICustomisations.DrawEmote//, emoteSize: new Vector2(26, 26)
         );
 
         public static Engine.EmoteComponent keyboardWeaponEmote = new Engine.EmoteComponent(
-            new Engine.Image(key_axe)
+            new Engine.Image(key_axe), drawMethod: UICustomisations.DrawEmote//, emoteSize: new Vector2(26, 26)
         );
 
     }

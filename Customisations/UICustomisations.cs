@@ -42,7 +42,7 @@ namespace AdventureGame
                 transformComponent.Position.Y
             );
 
-            // draw border
+            // draw background
             UI.DrawRect(
                 (int)(playerTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
                 (int)(playerTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - Theme.BorderSmall),
@@ -68,7 +68,6 @@ namespace AdventureGame
 
         public static void DrawEmote(Scene scene, Entity entity)
         {
-
             EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
@@ -78,27 +77,18 @@ namespace AdventureGame
                 transformComponent.Position.Y
             );
 
-            // draw border
-            UI.DrawRect( 100, 100, 100, 100, 1, 2
-                //(int)(playerTopMiddle.X - (emoteComponent.emoteBackground.X / 2)),
-                //(int)(playerTopMiddle.Y - emoteComponent.emoteBackground.Y - Theme.BorderSmall),
-                //emoteComponent.emoteBackground.X,
-                //emoteComponent.emoteBackground.Y,
-                //(float)emoteComponent.alpha.Value,
-                //borderWidth: 2
+            // draw background
+            UI.DrawRect(
+                (int)(playerTopMiddle.X - (emoteComponent.backgroundSize.X / 2)),
+                (int)(playerTopMiddle.Y - emoteComponent.backgroundSize.Y - Theme.BorderSmall),
+                emoteComponent.backgroundSize.X,
+                emoteComponent.backgroundSize.Y,
+                (float)emoteComponent.alpha.Value,
+                borderWidth: 2
             );
 
             // draw image
-            /*Globals.spriteBatch.Draw(
-                emoteComponent._textures[emoteComponent._currentIndex],
-                new Rectangle(
-                    (int)(playerTopMiddle.X - (emoteComponent.textureSize.X / 2)),
-                    (int)(playerTopMiddle.Y - emoteComponent.textureSize.Y - Theme.BorderSmall * 2),
-                    (int)emoteComponent.textureSize.X,
-                    (int)emoteComponent.textureSize.Y
-                ),
-                Color.White * (float)emoteComponent.alpha.Value
-            );*/
+            emoteComponent.emoteImage.Draw();
 
         }
 

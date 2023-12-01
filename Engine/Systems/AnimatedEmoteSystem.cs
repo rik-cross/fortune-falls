@@ -14,6 +14,7 @@ namespace AdventureGame.Engine
         {
             RequiredComponent<AnimatedEmoteComponent>();
             RequiredComponent<TransformComponent>();
+            AboveMap = true;
         }
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {

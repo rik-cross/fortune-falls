@@ -5,12 +5,15 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using S = System.Diagnostics.Debug;
+
 namespace AdventureGame.Engine
 {
     public class EmoteComponent : Component
     {
         public Image emoteImage;
         public Rectangle emoteBackground;
+        public Vector2 backgroundSize;
         public bool showBackground;
         private Vector2 _emoteSize;
         public Vector2 EmoteSize {
@@ -27,7 +30,16 @@ namespace AdventureGame.Engine
         }
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
 
-        public EmoteComponent(string emoteImageURI, bool background = true, Vector2 emoteSize = default)
+        public static Action<Scene, Entity> drawMethod;
+        public Action<Scene, Entity> componentSpecificDrawMethod;
+
+        public EmoteComponent(
+            string emoteImageURI,
+            bool background = true,
+            Vector2 emoteSize = default,
+            Action<Scene, Entity> drawMethod = null,
+            Action<Scene, Entity> componentSpecificDrawMethod = null
+        )
         {
 
             Texture2D t = Utils.LoadTexture(emoteImageURI);
@@ -49,10 +61,24 @@ namespace AdventureGame.Engine
 
             showBackground = background;
 
+            this.backgroundSize = new Vector2(
+                this.EmoteSize.X + Theme.BorderSmall * 2,
+                this.EmoteSize.Y + Theme.BorderSmall * 2
+            );
+
+            EmoteComponent.drawMethod = drawMethod;
+            this.componentSpecificDrawMethod = componentSpecificDrawMethod;
+
             Show();
         }
 
-        public EmoteComponent(Image image, bool background = true, Vector2 emoteSize = default)
+        public EmoteComponent(
+            Image image,
+            bool background = true,
+            Vector2 emoteSize = default,
+            Action<Scene, Entity> drawMethod = null,
+            Action<Scene, Entity> componentSpecificDrawMethod = null
+        )
         {
 
             if (emoteSize == default)
@@ -74,6 +100,14 @@ namespace AdventureGame.Engine
                 (int)(EmoteSize.Y + Theme.BorderTiny * 2));
 
             showBackground = background;
+
+            this.backgroundSize = new Vector2(
+                this.EmoteSize.X + Theme.BorderSmall * 2,
+                this.EmoteSize.Y + Theme.BorderSmall * 2
+            );
+
+            EmoteComponent.drawMethod = drawMethod;
+            this.componentSpecificDrawMethod = componentSpecificDrawMethod;
 
             Show();
         }

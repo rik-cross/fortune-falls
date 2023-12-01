@@ -12,6 +12,7 @@ namespace AdventureGame.Engine
         public EmoteSystem()
         {
             RequiredComponent<EmoteComponent>();
+            RequiredComponent<TransformComponent>();
             AboveMap = true;
         }
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
@@ -22,9 +23,15 @@ namespace AdventureGame.Engine
             Vector2 entityPosition = transformComponent.Position;
             Vector2 entitySize = transformComponent.Size;
 
+            // calculate bottom-middle of component
+            Vector2 playerTopMiddle = new Vector2(
+                transformComponent.Position.X + (transformComponent.Size.X / 2),
+                transformComponent.Position.Y - Theme.BorderSmall*2
+            );
+
             Image emoteImage = emoteComponent.emoteImage;
-            emoteImage.Center = entityPosition.X + (entitySize.X / 2);
-            emoteImage.Bottom = entityPosition.Y - Theme.BorderTiny;
+            emoteImage.Center = playerTopMiddle.X;
+            emoteImage.Bottom = playerTopMiddle.Y;
 
             emoteImage.Alpha = (float)emoteComponent.alpha.Value;
             emoteComponent.alpha.Update();
@@ -36,7 +43,21 @@ namespace AdventureGame.Engine
         }
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
+
+            if (emoteComponent.componentSpecificDrawMethod != null)
+            {
+                emoteComponent.componentSpecificDrawMethod(scene, entity);
+                return;
+            }
+
+            if (EmoteComponent.drawMethod != null)
+            {
+                EmoteComponent.drawMethod(scene, entity);
+                return;
+            }
+
             if (emoteComponent.showBackground)
                 Globals.spriteBatch.FillRectangle(
                     emoteComponent.emoteBackground,
