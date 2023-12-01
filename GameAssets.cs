@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace AdventureGame
 {
@@ -43,19 +44,11 @@ namespace AdventureGame
         // components
         
         public static Engine.AnimatedEmoteComponent controllerMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_controller_movement
-            //new Engine.Image(
-            //        Engine.Utilities.SplitTexture(texture_controller_movement,
-            //            new Microsoft.Xna.Framework.Vector2(13, 13))[0][0]
-            //    ), true//, new Microsoft.Xna.Framework.Vector2(26 / 2, 13 / 2)
+            list_texture_controller_movement, frameDelay: 20, showBackground: false
         );
 
         public static Engine.AnimatedEmoteComponent keyboardMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_keyboard_movement
-           // new Engine.Image(
-            //        Engine.Utilities.SplitTexture(texture_keyboard_movement,
-            //            new Microsoft.Xna.Framework.Vector2(26, 13))[0][0]
-           //     ), true//, new Microsoft.Xna.Framework.Vector2(26/2, 13/2)
+            list_texture_keyboard_movement, frameDelay: 20, showBackground: false
         );
 
     }
