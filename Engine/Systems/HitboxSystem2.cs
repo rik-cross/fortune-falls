@@ -25,10 +25,10 @@ namespace AdventureGame.Engine
                 return;
 
             BattleComponent hitboxComponent = entity.GetComponent<BattleComponent>();
-            S.WriteLine(entity.State + " " + hitboxComponent.GetHitbox(entity.State));
+            //S.WriteLine(entity.State + " " + hitboxComponent.GetHitbox(entity.State));
             if (hitboxComponent.GetHitbox(entity.State) != null)
             {
-                S.WriteLine(entity.State);
+                //S.WriteLine(entity.State);
                 HBox re = hitboxComponent.GetHitbox(entity.State);
                 TransformComponent tf = entity.GetComponent<TransformComponent>();
                 RectangleF rect = new RectangleF(

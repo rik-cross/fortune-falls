@@ -280,6 +280,7 @@ namespace AdventureGame
             }
             EngineGlobals.entityManager.GetLocalPlayer().Reset();
             EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
             EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";

@@ -25,7 +25,7 @@ namespace AdventureGame.Engine
 
             for (int row = 0; row < originalTexture.Height; row += (int)subTextureSize.Y)
             {
-                S.WriteLine("Row " + row);
+                //S.WriteLine("Row " + row);
                 List<Texture2D> textureRow = new List<Texture2D>();
                 for (int col = 0; col < originalTexture.Width; col += (int)subTextureSize.X)
                 {
@@ -41,7 +41,7 @@ namespace AdventureGame.Engine
                         w = subTextureClippingRect.Width;
                         h = subTextureClippingRect.Height;
                     }
-                    S.WriteLine(x + " " + y + " " + w + " " + h);
+                    //S.WriteLine(x + " " + y + " " + w + " " + h);
                     Texture2D t = GetSubTexture(originalTexture, x, y, w, h);
                     textureRow.Add(t);
                 }

@@ -98,7 +98,7 @@ namespace AdventureGame
             //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
             EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(4.0f);
 
-            Engine.EmoteComponent movementEmote;
+            Engine.AnimatedEmoteComponent movementEmote;
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
             {
                 movementEmote = GameAssets.controllerMovementEmote;
@@ -113,7 +113,7 @@ namespace AdventureGame
                     name: "Walk",
                     description: "Use controls to walk around the world",
                     onStart: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(movementEmote);
+                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
                     },
                     condition: () => {
                         return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
@@ -123,7 +123,7 @@ namespace AdventureGame
                     },
                     numberOfTimes: 120,
                     onComplete: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                     }
                 )
             );
