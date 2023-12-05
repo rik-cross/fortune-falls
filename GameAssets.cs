@@ -8,6 +8,11 @@ namespace AdventureGame
 {
     public static class GameAssets
     {
+
+        public static int UIBoxBorder = 8;
+        public static int EmoteHeightAboveEntity = 12;
+        public static int EmoteBorderSize = 12;
+
         //private static string contentLocation = "../../../Content/";
 
         // spritesheets
@@ -46,21 +51,39 @@ namespace AdventureGame
         public static SoundEffect sound_notification = Engine.Utils.LoadSoundEffect("Sounds/notification.wav");
 
         // components
-        
+
         public static Engine.AnimatedEmoteComponent controllerMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_controller_movement, frameDelay: 20, drawMethod: UICustomisations.DrawAnimatedEmote
+            list_texture_controller_movement,
+            frameDelay: 20,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawAnimatedEmote,
+            textureSize: new Vector2(13*3, 13*3)
         );
 
         public static Engine.AnimatedEmoteComponent keyboardMovementEmote = new Engine.AnimatedEmoteComponent(
-            list_texture_keyboard_movement, frameDelay: 20, drawMethod: UICustomisations.DrawAnimatedEmote
+            list_texture_keyboard_movement,
+            frameDelay: 20,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawAnimatedEmote,
+            textureSize: new Vector2(26*4, 13*4)
         );
 
         public static Engine.EmoteComponent controllerWeaponEmote = new Engine.EmoteComponent(
-            new Engine.Image(right_trigger), drawMethod: UICustomisations.DrawEmote//, emoteSize: new Vector2(26, 26)
+            right_trigger,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawEmote,
+            textureSize: new Vector2(13*3, 13*3)
         );
 
         public static Engine.EmoteComponent keyboardWeaponEmote = new Engine.EmoteComponent(
-            new Engine.Image(key_axe), drawMethod: UICustomisations.DrawEmote//, emoteSize: new Vector2(26, 26)
+            key_axe,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawEmote,
+            textureSize: new Vector2(13*3, 13*3)
         );
 
     }

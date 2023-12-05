@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Graphics;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -18,6 +19,7 @@ namespace AdventureGame.Engine
         public int _frameDelay;
         public Color borderColor;
         public int borderSize;
+        public int heightAboveEntity;
 
         public Vector2 textureSize;
         public bool showBackground;
@@ -34,15 +36,16 @@ namespace AdventureGame.Engine
             Color backgroundColor = default,
             Color borderColor = default,
             int borderSize = 0,
+            int heightAboveEntity = 0,
             Action<Scene, Entity> drawMethod = null,
             Action<Scene, Entity> componentSpecificDrawMethod = null
         )
         {
-            //this._textures = new List<Texture2D>();
             this._textures = textures;
             this._frameDelay = frameDelay;
             this.showBackground = showBackground;
-
+            this.borderSize = borderSize;
+            this.heightAboveEntity = heightAboveEntity;
             if (textureSize == default)
                 this.textureSize = new Vector2(textures[0].Width, textures[0].Height);
             else
@@ -52,8 +55,8 @@ namespace AdventureGame.Engine
             this._timer = 0;
 
             this.backgroundSize = new Vector2(
-                this._textures[0].Width + Theme.BorderSmall*2,
-                this._textures[0].Height + Theme.BorderSmall*2
+                this.textureSize.X + this.borderSize * 2,
+                this.textureSize.Y + this.borderSize * 2
             );
 
             if (backgroundColor == default)
@@ -65,7 +68,6 @@ namespace AdventureGame.Engine
                 this.borderColor = Color.Black;
             else
                 this.borderColor = borderColor;
-            this.borderSize = borderSize;
 
             AnimatedEmoteComponent.drawMethod = drawMethod;
             this.componentSpecificDrawMethod = componentSpecificDrawMethod;

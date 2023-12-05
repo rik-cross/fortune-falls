@@ -33,31 +33,36 @@ namespace AdventureGame
 
         public static void DrawAnimatedEmote(Scene scene, Entity entity)
         {
+
             AnimatedEmoteComponent animatedEmoteComponent = entity.GetComponent<AnimatedEmoteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            // adjusted dimensions
+            Vector2 entityscreenPosition = scene.GetCameraByName("main").GetScreenPosition(transformComponent.Position);
+            Vector2 entityScreenSize = transformComponent.Size * scene.GetCameraByName("main").zoom;
+            
             // calculate bottom-middle of component
-            Vector2 playerTopMiddle = new Vector2(
-                transformComponent.Position.X + (transformComponent.Size.X / 2),
-                transformComponent.Position.Y
+            Vector2 entityTopMiddle = new Vector2(
+                entityscreenPosition.X + (entityScreenSize.X / 2),
+                entityscreenPosition.Y
             );
 
             // draw background
             UI.DrawRect(
-                (int)(playerTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
-                (int)(playerTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - Theme.BorderSmall),
+                (int)(entityTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
+                (int)(entityTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - animatedEmoteComponent.heightAboveEntity), // TODO - borderSize
                 animatedEmoteComponent.backgroundSize.X,
                 animatedEmoteComponent.backgroundSize.Y,
                 (float)animatedEmoteComponent.alpha.Value,
-                borderWidth: 2
+                borderWidth: GameAssets.UIBoxBorder
             );
 
             // draw image
             Globals.spriteBatch.Draw(
                 animatedEmoteComponent._textures[animatedEmoteComponent._currentIndex],
                 new Rectangle(
-                    (int)(playerTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
-                    (int)(playerTopMiddle.Y - animatedEmoteComponent.textureSize.Y - Theme.BorderSmall * 2),
+                    (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
+                    (int)(entityTopMiddle.Y - animatedEmoteComponent.textureSize.Y - animatedEmoteComponent.heightAboveEntity - GameAssets.EmoteBorderSize), 
                     (int)animatedEmoteComponent.textureSize.X,
                     (int)animatedEmoteComponent.textureSize.Y
                 ),
@@ -68,28 +73,40 @@ namespace AdventureGame
 
         public static void DrawEmote(Scene scene, Entity entity)
         {
-            EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
+            EmoteComponent animatedEmoteComponent = entity.GetComponent<EmoteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            // adjusted dimensions
+            Vector2 entityscreenPosition = scene.GetCameraByName("main").GetScreenPosition(transformComponent.Position);
+            Vector2 entityScreenSize = transformComponent.Size * scene.GetCameraByName("main").zoom;
+
             // calculate bottom-middle of component
-            Vector2 playerTopMiddle = new Vector2(
-                transformComponent.Position.X + (transformComponent.Size.X / 2),
-                transformComponent.Position.Y
+            Vector2 entityTopMiddle = new Vector2(
+                entityscreenPosition.X + (entityScreenSize.X / 2),
+                entityscreenPosition.Y
             );
 
             // draw background
             UI.DrawRect(
-                (int)(playerTopMiddle.X - (emoteComponent.backgroundSize.X / 2)),
-                (int)(playerTopMiddle.Y - emoteComponent.backgroundSize.Y - Theme.BorderSmall),
-                emoteComponent.backgroundSize.X,
-                emoteComponent.backgroundSize.Y,
-                (float)emoteComponent.alpha.Value,
-                borderWidth: 2
+                (int)(entityTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
+                (int)(entityTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - animatedEmoteComponent.heightAboveEntity), // TODO - borderSize
+                animatedEmoteComponent.backgroundSize.X,
+                animatedEmoteComponent.backgroundSize.Y,
+                (float)animatedEmoteComponent.alpha.Value,
+                borderWidth: GameAssets.UIBoxBorder
             );
 
             // draw image
-            emoteComponent.emoteImage.Draw();
-
+            Globals.spriteBatch.Draw(
+                animatedEmoteComponent._texture,
+                new Rectangle(
+                    (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
+                    (int)(entityTopMiddle.Y - animatedEmoteComponent.textureSize.Y - animatedEmoteComponent.heightAboveEntity - GameAssets.EmoteBorderSize),
+                    (int)animatedEmoteComponent.textureSize.X,
+                    (int)animatedEmoteComponent.textureSize.Y
+                ),
+                Color.White * (float)animatedEmoteComponent.alpha.Value
+            );
         }
 
         public static void DrawButton(Engine.UIButton button)

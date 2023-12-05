@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using MonoGame.Extended.Graphics;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -17,54 +18,89 @@ namespace AdventureGame.Engine
         }
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
+            EmoteComponent animatedEmoteComponent = entity.GetComponent<EmoteComponent>();
 
-            Vector2 entityPosition = transformComponent.Position;
-            Vector2 entitySize = transformComponent.Size;
-
-            // calculate bottom-middle of component
-            Vector2 playerTopMiddle = new Vector2(
-                transformComponent.Position.X + (transformComponent.Size.X / 2),
-                transformComponent.Position.Y - Theme.BorderSmall*2
-            );
-
-            Image emoteImage = emoteComponent.emoteImage;
-            emoteImage.Center = playerTopMiddle.X;
-            emoteImage.Bottom = playerTopMiddle.Y;
-
-            emoteImage.Alpha = (float)emoteComponent.alpha.Value;
-            emoteComponent.alpha.Update();
-            if (emoteComponent.alpha.Value == 0)
+            // alpha
+            animatedEmoteComponent.alpha.Update();
+            if (animatedEmoteComponent.alpha.Value == 0)
                 entity.RemoveComponent<EmoteComponent>();
 
-            emoteComponent.emoteBackground.X = (int)(emoteImage.Left - Theme.BorderTiny * 2 + 1);
-            emoteComponent.emoteBackground.Y = (int)(emoteImage.Top - Theme.BorderTiny * 2 + 1);
         }
-        public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
+
+        public override void Draw(GameTime gameTime, Scene scene)
         {
-            TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-            EmoteComponent emoteComponent = entity.GetComponent<EmoteComponent>();
 
-            if (emoteComponent.componentSpecificDrawMethod != null)
+            //
+            // Draws an image (with an optional background) above the attached entity.
+            // Will draw component-specific or common draw method if one is specified.
+            //
+
+            foreach (Entity entity in scene.EntityList)
             {
-                emoteComponent.componentSpecificDrawMethod(scene, entity);
-                return;
-            }
+                if (entity.GetComponent<EmoteComponent>() != null && entity.GetComponent<TransformComponent>() != null)
+                {
 
-            if (EmoteComponent.drawMethod != null)
-            {
-                EmoteComponent.drawMethod(scene, entity);
-                return;
-            }
+                    //
+                    // get the required components
+                    //
 
-            if (emoteComponent.showBackground)
-                Globals.spriteBatch.FillRectangle(
-                    emoteComponent.emoteBackground,
-                    Theme.ColorTertiary * (float)emoteComponent.alpha.Value,
-                    layerDepth: 0.1f
-                );
-            emoteComponent.emoteImage.Draw();
+                    EmoteComponent animatedEmoteComponent = entity.GetComponent<EmoteComponent>();
+                    TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+                    //
+                    // run overridden component-specific or common draw methods if specified
+                    //
+
+                    if (animatedEmoteComponent.componentSpecificDrawMethod != null)
+                    {
+                        animatedEmoteComponent.componentSpecificDrawMethod(scene, entity);
+                        return;
+                    }
+
+                    if (EmoteComponent.drawMethod != null)
+                    {
+                        EmoteComponent.drawMethod(scene, entity);
+                        return;
+                    }
+
+                    //
+                    // draw default emote
+                    //
+
+                    // adjusted dimensions
+                    Vector2 entityscreenPosition = scene.GetCameraByName("main").GetScreenPosition(transformComponent.Position);
+                    Vector2 entityScreenSize = transformComponent.Size * scene.GetCameraByName("main").zoom;
+
+                    // calculate bottom-middle of entity
+                    Vector2 entityTopMiddle = new Vector2(
+                        entityscreenPosition.X + (entityScreenSize.X / 2),
+                        entityscreenPosition.Y
+                    );
+
+                    // draw background
+                    Globals.spriteBatch.FillRectangle(
+                        new Rectangle(
+                            (int)(entityTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
+                            (int)(entityTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - animatedEmoteComponent.heightAboveEntity),
+                            (int)animatedEmoteComponent.backgroundSize.X,
+                            (int)animatedEmoteComponent.backgroundSize.Y
+                        ), animatedEmoteComponent.backgroundColor * (float)animatedEmoteComponent.alpha.Value
+                    );
+
+                    // draw image
+                    Globals.spriteBatch.Draw(
+                        animatedEmoteComponent._texture,
+                        new Rectangle(
+                            (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
+                            (int)(entityTopMiddle.Y - animatedEmoteComponent.textureSize.Y - animatedEmoteComponent.heightAboveEntity - animatedEmoteComponent.borderSize),
+                            (int)animatedEmoteComponent.textureSize.X,
+                            (int)animatedEmoteComponent.textureSize.Y
+                        ),
+                        Color.White * (float)animatedEmoteComponent.alpha.Value
+                    );
+
+                }
+            }
         }
     }
 }

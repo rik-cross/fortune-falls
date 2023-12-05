@@ -173,9 +173,9 @@ namespace AdventureGame
         public override void OnEnter()
         {
             // Test code only, remove once content loading works.
-            Engine.EmoteComponent ec = new Engine.EmoteComponent(GameAssets.emote_pickaxe);
-            ec.showBackground = false;
-            EngineGlobals.entityManager.GetLocalPlayer().AddComponent(ec);
+            //Engine.EmoteComponent ec = new Engine.EmoteComponent(GameAssets.emote_pickaxe);
+            //ec.showBackground = false;
+            //EngineGlobals.entityManager.GetLocalPlayer().AddComponent(ec);
         }
 
         public override void Input(GameTime gameTime)

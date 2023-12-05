@@ -1,117 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using MonoGame.Extended;
+using MonoGame.Extended.Graphics;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
     public class EmoteComponent : Component
     {
-        public Image emoteImage;
-        public Rectangle emoteBackground;
+        public Texture2D _texture;
         public Vector2 backgroundSize;
+        public Color backgroundColor;
+        public Color borderColor;
+        public int borderSize;
+        public int heightAboveEntity;
+
+        public Vector2 textureSize;
         public bool showBackground;
-        private Vector2 _emoteSize;
-        public Vector2 EmoteSize {
-            get {
-                return _emoteSize;
-            }
-            set {
-                _emoteSize = value;
-                if (emoteImage != null)
-                    emoteImage.Size = value;
-                emoteBackground.Width = (int)(value.X + Theme.BorderTiny * 2);
-                emoteBackground.Height = (int)(value.Y + Theme.BorderTiny * 2);
-            }
-        }
         public DoubleAnimation alpha = new DoubleAnimation(0, 0.02f);
 
         public static Action<Scene, Entity> drawMethod;
         public Action<Scene, Entity> componentSpecificDrawMethod;
 
         public EmoteComponent(
-            string emoteImageURI,
-            bool background = true,
-            Vector2 emoteSize = default,
+            Texture2D texture,
+            Vector2 textureSize = default,
+            bool showBackground = false,
+            Color backgroundColor = default,
+            Color borderColor = default,
+            int borderSize = 0,
+            int heightAboveEntity = 0,
             Action<Scene, Entity> drawMethod = null,
             Action<Scene, Entity> componentSpecificDrawMethod = null
         )
         {
-
-            Texture2D t = Utils.LoadTexture(emoteImageURI);
-
-            if (emoteSize == default)
-                EmoteSize = new Vector2(t.Width, t.Height);
+            this._texture = texture;
+            this.showBackground = showBackground;
+            this.borderSize = borderSize;
+            this.heightAboveEntity = heightAboveEntity;
+            if (textureSize == default)
+                this.textureSize = new Vector2(texture.Width, texture.Height);
             else
-                EmoteSize = emoteSize;
-
-            emoteImage = new Image(
-                t,
-                size: EmoteSize);
-
-            emoteBackground = new Rectangle(
-                0,
-                0,
-                (int)(EmoteSize.X + Theme.BorderTiny * 2),
-                (int)(EmoteSize.Y + Theme.BorderTiny * 2));
-
-            showBackground = background;
+                this.textureSize = textureSize;
 
             this.backgroundSize = new Vector2(
-                this.EmoteSize.X + Theme.BorderSmall * 2,
-                this.EmoteSize.Y + Theme.BorderSmall * 2
+                this.textureSize.X + this.borderSize * 2,
+                this.textureSize.Y + this.borderSize * 2
             );
+
+            if (backgroundColor == default)
+                this.backgroundColor = Color.White;
+            else
+                this.backgroundColor = backgroundColor;
+
+            if (borderColor == default)
+                this.borderColor = Color.Black;
+            else
+                this.borderColor = borderColor;
 
             EmoteComponent.drawMethod = drawMethod;
             this.componentSpecificDrawMethod = componentSpecificDrawMethod;
 
-            Show();
         }
-
-        public EmoteComponent(
-            Image image,
-            bool background = true,
-            Vector2 emoteSize = default,
-            Action<Scene, Entity> drawMethod = null,
-            Action<Scene, Entity> componentSpecificDrawMethod = null
-        )
-        {
-
-            if (emoteSize == default)
-                EmoteSize = new Vector2(image.Width, image.Height);
-            else
-                EmoteSize = emoteSize;
-
-            //emoteImage = new Image(
-            //    Utils.LoadTexture(emoteImageURI),
-            //    size: EmoteSize);
-
-            emoteImage = image;
-            image.Size = EmoteSize;
-
-            emoteBackground = new Rectangle(
-                0,
-                0,
-                (int)(EmoteSize.X + Theme.BorderTiny * 2),
-                (int)(EmoteSize.Y + Theme.BorderTiny * 2));
-
-            showBackground = background;
-
-            this.backgroundSize = new Vector2(
-                this.EmoteSize.X + Theme.BorderSmall * 2,
-                this.EmoteSize.Y + Theme.BorderSmall * 2
-            );
-
-            EmoteComponent.drawMethod = drawMethod;
-            this.componentSpecificDrawMethod = componentSpecificDrawMethod;
-
-            Show();
-        }
-
         public void Show()
         {
             alpha.Value = 1.0;
