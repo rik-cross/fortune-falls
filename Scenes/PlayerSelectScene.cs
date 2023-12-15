@@ -79,7 +79,9 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false); }
+                        EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+                        Console.WriteLine("OK");
+                    }
                 )
             );
             

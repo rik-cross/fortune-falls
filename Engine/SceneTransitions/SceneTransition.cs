@@ -24,8 +24,16 @@ namespace AdventureGame.Engine
             Increment = 1.0f;
         }
 
+
+        public void UpdateTest(GameTime gameTime)
+        {
+            _sceneManager.ChangeScene(ToScene, UnloadCurrentScene);
+            _sceneManager.EndTransition();
+        }
+
         public void Update(GameTime gameTime)
         {
+
             Percentage = Math.Min(Percentage + Increment, 100);
 
             if (Percentage == 50)

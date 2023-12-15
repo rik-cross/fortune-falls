@@ -210,26 +210,35 @@ namespace AdventureGame.Engine
         public void RemoveScene(Scene scene, bool applyTransition = true)
         {
             if (Transition != null && scene == ActiveScene)
-                return;
-
-            if (scene == ActiveScene)
             {
+                Console.WriteLine("TRANS ACT REMOVE");
+                return;
+            }
+
+            //if (scene == ActiveScene)
+            //{
                 // Check if there are more scenes on the stack
                 if (_sceneStack.Count > 1)
                 {
                     Scene nextScene = GetNextScene();
                     if (applyTransition)
+                    {
+                        Console.WriteLine("TRANSITION REMOVE call");
                         StartTransition(nextScene, true);
+                    }
                     else
+                    {
+                        Console.WriteLine("REMOVE call");
                         ChangeScene(nextScene, true);
+                    }
                 }
                 // Otherwise remove the final scene on the stack
                 // Exit game logic here?
                 else
                     UnloadScene(scene);
-            }
-            else
-                UnloadScene(scene);
+            //}
+            //else
+            //    UnloadScene(scene);
         }
 
         // Returns the next scene in the stack if there is one, otherwise returns null
