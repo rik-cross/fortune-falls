@@ -30,7 +30,7 @@ namespace AdventureGame
 
         public void LoadGameScene(UIButton button)
         {
-            Vector2 playerPosition = new Vector2(100, 100);
+            Vector2 playerPosition = new Vector2(680, 580);
 
             // Add the MenuScene to the scene stack
             EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
