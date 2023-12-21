@@ -8,6 +8,8 @@ namespace AdventureGame
     {
         public static Engine.Entity Create(int x, int y, string filename,
             List<string> spriteKeys = null, string defaultState = "default",
+            float colliderHeightPercentage = 0.7f,
+            TriggerComponent triggerComponent = null,
             string idTag = null)
         {
             Entity entity = EngineGlobals.entityManager.CreateEntity();
@@ -42,7 +44,10 @@ namespace AdventureGame
             Vector2 size = spriteComponent.GetSpriteSize(defaultState);
             entity.AddComponent(new TransformComponent(position, size));
 
-            float colliderHeightPercentage = 0.7f;
+            if (triggerComponent != null)
+                entity.AddComponent(triggerComponent);
+
+            // Create the collider
             entity.AddComponent<Engine.ColliderComponent>(
                 new Engine.ColliderComponent(
                     size: new Vector2(size.X, size.Y * colliderHeightPercentage),

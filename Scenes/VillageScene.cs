@@ -53,9 +53,10 @@ namespace AdventureGame
             //AddEntity(PlayerHouseEntity.Create(423, 111, "player_house_01.png", buildingKeys, "door_closed"));
 
             //// Other buildings
-            //AddEntity(BuildingEntity.Create(270, 122, "blacksmith_01.png"));
-            //AddEntity(BuildingEntity.Create(262, 245, "shop_01.png", buildingKeys, "door_closed"));
-            //AddEntity(BuildingEntity.Create(520, 218, "woodworker_01.png", buildingKeys, "door_closed"));
+            AddEntity(BuildingEntity.Create(900, 650, "blacksmith_01.png"));
+
+            // Example with a custom collider height percentage
+            //AddEntity(BuildingEntity.Create(900, 650, "blacksmith_01.png", colliderHeightPercentage: 0.5f));
 
 
             ////
