@@ -53,11 +53,27 @@ namespace AdventureGame
             //AddEntity(PlayerHouseEntity.Create(423, 111, "player_house_01.png", buildingKeys, "door_closed"));
 
             //// Other buildings
-            AddEntity(BuildingEntity.Create(900, 650, "blacksmith_01.png"));
+            AddEntity(BuildingEntity.Create(900, 649, "blacksmith_01.png"));
 
             // Example with a custom collider height percentage
             //AddEntity(BuildingEntity.Create(900, 650, "blacksmith_01.png", colliderHeightPercentage: 0.5f));
 
+            //Low Town Buildings
+
+            //Fishmonger
+            AddEntity(BuildingEntity.Create(184, 836, "Fishmonger.png", colliderHeightPercentage: 0.3f));
+
+
+            //Low Town Residential
+            AddEntity(BuildingEntity.Create(328, 842, "LowTown_01.png", colliderHeightPercentage: 0.7f));
+            AddEntity(BuildingEntity.Create(424, 842, "LowTown_02.png", colliderHeightPercentage: 0.6f));
+            AddEntity(BuildingEntity.Create(520, 842, "LowTown_03.png", colliderHeightPercentage: 0.6f));
+            AddEntity(BuildingEntity.Create(600, 831, "LowTown_04.png", colliderHeightPercentage: 0.6f));
+
+            AddEntity(BuildingEntity.Create(344, 954, "LowTown_05.png", colliderHeightPercentage: 0.6f));
+            AddEntity(BuildingEntity.Create(424, 944, "LowTown_06.png", colliderHeightPercentage: 0.6f));
+            AddEntity(BuildingEntity.Create(520, 954, "LowTown_07.png", colliderHeightPercentage: 0.6f));
+            AddEntity(BuildingEntity.Create(616, 954, "LowTown_08.png", colliderHeightPercentage: 0.6f));
 
             ////
             //// Add objects
