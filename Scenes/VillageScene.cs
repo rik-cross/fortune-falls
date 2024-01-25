@@ -53,16 +53,12 @@ namespace AdventureGame
             //AddEntity(PlayerHouseEntity.Create(423, 111, "player_house_01.png", buildingKeys, "door_closed"));
 
             //// Other buildings
-            AddEntity(BuildingEntity.Create(900, 649, "blacksmith_01.png"));
-
-            // Example with a custom collider height percentage
-            //AddEntity(BuildingEntity.Create(900, 650, "blacksmith_01.png", colliderHeightPercentage: 0.5f));
+            //AddEntity(BuildingEntity.Create(900, 649, "blacksmith_01.png"));
 
             //Low Town Buildings
 
             //Fishmonger
             AddEntity(BuildingEntity.Create(184, 836, "Fishmonger.png", colliderHeightPercentage: 0.3f));
-
 
             //Low Town Residential
             AddEntity(BuildingEntity.Create(328, 842, "LowTown_01.png", colliderHeightPercentage: 0.7f));
@@ -74,6 +70,32 @@ namespace AdventureGame
             AddEntity(BuildingEntity.Create(424, 944, "LowTown_06.png", colliderHeightPercentage: 0.6f));
             AddEntity(BuildingEntity.Create(520, 954, "LowTown_07.png", colliderHeightPercentage: 0.6f));
             AddEntity(BuildingEntity.Create(616, 954, "LowTown_08.png", colliderHeightPercentage: 0.6f));
+
+            //Low Town Farm
+            AddEntity(BuildingEntity.Create(792, 848, "Lower_Farm.png", colliderHeightPercentage: 0.6f));
+
+
+            //// Mid Town Buildings
+            ///Mid Town Farm
+            AddEntity(BuildingEntity.Create(120, 448, "MidtownFarm.png", colliderHeightPercentage: 0.7f));
+
+            /// Mid Town Mayors House
+            AddEntity(BuildingEntity.Create(344, 474, "MayorsHouse.png", colliderHeightPercentage: 0.8f));
+
+            /// Mid Town School
+            AddEntity(BuildingEntity.Create(520, 485, "School.png", colliderHeightPercentage: 0.5f));
+
+            /// Mid Town Town Hall
+            AddEntity(BuildingEntity.Create(488, 631, "TownHall.png", colliderHeightPercentage: 0.7f));
+
+            /// Mid Town General Store
+            AddEntity(BuildingEntity.Create(744, 506, "GeneralStore.png", colliderHeightPercentage: 0.8f));
+
+            /// Mid Town Blacksmith
+            AddEntity(BuildingEntity.Create(888, 569, "blacksmith_01.png", colliderHeightPercentage: 0.6f));
+
+            /// Mid Town Bakery
+            AddEntity(BuildingEntity.Create(808, 663, "Bakery.png", colliderHeightPercentage: 0.8f));
 
             ////
             //// Add objects
