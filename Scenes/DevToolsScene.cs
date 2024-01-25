@@ -45,9 +45,10 @@ namespace AdventureGame
 
             // Dictionary of command words and descriptions
             _commandDict = new SortedDictionary<string, string>();
-            _commandDict.Add("list", "Lists all the commands available.");
+            _commandDict.Add("help", "Lists all the commands available.");
             _commandDict.Add("debug", "Enter on/off to turn debug mode on or off.");
-            _commandDict.Add("collider", "Toggles whether the player's collider is solid or not.");
+            _commandDict.Add("colliderPlayer", "Toggles whether the player's collider is solid or not.");
+            _commandDict.Add("colliderAll", "Toggles all the colliders on or off.");
             _commandDict.Add("teleport", "Teleports the player. Enter an X and a Y value separated by a space or comma.");
             _commandDict.Add("collect", "Collects all items based on the item id entered.");
 
@@ -86,7 +87,7 @@ namespace AdventureGame
             // To do
             // Disable player input controls
 
-            string intro = "Type list + Enter for a list of commands. Press Escape to exit.\n\nEnter command: ";
+            string intro = "Type help + Enter for a list of commands. Press Escape to exit.\n\nEnter command: ";
             DisplayOutputText(intro);
             SetTextInputPosition();
 
@@ -411,7 +412,7 @@ namespace AdventureGame
 
             switch (_commandWord)
             {
-                case "list":
+                case "help":
                     ListCommands();
                     break;
 
@@ -419,8 +420,12 @@ namespace AdventureGame
                     DebugToggle();
                     break;
 
-                case "collider":
-                    ColliderToggle();
+                case "colliderPlayer":
+                    PlayerColliderToggle();
+                    break;
+
+                case "colliderAll":
+                    colliderAllToggle();
                     break;
 
                 case "teleport":
@@ -442,7 +447,7 @@ namespace AdventureGame
         public void SetErrorText(string error = "")
         {
             if (string.IsNullOrEmpty(error))
-                _errorMessage = "Error: command not recognised. Type list + Enter for a list of valid commands.";
+                _errorMessage = "Error: command not recognised. Type help + Enter for a list of valid commands.";
             else
                 _errorMessage = "Error: " + error;
         }
@@ -480,7 +485,7 @@ namespace AdventureGame
                 SetErrorText("Value not recognised. Type on or off.");
         }
 
-        public void ColliderToggle()
+        public void PlayerColliderToggle()
         {
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             ColliderComponent collider = player.GetComponent<ColliderComponent>();
@@ -492,6 +497,18 @@ namespace AdventureGame
             }
 
             collider.IsSolid = !collider.IsSolid;
+        }
+
+        public void colliderAllToggle()
+        {
+            List<Entity> entities = EngineGlobals.systemManager.GetSystem<CollisionSystem>().EntityList;
+
+            foreach (Entity e in entities)
+            {
+                ColliderComponent collider = e.GetComponent<ColliderComponent>();
+                if (collider != null)
+                    collider.IsSolid = !collider.IsSolid;
+            }
         }
 
         public void TeleportPlayer()

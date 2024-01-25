@@ -297,13 +297,17 @@ namespace AdventureGame.Engine
             int lineWidth = 1;
             Color color;
 
-            if (colliderComponent.IsSolid)
-                color = colliderComponent.color;
-            else
-                color = Color.LightGray;
+            //if (colliderComponent.IsSolid)
+            //    color = colliderComponent.color;
+            //else
+            //    color = Color.LightGray;
 
-            Globals.spriteBatch.DrawRectangle(colliderComponent.Box, color, lineWidth);
-            Globals.spriteBatch.DrawRectangle(colliderComponent.Broadphase, Color.Black, lineWidth);
+            if (colliderComponent.IsSolid)
+            {
+                color = colliderComponent.color;
+                Globals.spriteBatch.DrawRectangle(colliderComponent.Box, color, lineWidth);
+                Globals.spriteBatch.DrawRectangle(colliderComponent.Broadphase, Color.Black, lineWidth);
+            }
         }
 
         public void TestingOutputSets()
