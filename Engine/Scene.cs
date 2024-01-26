@@ -149,13 +149,35 @@ namespace AdventureGame.Engine
                 // Only works for rectangular objects
                 foreach (TiledMapObject collisionObject in collisionLayer.Objects)
                 {
+                    int rotation = (int)collisionObject.Rotation;
+                    int x = (int)collisionObject.Position.X;
+                    int y = (int)collisionObject.Position.Y;
+                    int width = (int)collisionObject.Size.Width;
+                    int height = (int)collisionObject.Size.Height;
+
+                    if (rotation == 90 || rotation == -90)
+                    {
+                        int tempW = width;
+                        width = height;
+                        height = tempW;
+                        if (rotation == 90)
+                            x -= width;
+                        else
+                            y -= height;
+                    }
+                    else if (rotation == -180 || rotation == 180)
+                    {
+                        x -= width;
+                        y -= height;
+                    }
+
                     //Console.WriteLine($"Collider object: {collisionObject.Position}, {collisionObject.Size}");
-                    CreateCollisionTile(
-                        (int)collisionObject.Position.X,
-                        (int)collisionObject.Position.Y,
-                        (int)collisionObject.Size.Width,
-                        (int)collisionObject.Size.Height
-                    );
+                    CreateCollisionTile(x, y, width, height);
+                        //(int)collisionObject.Position.X,
+                        //(int)collisionObject.Position.Y,
+                        //(int)collisionObject.Size.Width,
+                        //(int)collisionObject.Size.Height
+                    //);
                 }
             }
 
