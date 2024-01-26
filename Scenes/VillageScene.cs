@@ -55,7 +55,7 @@ namespace AdventureGame
             //// Other buildings
             //AddEntity(BuildingEntity.Create(900, 649, "blacksmith_01.png"));
 
-            //Low Town Buildings
+            ///Low Town Buildings
 
             //Fishmonger
             AddEntity(BuildingEntity.Create(184, 836, "Fishmonger.png", colliderHeightPercentage: 0.3f));
@@ -96,6 +96,11 @@ namespace AdventureGame
 
             /// Mid Town Bakery
             AddEntity(BuildingEntity.Create(808, 663, "Bakery.png", colliderHeightPercentage: 0.8f));
+
+            /// High Town Buildings
+
+            // Low Town Farm
+            AddEntity(BuildingEntity.Create(792, 848, "Lower_Farm.png", colliderHeightPercentage: 0.6f));
 
             ////
             //// Add objects
