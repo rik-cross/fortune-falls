@@ -10,7 +10,7 @@ namespace AdventureGame.Engine
     public static class TreeEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            string defaultState = "tree")//, bool stump = false)
+            bool isStump = true, string defaultState = "tree")
         {
             Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
             entity.Tags.AddTag("tree");
@@ -25,32 +25,35 @@ namespace AdventureGame.Engine
             // Set state
             entity.State = defaultState;
 
-            // Add other components
+            // Add transform and collider components
             Vector2 size = spriteComponent.GetSpriteSize(defaultState);
             entity.AddComponent(new Engine.TransformComponent(
                 position: new Vector2(x, y),
                 size: size
             ));
 
+            Vector2 colliderSize = new Vector2(size.X * 0.5f, size.Y * 0.36f);
+            Vector2 colliderOffset = new Vector2(colliderSize.X * 0.5f, size.Y * 0.9f - colliderSize.Y);
             entity.AddComponent<Engine.ColliderComponent>(
                 new Engine.ColliderComponent(
-                    size: new Vector2(size.X / 2, 12),
-                    offset: new Vector2(6, 20)
+                    size: new Vector2(colliderSize.X, colliderSize.Y),
+                    offset: new Vector2(colliderOffset.X, colliderOffset.Y)
                 )
             );
 
+            // Add inventory component for drop items
             InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(
                 new Engine.InventoryComponent(3));
 
             Random random = new Random();
             for (int i = 0; i <= random.Next(1, 3); i++)
                 inventory.AddItem(new Item("wood", "Items/wood.png", quantity: 1, stackSize: 10));
-
             //EngineGlobals.inventoryManager.AddAndStackItem(inventory.InventoryItems, coin);
 
-            //entity.AddComponent(new Engine.BattleComponent());
+            // Add other components
+            entity.AddComponent(new Engine.HealthComponent());
             BattleComponent battleComponent = entity.AddComponent<BattleComponent>();
-            battleComponent.SetHurtbox("tree", new Engine.HBox(new Vector2(18, 18), new Vector2(5, 15)));
+            battleComponent.SetHurtbox("tree", new Engine.HBox(colliderSize, colliderOffset));
             battleComponent.OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
             {
                 if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe")
@@ -59,6 +62,7 @@ namespace AdventureGame.Engine
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
                     thisEnt.GetComponent<HealthComponent>().Health -= 20;
                     //thisEnt.State = "tree_shake";
+
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())
                     {
                         //thisEnt.State = "tree_fall";
@@ -70,7 +74,11 @@ namespace AdventureGame.Engine
                             offset: new Vector2(13, 17),
                             particleSpeed: 0.5
                         ));
-                        thisEnt.State = "tree_stump";
+
+                        if (isStump)
+                            thisEnt.State = "tree_stump";
+                        else
+                            entity.Destroy();
 
                         InventoryComponent inventoryComponent = thisEnt.GetComponent<InventoryComponent>();
                         if (inventoryComponent != null && inventoryComponent.DropOnDestroy)
@@ -81,8 +89,6 @@ namespace AdventureGame.Engine
                     }
                 }
             };
-
-            entity.AddComponent(new Engine.HealthComponent());
 
             return entity;
         }

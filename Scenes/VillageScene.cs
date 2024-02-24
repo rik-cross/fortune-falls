@@ -97,6 +97,13 @@ namespace AdventureGame
             /// Mid Town Bakery
             AddEntity(BuildingEntity.Create(808, 663, "Bakery.png", colliderHeightPercentage: 0.75f));
 
+            /// Mid Town scenary
+            // Mid Town square
+            Engine.Entity mainSquareTree = TreeEntity.Create(662, 623, "tree_01_large.png");
+            mainSquareTree.Tags.Id = "mainSquareTree";
+            // todo: add another trigger component that is envoked when the tree is cut down
+            AddEntity(mainSquareTree);
+
             /// High Town Buildings
 
             // High Town Farm
@@ -113,8 +120,17 @@ namespace AdventureGame
             AddEntity(BuildingEntity.Create(408, 314, "UpperTown07.png", colliderHeightPercentage: 0.65f));
             AddEntity(BuildingEntity.Create(472, 314, "UpperTown08.png", colliderHeightPercentage: 0.65f));
 
-            //Player's House
+            // Player's House
             AddEntity(BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f));
+
+            // Player's House trees
+            AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false));
 
             ////
             //// Add objects
