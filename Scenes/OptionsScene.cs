@@ -1,5 +1,5 @@
 ﻿using AdventureGame.Engine;
-
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using S = System.Diagnostics.Debug;
 
@@ -12,7 +12,10 @@ namespace AdventureGame
 
         public void UnloadOptionsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.RemoveScene(this);
+            //EngineGlobals.sceneManager.RemoveScene(this);
+            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                    new List<Scene>() { }, numScenesToUnload: 1
+                ));
         }
 
         public void SetMute(UIButton button)

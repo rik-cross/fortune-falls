@@ -38,8 +38,8 @@ namespace AdventureGame
                     {
                         otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                         Vector2 playerPosition = new Vector2(450, 175);
-                        EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
-                        EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
+                        //EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
+                        //EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
                     }
                 }
             ));
@@ -54,8 +54,8 @@ namespace AdventureGame
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
         }
         public override void Update(GameTime gameTime)

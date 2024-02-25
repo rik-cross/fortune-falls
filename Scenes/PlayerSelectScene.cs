@@ -79,8 +79,11 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
-                        Console.WriteLine("OK");
+                        //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+                        //Console.WriteLine("OK");
+                        EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                            new List<Scene>() { }, numScenesToUnload: 1
+                        ));
                     }
                 )
             );
@@ -90,10 +93,7 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            //EngineGlobals.DEBUG = false;
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Clear();
-            //EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
-            EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
+            //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
         }
         public override void OnExit()
         {

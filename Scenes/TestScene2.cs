@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
+using System.Collections;
 
 using Microsoft.Xna.Framework.Graphics;
 
@@ -37,8 +38,8 @@ namespace AdventureGame
                 if (otherEntity.IsLocalPlayer())
                 {
                     otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
-                    EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
-                    EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
+                    //EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
+                    //EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
                 }
             };
             AddEntity(caveEntranceEntity);
@@ -139,20 +140,20 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
         }
 
@@ -165,7 +166,11 @@ namespace AdventureGame
             if (frame == 60 && Globals.newGame)
             {
                 Globals.newGame = false;
-                EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
+                EngineGlobals.sceneManager.StartSceneTransition(
+                    new NoSceneTransition(
+                        new List<Scene>() { new PlayerSelectScene() }
+                    )
+                );
             }
 
         }

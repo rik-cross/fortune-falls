@@ -39,8 +39,8 @@ namespace AdventureGame
                 if (otherEntity.IsLocalPlayer())
                 {
                     otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
-                    EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
-                    EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
+                    //EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
+                    //EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
                 }
             };
             AddEntity(caveEntranceEntity);
@@ -181,24 +181,24 @@ namespace AdventureGame
         public override void Input(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-                EngineGlobals.sceneManager.RemoveScene(this);
+                ;// EngineGlobals.sceneManager.RemoveScene(this);
 
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
             
         }

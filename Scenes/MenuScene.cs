@@ -30,25 +30,39 @@ namespace AdventureGame
 
         public void LoadGameScene(UIButton button)
         {
-            Vector2 playerPosition = new Vector2(680, 580);
+            //Vector2 playerPosition = new Vector2(680, 580);
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(680, 580);
+
+
+            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                    new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
+                ));
 
             // Add the MenuScene to the scene stack
-            EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
-            EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
+            //EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
+            //EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
 
         }
 
         public void LoadOptionsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.SetActiveScene<OptionsScene>(unloadCurrentScene: false);
+            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                    new List<Scene>() { new OptionsScene() }
+                ));
         }
         public void LoadCreditsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.SetActiveScene<CreditsScene>(unloadCurrentScene: false);
+            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                    new List<Scene>() { new CreditsScene() }
+                ));
         }
         public void UnloadMenuScene(UIButton button)
         {
-            EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+            //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+            EngineGlobals.soundManager.Volume = 0;
+            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                    new List<Scene>() {}, numScenesToUnload: 1
+                ));
         }
 
         public MenuScene()

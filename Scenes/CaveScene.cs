@@ -40,8 +40,8 @@ namespace AdventureGame
                 if (otherEntity.IsLocalPlayer())
                 {
                     otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
-                    EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
-                    EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(new Vector2(505, 55));
+                    //EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
+                    //EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(new Vector2(505, 55));
                 }
             };
             caveExitEntity.AddComponent(new Engine.LightComponent(radius: 150, offset: new Vector2(16, 16)));
@@ -60,8 +60,8 @@ namespace AdventureGame
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                //EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
+                //    applyTransition: false, unloadCurrentScene: false);
             }
         }
         public override void Update(GameTime gameTime)

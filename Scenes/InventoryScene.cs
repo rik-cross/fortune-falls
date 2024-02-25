@@ -533,7 +533,7 @@ namespace AdventureGame
             if (_inputManager.IsPressed(Globals.inventoryInput))
             {
                 _inputManager.HideCursor();
-                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+                //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
             }
 
             // Recalculate the container dimensions in case the screen size has changed 

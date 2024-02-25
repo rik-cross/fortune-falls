@@ -7,8 +7,21 @@ namespace AdventureGame
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
-                game.Run();
+            // create new game object
+            AdventureGame.Game1 game = new AdventureGame.Game1(
+                title: "AdventureGame",
+                screenWidth: 16 * 80,
+                screenHeight: 9 * 80,
+                isFullScreen: false,
+                isBorderless: false,
+                isMouseVisible: false
+            );
+
+            // todo: add assets, entities and scenes
+            // ...
+
+            // run the game
+            game.Run();
         }
     }
 }

@@ -21,7 +21,9 @@ namespace AdventureGame
 
         public void UnloadCreditsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.RemoveScene(this);
+            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                    new List<Scene>() { }, numScenesToUnload: 1
+                ));
         }
 
         public CreditsScene()

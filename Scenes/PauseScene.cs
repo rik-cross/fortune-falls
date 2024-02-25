@@ -30,7 +30,7 @@ namespace AdventureGame
                 font: Theme.FontSubtitle,
                 colour: Theme.TextColorTertiary,
                 anchor: Anchor.TopCenter,
-                padding: new Padding(top: 100),
+                padding: new Padding(top: 250),
                 outline: true,
                 outlineThickness: 6,
                 outlineColour: Color.Black
@@ -46,7 +46,9 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+                        EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                            new List<Scene>() {}, numScenesToUnload: 1
+                        ));
                     }
                 )
             );
@@ -61,8 +63,9 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
-                        EngineGlobals.sceneManager.RemoveScene(EngineGlobals.sceneManager._sceneStack[1]);
+                        EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                            new List<Scene>() { }, numScenesToUnload: 2
+                        ));
                     }
                 )
             );
@@ -78,8 +81,8 @@ namespace AdventureGame
         }
         public override void Input(GameTime gameTime)
         {
-            if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
-                EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+            //if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
+            //    EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
         }
         public override void Update(GameTime gameTime)
         {

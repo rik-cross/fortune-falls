@@ -27,7 +27,7 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
-            EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+            //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
         }
     }
 

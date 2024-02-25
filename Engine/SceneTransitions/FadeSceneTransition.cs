@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 using MonoGame.Extended;
 
@@ -9,8 +10,8 @@ namespace AdventureGame.Engine
     
     public class FadeSceneTransition : SceneTransition
     {
-        public FadeSceneTransition(Scene toScene, bool unloadCurrentScene = true)
-            : base(toScene, unloadCurrentScene)
+        public FadeSceneTransition(List<Scene> toScenes, int numScenesToUnload = 0)
+            : base(toScenes, numScenesToUnload)
         {
         }
 

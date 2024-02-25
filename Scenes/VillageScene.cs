@@ -22,7 +22,15 @@ namespace AdventureGame
 
             // Add camera
             AddCamera("main");
-            GetCameraByName("main").SetZoom(4.0f, instant: true);
+            if (Globals.newGame)
+            {
+                GetCameraByName("main").SetWorldPosition(new Vector2(680, 580), instant: true);
+                GetCameraByName("main").SetZoom(10.0f, instant: false);
+            }
+            else
+                GetCameraByName("main").SetZoom(4.0f, instant: true);
+
+                
 
 
             ////
@@ -161,11 +169,12 @@ namespace AdventureGame
             //questMarker.SetPOI(new Vector2(500, 300));
             questMarker.SetPOI(blacksmithEntity);
             questMarker.visible = true;
+
         }
 
         public override void OnEnter()
         {
-
+            AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
         }
 
         public override void Input(GameTime gameTime)
@@ -173,30 +182,33 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Up))
             {
-                GetCameraByName("main").SetZoom(8.0f);
+                GetCameraByName("main").SetZoom(10.0f);
             }
             if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Down))
             {
-                GetCameraByName("main").SetZoom(2.0f);
+                GetCameraByName("main").SetZoom(1.0f);
             }
 
 
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                    new List<Scene>() { new PauseScene() }
+                ));
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(
-                    applyTransition: false, unloadCurrentScene: false);
+                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                    new List<Scene>() { new InventoryScene2() }
+                ));
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
             {
-                EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
-                    applyTransition: false, unloadCurrentScene: false);
+                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                    new List<Scene>() { new DevToolsScene() }
+                ));
             }
         }
 
@@ -206,11 +218,11 @@ namespace AdventureGame
             //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
 
             // why does this have to be 60? a lower number doesn't work
-            if (frame == 60 && Globals.newGame)
+            /*if (frame == 60 && Globals.newGame)
             {
                 Globals.newGame = false;
-                EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
-            }
+                //EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
+            }*/
 
         }
 

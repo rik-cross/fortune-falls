@@ -3,54 +3,58 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using S = System.Diagnostics.Debug;
+using System.Collections.Generic;
 
 namespace AdventureGame
 {
     public class Game1 : Game
     {
-        public Game1()
+        private string _title;
+        public Game1(
+            string title = "[Engine Name]",
+            int screenWidth = 800,
+            int screenHeight = 480,
+            bool isFullScreen = false,
+            bool isBorderless = false,
+            bool isMouseVisible = true
+        )
+        
         {
+
+            // set variables
+            _title = title;
+            Globals.ScreenWidth = screenWidth;
+            Globals.ScreenHeight = screenHeight;
+            EngineGlobals.fullscreen = isFullScreen;
+            EngineGlobals.borderless = isBorderless;
+
             Globals.graphics = new GraphicsDeviceManager(this);
-            //Globals.gameWindow = GameWindow.Create(this, Globals.ScreenWidth, Globals.ScreenHeight);
-            //Globals.gameWindow = this.Window;
-               
-            //this.Window.IsBorderless = false;
+            Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
+            Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
+            Globals.graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
-            // Globals.graphics.HardwareModeSwitch = false; // Fix for fullscreen issues
-            // https://community.monogame.net/t/monogame-full-screen-mouse-y-position-wrong/11387/3
+            IsMouseVisible = isMouseVisible;
         }
 
         protected override void Initialize()
         {
-            Globals.ScreenWidth = 16 * 80;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            Globals.ScreenHeight = 9 * 80;//GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-
-            //S.WriteLine(System.IO.Directory.GetCurrentDirectory());
-
-            Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
-            Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
-            //Globals.graphics.PreferredBackBufferWidth  = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //Globals.graphics.PreferredBackBufferHeight  = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-
-            Globals.graphics.ApplyChanges();
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             Globals.gameWindow = Window;
+            Globals.gameWindow.Title = _title;
+
             Globals.content = Content;
             Globals.graphicsDevice = GraphicsDevice;
             Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Fullscreen
             Globals.graphics.IsFullScreen = EngineGlobals.fullscreen;
+            Globals.gameWindow.IsBorderless = EngineGlobals.borderless;
 
-            // Borderless window
-            //Globals.gameWindow.IsBorderless = true;
             Globals.graphics.ApplyChanges();
 
             // Todo move??
@@ -98,12 +102,12 @@ namespace AdventureGame
             // Create and add MenuScene to the scene stack
             if (Globals.TEST)
             {
-                EngineGlobals.sceneManager.SetActiveScene<TestScene>(unloadCurrentScene: false);
-                EngineGlobals.sceneManager.SetPlayerScene<TestScene>(new Vector2(50, 50));
             }
             else
             {
-                EngineGlobals.sceneManager.SetActiveScene<MenuScene>(unloadCurrentScene: false);
+                EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                    new List<Scene>() { new MenuScene() }
+                ));
             }
                 
 
@@ -111,14 +115,14 @@ namespace AdventureGame
 
         protected override void Update(GameTime gameTime)
         {
+            // exit if the scene manage is empty
             if (EngineGlobals.sceneManager.IsSceneStackEmpty())
                 Exit();
 
+            // update the various manager classes
             EngineGlobals.inputManager.Update(gameTime);
-
             EngineGlobals.sceneManager.Input(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
-            
             EngineGlobals.soundManager.Update(gameTime);
             base.Update(gameTime);
         }
