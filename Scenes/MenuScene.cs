@@ -163,7 +163,7 @@ namespace AdventureGame
 
             // title text
             _title = new Engine.Text(
-                caption: "Adventure Game",
+                caption: "Fortuna",
                 font: Theme.FontTitle,
                 colour: Color.White,
                 anchor: Anchor.TopCenter,
