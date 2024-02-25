@@ -45,9 +45,9 @@ namespace AdventureGame
             );
 
             creditsText = new List<string>() {
-                "Writers", "Rik Cross and Alex Parry", "rik-cross.github.com/adventure-game",
+                "Writers", "Alex Parry, Mac Bowley and Rik Cross", "rik-cross.github.com/adventure-game",
                 "Graphics",  "Sunnyside World by danieldiggle", "danieldiggle.itch.io",
-                "Sound", "name", "url"
+                "Sound", "TBC", "url TBC"
             };
             int padding = 200;
 
