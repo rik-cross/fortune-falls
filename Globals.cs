@@ -64,7 +64,7 @@ namespace AdventureGame
                 "longhair", "curlyhair", "bowlhair", "mophair", "shorthair", "spikeyhair" };
         public static string[] characherNames = new string[6]
         {
-            "First", "Second", "Third", "Fourth", "Fifth", "Sixth"
+            " ", " ", " ", " ", " ", " "
         };
 
         // Player settings

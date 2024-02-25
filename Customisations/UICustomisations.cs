@@ -151,19 +151,15 @@ namespace AdventureGame
             int currentActiveBorder = activeBorder;
             if (EngineGlobals.sceneManager.ActiveScene != null)
                 currentActiveBorder = (int)(activeBorder + Math.Sin(EngineGlobals.sceneManager.ActiveScene.frame / 10) * 4);
-            //S.WriteLine(c);
-
-            // Draw background image
-            //Globals.spriteBatch.DrawRectangle(button.position, button.size, button.outlineColour, button.outlineThickness);
-            Globals.spriteBatch.Draw(labelLeft, new Rectangle((int)button.position.X, (int)button.position.Y, 12, (int)button.size.Y), Color.White*a);
-            Globals.spriteBatch.Draw(labelMiddle, new Rectangle((int)button.position.X + 12, (int)button.position.Y, (int)button.size.X - (2 * 12), (int)button.size.Y), Color.White * a);
-            Globals.spriteBatch.Draw(labelRight, new Rectangle((int)(button.position.X + button.size.X - 12), (int)button.position.Y, 12, (int)button.size.Y), Color.White * a);
             
+            // Draw background image
+            UI.DrawRect(button.position.X, button.position.Y, button.size.X, button.size.Y, a);
+
             // Draw value
-            float t = button.size.X - 6 * 2;
+            float t = button.size.X - 8 * 2;
             float p = (float)(button.currentValue / (button.maxValue - button.minValue) * 100);
-            Globals.spriteBatch.FillRectangle(new Vector2(button.position.X + 6, button.position.Y + 6), new Vector2(t / 100 * p, button.size.Y - 6 * 2), button.onColour * a);
-            Globals.spriteBatch.FillRectangle(new Vector2(button.position.X + 6 + (t / 100 * p), button.position.Y + 6), new Vector2((t) - (t / 100 * p), button.size.Y - 6 * 2), button.offColour * a);
+            Globals.spriteBatch.FillRectangle(new Vector2(button.position.X + 8, button.position.Y + 8), new Vector2(t / 100 * p, button.size.Y - 8 * 2), button.onColour * a);
+            Globals.spriteBatch.FillRectangle(new Vector2(button.position.X + 8 + (t / 100 * p), button.position.Y + 8), new Vector2((t) - (t / 100 * p), button.size.Y - 8 * 2), button.offColour * a);
 
             // Draw text
             Globals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour * a);
