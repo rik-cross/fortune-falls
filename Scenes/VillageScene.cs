@@ -24,6 +24,7 @@ namespace AdventureGame
             AddCamera("main");
             if (Globals.newGame)
             {
+                GetCameraByName("main").SetZoom(4.0f, instant: true);
                 GetCameraByName("main").SetWorldPosition(new Vector2(680, 580), instant: true);
                 GetCameraByName("main").SetZoom(10.0f, instant: false);
             }
@@ -129,7 +130,21 @@ namespace AdventureGame
             AddEntity(BuildingEntity.Create(472, 314, "UpperTown08.png", colliderHeightPercentage: 0.65f));
 
             // Player's House
-            AddEntity(BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f));
+            Entity playerHouse = BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f);
+            TriggerComponent tc = new TriggerComponent(
+                size: new Vector2(170, 170),
+                offset: new Vector2(-40, -40),
+                onCollisionEnter: (Entity e1, Entity e2, float d) => {
+                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(5.0f);
+                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
+                },
+                onCollisionExit: (Entity e1, Entity e2, float d) => {
+                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
+                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                }
+            );
+            playerHouse.AddComponent(tc);
+            AddEntity(playerHouse);
 
             // Player's House trees
             AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false));
@@ -205,6 +220,7 @@ namespace AdventureGame
         public override void OnEnter()
         {
             AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
         }
 
         public override void Input(GameTime gameTime)

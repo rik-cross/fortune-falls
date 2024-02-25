@@ -125,7 +125,7 @@ namespace AdventureGame
                             EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
                             EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
                     },
-                    numberOfTimes: 120,
+                    numberOfTimes: 60,
                     onComplete: () => {
                         EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                     }
