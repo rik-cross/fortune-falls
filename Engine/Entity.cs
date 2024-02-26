@@ -14,6 +14,7 @@ namespace AdventureGame.Engine
         public Tags Tags { get; set; }
         public string State { get; set; }
         public string PrevState { get; set; }
+        public string NextState { get; set; }
 
         public List<Component> Components { get; set; } // Dictionary/HashSet?
         private readonly EntityManager _entityManager;
@@ -29,12 +30,11 @@ namespace AdventureGame.Engine
             Owner = this;
             Tags = new Tags();
             State = "default";
+            PrevState = State;
 
             Components = new List<Component>();
             _entityManager = EngineGlobals.entityManager;
             _componentManager = EngineGlobals.componentManager;
-
-            PrevState = State;
         }
 
         // Generate a unique GUID for the entity
