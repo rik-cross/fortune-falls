@@ -24,6 +24,8 @@ namespace AdventureGame.Engine
 
             // Set state
             entity.State = defaultState;
+            if (isStump)
+                entity.NextState = "tree_stump";
 
             // Add transform and collider components
             Vector2 size = spriteComponent.GetSpriteSize(defaultState);
@@ -66,6 +68,8 @@ namespace AdventureGame.Engine
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())
                     {
                         //thisEnt.State = "tree_fall";
+
+                        // Create particle effects
                         thisEnt.AddComponent(new ParticleComponent(
                             lifetime: 20,
                             delayBetweenParticles: 3,
@@ -75,17 +79,19 @@ namespace AdventureGame.Engine
                             particleSpeed: 0.5
                         ));
 
-                        if (isStump)
-                            thisEnt.State = "tree_stump";
-                        else
-                            entity.Destroy();
-
+                        // Drop any inventory items
                         InventoryComponent inventoryComponent = thisEnt.GetComponent<InventoryComponent>();
                         if (inventoryComponent != null && inventoryComponent.DropOnDestroy)
                         {
                             EngineGlobals.inventoryManager.DropAllItems(
                                 inventoryComponent.InventoryItems, thisEnt);
                         }
+
+                        // Set the tree to it's next state or destroy the entity
+                        if (string.IsNullOrEmpty(thisEnt.NextState))
+                            entity.Destroy();
+                        else
+                            thisEnt.State = thisEnt.NextState;
                     }
                 }
             };
