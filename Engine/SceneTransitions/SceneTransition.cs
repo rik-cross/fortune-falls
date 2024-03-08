@@ -11,7 +11,7 @@ namespace AdventureGame.Engine
     {
         private SceneManager _sceneManager;
 
-        protected List<Scene> ToScenes { get; set; }
+        public List<Scene> ToScenes { get; set; }
         //protected bool UnloadCurrentScene { get; set; }
         protected int NumberOfScenesToUnload { get; set; }
         protected float Percentage { get; set; }

@@ -45,7 +45,7 @@ namespace AdventureGame
                 new UISlider(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
                     size: new Vector2(120, 45),
-                    text: Globals.characherNames[Globals.playerIndex],
+                    text: Globals.characterNames[Globals.playerIndex],
                     textColour: Color.White,
                     outlineColour: Color.White,
                     onColour: new Color(194, 133, 105, 255),
@@ -54,7 +54,7 @@ namespace AdventureGame
                     backgroundColour: Color.DarkSlateGray,
                     buttonSpecificUpdateMethod: (UISlider slider) => {
                         slider.HandleInput();
-                        slider.text = Globals.characherNames[Globals.playerIndex];
+                        slider.text = Globals.characterNames[Globals.playerIndex];
                         slider.Init();
                     },
                     func: (UISlider slider, double currentValue) =>
@@ -94,6 +94,9 @@ namespace AdventureGame
         public override void OnEnter()
         {
             //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
+
+            EngineGlobals.sceneManager.GetSceneBelow().AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
+            //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
         }
         public override void OnExit()
         {

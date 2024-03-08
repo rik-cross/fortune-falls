@@ -30,13 +30,60 @@ namespace AdventureGame
 
         public void LoadGameScene(UIButton button)
         {
+            /// todo
+            /// check player position is set from here
+            ///     if so, change to a variable
+            /// use generic methods for scene transition
+            /// add error handling in case player scene not set e.g. DropItem
+             
+
+
             //Vector2 playerPosition = new Vector2(680, 580);
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(680, 580);
 
 
+            /// todo:
+            /// pass the transition class and a single scene class OR a list of scene classes
+            /// check how to pass multiple classes of different types
+            ///
+            /// in the Scene Manager, could it loop through the list of scenes and instantiate each one?
+            /// and only create the instance of the transition, then pass or create the scenes
+
+            /*
             EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
                     new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
                 ));
+
+
+            EngineGlobals.sceneManager.StartSceneTransition(
+                typeof(FadeSceneTransition2),
+                new List<Type>() { typeof(VillageScene), typeof(PlayerSelectScene) }
+            );
+            */
+
+            EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
+                false, typeof(VillageScene), typeof(PlayerSelectScene)
+            );
+
+            // <Transition, Scene>
+            //EngineGlobals.sceneManager.StartSceneTransition<
+            //    FadeSceneTransition2, OptionsScene>());
+
+            // Load PlayerSelectScene
+            // <Transition, Scene, SceneBelow>
+            //EngineGlobals.sceneManager.StartSceneTransition<
+            //    FadeSceneTransition2, VillageScene, PlayerSelectScene>());
+
+
+            // LoadScene
+            // transition type (optional)
+            // set active scene (optional)
+            // set player scene (optional)
+
+            // LoadScenes
+            // ^^^
+            // list of scenes for transition
+
 
             // Add the MenuScene to the scene stack
             //EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
