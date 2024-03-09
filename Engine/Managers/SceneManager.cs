@@ -162,6 +162,21 @@ namespace AdventureGame.Engine
             }
         }
 
+        // Exit all scenes from the top of the stack to the bottom
+        public void UnloadAllScenes()
+        {
+            for (int i = _sceneStack.Count - 1; i >= 0; i--)
+                UnloadScene(_sceneStack[i]);
+        }
+
+        // todo
+        // Unload the scene and create a new instance in the same scene stack position
+        public void ResetScene<TScene>() where TScene : new()
+        {
+            Scene scene = CheckSceneExists(typeof(TScene));
+            //if (scene != null)
+        }
+
         // Set the active scene to the scene at the top of the scene stack
         public void SetActiveScene(bool unloadCurrentScene)
         {
@@ -353,7 +368,7 @@ namespace AdventureGame.Engine
             Console.WriteLine(string.Join(", ", _sceneStack));
         }
 
-        // Returns the next scene in the stack if there is one, otherwise returns null
+        // Return the next scene in the stack if there is one, otherwise returns null
         public Scene GetNextScene()
         {
             if (_sceneStack.Count > 1)
