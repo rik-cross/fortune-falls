@@ -12,13 +12,13 @@ namespace AdventureGame.Engine
         private SceneManager _sceneManager;
 
         //protected Scene[] ToScenes { get; set; }
-        protected List<Scene> ToScenes { get; set; }
+        //protected List<Scene> ToScenes { get; set; }
         protected bool UnloadCurrentScene { get; set; }
-        protected int NumberOfScenesToUnload { get; set; }
+        //protected int NumberOfScenesToUnload { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
 
-        private bool _loadedScenes = false;
+        private bool _hasSceneChanged = false;
         public bool Finished { get; set; }
 
         public SceneTransition2()
@@ -33,34 +33,32 @@ namespace AdventureGame.Engine
             Finished = false;
         }
 
-        public void StartTransition(List<Scene> toScenes, bool unloadCurrentScene = true)
+        public void StartTransition(bool unloadCurrentScene = true)
         {
-            ToScenes = toScenes;
+            //ToScenes = toScenes;
             UnloadCurrentScene = unloadCurrentScene;
             //NumberOfScenesToUnload = numScenesToUnload;
         }
 
         public void Update(GameTime gameTime)
         {
-            Console.WriteLine($"Scene transition update");
+            //Console.WriteLine($"Scene transition update");
 
             Percentage = Math.Min(Percentage + Increment, 100);
 
-            if (Percentage >= 50 && _loadedScenes == false)
+            if (Percentage >= 50 && _hasSceneChanged == false)
             {
-                //Console.WriteLine($"Transitioning to next scene");
+                Console.WriteLine($"Transitioning to next scene");
 
                 //_sceneManager.ChangeScene(ToScene, UnloadCurrentScene);
-                // todo - change to _setActiveScene
-                _loadedScenes = true;
 
+                _hasSceneChanged = true;
+
+                _sceneManager.SetActiveScene(UnloadCurrentScene);
+
+                /*
                 if (UnloadCurrentScene)
                     _sceneManager.UnloadScene(_sceneManager.ActiveScene);
-
-                // todo - change to single scene?
-                // handle loading multiple scenes, scene below elsewhere?
-
-                //_sceneManager.ActiveScene = ToScenes[^1];
 
                 if (_sceneManager._sceneStack.Count > 0)
                 {
@@ -73,7 +71,7 @@ namespace AdventureGame.Engine
                 {
                     _sceneManager.ActiveScene = null;
                 }
-
+                */
 
                 //bool scenesAdded = false;
                 //foreach (Scene s in ToScenes)

@@ -54,25 +54,28 @@ namespace AdventureGame
                     new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
                 ));
 
-
+            /*
             EngineGlobals.sceneManager.StartSceneTransition(
                 typeof(FadeSceneTransition2),
                 new List<Type>() { typeof(VillageScene), typeof(PlayerSelectScene) }
             );
             */
 
-            EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
-                false, typeof(VillageScene), typeof(PlayerSelectScene)
-            );
+
+            //EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
+            //    false, typeof(VillageScene), typeof(PlayerSelectScene)
+            //);
+
+            // <Scene>
+            //EngineGlobals.sceneManager.StartSceneTransition<PauseScene>();
 
             // <Transition, Scene>
             //EngineGlobals.sceneManager.StartSceneTransition<
-            //    FadeSceneTransition2, OptionsScene>());
+            //    FadeSceneTransition2, OptionsScene>();
 
-            // Load PlayerSelectScene
             // <Transition, Scene, SceneBelow>
-            //EngineGlobals.sceneManager.StartSceneTransition<
-            //    FadeSceneTransition2, VillageScene, PlayerSelectScene>());
+            EngineGlobals.sceneManager.StartSceneTransition<
+                FadeSceneTransition2, VillageScene, PlayerSelectScene>(false);
 
 
             // LoadScene
