@@ -26,7 +26,6 @@ namespace AdventureGame.Engine
 
         public override void Draw(GameTime gameTime)
         {
-            Console.WriteLine("Draw fade transition");
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.spriteBatch.End();
             if (EngineGlobals.sceneManager.ActiveScene != null)

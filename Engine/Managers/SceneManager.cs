@@ -249,24 +249,30 @@ namespace AdventureGame.Engine
             if (Transition2 != null)
                 return;
 
-            // Check each parameter is the correct type
-            if (typeof(TTransition) != typeof(SceneTransition2) ||
-                typeof(TScene) != typeof(Scene) ||
-                typeof(TSceneBelow) != typeof(Scene))
-                return;
-
-            // Load both scenes and move to top of stack
-            Scene sceneBelow = LoadScene(typeof(TSceneBelow));
-            MoveSceneToTop(sceneBelow);
-
-            Scene scene = LoadScene(typeof(TScene));
-            MoveSceneToTop(scene);
-
-            // Start a new scene transition
-            Console.WriteLine($"\nStarting scene transition");
             object transition = new TTransition();
-            Transition2 = (SceneTransition2)transition;
-            ((SceneTransition2)transition).StartTransition(unloadCurrentScene);
+            if (transition is SceneTransition2)
+            {
+                // Load both scenes and move to top of stack
+                Scene sceneBelow = LoadScene(typeof(TSceneBelow));
+                if (sceneBelow != null)
+                    MoveSceneToTop(sceneBelow);
+                else
+                    return;
+
+                Scene scene = LoadScene(typeof(TScene));
+                if (scene != null)
+                    MoveSceneToTop(scene);
+                else
+                {
+                    UnloadScene(sceneBelow); // Clean up in case scene is not valid
+                    return;
+                }
+
+                // Start a new scene transition
+                Console.WriteLine($"\nStarting scene transition");
+                Transition2 = (SceneTransition2)transition;
+                ((SceneTransition2)transition).StartTransition(unloadCurrentScene);
+            }
         }
 
 

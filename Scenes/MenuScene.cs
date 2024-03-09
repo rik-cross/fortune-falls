@@ -75,7 +75,7 @@ namespace AdventureGame
 
             // <Transition, Scene, SceneBelow>
             EngineGlobals.sceneManager.StartSceneTransition<
-                FadeSceneTransition2, VillageScene, PlayerSelectScene>(false);
+                FadeSceneTransition2, PlayerSelectScene, VillageScene>(false);
 
 
             // LoadScene
