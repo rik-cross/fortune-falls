@@ -30,24 +30,6 @@ namespace AdventureGame
 
         public void LoadGameScene(UIButton button)
         {
-            /// todo
-            /// check player position is set from here
-            ///     if so, change to a variable
-            /// use generic methods for scene transition
-            /// add error handling in case player scene not set e.g. DropItem
-             
-
-
-            //Vector2 playerPosition = new Vector2(680, 580);
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(680, 580);
-
-
-            /// todo:
-            /// pass the transition class and a single scene class OR a list of scene classes
-            /// check how to pass multiple classes of different types
-            ///
-            /// in the Scene Manager, could it loop through the list of scenes and instantiate each one?
-            /// and only create the instance of the transition, then pass or create the scenes
 
             /*
             EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
@@ -61,10 +43,10 @@ namespace AdventureGame
             );
             */
 
-
             //EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
             //    false, typeof(VillageScene), typeof(PlayerSelectScene)
             //);
+
 
             // <Scene>
             //EngineGlobals.sceneManager.StartSceneTransition<PauseScene>();
@@ -78,41 +60,43 @@ namespace AdventureGame
                 FadeSceneTransition2, PlayerSelectScene, VillageScene>(false);
 
 
-            // LoadScene
-            // transition type (optional)
-            // set active scene (optional)
-            // set player scene (optional)
+            /// todo
+            /// check player position is set from here
+            ///     if so, change to a variable
+            /// add error handling in case player scene not set e.g. DropItem
 
-            // LoadScenes
-            // ^^^
-            // list of scenes for transition
+            //Vector2 playerPosition = new Vector2(680, 580);
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(680, 580);
 
-
-            // Add the MenuScene to the scene stack
-            //EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
+            // todo - set player active scene to VillageScene (or PSS?)
             //EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
 
         }
 
         public void LoadOptionsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new OptionsScene() }
-                ));
+            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+            //        new List<Scene>() { new OptionsScene() }
+            //    ));
+            EngineGlobals.sceneManager.StartSceneTransition<
+                FadeSceneTransition2, OptionsScene>(false);
         }
         public void LoadCreditsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new CreditsScene() }
-                ));
+            EngineGlobals.sceneManager.StartSceneTransition<
+                FadeSceneTransition2, CreditsScene>(false);
         }
         public void UnloadMenuScene(UIButton button)
         {
-            //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
             EngineGlobals.soundManager.Volume = 0;
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() {}, numScenesToUnload: 1
-                ));
+            //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+            //        new List<Scene>() {}, numScenesToUnload: 1
+            //    ));
+
+            // todo - new method for exiting game and removing all scenes (onExit etc)
+            EngineGlobals.sceneManager.StartSceneTransition<
+                FadeSceneTransition2, MenuScene>();
         }
 
         public MenuScene()

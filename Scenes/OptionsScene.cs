@@ -13,9 +13,11 @@ namespace AdventureGame
         public void UnloadOptionsScene(UIButton button)
         {
             //EngineGlobals.sceneManager.RemoveScene(this);
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { }, numScenesToUnload: 1
-                ));
+            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+            //        new List<Scene>() { }, numScenesToUnload: 1
+            //    ));
+            EngineGlobals.sceneManager.StartSceneTransition<
+                FadeSceneTransition2, MenuScene>();
         }
 
         public void SetMute(UIButton button)

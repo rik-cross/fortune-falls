@@ -21,11 +21,8 @@ namespace AdventureGame
 
         public void UnloadCreditsScene(UIButton button)
         {
-            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-            //        new List<Scene>() { }, numScenesToUnload: 1
-            //    ));
-            EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
-                true, typeof(MenuScene));
+            EngineGlobals.sceneManager.StartSceneTransition<
+                FadeSceneTransition2, MenuScene>();
         }
 
         public CreditsScene()
