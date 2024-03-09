@@ -133,6 +133,8 @@ namespace AdventureGame.Engine
         {
             Console.WriteLine("Drop the item on the in-game ground");
 
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+
             if (IsItemValid(inventoryItems, index))
                 item = inventoryItems[index];
 
@@ -141,7 +143,7 @@ namespace AdventureGame.Engine
 
             // If no entity is given then drop the item by the local player
             if (entity == null)
-                entity = EngineGlobals.entityManager.GetLocalPlayer();
+                entity = player;
 
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             Random random = new Random();
@@ -189,14 +191,17 @@ namespace AdventureGame.Engine
             itemX += randomX;
             itemY += randomY;
 
-            // TO DO
+            // todo
             // Check that the item position is within the scene boundaries
             // Check that the item is not colliding with anything e.g. a building
 
             // Create the item and add it to the player scene
-            Scene playerScene = EngineGlobals.sceneManager.PlayerScene;
-            playerScene.AddEntityNextTick(ItemEntity.Create(itemX, itemY, item, isCollectable,
-                collectableByType, animation));
+            Scene playerScene = player.GetComponent<SceneComponent>().Scene;
+            if (playerScene != null)
+            {
+                playerScene.AddEntityNextTick(ItemEntity.Create(itemX, itemY, item,
+                    isCollectable, collectableByType, animation));
+            }
         }
 
         // Drop all the items from an inventory on the in-game ground

@@ -36,40 +36,33 @@ namespace AdventureGame
                     new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
                 ));
 
-            /*
             EngineGlobals.sceneManager.StartSceneTransition(
                 typeof(FadeSceneTransition2),
                 new List<Type>() { typeof(VillageScene), typeof(PlayerSelectScene) }
             );
+
+            EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
+                false, typeof(VillageScene), typeof(PlayerSelectScene)
+            );
             */
-
-            //EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
-            //    false, typeof(VillageScene), typeof(PlayerSelectScene)
-            //);
-
 
             // <Scene>
             //EngineGlobals.sceneManager.StartSceneTransition<PauseScene>();
 
             // <Transition, Scene>
-            //EngineGlobals.sceneManager.StartSceneTransition<
-            //    FadeSceneTransition2, OptionsScene>();
+            //EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition, OptionsScene>();
 
             // <Transition, Scene, SceneBelow>
             EngineGlobals.sceneManager.StartSceneTransition<
                 FadeSceneTransition2, PlayerSelectScene, VillageScene>(false);
 
-
-            /// todo
-            /// check player position is set from here
-            ///     if so, change to a variable
-            /// add error handling in case player scene not set e.g. DropItem
-
-            //Vector2 playerPosition = new Vector2(680, 580);
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(680, 580);
-
-            // todo - set player active scene to VillageScene (or PSS?)
-            //EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
+            // Position the player
+            Vector2 playerPosition = new Vector2(680, 580);
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            if (player != null)
+            {
+                player.GetComponent<TransformComponent>().Position = playerPosition;
+            }
 
         }
 

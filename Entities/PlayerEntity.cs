@@ -9,6 +9,7 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
+        public static Scene playerScene;
         public static Dictionary<string, AnimatedSpriteComponent> animatedSprites = new Dictionary<string, AnimatedSpriteComponent>();
 
         public static Engine.Entity Create(int x, int y, int width, int height,
@@ -64,6 +65,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
             playerEntity.AddComponent(new Engine.TutorialComponent());
+            playerEntity.AddComponent(new SceneComponent());
 
             playerEntity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(13, 6),

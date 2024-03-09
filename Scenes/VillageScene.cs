@@ -219,8 +219,13 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
-            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            if (player != null)
+            {
+                AddEntity(player);
+                player.GetComponent<SceneComponent>().Scene = this;
+                EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
+            }
         }
 
         public override void Input(GameTime gameTime)
