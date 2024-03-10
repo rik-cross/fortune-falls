@@ -46,6 +46,7 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
+                        EngineGlobals.sceneManager.ResetScene<VillageScene>();
                         EngineGlobals.sceneManager.ChangeToSceneBelow();
                     }
                 )

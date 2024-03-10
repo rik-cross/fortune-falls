@@ -175,8 +175,39 @@ namespace AdventureGame.Engine
         // Unload the scene and create a new instance in the same scene stack position
         public void ResetScene<TScene>() where TScene : new()
         {
-            Scene scene = CheckSceneExists(typeof(TScene));
+            //Scene scene = CheckSceneExists(typeof(TScene));
             //if (scene != null)
+            Console.WriteLine($"\nReset scene {typeof(TScene)}\n");
+
+            int index = -1;
+            for (int i = 0; i < _sceneStack.Count; i++)
+            {
+                if (_sceneStack[i].GetType() == typeof(TScene))
+                    index = i;
+            }
+
+            //object scene = new TScene();
+            //int index = _sceneStack.IndexOf((Scene)scene);
+
+            if (index != -1)
+            {
+                Scene oldScene = _sceneStack[index];
+                object newScene = new TScene();
+
+                if (ActiveScene == oldScene)
+                    ActiveScene = (Scene)newScene;
+                else if (SceneBelow == oldScene)
+                    SceneBelow = (Scene)newScene;
+
+                UnloadScene(oldScene);
+                LoadScene((Scene)newScene);
+
+                // Insert the new scene instance into the original position
+                _sceneStack.Insert(index, (Scene)newScene);
+                Console.WriteLine(string.Join(", ", _sceneStack));
+                _sceneStack.RemoveAt(_sceneStack.Count - 1);
+                Console.WriteLine(string.Join(", ", _sceneStack));
+            }
         }
 
         // Set ActiveScene to the scene at the top of the scene stack
