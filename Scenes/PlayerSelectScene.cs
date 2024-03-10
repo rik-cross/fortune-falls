@@ -79,12 +79,7 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
-                        //Console.WriteLine("OK");
-                        //EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                        //    new List<Scene>() { }, numScenesToUnload: 1
-                        //));
-                        EngineGlobals.sceneManager.StartSceneTransition<VillageScene>();
+                        EngineGlobals.sceneManager.ChangeToSceneBelow();
                     }
                 )
             );
@@ -94,18 +89,26 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            if (player == null)
+                return;
 
-            EngineGlobals.sceneManager.SceneBelow.AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
-            //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            EngineGlobals.sceneManager.SceneBelow.AddEntity(player);
+
+            //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
+            //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
         }
         public override void OnExit()
         {
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            if (player == null)
+                return;
+
+            //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
             EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f);
 
             Engine.AnimatedEmoteComponent movementEmote;
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
+            if (player.GetComponent<InputComponent>().input == Engine.Inputs.controller)
             {
                 movementEmote = GameAssets.controllerMovementEmote;
             }
@@ -116,22 +119,22 @@ namespace AdventureGame
 
             movementEmote.alpha.Value = 1;
 
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>().AddTutorial(
+            player.GetComponent<TutorialComponent>().AddTutorial(
                 new Engine.Tutorial(
                     name: "Walk",
                     description: "Use controls to walk around the world",
                     onStart: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
+                        player.AddComponent<AnimatedEmoteComponent>(movementEmote);
                     },
                     condition: () => {
-                        return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
+                        return EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.left) ||
+                            EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.right) ||
+                            EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.up) ||
+                            EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.down);
                     },
                     numberOfTimes: 60,
                     onComplete: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                        player.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                     }
                 )
             );

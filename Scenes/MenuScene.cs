@@ -30,29 +30,11 @@ namespace AdventureGame
 
         public void LoadGameScene(UIButton button)
         {
+            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+            //        new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
+            //    ));
 
-            /*
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
-                ));
-
-            EngineGlobals.sceneManager.StartSceneTransition(
-                typeof(FadeSceneTransition2),
-                new List<Type>() { typeof(VillageScene), typeof(PlayerSelectScene) }
-            );
-
-            EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition2>(
-                false, typeof(VillageScene), typeof(PlayerSelectScene)
-            );
-            */
-
-            // <Scene>
-            //EngineGlobals.sceneManager.StartSceneTransition<PauseScene>();
-
-            // <Transition, Scene>
-            //EngineGlobals.sceneManager.StartSceneTransition<FadeSceneTransition, OptionsScene>();
-
-            // <Transition, Scene, SceneBelow>
+            // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.StartSceneTransition<
                 FadeSceneTransition2, PlayerSelectScene, VillageScene>(false);
 
@@ -60,9 +42,7 @@ namespace AdventureGame
             Vector2 playerPosition = new Vector2(680, 580);
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             if (player != null)
-            {
                 player.GetComponent<TransformComponent>().Position = playerPosition;
-            }
 
         }
 
@@ -71,6 +51,7 @@ namespace AdventureGame
             //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
             //        new List<Scene>() { new OptionsScene() }
             //    ));
+
             EngineGlobals.sceneManager.StartSceneTransition<
                 FadeSceneTransition2, OptionsScene>(false);
         }
@@ -82,21 +63,11 @@ namespace AdventureGame
         public void UnloadMenuScene(UIButton button)
         {
             EngineGlobals.soundManager.Volume = 0;
-
-            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-            //        new List<Scene>() {}, numScenesToUnload: 1
-            //    ));
-
-            //EngineGlobals.sceneManager.ChangeScene<
-            //    FadeSceneTransition, MenuScene>();
-
             EngineGlobals.sceneManager.UnloadAllScenes();
         }
 
         public MenuScene()
         {
-            
-
             EngineGlobals.DEBUG = false;
 
             UIButton.drawMethod = UICustomisations.DrawButton;
@@ -354,7 +325,6 @@ namespace AdventureGame
                 nextCatch = (int)r.Next(1500, 5000);
                 mainMenuPlayer.State = "caught";
             }
-            //S.WriteLine(EngineGlobals.sceneManager._sceneStack.Count + "  " + EngineGlobals.sceneManager.SceneList.Count);
         }
 
         public override void Draw(GameTime gameTime)

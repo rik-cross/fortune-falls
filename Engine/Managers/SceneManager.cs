@@ -8,12 +8,10 @@ namespace AdventureGame.Engine
     public class SceneManager
     {
         public List<Scene> _sceneStack;
-        // todo - change set to private
-        public Scene ActiveScene { get; set; }
+        public Scene ActiveScene { get; private set; }
         public Scene SceneBelow { get; private set; }
         // todo - move to PlayerManager?
         public Scene PlayerScene { get; private set; }
-        public SceneTransition Transition { get; set; }
         public SceneTransition2 Transition2 { get; set; }
 
         // todo - move to PlayerManager or delete?
@@ -39,18 +37,6 @@ namespace AdventureGame.Engine
 
         public void Update(GameTime gameTime)
         {
-            //if (Transition != null && Transition.Finished)
-            //    Transition = null;
-
-            //if (Transition != null)
-            //    Transition.Update(gameTime);
-
-            if (Transition != null && Transition.Finished) 
-                Transition = null;
-
-            if (Transition != null)
-                Transition.Update(gameTime);
-
             if (Transition2 != null && Transition2.Finished)
                 Transition2 = null;
 
@@ -75,7 +61,7 @@ namespace AdventureGame.Engine
 
             }
 
-            // CHECK update scene below if stack is > 1 here??
+            // todo - update scene below if stack is > 1 here??
             // Repeat EntitiesToDelete code too??
         }
 
@@ -87,9 +73,7 @@ namespace AdventureGame.Engine
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.graphicsDevice.Clear(Color.Black);
 
-            if (Transition != null)
-                Transition._Draw(gameTime);
-            else if (Transition2 != null)
+            if (Transition2 != null)
                 Transition2._Draw(gameTime);
             else
                 ActiveScene._Draw(gameTime);
@@ -315,7 +299,7 @@ namespace AdventureGame.Engine
         // Check if the scene stack is empty or a transition is in progress
         public bool IsSceneStackEmpty()
         {
-            return _sceneStack.Count == 0 && Transition == null;
+            return _sceneStack.Count == 0 && Transition2 == null;
         }
 
         // todo - is this needed or use _sceneStack.contains() ?
@@ -400,151 +384,6 @@ namespace AdventureGame.Engine
                     return null;
             }
         }
-
-        public void StartSceneTransition(SceneTransition transition)
-        {
-            Transition = transition;
-
-            //Transition = (SceneTransition2)Activator.CreateInstance(transition.GetType());
-
-            //Transition = new FadeSceneTransition2();
-            //Transition.StartTransition(transition.ToScenes);
-        }
-
-        
-        // todo - more methods for ChangeScene (no transition, single scene...)
-        // todo - change to ChangeScene
-        public void StartSceneTransition<T>(bool unloadCurrentScene, params Type[] scenes)
-            where T : new()
-        {
-            // check if scene transition is in progress
-            // if so, exit OR add to queue
-
-            object transition = new T();
-
-            if (transition is SceneTransition2)
-            {
-                List<Scene> sceneObjects = new List<Scene>();
-
-                foreach (Type s in scenes)
-                {
-                    Scene scene = LoadScene(s);
-                    if (scene != null)
-                        sceneObjects.Add(scene);
-                }
-
-                if (sceneObjects.Count > 0)
-                {
-                    Console.WriteLine($"\nStarting scene transition");
-                    //UnloadScene(ActiveScene);
-                    //Transition2 = (SceneTransition2)transition;
-                    //((SceneTransition2)transition).StartTransition(sceneObjects, unloadCurrentScene);
-                }
-            }
-
-            //Console.WriteLine($"SetActiveScene {scene.GetType().Name}, transition {applyTransition}");
-        }
-
-
-
-
-
-
-        public void StartSceneTransition(Type transition, List<Type> scenes)
-        {
-            object transitionObj = Activator.CreateInstance(transition);
-
-            if (transitionObj is SceneTransition)
-            {
-
-            }
-
-            // Create an instance of types[0] using the default constructor
-            object newObject = Activator.CreateInstance(scenes[0]);
-
-            //SceneTransition transition = new FadeSceneTransition(scenes);
-            //Transition = transition;
-        }
-
-
-        //public void StartSceneTransition<T>(T transition, params Type[] scenes) where T : SceneTransition
-        //{
-        //    //if (typeof(T) is SceneTransition)
-        //    //object transitionObj = Activator.CreateInstance(typeof(T));
-
-        //    //Scene sceneArray = new Scene[scenes.Length];
-
-
-        //    //// Get all public constructors for types[0]
-        //    //var ctors = scenes[0].GetConstructors(BindingFlags.Public);
-
-        //    //// Create a class of types[0] using the first constructor
-        //    //var object = ctors[0].Invoke(new object[] { });
-
-        //    //object newTransition = Activator.CreateInstance(transition);
-
-        //    // Create an instance of types[0] using the default constructor
-        //    //object newTransition = Activator.CreateInstance(transition,
-        //    //    new List<Scene>() { new VillageScene(), new PlayerSelectScene() },
-        //    //    2);
-
-        //    //SceneTransition newTransition = new typeof()
-        //    //Type myGeneric = typeof(SceneTransition<>);
-        //    //Type constructedClass = myGeneric.MakeGenericType(T);
-        //    //object newTransition = Activator.CreateInstance(transition);
-
-        //    object transitionObj = Activator.CreateInstance(typeof(T));
-
-        //    // Create an instance of types[0] using the default constructor
-        //    object newObject = Activator.CreateInstance(scenes[0]);
-
-        //    //SceneTransition transition = new FadeSceneTransition(scenes);
-
-        //    Transition = (SceneTransition)transitionObj;
-        //}
-
-        //public void StartSceneTransition<T>(Scene[] scenes) where T : new()
-
-        //public void StartSceneTransition<T>(List<T> scenes)
-        //public void StartSceneTransition(params Type[] scenes, int num)
-        //public void StartSceneTransition<T>(params Type[] scenes) where T : new()
-        //public void StartSceneTransition(Type transition, params Type[] scenes)
-
-        // Used to change the active scene during the game
-        public void SetActiveScene<T>(bool applyTransition = true,
-            bool unloadCurrentScene = true) where T : new()
-        {
-            if (Transition != null)
-                return;
-
-            object scene;
-            scene = CheckSceneExists<T>();
-
-            if (scene == null)
-            {
-                // Create a new instance of the given scene and load it
-                scene = new T();
-                if (scene is Scene)
-                    LoadScene((Scene)scene);
-            }
-
-            // Return if the scene failed to load
-            if (scene == null)
-                return;
-
-            //Console.WriteLine($"SetActiveScene {scene.GetType().Name}, transition {applyTransition}");
-
-            //// Otherwise change the scene
-            //if (applyTransition)
-            //{
-            //    // BUG: MainMenu transition = true then applies to PlayerSelectScene
-            //    // even though transition = false on Set and Remove scene
-            //    StartTransition((Scene)scene, unloadCurrentScene);
-            //}
-            //else
-            //    ChangeScene((Scene)scene, unloadCurrentScene);
-        }
-
         
         // todo - move method to another place e.g. PlayerManager?
 
@@ -592,7 +431,7 @@ namespace AdventureGame.Engine
                 return;
 
             // Store the player data if a transition is in process
-            if (Transition != null)
+            if (Transition2 != null)
             {
                 _playerNextScene = scene;
                 _playerNextScenePosition = playerPosition;
