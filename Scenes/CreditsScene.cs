@@ -1,33 +1,21 @@
 ﻿using AdventureGame.Engine;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended;
 
 using System;
 using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
 
-
 namespace AdventureGame
 {
     public class CreditsScene : Engine.Scene
     {
-        Engine.Text _title;
+        private Engine.Text _title;
 
-        List<Engine.Text> creditsList = new List<Text>();
-        List<string> creditsText;
+        private List<Engine.Text> _creditsList = new List<Text>();
+        private List<string> _creditsText;
 
-        public void UnloadCreditsScene(UIButton button)
+        public override void Init()
         {
-            EngineGlobals.sceneManager.StartSceneTransition<
-                FadeSceneTransition2, MenuScene>();
-        }
-
-        public CreditsScene()
-        {
-
             LightLevel = 1.0f;
             backgroundColour = Color.DarkSlateGray;
 
@@ -43,18 +31,18 @@ namespace AdventureGame
                 outlineColour: Color.Black
             );
 
-            creditsText = new List<string>() {
+            _creditsText = new List<string>() {
                 "Writers", "Alex Parry, Mac Bowley and Rik Cross", "rik-cross.github.com/adventure-game",
                 "Graphics",  "Sunnyside World by danieldiggle", "danieldiggle.itch.io",
                 "Sound", "TBC", "url TBC"
             };
             int padding = 200;
 
-            for(int i=0; i<creditsText.Count; i++)
+            for (int i = 0; i < _creditsText.Count; i++)
             {
-                creditsList.Add(
+                _creditsList.Add(
                     new Engine.Text(
-                        caption: creditsText[i],
+                        caption: _creditsText[i],
                         font: Theme.FontSecondary,
                         colour: Color.White,//Theme.TextColorSecondary,
                         anchor: Anchor.TopCenter,
@@ -79,32 +67,38 @@ namespace AdventureGame
                 )
             );
 
-            
+        }
 
+        public void UnloadCreditsScene(UIButton button)
+        {
+            EngineGlobals.sceneManager.ChangeScene<
+                FadeSceneTransition, MenuScene>();
         }
 
         public override void OnEnter()
         {
             
         }
+
         public override void OnExit()
         {
 
         }
+
         public override void Input(GameTime gameTime)
         {
 
         }
+
         public override void Update(GameTime gameTime)
         {
-
 
         }
 
         public override void Draw(GameTime gameTime)
         {
             _title.Draw();
-            foreach (Engine.Text t in creditsList)
+            foreach (Engine.Text t in _creditsList)
                 t.Draw();
         }
 

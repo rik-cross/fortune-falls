@@ -16,7 +16,7 @@ namespace AdventureGame.Engine
             InputComponent inputComponent = entity.GetComponent<InputComponent>();
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
             
-            if (EngineGlobals.sceneManager.Transition2 != null)
+            if (EngineGlobals.sceneManager.Transition != null)
             {
                 intentionComponent.Reset();
                 //entity.State = "idle";

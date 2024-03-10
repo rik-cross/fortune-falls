@@ -1,28 +1,18 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-
 using MonoGame.Extended;
+
+using System;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
-    
-    public class FadeSceneTransition2 : SceneTransition2
+    public class FadeSceneTransition : SceneTransition
     {
-        public FadeSceneTransition2()
+        public FadeSceneTransition()
         {
+
         }
-
-        //public FadeSceneTransition(List<Scene> toScenes, int numScenesToUnload = 0)
-        //    : base(toScenes, numScenesToUnload)
-        //{
-        //}
-
-        //public override void StartTransition(List<Scene> toScenes, int numScenesToUnload = 0)
-        //{
-
-        //}
 
         public override void Draw(GameTime gameTime)
         {

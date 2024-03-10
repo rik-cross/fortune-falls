@@ -1,15 +1,14 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using S = System.Diagnostics.Debug;
 
-using Microsoft.Xna.Framework.Graphics;
+using System;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
     public class VillageScene : Scene
     {
-        public VillageScene()
+        public override void Init()
         {
             EngineGlobals.DEBUG = false;
         }
@@ -228,9 +227,13 @@ namespace AdventureGame
             }
         }
 
-        public override void Input(GameTime gameTime)
+        public override void OnExit()
         {
 
+        }
+
+        public override void Input(GameTime gameTime)
+        {
             if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Up))
             {
                 GetCameraByName("main").SetZoom(10.0f);
@@ -240,21 +243,14 @@ namespace AdventureGame
                 GetCameraByName("main").SetZoom(1.0f);
             }
 
-
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
-            {
-                EngineGlobals.sceneManager.StartSceneTransition<PauseScene>(false);
-            }
+                EngineGlobals.sceneManager.ChangeScene<PauseScene>(false);
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
-            {
-                EngineGlobals.sceneManager.StartSceneTransition<InventoryScene2>(false);
-            }
+                EngineGlobals.sceneManager.ChangeScene<InventoryScene2>(false);
 
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
-            {
-                EngineGlobals.sceneManager.StartSceneTransition<DevToolsScene>(false);
-            }
+                EngineGlobals.sceneManager.ChangeScene<DevToolsScene>(false);
         }
 
         public override void Update(GameTime gameTime)

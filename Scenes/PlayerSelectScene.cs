@@ -1,14 +1,8 @@
 ﻿using AdventureGame.Engine;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended;
 
 using System;
-using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
-
 
 namespace AdventureGame
 {
@@ -16,7 +10,6 @@ namespace AdventureGame
     {
         private Engine.Text _title;
 
-        //public PlayerSelectScene()
         public override void Init()
         {
             EngineGlobals.DEBUG = false;
@@ -40,7 +33,8 @@ namespace AdventureGame
             );
 
             float screenMiddle = Globals.ScreenHeight / 2;
-            
+
+            // player select slider
             UIMenu.AddUIElement(
                 new UISlider(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
@@ -68,7 +62,8 @@ namespace AdventureGame
                     currentValue: Globals.playerIndex
                 )
             );
-            
+
+            // ok button
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 200),
@@ -98,6 +93,7 @@ namespace AdventureGame
             //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
             //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
         }
+
         public override void OnExit()
         {
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
@@ -107,15 +103,12 @@ namespace AdventureGame
             //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
             EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f);
 
+            // add the player movement tutorial
             Engine.AnimatedEmoteComponent movementEmote;
             if (player.GetComponent<InputComponent>().input == Engine.Inputs.controller)
-            {
                 movementEmote = GameAssets.controllerMovementEmote;
-            }
             else
-            {
                 movementEmote = GameAssets.keyboardMovementEmote;
-            }
 
             movementEmote.alpha.Value = 1;
 
@@ -140,12 +133,10 @@ namespace AdventureGame
             );
 
         }
+
         public override void Input(GameTime gameTime)
         {
-            // todo -- remove this
-            //if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-            //    EngineGlobals.sceneManager.RemoveScene(this);
-            //    UnloadMenuScene(null);
+
         }
 
         public override void Update(GameTime gameTime)

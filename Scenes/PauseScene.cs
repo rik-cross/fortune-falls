@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using AdventureGame.Engine;
-
+﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended;
-
+using System;
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
@@ -17,12 +9,11 @@ namespace AdventureGame
     public class PauseScene : Engine.Scene
     {
         private Engine.Text _title;
+
         public override void Init()
         {
             DrawSceneBelow = true;
             backgroundColour = Color.Black * 0.5f;
-
-            
 
             // title text
             _title = new Engine.Text(
@@ -71,10 +62,12 @@ namespace AdventureGame
         {
             EngineGlobals.soundManager.Volume /= 3;
         }
+
         public override void OnExit()
         {
             EngineGlobals.soundManager.Volume *= 3;
         }
+
         public override void Input(GameTime gameTime)
         {
             //if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
@@ -82,7 +75,6 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
-
 
         }
 
