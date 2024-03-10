@@ -134,16 +134,40 @@ namespace AdventureGame
                 size: new Vector2(170, 170),
                 offset: new Vector2(-40, -40),
                 onCollisionEnter: (Entity e1, Entity e2, float d) => {
-                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(5.0f);
-                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
+                    if (e2.IsLocalPlayer())
+                    {
+                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(5.0f);
+                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
+                    }
                 },
                 onCollisionExit: (Entity e1, Entity e2, float d) => {
-                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
-                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                    if (e2.IsLocalPlayer())
+                    {
+                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
+                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                    }
                 }
             );
             playerHouse.AddComponent(tc);
             AddEntity(playerHouse);
+
+            // Player house - scene entrance trigger
+            Entity playerHouseEntrance = EngineGlobals.entityManager.CreateEntity();
+            playerHouseEntrance.AddComponent(new Engine.TransformComponent(688, 235, 16, 10));
+            Engine.TriggerComponent pHouseTC = new TriggerComponent(
+                size: new Vector2(16, 10),
+                //offset: new Vector2(15, 15),
+                onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
+                    if (otherEntity.IsLocalPlayer())
+                    {
+                        Vector2 playerPosition = new Vector2(50, 50);
+                        EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
+                        EngineGlobals.playerManager.ChangePlayerScene(playerPosition); 
+                    }
+                }
+            );
+            playerHouseEntrance.AddComponent(pHouseTC);
+            AddEntity(playerHouseEntrance);
 
             // Player's House trees
             AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false));

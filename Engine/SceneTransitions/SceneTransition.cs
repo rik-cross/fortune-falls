@@ -13,8 +13,9 @@ namespace AdventureGame.Engine
         protected bool UnloadCurrentScene { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
-        protected bool HasSceneChanged { get; set; }
-        public bool Finished { get; set; }
+
+        public bool HasSceneChanged { get; private set; }
+        public bool Finished { get; private set; }
 
 
         public SceneTransition()

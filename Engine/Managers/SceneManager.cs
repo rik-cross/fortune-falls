@@ -13,12 +13,6 @@ namespace AdventureGame.Engine
         public Scene SceneBelow { get; private set; }
         public SceneTransition Transition { get; private set; }
 
-        // todo - move to PlayerManager or delete?
-        // Stores the player data if a transition is in process
-        public Scene _playerNextScene;
-        public Entity _playerNextSceneEntity;
-        public Vector2 _playerNextScenePosition;
-
         // todo - remove parameters and SetScreenSize?
         public SceneManager(int screenWidth = 0, int screenHeight = 0)
         {
@@ -81,7 +75,7 @@ namespace AdventureGame.Engine
         // Load a scene using Type t and add it to top of stack
         private Scene LoadScene(Type t)
         {
-            Scene existingScene = CheckSceneExists(t);
+            Scene existingScene = GetScene(t);
             if (existingScene == null)
             {
                 Console.WriteLine($"LoadScene {t}");
@@ -146,8 +140,14 @@ namespace AdventureGame.Engine
             return _sceneStack.Count == 0 && Transition == null;
         }
 
-        // Check whether the scene already exists in the scene list
-        public Scene CheckSceneExists(Type t)
+        // Return a scene if it already exists in the stack. Otherwise return null.
+        public Scene GetScene<TScene>()
+        {
+            return GetScene(typeof(TScene));
+        }
+
+        // Return a scene if it already exists in the stack. Otherwise return null.
+        public Scene GetScene(Type t)
         {
             Console.WriteLine($"\nChecking if scene {t} already exists - count {_sceneStack.Count}");
 
@@ -328,49 +328,6 @@ namespace AdventureGame.Engine
             ActiveScene.GetCameraByName("main").trackedEntity = player;
             ActiveScene.GetCameraByName("minimap").trackedEntity = player;
             */
-        }
-
-        // todo - move method to another place e.g. PlayerManager?
-        // Add a parameter for displaying the minicamera?
-        // Change the player entity and cameras from one scene to another
-        public void ChangePlayerScene(Scene nextScene, Vector2 playerPosition = default,
-            Entity player = null)
-        {
-            if (player == null)
-                player = EngineGlobals.entityManager.GetLocalPlayer();
-
-            Scene playerScene;
-            if (player != null)
-                playerScene = player.GetComponent<SceneComponent>().Scene;
-            else
-                return;
-
-            if (playerScene == null)
-                return;
-
-            // Remove the player from the current scene
-            if (playerScene != null)
-            {
-                playerScene.GetCameraByName("main").trackedEntity = null;
-                //PlayerScene.GetCameraByName("minimap").trackedEntity = null;
-                playerScene.RemoveEntity(player);
-            }
-
-            // Add the player to the next scene
-            TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
-            transformComponent.Position = playerPosition;
-            nextScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
-            //nextScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);
-            nextScene.AddEntity(player);
-            nextScene.GetCameraByName("main").trackedEntity = player;
-            //nextScene.GetCameraByName("minimap").trackedEntity = player;
-            playerScene = nextScene;
-
-            // Reset the player next scene fields
-            _playerNextScene = null;
-            _playerNextScenePosition = Vector2.Zero;
-            _playerNextSceneEntity = null;
-
         }
     }
 
