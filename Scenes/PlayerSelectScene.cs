@@ -78,62 +78,70 @@ namespace AdventureGame
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: (UIButton button) => {
-                        //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
-                        //Console.WriteLine("OK");
-                        EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                            new List<Scene>() { }, numScenesToUnload: 1
-                        ));
+                    func: (UIButton button) =>
+                    {
+                        //EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                        //    new List<Scene>() { }, numScenesToUnload: 1
+                        //));
+                        EngineGlobals.sceneManager.ChangeToSceneBelow();
+                        //EngineGlobals.sceneManager.StartSceneTransition<VillageScene>();
                     }
+                    //func: UnloadPlayerSelectScene
                 )
             );
-            
-
         }
+
+        //public void UnloadPlayerSelectScene(UIButton button)
+        //{
+        //    EngineGlobals.sceneManager.StartSceneTransition<VillageScene>();
+        //}
 
         public override void OnEnter()
         {
             //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
+            //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
 
             EngineGlobals.sceneManager.GetSceneBelow().AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
-            //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
         }
         public override void OnExit()
         {
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
-            EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(4.0f);
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
 
-            Engine.AnimatedEmoteComponent movementEmote;
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
-            {
-                movementEmote = GameAssets.controllerMovementEmote;
-            }
-            else
-            {
-                movementEmote = GameAssets.keyboardMovementEmote;
-            }
+            Console.WriteLine($"PSS exit: {EngineGlobals.sceneManager.GetSceneBelow()}");
 
-            movementEmote.alpha.Value = 1;
+            //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(4.0f);
 
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>().AddTutorial(
-                new Engine.Tutorial(
-                    name: "Walk",
-                    description: "Use controls to walk around the world",
-                    onStart: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
-                    },
-                    condition: () => {
-                        return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
-                    },
-                    numberOfTimes: 60,
-                    onComplete: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
-                    }
-                )
-            );
+            //Engine.AnimatedEmoteComponent movementEmote;
+            //if (player.GetComponent<InputComponent>().input == Engine.Inputs.controller)
+            //{
+            //    movementEmote = GameAssets.controllerMovementEmote;
+            //}
+            //else
+            //{
+            //    movementEmote = GameAssets.keyboardMovementEmote;
+            //}
+
+            //movementEmote.alpha.Value = 1;
+
+            //player.GetComponent<TutorialComponent>().AddTutorial(
+            //    new Engine.Tutorial(
+            //        name: "Walk",
+            //        description: "Use controls to walk around the world",
+            //        onStart: () => {
+            //            player.AddComponent<AnimatedEmoteComponent>(movementEmote);
+            //        },
+            //        condition: () => {
+            //            return EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.left) ||
+            //                EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.right) ||
+            //                EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.up) ||
+            //                EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.down);
+            //        },
+            //        numberOfTimes: 60,
+            //        onComplete: () => {
+            //            player.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+            //        }
+            //    )
+            //);
 
         }
         public override void Input(GameTime gameTime)
