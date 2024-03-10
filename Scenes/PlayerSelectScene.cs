@@ -84,6 +84,7 @@ namespace AdventureGame
                         EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
                             new List<Scene>() { }, numScenesToUnload: 1
                         ));
+                        EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
                     }
                 )
             );

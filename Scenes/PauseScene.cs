@@ -46,9 +46,7 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                            new List<Scene>() {}, numScenesToUnload: 1
-                        ));
+                        EngineGlobals.sceneManager.ChangeToSceneBelow();
                     }
                 )
             );
@@ -63,9 +61,7 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                            new List<Scene>() { }, numScenesToUnload: 2
-                        ));
+                        EngineGlobals.sceneManager.UnloadAllScenes();
                     }
                 )
             );

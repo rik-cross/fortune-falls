@@ -155,6 +155,7 @@ namespace AdventureGame.Engine
             int index = _sceneStack.IndexOf(scene);
             if (index != -1)
             {
+                scene.UpdateSceneBelow = false;
                 scene._OnExit();
                 scene._UnloadContent();
                 _sceneStack.RemoveAt(index);
@@ -205,6 +206,26 @@ namespace AdventureGame.Engine
         //        ActiveScene = null;
         //}
 
+        // Change active scene to scene below if it exists
+        public void ChangeToSceneBelow(Scene scene = null, bool unloadCurrentScene = true)
+        {
+            if (scene == null)
+                SetActiveScene(unloadCurrentScene);
+            else
+            {
+                Scene sceneBelow = GetSceneBelow(scene);
+                if (sceneBelow != null)
+                {
+                    if (unloadCurrentScene)
+                        UnloadScene(scene);
+
+                    ActiveScene = sceneBelow;
+                    ActiveScene.OnEnter();
+                }
+            }
+            Console.WriteLine("\nChange to scene below");
+            Console.WriteLine(string.Join(", ", _sceneStack));
+        }
 
 
         // todo - change to ChangeScene
