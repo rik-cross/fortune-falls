@@ -105,9 +105,8 @@ namespace AdventureGame
             }
             else
             {
-                EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new MenuScene() }
-                ));
+                EngineGlobals.sceneManager.StartSceneTransition<
+                    FadeSceneTransition2, MenuScene>();
             }
                 
 

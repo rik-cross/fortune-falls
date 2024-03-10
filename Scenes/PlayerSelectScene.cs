@@ -81,10 +81,10 @@ namespace AdventureGame
                     func: (UIButton button) => {
                         //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
                         //Console.WriteLine("OK");
-                        EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                            new List<Scene>() { }, numScenesToUnload: 1
-                        ));
-                        EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
+                        //EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                        //    new List<Scene>() { }, numScenesToUnload: 1
+                        //));
+                        EngineGlobals.sceneManager.StartSceneTransition<VillageScene>();
                     }
                 )
             );

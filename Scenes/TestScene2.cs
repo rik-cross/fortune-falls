@@ -166,11 +166,7 @@ namespace AdventureGame
             if (frame == 60 && Globals.newGame)
             {
                 Globals.newGame = false;
-                EngineGlobals.sceneManager.StartSceneTransition(
-                    new NoSceneTransition(
-                        new List<Scene>() { new PlayerSelectScene() }
-                    )
-                );
+                EngineGlobals.sceneManager.StartSceneTransition<PlayerSelectScene>();
             }
 
         }

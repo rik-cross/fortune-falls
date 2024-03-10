@@ -189,7 +189,7 @@ namespace AdventureGame.Engine
             }
             else
                 ActiveScene = null;
-            Console.WriteLine($"Active scene: {ActiveScene}, scene below: {SceneBelow}");
+            Console.WriteLine($"Active scene: {ActiveScene}\nScene below: {SceneBelow}");
         }
 
         //public void SetActiveScene()
@@ -218,6 +218,7 @@ namespace AdventureGame.Engine
             }
             Console.WriteLine("\nChange to scene below");
             Console.WriteLine(string.Join(", ", _sceneStack));
+            Console.WriteLine($"Active scene: {ActiveScene}\nScene below: {SceneBelow}");
         }
 
 

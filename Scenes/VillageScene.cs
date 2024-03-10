@@ -243,23 +243,17 @@ namespace AdventureGame
 
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             {
-                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                    new List<Scene>() { new PauseScene() }
-                ));
+                EngineGlobals.sceneManager.StartSceneTransition<PauseScene>(false);
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
             {
-                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                    new List<Scene>() { new InventoryScene2() }
-                ));
+                EngineGlobals.sceneManager.StartSceneTransition<InventoryScene2>(false);
             }
 
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
             {
-                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                    new List<Scene>() { new DevToolsScene() }
-                ));
+                EngineGlobals.sceneManager.StartSceneTransition<DevToolsScene>(false);
             }
         }
 
