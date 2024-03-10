@@ -7,9 +7,10 @@ namespace AdventureGame.Engine
 {
     public class SceneManager
     {
-        // todo - change to _sceneList
         public List<Scene> _sceneStack;
+        // todo - change set to private
         public Scene ActiveScene { get; set; }
+        public Scene SceneBelow { get; private set; }
         // todo - move to PlayerManager?
         public Scene PlayerScene { get; private set; }
         public SceneTransition Transition { get; set; }
@@ -178,7 +179,8 @@ namespace AdventureGame.Engine
             //if (scene != null)
         }
 
-        // Set the active scene to the scene at the top of the scene stack
+        // Set ActiveScene to the scene at the top of the scene stack
+        // and SceneBelow if there is one. Otherwise set scene(s) to null.
         public void SetActiveScene(bool unloadCurrentScene)
         {
             if (unloadCurrentScene)
@@ -187,10 +189,15 @@ namespace AdventureGame.Engine
             if (_sceneStack.Count > 0)
             {
                 ActiveScene = _sceneStack[^1];
+                if (_sceneStack.Count > 1)
+                    SceneBelow = _sceneStack[^2];
+                else
+                    SceneBelow = null;
                 ActiveScene.OnEnter();
             }
             else
                 ActiveScene = null;
+            Console.WriteLine($"Active scene: {ActiveScene}, scene below: {SceneBelow}");
         }
 
         //public void SetActiveScene()
@@ -207,21 +214,15 @@ namespace AdventureGame.Engine
         //}
 
         // Change active scene to scene below if it exists
-        public void ChangeToSceneBelow(Scene scene = null, bool unloadCurrentScene = true)
+        public void ChangeToSceneBelow(bool unloadCurrentScene = true)
         {
-            if (scene == null)
-                SetActiveScene(unloadCurrentScene);
-            else
+            if (unloadCurrentScene)
+                SetActiveScene(true);
+            else if (_sceneStack.Count > 1)
             {
-                Scene sceneBelow = GetSceneBelow(scene);
-                if (sceneBelow != null)
-                {
-                    if (unloadCurrentScene)
-                        UnloadScene(scene);
-
-                    ActiveScene = sceneBelow;
-                    ActiveScene.OnEnter();
-                }
+                // Move the scene below to top of stack
+                if (MoveSceneToTop(SceneBelow))
+                    SetActiveScene(false);
             }
             Console.WriteLine("\nChange to scene below");
             Console.WriteLine(string.Join(", ", _sceneStack));
@@ -286,7 +287,7 @@ namespace AdventureGame.Engine
             object transition = new TTransition();
             if (transition is SceneTransition2)
             {
-                // Load both scenes and ensure they are at the top of the stack
+                // Load both scenes and ensure they are the top 2 in the stack
                 Scene sceneBelow = LoadScene(typeof(TSceneBelow));
                 if (sceneBelow != null)
                     MoveSceneToTop(sceneBelow);
@@ -297,10 +298,7 @@ namespace AdventureGame.Engine
                 if (scene != null)
                     MoveSceneToTop(scene);
                 else
-                {
-                    UnloadScene(sceneBelow); // Clean up in case scene is not valid
                     return;
-                }
 
                 // Start a new scene transition
                 Console.WriteLine($"\nStarting scene transition");
@@ -369,12 +367,13 @@ namespace AdventureGame.Engine
             return null;
         }
 
-        // Move a scene to the top of the stack if it is not there already
-        public void MoveSceneToTop(Scene scene)
+        // Move a scene to the top of the stack if it is not there already.
+        // Return true if carried out successfully.
+        public bool MoveSceneToTop(Scene scene)
         {
             Console.WriteLine($"Moving scene {scene} to top of stack");
             Console.WriteLine(string.Join(", ", _sceneStack));
-            if (_sceneStack.Count > 1)
+            if (_sceneStack.Count > 1 && scene != null)
             {
                 int index = _sceneStack.IndexOf(scene);
 
@@ -384,32 +383,23 @@ namespace AdventureGame.Engine
                     Scene temp = _sceneStack[index];
                     _sceneStack.RemoveAt(index);
                     _sceneStack.Add(temp);
+                    return true;
                 }
             }
             Console.WriteLine(string.Join(", ", _sceneStack));
+            return false;
         }
 
-        // Return the next scene in the stack if there is one, otherwise returns null
-        public Scene GetNextScene()
-        {
-            if (_sceneStack.Count > 1)
-                return _sceneStack[^2];
-            else
-                return null;
-        }
-
-        // Returns the scene below if there are any more scenes on the stack.
-        // Returns null if no scene below exists.
+        // Return SceneBelow if no scene is given. Otherwise search for the given scene
+        // and return the scene below in the stack if there is one.
+        // Return null if no scene below exists.
         public Scene GetSceneBelow(Scene scene = null)
         {
-            // Return the next scene in the stack
             if (scene == null)
-            {
-                return GetNextScene();
-            }
-            // Return the scene below the given scene if there is one
+                return SceneBelow;
             else
             {
+                // Return the scene below the given scene if there is one
                 int sceneIndex = _sceneStack.IndexOf(scene);
                 if (sceneIndex > 0 && sceneIndex < _sceneStack.Count)
                     return _sceneStack[sceneIndex - 1];
@@ -417,8 +407,6 @@ namespace AdventureGame.Engine
                     return null;
             }
         }
-
-
 
         public void StartSceneTransition(SceneTransition transition)
         {

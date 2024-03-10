@@ -426,7 +426,7 @@ namespace AdventureGame.Engine
         {
             if(InputSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow();
+                Scene sceneBelow = _sceneManager.SceneBelow;
                 if (sceneBelow != null)
                     sceneBelow._Input(gameTime);
             }
@@ -568,7 +568,7 @@ namespace AdventureGame.Engine
 
             if (UpdateSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow();
+                Scene sceneBelow = _sceneManager.SceneBelow;
                 if (sceneBelow != null)
                     sceneBelow._Update(gameTime);
             }
@@ -583,7 +583,7 @@ namespace AdventureGame.Engine
 
             if (DrawSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow();
+                Scene sceneBelow = _sceneManager.SceneBelow;
                 if (sceneBelow != null)
                     sceneBelow._Draw(gameTime);
             }

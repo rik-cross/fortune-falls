@@ -96,13 +96,13 @@ namespace AdventureGame
         {
             //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
 
-            EngineGlobals.sceneManager.GetSceneBelow().AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
+            EngineGlobals.sceneManager.SceneBelow.AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
             //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
         }
         public override void OnExit()
         {
             //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
-            EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(4.0f);
+            EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f);
 
             Engine.AnimatedEmoteComponent movementEmote;
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
