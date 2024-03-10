@@ -22,6 +22,8 @@ namespace AdventureGame
             DrawSceneBelow = true;
             backgroundColour = Color.Black * 0.5f;
 
+            
+
             // title text
             _title = new Engine.Text(
                 caption: "Game Paused",
@@ -44,7 +46,9 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.ChangeToSceneBelow();
+                        EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                            new List<Scene>() {}, numScenesToUnload: 1
+                        ));
                     }
                 )
             );
@@ -59,7 +63,9 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.UnloadAllScenes();
+                        EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
+                            new List<Scene>() { }, numScenesToUnload: 2
+                        ));
                     }
                 )
             );
@@ -80,6 +86,7 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
+
 
         }
 

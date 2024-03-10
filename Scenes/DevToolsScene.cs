@@ -133,7 +133,10 @@ namespace AdventureGame
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
             {
-                EngineGlobals.sceneManager.ChangeToSceneBelow();
+                //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
+                    new List<Scene>() { }, numScenesToUnload: 1
+                ));
             }
         }
         public override void Update(GameTime gameTime)

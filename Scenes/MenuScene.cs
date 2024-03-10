@@ -56,12 +56,6 @@ namespace AdventureGame
             EngineGlobals.sceneManager.StartSceneTransition<
                 FadeSceneTransition2, PlayerSelectScene, VillageScene>(false);
 
-            //EngineGlobals.sceneManager.StartSceneTransition<VillageScene>(false);
-            //EngineGlobals.sceneManager.StartSceneTransition<
-            //    FadeSceneTransition2, PlayerSelectScene>(false);
-
-            Console.WriteLine("MM LOADGAMESCENE");
-
             // Position the player
             Vector2 playerPosition = new Vector2(680, 580);
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();

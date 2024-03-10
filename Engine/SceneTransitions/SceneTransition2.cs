@@ -13,7 +13,6 @@ namespace AdventureGame.Engine
 
         //protected Scene[] ToScenes { get; set; }
         //protected List<Scene> ToScenes { get; set; }
-        protected Scene NextScene { get; set; }
         protected bool UnloadCurrentScene { get; set; }
         //protected int NumberOfScenesToUnload { get; set; }
         protected float Percentage { get; set; }
@@ -34,10 +33,9 @@ namespace AdventureGame.Engine
             Finished = false;
         }
 
-        public void StartTransition(Scene nextScene, bool unloadCurrentScene = true)
+        public void StartTransition(bool unloadCurrentScene = true)
         {
             //ToScenes = toScenes;
-            NextScene = nextScene;
             UnloadCurrentScene = unloadCurrentScene;
             //NumberOfScenesToUnload = numScenesToUnload;
         }
@@ -56,7 +54,7 @@ namespace AdventureGame.Engine
 
                 _hasSceneChanged = true;
 
-                _sceneManager.SetActiveScene(NextScene, UnloadCurrentScene);
+                _sceneManager.SetActiveScene(UnloadCurrentScene);
 
                 /*
                 if (UnloadCurrentScene)
