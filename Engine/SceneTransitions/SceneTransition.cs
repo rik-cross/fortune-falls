@@ -47,7 +47,7 @@ namespace AdventureGame.Engine
                 _sceneManager.SetActiveScene(UnloadCurrentScene);
             }
 
-            if (Percentage == 100)
+            if (Percentage >= 100)
             {
                 Finished = true;
             }
