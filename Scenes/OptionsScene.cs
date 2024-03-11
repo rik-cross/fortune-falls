@@ -146,14 +146,7 @@ namespace AdventureGame
 
         public void UnloadOptionsScene(UIButton button)
         {
-            //EngineGlobals.sceneManager.RemoveScene(this);
-
-            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-            //        new List<Scene>() { }, numScenesToUnload: 1
-            //    ));
-
-            EngineGlobals.sceneManager.ChangeScene<
-                FadeSceneTransition, MenuScene>();
+            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
         }
 
         public void SetMute(UIButton button)
@@ -168,40 +161,32 @@ namespace AdventureGame
 
         public void UpdateMusicVolume(UISlider button)
         {
-
             button.HandleInput();
             if (EngineGlobals.soundManager.Mute)
             {
                 button.active = false;
-                //S.WriteLine("fff");
             }
             else
             {
                 button.active = true;
-                //S.WriteLine("ttt");
             }
 
             button.currentValue = EngineGlobals.soundManager._targetVolume;
-
         }
 
         public void UpdateSFXVolume(UISlider button)
         {
-
             button.HandleInput();
             if (EngineGlobals.soundManager.Mute)
             {
                 button.active = false;
-                //S.WriteLine("fff");
             }
             else
             {
                 button.active = true;
-                //S.WriteLine("ttt");
             }
 
             button.currentValue = EngineGlobals.soundManager.SFXVolume;
-
         }
 
         public override void OnEnter()
