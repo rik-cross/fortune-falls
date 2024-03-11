@@ -1,113 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
 using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
     public class UIMenu
     {
-        public List<UIElement> UIElements;
-        public int activeElementIndex;
+        private List<UIElement> _UIElements;
+        private int _selectedElementIndex;
+
         public UIMenu()
         {
-            UIElements = new List<UIElement>();
-            activeElementIndex = 0;
+            _UIElements = new List<UIElement>();
+            _selectedElementIndex = -1;
         }
-        public void AddUIElement(UIElement UIElement)
+
+        public void AddUIElement(UIElement uiElement)
         {
-            UIElements.Add(UIElement);
-
-            for (int i = 0; i < UIElements.Count-1; i++)
+            if (_selectedElementIndex == -1 && uiElement.active)
             {
-                if (UIElements[i].active)
-                {
-                    UIElements[i].selected = true;
-                    activeElementIndex = i;
-                    return;
-                }
+                uiElement.selected = true;
+                _selectedElementIndex = _UIElements.Count;
             }
 
-            if (UIElements.Count == 1 && UIElement.active == true)
+            _UIElements.Add(uiElement);
+        }
+
+        public void SetSelected(UIButton uiButton)
+        {
+            int index = _UIElements.IndexOf(uiButton);
+            if (index != -1 && _UIElements[index].active)
             {
-                UIElement.selected = true;
+                if (_selectedElementIndex != -1)
+                    _UIElements[_selectedElementIndex].selected = false;
+                _UIElements[index].selected = true;
+                _selectedElementIndex = index;
             }
         }
+
         public void Update()
         {
-
-            if (UIElements.Count == 0)
+            if (_UIElements.Count == 0 || _selectedElementIndex == -1)
                 return;
 
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == null)
+            InputComponent inputComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>();
+
+            if (inputComponent.input == null)
                 return;
 
-            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down))
+            if (EngineGlobals.inputManager.IsPressed(inputComponent.input.down) &&
+                _UIElements.Count > 1)
             {
+                int count = _UIElements.Count;
+                int newIndex;
 
-                // check for another active element below...
-
-                if (activeElementIndex == UIElements.Count - 1)
-                    return;
-
-
-                //int newIndex = activeElementIndex;
-
-                for (int i=activeElementIndex+1; i<UIElements.Count; i++)
+                for (int i = 1; i < count; i++)
                 {
-                    if(UIElements[i].active)
+                    newIndex = (_selectedElementIndex + i) % count;
+
+                    if (_UIElements[newIndex].active)
                     {
-                        UIElements[activeElementIndex].selected = false;
-                        //newIndex = i;
-                        activeElementIndex = i;
-                        UIElements[activeElementIndex].selected = true;
+                        _UIElements[_selectedElementIndex].selected = false;
+                        _UIElements[newIndex].selected = true;
+                        _selectedElementIndex = newIndex;
                         break;
                     }
                 }
-
-
-                //activeElementIndex = newIndex;
-
             }
-            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up))
-            {
-                if (activeElementIndex == 0)
-                    return;
 
-                for (int i = activeElementIndex - 1; i>=0; i--)
+            if (EngineGlobals.inputManager.IsPressed(inputComponent.input.up) &&
+                _UIElements.Count > 1)
+            {
+                int count = _UIElements.Count;
+                int newIndex;
+
+                for (int i = count - 1; i >= 1; i--)
                 {
-                    if (UIElements[i].active)
+                    newIndex = (_selectedElementIndex + i) % count;
+
+                    if (_UIElements[newIndex].active)
                     {
-                        UIElements[activeElementIndex].selected = false;
-                        //newIndex = i;
-                        activeElementIndex = i;
-                        UIElements[activeElementIndex].selected = true;
+                        _UIElements[_selectedElementIndex].selected = false;
+                        _UIElements[newIndex].selected = true;
+                        _selectedElementIndex = newIndex;
                         break;
                     }
                 }
-
             }
 
-            //if (activeElementIndex >= 0 && activeElementIndex < UIElements.Count)
-            //UIElements[activeElementIndex].Update();
-
-            //if (EngineGlobals.inputManager.IsPressed(Inputs.keyboard.button1))
-            //{
-            //    UIElements[activeElementIndex].Execute();
-            //}
-            
-            foreach (UIElement UIElement in UIElements)
+            foreach (UIElement UIElement in _UIElements)
             {
                 UIElement.Update();
             }
         }
+
         public void Draw()
         {
-            if (UIElements.Count == 0)
+            if (_UIElements.Count == 0)
                 return;
 
-            foreach (UIElement UIElement in UIElements)
+            foreach (UIElement UIElement in _UIElements)
                 UIElement.Draw();
         }
     }

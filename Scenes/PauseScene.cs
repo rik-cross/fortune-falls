@@ -52,6 +52,15 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
+                        MenuScene menuScene = (MenuScene)EngineGlobals.sceneManager.GetScene<MenuScene>();
+                        if (menuScene != null)
+                        {
+                            menuScene.BtnContinue.active = true;
+                            menuScene.UIMenu.SetSelected(menuScene.BtnContinue);
+                            //menuScene.BtnContinue.selected = true;
+                            // todo - set the button to selected, deselect the first button
+                            // and update _activeElementIndex
+                        }
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
                     }
                 )

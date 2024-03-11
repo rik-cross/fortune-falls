@@ -8,6 +8,8 @@ namespace AdventureGame
 {
     public class MenuScene : Engine.Scene
     {
+        public Engine.UIButton BtnContinue { get; private set; }
+
         private Engine.Text _title;
         private Engine.Image _keyboardImage;
         private Engine.Image _controllerImage;
@@ -162,23 +164,22 @@ namespace AdventureGame
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: LoadGameScene
+                    func: LoadNewGameScene
                 )
             );
 
-            UIMenu.AddUIElement(
-                new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 250),
-                    size: new Vector2(140, 45),
-                    text: "Continue",
-                    textColour: Color.White,
-                    outlineColour: Color.White,
-                    outlineThickness: 2,
-                    backgroundColour: Color.DarkSlateGray,
-                    func: null,
-                    active: false
-                )
+            BtnContinue = new UIButton(
+                position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 250),
+                size: new Vector2(140, 45),
+                text: "Continue",
+                textColour: Color.White,
+                outlineColour: Color.White,
+                outlineThickness: 2,
+                backgroundColour: Color.DarkSlateGray,
+                func: LoadContinueGameScene,
+                active: false
             );
+            UIMenu.AddUIElement(BtnContinue);
 
             UIMenu.AddUIElement(
                 new UIButton(
@@ -236,11 +237,12 @@ namespace AdventureGame
 
         }
 
-        public void LoadGameScene(UIButton button)
+        public void LoadNewGameScene(UIButton button)
         {
-            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-            //        new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
-            //    ));
+            Globals.newGame = true;
+
+            // todo - reset Village scene (if it exists)
+
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
@@ -252,14 +254,25 @@ namespace AdventureGame
             if (player != null)
                 player.GetComponent<TransformComponent>().Position = playerPosition;
 
+            // Clear necessary player components if a game has already been started
+            if (player.GetComponent<TutorialComponent>() != null)
+                player.GetComponent<TutorialComponent>().ClearTutorials();
+
+        }
+
+        public void LoadContinueGameScene(UIButton button)
+        {
+            Globals.newGame = false;
+
+            EngineGlobals.sceneManager.ChangeScene<
+                FadeSceneTransition, VillageScene>(false);
+
+            // Position the player??
+            // Position the camera??
         }
 
         public void LoadOptionsScene(UIButton button)
         {
-            //EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-            //        new List<Scene>() { new OptionsScene() }
-            //    ));
-
             EngineGlobals.sceneManager.ChangeScene<
                 FadeSceneTransition, OptionsScene>(false);
         }
@@ -279,30 +292,32 @@ namespace AdventureGame
         public override void OnEnter()
         {
             EngineGlobals.DEBUG = false;
-            Globals.newGame = true;
-            
-            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
 
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
+            if (Globals.newGame)
             {
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Pop();
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel = "";
+                EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
+
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
+                {
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Pop();
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel = "";
+                }
+                EngineGlobals.entityManager.GetLocalPlayer().Reset();
+                EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+                EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
+                EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
+
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
+                    //inputImage = keyboardImage;
+                    _inputText.Caption = "Keyboard";
+                else
+                    //inputImage = controllerImage;
+                    _inputText.Caption = "Controller";
             }
-            EngineGlobals.entityManager.GetLocalPlayer().Reset();
-            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
-            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
-            EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
-
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
-                //inputImage = keyboardImage;
-                _inputText.Caption = "Keyboard";
-            else
-                //inputImage = controllerImage;
-                _inputText.Caption = "Controller";
-
         }
+
         public override void OnExit()
         {
 

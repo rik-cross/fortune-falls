@@ -71,8 +71,6 @@ namespace AdventureGame.Engine
             _alphaMask = Utils.LoadTexture("VFX/light.png");
 
             UIMenu = new UIMenu();
-
-            Init();
         }
 
         public virtual void Init() { }
@@ -563,7 +561,7 @@ namespace AdventureGame.Engine
             Update(gameTime);
 
             // Update the menu
-            if (UIMenu != null)
+            if (UIMenu != null && _sceneManager.IsActiveScene(this))
                 UIMenu.Update();
 
             if (UpdateSceneBelow)

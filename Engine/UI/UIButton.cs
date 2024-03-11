@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+
+using System;
 
 namespace AdventureGame.Engine
 {
@@ -56,8 +55,10 @@ namespace AdventureGame.Engine
             this.buttonSpecificDrawMethod = buttonSpecificDrawMethod;
             this.buttonSpecificUpdateMethod = buttonSpecificUpdateMethod;
             this.func = func;
+
             Init();
         }
+
         public override void Init()
         {
             // Calculate text position
@@ -67,6 +68,7 @@ namespace AdventureGame.Engine
                 (size.Y - textSize.Y) / 2
             );
         }
+
         public override void Update()
         {
             if (buttonSpecificUpdateMethod != null)
@@ -82,7 +84,6 @@ namespace AdventureGame.Engine
             }
 
             HandleInput();
-
         }
 
         public void HandleInput()
@@ -90,20 +91,19 @@ namespace AdventureGame.Engine
             if (!selected)
                 return;
 
-            
             if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button1))
                 func?.Invoke(this);
         }
+
         public override void Draw()
         {
-
-            if(buttonSpecificDrawMethod != null)
+            if (buttonSpecificDrawMethod != null)
             {
                 buttonSpecificDrawMethod(this);
                 return;
             }
 
-            if(drawMethod != null)
+            if (drawMethod != null)
             {
                 drawMethod(this);
                 return;
@@ -131,6 +131,7 @@ namespace AdventureGame.Engine
             }
 
         }
+
         public override void Execute()
         {
 
