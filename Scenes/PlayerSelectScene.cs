@@ -96,9 +96,13 @@ namespace AdventureGame
 
         public override void OnExit()
         {
+            return;
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             if (player == null)
                 return;
+
+            Console.WriteLine("PSS onexit");
+            Console.WriteLine(string.Join(", ", player.Components));
 
             // todo - check camera exists first
             //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);

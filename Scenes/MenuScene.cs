@@ -248,12 +248,17 @@ namespace AdventureGame
             // todo - reset Village scene (if it exists)
             // Reset the VillageScene
             EngineGlobals.sceneManager.ResetScene<VillageScene>();
-            Console.WriteLine(string.Join(", ", player.Components));
+            //Console.WriteLine(string.Join(", ", player.Components));
             // Reset the player components
+            Console.WriteLine("Player Remove components");
             PlayerEntity.RemoveComponents();
-            Console.WriteLine(string.Join(", ", player.Components));
+            //Console.WriteLine(string.Join(", ", player.Components));
+
+            // todo - bug: ChangedEntities removing newly added components (in same tick?)
+
+            Console.WriteLine("Player Add components");
             PlayerEntity.AddComponents();
-            Console.WriteLine(string.Join(", ", player.Components));
+            //Console.WriteLine(string.Join(", ", player.Components));
 
             // Reset the player character default sprite
             Globals.playerIndex = 0;
@@ -269,6 +274,8 @@ namespace AdventureGame
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
                 FadeSceneTransition, VillageScene, PlayerSelectScene>(false);
+
+            player = EngineGlobals.entityManager.GetLocalPlayer();
 
             // Position the player
             Vector2 playerPosition = new Vector2(680, 580);

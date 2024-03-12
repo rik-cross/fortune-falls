@@ -139,6 +139,13 @@ namespace AdventureGame.Engine
             return scene == ActiveScene;
         }
 
+
+        // Check if the given scene is the active scene
+        public bool IsActiveScene<TScene>()
+        {
+            return typeof(TScene) == ActiveScene.GetType();
+        }
+
         // Check if the scene stack is empty or a transition is in progress
         public bool IsSceneStackEmpty()
         {

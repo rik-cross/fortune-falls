@@ -62,7 +62,13 @@ namespace AdventureGame.Engine
 
                     if (playerEntity.GetComponent<BattleComponent>().weapon != Weapons.axe)
                     {
-                        EngineGlobals.sceneManager.ActiveScene.questMarker.visible = false;
+                        VillageScene villageScene = null;
+                        if (EngineGlobals.sceneManager.IsActiveScene<VillageScene>())
+                            villageScene = (VillageScene)EngineGlobals.sceneManager.ActiveScene;
+
+                        if (villageScene != null)
+                            villageScene.questMarker.visible = false;
+                        //EngineGlobals.sceneManager.ActiveScene.questMarker.visible = false;
 
                         dialogueComponent.AddPage("You the newbie I heard about? Related to Barnie, I presume?",
                         GameAssets.blacksmith_headshot);
