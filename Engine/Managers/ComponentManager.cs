@@ -123,6 +123,8 @@ namespace AdventureGame.Engine
         public void RemoveMultipleComponents(Entity e, bool instant = false, 
             List<Component> componentsToKeep = null)
         {
+            ConcurrentQueue<Component> tempRemovedComponents = new ConcurrentQueue<Component>();
+
             if (e.GetComponent<TransformComponent>() != null)
                 componentsToKeep.Add(e.GetComponent<TransformComponent>());
 
@@ -133,7 +135,10 @@ namespace AdventureGame.Engine
                     //RemoveComponent(e, component, instant);
 
                     // Push the entity and component to the removed queue
-                    RemovedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
+                    if (instant)
+                        tempRemovedComponents.Enqueue(component);
+                    else
+                        RemovedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
 
                     component.OnDestroy(e);
                 }
@@ -142,7 +147,20 @@ namespace AdventureGame.Engine
 
             // Update the system lists instantly or in the next tick
             if (instant)
+            {
+                //RemoveQueuedComponents();
+                foreach (var c in tempRemovedComponents)
+                {
+                    // Remove component object from the entity list
+                    e.Components.Remove(c);
+
+                    // Remove component from entity flags
+                    e.ComponentFlags.RemoveFlags(GetComponentFlag(c));
+                }
+
                 EngineGlobals.systemManager.UpdateEntityLists(e);
+                //ClearRemovedComponents();
+            }
             else
                 ChangedEntities.Add(e);
 

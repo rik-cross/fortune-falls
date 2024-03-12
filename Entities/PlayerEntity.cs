@@ -140,8 +140,8 @@ namespace AdventureGame
             playerEntity.RemoveAllComponents(new List<Component> {
                 playerEntity.GetComponent<InputComponent>(),
                 playerEntity.GetComponent<AnimatedSpriteComponent>(),// },
-                playerEntity.GetComponent<IntentionComponent>() }
-                //true
+                playerEntity.GetComponent<IntentionComponent>() },
+                true
             );
 
             EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
