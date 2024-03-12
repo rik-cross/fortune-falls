@@ -72,6 +72,7 @@ namespace AdventureGame.Engine
                 ActiveScene._Draw(gameTime);
         }
 
+
         // Load a scene using Type t and add it to top of stack
         private Scene LoadScene(Type t)
         {
@@ -83,7 +84,7 @@ namespace AdventureGame.Engine
 
                 if (sceneObj is Scene scene)
                 {
-                    Console.WriteLine($"Scene {sceneObj.GetType()} is loading");
+                    Console.WriteLine($"New instance of {sceneObj.GetType()} is loading");
                     scene.Init();
                     scene._LoadContent();
                     _sceneStack.Add(scene);
@@ -132,12 +133,110 @@ namespace AdventureGame.Engine
         }
 
 
-
+        // Check if the given scene is the active scene
+        public bool IsActiveScene(Scene scene)
+        {
+            return scene == ActiveScene;
+        }
 
         // Check if the scene stack is empty or a transition is in progress
         public bool IsSceneStackEmpty()
         {
             return _sceneStack.Count == 0 && Transition == null;
+        }
+
+
+        // todo
+        // Unload the scene and create a new instance in the same scene stack position
+        public Scene ResetScene<TScene>() where TScene : new()
+        {
+            //Scene scene = CheckSceneExists(typeof(TScene));
+            //if (scene != null)
+            Console.WriteLine($"\nReset scene {typeof(TScene)}\n");
+
+            int index = -1;
+            for (int i = 0; i < _sceneStack.Count; i++)
+            {
+                if (_sceneStack[i].GetType() == typeof(TScene))
+                    index = i;
+            }
+
+            //object scene = new TScene();
+            //int index = _sceneStack.IndexOf((Scene)scene);
+
+            if (index != -1)
+            {
+                Scene oldScene = _sceneStack[index];
+                bool isActiveScene = false;
+                bool isSceneBelow = false;
+
+                if (ActiveScene.GetType() == typeof(TScene))
+                    isActiveScene = true;
+                else if (SceneBelow.GetType() == typeof(TScene))
+                    isSceneBelow = true;
+
+                //object newScene = new TScene();
+
+                //if (ActiveScene == oldScene)
+                //    ActiveScene = (Scene)newScene;
+                //else if (SceneBelow == oldScene)
+                //    SceneBelow = (Scene)newScene;
+
+                UnloadScene(oldScene);
+                //LoadScene((Scene)newScene);
+
+                // Loading the scene will add it to top of stack
+                Scene newScene = LoadScene(typeof(TScene));
+
+                Console.WriteLine(string.Join(", ", _sceneStack));
+
+                if (isActiveScene)
+                {
+                    Console.WriteLine("Resetting active scene");
+                    SetActiveScene(false);
+                }
+                else if (isSceneBelow)
+                {
+                    Console.WriteLine("Resetting scene below");
+
+                    // Swap the new scene on top of stack with scene below
+                    if (_sceneStack.Count > 1)
+                    {
+                        //Scene activeScene = ActiveScene;
+                        _sceneStack.Insert(_sceneStack.Count - 2, newScene);
+                        Console.WriteLine(string.Join(", ", _sceneStack));
+                        _sceneStack.RemoveAt(_sceneStack.Count - 1);
+                        Console.WriteLine(string.Join(", ", _sceneStack));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Resetting other scene");
+
+                    // Insert the new scene instance into the original position
+                    _sceneStack.Insert(index, newScene);
+                    Console.WriteLine(string.Join(", ", _sceneStack));
+                    _sceneStack.RemoveAt(_sceneStack.Count - 1);
+                    Console.WriteLine(string.Join(", ", _sceneStack));
+                }
+
+                return newScene;
+            }
+
+            return null;
+        }
+
+        public void ResetScene2()
+        {
+            // update player scene component
+            // player start position
+        }
+
+        // Exit all scenes from the top of the stack to the bottom
+        public void UnloadAllScenes()
+        {
+            for (int i = _sceneStack.Count - 1; i >= 0; i--)
+                UnloadScene(_sceneStack[i]);
         }
 
         // Return a scene if it already exists in the stack. Otherwise return null.
@@ -165,13 +264,6 @@ namespace AdventureGame.Engine
             Console.WriteLine();
 
             return null;
-        }
-
-        // Exit all scenes from the top of the stack to the bottom
-        public void UnloadAllScenes()
-        {
-            for (int i = _sceneStack.Count - 1; i >= 0; i--)
-                UnloadScene(_sceneStack[i]);
         }
 
         // Set ActiveScene to the scene at the top of the scene stack
@@ -240,10 +332,10 @@ namespace AdventureGame.Engine
 
         // Start a scene transition with the current ActiveScene.
         // Load the next scene and scene below.
-        public void ChangeScene<TTransition, TScene, TSceneBelow>(
+        public void ChangeScene<TTransition, TSceneBelow, TScene>(
             bool unloadCurrentScene = true) where TTransition : new()
         {
-            Console.WriteLine($"Changing scene: {typeof(TTransition)}, {typeof(TScene)}, {typeof(TSceneBelow)}");
+            Console.WriteLine($"Changing scene: {typeof(TTransition)}, {typeof(TSceneBelow)}, {typeof(TScene)}");
             // Return if a scene transition is in progress
             if (Transition != null)
                 return;
@@ -281,6 +373,24 @@ namespace AdventureGame.Engine
                 // Move the scene below to top of stack
                 if (MoveSceneToTop(SceneBelow))
                     SetActiveScene(false);
+            }
+        }
+
+        // Change active scene to scene below if it exists with a transition
+        public void ChangeToSceneBelow<TTransition>(bool unloadCurrentScene = true)
+            where TTransition : new()
+        {
+            object transition = new TTransition();
+            if (transition is SceneTransition)
+            {
+                // Move the scene below to top of stack
+                if (_sceneStack.Count > 1)
+                    MoveSceneToTop(SceneBelow);
+
+                // Start a new scene transition
+                Console.WriteLine($"\nStarting scene transition");
+                Transition = (SceneTransition)transition;
+                ((SceneTransition)transition).StartTransition(unloadCurrentScene);
             }
         }
 

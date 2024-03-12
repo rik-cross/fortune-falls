@@ -100,6 +100,7 @@ namespace AdventureGame
             if (player == null)
                 return;
 
+            // todo - check camera exists first
             //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
             EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f);
 
@@ -117,17 +118,18 @@ namespace AdventureGame
                     name: "Walk",
                     description: "Use controls to walk around the world",
                     onStart: () => {
-                        player.AddComponent<AnimatedEmoteComponent>(movementEmote);
+                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
                     },
                     condition: () => {
-                        return EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.left) ||
-                            EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.right) ||
-                            EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.up) ||
-                            EngineGlobals.inputManager.IsDown(player.GetComponent<InputComponent>().input.down);
+                        return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
                     },
                     numberOfTimes: 60,
                     onComplete: () => {
-                        player.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                        Console.WriteLine("Walk tutorial complete");
+                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                     }
                 )
             );

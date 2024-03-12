@@ -9,11 +9,10 @@ namespace AdventureGame
 {
     public static class PlayerEntity {
 
-        public static Scene playerScene;
         public static Dictionary<string, AnimatedSpriteComponent> animatedSprites = new Dictionary<string, AnimatedSpriteComponent>();
 
         public static Engine.Entity Create(int x, int y, int width, int height,
-            string defaultState = "default", float speed = 60, string idTag = null)
+            string defaultState = "idle_right", float speed = 60, string idTag = null)
         {
             Engine.Entity playerEntity;
 
@@ -40,32 +39,48 @@ namespace AdventureGame
             {
                 // Generate a new unique player id
                 Guid guid = Guid.NewGuid();
-
                 // Generate a new player guid if it already exists?
-
-                // Set the new player id
                 playerEntity.Tags.Id = "player" + guid;
-
             }
+
             playerEntity.Tags.AddTag("player");
+            playerEntity.State = defaultState;
+            playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
 
-            Vector2 offset = new Vector2(-41, -21);
+            AddAllCharacterSprites();
+            AddComponents();
 
-            AddSprites();
+            return playerEntity;
+        }
+
+        public static void AddComponents(string defaultState = "idle_right", float speed = 60,
+            Entity player = null)
+        {
+            Entity playerEntity = null;
+
+            if (player == null)
+                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+            if (playerEntity == null)
+                return;
+
+            //AddAllCharacterSprites();
 
             // Testing - Set layer depth
             //spriteComponent.GetSprite("idle_left").layerDepth = 0.4f;
             //spriteComponent.GetSprite("idle_right").layerDepth = 0.4f;
 
+            //Vector2 offset = new Vector2(-41, -21);
+
             // Set state
-            playerEntity.State = "idle_right";
+            playerEntity.State = defaultState;
 
             // Add other components
-            playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
+            //playerEntity.AddComponent(new Engine.AnimatedSpriteComponent());
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
             playerEntity.AddComponent(new Engine.TutorialComponent());
-            playerEntity.AddComponent(new SceneComponent());
+            playerEntity.AddComponent(new Engine.SceneComponent());
 
             playerEntity.AddComponent(new Engine.ColliderComponent(
                 size: new Vector2(13, 6),
@@ -104,13 +119,33 @@ namespace AdventureGame
             playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(15, 20)));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(20, 20), new Vector2(15, 0), frame: 6));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(20, 20), new Vector2(-20, 0), frame: 6));
-            
+
             //playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
 
             playerEntity.AddComponent(new Engine.DialogueComponent());
 
-            return playerEntity;
+            EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
         }
+
+        public static void RemoveComponents(Entity player = null)
+        {
+            Entity playerEntity = null;
+
+            if (player == null)
+                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+            if (playerEntity == null)
+                return;
+
+            playerEntity.RemoveAllComponents(new List<Component> {
+                playerEntity.GetComponent<InputComponent>(),
+                playerEntity.GetComponent<AnimatedSpriteComponent>() },
+                true
+            );
+
+            EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
+        }
+
         public static void UpdateSprites()
         {
             Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
@@ -131,29 +166,42 @@ namespace AdventureGame
             newAnimatedComponent.AnimatedSprites = exiAnimatedComponent.AnimatedSprites;
             newAnimatedComponent.Alpha = exiAnimatedComponent.Alpha;
         }
-        public static void AddSprites()
+
+        // Create all the different character sprites for the player select scene
+        public static void AddAllCharacterSprites(Entity player = null)
         {
             //Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
             //Globals.playerStr = Globals.allCharacters[Globals.///];
 
+            Entity playerEntity = null;
+
+            if (player == null)
+                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+            if (playerEntity == null)
+                return;
+
+            //Engine.AnimatedSpriteComponent animatedComponent = playerEntity.GetComponent<AnimatedSpriteComponent>();
+            //if (animatedComponent == null)
+            //    return;
+
+            //if (playerEntity.GetComponent<AnimatedSpriteComponent>() == null)
+            //{
+            //    animatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
+            //}
+            //else
+            //{
+            //    animatedComponent = playerEntity.GetComponent<Engine.AnimatedSpriteComponent>();
+            //    animatedComponent.ClearAllAnimatedSprites();
+            //}
+
             string playerStr;
 
-            for (int i = 0; i <= 5; i++)
+            for (int i = 0; i < Globals.allCharacters.Length; i++)
             {
-
                 playerStr = Globals.allCharacters[i];
 
                 Engine.AnimatedSpriteComponent animatedComponent = new AnimatedSpriteComponent();
-
-                //if (playerEntity.GetComponent<AnimatedSpriteComponent>() == null)
-                //{
-                //    animatedComponent = playerEntity.AddComponent<Engine.AnimatedSpriteComponent>();
-                //}
-                //else
-                //{
-                //    animatedComponent = playerEntity.GetComponent<Engine.AnimatedSpriteComponent>();
-                //    animatedComponent.ClearAllAnimatedSprites();
-                //}
 
                 // Add sprites
                 string filePath = "";
@@ -272,11 +320,9 @@ namespace AdventureGame
 
         }
 
-
         // Maps the input controller to the player
         public static void PlayerInputController(Entity entity)
         {
-
             Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
             Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
 
@@ -415,8 +461,6 @@ namespace AdventureGame
             {
                 intentionComponent.button1 = false;
             }
-
-
 
             if (
                     EngineGlobals.inputManager.IsDown(inputComponent.input.up) == false &&

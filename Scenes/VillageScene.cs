@@ -253,7 +253,9 @@ namespace AdventureGame
 
         public override void OnExit()
         {
-
+            // Clear all triggers
+            //EngineGlobals.systemManager.GetSystem<TriggerSystem>().ClearAllDelegates();
+            //EngineGlobals.systemManager.GetSystem<TutorialSystem>().ClearAllTutorials();
         }
 
         public override void Input(GameTime gameTime)

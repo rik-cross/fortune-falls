@@ -84,14 +84,6 @@ namespace AdventureGame.Engine
                 return default;
         }
 
-        // Remove a given component from the entity
-        public void RemoveComponent<T>(bool instant = false) where T : Component
-        {
-            Component component = GetComponent<T>();
-            if (component != null)
-                _componentManager.RemoveComponent(this, component, instant);
-        }
-
         // Return a given component from the entity
         public T GetComponent<T>() where T : Component
         {
@@ -103,6 +95,23 @@ namespace AdventureGame.Engine
                 }
             }
             return null;
+        }
+
+        // Remove a given component from the entity
+        public void RemoveComponent<T>(bool instant = false) where T : Component
+        {
+            Component component = GetComponent<T>();
+            if (component != null)
+                _componentManager.RemoveComponent(this, component, instant);
+        }
+
+        // Remove all components apart from TransformComponent and any given components
+        public void RemoveAllComponents(List<Component> componentsToKeep = null,
+            bool instant = false)
+        {
+            //Console.WriteLine($"Components count {Components.Count}");
+            _componentManager.RemoveMultipleComponents(this, instant, componentsToKeep);
+            //Console.WriteLine($"Components count {Components.Count}");
         }
 
         // Reset entity components

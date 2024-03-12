@@ -105,15 +105,73 @@ namespace AdventureGame.Engine
 
             component.OnDestroy(e);
 
-            // Update the system lists instantly or in the next tick
+            // Update the component and system lists instantly or in the next tick
             if (instant)
-                EngineGlobals.systemManager.UpdateEntityLists(e);
-            else
                 ChangedEntities.Add(e);
 
-            //changedEntities.Add(e);
+            //if (instant)
+            //{
+            //    e.Components.Remove(component);
+            //    e.ComponentFlags.RemoveFlags(GetComponentFlag(component));
+            //    EngineGlobals.systemManager.UpdateEntityLists(e);
+            //}
+            //else
+            //{
+            //    ChangedEntities.Add(e);
+            //}
+
+
+            //// Push the entity and component to the removed queue
+            //RemovedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
+
+            //component.OnDestroy(e);
+
+            //// Update the system lists instantly or in the next tick
+            //if (instant)
+            //    EngineGlobals.systemManager.UpdateEntityLists(e);
+            //else
+            //    ChangedEntities.Add(e);
+
+            ////changedEntities.Add(e);
 
             Console.WriteLine($"\nEntity {e.Id} removed component {component}");
+        }
+
+        // Remove components from the given list apart from TransformComponent
+        public void RemoveMultipleComponents(Entity e, bool instant = false, 
+            List<Component> componentsToKeep = null)
+        {
+            if (e.GetComponent<TransformComponent>() != null)
+                componentsToKeep.Add(e.GetComponent<TransformComponent>());
+
+            foreach (var c in e.Components)
+            {
+                if (!componentsToKeep.Contains(c))
+                {
+                    RemoveComponent(e, c, instant);
+                }
+
+            }
+
+            if (instant)
+            {
+                RemoveQueuedComponents();
+                EngineGlobals.systemManager.UpdateEntityLists(e);
+            }
+
+            //if (GetComponent<TransformComponent>() != null)
+            //    componentsToKeep.Add(GetComponent<TransformComponent>());
+
+            //IEnumerable<Component> componentsToRemove = Components;
+            //if (componentsToKeep.Count > 0)
+            //    componentsToRemove = Components.Except(componentsToKeep);
+
+            //foreach (var component in componentsToRemove)
+            //{
+            //    _componentManager.RemoveComponent(this, GetComponent(component), true);
+            //    //_componentManager.RemoveComponent(this, component, true);
+            //    Console.WriteLine($"Components count {Components.Count}");
+            //}
         }
 
         // Removes all components from an entity

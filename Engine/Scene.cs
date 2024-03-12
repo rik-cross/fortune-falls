@@ -109,14 +109,14 @@ namespace AdventureGame.Engine
         public void _OnEnter()
         {
             //EntitiesToDelete.Clear();
-            foreach (Entity e in EngineGlobals.entityManager.GetAllEntities())
-            {
-                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
-                if (triggerComponent != null)
-                {
-                    triggerComponent.collidedEntities.Clear();
-                }
-            }
+            //foreach (Entity e in EngineGlobals.entityManager.GetAllEntities())
+            //{
+            //    TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
+            //    if (triggerComponent != null)
+            //    {
+            //        triggerComponent.collidedEntities.Clear();
+            //    }
+            //}
 
             OnEnter();
         }
@@ -124,8 +124,11 @@ namespace AdventureGame.Engine
 
         public void _OnExit()
         {
-            // TODO
-            //_entityManager.GetLocalPlayer().GetComponent<InputComponent>().Reset();
+            // Reset player movement
+            Entity player = _entityManager.GetLocalPlayer();
+            if (player != null && player.GetComponent<IntentionComponent>() != null)
+                player.GetComponent<IntentionComponent>().Reset();
+
             OnExit();
         }
         public virtual void OnExit() { }
@@ -383,7 +386,12 @@ namespace AdventureGame.Engine
             {
                 Entity e = EntityList[i];
                 int pos = i - 1;
-
+                //Console.WriteLine(i);
+                //Console.WriteLine(EntityList[pos].GetComponent<TransformComponent>().DrawOrder);
+                //Console.WriteLine(string.Join(", ", EntityList[pos].Tags.Type));
+                //Console.WriteLine(string.Join(", ", e.Tags.Type));
+                //Console.WriteLine(e.GetComponent<TransformComponent>());
+                //Console.WriteLine(e.GetComponent<TransformComponent>().DrawOrder);
                 while (pos >= 0 && EntityList[pos].GetComponent<TransformComponent>().DrawOrder > e.GetComponent<TransformComponent>().DrawOrder)
                 {
                     EntityList[pos + 1] = EntityList[pos];

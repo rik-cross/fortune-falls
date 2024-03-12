@@ -239,18 +239,39 @@ namespace AdventureGame
 
         public void LoadNewGameScene(UIButton button)
         {
+            // todo - bug!! button events can be fired multiple times if spamming enter
+            // have an option to disable a button temporarily after Action executed??
+
             Globals.newGame = true;
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
 
             // todo - reset Village scene (if it exists)
+            // Reset the VillageScene
+            EngineGlobals.sceneManager.ResetScene<VillageScene>();
+            Console.WriteLine(string.Join(", ", player.Components));
+            // Reset the player components
+            PlayerEntity.RemoveComponents();
+            Console.WriteLine(string.Join(", ", player.Components));
+            PlayerEntity.AddComponents();
+            Console.WriteLine(string.Join(", ", player.Components));
 
+            // Reset the player character default sprite
+            Globals.playerIndex = 0;
+            Globals.playerStr = Globals.allCharacters[0];
+            PlayerEntity.UpdateSprites();  // move to PlayerManager??
+
+            // todo
+            // Update the player scene (if valid)
+            // Clear the inventory
+            // Reset the tutorials
+            // OR create / re-create player components
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
-                FadeSceneTransition, PlayerSelectScene, VillageScene>(false);
+                FadeSceneTransition, VillageScene, PlayerSelectScene>(false);
 
             // Position the player
             Vector2 playerPosition = new Vector2(680, 580);
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             if (player != null)
                 player.GetComponent<TransformComponent>().Position = playerPosition;
 
@@ -262,11 +283,16 @@ namespace AdventureGame
 
         public void LoadContinueGameScene(UIButton button)
         {
+            // Needed?
             Globals.newGame = false;
 
             EngineGlobals.sceneManager.ChangeScene<
                 FadeSceneTransition, VillageScene>(false);
 
+            // todo
+            // Check / update / clear the tutorail and/or animate component
+            // Reset player speed
+            // Reset intention?
             // Position the player??
             // Position the camera??
         }
@@ -293,6 +319,7 @@ namespace AdventureGame
         {
             EngineGlobals.DEBUG = false;
 
+            // todo - move to LoadNewGameScene??
             if (Globals.newGame)
             {
                 EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
