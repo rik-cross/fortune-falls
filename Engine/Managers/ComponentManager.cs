@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
@@ -98,8 +96,6 @@ namespace AdventureGame.Engine
                 EngineGlobals.systemManager.UpdateEntityLists(e);
             else
                 ChangedEntities.Add(e);
-
-            //EngineGlobals.systemManager.UpdateEntityLists(e);
         }
 
         // Queues the entity and component to be removed
@@ -132,8 +128,6 @@ namespace AdventureGame.Engine
             {
                 if (!componentsToKeep.Contains(component))
                 {
-                    //RemoveComponent(e, component, instant);
-
                     // Push the entity and component to the removed queue
                     if (instant)
                         tempRemovedComponents.Enqueue(component);
@@ -148,7 +142,6 @@ namespace AdventureGame.Engine
             // Update the system lists instantly or in the next tick
             if (instant)
             {
-                //RemoveQueuedComponents();
                 foreach (var c in tempRemovedComponents)
                 {
                     // Remove component object from the entity list
@@ -157,18 +150,10 @@ namespace AdventureGame.Engine
                     // Remove component from entity flags
                     e.ComponentFlags.RemoveFlags(GetComponentFlag(c));
                 }
-
                 EngineGlobals.systemManager.UpdateEntityLists(e);
-                //ClearRemovedComponents();
             }
             else
                 ChangedEntities.Add(e);
-
-            //if (instant)
-            //{
-            //    RemoveQueuedComponents();
-            //    EngineGlobals.systemManager.UpdateEntityLists(e);
-            //}
         }
 
         // Removes all components from an entity
