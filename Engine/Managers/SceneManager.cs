@@ -273,6 +273,8 @@ namespace AdventureGame.Engine
         {
             if (unloadCurrentScene)
                 UnloadScene(ActiveScene);
+            else
+                ActiveScene._OnExit();
 
             if (_sceneStack.Count > 0)
             {

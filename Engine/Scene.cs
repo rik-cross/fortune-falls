@@ -112,8 +112,14 @@ namespace AdventureGame.Engine
         {
             // Reset player movement
             Entity player = _entityManager.GetLocalPlayer();
-            if (player != null && player.GetComponent<IntentionComponent>() != null)
+            if (player == null)
+                return;
+
+            if (player.GetComponent<IntentionComponent>() != null)
                 player.GetComponent<IntentionComponent>().Reset();
+
+            if (player.GetComponent<PhysicsComponent>() != null)
+                player.GetComponent<PhysicsComponent>().ResetSpeed();
 
             OnExit();
         }
