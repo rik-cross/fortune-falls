@@ -245,61 +245,56 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            //Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            //if (player != null)
-            //{
-            //    AddEntity(player);
-            //    player.GetComponent<SceneComponent>().Scene = this;
-            //    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
-            //}
-
-
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             if (player == null)
                 return;
 
-            Console.WriteLine("Village onenter");
-            Console.WriteLine(string.Join(", ", player.Components));
-
+            // Add player entity and set player scene
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
+
+            // todo - check camera exists first
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
 
-            // todo - check camera exists first
             //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
 
-            //EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f);
+            if (Globals.newGame)
+            {
+                // add the player movement tutorial
+                Engine.AnimatedEmoteComponent movementEmote;
+                if (player.GetComponent<InputComponent>().input == Engine.Inputs.controller)
+                    movementEmote = GameAssets.controllerMovementEmote;
+                else
+                    movementEmote = GameAssets.keyboardMovementEmote;
 
-            // add the player movement tutorial
-            Engine.AnimatedEmoteComponent movementEmote;
-            if (player.GetComponent<InputComponent>().input == Engine.Inputs.controller)
-                movementEmote = GameAssets.controllerMovementEmote;
-            else
-                movementEmote = GameAssets.keyboardMovementEmote;
+                movementEmote.alpha.Value = 1;
 
-            movementEmote.alpha.Value = 1;
-
-            player.GetComponent<TutorialComponent>().AddTutorial(
-                new Engine.Tutorial(
-                    name: "Walk",
-                    description: "Use controls to walk around the world",
-                    onStart: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
-                    },
-                    condition: () => {
-                        return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
-                    },
-                    numberOfTimes: 60,
-                    onComplete: () => {
-                        Console.WriteLine("Walk tutorial complete");
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
-                    }
-                )
-            );
+                player.GetComponent<TutorialComponent>().AddTutorial(
+                    new Engine.Tutorial(
+                        name: "Walk",
+                        description: "Use controls to walk around the world",
+                        onStart: () =>
+                        {
+                            EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
+                        },
+                        condition: () =>
+                        {
+                            return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
+                        },
+                        numberOfTimes: 60,
+                        onComplete: () =>
+                        {
+                            Console.WriteLine("Walk tutorial complete");
+                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                        }
+                    )
+                );
+            }
+            Globals.newGame = false;
         }
 
         public override void OnExit()

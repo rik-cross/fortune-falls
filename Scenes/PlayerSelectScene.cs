@@ -96,47 +96,6 @@ namespace AdventureGame
 
         public override void OnExit()
         {
-            return;
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            if (player == null)
-                return;
-
-            Console.WriteLine("PSS onexit");
-            Console.WriteLine(string.Join(", ", player.Components));
-
-            // todo - check camera exists first
-            //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
-            EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f);
-
-            // add the player movement tutorial
-            Engine.AnimatedEmoteComponent movementEmote;
-            if (player.GetComponent<InputComponent>().input == Engine.Inputs.controller)
-                movementEmote = GameAssets.controllerMovementEmote;
-            else
-                movementEmote = GameAssets.keyboardMovementEmote;
-
-            movementEmote.alpha.Value = 1;
-
-            player.GetComponent<TutorialComponent>().AddTutorial(
-                new Engine.Tutorial(
-                    name: "Walk",
-                    description: "Use controls to walk around the world",
-                    onStart: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
-                    },
-                    condition: () => {
-                        return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
-                    },
-                    numberOfTimes: 60,
-                    onComplete: () => {
-                        Console.WriteLine("Walk tutorial complete");
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
-                    }
-                )
-            );
 
         }
 

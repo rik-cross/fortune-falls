@@ -245,18 +245,11 @@ namespace AdventureGame
             Globals.newGame = true;
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
 
-            // todo - reset Village scene (if it exists)
             // Reset the VillageScene
             EngineGlobals.sceneManager.ResetScene<VillageScene>();
-            //Console.WriteLine(string.Join(", ", player.Components));
+
             // Reset the player components
-            Console.WriteLine("Player Remove components");
-            PlayerEntity.RemoveComponents();
-            //Console.WriteLine(string.Join(", ", player.Components));
-
-            // todo - bug: ChangedEntities removing newly added components (in same tick?)
-
-            Console.WriteLine("Player Add components");
+            PlayerEntity.RemoveComponents();  // move to PlayerManager??
             PlayerEntity.AddComponents();
             //Console.WriteLine(string.Join(", ", player.Components));
 
@@ -264,12 +257,6 @@ namespace AdventureGame
             Globals.playerIndex = 0;
             Globals.playerStr = Globals.allCharacters[0];
             PlayerEntity.UpdateSprites();  // move to PlayerManager??
-
-            // todo
-            // Update the player scene (if valid)
-            // Clear the inventory
-            // Reset the tutorials
-            // OR create / re-create player components
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
@@ -290,16 +277,14 @@ namespace AdventureGame
 
         public void LoadContinueGameScene(UIButton button)
         {
-            // Needed?
-            Globals.newGame = false;
-
-            EngineGlobals.sceneManager.ChangeScene<
-                FadeSceneTransition, VillageScene>(false);
+            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
 
             // todo
-            // Check / update / clear the tutorail and/or animate component
             // Reset player speed
+
             // Reset intention?
+            // Pause clear the tutorail?
+
             // Position the player??
             // Position the camera??
         }
@@ -326,7 +311,6 @@ namespace AdventureGame
         {
             EngineGlobals.DEBUG = false;
 
-            // todo - move to LoadNewGameScene??
             if (Globals.newGame)
             {
                 EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
@@ -349,6 +333,11 @@ namespace AdventureGame
                 else
                     //inputImage = controllerImage;
                     _inputText.Caption = "Controller";
+            }
+            else
+            {
+                // Re-create the player sprites in case player has changed
+                CreatePlayerSprites();
             }
         }
 
@@ -384,6 +373,8 @@ namespace AdventureGame
         public void CreatePlayerSprites()
         {
             AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.GetComponent<AnimatedSpriteComponent>();
+            animatedComponent.ClearAllAnimatedSprites();
+            Console.WriteLine($"Main menu animated sprites {animatedComponent.AnimatedSprites.Count}");
 
             // Character sprites
             string dir = Globals.characterDir;
