@@ -124,7 +124,7 @@ namespace AdventureGame
 
             playerEntity.AddComponent(new Engine.DialogueComponent());
 
-            EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
+            //EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
         }
 
         public static void RemoveComponents(Entity player = null)
@@ -137,14 +137,14 @@ namespace AdventureGame
             if (playerEntity == null)
                 return;
 
+            // Do not remove input of player or animated sprite in case of tutorial
             playerEntity.RemoveAllComponents(new List<Component> {
                 playerEntity.GetComponent<InputComponent>(),
-                playerEntity.GetComponent<AnimatedSpriteComponent>(),// },
-                playerEntity.GetComponent<IntentionComponent>() },
+                playerEntity.GetComponent<AnimatedSpriteComponent>() },
                 true
             );
 
-            EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
+            //EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
         }
 
         public static void UpdateSprites()

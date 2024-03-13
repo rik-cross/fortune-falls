@@ -85,9 +85,9 @@ namespace AdventureGame.Engine
 
             // Push the entity and component to the added queue
             //addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
-
-            if (e.Tags.Type.Contains("player"))
-                Console.WriteLine($"Add component {e.ComponentFlags.BitFlags}");
+            
+            //if (e.Tags.Type.Contains("player"))
+            //    Console.WriteLine($"Add component {e.ComponentFlags.BitFlags}");
 
             component.OnCreate(e);
 

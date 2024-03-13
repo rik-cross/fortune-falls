@@ -95,8 +95,8 @@ namespace AdventureGame.Engine
 
                 if (isInterested)
                 {
-                    if (e.Tags.Type.Contains("player"))
-                        Console.WriteLine($"Updtae {s} entity list for player");
+                    //if (e.Tags.Type.Contains("player"))
+                    //    Console.WriteLine($"Updtae {s} entity list for player");
 
                     // Check if the entity doesn't already exist
                     if (!s.EntityMapper.ContainsKey(e.Id))
@@ -121,8 +121,8 @@ namespace AdventureGame.Engine
                     // Check if the entity exists in the mapper
                     if (s.EntityMapper.ContainsKey(e.Id))
                     {
-                        if (e.Tags.Type.Contains("player"))
-                            Console.WriteLine($"Remove {s} entity list for player");
+                        //if (e.Tags.Type.Contains("player"))
+                        //    Console.WriteLine($"Remove {s} entity list for player");
 
                         // To keep the index values accurate in the mapper
                         // and for fast removal of an entity from the list,

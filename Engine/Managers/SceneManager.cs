@@ -233,12 +233,6 @@ namespace AdventureGame.Engine
             return null;
         }
 
-        public void ResetScene2()
-        {
-            // update player scene component
-            // player start position
-        }
-
         // Exit all scenes from the top of the stack to the bottom
         public void UnloadAllScenes()
         {
