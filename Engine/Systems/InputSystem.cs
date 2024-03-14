@@ -12,7 +12,6 @@ namespace AdventureGame.Engine
 
         public override void InputEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             InputComponent inputComponent = entity.GetComponent<InputComponent>();
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
             
@@ -23,8 +22,8 @@ namespace AdventureGame.Engine
                 return;
             }
             
-            if (inputComponent.inputControllerStack.Count > 0)
-                inputComponent.inputControllerStack.Peek().Invoke(entity);
+            if (inputComponent.InputControllerStack.Count > 0)
+                inputComponent.PeekController().Invoke(entity);
         
         }
     }

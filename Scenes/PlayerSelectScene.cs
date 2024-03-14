@@ -1,14 +1,8 @@
 ﻿using AdventureGame.Engine;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended;
 
 using System;
-using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
-
 
 namespace AdventureGame
 {
@@ -16,7 +10,6 @@ namespace AdventureGame
     {
         private Engine.Text _title;
 
-        //public PlayerSelectScene()
         public override void Init()
         {
             EngineGlobals.DEBUG = false;
@@ -40,12 +33,13 @@ namespace AdventureGame
             );
 
             float screenMiddle = Globals.ScreenHeight / 2;
-            
+
+            // player select slider
             UIMenu.AddUIElement(
                 new UISlider(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
                     size: new Vector2(120, 45),
-                    text: Globals.characherNames[Globals.playerIndex],
+                    text: Globals.characterNames[Globals.playerIndex],
                     textColour: Color.White,
                     outlineColour: Color.White,
                     onColour: new Color(194, 133, 105, 255),
@@ -54,7 +48,7 @@ namespace AdventureGame
                     backgroundColour: Color.DarkSlateGray,
                     buttonSpecificUpdateMethod: (UISlider slider) => {
                         slider.HandleInput();
-                        slider.text = Globals.characherNames[Globals.playerIndex];
+                        slider.text = Globals.characterNames[Globals.playerIndex];
                         slider.Init();
                     },
                     func: (UISlider slider, double currentValue) =>
@@ -68,7 +62,8 @@ namespace AdventureGame
                     currentValue: Globals.playerIndex
                 )
             );
-            
+
+            // ok button
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 200),
@@ -79,11 +74,7 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
-                        //Console.WriteLine("OK");
-                        EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                            new List<Scene>() { }, numScenesToUnload: 1
-                        ));
+                        EngineGlobals.sceneManager.ChangeToSceneBelow();
                     }
                 )
             );
@@ -93,52 +84,24 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            if (player == null)
+                return;
+
+            EngineGlobals.sceneManager.SceneBelow.AddEntity(player);
+
             //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
+            //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
         }
+
         public override void OnExit()
         {
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
-            EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(4.0f);
-
-            Engine.AnimatedEmoteComponent movementEmote;
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
-            {
-                movementEmote = GameAssets.controllerMovementEmote;
-            }
-            else
-            {
-                movementEmote = GameAssets.keyboardMovementEmote;
-            }
-
-            movementEmote.alpha.Value = 1;
-
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>().AddTutorial(
-                new Engine.Tutorial(
-                    name: "Walk",
-                    description: "Use controls to walk around the world",
-                    onStart: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
-                    },
-                    condition: () => {
-                        return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
-                    },
-                    numberOfTimes: 60,
-                    onComplete: () => {
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
-                    }
-                )
-            );
 
         }
+
         public override void Input(GameTime gameTime)
         {
-            // todo -- remove this
-            //if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
-            //    EngineGlobals.sceneManager.RemoveScene(this);
-            //    UnloadMenuScene(null);
+
         }
 
         public override void Update(GameTime gameTime)

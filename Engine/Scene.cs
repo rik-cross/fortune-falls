@@ -40,8 +40,6 @@ namespace AdventureGame.Engine
         public bool UpdateSceneBelow { get; set; }
         public bool DrawSceneBelow { get; set; }
 
-        public QuestMarker questMarker = new QuestMarker();
-
         public UIMenu UIMenu;
 
         public int frame = 0;
@@ -53,7 +51,6 @@ namespace AdventureGame.Engine
             _componentManager = EngineGlobals.componentManager;
             _systemManager = EngineGlobals.systemManager;
 
-            //_sceneContent = new ContentManager(Game.Services, Content.RootDirectory);
             _sceneContent = new ContentManager(Globals.content.ServiceProvider, Globals.content.RootDirectory);
 
             EntityList = new List<Entity>();
@@ -71,8 +68,6 @@ namespace AdventureGame.Engine
             _alphaMask = Utils.LoadTexture("VFX/light.png");
 
             UIMenu = new UIMenu();
-
-            Init();
         }
 
         public virtual void Init() { }
@@ -85,7 +80,6 @@ namespace AdventureGame.Engine
 
         public void _UnloadContent()
         {
-            // TESTING
             int count = 0;
             List<Entity> entitiesToKeep = new List<Entity>();
             foreach (Entity e in EntityList)
@@ -110,24 +104,23 @@ namespace AdventureGame.Engine
 
         public void _OnEnter()
         {
-            //EntitiesToDelete.Clear();
-            foreach (Entity e in EngineGlobals.entityManager.GetAllEntities())
-            {
-                TriggerComponent triggerComponent = e.GetComponent<TriggerComponent>();
-                if (triggerComponent != null)
-                {
-                    triggerComponent.collidedEntities.Clear();
-                }
-            }
-
             OnEnter();
         }
         public virtual void OnEnter() { }
 
         public void _OnExit()
         {
-            // TODO
-            //_entityManager.GetLocalPlayer().GetComponent<InputComponent>().Reset();
+            // Reset player movement
+            Entity player = _entityManager.GetLocalPlayer();
+            if (player == null)
+                return;
+
+            if (player.GetComponent<IntentionComponent>() != null)
+                player.GetComponent<IntentionComponent>().Reset();
+
+            if (player.GetComponent<PhysicsComponent>() != null)
+                player.GetComponent<PhysicsComponent>().ResetSpeed();
+
             OnExit();
         }
         public virtual void OnExit() { }
@@ -136,12 +129,8 @@ namespace AdventureGame.Engine
         {
             Map = Globals.content.Load<TiledMap>(newMapLocation);
             MapRenderer = new TiledMapRenderer(Globals.graphicsDevice, Map);
+
             CollisionTiles.Clear();
-
-            //int tileWidth = Map.TileWidth;
-            //int tileHeight = Map.TileHeight;
-
-            //TiledMapTileLayer collisionLayer = Map.GetLayer<TiledMapTileLayer>("Collision");
             TiledMapObjectLayer collisionLayer = Map.GetLayer<TiledMapObjectLayer>("collision");
 
             if (collisionLayer != null)
@@ -170,37 +159,9 @@ namespace AdventureGame.Engine
                         x -= width;
                         y -= height;
                     }
-
-                    //Console.WriteLine($"Collider object: {collisionObject.Position}, {collisionObject.Size}");
                     CreateCollisionTile(x, y, width, height);
-                        //(int)collisionObject.Position.X,
-                        //(int)collisionObject.Position.Y,
-                        //(int)collisionObject.Size.Width,
-                        //(int)collisionObject.Size.Height
-                    //);
                 }
             }
-
-            //foreach (TiledMapTileLayer layer in Map.Layers)
-            //{
-            //    if (layer.Properties.ContainsValue("collision"))
-            //    {
-            //        for (int x = 0; x < layer.Width; x++)
-            //        {
-            //            for (int y = 0; y < layer.Height; y++)
-            //            {
-            //                TiledMapTile? tile;
-            //                if (layer.TryGetTile((ushort)x, (ushort)y, out tile))
-            //                {
-            //                    if (!tile.Value.IsBlank)
-            //                    {
-            //                        CreateCollisionTile(x, y, tileWidth, tileHeight);
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
 
         }
 
@@ -385,7 +346,7 @@ namespace AdventureGame.Engine
             {
                 Entity e = EntityList[i];
                 int pos = i - 1;
-
+                //Console.WriteLine(string.Join(", ", e.Tags.Type));
                 while (pos >= 0 && EntityList[pos].GetComponent<TransformComponent>().DrawOrder > e.GetComponent<TransformComponent>().DrawOrder)
                 {
                     EntityList[pos + 1] = EntityList[pos];
@@ -393,40 +354,13 @@ namespace AdventureGame.Engine
                 }
                 EntityList[pos + 1] = e;
             }
-            //for (int i = 1; i < EntityList.Count; ++i)
-            //{
-            //    Entity e = EntityList[i];
-            //    int pos = i - 1;
-
-            //    int eOrder = 0;
-            //    int posOrder = 0;
-
-            //    TransformComponent eTransform = e.GetComponent<TransformComponent>();
-            //    TransformComponent posTransform = EntityList[pos].GetComponent<TransformComponent>();
-
-            //    if (eTransform != null)
-            //        eOrder = eTransform.DrawOrder;
-            //    if (posTransform != null)
-            //        posOrder = posTransform.DrawOrder;
-
-            //    while (pos >= 0 && posOrder > eOrder)
-            //    {
-            //        EntityList[pos + 1] = EntityList[pos];
-            //        pos--;
-
-            //        posTransform = EntityList[pos].GetComponent<TransformComponent>();
-            //        if (posTransform != null)
-            //            posOrder = posTransform.DrawOrder;
-            //    }
-            //    EntityList[pos + 1] = e;
-            //}
         }
 
         public virtual void _Input(GameTime gameTime)
         {
             if(InputSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow();
+                Scene sceneBelow = _sceneManager.SceneBelow;
                 if (sceneBelow != null)
                     sceneBelow._Input(gameTime);
             }
@@ -445,8 +379,6 @@ namespace AdventureGame.Engine
 
             Input(gameTime);
         }
-
-
 
         public virtual void _Update(GameTime gameTime)
         {
@@ -557,33 +489,27 @@ namespace AdventureGame.Engine
                 */
             }
 
-            questMarker.Update(this);
-
             // update the scene
             Update(gameTime);
 
             // Update the menu
-            if (UIMenu != null)
+            if (UIMenu != null && _sceneManager.IsActiveScene(this))
                 UIMenu.Update();
 
             if (UpdateSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow();
+                Scene sceneBelow = _sceneManager.SceneBelow;
                 if (sceneBelow != null)
                     sceneBelow._Update(gameTime);
             }
-
             frame++;
-
          }
 
         public void _Draw(GameTime gameTime)
-        
         {
-
             if (DrawSceneBelow)
             {
-                Scene sceneBelow = _sceneManager.GetSceneBelow();
+                Scene sceneBelow = _sceneManager.SceneBelow;
                 if (sceneBelow != null)
                     sceneBelow._Draw(gameTime);
             }
@@ -604,7 +530,6 @@ namespace AdventureGame.Engine
 
             foreach (Engine.Camera c in CameraList)
             {
-
                 // draw camera background
                 Globals.graphicsDevice.Viewport = c.getViewport();
                 Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
@@ -637,8 +562,7 @@ namespace AdventureGame.Engine
                 }
                 Globals.spriteBatch.End();
 
-                // TO DO
-
+                // todo
                 // Sort the entities to draw based on bottom Y position i.e. Y + Height position
                 // either using layerDepth with spriteBatch.Begin(SpriteSortMode.BackToFront)
 
@@ -761,7 +685,6 @@ namespace AdventureGame.Engine
                 // main system draw
                 s.Draw(gameTime, this);
             }
-            questMarker.Draw();
             Globals.spriteBatch.End();
 
             // draw the scene
@@ -786,7 +709,6 @@ namespace AdventureGame.Engine
                 }
             }
 
-            
 
             // Draw UI elements
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);

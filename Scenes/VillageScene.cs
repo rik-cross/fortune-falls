@@ -1,17 +1,19 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using S = System.Diagnostics.Debug;
 
-using Microsoft.Xna.Framework.Graphics;
+using System;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
     public class VillageScene : Scene
     {
-        public VillageScene()
+        public QuestMarker questMarker;
+
+        public override void Init()
         {
             EngineGlobals.DEBUG = false;
+            questMarker = new QuestMarker();
         }
 
         public override void LoadContent()
@@ -141,16 +143,40 @@ namespace AdventureGame
                 size: new Vector2(170, 170),
                 offset: new Vector2(-40, -40),
                 onCollisionEnter: (Entity e1, Entity e2, float d) => {
-                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(5.0f);
-                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
+                    if (e2.IsLocalPlayer())
+                    {
+                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(5.0f);
+                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
+                    }
                 },
                 onCollisionExit: (Entity e1, Entity e2, float d) => {
-                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
-                    EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                    if (e2.IsLocalPlayer())
+                    {
+                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
+                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                    }
                 }
             );
             playerHouse.AddComponent(tc);
             AddEntity(playerHouse);
+
+            // Player house - scene entrance trigger
+            Entity playerHouseEntrance = EngineGlobals.entityManager.CreateEntity();
+            playerHouseEntrance.AddComponent(new Engine.TransformComponent(688, 235, 16, 10));
+            Engine.TriggerComponent pHouseTC = new TriggerComponent(
+                size: new Vector2(16, 10),
+                //offset: new Vector2(15, 15),
+                onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
+                    if (otherEntity.IsLocalPlayer())
+                    {
+                        Vector2 playerPosition = new Vector2(50, 50);
+                        EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
+                        EngineGlobals.playerManager.ChangePlayerScene(playerPosition); 
+                    }
+                }
+            );
+            playerHouseEntrance.AddComponent(pHouseTC);
+            AddEntity(playerHouseEntrance);
 
             // Player's House trees
             AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false));
@@ -225,13 +251,69 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            AddEntity(EngineGlobals.entityManager.GetLocalPlayer());
-            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            // Add player to scene and set player scene
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            AddEntity(player);
+            player.GetComponent<SceneComponent>().Scene = this;
+
+            // todo - check camera exists first
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
+
+            //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
+
+            if (Globals.newGame)
+            {
+                // Reset the input controller stack
+                Engine.InputComponent inputComponent = player.GetComponent<InputComponent>();
+                inputComponent.Clear();
+
+                // add the player movement tutorial
+                Engine.AnimatedEmoteComponent movementEmote;
+                if (player.GetComponent<InputComponent>().Input == Engine.Inputs.controller)
+                    movementEmote = GameAssets.controllerMovementEmote;
+                else
+                    movementEmote = GameAssets.keyboardMovementEmote;
+
+                movementEmote.alpha.Value = 1;
+
+                player.GetComponent<TutorialComponent>().AddTutorial(
+                    new Engine.Tutorial(
+                        name: "Walk",
+                        description: "Use controls to walk around the world",
+                        onStart: () =>
+                        {
+                            EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
+                        },
+                        condition: () =>
+                        {
+                            return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.left) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.right) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.up) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.down);
+                        },
+                        numberOfTimes: 60,
+                        onComplete: () =>
+                        {
+                            Console.WriteLine("Walk tutorial complete");
+                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                        }
+                    )
+                );
+            }
+
+            Globals.newGame = false;
+        }
+
+        public override void OnExit()
+        {
+            // Clear all triggers
+            //EngineGlobals.systemManager.GetSystem<TriggerSystem>().ClearAllDelegates();
+            //EngineGlobals.systemManager.GetSystem<TutorialSystem>().ClearAllTutorials();
         }
 
         public override void Input(GameTime gameTime)
         {
-
             if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Up))
             {
                 GetCameraByName("main").SetZoom(10.0f);
@@ -241,31 +323,20 @@ namespace AdventureGame
                 GetCameraByName("main").SetZoom(1.0f);
             }
 
-
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
-            {
-                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                    new List<Scene>() { new PauseScene() }
-                ));
-            }
+                EngineGlobals.sceneManager.ChangeScene<PauseScene>(false);
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
-            {
-                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                    new List<Scene>() { new InventoryScene2() }
-                ));
-            }
+                EngineGlobals.sceneManager.ChangeScene<InventoryScene2>(false);
 
             if (EngineGlobals.inputManager.IsPressed(Globals.devToolsInput))
-            {
-                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                    new List<Scene>() { new DevToolsScene() }
-                ));
-            }
+                EngineGlobals.sceneManager.ChangeScene<DevToolsScene>(false);
         }
 
         public override void Update(GameTime gameTime)
         {
+            questMarker.Update(this);
+
             Utilities.SetBuildingAlpha(EntityList);
             //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
 
@@ -280,7 +351,7 @@ namespace AdventureGame
 
         public override void Draw(GameTime gameTime)
         {
-
+            questMarker.Draw();
         }
 
     }

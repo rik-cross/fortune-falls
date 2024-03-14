@@ -20,7 +20,7 @@ namespace AdventureGame.Engine
             Engine.DialogueComponent dc = e.GetComponent<Engine.DialogueComponent>();
             if(ic != null && dc != null)
             {
-                if(EngineGlobals.inputManager.IsPressed(ic.input.button1) && dc.dialoguePages.Count > 0)
+                if(EngineGlobals.inputManager.IsPressed(ic.Input.button1) && dc.dialoguePages.Count > 0)
                 {
                     // if dialogue not yet finished then skip to the end
                     if(dc.dialoguePages[0].index < dc.dialoguePages[0].text.Length)
@@ -42,14 +42,14 @@ namespace AdventureGame.Engine
 
             // ensure that the top inputController is for dialogue
             Engine.InputComponent ic = entity.GetComponent<InputComponent>();
-            if (ic != null && dialogueComponent.dialoguePages.Count > 0 && ic.topControllerLabel != "dialogue")
+            if (ic != null && dialogueComponent.dialoguePages.Count > 0 && ic.TopControllerLabel != "dialogue")
             {
                 if (entity.GetComponent<IntentionComponent>() != null)
                     entity.GetComponent<IntentionComponent>().Reset();
                 if (entity.State.Split("_").Length == 2 && (entity.State.Split("_")[0] == "walk" || entity.State.Split("_")[0] == "run"))
                     entity.State = "idle_" + entity.State.Split("_")[1];
-                ic.inputControllerStack.Push(DialogueInputController);
-                ic.topControllerLabel = "dialogue";
+                ic.PushController(DialogueInputController);
+                ic.TopControllerLabel = "dialogue";
             }
 
             dialogueComponent.alpha.Update();
@@ -97,10 +97,9 @@ namespace AdventureGame.Engine
 
             if (dialogueComponent.dialoguePages.Count == 0)
             {
-                if (ic.topControllerLabel == "dialogue" && ic.inputControllerStack.Count > 0)
+                if (ic.TopControllerLabel == "dialogue" && ic.InputControllerStack.Count > 0)
                 {
-                    ic.Pop();
-                    ic.topControllerLabel = "";
+                    ic.PopController();
                 }
             }
 

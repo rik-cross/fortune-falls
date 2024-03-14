@@ -1,6 +1,7 @@
 ﻿using AdventureGame.Engine;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+
+using System;
 using S = System.Diagnostics.Debug;
 
 
@@ -8,68 +9,10 @@ namespace AdventureGame
 {
     public class OptionsScene : Engine.Scene
     {
-        Engine.Text _title;
+        private Engine.Text _title;
 
-        public void UnloadOptionsScene(UIButton button)
+        public override void Init()
         {
-            //EngineGlobals.sceneManager.RemoveScene(this);
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { }, numScenesToUnload: 1
-                ));
-        }
-
-        public void SetMute(UIButton button)
-        {
-            EngineGlobals.soundManager.Mute = !EngineGlobals.soundManager.Mute;
-            if (EngineGlobals.soundManager.Mute)
-                button.text = "Unmute";
-            else
-                button.text = "Mute";
-            button.Init();
-        }
-
-        public void UpdateMusicVolume(UISlider button)
-        {
-
-            button.HandleInput();
-            if (EngineGlobals.soundManager.Mute)
-            {
-                button.active = false;
-                //S.WriteLine("fff");
-            }
-            else
-            {
-                button.active = true;
-                //S.WriteLine("ttt");
-            }
-
-            button.currentValue = EngineGlobals.soundManager._targetVolume;
-
-        }
-
-        public void UpdateSFXVolume(UISlider button)
-        {
-
-            button.HandleInput();
-            if (EngineGlobals.soundManager.Mute)
-            {
-                button.active = false;
-                //S.WriteLine("fff");
-            }
-            else
-            {
-                button.active = true;
-                //S.WriteLine("ttt");
-            }
-
-            button.currentValue = EngineGlobals.soundManager.SFXVolume;
-
-        }
-
-
-        public OptionsScene()
-        {
-
             backgroundColour = Color.DarkSlateGray;
             UISlider.drawMethod = UICustomisations.DrawSlider;
 
@@ -85,11 +28,10 @@ namespace AdventureGame
                 outlineColour: Color.Black
             );
 
-
             float screenMiddle = Globals.ScreenHeight / 2;
 
             string t = "Controller";
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
+            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.controller)
             {
                 t = "Keyboard";
             }
@@ -111,7 +53,7 @@ namespace AdventureGame
             double m = 1;
             if (EngineGlobals.soundManager.Mute)
                 m = 0;
-            
+
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle - 50),
@@ -124,7 +66,7 @@ namespace AdventureGame
                     func: SetMute
                 )
             );
-            
+
             UIMenu.AddUIElement(
                 new UISlider(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle),
@@ -132,8 +74,8 @@ namespace AdventureGame
                     text: "Music",
                     textColour: Color.White,
                     outlineColour: Color.White,
-                    onColour: new Color(99,199,77,255),
-                    offColour: new Color(228,59,68,255),
+                    onColour: new Color(99, 199, 77, 255),
+                    offColour: new Color(228, 59, 68, 255),
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     buttonSpecificUpdateMethod: UpdateMusicVolume,
@@ -164,7 +106,7 @@ namespace AdventureGame
                 tt = "Windowed";
             else
                 tt = "Fullscreen";
-            
+
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 100),
@@ -180,7 +122,7 @@ namespace AdventureGame
                             button.text = "Windowed";
                         else
                             button.text = "Fullscreen";
-                        Globals.graphics.IsFullScreen = EngineGlobals.fullscreen; 
+                        Globals.graphics.IsFullScreen = EngineGlobals.fullscreen;
                         Globals.graphics.ApplyChanges();
                     }
                 )
@@ -202,18 +144,66 @@ namespace AdventureGame
 
         }
 
+        public void UnloadOptionsScene(UIButton button)
+        {
+            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
+        }
+
+        public void SetMute(UIButton button)
+        {
+            EngineGlobals.soundManager.Mute = !EngineGlobals.soundManager.Mute;
+            if (EngineGlobals.soundManager.Mute)
+                button.text = "Unmute";
+            else
+                button.text = "Mute";
+            button.Init();
+        }
+
+        public void UpdateMusicVolume(UISlider button)
+        {
+            button.HandleInput();
+            if (EngineGlobals.soundManager.Mute)
+            {
+                button.active = false;
+            }
+            else
+            {
+                button.active = true;
+            }
+
+            button.currentValue = EngineGlobals.soundManager._targetVolume;
+        }
+
+        public void UpdateSFXVolume(UISlider button)
+        {
+            button.HandleInput();
+            if (EngineGlobals.soundManager.Mute)
+            {
+                button.active = false;
+            }
+            else
+            {
+                button.active = true;
+            }
+
+            button.currentValue = EngineGlobals.soundManager.SFXVolume;
+        }
+
         public override void OnEnter()
         {
             
         }
+
         public override void OnExit()
         {
 
         }
+
         public override void Input(GameTime gameTime)
         {
 
         }
+
         public override void Update(GameTime gameTime)
         {
 

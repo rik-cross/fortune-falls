@@ -1,9 +1,8 @@
-﻿using System;
-using S = System.Diagnostics.Debug;
-using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using System;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -11,107 +10,48 @@ namespace AdventureGame.Engine
     {
         private SceneManager _sceneManager;
 
-        protected List<Scene> ToScenes { get; set; }
-        //protected bool UnloadCurrentScene { get; set; }
-        protected int NumberOfScenesToUnload { get; set; }
+        protected bool UnloadCurrentScene { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
 
-        private bool _loadedScenes = false;
-        public bool Finished { get; set; }
+        public bool HasSceneChanged { get; private set; }
+        public bool Finished { get; private set; }
 
-        public SceneTransition(List<Scene> toScenes, int numScenesToUnload = 0)
+
+        public SceneTransition()
         {
             _sceneManager = EngineGlobals.sceneManager;
-
-            ToScenes = toScenes;
-            NumberOfScenesToUnload = numScenesToUnload;
-            //UnloadCurrentScene = unloadCurrentScene;
             Percentage = 0;
             Increment = 1.0f;
+            HasSceneChanged = false;
             Finished = false;
+        }
+
+        public void StartTransition(bool unloadCurrentScene = true)
+        {
+            UnloadCurrentScene = unloadCurrentScene;
         }
 
         public void Update(GameTime gameTime)
         {
+            //Console.WriteLine($"Scene transition update");
 
             Percentage = Math.Min(Percentage + Increment, 100);
 
-            if (Percentage >= 50 && _loadedScenes == false)
+            if (Percentage >= 50 && HasSceneChanged == false)
             {
-                //_sceneManager.ChangeScene(ToScene, UnloadCurrentScene);
-                _loadedScenes = true;
+                Console.WriteLine($"Transitioning to next scene");
 
-                bool scenesAdded = false;
-                foreach (Scene s in ToScenes)
-                {
-                    if (_sceneManager.ActiveScene != null)
-                        _sceneManager.ActiveScene.OnExit();
-                    _sceneManager._sceneStack.Add(s);
-                    _sceneManager.ActiveScene = s;
-                    //s.Init();
-                    s.LoadContent();
-                    s.OnEnter();
-                    scenesAdded = true;
-                    S.WriteLine(_sceneManager._sceneStack.Count);
-                }
+                HasSceneChanged = true;
 
-                //if (_sceneManager.ActiveScene != null && scenesAdded)
-                //    _sceneManager.ActiveScene.OnExit();
-
-                //if (_sceneManager._sceneStack.Count > 0 && scenesAdded)
-                //{
-                //    _sceneManager.ActiveScene = _sceneManager._sceneStack[^1];
-                    //_sceneManager.ActiveScene.Init();
-                    //_sceneManager.ActiveScene.LoadContent();
-                    //_sceneManager.ActiveScene.OnEnter();
-                //}
-
-                // remove scenes
-
-                if (NumberOfScenesToUnload > 0)
-                {
-                    
-                    int lastIndex = _sceneManager._sceneStack.Count - ToScenes.Count - 1;
-                    int firstIndex = Math.Max(0, lastIndex - NumberOfScenesToUnload + 1);
-                    S.WriteLine(lastIndex + " : " + firstIndex);
-                    for (int i = lastIndex; i >= firstIndex; i--)
-                    {
-                        S.WriteLine("removing " + i);
-                        if (i == lastIndex)
-                            _sceneManager._sceneStack[i].OnExit();
-                        S.WriteLine(_sceneManager._sceneStack[i].ToString());
-                        _sceneManager._sceneStack.RemoveAt(i);
-
-                        if (_sceneManager._sceneStack.Count > 0)
-                        {
-                            _sceneManager.ActiveScene = _sceneManager._sceneStack[^1];
-                            //_sceneManager.ActiveScene.Init();
-                            //_sceneManager.ActiveScene.LoadContent();
-                            _sceneManager.ActiveScene.OnEnter();
-                        } else
-                        {
-                            _sceneManager.ActiveScene = null;
-                        }
-
-                    }
-
-                    //_sceneManager.ActiveScene = _sceneManager._sceneStack[^1];
-                    //_sceneManager.ActiveScene.Init();
-                    //_sceneManager.ActiveScene.LoadContent();
-                    //_sceneManager.ActiveScene.OnEnter();
-
-                }
-
+                _sceneManager.SetActiveScene(UnloadCurrentScene);
             }
 
-            if (Percentage == 100)
+            if (Percentage >= 100)
             {
                 Finished = true;
             }
 
-            //if (_sceneManager.ActiveScene != null)
-            //    _sceneManager.ActiveScene._Update(gameTime);
         }
 
         public void _Draw(GameTime gameTime)
@@ -127,6 +67,7 @@ namespace AdventureGame.Engine
             Globals.spriteBatch.End();
 
         }
+
         public abstract void Draw(GameTime gameTime);
 
     }

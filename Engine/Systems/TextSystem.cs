@@ -175,9 +175,9 @@ namespace AdventureGame.Engine
                     if (inputComponent != null)
                     {
 
-                        Type w = inputComponent.input.GetType();
+                        Type w = inputComponent.Input.GetType();
                         FieldInfo x = w.GetField(textComponent.input);
-                        var y = x.GetValue(inputComponent.input);
+                        var y = x.GetValue(inputComponent.Input);
                         InputItem z = (InputItem)y;
 
                         if (EngineGlobals.inputManager.IsPressed(z))

@@ -1,5 +1,4 @@
 ﻿using AdventureGame.Engine;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -579,9 +578,7 @@ namespace AdventureGame
                 || _inputManager.IsPressed(Globals.backInput))
             {
                 _inputManager.HideCursor();
-                EngineGlobals.sceneManager.StartSceneTransition(new NoSceneTransition(
-                    new List<Scene>() {}, numScenesToUnload: 1
-                ));
+                EngineGlobals.sceneManager.ChangeToSceneBelow();
             }
 
             // Recalculate the container dimensions in case the screen size has changed 

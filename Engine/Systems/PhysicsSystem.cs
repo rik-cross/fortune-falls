@@ -104,7 +104,8 @@ namespace AdventureGame.Engine
         public void DecreaseSpeed(Entity entity, float speedModifier)
         {
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-            physicsComponent.ApplySpeedModifier(1 / speedModifier);
+            //physicsComponent.ApplySpeedModifier(1 / speedModifier);
+            physicsComponent.ResetSpeed();
             Console.WriteLine($"Speed is {physicsComponent.Speed}");
         }
     }

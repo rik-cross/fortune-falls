@@ -8,6 +8,15 @@ namespace AdventureGame.Engine
         {
             RequiredComponent<TutorialComponent>();
         }
+
+        public void ClearAllTutorials()
+        {
+            foreach (Entity e in EntityList)
+            {
+                e.GetComponent<TutorialComponent>().ClearTutorials();
+            }
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             TutorialComponent tutorialComponent = entity.GetComponent<TutorialComponent>();

@@ -92,12 +92,12 @@ namespace AdventureGame
 
             // Todo create player when the game is loaded and add it to active scene
             // Create player entity
-            PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
+            Entity player = PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
 
             if (EngineGlobals.inputManager.IsControllerConnected())
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;
+                player.GetComponent<InputComponent>().Input = Engine.Inputs.controller;
             else
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
+                player.GetComponent<InputComponent>().Input = Engine.Inputs.keyboard;
 
             // Create and add MenuScene to the scene stack
             if (Globals.TEST)
@@ -105,9 +105,8 @@ namespace AdventureGame
             }
             else
             {
-                EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new MenuScene() }
-                ));
+                EngineGlobals.sceneManager.ChangeScene<
+                    FadeSceneTransition, MenuScene>();
             }
                 
 
@@ -123,6 +122,7 @@ namespace AdventureGame
             EngineGlobals.inputManager.Update(gameTime);
             EngineGlobals.sceneManager.Input(gameTime);
             EngineGlobals.sceneManager.Update(gameTime);
+            EngineGlobals.playerManager.Update(gameTime);
             EngineGlobals.soundManager.Update(gameTime);
             base.Update(gameTime);
         }

@@ -1,93 +1,51 @@
 ﻿using AdventureGame.Engine;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended;
 
 using System;
-using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
-
 
 namespace AdventureGame
 {
     public class MenuScene : Engine.Scene
     {
+        public Engine.UIButton BtnContinue { get; private set; }
+
         private Engine.Text _title;
-        private Engine.Image keyboardImage;
-        private Engine.Image controllerImage;
-        private Engine.Image inputImage;
-        private Engine.Text inputText;
-        private Engine.Text versionText;
+        private Engine.Image _keyboardImage;
+        private Engine.Image _controllerImage;
+        private Engine.Image _inputImage;
+        private Engine.Text _inputText;
+        private Engine.Text _versionText;
 
-        private Engine.Camera camera;
-        private Engine.Entity mainMenuPlayer;
-        private Engine.Entity mainMenuCharacter1;
-        private int nextCatch;
-        private int frameOdo;
-        private Random r;
+        private Engine.Camera _camera;
+        private Engine.Entity _mainMenuPlayer;
+        private Engine.Entity _mainMenuCharacter1;
+        private int _nextCatch;
+        private int _frameOdo;
+        private Random _random;
 
-        public void LoadGameScene(UIButton button)
+
+        public override void Init()
         {
-            //Vector2 playerPosition = new Vector2(680, 580);
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(680, 580);
-
-
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new VillageScene(), new PlayerSelectScene() }
-                ));
-
-            // Add the MenuScene to the scene stack
-            //EngineGlobals.sceneManager.SetActiveScene<VillageScene>(applyTransition: true, unloadCurrentScene: false);
-            //EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(playerPosition);
-
-        }
-
-        public void LoadOptionsScene(UIButton button)
-        {
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new OptionsScene() }
-                ));
-        }
-        public void LoadCreditsScene(UIButton button)
-        {
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() { new CreditsScene() }
-                ));
-        }
-        public void UnloadMenuScene(UIButton button)
-        {
-            //EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
-            EngineGlobals.soundManager.Volume = 0;
-            EngineGlobals.sceneManager.StartSceneTransition(new FadeSceneTransition(
-                    new List<Scene>() {}, numScenesToUnload: 1
-                ));
-        }
-
-        public MenuScene()
-        {
-            
-
             EngineGlobals.DEBUG = false;
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
             AddMap("Maps/Map_MainMenu");
-            
-            camera = new Engine.Camera(
+
+            _camera = new Engine.Camera(
                     name: "main",
                     size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
                     zoom: 4.0f,
                     backgroundColour: Color.Black
                 );
 
-            camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
+            _camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
             //camera.zoomIncrement = 0.005f;
             //camera.SetZoom(3.0f);
             //AddCamera(n);
-            CameraList.Add(camera);
-            
+            CameraList.Add(_camera);
+
             LightLevel = 1.0f;
 
 
@@ -103,11 +61,11 @@ namespace AdventureGame
             //
             // Player fishing
             //
-            mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
-            mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1184, 870), new Vector2(15,20)));
+            _mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
+            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1184, 870), new Vector2(15, 20)));
             //mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
-            Engine.AnimatedSpriteComponent animatedComponent = mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
+            Engine.AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
             CreatePlayerSprites();
 
             //string dir = "Characters/Players/long_hair/";
@@ -121,23 +79,23 @@ namespace AdventureGame
             //spriteComponent.GetSprite("casting").OnComplete = (Engine.Entity e) => e.State = "waiting";
             //spriteComponent.GetSprite("caught").OnComplete = (Engine.Entity e) => e.State = "casting";
 
-            mainMenuPlayer.State = "casting";
+            _mainMenuPlayer.State = "casting";
 
-            r = new Random();
-            nextCatch = r.Next(1500, 5000);
-            frameOdo = 0;
+            _random = new Random();
+            _nextCatch = _random.Next(1500, 5000);
+            _frameOdo = 0;
 
-            AddEntity(mainMenuPlayer);
+            AddEntity(_mainMenuPlayer);
 
 
             //
             // Character swimming
             //
-            mainMenuCharacter1 = EngineGlobals.entityManager.CreateEntity();
-            mainMenuCharacter1.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(1400, 920), new Vector2(15, 20)));
+            _mainMenuCharacter1 = EngineGlobals.entityManager.CreateEntity();
+            _mainMenuCharacter1.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(1400, 920), new Vector2(15, 20)));
             //mainMenuCharacter1.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
-            Engine.AnimatedSpriteComponent animatedComponentC1 = mainMenuCharacter1.AddComponent<AnimatedSpriteComponent>();
+            Engine.AnimatedSpriteComponent animatedComponentC1 = _mainMenuCharacter1.AddComponent<AnimatedSpriteComponent>();
 
             // Swimming
             folder = "SWIMMING/";
@@ -156,9 +114,9 @@ namespace AdventureGame
             //Engine.SpriteComponent spriteComponentP2 = mainMenuCharacter1.AddComponent<Engine.SpriteComponent>();
             //spriteComponentP2.AddAnimatedSprite(dirPlayer2 + "spr_swimming_strip12", "swimming", 0, 11, offset: offsetPlayer2, flipH: true);
 
-            mainMenuCharacter1.State = "swimming";
+            _mainMenuCharacter1.State = "swimming";
 
-            AddEntity(mainMenuCharacter1);
+            AddEntity(_mainMenuCharacter1);
 
 
             // title text
@@ -174,7 +132,7 @@ namespace AdventureGame
             );
 
             // title text
-            inputText = new Engine.Text(
+            _inputText = new Engine.Text(
                 caption: "Keyboard controls",
                 font: Theme.FontSecondary,
                 colour: Color.White,
@@ -186,7 +144,7 @@ namespace AdventureGame
             );
 
             // title text
-            versionText = new Engine.Text(
+            _versionText = new Engine.Text(
                 caption: "v0.0",
                 font: Theme.FontSecondary,
                 colour: Color.White,
@@ -196,7 +154,7 @@ namespace AdventureGame
                 outlineColour: Color.Black,
                 outlineThickness: 4
             );
-            
+
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 300),
@@ -206,23 +164,22 @@ namespace AdventureGame
                     outlineColour: Color.White,
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
-                    func: LoadGameScene
+                    func: LoadNewGameScene
                 )
             );
 
-            UIMenu.AddUIElement(
-                new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 250),
-                    size: new Vector2(140, 45),
-                    text: "Continue",
-                    textColour: Color.White,
-                    outlineColour: Color.White,
-                    outlineThickness: 2,
-                    backgroundColour: Color.DarkSlateGray,
-                    func: null,
-                    active: false
-                )
+            BtnContinue = new UIButton(
+                position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 250),
+                size: new Vector2(140, 45),
+                text: "Continue",
+                textColour: Color.White,
+                outlineColour: Color.White,
+                outlineThickness: 2,
+                backgroundColour: Color.DarkSlateGray,
+                func: LoadContinueGameScene,
+                active: false
             );
+            UIMenu.AddUIElement(BtnContinue);
 
             UIMenu.AddUIElement(
                 new UIButton(
@@ -262,16 +219,16 @@ namespace AdventureGame
                     func: UnloadMenuScene
                 )
             );
-            
+
 
             // control images
-            controllerImage = new Engine.Image(
+            _controllerImage = new Engine.Image(
                 Utils.LoadTexture("UI/xbox360.png"),
                 size: new Vector2(118, 76),
                 anchor: Anchor.BottomLeft,
                 padding: new Padding(bottom: 30, left: 30)
             );
-            keyboardImage = new Engine.Image(
+            _keyboardImage = new Engine.Image(
                 Utils.LoadTexture("UI/keyboard.png"),
                 size: new Vector2(198, 63),
                 anchor: Anchor.BottomLeft,
@@ -280,33 +237,101 @@ namespace AdventureGame
 
         }
 
+        public void LoadNewGameScene(UIButton button)
+        {
+            // todo - bug!! button events can be fired multiple times if spamming enter
+            // have an option to disable a button temporarily after Action executed??
+
+            Globals.newGame = true;
+
+            // Reset the VillageScene
+            EngineGlobals.sceneManager.ResetScene<VillageScene>();
+
+            // Reset the player components
+            PlayerEntity.RemoveComponents();  // move to PlayerManager??
+            PlayerEntity.AddComponents();
+            Console.WriteLine(string.Join(", ", EngineGlobals.entityManager.GetLocalPlayer().Components));
+
+            // Reset the player character default sprite
+            Globals.playerIndex = 0;
+            Globals.playerStr = Globals.allCharacters[0];
+            PlayerEntity.UpdateSprites();  // move to PlayerManager??
+
+            // Transition to the PlayerSelectScene and load the VillageScene below
+            EngineGlobals.sceneManager.ChangeScene<
+                FadeSceneTransition, VillageScene, PlayerSelectScene>(false);
+
+            // Position the player
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Vector2 playerPosition = new Vector2(680, 580);
+            if (player != null)
+                player.GetComponent<TransformComponent>().Position = playerPosition;
+
+            // Clear necessary player components if a game has already been started
+            if (player.GetComponent<TutorialComponent>() != null)
+                player.GetComponent<TutorialComponent>().ClearTutorials();
+
+        }
+
+        public void LoadContinueGameScene(UIButton button)
+        {
+            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
+        }
+
+        public void LoadOptionsScene(UIButton button)
+        {
+            EngineGlobals.sceneManager.ChangeScene<
+                FadeSceneTransition, OptionsScene>(false);
+        }
+
+        public void LoadCreditsScene(UIButton button)
+        {
+            EngineGlobals.sceneManager.ChangeScene<
+                FadeSceneTransition, CreditsScene>(false);
+        }
+
+        public void UnloadMenuScene(UIButton button)
+        {
+            EngineGlobals.soundManager.Volume = 0;
+            EngineGlobals.sceneManager.UnloadAllScenes();
+        }
+
         public override void OnEnter()
         {
             EngineGlobals.DEBUG = false;
-            Globals.newGame = true;
-            
-            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
 
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
+            if (Globals.newGame)
             {
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Pop();
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel = "";
+                // todo - check if most of this is needed? move to VillageScene OnEnter
+
+                EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
+
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel == "dialogue")
+                {
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().PopController();
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel = "";
+                }
+                EngineGlobals.entityManager.GetLocalPlayer().Reset();
+                EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+                EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
+                EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
+
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.keyboard)
+                    //inputImage = keyboardImage;
+                    _inputText.Caption = "Keyboard";
+                else
+                    //inputImage = controllerImage;
+                    _inputText.Caption = "Controller";
             }
-            EngineGlobals.entityManager.GetLocalPlayer().Reset();
-            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
-            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
-            EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
-
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
-                //inputImage = keyboardImage;
-                inputText.Caption = "Keyboard";
             else
-                //inputImage = controllerImage;
-                inputText.Caption = "Controller";
-
+            {
+                // Re-create the player sprites in case player has changed
+                CreatePlayerSprites();
+            }
         }
+
         public override void OnExit()
         {
 
@@ -317,29 +342,30 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
-            frameOdo++;
+            _frameOdo++;
 
             //S.WriteLine(frameOdo + " " + nextCatch);
-            if (frameOdo == nextCatch)
+            if (_frameOdo == _nextCatch)
             {
-                frameOdo = 0;
-                nextCatch = (int)r.Next(1500, 5000);
-                mainMenuPlayer.State = "caught";
+                _frameOdo = 0;
+                _nextCatch = (int)_random.Next(1500, 5000);
+                _mainMenuPlayer.State = "caught";
             }
-            //S.WriteLine(EngineGlobals.sceneManager._sceneStack.Count + "  " + EngineGlobals.sceneManager.SceneList.Count);
         }
 
         public override void Draw(GameTime gameTime)
         {
             _title.Draw();
-            inputText.Draw();
-            versionText.Draw();
+            _inputText.Draw();
+            _versionText.Draw();
         }
 
         // Used to change the player style and re-create the sprites
         public void CreatePlayerSprites()
         {
-            AnimatedSpriteComponent animatedComponent = mainMenuPlayer.GetComponent<AnimatedSpriteComponent>();
+            AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.GetComponent<AnimatedSpriteComponent>();
+            animatedComponent.ClearAllAnimatedSprites();
+            Console.WriteLine($"Main menu animated sprites {animatedComponent.AnimatedSprites.Count}");
 
             // Character sprites
             string dir = Globals.characterDir;

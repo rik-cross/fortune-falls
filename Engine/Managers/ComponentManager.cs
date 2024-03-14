@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
@@ -87,6 +85,9 @@ namespace AdventureGame.Engine
 
             // Push the entity and component to the added queue
             //addedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
+            
+            //if (e.Tags.Type.Contains("player"))
+            //    Console.WriteLine($"Add component {e.ComponentFlags.BitFlags}");
 
             component.OnCreate(e);
 
@@ -111,9 +112,48 @@ namespace AdventureGame.Engine
             else
                 ChangedEntities.Add(e);
 
-            //changedEntities.Add(e);
-
             Console.WriteLine($"\nEntity {e.Id} removed component {component}");
+        }
+
+        // Remove components from the given list apart from TransformComponent
+        public void RemoveMultipleComponents(Entity e, bool instant = false, 
+            List<Component> componentsToKeep = null)
+        {
+            ConcurrentQueue<Component> tempRemovedComponents = new ConcurrentQueue<Component>();
+
+            if (e.GetComponent<TransformComponent>() != null)
+                componentsToKeep.Add(e.GetComponent<TransformComponent>());
+
+            foreach (var component in e.Components)
+            {
+                if (!componentsToKeep.Contains(component))
+                {
+                    // Push the entity and component to the removed queue
+                    if (instant)
+                        tempRemovedComponents.Enqueue(component);
+                    else
+                        RemovedComponents.Enqueue(new Tuple<Entity, Component>(e, component));
+
+                    component.OnDestroy(e);
+                }
+
+            }
+
+            // Update the system lists instantly or in the next tick
+            if (instant)
+            {
+                foreach (var c in tempRemovedComponents)
+                {
+                    // Remove component object from the entity list
+                    e.Components.Remove(c);
+
+                    // Remove component from entity flags
+                    e.ComponentFlags.RemoveFlags(GetComponentFlag(c));
+                }
+                EngineGlobals.systemManager.UpdateEntityLists(e);
+            }
+            else
+                ChangedEntities.Add(e);
         }
 
         // Removes all components from an entity

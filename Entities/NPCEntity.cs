@@ -17,12 +17,12 @@ namespace AdventureGame
             // Todo turn into a static CheckEntityExists method?
 
             // Check if the NPC entity already exists
-            if (!string.IsNullOrEmpty(idTag))
-            {
-                npcEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
-                if (npcEntity != null)
-                    return npcEntity;
-            }
+            //if (!string.IsNullOrEmpty(idTag))
+            //{
+            //    npcEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
+            //    if (npcEntity != null)
+            //        return npcEntity;
+            //}
 
             // Otherwise create a new NPC entity
             npcEntity = EngineGlobals.entityManager.CreateEntity();

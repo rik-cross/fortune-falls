@@ -10,9 +10,12 @@ namespace AdventureGame
 {
     public class TestScene2 : Scene
     {
+        public QuestMarker questMarker = new QuestMarker();
+
         public TestScene2()
         {
             EngineGlobals.DEBUG = false;
+            questMarker = new QuestMarker();
         }
 
         public override void LoadContent()
@@ -159,6 +162,8 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
+            questMarker.Update(this);
+
             Utilities.SetBuildingAlpha(EntityList);
             //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
 
@@ -166,18 +171,14 @@ namespace AdventureGame
             if (frame == 60 && Globals.newGame)
             {
                 Globals.newGame = false;
-                EngineGlobals.sceneManager.StartSceneTransition(
-                    new NoSceneTransition(
-                        new List<Scene>() { new PlayerSelectScene() }
-                    )
-                );
+                EngineGlobals.sceneManager.ChangeScene<PlayerSelectScene>();
             }
 
         }
 
         public override void Draw(GameTime gameTime)
         {
-
+            questMarker.Draw();
         }
 
     }

@@ -13,6 +13,14 @@ namespace AdventureGame.Engine
             RequiredComponent<TransformComponent>();
         }
 
+        public void ClearAllDelegates()
+        {
+            foreach (Entity e in EntityList)
+            {
+                e.GetComponent<TriggerComponent>().ClearDelegates();
+            }
+        }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             TriggerComponent triggerComponent = entity.GetComponent<TriggerComponent>();

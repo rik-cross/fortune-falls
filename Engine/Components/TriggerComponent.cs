@@ -30,6 +30,14 @@ namespace AdventureGame.Engine
 
             collidedEntities = new List<Entity>();
         }
+
+        public void ClearDelegates()
+        {
+            onCollisionEnter = null;
+            onCollide = null;
+            onCollisionExit = null;
+            collidedEntities.Clear();
+        }
     }
 
 }
