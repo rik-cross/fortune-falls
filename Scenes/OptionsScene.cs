@@ -31,7 +31,7 @@ namespace AdventureGame
             float screenMiddle = Globals.ScreenHeight / 2;
 
             string t = "Controller";
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
+            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.controller)
             {
                 t = "Keyboard";
             }

@@ -243,7 +243,6 @@ namespace AdventureGame
             // have an option to disable a button temporarily after Action executed??
 
             Globals.newGame = true;
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
 
             // Reset the VillageScene
             EngineGlobals.sceneManager.ResetScene<VillageScene>();
@@ -251,7 +250,7 @@ namespace AdventureGame
             // Reset the player components
             PlayerEntity.RemoveComponents();  // move to PlayerManager??
             PlayerEntity.AddComponents();
-            //Console.WriteLine(string.Join(", ", player.Components));
+            Console.WriteLine(string.Join(", ", EngineGlobals.entityManager.GetLocalPlayer().Components));
 
             // Reset the player character default sprite
             Globals.playerIndex = 0;
@@ -262,9 +261,8 @@ namespace AdventureGame
             EngineGlobals.sceneManager.ChangeScene<
                 FadeSceneTransition, VillageScene, PlayerSelectScene>(false);
 
-            player = EngineGlobals.entityManager.GetLocalPlayer();
-
             // Position the player
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             Vector2 playerPosition = new Vector2(680, 580);
             if (player != null)
                 player.GetComponent<TransformComponent>().Position = playerPosition;
@@ -278,15 +276,6 @@ namespace AdventureGame
         public void LoadContinueGameScene(UIButton button)
         {
             EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
-
-            // todo
-            // Reset player speed
-
-            // Reset intention?
-            // Pause clear the tutorail?
-
-            // Position the player??
-            // Position the camera??
         }
 
         public void LoadOptionsScene(UIButton button)
@@ -313,12 +302,14 @@ namespace AdventureGame
 
             if (Globals.newGame)
             {
+                // todo - check if most of this is needed? move to VillageScene OnEnter
+
                 EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
 
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel == "dialogue")
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel == "dialogue")
                 {
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Pop();
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().topControllerLabel = "";
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().PopController();
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel = "";
                 }
                 EngineGlobals.entityManager.GetLocalPlayer().Reset();
                 EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
@@ -327,7 +318,7 @@ namespace AdventureGame
                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
                 EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
 
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.keyboard)
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.keyboard)
                     //inputImage = keyboardImage;
                     _inputText.Caption = "Keyboard";
                 else

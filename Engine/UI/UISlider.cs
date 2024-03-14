@@ -134,11 +134,11 @@ namespace AdventureGame.Engine
                 return;
             }
 
-            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left))
+            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.left))
             {
                 currentValue = Math.Max(minValue, currentValue - stepValue);
             }
-            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right))
+            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.right))
             {
                 currentValue = Math.Min(maxValue, currentValue + stepValue);
             }

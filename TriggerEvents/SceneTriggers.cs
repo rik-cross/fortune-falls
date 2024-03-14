@@ -15,7 +15,7 @@ namespace AdventureGame.Engine
             {
                 InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
                 if (playerInputComponent != null
-                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.Input.button1))
                 {
                     LightComponent lightComponent = EngineGlobals.entityManager.GetEntityByIdTag("homeLight1").GetComponent<LightComponent>();
                     lightComponent.visible = !lightComponent.visible;
@@ -34,7 +34,7 @@ namespace AdventureGame.Engine
 
             InputComponent playerInputComponent = playerEntity.GetComponent<InputComponent>();
             if (playerInputComponent != null
-                && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+                && EngineGlobals.inputManager.IsPressed(playerInputComponent.Input.button1))
             {
                 DialogueComponent dialogueComponent = playerEntity.GetComponent<DialogueComponent>();
                 if (dialogueComponent != null && !dialogueComponent.HasPages())
@@ -91,11 +91,11 @@ namespace AdventureGame.Engine
                                     new Tutorial(
                                         name: "Use Axe",
                                         description: "Show the Blacksmith that you can use an axe",
-                                        condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.button6); },
+                                        condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.button6); },
                                         numberOfTimes: 3,
                                         onStart: () => {
                                             Engine.EmoteComponent weaponEmote;
-                                            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
+                                            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.controller)
                                                 weaponEmote = GameAssets.controllerWeaponEmote;
                                             else
                                                 weaponEmote = GameAssets.keyboardWeaponEmote;
@@ -169,7 +169,7 @@ namespace AdventureGame.Engine
             {
                 InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
                 if (playerInputComponent != null
-                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.input.button1))
+                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.Input.button1))
                 {
                     DialogueComponent dialogueComponent = colliderEntity.GetComponent<DialogueComponent>();
                     if (dialogueComponent != null && !dialogueComponent.HasPages())

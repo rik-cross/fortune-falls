@@ -139,8 +139,8 @@ namespace AdventureGame
 
             // Do not remove input of player or animated sprite in case of tutorial
             playerEntity.RemoveAllComponents(new List<Component> {
-                playerEntity.GetComponent<InputComponent>(),
-                playerEntity.GetComponent<AnimatedSpriteComponent>() },
+                playerEntity.GetComponent<InputComponent>() },
+                //playerEntity.GetComponent<AnimatedSpriteComponent>() },
                 true
             );
 
@@ -331,10 +331,10 @@ namespace AdventureGame
             //entity.State = "idle_down";
 
             // up key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.up) && (entity.State.Contains("_")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up) && (entity.State.Contains("_")))
             {
                 intentionComponent.up = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
                 {
                     if (entity.State.Contains("walk_"))
                     {
@@ -360,10 +360,10 @@ namespace AdventureGame
             }
 
             // down key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.down) && (entity.State.Contains("_")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.down) && (entity.State.Contains("_")))
             {
                 intentionComponent.down = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
                 {
                     if (entity.State.Contains("walk_"))
                     {
@@ -389,10 +389,10 @@ namespace AdventureGame
             }
 
             // left key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.left) && (entity.State.Contains("_")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.left) && (entity.State.Contains("_")))
             {
                 intentionComponent.left = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
                 {
                     if (entity.State.Contains("walk_"))
                     {
@@ -418,10 +418,10 @@ namespace AdventureGame
             }
 
             // right key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.right) && (entity.State.Contains("_")))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.right) && (entity.State.Contains("_")))
             {
                 intentionComponent.right = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
                 {
                     if (entity.State.Contains("walk_"))
                     {
@@ -447,7 +447,7 @@ namespace AdventureGame
             }
 
             // button 1 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button6))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button6))
             {
                 intentionComponent.button1 = true;
                 if (entity.State.Contains("_"))
@@ -464,10 +464,10 @@ namespace AdventureGame
             }
 
             if (
-                    EngineGlobals.inputManager.IsDown(inputComponent.input.up) == false &&
-                    EngineGlobals.inputManager.IsDown(inputComponent.input.down) == false &&
-                    EngineGlobals.inputManager.IsDown(inputComponent.input.left) == false &&
-                    EngineGlobals.inputManager.IsDown(inputComponent.input.right) == false &&
+                    EngineGlobals.inputManager.IsDown(inputComponent.Input.up) == false &&
+                    EngineGlobals.inputManager.IsDown(inputComponent.Input.down) == false &&
+                    EngineGlobals.inputManager.IsDown(inputComponent.Input.left) == false &&
+                    EngineGlobals.inputManager.IsDown(inputComponent.Input.right) == false &&
                     (entity.State.Contains("walk_") || entity.State.Contains("run_"))
                 )
             {
@@ -475,7 +475,7 @@ namespace AdventureGame
             }
 
             // button 2 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.input.button2))
+            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
             {
                 intentionComponent.button2 = true;
             }

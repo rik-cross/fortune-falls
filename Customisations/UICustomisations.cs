@@ -242,16 +242,16 @@ namespace AdventureGame
 
         public static void SetControls(UIButton button)
         {
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input == Engine.Inputs.controller)
+            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.controller)
             {
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
+                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input = Engine.Inputs.keyboard;
                 button.text = "Keyboard";
             }
             else
             {
                 if (EngineGlobals.inputManager.IsControllerConnected())
                 {
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input = Engine.Inputs.controller;
                     button.text = "Controller";
                 }
 

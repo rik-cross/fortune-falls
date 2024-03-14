@@ -245,11 +245,8 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
+            // Add player to scene and set player scene
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            if (player == null)
-                return;
-
-            // Add player entity and set player scene
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
@@ -261,9 +258,13 @@ namespace AdventureGame
 
             if (Globals.newGame)
             {
+                // Reset the input controller stack
+                Engine.InputComponent inputComponent = player.GetComponent<InputComponent>();
+                inputComponent.Clear();
+
                 // add the player movement tutorial
                 Engine.AnimatedEmoteComponent movementEmote;
-                if (player.GetComponent<InputComponent>().input == Engine.Inputs.controller)
+                if (player.GetComponent<InputComponent>().Input == Engine.Inputs.controller)
                     movementEmote = GameAssets.controllerMovementEmote;
                 else
                     movementEmote = GameAssets.keyboardMovementEmote;
@@ -280,10 +281,10 @@ namespace AdventureGame
                         },
                         condition: () =>
                         {
-                            return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.left) ||
-                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.right) ||
-                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.up) ||
-                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input.down);
+                            return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.left) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.right) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.up) ||
+                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.down);
                         },
                         numberOfTimes: 60,
                         onComplete: () =>
@@ -294,6 +295,7 @@ namespace AdventureGame
                     )
                 );
             }
+
             Globals.newGame = false;
         }
 

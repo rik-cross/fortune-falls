@@ -95,9 +95,9 @@ namespace AdventureGame
             Entity player = PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
 
             if (EngineGlobals.inputManager.IsControllerConnected())
-                player.GetComponent<InputComponent>().input = Engine.Inputs.controller;
+                player.GetComponent<InputComponent>().Input = Engine.Inputs.controller;
             else
-                player.GetComponent<InputComponent>().input = Engine.Inputs.keyboard;
+                player.GetComponent<InputComponent>().Input = Engine.Inputs.keyboard;
 
             // Create and add MenuScene to the scene stack
             if (Globals.TEST)

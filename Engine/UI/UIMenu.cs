@@ -45,10 +45,10 @@ namespace AdventureGame.Engine
 
             InputComponent inputComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>();
 
-            if (inputComponent.input == null)
+            if (inputComponent.Input == null)
                 return;
 
-            if (EngineGlobals.inputManager.IsPressed(inputComponent.input.down) &&
+            if (EngineGlobals.inputManager.IsPressed(inputComponent.Input.down) &&
                 _UIElements.Count > 1)
             {
                 int count = _UIElements.Count;
@@ -68,7 +68,7 @@ namespace AdventureGame.Engine
                 }
             }
 
-            if (EngineGlobals.inputManager.IsPressed(inputComponent.input.up) &&
+            if (EngineGlobals.inputManager.IsPressed(inputComponent.Input.up) &&
                 _UIElements.Count > 1)
             {
                 int count = _UIElements.Count;
