@@ -146,7 +146,7 @@ namespace AdventureGame
 
         public void UnloadOptionsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
+            EngineGlobals.sceneManager.ChangeToSceneBelow<FadeSceneTransition>();
         }
 
         public void SetMute(UIButton button)

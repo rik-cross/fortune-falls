@@ -29,7 +29,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 - 25),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 - 75),
                     size: new Vector2(140, 45),
                     text: "Back",
                     textColour: Color.White,
@@ -38,6 +38,21 @@ namespace AdventureGame
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
                         EngineGlobals.sceneManager.ChangeToSceneBelow();
+                    }
+                )
+            );
+
+            UIMenu.AddUIElement(
+                new UIButton(
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 - 25),
+                    size: new Vector2(140, 45),
+                    text: "Options",
+                    textColour: Color.White,
+                    outlineColour: Color.White,
+                    outlineThickness: 2,
+                    backgroundColour: Color.DarkSlateGray,
+                    func: (UIButton button) => {
+                        EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, OptionsScene>();
                     }
                 )
             );
@@ -57,9 +72,6 @@ namespace AdventureGame
                         {
                             menuScene.BtnContinue.active = true;
                             menuScene.UIMenu.SetSelected(menuScene.BtnContinue);
-                            //menuScene.BtnContinue.selected = true;
-                            // todo - set the button to selected, deselect the first button
-                            // and update _activeElementIndex
                         }
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
                     }
@@ -96,7 +108,13 @@ namespace AdventureGame
         {
             //if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             //    EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
+
+            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
+            {
+                EngineGlobals.sceneManager.ChangeToSceneBelow();
+            }
         }
+
         public override void Update(GameTime gameTime)
         {
 

@@ -33,7 +33,7 @@ namespace AdventureGame
         // e.g. Engine.Input.PauseInput() or Engine.Input.Up()
         public static List<Engine.InputItem> devToolsInput = new List<Engine.InputItem>() { Engine.KeyboardInput.T };
         public static List<Engine.InputItem> enterInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter };
-        public static List<Engine.InputItem> pauseInput = new List<Engine.InputItem>() { Engine.KeyboardInput.P, Engine.ControllerInput.Start };
+        public static List<Engine.InputItem> pauseInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Start };
         public static List<Engine.InputItem> inventoryInput = new List<Engine.InputItem>() { Engine.KeyboardInput.I, Engine.ControllerInput.DPadUp };
         public static List<Engine.InputItem> forwardInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter, Engine.ControllerInput.Start };
         public static List<Engine.InputItem> backInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Back };
