@@ -11,10 +11,11 @@ namespace AdventureGame.Engine
 {
     public static class KeyboardInput
     {
-        public static List<Keys> keyList = new List<Keys>();
+        public static List<Keys> KeyList = new List<Keys>();
 
         public static InputItem Enter = new InputItem(key: Keys.Enter);
         public static InputItem Escape = new InputItem(key: Keys.Escape);
+        public static InputItem Tab = new InputItem(key: Keys.Tab);
 
         public static InputItem LeftShift = new InputItem(key: Keys.LeftShift);
 

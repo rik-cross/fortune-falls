@@ -4,8 +4,6 @@
  *   Defines all mouse input as an InputItem
  */
 
-using Microsoft.Xna.Framework.Input;
-
 namespace AdventureGame.Engine
 {
     public static class MouseInput
