@@ -10,17 +10,43 @@ namespace AdventureGame.Engine
         public Vector2 Direction { get; set; }
         public string DirectionString { get; set; }
         public float Speed { get; set; }
+        public bool CanSprint { get; private set; }
+        public bool IsSprint { get; private set; }
 
         private float _baseSpeed;
-        private float _speedMultiplier;
         private float _maxSpeed;
+        private float _speedMultiplier;
+        private float _sprintMultiplier;
 
-        public PhysicsComponent(float baseSpeed = 100, float speedMultiplier = 1.0f,
+        // todo
+        // CHARACTER CONTROLLER (component)!!!
+        // methods for setting IsSprint, EnableSprint, DisableSprint, SprintMultiplier
+        // IsSprint: check CanSprint, apply _sprintMultipler, CalculateSpeed
+        // EnableSprint(sprintMultiplier): assign, CalculateSpeed
+        // DisableSprint: if IsSprint set IsSprint to false & CalculateSpeed, else set IsSprint to false
+        // CalculateSpeed: use _sprintMultiplier too
+        // Check other methods
+        // _slowModifier / _slowPercentage?
+        // E.g. ApplySlow(float percentage, bool replaceExisting = false)
+        // E.g. ClearSlow()
+
+        // buff, debuff
+        // duration (default forever)
+
+        public PhysicsComponent(
+            float baseSpeed = 100,
+            bool canSprint = true,
+            bool isSprint = false,
+            float speedMultiplier = 1.0f,
             string directionString = "")
         {
             _baseSpeed = baseSpeed;
             _speedMultiplier = speedMultiplier;
             _maxSpeed = 400;
+
+            CanSprint = canSprint;
+            if (CanSprint)
+                IsSprint = isSprint;
 
             Velocity = Vector2.Zero;
             PreviousVelocity = Vector2.Zero;
