@@ -21,7 +21,7 @@ namespace AdventureGame
                 font: Theme.FontSubtitle,
                 colour: Theme.TextColorTertiary,
                 anchor: Anchor.TopCenter,
-                padding: new Padding(top: 200),
+                padding: new Padding(top: 100),
                 outline: true,
                 outlineThickness: 6,
                 outlineColour: Color.Black
