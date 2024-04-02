@@ -197,6 +197,12 @@ namespace AdventureGame
                         AddEntity(playerHouseEntrance);
                         EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = null;
                         EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/axeBreak.wav"));
+
+                        GameAssets.AxeBrokeEmote.alpha.Value = 1;
+                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent(GameAssets.AxeBrokeEmote);
+                        EngineGlobals.entityManager.GetLocalPlayer().After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
+                        
                         EngineGlobals.log.Add("Your axe broke");
                     },
                     announce: false

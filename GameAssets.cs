@@ -25,6 +25,7 @@ namespace AdventureGame
         public static Texture2D right_trigger = Engine.Utils.LoadTexture("Emojis/right_trigger.png");
         public static Texture2D key_axe = Engine.Utils.LoadTexture("Emojis/key.png");
 
+        public static Texture2D texture_axe_broke = Engine.Utils.LoadTexture("Emojis/axeBroke.png");
 
         // image lists
         public static List<Texture2D> list_texture_controller_movement = Engine.Utilities.SplitTexture(
@@ -40,7 +41,7 @@ namespace AdventureGame
         // emote images
         //public static Engine.Image emote_pickaxe = new Engine.Image(Engine.Utils.LoadTexture(contentLocation + "Emojis/emote_pickaxe.png"));
         public static Engine.Image emote_pickaxe = new Engine.Image(Engine.Utils.LoadTexture("Emojis/emote_pickaxe.png"));
-
+        
         // npc headshots
 
         // blacksmith
@@ -83,7 +84,15 @@ namespace AdventureGame
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
             drawMethod: UICustomisations.DrawEmote,
-            textureSize: new Vector2(13*3, 13*3)
+            textureSize: new Vector2(13 * 3, 13 * 3)
+        );
+
+        public static Engine.EmoteComponent AxeBrokeEmote = new Engine.EmoteComponent(
+            texture_axe_broke,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawEmote,
+            textureSize: new Vector2(13 * 3, 13 * 3)
         );
 
     }
