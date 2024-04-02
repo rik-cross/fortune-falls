@@ -24,11 +24,14 @@ namespace AdventureGame.Engine
             foreach(Achievement a in achievements) {
                 if (a.IsComplete())
                 {
-                    EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/powerUp.wav"));
+                    if (a.announce == true)
+                    {
+                        EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/powerUp.wav"));
+                        EngineGlobals.log.Add("Achivement: " + a.Title + " -- " + a.Description);
+                    }
                     a.OnComplete();
                     a.remove = true;
                     completedAchievements.Add(a);
-                    EngineGlobals.log.Add("Achivement: " + a.Title + " -- " + a.Description);
                 }   
             }
             // remove completed achievements

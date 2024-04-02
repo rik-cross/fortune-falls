@@ -192,7 +192,14 @@ namespace AdventureGame
                     "Lumberjack",
                     "Chopped down all trees around your home",
                     () => { return EngineGlobals.entityManager.GetAllEntitiesByType("houseTree").Count == 0; },
-                    () => { AddEntity(playerHouseEntrance); }
+                    () => { 
+                        // todo: should remove the bits that we don't want here.
+                        AddEntity(playerHouseEntrance);
+                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = null;
+                        EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/axeBreak.wav"));
+                        EngineGlobals.log.Add("Your axe broke");
+                    },
+                    announce: false
                 )
             );
 
