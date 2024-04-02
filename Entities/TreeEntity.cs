@@ -10,11 +10,12 @@ namespace AdventureGame.Engine
     public static class TreeEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            bool isStump = true, string defaultState = "tree")
+            bool isStump = true, string defaultState = "tree", string additionalTag=null)
         {
             Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
             entity.Tags.AddTag("tree");
-
+            if (additionalTag != null)
+                entity.Tags.AddTag(additionalTag);
             // Add sprites
             string dir = "Objects/";
             Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();

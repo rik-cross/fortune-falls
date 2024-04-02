@@ -33,7 +33,7 @@ namespace AdventureGame
             else
                 GetCameraByName("main").SetZoom(4.0f, instant: true);
 
-                
+
 
 
             ////
@@ -167,25 +167,36 @@ namespace AdventureGame
                 size: new Vector2(16, 10),
                 //offset: new Vector2(15, 15),
                 onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
-                    if (otherEntity.IsLocalPlayer())
+                    if (otherEntity.IsLocalPlayer()) //&& EngineGlobals.inputManager.IsPressed(otherEntity.GetComponent<InputComponent>().Input.button1))
                     {
                         Vector2 playerPosition = new Vector2(50, 50);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
-                        EngineGlobals.playerManager.ChangePlayerScene(playerPosition); 
+                        EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
+                        EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
                     }
-                }
-            );
+                });
             playerHouseEntrance.AddComponent(pHouseTC);
-            AddEntity(playerHouseEntrance);
+            //AddEntity(playerHouseEntrance);
 
             // Player's House trees
-            AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false, "tree", "houseTree"));
+
+            EngineGlobals.achievementManager.AddAchievement(
+                new Engine.Achievement(
+                    "Lumberjack",
+                    "Chopped down all trees around your home",
+                    () => { return EngineGlobals.entityManager.GetAllEntitiesByType("houseTree").Count == 0; },
+                    () => { AddEntity(playerHouseEntrance); }
+                )
+            );
+
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
 
             ////
             //// Add objects
@@ -257,6 +268,7 @@ namespace AdventureGame
             player.GetComponent<SceneComponent>().Scene = this;
 
             // todo - check camera exists first
+            // todo - this breaks focus on the house
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
 

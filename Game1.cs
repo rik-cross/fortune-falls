@@ -86,9 +86,12 @@ namespace AdventureGame
             EngineGlobals.playerManager = new PlayerManager();
             EngineGlobals.inventoryManager = new InventoryManager();
             EngineGlobals.soundManager = new SoundManager();
+            EngineGlobals.achievementManager = new AchievementManager();
 
             EngineGlobals.soundManager.Volume = 0.5f;
-            EngineGlobals.soundManager.SFXVolume = 0.75f;
+            EngineGlobals.soundManager.SFXVolume = 1.0f;
+
+            EngineGlobals.log = new Log();
 
             // Todo move to another accessible place for the menu and scenes
             Globals.dialogueTickSound = Utils.LoadSoundEffect("Sounds/blip.wav");
@@ -127,12 +130,15 @@ namespace AdventureGame
             EngineGlobals.sceneManager.Update(gameTime);
             EngineGlobals.playerManager.Update(gameTime);
             EngineGlobals.soundManager.Update(gameTime);
+            EngineGlobals.achievementManager.Update(gameTime);
+            EngineGlobals.log.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             EngineGlobals.sceneManager.Draw(gameTime);
+            EngineGlobals.log.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

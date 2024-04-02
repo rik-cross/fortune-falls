@@ -14,6 +14,8 @@ namespace AdventureGame.Engine
         public static PlayerManager playerManager;
         public static InventoryManager inventoryManager;
         public static SoundManager soundManager;
+        public static AchievementManager achievementManager;
+        public static Log log;
         //public static List<System> systems = new List<System>();
         public static bool DEBUG = true;
         public static bool fullscreen;
