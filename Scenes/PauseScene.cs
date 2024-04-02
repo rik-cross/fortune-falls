@@ -88,6 +88,7 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
+                        EngineGlobals.soundManager.Volume = 0;
                         EngineGlobals.sceneManager.UnloadAllScenes();
                     }
                 )
@@ -96,12 +97,12 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            EngineGlobals.soundManager.Volume /= 3;
+            EngineGlobals.soundManager.Volume /= 4;
         }
 
         public override void OnExit()
         {
-            EngineGlobals.soundManager.Volume *= 3;
+            EngineGlobals.soundManager.Volume *= 4;
         }
 
         public override void Input(GameTime gameTime)

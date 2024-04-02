@@ -239,6 +239,9 @@ namespace AdventureGame
 
         public void LoadNewGameScene(UIButton button)
         {
+
+            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/2_i_passed_the_final_exam_master.ogg"));
+
             // todo - bug!! button events can be fired multiple times if spamming enter
             // have an option to disable a button temporarily after Action executed??
 
@@ -275,6 +278,7 @@ namespace AdventureGame
 
         public void LoadContinueGameScene(UIButton button)
         {
+            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/2_i_passed_the_final_exam_master.ogg"));
             EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
         }
 
@@ -299,12 +303,11 @@ namespace AdventureGame
         public override void OnEnter()
         {
             EngineGlobals.DEBUG = false;
+            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/1_new_life_master.ogg"));
 
             if (Globals.newGame)
             {
                 // todo - check if most of this is needed? move to VillageScene OnEnter
-
-                EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
 
                 if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel == "dialogue")
                 {

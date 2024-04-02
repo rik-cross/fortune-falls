@@ -87,6 +87,9 @@ namespace AdventureGame
             EngineGlobals.inventoryManager = new InventoryManager();
             EngineGlobals.soundManager = new SoundManager();
 
+            EngineGlobals.soundManager.Volume = 0.5f;
+            EngineGlobals.soundManager.SFXVolume = 0.75f;
+
             // Todo move to another accessible place for the menu and scenes
             Globals.dialogueTickSound = Utils.LoadSoundEffect("Sounds/blip.wav");
 

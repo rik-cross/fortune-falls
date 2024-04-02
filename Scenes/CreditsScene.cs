@@ -34,7 +34,7 @@ namespace AdventureGame
             _creditsText = new List<string>() {
                 "Writers", "Alex Parry, Mac Bowley and Rik Cross", "rik-cross.github.com/adventure-game",
                 "Graphics",  "Sunnyside World by danieldiggle", "danieldiggle.itch.io",
-                "Sound", "TBC", "url TBC"
+                "Sound", "Lo-fi / Cozy Sim music packs by Rest!", "richarrest.itch.io"
             };
             int padding = 200;
 

@@ -54,7 +54,7 @@ namespace AdventureGame.Engine
         }
         public float SFXVolume;
 
-        private float volumeIncrement = 0.03f;
+        private float volumeIncrement = 0.015f;
         private Song _currentSong = null;
         private Song _nextSong = null;
         public SoundManager()
