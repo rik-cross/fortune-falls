@@ -31,6 +31,8 @@ namespace AdventureGame.Engine
 
                 bool hit = false;
 
+                //List<Entity> hitEntities;
+
                 foreach (Engine.Entity e in scene.EntityList)
                 {
                     if (e != entity && e.GetComponent<Engine.BattleComponent>() != null)
@@ -50,6 +52,10 @@ namespace AdventureGame.Engine
 
                             if (r1a.Intersects(r2a) && battleComponent.weapon != null)
                             {
+
+                                // todo: add to a list, and then have the option
+                                // to only hit the one closest entity
+
                                 hit = true;
                                 if (battleComponent.weapon.hitSound != null)
                                     EngineGlobals.soundManager.PlaySoundEffect(battleComponent.weapon.hitSound);
@@ -57,6 +63,7 @@ namespace AdventureGame.Engine
                                     battleComponent.OnHit(entity, e, battleComponent.weapon, bc.weapon);
                                 if (bc.OnHurt != null)
                                     bc.OnHurt(e, entity, bc.weapon, battleComponent.weapon);
+
                             }
                         }
                     }

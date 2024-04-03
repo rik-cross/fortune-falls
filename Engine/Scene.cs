@@ -213,7 +213,7 @@ namespace AdventureGame.Engine
                     name: "main",
                     size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
                     zoom: Globals.globalZoomLevel,
-                    backgroundColour: Color.DarkSlateBlue,
+                    backgroundColour: Color.Black,
                     trackedEntity: EngineGlobals.entityManager.GetLocalPlayer(),
                     ownerEntity: EngineGlobals.entityManager.GetLocalPlayer()
                 );
@@ -229,7 +229,7 @@ namespace AdventureGame.Engine
                     size: new Vector2(300, 300),
                     followPercentage: 1.0f,
                     zoom: 0.5f,
-                    backgroundColour: Color.DarkSlateBlue,
+                    backgroundColour: Color.Black,
                     borderColour: Color.Black,
                     borderThickness: 2,
                     trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()

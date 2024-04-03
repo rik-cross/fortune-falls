@@ -10,6 +10,7 @@ namespace AdventureGame
 
         public HomeScene()
         {
+            backgroundColour = Color.Black;
         }
 
         public override void Init()
