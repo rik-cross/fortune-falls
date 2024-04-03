@@ -13,8 +13,8 @@ namespace AdventureGame.Engine
         public int timeShown = 300;
         public Log()
         {
-            //Add("test: 1");
-            //Add("test: another one");
+            Add("test: 1");
+            Add("test: another one");
         }
         public void Add(LogItem item)
         {
@@ -52,15 +52,17 @@ namespace AdventureGame.Engine
             if (visible == false)
                 return;
 
-            int y = 130;
+            int y = Globals.ScreenHeight / 2;
 
-            Globals.spriteBatch.Begin();
+            //Globals.spriteBatch.Begin();
             foreach (LogItem l in items)
             {
                 Globals.spriteBatch.DrawString(Theme.FontSecondary, l.text, new Vector2(35, y), Color.White * l.alpha) ;
-                y += 35;
+                y += 30;
+                if (y > Globals.ScreenHeight - Theme.FontSecondary.MeasureString("Some Text").Y - 30)
+                    return;
             }
-            Globals.spriteBatch.End();
+            //Globals.spriteBatch.End();
         }
     }
 }

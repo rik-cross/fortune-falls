@@ -138,7 +138,7 @@ namespace AdventureGame
         protected override void Draw(GameTime gameTime)
         {
             EngineGlobals.sceneManager.Draw(gameTime);
-            EngineGlobals.log.Draw(gameTime);
+            //EngineGlobals.log.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

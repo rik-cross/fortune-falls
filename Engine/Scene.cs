@@ -714,6 +714,9 @@ namespace AdventureGame.Engine
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             if (UIMenu != null)
                 UIMenu.Draw();
+
+            EngineGlobals.log.Draw(gameTime);
+
             Globals.spriteBatch.End();
 
             // switch back to the main backbuffer
