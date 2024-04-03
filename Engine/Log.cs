@@ -13,8 +13,8 @@ namespace AdventureGame.Engine
         public int timeShown = 300;
         public Log()
         {
-            Add("test: 1");
-            Add("test: another one");
+            //Add("test: 1");
+            //Add("test: another one");
         }
         public void Add(LogItem item)
         {
