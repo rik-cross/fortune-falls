@@ -297,13 +297,17 @@ namespace AdventureGame
         public void UnloadMenuScene(UIButton button)
         {
             EngineGlobals.soundManager.Volume = 0;
-            EngineGlobals.sceneManager.UnloadAllScenes();
+            EngineGlobals.soundManager.SFXVolume = 0;
+            EngineGlobals.log.visible = false;
+            EngineGlobals.sceneManager.ChangeScene<
+                    FadeSceneTransition, ExitScene>();
+            //EngineGlobals.sceneManager.UnloadAllScenes();
         }
 
         public override void OnEnter()
         {
             EngineGlobals.DEBUG = false;
-            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/1_new_life_master.ogg"));
+            EngineGlobals.soundManager.PlaySong(Utils.LoadSong("Music/1_new_life_master.ogg"));
 
             if (Globals.newGame)
             {

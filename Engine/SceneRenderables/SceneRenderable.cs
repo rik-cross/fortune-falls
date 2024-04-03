@@ -40,6 +40,7 @@ namespace AdventureGame.Engine
         public Vector2 Position;
         public Vector2 Size;
         public float Alpha;
+        public DoubleAnimation Alpha2;
         public bool Visible;
 
         protected Padding Padding;
@@ -173,6 +174,7 @@ namespace AdventureGame.Engine
             AnchorParent = anchorParent;
             Padding = padding;
             Alpha = alpha;
+            Alpha2 = new DoubleAnimation(alpha, increment: 0.1f);
             Visible = visible;
 
             if (anchorParent == default && anchor != Anchor.None)

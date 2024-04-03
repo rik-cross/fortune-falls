@@ -112,7 +112,7 @@ namespace AdventureGame
             else
             {
                 EngineGlobals.sceneManager.ChangeScene<
-                    FadeSceneTransition, MenuScene>();
+                    FadeSceneTransition, SplashScene>();
             }
                 
 

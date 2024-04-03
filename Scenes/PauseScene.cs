@@ -89,7 +89,11 @@ namespace AdventureGame
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
                         EngineGlobals.soundManager.Volume = 0;
-                        EngineGlobals.sceneManager.UnloadAllScenes();
+                        EngineGlobals.soundManager.SFXVolume = 0;
+                        //EngineGlobals.sceneManager.UnloadAllScenes();
+                        EngineGlobals.log.visible = false;
+                        EngineGlobals.sceneManager.ChangeScene<
+                            FadeSceneTransition, ExitScene>();
                     }
                 )
             );

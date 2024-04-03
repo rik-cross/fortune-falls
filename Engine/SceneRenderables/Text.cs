@@ -60,17 +60,17 @@ namespace AdventureGame.Engine
             {
                 for (int i = 1; i < _outlineThickness; i++)
                 {
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y - i), _outlineColour * Alpha);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y - i), _outlineColour * Alpha);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y + i), _outlineColour * Alpha);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y + i), _outlineColour * Alpha);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y), _outlineColour * Alpha);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y), _outlineColour * Alpha);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y - i), _outlineColour * Alpha);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y + i), _outlineColour * Alpha);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y - i), _outlineColour * (float)Alpha2.Value);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y - i), _outlineColour * (float)Alpha2.Value);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y + i), _outlineColour * (float)Alpha2.Value);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y + i), _outlineColour * (float)Alpha2.Value);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y), _outlineColour * (float)Alpha2.Value);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y), _outlineColour * (float)Alpha2.Value);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y - i), _outlineColour * (float)Alpha2.Value);
+                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y + i), _outlineColour * (float)Alpha2.Value);
                 }
             }
-            Globals.spriteBatch.DrawString(_font, _caption, Position, _colour * Alpha);
+            Globals.spriteBatch.DrawString(_font, _caption, Position, _colour * (float)Alpha2.Value);
 
         }
 

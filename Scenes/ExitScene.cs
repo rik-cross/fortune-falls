@@ -15,11 +15,12 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            EngineGlobals.soundManager.Mute = true;
+            //EngineGlobals.soundManager.Mute = true;
         }
 
         public override void Update(GameTime gameTime)
         {
+            //if (frame == 60)
             EngineGlobals.sceneManager.UnloadAllScenes();
         }
     }

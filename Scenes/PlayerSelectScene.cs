@@ -37,7 +37,7 @@ namespace AdventureGame
             // player select slider
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 150),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 175),
                     size: new Vector2(120, 45),
                     text: Globals.characterNames[Globals.playerIndex],
                     textColour: Color.White,
@@ -48,6 +48,10 @@ namespace AdventureGame
                     backgroundColour: Color.DarkSlateGray,
                     buttonSpecificUpdateMethod: (UISlider slider) => {
                         slider.HandleInput();
+                        if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.button1))
+                        {
+                            EngineGlobals.sceneManager.ChangeToSceneBelow();
+                        }
                         slider.text = Globals.characterNames[Globals.playerIndex];
                         slider.Init();
                     },
@@ -63,7 +67,7 @@ namespace AdventureGame
                 )
             );
 
-            // ok button
+            /*/ ok button
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 200),
@@ -77,7 +81,7 @@ namespace AdventureGame
                         EngineGlobals.sceneManager.ChangeToSceneBelow();
                     }
                 )
-            );
+            );*/
             
 
         }

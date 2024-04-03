@@ -191,6 +191,7 @@ namespace AdventureGame
                 new Engine.Achievement(
                     "Lumberjack",
                     "Chopped down all trees around your home",
+                    // todo: added IsACtiveScene to stop this becoming true on UnloadAllScenes
                     () => { return EngineGlobals.entityManager.GetAllEntitiesByType("houseTree").Count == 0; },
                     () => { 
                         // todo: should remove the bits that we don't want here.

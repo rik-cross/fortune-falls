@@ -24,6 +24,10 @@ namespace AdventureGame.Engine
         {
             items.Add(new LogItem(text));
         }
+        public void Clear()
+        {
+            items.Clear();
+        }
         public void Update(GameTime gameTime)
         {
             foreach (LogItem l in items)
@@ -49,7 +53,7 @@ namespace AdventureGame.Engine
         }
         public void Draw(GameTime gameTime)
         {
-            if (visible == false)
+            if (visible == false || items.Count == 0)
                 return;
 
             int y = Globals.ScreenHeight / 2;
