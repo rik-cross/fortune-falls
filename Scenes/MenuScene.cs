@@ -31,7 +31,7 @@ namespace AdventureGame
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
-            AddMap("Maps/Map_MainMenu");
+            AddMap("Maps/Map_Village");
 
             _camera = new Engine.Camera(
                     name: "main",
@@ -40,7 +40,9 @@ namespace AdventureGame
                     backgroundColour: Color.Black
                 );
 
-            _camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
+            //_camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
+
+
             //camera.zoomIncrement = 0.005f;
             //camera.SetZoom(3.0f);
             //AddCamera(n);
@@ -62,7 +64,7 @@ namespace AdventureGame
             // Player fishing
             //
             _mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
-            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1184, 870), new Vector2(15, 20)));
+            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(175, 1190), new Vector2(15, 20)));
             //mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
@@ -87,12 +89,11 @@ namespace AdventureGame
 
             AddEntity(_mainMenuPlayer);
 
-
             //
             // Character swimming
             //
             _mainMenuCharacter1 = EngineGlobals.entityManager.CreateEntity();
-            _mainMenuCharacter1.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(1400, 920), new Vector2(15, 20)));
+            _mainMenuCharacter1.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(380, 1240), new Vector2(15, 20)));
             //mainMenuCharacter1.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.AnimatedSpriteComponent animatedComponentC1 = _mainMenuCharacter1.AddComponent<AnimatedSpriteComponent>();
@@ -118,6 +119,8 @@ namespace AdventureGame
 
             AddEntity(_mainMenuCharacter1);
 
+            Vector2 playerPos = _mainMenuPlayer.GetComponent<TransformComponent>().Position;
+            _camera.SetWorldPosition(new Vector2(playerPos.X + 100, playerPos.Y + 30), instant: true);
 
             // title text
             _title = new Engine.Text(
