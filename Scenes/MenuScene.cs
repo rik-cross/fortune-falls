@@ -87,7 +87,17 @@ namespace AdventureGame
             _nextCatch = _random.Next(1500, 5000);
             _frameOdo = 0;
 
-            AddEntity(_mainMenuPlayer);
+
+            // todo - move to OnEnter
+            // todo Add actual player instead and remove mainMenuPlayer
+            // Add player to scene and set player scene
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Vector2 playerPosition = new Vector2(175, 1190);
+            player.GetComponent<TransformComponent>().Position = playerPosition;
+            AddEntity(player);
+            player.GetComponent<SceneComponent>().Scene = this;
+
+            //AddEntity(_mainMenuPlayer);
 
             //
             // Character swimming
@@ -337,8 +347,11 @@ namespace AdventureGame
             }
             else
             {
+                // todo - use the PlayerManager to call CreatePlayerSprites method
                 // Re-create the player sprites in case player has changed
                 CreatePlayerSprites();
+
+                // todo - disable player input controls
             }
         }
 

@@ -281,6 +281,9 @@ namespace AdventureGame
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
+            // todo - enable input control
+
+
             // todo - check camera exists first
             // todo - this breaks focus on the house
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
