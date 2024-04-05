@@ -37,7 +37,7 @@ namespace AdventureGame.Engine
         public void AddAnimatedSprite(string filePath, string key,
             int startFrame, int endFrame, int totalRows = 1, int framesPerRow = -1,
             Vector2 offset = default, bool flipH = false, bool flipV = false,
-            bool play = true, bool loop = true, int delay = 6,
+            bool play = true, bool loop = true, int delay = 4,
             Action<Entity> onComplete = null)
         {
             // Load the sprite sheet

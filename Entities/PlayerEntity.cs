@@ -12,7 +12,7 @@ namespace AdventureGame
         public static Dictionary<string, AnimatedSpriteComponent> animatedSprites = new Dictionary<string, AnimatedSpriteComponent>();
 
         public static Engine.Entity Create(int x, int y, int width, int height,
-            string defaultState = "idle_right", float speed = 60, string idTag = null)
+            string defaultState = "idle_right", float speed = 50, string idTag = null)
         {
             Engine.Entity playerEntity;
 
@@ -53,7 +53,7 @@ namespace AdventureGame
             return playerEntity;
         }
 
-        public static void AddComponents(string defaultState = "idle_right", float speed = 60,
+        public static void AddComponents(string defaultState = "idle_right", float speed = 50,
             Entity player = null)
         {
             Entity playerEntity = null;
