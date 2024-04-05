@@ -111,10 +111,10 @@ namespace AdventureGame
             }
             else
             {
-                EngineGlobals.sceneManager.ChangeScene<
-                    FadeSceneTransition, SplashScene>();
                 //EngineGlobals.sceneManager.ChangeScene<
-                //    FadeSceneTransition, MenuScene>();
+                //    FadeSceneTransition, SplashScene>();
+                EngineGlobals.sceneManager.ChangeScene<
+                    FadeSceneTransition, MenuScene>();
             }
                 
 
@@ -134,6 +134,8 @@ namespace AdventureGame
             EngineGlobals.soundManager.Update(gameTime);
             EngineGlobals.achievementManager.Update(gameTime);
             EngineGlobals.log.Update(gameTime);
+            if (EngineGlobals.sceneManager.ActiveScene != null && EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main") != null)
+                S.WriteLine(EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").WorldPosition);
             base.Update(gameTime);
         }
 

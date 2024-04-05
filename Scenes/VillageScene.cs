@@ -27,8 +27,10 @@ namespace AdventureGame
             if (Globals.newGame)
             {
                 GetCameraByName("main").SetZoom(4.0f, instant: true);
-                GetCameraByName("main").SetWorldPosition(new Vector2(680, 580), instant: true);
-                GetCameraByName("main").SetZoom(10.0f, instant: false);
+                GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
+                GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                GetCameraByName("main").SetZoom(8.0f, instant: false);
+            
             }
             else
                 GetCameraByName("main").SetZoom(4.0f, instant: true);
@@ -172,6 +174,8 @@ namespace AdventureGame
                         Vector2 playerPosition = new Vector2(50, 50);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
                         EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
+                        // todo -- Alex, do we need something like this?
+                        //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<SceneComponent>().Scene = HomeScene;
                         EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
                     }
                 });
@@ -278,6 +282,7 @@ namespace AdventureGame
         {
             // Add player to scene and set player scene
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            player.GetComponent<InputComponent>().Active = true;
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
@@ -325,7 +330,8 @@ namespace AdventureGame
                         onComplete: () =>
                         {
                             Console.WriteLine("Walk tutorial complete");
-                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                         }
                     )
                 );
@@ -343,15 +349,6 @@ namespace AdventureGame
 
         public override void Input(GameTime gameTime)
         {
-            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Up))
-            {
-                GetCameraByName("main").SetZoom(10.0f);
-            }
-            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Down))
-            {
-                GetCameraByName("main").SetZoom(1.0f);
-            }
-
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
                 EngineGlobals.sceneManager.ChangeScene<PauseScene>(false);
 
@@ -364,18 +361,8 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
-            questMarker.Update(this);
-
+            questMarker.Update(this); // todo: add this to Scene
             Utilities.SetBuildingAlpha(EntityList);
-            //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
-
-            // why does this have to be 60? a lower number doesn't work
-            /*if (frame == 60 && Globals.newGame)
-            {
-                Globals.newGame = false;
-                //EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
-            }*/
-
         }
 
         public override void Draw(GameTime gameTime)

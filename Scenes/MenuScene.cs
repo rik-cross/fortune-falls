@@ -87,17 +87,7 @@ namespace AdventureGame
             _nextCatch = _random.Next(1500, 5000);
             _frameOdo = 0;
 
-
-            // todo - move to OnEnter
-            // todo Add actual player instead and remove mainMenuPlayer
-            // Add player to scene and set player scene
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            Vector2 playerPosition = new Vector2(175, 1190);
-            player.GetComponent<TransformComponent>().Position = playerPosition;
-            AddEntity(player);
-            player.GetComponent<SceneComponent>().Scene = this;
-
-            //AddEntity(_mainMenuPlayer);
+            AddEntity(_mainMenuPlayer);
 
             //
             // Character swimming
@@ -273,19 +263,22 @@ namespace AdventureGame
             Globals.playerStr = Globals.allCharacters[0];
             PlayerEntity.UpdateSprites();  // move to PlayerManager??
 
-            // Transition to the PlayerSelectScene and load the VillageScene below
-            EngineGlobals.sceneManager.ChangeScene<
-                FadeSceneTransition, VillageScene, PlayerSelectScene>(false);
-
             // Position the player
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            Vector2 playerPosition = new Vector2(680, 580);
+            Vector2 playerPosition = new Vector2(175, 1190);
             if (player != null)
                 player.GetComponent<TransformComponent>().Position = playerPosition;
 
             // Clear necessary player components if a game has already been started
             if (player.GetComponent<TutorialComponent>() != null)
                 player.GetComponent<TutorialComponent>().ClearTutorials();
+
+            // Transition to the PlayerSelectScene and load the VillageScene below
+            EngineGlobals.sceneManager.ChangeScene<
+                NoSceneTransition, VillageScene, PlayerSelectScene>(unloadCurrentScene: false);
+
+
+
 
         }
 
@@ -321,6 +314,19 @@ namespace AdventureGame
         {
             EngineGlobals.DEBUG = false;
             EngineGlobals.soundManager.PlaySong(Utils.LoadSong("Music/1_new_life_master.ogg"));
+
+            // todo - move to OnEnter
+            // todo Add actual player instead and remove mainMenuPlayer
+            // Add player to scene and set player scene
+            //Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            //Vector2 playerPosition = new Vector2(175, 1190);
+            //player.GetComponent<TransformComponent>().Position = playerPosition;
+            //player.GetComponent<InputComponent>().Active = false;
+
+            //if (player.GetComponent<AnimatedEmoteComponent>() != null)
+            //    player.GetComponent<AnimatedEmoteComponent>().Reset();
+           // AddEntity(player);
+            //player.GetComponent<SceneComponent>().Scene = this;
 
             if (Globals.newGame)
             {

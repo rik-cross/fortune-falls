@@ -8,6 +8,7 @@ namespace AdventureGame.Engine
         public InputMethod Input { get; set; }
         public List<Action<Entity>> InputControllerStack { get; private set; }
         public string TopControllerLabel { get; set; }
+        public bool Active { get; set; }
 
         public InputComponent(InputMethod input, Action<Entity> inputController)
         {
