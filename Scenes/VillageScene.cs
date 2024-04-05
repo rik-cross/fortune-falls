@@ -35,9 +35,6 @@ namespace AdventureGame
             else
                 GetCameraByName("main").SetZoom(4.0f, instant: true);
 
-
-
-
             ////
             //// Add cave entrance
             ////
