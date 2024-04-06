@@ -6,20 +6,12 @@ namespace AdventureGame.Engine
     {
         public InputSystem()
         {
-            RequiredComponent<InputComponent>();
-            RequiredComponent<IntentionComponent>();
+            RequiredComponent<InputComponent>();    
         }
 
         public override void InputEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             InputComponent inputComponent = entity.GetComponent<InputComponent>();
-            IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
-            
-            if (EngineGlobals.sceneManager.Transition != null)
-            {
-                intentionComponent.Reset();
-                return;
-            }
             
             if (inputComponent.InputControllerStack.Count > 0 && inputComponent.Active == true)
                 inputComponent.PeekController().Invoke(entity);

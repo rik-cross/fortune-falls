@@ -328,6 +328,16 @@ namespace AdventureGame
             // default state
             //entity.State = "idle_down";
 
+            if (EngineGlobals.inputManager.IsPressed(inputComponent.Input.button2))
+            {
+                intentionComponent.Set("sprint", true);
+            }
+            else if (EngineGlobals.inputManager.IsReleased(inputComponent.Input.button2))
+            {
+                intentionComponent.Set("sprint", false);
+            }
+
+
 
             // up key
             if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up) && (entity.State.Contains("_")))

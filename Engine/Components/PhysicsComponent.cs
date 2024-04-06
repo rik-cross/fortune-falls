@@ -9,40 +9,31 @@ namespace AdventureGame.Engine
         public Vector2 PreviousVelocity { get; set; }
         public Vector2 Direction { get; set; }
         public string DirectionString { get; set; }
-        public float Speed { get; set; }
+        public float Speed { get; private set; }
         public bool CanSprint { get; private set; }
         public bool IsSprint { get; private set; }
 
         private float _baseSpeed;
         private float _maxSpeed;
-        private float _speedMultiplier;
+        private float _minSpeed;
         private float _sprintMultiplier;
-
-        // todo
-        // CHARACTER CONTROLLER (component)!!!
-        // methods for setting IsSprint, EnableSprint, DisableSprint, SprintMultiplier
-        // IsSprint: check CanSprint, apply _sprintMultipler, CalculateSpeed
-        // EnableSprint(sprintMultiplier): assign, CalculateSpeed
-        // DisableSprint: if IsSprint set IsSprint to false & CalculateSpeed, else set IsSprint to false
-        // CalculateSpeed: use _sprintMultiplier too
-        // Check other methods
-        // _slowModifier / _slowPercentage?
-        // E.g. ApplySlow(float percentage, bool replaceExisting = false)
-        // E.g. ClearSlow()
-
-        // buff, debuff
-        // duration (default forever)
+        private float _speedBuff;
+        private float _slowDebuff;
 
         public PhysicsComponent(
-            float baseSpeed = 100,
+            float baseSpeed = 50,
+            float sprintMultiplier = 2.0f,
+            float maxSpeed = 100,
+            float minSpeed = 0,
             bool canSprint = true,
             bool isSprint = false,
-            float speedMultiplier = 1.0f,
-            string directionString = "")
+            float speedBuff = 1,
+            float slowDebuff = 1)
         {
             _baseSpeed = baseSpeed;
-            _speedMultiplier = speedMultiplier;
-            _maxSpeed = 400;
+            _sprintMultiplier = sprintMultiplier;
+            _maxSpeed = maxSpeed;
+            _minSpeed = minSpeed;
 
             CanSprint = canSprint;
             if (CanSprint)
@@ -51,24 +42,109 @@ namespace AdventureGame.Engine
             Velocity = Vector2.Zero;
             PreviousVelocity = Vector2.Zero;
             Direction = Vector2.Zero;
-            DirectionString = directionString;
+            DirectionString = "";
 
             CalculateSpeed();
         }
 
-        public void ApplySpeedModifier(float multiplier)
+        public void CalculateSpeed()
         {
-            _speedMultiplier *= multiplier;
+            //Speed = _baseSpeed * _speedMultiplier;
+            Speed = _baseSpeed * _speedBuff * _slowDebuff;
 
-            if (_speedMultiplier < 0.0f)
-                _speedMultiplier = 0.0f;
+            if (IsSprint)
+                Speed *= _sprintMultiplier;
 
+            if (Speed > _maxSpeed)
+                Speed = _maxSpeed;
+            else if (Speed < _minSpeed)
+                Speed = _minSpeed;
+
+            //Speed = Speed < 0 ? 0 : Speed;
+            //Console.WriteLine($"Speed {Speed}");
+        }
+
+        public void StartSprint()
+        {
+            if (CanSprint)
+            {
+                IsSprint = true;
+                CalculateSpeed();
+            }
+        }
+
+        public void StopSprint()
+        {
+            IsSprint = false;
+            CalculateSpeed();
+        }
+
+        public void EnableSprint()
+        {
+            CanSprint = true;
+            CalculateSpeed();
+        }
+
+        public void DisableSprint()
+        {
+            CanSprint = false;
+            IsSprint = false;
+            CalculateSpeed();
+        }
+
+        // Multipler > 1
+        // duration? (default forever)
+        public void ApplySpeedBuff(float multiplier,
+            bool replaceExisting = false, bool keepHighest = false)
+        {
+            if (replaceExisting || _speedBuff == 1)
+            {
+                if (keepHighest && multiplier > _speedBuff)
+                {
+                    if (multiplier > 1)
+                    {
+                        _speedBuff = multiplier;
+                        CalculateSpeed();
+                    }
+                }
+            }
+        }
+
+        // Multiplier >= 0 and < 1
+        // duration? (default forever)
+        public void ApplySlowDebuff(float multiplier,
+            bool replaceExisting = false, bool keepLowest = false)
+        {
+            if (replaceExisting || _slowDebuff == 1)
+            {
+                if (keepLowest && multiplier < _slowDebuff)
+                {
+                    if (multiplier < 1 && multiplier >= 0)
+                    {
+                        _slowDebuff = multiplier;
+                        CalculateSpeed();
+                    }
+                }
+            }
+        }
+
+        public void ClearSpeedBuff()
+        {
+            _speedBuff = 1;
+            CalculateSpeed();
+        }
+
+        public void ClearSlowDebuff()
+        {
+            _slowDebuff = 1;
             CalculateSpeed();
         }
 
         public void ResetSpeed()
         {
-            _speedMultiplier = 1.0f;
+            IsSprint = false;
+            _speedBuff = 1;
+            _slowDebuff = 1;
             CalculateSpeed();
         }
 
@@ -76,30 +152,11 @@ namespace AdventureGame.Engine
         {
             if (baseSpeed > _maxSpeed)
                 _baseSpeed = _maxSpeed;
-            else if (baseSpeed < 0)
-                _baseSpeed = 0;
+            else if (baseSpeed < _minSpeed)
+                _baseSpeed = _minSpeed;
             else
                 _baseSpeed = baseSpeed;
         }
-
-        public void CalculateSpeed()
-        {
-            Speed = _baseSpeed * _speedMultiplier;
-
-            if (Speed > _maxSpeed)
-                Speed = _maxSpeed;
-            else if (Speed < 0)
-                Speed = 0;
-
-            //Speed = Speed < 0 ? 0 : Speed;
-            //Console.WriteLine($"Speed {Speed}");
-        }
-
-        /*public Vector2 CalculateVelocity(Vector2 direction, float deltaTime)
-        {
-            Velocity = direction * Speed * deltaTime;
-            return Velocity;
-        }*/
 
         public bool HasVelocity()
         {
