@@ -43,12 +43,7 @@ namespace AdventureGame.Engine
             if (_UIElements.Count == 0 || _selectedElementIndex == -1)
                 return;
 
-            InputComponent inputComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>();
-
-            if (inputComponent.Input == null)
-                return;
-
-            if (EngineGlobals.inputManager.IsPressed(inputComponent.Input.down) &&
+            if (EngineGlobals.inputManager.IsPressed(Globals.downInput) &&
                 _UIElements.Count > 1)
             {
                 int count = _UIElements.Count;
@@ -67,8 +62,7 @@ namespace AdventureGame.Engine
                     }
                 }
             }
-
-            if (EngineGlobals.inputManager.IsPressed(inputComponent.Input.up) &&
+            else if (EngineGlobals.inputManager.IsPressed(Globals.upInput) &&
                 _UIElements.Count > 1)
             {
                 int count = _UIElements.Count;

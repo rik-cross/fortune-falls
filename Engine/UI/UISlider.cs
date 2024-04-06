@@ -134,11 +134,11 @@ namespace AdventureGame.Engine
                 return;
             }
 
-            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.left))
+            if (EngineGlobals.inputManager.IsPressed(Globals.leftInput))
             {
                 currentValue = Math.Max(minValue, currentValue - stepValue);
             }
-            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.right))
+            if (EngineGlobals.inputManager.IsPressed(Globals.rightInput))
             {
                 currentValue = Math.Min(maxValue, currentValue + stepValue);
             }
@@ -148,6 +148,7 @@ namespace AdventureGame.Engine
             }
             prevValue = currentValue;
         }
+
         public override void Draw()
         {
 
@@ -191,8 +192,8 @@ namespace AdventureGame.Engine
             {
                 Globals.spriteBatch.DrawRectangle(position, size, activeColour * a, outlineThickness);
             }
-
         }
+
         public override void Execute()
         {
 

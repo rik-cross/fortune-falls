@@ -584,13 +584,8 @@ namespace AdventureGame
             // Recalculate the container dimensions in case the screen size has changed 
             CalculateContainerDimensions();
 
-            //IntentionComponent intentionComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<IntentionComponent>();
-            //if (intentionComponent.up)
-
-            // CHANGE to Keys.Up etc instead of WASD?
-            // CHANGE Up to DPadUp?
+            // Handle user input
             if (_inputManager.IsPressed(Globals.upInput))
-                // && EngineGlobals.sceneManager.transition == null) // needed?
                 ChangeCurrentSlot("Up");
             if (_inputManager.IsPressed(Globals.downInput))
                 ChangeCurrentSlot("Down");
