@@ -369,7 +369,7 @@ namespace AdventureGame
             if (_currentSlot != -1)
             {
                 //Console.WriteLine($"Clicked slot {i}");
-                bool splitStack = _inputManager.IsDown(Globals.button2Input);
+                bool splitStack = _inputManager.IsDown(Globals.splitStackInput);
                 // _isSplitStack / _isDraggedItemStackSplit
                 InteractWithSlot(splitStack);
             }
@@ -427,7 +427,7 @@ namespace AdventureGame
             {
                 Console.WriteLine($"Process click and drag slot {_currentSlot}");
 
-                if (_inputManager.IsDown(Globals.button2Input))
+                if (_inputManager.IsDown(Globals.splitStackInput))
                 {
                     _isDraggedItemStackSplit = true; // Here or above?
 
@@ -610,12 +610,12 @@ namespace AdventureGame
                 OnCursorMove();
             }
 
-            // CHANGE so that a dragged item can be placed with interactInput??
+            // CHANGE so that a dragged item can be placed with selectInput??
             // Select an item (keyboard / controller)
-            if (_inputManager.IsPressed(Globals.interactInput)
+            if (_inputManager.IsPressed(Globals.selectInput)
                 && !_isItemDragged)
             {
-                bool splitStack = _inputManager.IsDown(Globals.button2Input);
+                bool splitStack = _inputManager.IsDown(Globals.splitStackInput);
                 InteractWithSlot(splitStack);
             }
 

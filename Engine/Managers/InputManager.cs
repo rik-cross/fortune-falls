@@ -394,7 +394,7 @@ namespace AdventureGame.Engine
 
         private void CalculateKeyboardLongPresses()
         {
-            foreach (Keys key in KeyboardInput.keyList)
+            foreach (Keys key in KeyboardInput.KeyList)
             {
                 //int newDuration;
                 //if 
@@ -415,7 +415,7 @@ namespace AdventureGame.Engine
 
         private void CalculateGamePadLongPresses()
         {
-            foreach (Buttons button in ControllerInput.buttonList)
+            foreach (Buttons button in ControllerInput.ButtonList)
             {
                 if (_gamePadState[0].IsButtonDown(button) && _previousGamePadState[0].IsButtonDown(button))
                     _gamePadStateDurations[button] = Math.Min(longPressDuration, _gamePadStateDurations[button] + (1 / gamePadLongPressAdjustment));

@@ -34,7 +34,7 @@ namespace AdventureGame
             Globals.graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = isMouseVisible;
+            IsMouseVisible = isMouseVisible; // todo
         }
 
         protected override void Initialize()
@@ -93,8 +93,10 @@ namespace AdventureGame
 
             EngineGlobals.log = new Log();
 
-            // Todo move to another accessible place for the menu and scenes
+            // Todo move to another accessible place for the menu and scenes e.g. Globals
             Globals.dialogueTickSound = Utils.LoadSoundEffect("Sounds/blip.wav");
+
+            // todo create the User instead of the player
 
             // Todo create player when the game is loaded and add it to active scene
             // Create player entity
@@ -111,10 +113,7 @@ namespace AdventureGame
             }
             else
             {
-                //EngineGlobals.sceneManager.ChangeScene<
-                //    FadeSceneTransition, SplashScene>();
-                EngineGlobals.sceneManager.ChangeScene<
-                    FadeSceneTransition, MenuScene>();
+                EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
             }
                 
 
