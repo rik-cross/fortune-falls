@@ -128,9 +128,34 @@ namespace AdventureGame
                 )
             );
 
+            string l;
+            if (EngineGlobals.log.visible == true)
+                l = "Hide log";
+            else
+                l = "Show log";
+
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 150),
+                    size: new Vector2(140, 45),
+                    text: l,
+                    textColour: Color.White,
+                    outlineColour: Color.White,
+                    outlineThickness: 2,
+                    backgroundColour: Color.DarkSlateGray,
+                    func: (UIButton button) => {
+                        EngineGlobals.log.visible = !EngineGlobals.log.visible;
+                        if (EngineGlobals.log.visible)
+                            button.text = "Hide log";
+                        else
+                            button.text = "Show log";
+                    }
+                )
+            );
+
+            UIMenu.AddUIElement(
+                new UIButton(
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 200),
                     size: new Vector2(140, 45),
                     text: "Back",
                     textColour: Color.White,

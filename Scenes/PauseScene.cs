@@ -21,7 +21,7 @@ namespace AdventureGame
                 font: Theme.FontSubtitle,
                 colour: Theme.TextColorTertiary,
                 anchor: Anchor.TopCenter,
-                padding: new Padding(top: 250),
+                padding: new Padding(top: 100),
                 outline: true,
                 outlineThickness: 6,
                 outlineColour: Color.Black
@@ -88,7 +88,12 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.UnloadAllScenes();
+                        EngineGlobals.soundManager.Volume = 0;
+                        EngineGlobals.soundManager.SFXVolume = 0;
+                        //EngineGlobals.sceneManager.UnloadAllScenes();
+                        EngineGlobals.log.visible = false;
+                        EngineGlobals.sceneManager.ChangeScene<
+                            FadeSceneTransition, ExitScene>();
                     }
                 )
             );
@@ -96,12 +101,12 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            EngineGlobals.soundManager.Volume /= 3;
+            EngineGlobals.soundManager.Volume /= 4;
         }
 
         public override void OnExit()
         {
-            EngineGlobals.soundManager.Volume *= 3;
+            EngineGlobals.soundManager.Volume *= 4;
         }
 
         public override void Input(GameTime gameTime)

@@ -87,6 +87,15 @@ namespace AdventureGame.Engine
             return null;
         }
 
+        public int CountEntitiesByTag(string id)
+        {
+            int r = 0;
+            foreach (Entity e in _entityList)
+                if (e.Tags.Id == id)
+                    r+=1;
+            return r;
+        }
+
         // Set the local player entity
         public void SetLocalPlayer(Entity e)
         {

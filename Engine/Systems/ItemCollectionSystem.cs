@@ -59,6 +59,8 @@ namespace AdventureGame.Engine
 
                         if (item == null)
                             otherEntity.Destroy();
+
+                        EngineGlobals.log.Add("Item collected: [x]");
                     }
                 }
             }

@@ -27,14 +27,13 @@ namespace AdventureGame
             if (Globals.newGame)
             {
                 GetCameraByName("main").SetZoom(4.0f, instant: true);
-                GetCameraByName("main").SetWorldPosition(new Vector2(680, 580), instant: true);
-                GetCameraByName("main").SetZoom(10.0f, instant: false);
+                GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
+                GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                GetCameraByName("main").SetZoom(8.0f, instant: false);
+            
             }
             else
                 GetCameraByName("main").SetZoom(4.0f, instant: true);
-
-                
-
 
             ////
             //// Add cave entrance
@@ -167,25 +166,52 @@ namespace AdventureGame
                 size: new Vector2(16, 10),
                 //offset: new Vector2(15, 15),
                 onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
-                    if (otherEntity.IsLocalPlayer())
+                    if (otherEntity.IsLocalPlayer()) //&& EngineGlobals.inputManager.IsPressed(otherEntity.GetComponent<InputComponent>().Input.button1))
                     {
                         Vector2 playerPosition = new Vector2(50, 50);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
-                        EngineGlobals.playerManager.ChangePlayerScene(playerPosition); 
+                        EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
+                        // todo -- Alex, do we need something like this?
+                        //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<SceneComponent>().Scene = HomeScene;
+                        EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
                     }
-                }
-            );
+                });
             playerHouseEntrance.AddComponent(pHouseTC);
-            AddEntity(playerHouseEntrance);
+            //AddEntity(playerHouseEntrance);
 
             // Player's House trees
-            AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false));
-            AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false));
+            AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false, "tree", "houseTree"));
+            //AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false, "tree", "houseTree"));
+
+            EngineGlobals.achievementManager.AddAchievement(
+                new Engine.Achievement(
+                    "Lumberjack",
+                    "Chopped down all trees around your home",
+                    // todo: added IsACtiveScene to stop this becoming true on UnloadAllScenes
+                    () => { return EngineGlobals.entityManager.GetAllEntitiesByType("houseTree").Count == 0; },
+                    () => { 
+                        // todo: should remove the bits that we don't want here.
+                        AddEntity(playerHouseEntrance);
+                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = null;
+                        EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/axeBreak.wav"));
+
+                        GameAssets.AxeBrokeEmote.alpha.Value = 1;
+                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent(GameAssets.AxeBrokeEmote);
+                        EngineGlobals.entityManager.GetLocalPlayer().After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
+                        
+                        EngineGlobals.log.Add("Your axe broke");
+                    },
+                    announce: false
+                )
+            );
+
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
 
             ////
             //// Add objects
@@ -253,10 +279,15 @@ namespace AdventureGame
         {
             // Add player to scene and set player scene
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            player.GetComponent<InputComponent>().Active = true;
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
+            // todo - enable input control
+
+
             // todo - check camera exists first
+            // todo - this breaks focus on the house
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
 
@@ -296,7 +327,8 @@ namespace AdventureGame
                         onComplete: () =>
                         {
                             Console.WriteLine("Walk tutorial complete");
-                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                         }
                     )
                 );
@@ -314,15 +346,6 @@ namespace AdventureGame
 
         public override void Input(GameTime gameTime)
         {
-            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Up))
-            {
-                GetCameraByName("main").SetZoom(10.0f);
-            }
-            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Down))
-            {
-                GetCameraByName("main").SetZoom(1.0f);
-            }
-
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
                 EngineGlobals.sceneManager.ChangeScene<PauseScene>(false);
 
@@ -335,18 +358,8 @@ namespace AdventureGame
 
         public override void Update(GameTime gameTime)
         {
-            questMarker.Update(this);
-
+            questMarker.Update(this); // todo: add this to Scene
             Utilities.SetBuildingAlpha(EntityList);
-            //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
-
-            // why does this have to be 60? a lower number doesn't work
-            /*if (frame == 60 && Globals.newGame)
-            {
-                Globals.newGame = false;
-                //EngineGlobals.sceneManager.SetActiveScene<PlayerSelectScene>(applyTransition: false, unloadCurrentScene: false);
-            }*/
-
         }
 
         public override void Draw(GameTime gameTime)

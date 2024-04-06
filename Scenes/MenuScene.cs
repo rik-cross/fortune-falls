@@ -31,7 +31,7 @@ namespace AdventureGame
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
-            AddMap("Maps/Map_MainMenu");
+            AddMap("Maps/Map_Village");
 
             _camera = new Engine.Camera(
                     name: "main",
@@ -40,7 +40,9 @@ namespace AdventureGame
                     backgroundColour: Color.Black
                 );
 
-            _camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
+            //_camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
+
+
             //camera.zoomIncrement = 0.005f;
             //camera.SetZoom(3.0f);
             //AddCamera(n);
@@ -62,7 +64,7 @@ namespace AdventureGame
             // Player fishing
             //
             _mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
-            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(1184, 870), new Vector2(15, 20)));
+            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(175, 1190), new Vector2(15, 20)));
             //mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
@@ -87,12 +89,11 @@ namespace AdventureGame
 
             AddEntity(_mainMenuPlayer);
 
-
             //
             // Character swimming
             //
             _mainMenuCharacter1 = EngineGlobals.entityManager.CreateEntity();
-            _mainMenuCharacter1.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(1400, 920), new Vector2(15, 20)));
+            _mainMenuCharacter1.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(380, 1240), new Vector2(15, 20)));
             //mainMenuCharacter1.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.AnimatedSpriteComponent animatedComponentC1 = _mainMenuCharacter1.AddComponent<AnimatedSpriteComponent>();
@@ -118,6 +119,8 @@ namespace AdventureGame
 
             AddEntity(_mainMenuCharacter1);
 
+            Vector2 playerPos = _mainMenuPlayer.GetComponent<TransformComponent>().Position;
+            _camera.SetWorldPosition(new Vector2(playerPos.X + 100, playerPos.Y + 30), instant: true);
 
             // title text
             _title = new Engine.Text(
@@ -239,6 +242,9 @@ namespace AdventureGame
 
         public void LoadNewGameScene(UIButton button)
         {
+
+            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/2_i_passed_the_final_exam_master.ogg"));
+
             // todo - bug!! button events can be fired multiple times if spamming enter
             // have an option to disable a button temporarily after Action executed??
 
@@ -257,13 +263,9 @@ namespace AdventureGame
             Globals.playerStr = Globals.allCharacters[0];
             PlayerEntity.UpdateSprites();  // move to PlayerManager??
 
-            // Transition to the PlayerSelectScene and load the VillageScene below
-            EngineGlobals.sceneManager.ChangeScene<
-                FadeSceneTransition, VillageScene, PlayerSelectScene>(false);
-
             // Position the player
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            Vector2 playerPosition = new Vector2(680, 580);
+            Vector2 playerPosition = new Vector2(175, 1190);
             if (player != null)
                 player.GetComponent<TransformComponent>().Position = playerPosition;
 
@@ -271,10 +273,18 @@ namespace AdventureGame
             if (player.GetComponent<TutorialComponent>() != null)
                 player.GetComponent<TutorialComponent>().ClearTutorials();
 
+            // Transition to the PlayerSelectScene and load the VillageScene below
+            EngineGlobals.sceneManager.ChangeScene<
+                NoSceneTransition, VillageScene, PlayerSelectScene>(unloadCurrentScene: false);
+
+
+
+
         }
 
         public void LoadContinueGameScene(UIButton button)
         {
+            EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/2_i_passed_the_final_exam_master.ogg"));
             EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
         }
 
@@ -293,18 +303,34 @@ namespace AdventureGame
         public void UnloadMenuScene(UIButton button)
         {
             EngineGlobals.soundManager.Volume = 0;
-            EngineGlobals.sceneManager.UnloadAllScenes();
+            EngineGlobals.soundManager.SFXVolume = 0;
+            EngineGlobals.log.visible = false;
+            EngineGlobals.sceneManager.ChangeScene<
+                    FadeSceneTransition, ExitScene>();
+            //EngineGlobals.sceneManager.UnloadAllScenes();
         }
 
         public override void OnEnter()
         {
             EngineGlobals.DEBUG = false;
+            EngineGlobals.soundManager.PlaySong(Utils.LoadSong("Music/1_new_life_master.ogg"));
+
+            // todo - move to OnEnter
+            // todo Add actual player instead and remove mainMenuPlayer
+            // Add player to scene and set player scene
+            //Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            //Vector2 playerPosition = new Vector2(175, 1190);
+            //player.GetComponent<TransformComponent>().Position = playerPosition;
+            //player.GetComponent<InputComponent>().Active = false;
+
+            //if (player.GetComponent<AnimatedEmoteComponent>() != null)
+            //    player.GetComponent<AnimatedEmoteComponent>().Reset();
+           // AddEntity(player);
+            //player.GetComponent<SceneComponent>().Scene = this;
 
             if (Globals.newGame)
             {
                 // todo - check if most of this is needed? move to VillageScene OnEnter
-
-                EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/citadel.ogg"));
 
                 if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel == "dialogue")
                 {
@@ -327,8 +353,11 @@ namespace AdventureGame
             }
             else
             {
+                // todo - use the PlayerManager to call CreatePlayerSprites method
                 // Re-create the player sprites in case player has changed
                 CreatePlayerSprites();
+
+                // todo - disable player input controls
             }
         }
 

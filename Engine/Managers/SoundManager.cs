@@ -15,6 +15,9 @@ namespace AdventureGame.Engine
         public bool _mute = false;
         public float prevVolume;
         public float prevSFXVol;
+
+        public int gapBetweenSongs = 20;
+        public int currentGapBetweenSongs = 0;
         public bool Mute
         {
             get
@@ -54,7 +57,7 @@ namespace AdventureGame.Engine
         }
         public float SFXVolume;
 
-        private float volumeIncrement = 0.03f;
+        private float volumeIncrement = 0.015f;
         private Song _currentSong = null;
         private Song _nextSong = null;
         public SoundManager()
@@ -77,7 +80,12 @@ namespace AdventureGame.Engine
                 MediaPlayer.Volume -= volumeIncrement;
                 if (MediaPlayer.Volume <= 0.0f)
                 {
-                    PlaySong(_nextSong);
+                    currentGapBetweenSongs += 1;
+                    if (currentGapBetweenSongs >= gapBetweenSongs)
+                    {
+                        currentGapBetweenSongs = 0;
+                        PlaySong(_nextSong);
+                    }
                 }
             }
             else {

@@ -14,7 +14,7 @@ namespace AdventureGame.Engine
         public int timer = 0;
         public int tickDelay;
         public bool playTickSoundEffect;
-        public SoundEffect tickSoundEffect = Utils.LoadSoundEffect("Sounds/blip.wav");
+        public SoundEffect tickSoundEffect = Utils.LoadSoundEffect("Sounds/click.wav");
         public DoubleAnimation imageAlpha = new DoubleAnimation(0, 0.02f);
         public DoubleAnimation textAlpha = new DoubleAnimation(0, 0.02f);
         public bool markForRemoval = false;

@@ -12,7 +12,7 @@ namespace AdventureGame
         public static Dictionary<string, AnimatedSpriteComponent> animatedSprites = new Dictionary<string, AnimatedSpriteComponent>();
 
         public static Engine.Entity Create(int x, int y, int width, int height,
-            string defaultState = "idle_right", float speed = 60, string idTag = null)
+            string defaultState = "idle_right", float speed = 50, string idTag = null)
         {
             Engine.Entity playerEntity;
 
@@ -53,7 +53,7 @@ namespace AdventureGame
             return playerEntity;
         }
 
-        public static void AddComponents(string defaultState = "idle_right", float speed = 60,
+        public static void AddComponents(string defaultState = "idle_right", float speed = 50,
             Entity player = null)
         {
             Entity playerEntity = null;
@@ -217,7 +217,7 @@ namespace AdventureGame
                 //int drawWidth = 36;
                 //int drawHeight = 56;
                 Vector2 offset = new Vector2(-41, -21);
-
+                int spriteDelay = 4;
                 //Engine.AnimatedSpriteComponent animatedComponent = playerEntity.AddComponent<AnimatedSpriteComponent>();
                 //Engine.SpriteComponent spriteComponent = playerEntity.AddComponent<SpriteComponent>(new Engine.SpriteComponent());
 
@@ -233,60 +233,60 @@ namespace AdventureGame
                 keyStr = "_idle_strip9.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + characterStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + toolStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay);
 
                 // Walk
                 folder = "WALKING/";
                 keyStr = "_walk_strip8.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + characterStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + toolStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset, delay: spriteDelay);
 
                 // Run
                 folder = "RUN/";
                 keyStr = "_run_strip8.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay - 2);
+                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + characterStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay - 2);
+                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + toolStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay - 2);
+                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset, delay: spriteDelay);
 
                 // Axe
                 folder = "AXE/";
                 keyStr = "_axe_strip10.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + characterStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
-                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset, delay: spriteDelay);
 
                 // Todo: change to create a new tool entity with a different layer depth
                 // Option 1:
@@ -301,10 +301,8 @@ namespace AdventureGame
                 // and the player (e.g. OnHit - gain XP)
 
                 filePath = dir + folder + toolStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
-                //    onComplete: (Engine.Entity e) => e.State = "idle_left");
-                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
-                //    onComplete: (Engine.Entity e) => e.State = "idle_right");
+                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset, delay: spriteDelay);
 
                 animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
                 animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";

@@ -10,6 +10,7 @@ namespace AdventureGame
 
         public HomeScene()
         {
+            backgroundColour = Color.Black;
         }
 
         public override void Init()
@@ -40,6 +41,7 @@ namespace AdventureGame
                         Vector2 playerPosition = new Vector2(690, 240);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
                         EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
+                        EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
                     }
                 }
             ));

@@ -18,11 +18,10 @@ namespace AdventureGame.Engine
             if (EngineGlobals.sceneManager.Transition != null)
             {
                 intentionComponent.Reset();
-                //entity.State = "idle";
                 return;
             }
             
-            if (inputComponent.InputControllerStack.Count > 0)
+            if (inputComponent.InputControllerStack.Count > 0 && inputComponent.Active == true)
                 inputComponent.PeekController().Invoke(entity);
         
         }

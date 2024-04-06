@@ -84,7 +84,7 @@ namespace AdventureGame.Engine
 
         public override void Reset()
         {
-            alpha.Value = 0.0;
+            alpha.Set(0.0);
         }
     }
 }
