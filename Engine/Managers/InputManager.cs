@@ -12,25 +12,27 @@ namespace AdventureGame.Engine
 {
     public class InputManager
     {
-        // Store an empty state for resetting on InputStack change?? e.g.
-        // private KeyboardState _resetKeyboardState;
+        // Keyboard states
+        // Store an empty state for resetting on InputStack change?? e.g. private KeyboardState _resetKeyboardState;
         private KeyboardState _keyboardState;
         private KeyboardState _previousKeyboardState;
         private Dictionary<Keys, double> _keyboardStateDurations = new Dictionary<Keys, double>();
 
+        // Mouse states
         private MouseState _mouseState;
         private MouseState _previousMouseState;
 
+        // Gamepad states
         // Should this be changed to one controller for now? E.g. GamePad.GetState(PlayerIndex.One)
         private List<GamePadState> _gamePadState = new List<GamePadState>() { GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3) };
         private List<GamePadState> _previousGamePadState = new List<GamePadState>() {GamePad.GetState(0), GamePad.GetState(1), GamePad.GetState(2), GamePad.GetState(3)};
         private Dictionary<Buttons, double> _gamePadStateDurations = new Dictionary<Buttons, double>();
+
+        // Long press
         private double gamePadLongPressAdjustment = 1.0;
         public int longPressDuration = 50;
         public bool longPressEaseOut = true;
         public int longPressEaseOutAmount = 3;
-
-        private Dictionary<InputItem, Timer> delayDictionary;
 
         // Cursor
         public Texture2D CursorTexture { get; private set; }
@@ -41,7 +43,6 @@ namespace AdventureGame.Engine
 
         public InputManager()
         {
-            delayDictionary = new Dictionary<InputItem, Timer>();
             CursorTexture = Utils.LoadTexture("UI/cursor.png");
             _isCursorVisible = false;
         }
@@ -62,9 +63,9 @@ namespace AdventureGame.Engine
             }
             CalculateGamePadLongPresses();
 
-            // Handle the cursor position if it is visible
             if (_isCursorVisible)
             {
+                // Handle the cursor position
                 _previousCursorPosition = CursorPosition;
                 PositionCursor();
 
@@ -73,19 +74,11 @@ namespace AdventureGame.Engine
                 else
                     HasCursorMoved = false;
             }
+        }
 
-            // ADD Check if there are any keys in the delayIsDown dictionary
-            // If so, iterate over them
-
-            // Check if the key is still down
-            // Check if the elapsed time has occured
-            // If so, IsDown(item)
-
-            // If key not still down, remove the timer and dictionary item
-            foreach (KeyValuePair<InputItem, Timer> kvp in delayDictionary)
-            {
-                kvp.Value.Update(gameTime);
-            }
+        public bool IsControllerConnected()
+        {
+            return GamePad.GetState(0).IsConnected;
         }
 
         public bool IsDown(InputItem item)
@@ -124,38 +117,6 @@ namespace AdventureGame.Engine
             return false;
         }
 
-        public bool IsDownDelay(InputItem item, float delay = 1f, bool repeat = true)
-            // invokeImmediately = true, initialDelay = default / 0f
-        {
-            // If the item wasn't down and now is down
-            // Create a new timer with the delay
-            //Timer timer = new Timer();
-            if (IsDown(item) && !delayDictionary.ContainsKey(item))
-            {
-                delayDictionary.Add(item, new Timer(delay, repeat));
-                //delayDown.Add(item, currentTime);
-                return true;
-            }
-
-            // If enough time has passed
-            //IsDown(item);
-
-            // Otherwise
-            return false;
-        }
-
-        public bool IsDownDelay(List<InputItem> items, float delay = 1f, bool repeat = true)
-        {
-            foreach (InputItem i in items)
-            {
-                if (IsDownDelay(i))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public bool IsPressed(InputItem item)
         {
             if (item == null)
@@ -178,42 +139,6 @@ namespace AdventureGame.Engine
             }
 
             return false;
-        }
-
-        public bool IsLongPressed(InputItem item)
-        {
-            if (item == null)
-                return false;
-
-            if (item.key != null)
-                return _keyboardStateDurations.ContainsKey((Keys)item.key) && _keyboardStateDurations[(Keys)item.key] == 50;
-
-            if (item.button != null)
-                return _gamePadStateDurations.ContainsKey((Buttons)item.button) && _gamePadStateDurations[(Buttons)item.button] == 50;
-
-            return false;
-        }
-
-        public double GetLongPressPercentage(InputItem item)
-        {
-            if (item == null)
-                return 0;
-
-            if (item.key != null)
-            {
-                if (!_keyboardStateDurations.ContainsKey((Keys)item.key))
-                    return 0;
-                return 100 / longPressDuration * _keyboardStateDurations[(Keys)item.key];
-            }
-
-            if (item.button != null)
-            {
-                if (!_gamePadStateDurations.ContainsKey((Buttons)item.button))
-                    return 0;
-                return 100 / longPressDuration * _gamePadStateDurations[(Buttons)item.button];
-            }
-
-            return 0;
         }
 
         public bool IsPressed(List<InputItem> items)
@@ -264,9 +189,40 @@ namespace AdventureGame.Engine
             return false;
         }
 
-        public bool IsControllerConnected()
+        public bool IsLongPressed(InputItem item)
         {
-            return GamePad.GetState(0).IsConnected;
+            if (item == null)
+                return false;
+
+            if (item.key != null)
+                return _keyboardStateDurations.ContainsKey((Keys)item.key) && _keyboardStateDurations[(Keys)item.key] == 50;
+
+            if (item.button != null)
+                return _gamePadStateDurations.ContainsKey((Buttons)item.button) && _gamePadStateDurations[(Buttons)item.button] == 50;
+
+            return false;
+        }
+
+        public double GetLongPressPercentage(InputItem item)
+        {
+            if (item == null)
+                return 0;
+
+            if (item.key != null)
+            {
+                if (!_keyboardStateDurations.ContainsKey((Keys)item.key))
+                    return 0;
+                return 100 / longPressDuration * _keyboardStateDurations[(Keys)item.key];
+            }
+
+            if (item.button != null)
+            {
+                if (!_gamePadStateDurations.ContainsKey((Buttons)item.button))
+                    return 0;
+                return 100 / longPressDuration * _gamePadStateDurations[(Buttons)item.button];
+            }
+
+            return 0;
         }
 
         public void ShowCursor()

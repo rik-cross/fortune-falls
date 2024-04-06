@@ -3,6 +3,7 @@ using System;
 
 namespace AdventureGame.Engine
 {
+	// todo - unused class!!!
     public class Timer // abstract?
     {
 		// timeLength
