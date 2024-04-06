@@ -98,6 +98,7 @@ namespace AdventureGame
 
             // todo create the User instead of the player
 
+
             // Todo create player when the game is loaded and add it to active scene
             // Create player entity
             Entity player = PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");

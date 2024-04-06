@@ -328,6 +328,7 @@ namespace AdventureGame
             // default state
             //entity.State = "idle_down";
 
+
             // up key
             if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up) && (entity.State.Contains("_")))
             {

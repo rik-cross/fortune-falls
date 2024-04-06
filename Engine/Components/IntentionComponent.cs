@@ -51,5 +51,11 @@ namespace AdventureGame.Engine
         {
             _intentions[intent] = value;
         }
+
+        public void Reset2()
+        {
+            foreach (string key in _intentions.Keys)
+                _intentions[key] = false;
+        }
     }
 }
