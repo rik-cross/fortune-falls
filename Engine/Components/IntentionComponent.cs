@@ -22,7 +22,7 @@ namespace AdventureGame.Engine
 
         public IntentionComponent()
         {
-            _intentions = new();
+            _intentions = new Dictionary<string, bool>();
         }
 
         public void Register(string intent)
