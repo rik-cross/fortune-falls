@@ -21,8 +21,8 @@ namespace AdventureGame.Engine
         private float _slowDebuff;
 
         public PhysicsComponent(
-            float baseSpeed = 50,
-            float sprintMultiplier = 1.5f,
+            float baseSpeed = 45,
+            float sprintMultiplier = 1.8f,
             float maxSpeed = 100,
             float minSpeed = 0,
             bool canSprint = true,
