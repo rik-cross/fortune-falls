@@ -91,7 +91,7 @@ namespace AdventureGame.Engine
             if (!selected)
                 return;
 
-            if (EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.button1)
+            if (EngineGlobals.inputManager.IsPressed(Globals.selectInput)
                 && EngineGlobals.sceneManager.Transition == null)
                 func?.Invoke(this);
         }

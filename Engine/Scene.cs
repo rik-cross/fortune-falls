@@ -118,6 +118,8 @@ namespace AdventureGame.Engine
             if (player.GetComponent<IntentionComponent>() != null)
                 player.GetComponent<IntentionComponent>().Reset();
 
+            // todo change to cancel / disable sprint or similar
+            // and/or move to specfic scene with option to reset speed, disable sprint etc
             if (player.GetComponent<PhysicsComponent>() != null)
                 player.GetComponent<PhysicsComponent>().ResetSpeed();
 

@@ -14,7 +14,7 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
+            IntentionComponent intention = entity.GetComponent<IntentionComponent>();
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
@@ -22,32 +22,54 @@ namespace AdventureGame.Engine
             transformComponent.PreviousPosition = transformComponent.Position;
             physicsComponent.PreviousVelocity = physicsComponent.Velocity;
 
+            // Sprint
+            // todo - change so that methods are called ONCE (when sprint changes)
+            //if (intention.AnyChanged())
+            //{
+            //    Console.WriteLine("Physics - intention has changed");
+            //}   
+
+            if (intention.Start("sprint"))
+            {
+                //Console.WriteLine("Physics - start sprint");
+                physicsComponent.StartSprint();
+            }
+            else if (intention.Stop("sprint"))
+            {
+                physicsComponent.StopSprint();
+            }
+
             // Change:
             // Use PreviousSpeed in PhysicsComponent and apply modifier (0.0-X)
             // if different, then set previous to current speed
 
-            // Process anything that is player-only physics
-            if (entity.IsPlayerType())
-            {
-                // If the run button is pressed increase the players speed by 50%
-                if (EngineGlobals.inputManager.IsPressed(Globals.button2Input)) // OR IntentionComponent?
-                    IncreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
+            //// Process anything that is player-only
+            //if (entity.IsPlayerType())
+            //{
+            //    //movementComponent.
 
-                // FIX this is not called if released during scene transition
-                if (EngineGlobals.inputManager.IsReleased(Globals.button2Input))
-                    DecreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
-            }
+            //    // Increase the players speed by 50%
+            //    if (EngineGlobals.inputManager.IsPressed(Globals.sprintInput))
+            //    //if (intentionComponent.button2)
+            //        IncreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
+
+            //    // Decrease the players speed by 50%
+            //    //if (EngineGlobals.inputManager.IsReleased(Globals.sprintInput))
+            //    if (EngineGlobals.inputManager.IsReleased(Globals.sprintInput))
+            //        DecreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
+            //}
 
             // Set the direction vector and string
             Vector2 direction = Vector2.Zero;
 
-            if (intentionComponent.up)
+            //if (intention.up)
+            if (intention.Get("up"))
                 direction.Y -= 1;
-            if (intentionComponent.down)
+            if (intention.down)
                 direction.Y += 1;
-            if (intentionComponent.left)
+            if (intention.left)
                 direction.X -= 1;
-            if (intentionComponent.right)
+            if (intention.right)
                 direction.X += 1;
 
             string directionString = GetDirectionString(direction);
@@ -96,7 +118,7 @@ namespace AdventureGame.Engine
         public void IncreaseSpeed(Entity entity, float speedModifier)
         {
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-            physicsComponent.ApplySpeedModifier(speedModifier);
+            //physicsComponent.ApplySpeedModifier(speedModifier);
             Console.WriteLine($"Speed is {physicsComponent.Speed}");
         }
 
@@ -105,7 +127,7 @@ namespace AdventureGame.Engine
         {
             PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
             //physicsComponent.ApplySpeedModifier(1 / speedModifier);
-            physicsComponent.ResetSpeed();
+            //physicsComponent.ResetSpeed();
             Console.WriteLine($"Speed is {physicsComponent.Speed}");
         }
     }

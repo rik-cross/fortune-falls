@@ -242,44 +242,35 @@ namespace AdventureGame
 
         public void LoadNewGameScene(UIButton button)
         {
+            Globals.newGame = true;
 
             EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/2_i_passed_the_final_exam_master.ogg"));
 
-            // todo - bug!! button events can be fired multiple times if spamming enter
-            // have an option to disable a button temporarily after Action executed??
-
-            Globals.newGame = true;
-
-            // Reset the VillageScene
             EngineGlobals.sceneManager.ResetScene<VillageScene>();
 
             // Reset the player components
-            PlayerEntity.RemoveComponents();  // move to PlayerManager??
+            // todo - move to PlayerManager
+            PlayerEntity.RemoveComponents();
             PlayerEntity.AddComponents();
             Console.WriteLine(string.Join(", ", EngineGlobals.entityManager.GetLocalPlayer().Components));
 
             // Reset the player character default sprite
             //Globals.playerIndex = 0;
             Globals.playerStr = Globals.allCharacters[0];
-            PlayerEntity.UpdateSprites();  // move to PlayerManager??
+            PlayerEntity.UpdateSprites();  // todo - move to PlayerManager
 
             // Position the player
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             Vector2 playerPosition = new Vector2(175, 1190);
-            if (player != null)
-                player.GetComponent<TransformComponent>().Position = playerPosition;
+            player.GetComponent<TransformComponent>().Position = playerPosition;
 
             // Clear necessary player components if a game has already been started
-            if (player.GetComponent<TutorialComponent>() != null)
-                player.GetComponent<TutorialComponent>().ClearTutorials();
+            //if (player.GetComponent<TutorialComponent>() != null)
+            //    player.GetComponent<TutorialComponent>().ClearTutorials();
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
                 NoSceneTransition, VillageScene, PlayerSelectScene>(unloadCurrentScene: false);
-
-
-
-
         }
 
         public void LoadContinueGameScene(UIButton button)
@@ -290,14 +281,12 @@ namespace AdventureGame
 
         public void LoadOptionsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.ChangeScene<
-                FadeSceneTransition, OptionsScene>(false);
+            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, OptionsScene>(false);
         }
 
         public void LoadCreditsScene(UIButton button)
         {
-            EngineGlobals.sceneManager.ChangeScene<
-                FadeSceneTransition, CreditsScene>(false);
+            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, CreditsScene>(false);
         }
 
         public void UnloadMenuScene(UIButton button)
@@ -305,8 +294,7 @@ namespace AdventureGame
             EngineGlobals.soundManager.Volume = 0;
             EngineGlobals.soundManager.SFXVolume = 0;
             EngineGlobals.log.visible = false;
-            EngineGlobals.sceneManager.ChangeScene<
-                    FadeSceneTransition, ExitScene>();
+            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, ExitScene>();
             //EngineGlobals.sceneManager.UnloadAllScenes();
         }
 

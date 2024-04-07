@@ -12,7 +12,7 @@ namespace AdventureGame.Engine
     public static class ControllerInput
     {
 
-        public static List<Buttons> buttonList = new List<Buttons>();
+        public static List<Buttons> ButtonList = new List<Buttons>();
 
         public static InputItem Menu = new InputItem(button: Buttons.BigButton);
         public static InputItem Start = new InputItem(button: Buttons.Start);
