@@ -55,13 +55,15 @@ namespace AdventureGame
         }
 
         // todo - how to pass speed etc when RemoveComponents is called and the AddComponents?xx
-        public static void AddComponents(string defaultState = "idle_right", float speed = 50,
-            Entity player = null)
+        public static void AddComponents()
+        //    (string defaultState = "idle_right", float speed = 50, Entity player = null)
         {
-            Entity playerEntity = null;
+            //Entity playerEntity = null;
 
-            if (player == null)
-                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            //if (player == null)
+            //    playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+            Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
 
             if (playerEntity == null)
                 return;
@@ -75,7 +77,7 @@ namespace AdventureGame
             //Vector2 offset = new Vector2(-41, -21);
 
             // Set state
-            playerEntity.State = defaultState;
+            //playerEntity.State = defaultState;
 
             // Add other components
             //playerEntity.AddComponent(new Engine.AnimatedSpriteComponent());
@@ -83,7 +85,8 @@ namespace AdventureGame
             MapPlayerInput(playerEntity);
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
-            playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
+            //playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
+            playerEntity.AddComponent(new Engine.PhysicsComponent());
             playerEntity.AddComponent(new Engine.TutorialComponent());
             playerEntity.AddComponent(new Engine.SceneComponent());
 
@@ -371,12 +374,9 @@ namespace AdventureGame
             // todo? InputManager: held, down?
 
             // sprint
-            bool isSprint = false;
-
             if (EngineGlobals.inputManager.IsPressed(controlComponent.Get("sprint")))
             {
                 intentionComponent.Set("sprint", true);
-                isSprint = true;
             }
             else if (EngineGlobals.inputManager.IsReleased(controlComponent.Get("sprint")))
             {
@@ -422,24 +422,33 @@ namespace AdventureGame
 
             // set the player state depending on movement
             bool isPlayerMoving = intentionComponent.Get("up") || intentionComponent.Get("down") || intentionComponent.Get("left") || intentionComponent.Get("right");
+            string direction = "";
+
+            if (intentionComponent.Get("left"))
+                direction = "left";
+            else if (intentionComponent.Get("right"))
+                direction = "right";
+            else if (entity.State.Contains("_"))
+                direction = entity.State.Split("_")[1];
 
             if (isPlayerMoving)
             {
-                if (isSprint && entity.State.Contains("walk_"))
+                if (intentionComponent.Get("sprint"))
                 {
-                    CreatePlayerSprintEffect(entity);
-                    entity.State = "run_" + entity.State.Split("_")[1];
+                    if (entity.State.Contains("walk_"))
+                    {
+                        CreatePlayerSprintEffect(entity);
+                    }
+                    entity.State = "run_" + direction;
                 }
-                else if (intentionComponent.Get("left"))
-                    entity.State = "walk_left";
-                else if (intentionComponent.Get("right"))
-                    entity.State = "walk_right";
                 else
-                    entity.State = "walk_" + entity.State.Split("_")[1];
+                    entity.State = "walk_" + direction;
+
+                Console.WriteLine(entity.State);
             }
             else if (entity.State.Contains("walk_") || entity.State.Contains("run_"))
             {
-                entity.State = "idle_" + entity.State.Split("_")[1];
+                entity.State = "idle_" + direction;
             }
 
             // todo - change to controlComponent
