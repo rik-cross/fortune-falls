@@ -3,6 +3,7 @@ using System;
 
 namespace AdventureGame.Engine
 {
+    // todo? rename to MovementSystem
     class PhysicsSystem : System
     {
         public PhysicsSystem()
@@ -39,37 +40,16 @@ namespace AdventureGame.Engine
                 physicsComponent.StopSprint();
             }
 
-            // Change:
-            // Use PreviousSpeed in PhysicsComponent and apply modifier (0.0-X)
-            // if different, then set previous to current speed
-
-            //// Process anything that is player-only
-            //if (entity.IsPlayerType())
-            //{
-            //    //movementComponent.
-
-            //    // Increase the players speed by 50%
-            //    if (EngineGlobals.inputManager.IsPressed(Globals.sprintInput))
-            //    //if (intentionComponent.button2)
-            //        IncreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
-
-            //    // Decrease the players speed by 50%
-            //    //if (EngineGlobals.inputManager.IsReleased(Globals.sprintInput))
-            //    if (EngineGlobals.inputManager.IsReleased(Globals.sprintInput))
-            //        DecreaseSpeed(entity, 2.2f); //3.5f);//1.5f);
-            //}
-
             // Set the direction vector and string
             Vector2 direction = Vector2.Zero;
 
-            //if (intention.up)
             if (intention.Get("up"))
                 direction.Y -= 1;
-            if (intention.down)
+            if (intention.Get("down"))
                 direction.Y += 1;
-            if (intention.left)
+            if (intention.Get("left"))
                 direction.X -= 1;
-            if (intention.right)
+            if (intention.Get("right"))
                 direction.X += 1;
 
             string directionString = GetDirectionString(direction);
@@ -112,23 +92,6 @@ namespace AdventureGame.Engine
                 directionString += "W";
 
             return directionString;
-        }
-
-        // Increase the movement and animation speed of an entity
-        public void IncreaseSpeed(Entity entity, float speedModifier)
-        {
-            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-            //physicsComponent.ApplySpeedModifier(speedModifier);
-            Console.WriteLine($"Speed is {physicsComponent.Speed}");
-        }
-
-        // Decrease the movement and animation speed of an entity
-        public void DecreaseSpeed(Entity entity, float speedModifier)
-        {
-            PhysicsComponent physicsComponent = entity.GetComponent<PhysicsComponent>();
-            //physicsComponent.ApplySpeedModifier(1 / speedModifier);
-            //physicsComponent.ResetSpeed();
-            Console.WriteLine($"Speed is {physicsComponent.Speed}");
         }
     }
 }

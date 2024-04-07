@@ -1,6 +1,6 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
@@ -49,10 +49,12 @@ namespace AdventureGame
 
             AddAllCharacterSprites();
             AddComponents();
+            //playerEntity = MapPlayerInput(playerEntity);
 
             return playerEntity;
         }
 
+        // todo - how to pass speed etc when RemoveComponents is called and the AddComponents?xx
         public static void AddComponents(string defaultState = "idle_right", float speed = 50,
             Entity player = null)
         {
@@ -77,6 +79,9 @@ namespace AdventureGame
 
             // Add other components
             //playerEntity.AddComponent(new Engine.AnimatedSpriteComponent());
+            playerEntity.AddComponent(new Engine.PlayerControlComponent());
+            MapPlayerInput(playerEntity);
+
             playerEntity.AddComponent(new Engine.IntentionComponent());
             playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
             playerEntity.AddComponent(new Engine.TutorialComponent());
@@ -318,34 +323,68 @@ namespace AdventureGame
             UpdateSprites();
 
         }
+        
+        // Maps the input items to the player
+        public static void MapPlayerInput(Entity entity)
+        {
+            Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
+
+            controlComponent.Set("up", new InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
+            controlComponent.Set("down", new InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
+            controlComponent.Set("left", new InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
+            controlComponent.Set("right", new InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
+
+            controlComponent.Set("sprint", new InputItem(key: Keys.LeftShift, button: Buttons.B));
+            controlComponent.Set("interact", new InputItem(key: Keys.Enter, button: Buttons.A)); // or Keys.E?
+            controlComponent.Set("skipDialogue", new InputItem(key: Keys.Enter, button: Buttons.A)); // duplicate input example
+
+        }
+
+        public static void CreatePlayerSprintEffect(Entity entity)
+        {
+            Vector2 offset;
+            if (entity.State.Contains("right"))
+                offset = new Vector2(3, 17);
+            else
+                offset = new Vector2(12, 17);
+
+            entity.AddComponent(new Engine.ParticleComponent(
+                lifetime: 1,
+                delayBetweenParticles: 1,
+                particleSize: 5,
+                offset: offset,
+                particleSpeed: 0.5,
+                particlesAtOnce: 3
+            ));
+        }
 
         // Maps the input controller to the player
         public static void PlayerInputController(Entity entity)
         {
             Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
+            Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
             Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
 
             // default state
             //entity.State = "idle_down";
 
+            // todo? InputManager: held, down?
+
             // sprint
-            if (EngineGlobals.inputManager.IsPressed(inputComponent.Input.button2))
+            bool isSprint = false;
+
+            if (EngineGlobals.inputManager.IsPressed(controlComponent.Get("sprint")))
             {
                 intentionComponent.Set("sprint", true);
+                isSprint = true;
             }
-            else if (EngineGlobals.inputManager.IsReleased(inputComponent.Input.button2))
+            else if (EngineGlobals.inputManager.IsReleased(controlComponent.Get("sprint")))
             {
                 intentionComponent.Set("sprint", false);
             }
 
-            // todo:
-            // only allow one direction at a time
-            // set the newest direction (check other intentions first? use WasDown?)
-
-            // up
-            // Manager: press, release, hold, down?
-            // ...inputComponent.Get("up")
-            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up))
+            // up, down, left, right
+            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("up")))
             {
                 intentionComponent.Set("up", true);
             }
@@ -354,123 +393,56 @@ namespace AdventureGame
                 intentionComponent.Set("up", false);
             }
 
-
-            // up key
-            //if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up) && (entity.State.Contains("_")))
-            //{
-            //    intentionComponent.up = true;
-            //    if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
-            //    {
-            //        if (entity.State.Contains("walk_"))
-            //        {
-            //            entity.AddComponent(new Engine.ParticleComponent(
-            //                lifetime: 1,
-            //                delayBetweenParticles: 1,
-            //                particleSize: 5,
-            //                offset: new Vector2(entity.State.Contains("right") ? 3 : 12, 17),
-            //                particleSpeed: 0.5,
-            //                particlesAtOnce: 3
-            //            ));
-            //        }
-            //        entity.State = "run_" + entity.State.Split("_")[1];
-            //    }
-            //    else
-            //    {
-            //        entity.State = "walk_" + entity.State.Split("_")[1];
-            //    }
-            //}
-            //else
-            //{
-            //    intentionComponent.up = false;
-            //}
-
-            // down key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.down) && (entity.State.Contains("_")))
+            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("down")))
             {
-                intentionComponent.down = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
+                intentionComponent.Set("down", true);
+            }
+            else
+            {
+                intentionComponent.Set("down", false);
+            }
+
+            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("left")))
+            {
+                intentionComponent.Set("left", true);
+            }
+            else
+            {
+                intentionComponent.Set("left", false);
+            }
+
+            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("right")))
+            {
+                intentionComponent.Set("right", true);
+            }
+            else
+            {
+                intentionComponent.Set("right", false);
+            }
+
+            // set the player state depending on movement
+            bool isPlayerMoving = intentionComponent.Get("up") || intentionComponent.Get("down") || intentionComponent.Get("left") || intentionComponent.Get("right");
+
+            if (isPlayerMoving)
+            {
+                if (isSprint && entity.State.Contains("walk_"))
                 {
-                    if (entity.State.Contains("walk_"))
-                    {
-                        entity.AddComponent(new Engine.ParticleComponent(
-                            lifetime: 1,
-                            delayBetweenParticles: 1,
-                            particleSize: 5,
-                            offset: new Vector2(entity.State.Contains("right") ? 3 : 12, 17),
-                            particleSpeed: 0.5,
-                            particlesAtOnce: 3
-                        ));
-                    }
+                    CreatePlayerSprintEffect(entity);
                     entity.State = "run_" + entity.State.Split("_")[1];
                 }
-                else
-                {
-                    entity.State = "walk_" + entity.State.Split("_")[1];
-                }
-            }
-            else
-            {
-                intentionComponent.down = false;
-            }
-
-            // left key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.left) && (entity.State.Contains("_")))
-            {
-                intentionComponent.left = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
-                {
-                    if (entity.State.Contains("walk_"))
-                    {
-                        entity.AddComponent(new Engine.ParticleComponent(
-                            lifetime: 1,
-                            delayBetweenParticles: 1,
-                            particleSize: 5,
-                            offset: new Vector2(12, 17),
-                            particleSpeed: 0.5,
-                            particlesAtOnce: 3
-                        ));
-                    }
-                    entity.State = "run_left";
-                }
-                else
-                {
+                else if (intentionComponent.Get("left"))
                     entity.State = "walk_left";
-                }
-            }
-            else
-            {
-                intentionComponent.left = false;
-            }
-
-            // right key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.right) && (entity.State.Contains("_")))
-            {
-                intentionComponent.right = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
-                {
-                    if (entity.State.Contains("walk_"))
-                    {
-                        entity.AddComponent(new Engine.ParticleComponent(
-                            lifetime: 1,
-                            delayBetweenParticles: 1,
-                            particleSize: 5,
-                            offset: new Vector2(3, 17),
-                            particleSpeed: 0.5,
-                            particlesAtOnce: 3
-                        ));
-                    }
-                    entity.State = "run_right";
-                }
-                else
-                {
+                else if (intentionComponent.Get("right"))
                     entity.State = "walk_right";
-                }
+                else
+                    entity.State = "walk_" + entity.State.Split("_")[1];
             }
-            else
+            else if (entity.State.Contains("walk_") || entity.State.Contains("run_"))
             {
-                intentionComponent.right = false;
+                entity.State = "idle_" + entity.State.Split("_")[1];
             }
 
+            // todo - change to controlComponent
             // button 1 keys
             if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button6))
             {
@@ -488,17 +460,6 @@ namespace AdventureGame
                 intentionComponent.button1 = false;
             }
 
-            if (
-                    EngineGlobals.inputManager.IsDown(inputComponent.Input.up) == false &&
-                    EngineGlobals.inputManager.IsDown(inputComponent.Input.down) == false &&
-                    EngineGlobals.inputManager.IsDown(inputComponent.Input.left) == false &&
-                    EngineGlobals.inputManager.IsDown(inputComponent.Input.right) == false &&
-                    (entity.State.Contains("walk_") || entity.State.Contains("run_"))
-                )
-            {
-                entity.State = "idle_" + entity.State.Split("_")[1];
-            }
-
             // button 2 keys
             if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
             {
@@ -509,10 +470,24 @@ namespace AdventureGame
                 intentionComponent.button2 = false;
             }
 
-        }
 
-        public static void PlayerDevToolsInputController(Entity entity)
-        {
+            // todo? restrict directions to 4-way movement (optional e.g. movementDirections = 4 or 8)
+            // move to component e.g. characterControl or movement
+            /*
+            int movementDirections = 4;
+
+            // Only allow 4-way movement by using the newest X or Y direction
+            if (movementDirections == 4
+                && direction.X != Vector2.Zero.X
+                && direction.Y != Vector2.Zero.Y)
+            //&& physicsComponent.HasVelocity())
+            {
+                // Check for existing X velocity
+                if (physicsComponent.HasVelocityX())
+                {
+
+                }
+            }*/
 
         }
 

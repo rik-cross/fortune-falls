@@ -38,16 +38,16 @@ namespace AdventureGame.Engine
 
         public void Set(string intent, bool value = false)
         {
-            if (_intentions.ContainsKey(intent)
-                && _intentions[intent] != value)
-            {
-                _changedBuffer[intent] = value;
-            }
+            //if (_intentions.ContainsKey(intent)
+            //    && _intentions[intent] != value)
+            //{
+            //    _changedBuffer[intent] = value;
+            //}
 
             _intentions[intent] = value;
-            //_changedBuffer[intent] = value;
+            _changedBuffer[intent] = value;
 
-            Console.WriteLine($"Set intention {intent}: {value}");
+            //Console.WriteLine($"Set intention {intent}: {value}");
             //foreach (var kv in _changedIntentions)
             //    Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
 

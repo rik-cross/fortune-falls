@@ -22,7 +22,7 @@ namespace AdventureGame.Engine
 
         public PhysicsComponent(
             float baseSpeed = 50,
-            float sprintMultiplier = 2.0f,
+            float sprintMultiplier = 1.5f,
             float maxSpeed = 100,
             float minSpeed = 0,
             bool canSprint = true,
@@ -34,6 +34,9 @@ namespace AdventureGame.Engine
             _sprintMultiplier = sprintMultiplier;
             _maxSpeed = maxSpeed;
             _minSpeed = minSpeed;
+
+            _speedBuff = speedBuff;
+            _slowDebuff = slowDebuff;
 
             CanSprint = canSprint;
             if (CanSprint)

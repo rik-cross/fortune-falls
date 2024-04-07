@@ -34,6 +34,9 @@ namespace AdventureGame
         // e.g. Engine.Input.PauseInput() or Engine.Input.Up()
 
         // Movement
+        // todo - change all inputs to use InputItem directly OR via a user control interface
+        //public static List<Engine.InputItem> upInput = new List<Engine.InputItem>() { new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp) };
+
         public static List<Engine.InputItem> upInput = new List<Engine.InputItem>() { Engine.KeyboardInput.W, Engine.ControllerInput.LeftThumbUp };
         public static List<Engine.InputItem> downInput = new List<Engine.InputItem>() { Engine.KeyboardInput.S, Engine.ControllerInput.LeftThumbDown };
         public static List<Engine.InputItem> leftInput = new List<Engine.InputItem>() { Engine.KeyboardInput.A, Engine.ControllerInput.LeftThumbLeft };
