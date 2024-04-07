@@ -24,14 +24,14 @@ namespace AdventureGame.Engine
 
             // Sprint
             // todo - change so that methods are called ONCE (when sprint changes)
-            if (intention.HasChanged())
-            {
-                Console.WriteLine("Physics - intention has changed");
-            }
+            //if (intention.AnyChanged())
+            //{
+            //    Console.WriteLine("Physics - intention has changed");
+            //}   
 
             if (intention.Start("sprint"))
             {
-                Console.WriteLine("Physics - start sprint");
+                //Console.WriteLine("Physics - start sprint");
                 physicsComponent.StartSprint();
             }
             else if (intention.Stop("sprint"))
@@ -62,7 +62,8 @@ namespace AdventureGame.Engine
             // Set the direction vector and string
             Vector2 direction = Vector2.Zero;
 
-            if (intention.up)
+            //if (intention.up)
+            if (intention.Get("up"))
                 direction.Y -= 1;
             if (intention.down)
                 direction.Y += 1;

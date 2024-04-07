@@ -328,6 +328,7 @@ namespace AdventureGame
             // default state
             //entity.State = "idle_down";
 
+            // sprint
             if (EngineGlobals.inputManager.IsPressed(inputComponent.Input.button2))
             {
                 intentionComponent.Set("sprint", true);
@@ -337,36 +338,51 @@ namespace AdventureGame
                 intentionComponent.Set("sprint", false);
             }
 
+            // todo:
+            // only allow one direction at a time
+            // set the newest direction (check other intentions first? use WasDown?)
 
-
-            // up key
-            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up) && (entity.State.Contains("_")))
+            // up
+            // Manager: press, release, hold, down?
+            // ...inputComponent.Get("up")
+            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up))
             {
-                intentionComponent.up = true;
-                if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
-                {
-                    if (entity.State.Contains("walk_"))
-                    {
-                        entity.AddComponent(new Engine.ParticleComponent(
-                            lifetime: 1,
-                            delayBetweenParticles: 1,
-                            particleSize: 5,
-                            offset: new Vector2(entity.State.Contains("right") ? 3 : 12, 17),
-                            particleSpeed: 0.5,
-                            particlesAtOnce: 3
-                        ));
-                    }
-                    entity.State = "run_" + entity.State.Split("_")[1];
-                }
-                else
-                {
-                    entity.State = "walk_" + entity.State.Split("_")[1];
-                }
+                intentionComponent.Set("up", true);
             }
             else
             {
-                intentionComponent.up = false;
+                intentionComponent.Set("up", false);
             }
+
+
+            // up key
+            //if (EngineGlobals.inputManager.IsDown(inputComponent.Input.up) && (entity.State.Contains("_")))
+            //{
+            //    intentionComponent.up = true;
+            //    if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
+            //    {
+            //        if (entity.State.Contains("walk_"))
+            //        {
+            //            entity.AddComponent(new Engine.ParticleComponent(
+            //                lifetime: 1,
+            //                delayBetweenParticles: 1,
+            //                particleSize: 5,
+            //                offset: new Vector2(entity.State.Contains("right") ? 3 : 12, 17),
+            //                particleSpeed: 0.5,
+            //                particlesAtOnce: 3
+            //            ));
+            //        }
+            //        entity.State = "run_" + entity.State.Split("_")[1];
+            //    }
+            //    else
+            //    {
+            //        entity.State = "walk_" + entity.State.Split("_")[1];
+            //    }
+            //}
+            //else
+            //{
+            //    intentionComponent.up = false;
+            //}
 
             // down key
             if (EngineGlobals.inputManager.IsDown(inputComponent.Input.down) && (entity.State.Contains("_")))

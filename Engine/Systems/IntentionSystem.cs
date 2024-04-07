@@ -14,14 +14,12 @@ namespace AdventureGame.Engine
         {
             IntentionComponent intentionComponent = entity.GetComponent<IntentionComponent>();
 
-            // todo - bug. Need to check has changed LAST tick or use a separate dictionary?
-            // e.g. changed, toClear
-            if (intentionComponent.HasChanged())
+            if (intentionComponent.AnyChanged())
             {
-                Console.WriteLine("IS update: clear changed intentions");
+                //Console.WriteLine("IS update: clear changed intentions");
                 intentionComponent.ClearChanged();
             }
-            intentionComponent.ChangedBuffer();
+            intentionComponent.CopyChangedBuffer();
         }
 
         public override void InputEntity(GameTime gameTime, Scene scene, Entity entity)

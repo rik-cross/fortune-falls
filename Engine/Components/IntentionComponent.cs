@@ -18,8 +18,8 @@ namespace AdventureGame.Engine
         private Dictionary<string, bool> _changedBuffer;
         private Dictionary<string, bool> _changedIntentions;
 
-        // if (input.sprint.pressed / input.pressed(sprint))
-        // intentionComponent.set / pressed(sprint, true)
+        //if (input.pressed("sprint"))
+        //    intentionComponent.set("sprint", true)
 
         public IntentionComponent()
         {
@@ -28,39 +28,24 @@ namespace AdventureGame.Engine
             _changedIntentions = new Dictionary<string, bool>();
         }
 
-        // todo? - remove register and change Set bool value = false ??
-        public void Register(string intent)
-        {
-            _intentions[intent] = false;
-        }
-
-        public bool IsRegistered(string intent)
-        {
-            return _intentions.ContainsKey(intent);
-        }
-
         public bool Get(string intent)
         {
-            //return _intentions[intent];
-
-            // string value = "";
-            //bool value = false;
             if (_intentions.TryGetValue(intent, out bool value))
                 return value;
             else
                 return false;
         }
 
-        public void Set(string intent, bool value)
+        public void Set(string intent, bool value = false)
         {
-            //if (_intentions.ContainsKey(intent)
-            //    && _intentions[intent] != value)
-            //{
-            //    _changedIntentions[intent] = value;
-            //}
+            if (_intentions.ContainsKey(intent)
+                && _intentions[intent] != value)
+            {
+                _changedBuffer[intent] = value;
+            }
+
             _intentions[intent] = value;
-            _changedBuffer[intent] = value;
-            //_changedIntentions[intent] = value;
+            //_changedBuffer[intent] = value;
 
             Console.WriteLine($"Set intention {intent}: {value}");
             //foreach (var kv in _changedIntentions)
@@ -68,20 +53,23 @@ namespace AdventureGame.Engine
 
         }
 
-        public void ChangedBuffer()
+        public bool Contains(string intent)
         {
-            if (_changedBuffer.Count == 0)
-                return;
-
-            foreach (var kv in _changedBuffer)
-            {
-                _changedIntentions[kv.Key] = kv.Value;
-                //Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
-            }
-            _changedBuffer.Clear();
+            return _intentions.ContainsKey(intent);
         }
 
-        public bool HasChanged()
+        public void ResetAll()
+        {
+            foreach (string key in _intentions.Keys)
+                _intentions[key] = false;
+        }
+
+        public bool HasChanged(string intent)
+        {
+            return _changedIntentions.ContainsKey(intent);
+        }
+
+        public bool AnyChanged()
         {
             return _changedIntentions.Count > 0;
         }
@@ -89,11 +77,6 @@ namespace AdventureGame.Engine
         public void ClearChanged()
         {
             _changedIntentions.Clear();
-        }
-
-        public bool Changed(string intent)
-        {
-            return _changedIntentions.ContainsKey(intent);
         }
 
         public bool Start(string intent)
@@ -120,10 +103,17 @@ namespace AdventureGame.Engine
                 return false;
         }
 
-        public void Reset2()
+        public void CopyChangedBuffer()
         {
-            foreach (string key in _intentions.Keys)
-                _intentions[key] = false;
+            if (_changedBuffer.Count == 0)
+                return;
+
+            foreach (var kv in _changedBuffer)
+            {
+                _changedIntentions[kv.Key] = kv.Value;
+                //Console.WriteLine($"Key:{kv.Key} Value:{kv.Value}");
+            }
+            _changedBuffer.Clear();
         }
     }
 }
