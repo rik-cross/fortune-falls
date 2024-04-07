@@ -58,7 +58,6 @@ namespace AdventureGame.Engine
 
             int y = Globals.ScreenHeight / 2;
 
-            //Globals.spriteBatch.Begin();
             foreach (LogItem l in items)
             {
                 Globals.spriteBatch.DrawString(Theme.FontSecondary, l.text, new Vector2(35, y), Color.White * l.alpha) ;
@@ -66,7 +65,6 @@ namespace AdventureGame.Engine
                 if (y > Globals.ScreenHeight - Theme.FontSecondary.MeasureString("Some Text").Y - 30)
                     return;
             }
-            //Globals.spriteBatch.End();
         }
     }
 }

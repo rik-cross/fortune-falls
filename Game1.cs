@@ -105,6 +105,13 @@ namespace AdventureGame
             else
                 player.GetComponent<InputComponent>().Input = Engine.Inputs.keyboard;
 
+            // add the player speak tutorial
+            if (player.GetComponent<InputComponent>().Input == Engine.Inputs.controller)
+                GameAssets.speakEmote = GameAssets.controllerButton1Emote;
+            else
+                GameAssets.speakEmote = GameAssets.keyboardButton1Emote;
+            GameAssets.speakEmote.alpha.Value = 1;
+
             // Create and add MenuScene to the scene stack
             if (Globals.TEST)
             {
@@ -134,15 +141,12 @@ namespace AdventureGame
             EngineGlobals.soundManager.Update(gameTime);
             EngineGlobals.achievementManager.Update(gameTime);
             EngineGlobals.log.Update(gameTime);
-            if (EngineGlobals.sceneManager.ActiveScene != null && EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main") != null)
-                S.WriteLine(EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").WorldPosition);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             EngineGlobals.sceneManager.Draw(gameTime);
-            //EngineGlobals.log.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

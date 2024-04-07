@@ -305,7 +305,6 @@ namespace AdventureGame
                     movementEmote = GameAssets.controllerMovementEmote;
                 else
                     movementEmote = GameAssets.keyboardMovementEmote;
-
                 movementEmote.alpha.Value = 1;
 
                 player.GetComponent<TutorialComponent>().AddTutorial(

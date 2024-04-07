@@ -259,7 +259,7 @@ namespace AdventureGame
             Console.WriteLine(string.Join(", ", EngineGlobals.entityManager.GetLocalPlayer().Components));
 
             // Reset the player character default sprite
-            Globals.playerIndex = 0;
+            //Globals.playerIndex = 0;
             Globals.playerStr = Globals.allCharacters[0];
             PlayerEntity.UpdateSprites();  // move to PlayerManager??
 
