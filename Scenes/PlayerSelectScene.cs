@@ -67,23 +67,6 @@ namespace AdventureGame
                 )
             );
 
-            /*/ ok button
-            UIMenu.AddUIElement(
-                new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 200),
-                    size: new Vector2(120, 45),
-                    text: "OK",
-                    textColour: Color.White,
-                    outlineColour: Color.White,
-                    outlineThickness: 2,
-                    backgroundColour: Color.DarkSlateGray,
-                    func: (UIButton button) => {
-                        EngineGlobals.sceneManager.ChangeToSceneBelow();
-                    }
-                )
-            );*/
-            
-
         }
 
         public override void OnEnter()
@@ -102,28 +85,20 @@ namespace AdventureGame
             {
                 if (Globals.newGame)
                 {
-                    Console.WriteLine($"Main menu camera position: {mainMenuCamera.WorldPosition}");
                     //Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
 
-                    //sceneBelowCamera.SetZoom(mainMenuCamera.zoom, instant: true);
-                    sceneBelowCamera.SetZoom(4.0f, instant: true);
-                    //sceneBelowCamera.SetWorldPosition(new Vector2(275, 1190), instant: true);
+                    sceneBelowCamera.SetZoom(mainMenuCamera.zoom, instant: true);
+                    //sceneBelowCamera.SetZoom(4.0f, instant: true);
                     //sceneBelowCamera.SetWorldPosition(playerPosition, instant: true);
                     sceneBelowCamera.SetWorldPosition(mainMenuCamera.WorldPosition*-1, instant: true);
-                    //sceneBelowCamera.SetWorldPosition(new Vector2(275, 1190), instant: true);
                     sceneBelowCamera.trackedEntity = player;
                     sceneBelowCamera.SetZoom(8.0f, instant: false);
                 }
                 else
                 {
                     sceneBelowCamera.SetZoom(4.0f, instant: true);
-                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
-                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
                 }
             }
-
-            //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
-            //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
         }
 
         public override void OnExit()

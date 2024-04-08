@@ -50,7 +50,7 @@ namespace AdventureGame
 
             player.GetComponent<TransformComponent>().Position = playerPosition;
 
-            // todo - remove?
+            // todo - map / collision objects created twice - here and VillageScene OnLoad
             AddMap("Maps/Map_Village");
 
             _camera = new Engine.Camera(

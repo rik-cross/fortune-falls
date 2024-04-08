@@ -13,6 +13,7 @@ namespace AdventureGame
         public override void Init()
         {
             EngineGlobals.DEBUG = false;
+            AddCamera("main");
             questMarker = new QuestMarker();
         }
 
@@ -23,22 +24,6 @@ namespace AdventureGame
             // Add map
             AddMap("Maps/Map_Village");
 
-            // todo - move to OnEnter here or PlayerSelectScene??
-            // Add camera
-            AddCamera("main");
-            //if (Globals.newGame)
-            //{
-            //    Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
-
-            //    GetCameraByName("main").SetZoom(4.0f, instant: true);
-            //    //GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
-            //    GetCameraByName("main").SetWorldPosition(playerPosition, instant: true);
-            //    GetCameraByName("main").trackedEntity = player;
-            //    GetCameraByName("main").SetZoom(8.0f, instant: false);
-            
-            //}
-            //else
-            //    GetCameraByName("main").SetZoom(4.0f, instant: true);
 
             ////
             //// Add cave entrance
@@ -149,17 +134,13 @@ namespace AdventureGame
                 onCollisionEnter: (Entity e1, Entity e2, float d) => {
                     if (e2.IsLocalPlayer())
                     {
-                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(5.0f);
-                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
                         GetCameraByName("main").trackedEntity = playerHouse;
                     }
                 },
                 onCollisionExit: (Entity e1, Entity e2, float d) => {
                     if (e2.IsLocalPlayer())
                     {
-                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
-                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
-                        GetCameraByName("main").trackedEntity = player;
+                        GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
                     }
                 }
             );
@@ -295,35 +276,9 @@ namespace AdventureGame
         {
             // Add player to scene and set player scene
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            player.GetComponent<InputComponent>().Active = true;
+            player.GetComponent<InputComponent>().Active = true; // todo - delete?
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
-
-            // todo - enable input control
-
-            //// set the cameras
-            //if (GetCameraByName("main") != null)
-            //{
-            //    if (Globals.newGame)
-            //    {
-            //        Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
-
-            //        GetCameraByName("main").SetZoom(4.0f, instant: true);
-            //        //GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
-            //        GetCameraByName("main").SetWorldPosition(playerPosition, instant: true);
-            //        GetCameraByName("main").trackedEntity = player;
-            //        GetCameraByName("main").SetZoom(8.0f, instant: false);
-            //    }
-            //    else
-            //    {
-            //        GetCameraByName("main").SetZoom(4.0f, instant: true);
-            //        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
-            //        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
-            //    }
-            //}
-
-            // todo - check camera exists first
-            // todo - this breaks focus on the house
 
             //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
 
