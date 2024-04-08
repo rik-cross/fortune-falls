@@ -13,9 +13,9 @@ namespace AdventureGame.Engine
         {
             if (colliderEntity.IsPlayerType())
             {
-                InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
-                if (playerInputComponent != null
-                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.Input.button1))
+                PlayerControlComponent controlComponent = colliderEntity.GetComponent<PlayerControlComponent>();
+                if (controlComponent != null
+                    && EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))
                 {
                     LightComponent lightComponent = EngineGlobals.entityManager.GetEntityByIdTag("homeLight1").GetComponent<LightComponent>();
                     lightComponent.visible = !lightComponent.visible;
@@ -26,15 +26,15 @@ namespace AdventureGame.Engine
         // Test for NPC interactions
         public static void BlacksmithDialogue(Entity npcEntity, Entity playerEntity, float distance)
         {
-            if (!playerEntity.IsPlayerType())
+            if (playerEntity == null || !playerEntity.IsPlayerType())
                 return;
 
             if (playerEntity.GetComponent<TutorialComponent>().GetTutorials().Count > 0)
                 return;
 
-            InputComponent playerInputComponent = playerEntity.GetComponent<InputComponent>();
-            if (playerInputComponent != null
-                && EngineGlobals.inputManager.IsPressed(playerInputComponent.Input.button1))
+            //InputComponent playerInputComponent = playerEntity.GetComponent<InputComponent>();
+            PlayerControlComponent controlComponent = playerEntity.GetComponent<PlayerControlComponent>();
+            if (EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))
             {
 
                 if (npcEntity.GetComponent<EmoteComponent>() != null)
@@ -83,7 +83,7 @@ namespace AdventureGame.Engine
                         dialogueComponent.AddPage("The place Barnie left you has seen better days. Take this axe for those trees.",
                            GameAssets.blacksmith_headshot,
                            () => {
-                               EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
+                               playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
                                EngineGlobals.soundManager.PlaySoundEffect(GameAssets.sound_notification);
                            }
                         );
@@ -95,7 +95,7 @@ namespace AdventureGame.Engine
                                     new Tutorial(
                                         name: "Use Axe",
                                         description: "Show the Blacksmith that you can use an axe",
-                                        condition: () => { return EngineGlobals.inputManager.IsPressed(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.button6); },
+                                        condition: () => { return EngineGlobals.inputManager.IsPressed(controlComponent.Get("tool")); },
                                         numberOfTimes: 3,
                                         onStart: () => {
                                             Engine.EmoteComponent weaponEmote;
@@ -104,10 +104,10 @@ namespace AdventureGame.Engine
                                             else
                                                 weaponEmote = GameAssets.keyboardWeaponEmote;
                                             weaponEmote.alpha.Value = 1;
-                                            EngineGlobals.entityManager.GetLocalPlayer().AddComponent<EmoteComponent>(weaponEmote);
+                                            playerEntity.AddComponent<EmoteComponent>(weaponEmote);
                                         },
                                         onComplete: () => {
-                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                                            playerEntity.GetComponent<EmoteComponent>().alpha.Value = 0;
                                             dialogueComponent.AddPage(
                                                 "That axe is on loan, return it when you are done. Barnie's place is north, just over the ridge there.",
                                                 GameAssets.blacksmith_headshot
@@ -163,24 +163,6 @@ namespace AdventureGame.Engine
                     // Bug: tries to set player state rather than NPC state
                     //dialogueComponent.dialoguePages[^1].onDialogueComplete = (Engine.Entity e) => e.State = e.PrevState;
                     //}
-                }
-            }
-        }
-
-        public static void OldManDialogue(Entity triggerEntity, Entity colliderEntity, float distance)
-        {
-            if (colliderEntity.IsPlayerType())
-            {
-                InputComponent playerInputComponent = colliderEntity.GetComponent<InputComponent>();
-                if (playerInputComponent != null
-                    && EngineGlobals.inputManager.IsPressed(playerInputComponent.Input.button1))
-                {
-                    DialogueComponent dialogueComponent = colliderEntity.GetComponent<DialogueComponent>();
-                    if (dialogueComponent != null && !dialogueComponent.HasPages())
-                    {
-                        dialogueComponent.AddPage("Hello there young whipper snapper. What can I do for ya?");
-                        dialogueComponent.AddPage("Ooo, a key you say. Would you help an old boy if I have seen it?");
-                    }
                 }
             }
         }

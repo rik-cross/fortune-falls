@@ -55,8 +55,8 @@ namespace AdventureGame
 
         public static void SwitchToOpenState(Entity entity, Entity otherEntity, float distance)
         {
-            Engine.InputComponent inputComponent = otherEntity.GetComponent<Engine.InputComponent>();
-            if (inputComponent != null && EngineGlobals.inputManager.IsPressed(inputComponent.Input.button1))
+            Engine.PlayerControlComponent controlComponent = otherEntity.GetComponent<Engine.PlayerControlComponent>();
+            if (controlComponent != null && EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))
                 // && inventory.CanOpen())
             {
                 entity.State = "open_animation";

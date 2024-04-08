@@ -30,7 +30,7 @@ namespace AdventureGame.Engine
 
             if (EngineGlobals.sceneManager.Transition != null)
             {
-                intentionComponent.Reset();
+                intentionComponent.ResetAll();
                 return;
             }
         

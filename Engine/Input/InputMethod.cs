@@ -29,7 +29,8 @@ namespace AdventureGame.Engine
         public InputMethod(
                 InputItem up, InputItem down, InputItem left, InputItem right,
                 InputItem button1, InputItem button2, InputItem button3, InputItem button4,
-                InputItem button5, InputItem button6, InputItem button7, InputItem button8
+                //InputItem button5, InputItem button6, InputItem button7, InputItem button8
+                InputItem button5 , InputItem button7, InputItem button8
             )
         {
             this.up = up;
@@ -41,7 +42,7 @@ namespace AdventureGame.Engine
             this.button3 = button3;
             this.button4 = button4;
             this.button5 = button5;
-            this.button6 = button6;
+            //this.button6 = button6;
             this.button7 = button7;
             this.button8 = button8;
         }

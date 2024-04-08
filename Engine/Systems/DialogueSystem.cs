@@ -16,11 +16,12 @@ namespace AdventureGame.Engine
         }
         public void DialogueInputController(Entity e)
         {
-            Engine.InputComponent ic = e.GetComponent<Engine.InputComponent>();
+            Engine.PlayerControlComponent controlComponent = e.GetComponent<Engine.PlayerControlComponent>();
             Engine.DialogueComponent dc = e.GetComponent<Engine.DialogueComponent>();
-            if(ic != null && dc != null)
+            if(controlComponent != null && dc != null)
             {
-                if(EngineGlobals.inputManager.IsPressed(ic.Input.button1) && dc.dialoguePages.Count > 0)
+                if(EngineGlobals.inputManager.IsPressed(controlComponent.Get("skip"))
+                    && dc.dialoguePages.Count > 0)
                 {
                     // if dialogue not yet finished then skip to the end
                     if(dc.dialoguePages[0].index < dc.dialoguePages[0].text.Length)
@@ -45,7 +46,7 @@ namespace AdventureGame.Engine
             if (ic != null && dialogueComponent.dialoguePages.Count > 0 && ic.TopControllerLabel != "dialogue")
             {
                 if (entity.GetComponent<IntentionComponent>() != null)
-                    entity.GetComponent<IntentionComponent>().Reset();
+                    entity.GetComponent<IntentionComponent>().ResetAll();
                 if (entity.State.Split("_").Length == 2 && (entity.State.Split("_")[0] == "walk" || entity.State.Split("_")[0] == "run"))
                     entity.State = "idle_" + entity.State.Split("_")[1];
                 ic.PushController(DialogueInputController);

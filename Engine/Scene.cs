@@ -112,16 +112,8 @@ namespace AdventureGame.Engine
         {
             // Reset player movement
             Entity player = _entityManager.GetLocalPlayer();
-            if (player == null)
-                return;
-
-            if (player.GetComponent<IntentionComponent>() != null)
-                player.GetComponent<IntentionComponent>().Reset();
-
-            // todo change to cancel / disable sprint or similar
-            // and/or move to specfic scene with option to reset speed, disable sprint etc
-            if (player.GetComponent<PhysicsComponent>() != null)
-                player.GetComponent<PhysicsComponent>().ResetSpeed();
+            if (player != null && player.GetComponent<IntentionComponent>() != null)
+                player.GetComponent<IntentionComponent>().ResetAll();
 
             OnExit();
         }

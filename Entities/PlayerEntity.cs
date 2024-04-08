@@ -332,14 +332,18 @@ namespace AdventureGame
         {
             Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
 
+            // movement
             controlComponent.Set("up", new InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
             controlComponent.Set("down", new InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
             controlComponent.Set("left", new InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
             controlComponent.Set("right", new InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
-
             controlComponent.Set("sprint", new InputItem(key: Keys.LeftShift, button: Buttons.B));
+
+            // world interaction
+            // todo - bug mouse buttons not working
+            controlComponent.Set("tool", new InputItem(key: Keys.E, button: Buttons.RightTrigger, mouseButton: MouseButtons.LeftMouseButton));
             controlComponent.Set("interact", new InputItem(key: Keys.Enter, button: Buttons.A)); // or Keys.E?
-            controlComponent.Set("skipDialogue", new InputItem(key: Keys.Enter, button: Buttons.A)); // duplicate input example
+            controlComponent.Set("skip", new InputItem(key: Keys.Enter, button: Buttons.A, mouseButton: MouseButtons.LeftMouseButton));
 
         }
 
@@ -375,55 +379,35 @@ namespace AdventureGame
 
             // sprint
             if (EngineGlobals.inputManager.IsPressed(controlComponent.Get("sprint")))
-            {
                 intentionComponent.Set("sprint", true);
-            }
             else if (EngineGlobals.inputManager.IsReleased(controlComponent.Get("sprint")))
-            {
                 intentionComponent.Set("sprint", false);
-            }
 
             // up, down, left, right
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("up")))
-            {
                 intentionComponent.Set("up", true);
-            }
             else
-            {
                 intentionComponent.Set("up", false);
-            }
 
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("down")))
-            {
                 intentionComponent.Set("down", true);
-            }
             else
-            {
                 intentionComponent.Set("down", false);
-            }
 
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("left")))
-            {
                 intentionComponent.Set("left", true);
-            }
             else
-            {
                 intentionComponent.Set("left", false);
-            }
 
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("right")))
-            {
                 intentionComponent.Set("right", true);
-            }
             else
-            {
                 intentionComponent.Set("right", false);
-            }
 
             // set the player state depending on movement
             bool isPlayerMoving = intentionComponent.Get("up") || intentionComponent.Get("down") || intentionComponent.Get("left") || intentionComponent.Get("right");
-            string direction = "";
 
+            string direction = "";
             if (intentionComponent.Get("left"))
                 direction = "left";
             else if (intentionComponent.Get("right"))
@@ -442,42 +426,45 @@ namespace AdventureGame
                     entity.State = "run_" + direction;
                 }
                 else
+                {
                     entity.State = "walk_" + direction;
-
-                Console.WriteLine(entity.State);
+                }
             }
             else if (entity.State.Contains("walk_") || entity.State.Contains("run_"))
             {
                 entity.State = "idle_" + direction;
             }
 
-            // todo - change to controlComponent
-            // button 1 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button6))
+            // tool button
+            // todo? if (battleComponent.DisableMovement) set all movement intentions to false
+            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")))
             {
-                intentionComponent.button1 = true;
+                intentionComponent.Set("tool", true);
                 if (entity.State.Contains("_"))
                 {
-                    if (entity.GetComponent<Engine.BattleComponent>() != null
-                        && entity.GetComponent<Engine.BattleComponent>().weapon != null
-                        && entity.GetComponent<Engine.BattleComponent>().weapon.name != null)
-                        entity.State = entity.GetComponent<Engine.BattleComponent>().weapon.name + "_" + entity.State.Split("_")[1];
+                    BattleComponent battleComponent = entity.GetComponent<Engine.BattleComponent>();
+                    if (battleComponent != null
+                        && battleComponent.weapon != null
+                        && battleComponent.weapon.name != null)
+                    {
+                        entity.State = battleComponent.weapon.name + "_" + entity.State.Split("_")[1];
+                    }
                 }
             }
             else
             {
-                intentionComponent.button1 = false;
+                intentionComponent.Set("tool", false);
             }
 
-            // button 2 keys
-            if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
-            {
-                intentionComponent.button2 = true;
-            }
-            else
-            {
-                intentionComponent.button2 = false;
-            }
+            //// button 2 keys
+            //if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
+            //{
+            //    intentionComponent.button2 = true;
+            //}
+            //else
+            //{
+            //    intentionComponent.button2 = false;
+            //}
 
 
             // todo? restrict directions to 4-way movement (optional e.g. movementDirections = 4 or 8)
