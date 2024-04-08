@@ -99,8 +99,6 @@ namespace AdventureGame
                 offset: new Vector2(-10, 0)
             ));
 
-            npcEntity.AddComponent(GameAssets.speakEmote);
-
             // Todo
             // Add an optional battle component
             // OR add separately along with weapon and spritesheet(s)

@@ -99,7 +99,7 @@ namespace AdventureGame.Engine
                                         numberOfTimes: 3,
                                         onStart: () => {
                                             Engine.EmoteComponent weaponEmote;
-                                            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.controller)
+                                            if (Globals.IsControllerConnected)
                                                 weaponEmote = GameAssets.controllerWeaponEmote;
                                             else
                                                 weaponEmote = GameAssets.keyboardWeaponEmote;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +11,6 @@ namespace AdventureGame
 {
     public class Globals
     {
-
         public static bool TEST = false;
         public static bool newGame = true;
 
@@ -21,7 +19,6 @@ namespace AdventureGame
         //public static int MinScreenWidth = 1280;
         //public static int MinScreenHeight = 720;
 
-        // todo? use GameServices e.g. https://pastebin.com/GyYE2bji
         public static GameWindow gameWindow;
         public static ContentManager content;
         public static SpriteBatch spriteBatch;
@@ -32,6 +29,9 @@ namespace AdventureGame
 
         // Should these be here on reference to directly in another static class?
         // e.g. Engine.Input.PauseInput() or Engine.Input.Up()
+
+        // todo? check controller is connected periodically after Game1 initialisation?
+        public static bool IsControllerConnected = false;
 
         // Movement
         // todo - change all inputs to use InputItem directly OR via a user control interface

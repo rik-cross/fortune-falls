@@ -223,7 +223,6 @@ namespace AdventureGame
                 )
             );
 
-
             // control images
             _controllerImage = new Engine.Image(
                 Utils.LoadTexture("UI/xbox360.png"),
@@ -249,24 +248,27 @@ namespace AdventureGame
             EngineGlobals.sceneManager.ResetScene<VillageScene>();
 
             // Reset the player components
-            // todo - move to PlayerManager
-            PlayerEntity.RemoveComponents();
-            PlayerEntity.AddComponents();
-            Console.WriteLine(string.Join(", ", EngineGlobals.entityManager.GetLocalPlayer().Components));
+            //Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            // todo - move to PlayerScript
+            //PlayerEntity.RemoveComponents();
+            //PlayerEntity.AddComponents();
+            //Console.WriteLine(string.Join(", ", player.Components));
+
+            // todo? - move player code to PlayerSelect or VillageScene Init?
 
             // Reset the player character default sprite
-            //Globals.playerIndex = 0;
+            Globals.playerIndex = 0;
             Globals.playerStr = Globals.allCharacters[0];
-            PlayerEntity.UpdateSprites();  // todo - move to PlayerManager
+            PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
 
-            // Position the player
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            // todo - bug: player position needs to be set via transform component
+            // Create player entity
             Vector2 playerPosition = new Vector2(175, 1190);
+            int playerX = 175;
+            int playerY = 1190;
+            Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
             player.GetComponent<TransformComponent>().Position = playerPosition;
-
-            // Clear necessary player components if a game has already been started
-            //if (player.GetComponent<TutorialComponent>() != null)
-            //    player.GetComponent<TutorialComponent>().ClearTutorials();
+            //player.State = "idle_right";
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
@@ -303,49 +305,22 @@ namespace AdventureGame
             EngineGlobals.DEBUG = false;
             EngineGlobals.soundManager.PlaySong(Utils.LoadSong("Music/1_new_life_master.ogg"));
 
-            // todo - move to OnEnter
-            // todo Add actual player instead and remove mainMenuPlayer
-            // Add player to scene and set player scene
-            //Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            //Vector2 playerPosition = new Vector2(175, 1190);
-            //player.GetComponent<TransformComponent>().Position = playerPosition;
-            //player.GetComponent<InputComponent>().Active = false;
-
-            //if (player.GetComponent<AnimatedEmoteComponent>() != null)
-            //    player.GetComponent<AnimatedEmoteComponent>().Reset();
-           // AddEntity(player);
-            //player.GetComponent<SceneComponent>().Scene = this;
+            if (Globals.IsControllerConnected)
+                //inputImage = keyboardImage;
+                _inputText.Caption = "Controller";
+            else
+                //inputImage = controllerImage;
+                _inputText.Caption = "Keyboard";
 
             if (Globals.newGame)
             {
-                // todo - check if most of this is needed? move to VillageScene OnEnter
-
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel == "dialogue")
-                {
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().PopController();
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().TopControllerLabel = "";
-                }
-                EngineGlobals.entityManager.GetLocalPlayer().Reset();
-                EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
-                EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().dialoguePages.Clear();
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<DialogueComponent>().alpha.Set(0.0);
-                EngineGlobals.entityManager.GetLocalPlayer().State = "idle_right";
-
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.keyboard)
-                    //inputImage = keyboardImage;
-                    _inputText.Caption = "Keyboard";
-                else
-                    //inputImage = controllerImage;
-                    _inputText.Caption = "Controller";
+                // Create player entity
+                PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
             }
             else
             {
-                // todo - use the PlayerManager to call CreatePlayerSprites method
                 // Re-create the player sprites in case player has changed
                 CreatePlayerSprites();
-
-                // todo - disable player input controls
             }
         }
 

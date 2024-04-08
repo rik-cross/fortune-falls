@@ -18,6 +18,8 @@ namespace AdventureGame
 
         public override void LoadContent()
         {
+            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+
             // Add map
             AddMap("Maps/Map_Village");
 
@@ -28,7 +30,7 @@ namespace AdventureGame
             {
                 GetCameraByName("main").SetZoom(4.0f, instant: true);
                 GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
-                GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                GetCameraByName("main").trackedEntity = player;
                 GetCameraByName("main").SetZoom(8.0f, instant: false);
             
             }
@@ -152,7 +154,7 @@ namespace AdventureGame
                     if (e2.IsLocalPlayer())
                     {
                         //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
-                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
                     }
                 }
             );
@@ -172,7 +174,7 @@ namespace AdventureGame
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
                         EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
                         // todo -- Alex, do we need something like this?
-                        //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<SceneComponent>().Scene = HomeScene;
+                        //player.GetComponent<SceneComponent>().Scene = HomeScene;
                         EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
                     }
                 });
@@ -197,13 +199,13 @@ namespace AdventureGame
                     () => { 
                         // todo: should remove the bits that we don't want here.
                         AddEntity(playerHouseEntrance);
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = null;
+                        player.GetComponent<BattleComponent>().weapon = null;
                         EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/axeBreak.wav"));
 
                         GameAssets.AxeBrokeEmote.alpha.Value = 1;
-                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent(GameAssets.AxeBrokeEmote);
-                        EngineGlobals.entityManager.GetLocalPlayer().After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
+                        player.RemoveComponent<EmoteComponent>();
+                        player.AddComponent(GameAssets.AxeBrokeEmote);
+                        player.After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
                         
                         EngineGlobals.log.Add("Your axe broke");
                     },
@@ -211,7 +213,7 @@ namespace AdventureGame
                 )
             );
 
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
+            player.GetComponent<BattleComponent>().weapon = Weapons.axe;
 
             ////
             //// Add objects
@@ -266,7 +268,18 @@ namespace AdventureGame
             // Add NPCs
             //
             Engine.Entity blacksmithEntity = NPCEntity.Create(852, 598, 15, 20, idTag: "blacksmith");
+
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
+
+            // add the player speak tutorial
+            if (Globals.IsControllerConnected)
+                GameAssets.speakEmote = GameAssets.controllerInteractEmote;
+            else
+                GameAssets.speakEmote = GameAssets.keyboardInteractEmote;
+
+            GameAssets.speakEmote.alpha.Value = 1;
+            blacksmithEntity.AddComponent(GameAssets.speakEmote);
+
             AddEntity(blacksmithEntity);
 
             //questMarker.SetPOI(new Vector2(500, 300));
@@ -301,11 +314,13 @@ namespace AdventureGame
 
                 // add the player movement tutorial
                 Engine.AnimatedEmoteComponent movementEmote;
-                if (player.GetComponent<InputComponent>().Input == Engine.Inputs.controller)
+                if (Globals.IsControllerConnected)
                     movementEmote = GameAssets.controllerMovementEmote;
                 else
                     movementEmote = GameAssets.keyboardMovementEmote;
                 movementEmote.alpha.Value = 1;
+
+                Engine.PlayerControlComponent controlComponent = player.GetComponent<PlayerControlComponent>();
 
                 player.GetComponent<TutorialComponent>().AddTutorial(
                     new Engine.Tutorial(
@@ -313,21 +328,21 @@ namespace AdventureGame
                         description: "Use controls to walk around the world",
                         onStart: () =>
                         {
-                            EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(movementEmote);
+                            player.AddComponent<AnimatedEmoteComponent>(movementEmote);
                         },
                         condition: () =>
                         {
-                            return EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.left) ||
-                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.right) ||
-                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.up) ||
-                                EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input.down);
+                            return EngineGlobals.inputManager.IsDown(controlComponent.Get("up")) ||
+                                EngineGlobals.inputManager.IsDown(controlComponent.Get("down")) ||
+                                EngineGlobals.inputManager.IsDown(controlComponent.Get("left")) ||
+                                EngineGlobals.inputManager.IsDown(controlComponent.Get("right"));
                         },
                         numberOfTimes: 60,
                         onComplete: () =>
                         {
                             Console.WriteLine("Walk tutorial complete");
-                            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                            if (player.GetComponent<AnimatedEmoteComponent>() != null)
+                                player.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                         }
                     )
                 );

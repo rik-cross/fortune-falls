@@ -42,9 +42,7 @@ namespace AdventureGame
 
         // emote images
         //public static Engine.Image emote_pickaxe = new Engine.Image(Engine.Utils.LoadTexture(contentLocation + "Emojis/emote_pickaxe.png"));
-        public static Engine.Image emote_pickaxe = new Engine.Image(Engine.Utils.LoadTexture("Emojis/emote_pickaxe.png"));
-
-        public static Engine.EmoteComponent speakEmote;
+        //public static Engine.Image emote_pickaxe = new Engine.Image(Engine.Utils.LoadTexture("Emojis/emote_pickaxe.png"));
 
         // npc headshots
 
@@ -56,6 +54,8 @@ namespace AdventureGame
         public static SoundEffect sound_notification = Engine.Utils.LoadSoundEffect("Sounds/notification.wav");
 
         // components
+
+        public static Engine.EmoteComponent speakEmote;
 
         public static Engine.AnimatedEmoteComponent controllerMovementEmote = new Engine.AnimatedEmoteComponent(
             list_texture_controller_movement,
@@ -75,7 +75,7 @@ namespace AdventureGame
             textureSize: new Vector2(26*4, 13*4)
         );
 
-        public static Engine.EmoteComponent controllerButton1Emote = new Engine.EmoteComponent(
+        public static Engine.EmoteComponent controllerInteractEmote = new Engine.EmoteComponent(
             button_a,
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
@@ -83,7 +83,7 @@ namespace AdventureGame
             textureSize: new Vector2(13 * 3, 13 * 3)
         );
 
-        public static Engine.EmoteComponent keyboardButton1Emote = new Engine.EmoteComponent(
+        public static Engine.EmoteComponent keyboardInteractEmote = new Engine.EmoteComponent(
             enter,
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,

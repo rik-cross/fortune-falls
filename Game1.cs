@@ -93,27 +93,10 @@ namespace AdventureGame
 
             EngineGlobals.log = new Log();
 
-            // Todo move to another accessible place for the menu and scenes e.g. Globals
             Globals.dialogueTickSound = Utils.LoadSoundEffect("Sounds/blip.wav");
 
-            // todo create the User instead of the player
-
-
-            // Todo create player when the game is loaded and add it to active scene
-            // Create player entity
-            Entity player = PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
-
             if (EngineGlobals.inputManager.IsControllerConnected())
-                player.GetComponent<InputComponent>().Input = Engine.Inputs.controller;
-            else
-                player.GetComponent<InputComponent>().Input = Engine.Inputs.keyboard;
-
-            // add the player speak tutorial
-            if (player.GetComponent<InputComponent>().Input == Engine.Inputs.controller)
-                GameAssets.speakEmote = GameAssets.controllerButton1Emote;
-            else
-                GameAssets.speakEmote = GameAssets.keyboardButton1Emote;
-            GameAssets.speakEmote.alpha.Value = 1;
+                Globals.IsControllerConnected = true;
 
             // Create and add MenuScene to the scene stack
             if (Globals.TEST)

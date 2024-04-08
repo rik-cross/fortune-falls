@@ -242,30 +242,21 @@ namespace AdventureGame
 
         public static void SetControls(UIButton button)
         {
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input == Engine.Inputs.controller)
+            if (Globals.IsControllerConnected)
             {
-                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input = Engine.Inputs.keyboard;
+                Globals.IsControllerConnected = false;
                 button.text = "Keyboard";
             }
             else
             {
                 if (EngineGlobals.inputManager.IsControllerConnected())
                 {
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().Input = Engine.Inputs.controller;
+                    Globals.IsControllerConnected = true;
                     button.text = "Controller";
                 }
 
             }
             button.Init();
-            //if ( && value == 1)
-            //{
-            //    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<InputComponent>().input = Engine.Inputs.controller;
-            //}
-            //else
-            //{
-            //    button.currentValue = 0;
-            //    
-            //}
         }
 
     }
