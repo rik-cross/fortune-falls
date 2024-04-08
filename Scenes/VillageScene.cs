@@ -23,19 +23,22 @@ namespace AdventureGame
             // Add map
             AddMap("Maps/Map_Village");
 
-
+            // todo - move to OnEnter here or PlayerSelectScene??
             // Add camera
             AddCamera("main");
-            if (Globals.newGame)
-            {
-                GetCameraByName("main").SetZoom(4.0f, instant: true);
-                GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
-                GetCameraByName("main").trackedEntity = player;
-                GetCameraByName("main").SetZoom(8.0f, instant: false);
+            //if (Globals.newGame)
+            //{
+            //    Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
+
+            //    GetCameraByName("main").SetZoom(4.0f, instant: true);
+            //    //GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
+            //    GetCameraByName("main").SetWorldPosition(playerPosition, instant: true);
+            //    GetCameraByName("main").trackedEntity = player;
+            //    GetCameraByName("main").SetZoom(8.0f, instant: false);
             
-            }
-            else
-                GetCameraByName("main").SetZoom(4.0f, instant: true);
+            //}
+            //else
+            //    GetCameraByName("main").SetZoom(4.0f, instant: true);
 
             ////
             //// Add cave entrance
@@ -147,14 +150,16 @@ namespace AdventureGame
                     if (e2.IsLocalPlayer())
                     {
                         //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(5.0f);
-                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
+                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = playerHouse;
+                        GetCameraByName("main").trackedEntity = playerHouse;
                     }
                 },
                 onCollisionExit: (Entity e1, Entity e2, float d) => {
                     if (e2.IsLocalPlayer())
                     {
                         //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
-                        EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
+                        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
+                        GetCameraByName("main").trackedEntity = player;
                     }
                 }
             );
@@ -212,8 +217,6 @@ namespace AdventureGame
                     announce: false
                 )
             );
-
-            player.GetComponent<BattleComponent>().weapon = Weapons.axe;
 
             ////
             //// Add objects
@@ -298,16 +301,37 @@ namespace AdventureGame
 
             // todo - enable input control
 
+            //// set the cameras
+            //if (GetCameraByName("main") != null)
+            //{
+            //    if (Globals.newGame)
+            //    {
+            //        Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
+
+            //        GetCameraByName("main").SetZoom(4.0f, instant: true);
+            //        //GetCameraByName("main").SetWorldPosition(new Vector2(275, 1190), instant: true);
+            //        GetCameraByName("main").SetWorldPosition(playerPosition, instant: true);
+            //        GetCameraByName("main").trackedEntity = player;
+            //        GetCameraByName("main").SetZoom(8.0f, instant: false);
+            //    }
+            //    else
+            //    {
+            //        GetCameraByName("main").SetZoom(4.0f, instant: true);
+            //        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
+            //        //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
+            //    }
+            //}
 
             // todo - check camera exists first
             // todo - this breaks focus on the house
-            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
-            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
 
             //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
 
             if (Globals.newGame)
             {
+                // TESTING - provide axe immediately
+                player.GetComponent<BattleComponent>().weapon = Weapons.axe;
+
                 // Reset the input controller stack
                 Engine.InputComponent inputComponent = player.GetComponent<InputComponent>();
                 inputComponent.Clear();

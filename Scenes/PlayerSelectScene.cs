@@ -94,13 +94,42 @@ namespace AdventureGame
 
             EngineGlobals.sceneManager.SceneBelow.AddEntity(player);
 
+            // set the cameras
+            Camera mainMenuCamera = EngineGlobals.sceneManager.GetScene<MenuScene>().GetCameraByName("main");
+            Camera sceneBelowCamera = EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main");
+
+            if (mainMenuCamera != null && sceneBelowCamera != null)
+            {
+                if (Globals.newGame)
+                {
+                    Console.WriteLine($"Main menu camera position: {mainMenuCamera.WorldPosition}");
+                    //Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
+
+                    //sceneBelowCamera.SetZoom(mainMenuCamera.zoom, instant: true);
+                    sceneBelowCamera.SetZoom(4.0f, instant: true);
+                    //sceneBelowCamera.SetWorldPosition(new Vector2(275, 1190), instant: true);
+                    //sceneBelowCamera.SetWorldPosition(playerPosition, instant: true);
+                    sceneBelowCamera.SetWorldPosition(mainMenuCamera.WorldPosition*-1, instant: true);
+                    //sceneBelowCamera.SetWorldPosition(new Vector2(275, 1190), instant: true);
+                    sceneBelowCamera.trackedEntity = player;
+                    sceneBelowCamera.SetZoom(8.0f, instant: false);
+                }
+                else
+                {
+                    sceneBelowCamera.SetZoom(4.0f, instant: true);
+                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
+                    //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(4.0f);
+                }
+            }
+
             //EngineGlobals.sceneManager.GetSceneBelow().GetCameraByName("main").SetZoom(10.0f);
             //EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = player;
         }
 
         public override void OnExit()
         {
-
+            // zoom back out
+            EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f, instant: false);
         }
 
         public override void Input(GameTime gameTime)

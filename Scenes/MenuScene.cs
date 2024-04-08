@@ -31,6 +31,26 @@ namespace AdventureGame
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
+            EngineGlobals.sceneManager.PreloadScene<VillageScene>();
+            EngineGlobals.sceneManager.PreloadScene<PlayerSelectScene>();
+
+
+            //PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
+
+            // todo - here or somewhere else?
+            // todo - bug: player position needs to be set via transform component
+            // Create player entity
+            Vector2 playerPosition = new Vector2(175, 1190);
+            int playerX = 175;
+            int playerY = 1190;
+
+            Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
+
+            EngineGlobals.entityManager.SetLocalPlayer(player);
+
+            player.GetComponent<TransformComponent>().Position = playerPosition;
+
+            // todo - remove?
             AddMap("Maps/Map_Village");
 
             _camera = new Engine.Camera(
@@ -241,34 +261,34 @@ namespace AdventureGame
 
         public void LoadNewGameScene(UIButton button)
         {
-            Globals.newGame = true;
-
             EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/2_i_passed_the_final_exam_master.ogg"));
 
-            EngineGlobals.sceneManager.ResetScene<VillageScene>();
+            // Check if a new game has already started
+            if (Globals.newGame == false)
+            {
+                Globals.newGame = true;
+                EngineGlobals.sceneManager.ResetScene<VillageScene>();
 
-            // Reset the player components
-            //Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            // todo - move to PlayerScript
-            //PlayerEntity.RemoveComponents();
-            //PlayerEntity.AddComponents();
-            //Console.WriteLine(string.Join(", ", player.Components));
+                // todo? - move player code to PlayerSelect or VillageScene Init?
 
-            // todo? - move player code to PlayerSelect or VillageScene Init?
+                // Reset the player character default sprite
+                Globals.playerIndex = 0;
+                Globals.playerStr = Globals.allCharacters[0];
+                PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
 
-            // Reset the player character default sprite
-            Globals.playerIndex = 0;
-            Globals.playerStr = Globals.allCharacters[0];
-            PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
+                // todo - bug: player position needs to be set via transform component
+                // Create player entity
+                Vector2 playerPosition = new Vector2(175, 1190);
+                int playerX = 175;
+                int playerY = 1190;
 
-            // todo - bug: player position needs to be set via transform component
-            // Create player entity
-            Vector2 playerPosition = new Vector2(175, 1190);
-            int playerX = 175;
-            int playerY = 1190;
-            Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
-            player.GetComponent<TransformComponent>().Position = playerPosition;
-            //player.State = "idle_right";
+                Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
+
+                EngineGlobals.entityManager.SetLocalPlayer(player);
+
+                player.GetComponent<TransformComponent>().Position = playerPosition;
+                //player.State = "idle_right";
+            }
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<

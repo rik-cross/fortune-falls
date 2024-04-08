@@ -72,9 +72,16 @@ namespace AdventureGame.Engine
                 ActiveScene._Draw(gameTime);
         }
 
+        // Preload a scene and add it to bottom of stack
+        public void PreloadScene<TScene>()
+        {
+            Console.WriteLine($"Preloading scene: {typeof(TScene)}");
+
+            LoadScene(typeof(TScene), true);
+        }
 
         // Load a scene using Type t and add it to top of stack
-        private Scene LoadScene(Type t)
+        private Scene LoadScene(Type t, bool preload = false)
         {
             Scene existingScene = GetScene(t);
             if (existingScene == null)
@@ -87,7 +94,18 @@ namespace AdventureGame.Engine
                     Console.WriteLine($"New instance of {sceneObj.GetType()} is loading");
                     scene.Init();
                     scene._LoadContent();
-                    _sceneStack.Add(scene);
+
+                    if (preload)
+                    {
+                        // Add to bottom of scene stack
+                        _sceneStack.Insert(0, scene);
+                    }
+                    else
+                    {
+                        // Add to top of scene stack
+                        _sceneStack.Add(scene);
+                    }
+
                     return scene;
                 }
             }
