@@ -17,7 +17,7 @@ namespace AdventureGame
         public override void LoadContent()
         {
             // add map
-            AddMap("Maps/Map_Cave");
+            LoadMap("Maps/Map_Cave");
 
             // add camera
             AddCamera("main");
@@ -66,7 +66,7 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
-            Utilities.SetBuildingAlpha(EntityList);
+            Utilities.SetBuildingAlpha(EntitiesInScene);
             //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
         }
 

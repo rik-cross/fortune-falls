@@ -48,7 +48,7 @@ namespace AdventureGame.Engine
 
             // Check for hurtbox and hitbox intersects
             // CHECK any way to reduce this list to signatures with HurtboxComponent??
-            foreach (Entity hurtEntity in scene.EntityList)
+            foreach (Entity hurtEntity in scene.EntitiesInScene)
             {
                 if (damageEntity != hurtEntity) // entityMapper.ContainsKey(hurtEntity.Id) && )
                 {

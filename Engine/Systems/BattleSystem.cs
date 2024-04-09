@@ -33,7 +33,8 @@ namespace AdventureGame.Engine
 
                 //List<Entity> hitEntities;
 
-                foreach (Engine.Entity e in scene.EntityList)
+                // todo - change to EntityList: bug when registering hit/hurt
+                foreach (Engine.Entity e in scene.EntitiesInScene)
                 {
                     if (e != entity && e.GetComponent<Engine.BattleComponent>() != null)
                     {
@@ -113,11 +114,13 @@ namespace AdventureGame.Engine
                 Globals.spriteBatch.DrawRectangle(rect, Color.Purple);
             }
         }
+
+        // todo - Ask Rik what this draw is for and why it's using CameraList?
         public override void Draw(GameTime gameTime, Scene scene)
         {
             foreach (Engine.Camera c in scene.CameraList)
             {
-                if (scene.EntityList.Contains(c.ownerEntity))
+                if (scene.EntitiesInScene.Contains(c.ownerEntity))
                 {
                     if (c.ownerEntity.GetComponent<Engine.BattleComponent>() != null)
                     {

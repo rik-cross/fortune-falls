@@ -53,6 +53,9 @@
 </data>
  </layer>
  <layer id="8" name="walls" width="10" height="10">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 773,773,773,773,585,0,773,773,773,773,
 0,0,0,0,0,0,0,0,0,0,
@@ -84,6 +87,9 @@
 </data>
  </layer>
  <layer id="12" name="chair_above" width="10" height="10">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
@@ -115,6 +121,9 @@
 </data>
  </layer>
  <layer id="9" name="windows" width="10" height="10">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 0,783,0,783,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
@@ -129,6 +138,9 @@
 </data>
  </layer>
  <layer id="13" name="perimeter_above" width="10" height="10">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 779,0,0,0,2684355396,0,0,0,0,774,
 0,0,0,0,0,0,0,0,0,0,
@@ -143,6 +155,9 @@
 </data>
  </layer>
  <layer id="10" name="objects" width="10" height="10">
+  <properties>
+   <property name="type" value="below"/>
+  </properties>
   <data encoding="csv">
 2228,0,2156,0,0,0,2160,2160,1128,1129,
 2147485875,0,2220,0,0,0,2224,2224,1192,1193,
@@ -157,14 +172,17 @@
 </data>
  </layer>
  <objectgroup id="5" name="collision">
+  <properties>
+   <property name="type" value="collision"/>
+  </properties>
   <object id="7" x="0.333333" y="0" width="5" height="159.667"/>
-  <object id="9" x="5.75" y="149.417" width="90.25" height="10.4167"/>
-  <object id="10" x="128.667" y="149.333" width="30.917" height="10.3333"/>
+  <object id="9" x="5.75" y="144.56" width="90.25" height="15.2736"/>
+  <object id="10" x="128.667" y="144.707" width="30.917" height="14.9597"/>
   <object id="11" x="74.5" y="56.9167" width="37.583" height="7"/>
   <object id="12" x="154.583" y="5.75" width="5.0833" height="143.417"/>
   <object id="14" x="128.209" y="56.75" width="26.333" height="7"/>
   <object id="15" x="74.5" y="5.1665" width="5" height="51.417"/>
-  <object id="16" x="5.375" y="0.04165" width="154.25" height="5.1667"/>
+  <object id="16" x="5.375" y="0.04165" width="154.25" height="15.6473"/>
   <object id="17" x="64.2085" y="112" width="31.833" height="7"/>
   <object id="18" x="128.084" y="112.5" width="26.083" height="7"/>
   <object id="19" x="64.25" y="119.291" width="5" height="29.917"/>

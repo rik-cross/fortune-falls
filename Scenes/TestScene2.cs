@@ -21,7 +21,7 @@ namespace AdventureGame
         public override void LoadContent()
         {
             // Add map
-            AddMap("Maps/Map_Test2");
+            LoadMap("Maps/Map_Test2");
 
 
             // Add camera
@@ -164,7 +164,7 @@ namespace AdventureGame
         {
             questMarker.Update(this);
 
-            Utilities.SetBuildingAlpha(EntityList);
+            Utilities.SetBuildingAlpha(EntitiesInScene);
             //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
 
             // why does this have to be 60? a lower number doesn't work

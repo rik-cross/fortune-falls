@@ -54,13 +54,21 @@ namespace AdventureGame.Engine
                     // Try to add the item to the other entity's inventory
                     else
                     {
+                        string itemText = itemComponent.Item.ItemId;
+                        int amount = itemComponent.Item.Quantity;
+
                         Item item = EngineGlobals.inventoryManager.AddAndStackItem(
                             inventoryComponent.InventoryItems, itemComponent.Item);
 
                         if (item == null)
                             otherEntity.Destroy();
+                        else
+                            amount -= item.Quantity;
 
-                        EngineGlobals.log.Add("Item collected: [x]");
+                        if (amount > 0)
+                            itemText += $" x {amount}";
+
+                        EngineGlobals.log.Add($"Collected: [{itemText}]");
                     }
                 }
             }

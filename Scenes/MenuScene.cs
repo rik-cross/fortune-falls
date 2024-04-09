@@ -50,8 +50,8 @@ namespace AdventureGame
 
             player.GetComponent<TransformComponent>().Position = playerPosition;
 
-            // todo - map / collision objects created twice - here and VillageScene OnLoad
-            AddMap("Maps/Map_Village");
+            // Load the map but do not create collision tile entities
+            LoadMap("Maps/Map_Village", false); 
 
             _camera = new Engine.Camera(
                     name: "main",

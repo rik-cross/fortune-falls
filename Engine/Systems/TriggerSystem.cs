@@ -34,7 +34,7 @@ namespace AdventureGame.Engine
                 (int)(triggerComponent.size.Y)
             );
 
-            foreach (Entity e in scene.EntityList)
+            foreach (Entity e in EntityList) // was scene.EntityList
             {
                 if (EntityMapper.ContainsKey(e.Id) && e != entity)
                 {
@@ -42,55 +42,52 @@ namespace AdventureGame.Engine
                     TriggerComponent otherTriggerComponent = e.GetComponent<TriggerComponent>();
                     TransformComponent otherTransformComponent = e.GetComponent<TransformComponent>();
 
-                    if (otherTriggerComponent != null && otherTransformComponent != null)
+                    //if (otherTriggerComponent != null && otherTransformComponent != null)
+
+                    // calculate distance
+                    float thisXMiddle = transformComponent.Position.X + triggerComponent.offset.X + (triggerComponent.size.X / 2);
+                    float otherXMiddle = otherTransformComponent.Position.X + otherTriggerComponent.offset.X + (otherTriggerComponent.size.X / 2);
+                    float thisYMiddle = transformComponent.Position.Y + triggerComponent.offset.Y + (triggerComponent.size.Y / 2);
+                    float otherYMiddle = otherTransformComponent.Position.Y + otherTriggerComponent.offset.Y + (otherTriggerComponent.size.Y / 2);
+                    float xDiff = Math.Abs(thisXMiddle - otherXMiddle);
+                    float yDiff = Math.Abs(thisYMiddle - otherYMiddle);
+                    float distance = (float)Math.Sqrt((xDiff*xDiff)+(yDiff*yDiff));
+
+                    // process triggers
+                    if (triggerComponent.rect.Intersects(otherTriggerComponent.rect))
                     {
 
-                        // calculate distance
-                        float thisXMiddle = transformComponent.Position.X + triggerComponent.offset.X + (triggerComponent.size.X / 2);
-                        float otherXMiddle = otherTransformComponent.Position.X + otherTriggerComponent.offset.X + (otherTriggerComponent.size.X / 2);
-                        float thisYMiddle = transformComponent.Position.Y + triggerComponent.offset.Y + (triggerComponent.size.Y / 2);
-                        float otherYMiddle = otherTransformComponent.Position.Y + otherTriggerComponent.offset.Y + (otherTriggerComponent.size.Y / 2);
-                        float xDiff = Math.Abs(thisXMiddle - otherXMiddle);
-                        float yDiff = Math.Abs(thisYMiddle - otherYMiddle);
-                        float distance = (float)Math.Sqrt((xDiff*xDiff)+(yDiff*yDiff));
-
-                        // process triggers
-                        if (triggerComponent.rect.Intersects(otherTriggerComponent.rect))
+                        // onCollisionEnter
+                        if (!triggerComponent.collidedEntities.Contains(e))
                         {
-
-                            // onCollisionEnter
-                            if (!triggerComponent.collidedEntities.Contains(e))
+                            if (triggerComponent.onCollisionEnter != null)
                             {
-                                if (triggerComponent.onCollisionEnter != null)
-                                {
-                                    triggerComponent.onCollisionEnter(entity, e, distance);
-                                }
-                                triggerComponent.collidedEntities.Add(e);
-                            } else
-
-                            // onCollide
-                            {
-                                if (triggerComponent.onCollide != null)
-                                {
-                                    triggerComponent.onCollide(entity, e, distance);
-                                }
+                                triggerComponent.onCollisionEnter(entity, e, distance);
                             }
+                            triggerComponent.collidedEntities.Add(e);
+                        } else
 
+                        // onCollide
+                        {
+                            if (triggerComponent.onCollide != null)
+                            {
+                                triggerComponent.onCollide(entity, e, distance);
+                            }
                         }
-                        else
 
-                        // onCollisionExit
+                    }
+                    else
+
+                    // onCollisionExit
+                    {
+
+                        if (triggerComponent.collidedEntities.Contains(e))
                         {
-
-                            if (triggerComponent.collidedEntities.Contains(e))
+                            if (triggerComponent.onCollisionExit != null)
                             {
-                                if (triggerComponent.onCollisionExit != null)
-                                {
-                                    triggerComponent.onCollisionExit(entity, e, distance);
-                                }
-                                triggerComponent.collidedEntities.Remove(e);
+                                triggerComponent.onCollisionExit(entity, e, distance);
                             }
-
+                            triggerComponent.collidedEntities.Remove(e);
                         }
 
                     }

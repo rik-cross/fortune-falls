@@ -45,11 +45,11 @@ namespace AdventureGame.Engine
             // Will draw component-specific or common draw method if one is specified.
             //
 
-            foreach (Entity entity in scene.EntityList)
+            // todo - change to EntityList: bug when drawing scene below (Pause / DevTools)
+            foreach (Entity entity in scene.EntitiesInScene)
             {
                 if (entity.GetComponent<AnimatedEmoteComponent>() != null && entity.GetComponent<TransformComponent>() != null)
                 {
-
                     //
                     // get the required components
                     //
@@ -108,8 +108,8 @@ namespace AdventureGame.Engine
                         ),
                         Color.White * (float)animatedEmoteComponent.alpha.Value
                     );
-
                 }
+
             }
         }
     }

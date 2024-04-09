@@ -19,7 +19,7 @@ namespace AdventureGame
         public override void LoadContent()
         {
             // Add map
-            AddMap("Maps/Map_Test");
+            LoadMap("Maps/Map_Test");
 
 
             // Add camera
@@ -214,7 +214,7 @@ namespace AdventureGame
             Cutscene.Update(gameTime);
 
             // Make entities transparent if in front of player
-            Utilities.SetBuildingAlpha(EntityList);
+            Utilities.SetBuildingAlpha(EntitiesInScene);
             //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
         }
 

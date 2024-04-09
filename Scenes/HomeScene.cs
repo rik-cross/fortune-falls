@@ -21,7 +21,7 @@ namespace AdventureGame
         public override void LoadContent()
         {
             // add map
-            AddMap("Maps/Map_Home");
+            LoadMap("Maps/Map_Home");
 
             //
             // add entities

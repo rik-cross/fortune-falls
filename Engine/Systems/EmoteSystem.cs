@@ -35,7 +35,8 @@ namespace AdventureGame.Engine
             // Will draw component-specific or common draw method if one is specified.
             //
 
-            foreach (Entity entity in scene.EntityList)
+            // todo - change to EntityList
+            foreach (Entity entity in scene.EntitiesInScene)
             {
                 if (entity.GetComponent<EmoteComponent>() != null && entity.GetComponent<TransformComponent>() != null)
                 {

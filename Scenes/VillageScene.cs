@@ -22,7 +22,7 @@ namespace AdventureGame
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
 
             // Add map
-            AddMap("Maps/Map_Village");
+            LoadMap("Maps/Map_Village");
 
 
             ////
@@ -185,13 +185,13 @@ namespace AdventureGame
                     () => { 
                         // todo: should remove the bits that we don't want here.
                         AddEntity(playerHouseEntrance);
-                        player.GetComponent<BattleComponent>().weapon = null;
+                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = null;
                         EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/axeBreak.wav"));
 
                         GameAssets.AxeBrokeEmote.alpha.Value = 1;
-                        player.RemoveComponent<EmoteComponent>();
-                        player.AddComponent(GameAssets.AxeBrokeEmote);
-                        player.After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
+                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent(GameAssets.AxeBrokeEmote);
+                        EngineGlobals.entityManager.GetLocalPlayer().After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
                         
                         EngineGlobals.log.Add("Your axe broke");
                     },
@@ -352,7 +352,7 @@ namespace AdventureGame
         public override void Update(GameTime gameTime)
         {
             questMarker.Update(this); // todo: add this to Scene
-            Utilities.SetBuildingAlpha(EntityList);
+            Utilities.SetBuildingAlpha(EntitiesInScene);
         }
 
         public override void Draw(GameTime gameTime)

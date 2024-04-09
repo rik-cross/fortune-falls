@@ -63,7 +63,7 @@ namespace AdventureGame.Engine
                 {
                     SoundEffect chopSoundEffect = Utils.LoadSoundEffect("Sounds/chop.wav");
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
-                    thisEnt.GetComponent<HealthComponent>().Health -= 20;
+                    thisEnt.GetComponent<HealthComponent>().Health -= 25;
                     //thisEnt.State = "tree_shake";
 
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())

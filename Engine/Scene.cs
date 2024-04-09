@@ -23,7 +23,7 @@ namespace AdventureGame.Engine
         public Color backgroundColour = Color.Black;
 
         //private ListMapper<Entity> EntityList; // combines a list and a dictionary
-        public List<Entity> EntityList { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
+        public List<Entity> EntitiesInScene { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
         //public Dictionary<Entity, int> EntityMapper { get; set; }
         public HashSet<Entity> EntitiesToAdd { get; private set; }
         public HashSet<Entity> EntitiesToRemove { get; private set; }
@@ -53,7 +53,7 @@ namespace AdventureGame.Engine
 
             _sceneContent = new ContentManager(Globals.content.ServiceProvider, Globals.content.RootDirectory);
 
-            EntityList = new List<Entity>();
+            EntitiesInScene = new List<Entity>();
             EntitiesToAdd = new HashSet<Entity>();
             EntitiesToRemove = new HashSet<Entity>();
             CameraList = new List<Camera>();
@@ -82,7 +82,7 @@ namespace AdventureGame.Engine
         {
             int count = 0;
             List<Entity> entitiesToKeep = new List<Entity>();
-            foreach (Entity e in EntityList)
+            foreach (Entity e in EntitiesInScene)
             {
                 if (!e.IsLocalPlayer())
                 {
@@ -119,7 +119,7 @@ namespace AdventureGame.Engine
         }
         public virtual void OnExit() { }
 
-        public void AddMap(string newMapLocation)
+        public void LoadMap(string newMapLocation, bool createColliders = true)
         {
             Map = Globals.content.Load<TiledMap>(newMapLocation);
             MapRenderer = new TiledMapRenderer(Globals.graphicsDevice, Map);
@@ -127,7 +127,7 @@ namespace AdventureGame.Engine
             CollisionTiles.Clear();
             TiledMapObjectLayer collisionLayer = Map.GetLayer<TiledMapObjectLayer>("collision");
 
-            if (collisionLayer != null)
+            if (collisionLayer != null && createColliders)
             {
                 // Only works for rectangular objects
                 foreach (TiledMapObject collisionObject in collisionLayer.Objects)
@@ -260,9 +260,9 @@ namespace AdventureGame.Engine
         // CHANGE to use an _entityMapper for all the Contains() calls
         public void AddEntity(Entity e)
         {
-            if (e != null && EntityList.Contains(e) == false)
+            if (e != null && EntitiesInScene.Contains(e) == false)
             {
-                EntityList.Add(e);
+                EntitiesInScene.Add(e);
                 EntitiesToAdd.Add(e);
             }
         }
@@ -282,7 +282,7 @@ namespace AdventureGame.Engine
 
         public void RemoveEntity(Entity e)
         {
-            if (e != null && EntityList.Contains(e) == false)
+            if (e != null && EntitiesInScene.Contains(e) == false)
                 EntitiesToRemove.Add(e);
 
             //if (e != null && e.Scene == this)
@@ -296,7 +296,7 @@ namespace AdventureGame.Engine
 
         public bool IsEntityInScene(Entity e)
         {
-            return EntityList.Contains(e);
+            return EntitiesInScene.Contains(e);
         }
 
         public static int CompareY(Entity x, Entity y)
@@ -336,17 +336,17 @@ namespace AdventureGame.Engine
 
         public void DrawOrderInsertionSort()
         {
-            for (int i = 1; i < EntityList.Count; ++i)
+            for (int i = 1; i < EntitiesInScene.Count; ++i)
             {
-                Entity e = EntityList[i];
+                Entity e = EntitiesInScene[i];
                 int pos = i - 1;
                 //Console.WriteLine(string.Join(", ", e.Tags.Type));
-                while (pos >= 0 && EntityList[pos].GetComponent<TransformComponent>().DrawOrder > e.GetComponent<TransformComponent>().DrawOrder)
+                while (pos >= 0 && EntitiesInScene[pos].GetComponent<TransformComponent>().DrawOrder > e.GetComponent<TransformComponent>().DrawOrder)
                 {
-                    EntityList[pos + 1] = EntityList[pos];
+                    EntitiesInScene[pos + 1] = EntitiesInScene[pos];
                     pos--;
                 }
-                EntityList[pos + 1] = e;
+                EntitiesInScene[pos + 1] = e;
             }
         }
 
@@ -366,7 +366,7 @@ namespace AdventureGame.Engine
                 s.Input(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
+                foreach (Entity e in EntitiesInScene) //  CHANGE to s.EntityList BUG
                     if (s.EntityMapper.ContainsKey(e.Id))
                         s.InputEntity(gameTime, this, e);
             }
@@ -388,7 +388,7 @@ namespace AdventureGame.Engine
 
             // Delete entities from the deleted set
             foreach (Entity e in _entityManager.Deleted)
-                EntityList.Remove(e);
+                EntitiesInScene.Remove(e);
             _entityManager.DeleteEntitiesFromGame();
 
 
@@ -419,7 +419,7 @@ namespace AdventureGame.Engine
             foreach (Entity e in EntitiesToAdd)
             {
                 // Change? Only used when dropping item from InventoryManager
-                if (!EntityList.Contains(e))
+                if (!EntitiesInScene.Contains(e))
                 {
                     AddEntity(e);
                     _systemManager.UpdateEntityLists(e); // A bit hacky...
@@ -440,7 +440,7 @@ namespace AdventureGame.Engine
 
             // update timers here??
 
-            foreach(Entity e in EntityList)
+            foreach(Entity e in EntitiesInScene)
             {
                 foreach(TimedAction ta in e.TimedActionList)
                 {
@@ -448,7 +448,7 @@ namespace AdventureGame.Engine
                 }
             }
 
-            foreach (Entity e in EntityList)
+            foreach (Entity e in EntitiesInScene)
             {
                 for (int i = e.TimedActionList.Count - 1; i >= 0; i--)
                 {
@@ -473,7 +473,7 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in EntityList) //  CHANGE to s.entityList BUG
+                foreach (Entity e in s.EntityList) //  CHANGE to s.entityList BUG - working with EntityList
                     if (s.EntityMapper.ContainsKey(e.Id))
                         s.UpdateEntity(gameTime, this, e);
                 /*
@@ -576,7 +576,7 @@ namespace AdventureGame.Engine
                     if (!s.AboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
+                        foreach (Entity e in EntitiesInScene) // CHANGE to s.entityList BUG
                             if (s.EntityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }
@@ -615,7 +615,7 @@ namespace AdventureGame.Engine
                 // MOVE so the light is only loaded once 
                 //var alphaMask = Utils.LoadTexture("VFX/light.png");
 
-                foreach (Entity e in EntityList)
+                foreach (Entity e in EntitiesInScene)
                 {
                     LightComponent lightComponent = e.GetComponent<LightComponent>();
                     TransformComponent transformComponent = e.GetComponent<TransformComponent>();
@@ -654,7 +654,7 @@ namespace AdventureGame.Engine
                     if (s.AboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in EntityList) // CHANGE to s.entityList BUG
+                        foreach (Entity e in EntitiesInScene) // CHANGE to s.entityList BUG
                             if (s.EntityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }

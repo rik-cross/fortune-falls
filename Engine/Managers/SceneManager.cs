@@ -43,9 +43,9 @@ namespace AdventureGame.Engine
                 // Needed??
                 foreach (Entity e in ActiveScene.EntitiesToRemove)
                 {
-                    int index = ActiveScene.EntityList.IndexOf(e);
+                    int index = ActiveScene.EntitiesInScene.IndexOf(e);
                     if (index != -1)
-                        ActiveScene.EntityList.RemoveAt(index);
+                        ActiveScene.EntitiesInScene.RemoveAt(index);
                 }
                 ActiveScene.ClearEntitiesToRemove();
 
