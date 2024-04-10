@@ -91,8 +91,8 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.SceneComponent());
 
             playerEntity.AddComponent(new Engine.ColliderComponent(
-                size: new Vector2(13, 6),
-                offset: new Vector2(0, 11)
+                size: new Vector2(13, 7),
+                offset: new Vector2(0, 12)
             ));
 
             playerEntity.AddComponent(new Engine.TriggerComponent(

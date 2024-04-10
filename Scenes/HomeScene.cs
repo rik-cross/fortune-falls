@@ -30,9 +30,9 @@ namespace AdventureGame
             // Home trigger entity
             Engine.Entity homeTrigger = EngineGlobals.entityManager.CreateEntity();
             homeTrigger.Tags.AddTag("homeTrigger");
-            homeTrigger.AddComponent(new Engine.TransformComponent(128-16, 155, 16, 10));
+            homeTrigger.AddComponent(new Engine.TransformComponent(128-32, 155, 16, 10));
             homeTrigger.AddComponent(new Engine.TriggerComponent(
-                new Vector2(16, 10),
+                new Vector2(32, 10),
                 onCollisionEnter: (Entity triggerEntity, Entity otherEntity, float distance) =>
                 {
                     if (otherEntity.IsPlayerType())

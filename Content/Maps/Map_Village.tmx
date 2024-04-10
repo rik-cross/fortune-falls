@@ -1644,9 +1644,6 @@
 </data>
  </layer>
  <objectgroup id="16" name="collision">
-  <properties>
-   <property name="type" value="collision"/>
-  </properties>
   <object id="27" x="804" y="608.667" width="37" height="13"/>
   <object id="29" x="851.333" y="575.5" width="27" height="13"/>
   <object id="168" x="98.788" y="625.333" width="80.8483" height="15.3333"/>
