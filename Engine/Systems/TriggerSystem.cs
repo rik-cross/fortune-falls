@@ -34,13 +34,12 @@ namespace AdventureGame.Engine
                 (int)(triggerComponent.size.Y)
             );
 
-            foreach (Entity e in EntityList) // was scene.EntityList
+            foreach (Entity otherE in scene.EntitiesInScene) // use EntityList and check entities in same scene?
             {
-                if (EntityMapper.ContainsKey(e.Id) && e != entity)
+                if (EntityMapper.ContainsKey(otherE.Id) && otherE != entity) // check other entity is in system
                 {
-
-                    TriggerComponent otherTriggerComponent = e.GetComponent<TriggerComponent>();
-                    TransformComponent otherTransformComponent = e.GetComponent<TransformComponent>();
+                    TriggerComponent otherTriggerComponent = otherE.GetComponent<TriggerComponent>();
+                    TransformComponent otherTransformComponent = otherE.GetComponent<TransformComponent>();
 
                     //if (otherTriggerComponent != null && otherTransformComponent != null)
 
@@ -58,20 +57,20 @@ namespace AdventureGame.Engine
                     {
 
                         // onCollisionEnter
-                        if (!triggerComponent.collidedEntities.Contains(e))
+                        if (!triggerComponent.collidedEntities.Contains(otherE))
                         {
                             if (triggerComponent.onCollisionEnter != null)
                             {
-                                triggerComponent.onCollisionEnter(entity, e, distance);
+                                triggerComponent.onCollisionEnter(entity, otherE, distance);
                             }
-                            triggerComponent.collidedEntities.Add(e);
+                            triggerComponent.collidedEntities.Add(otherE);
                         } else
 
                         // onCollide
                         {
                             if (triggerComponent.onCollide != null)
                             {
-                                triggerComponent.onCollide(entity, e, distance);
+                                triggerComponent.onCollide(entity, otherE, distance);
                             }
                         }
 
@@ -81,13 +80,13 @@ namespace AdventureGame.Engine
                     // onCollisionExit
                     {
 
-                        if (triggerComponent.collidedEntities.Contains(e))
+                        if (triggerComponent.collidedEntities.Contains(otherE))
                         {
                             if (triggerComponent.onCollisionExit != null)
                             {
-                                triggerComponent.onCollisionExit(entity, e, distance);
+                                triggerComponent.onCollisionExit(entity, otherE, distance);
                             }
-                            triggerComponent.collidedEntities.Remove(e);
+                            triggerComponent.collidedEntities.Remove(otherE);
                         }
 
                     }

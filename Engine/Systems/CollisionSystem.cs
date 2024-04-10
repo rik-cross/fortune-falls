@@ -191,11 +191,12 @@ namespace AdventureGame.Engine
                 broadphaseBox = colliderComponent.GetBroadphaseBox(physicsComponent.Velocity);
 
             // CHANGE to use broad-phasing, a grid or a quadtree?
+
             // Check for collider intersects
-            foreach (Entity otherEntity in EntityList)
+            foreach (Entity otherEntity in scene.EntitiesInScene) // use EntityList and check entities in same scene?
             {
-                //if (entityMapper.ContainsKey(otherEntity.Id) && entity != otherEntity)
-                if (entity != otherEntity)
+                //if (entity != otherEntity)
+                if (EntityMapper.ContainsKey(otherEntity.Id) && entity != otherEntity) // check other entity is in system
                 {
                     ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
                     //CollisionHandlerComponent otherHandlerComponent = otherEntity.GetComponent<CollisionHandlerComponent>();

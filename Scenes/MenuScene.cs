@@ -50,7 +50,7 @@ namespace AdventureGame
 
             player.GetComponent<TransformComponent>().Position = playerPosition;
 
-            // Load the map but do not create collision tile entities
+            // Load the map but do not create collision entities
             LoadMap("Maps/Map_Village", false); 
 
             _camera = new Engine.Camera(

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventureGame.Engine
 {
@@ -63,11 +64,15 @@ namespace AdventureGame.Engine
 
         public void ResetAll()
         {
-            //foreach (string key in _intentions.Keys)
-            //    _intentions[key] = false;
+            foreach (string key in _intentions.Keys.ToList())
+            {
+                if (_intentions[key])
+                    _changedBuffer[key] = false;
+                _intentions[key] = false;
+            }
 
-            foreach (string key in _intentions.Keys)
-                _changedBuffer[key] = false;
+            //foreach (string key in _intentions.Keys)
+            //    _changedBuffer[key] = false;
         }
 
         public bool HasChanged(string intent)

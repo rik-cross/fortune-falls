@@ -10,43 +10,44 @@ namespace AdventureGame.Engine
         public BattleSystem()
         {
             RequiredComponent<BattleComponent>();
-            RequiredComponent<AnimatedSpriteComponent>();
+            //RequiredComponent<AnimatedSpriteComponent>();
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             BattleComponent battleComponent = entity.GetComponent<BattleComponent>();
             AnimatedSpriteComponent animatedComponent = entity.GetComponent<AnimatedSpriteComponent>();
+            if (animatedComponent == null)
+                return;
 
-            HBox hitBox = battleComponent.GetHitbox(entity.State);
             AnimatedSprite animatedSprite = animatedComponent.GetAnimatedSprite(entity.State);
-
             if (animatedSprite == null)
                 return;
+
+            HBox hitBox = battleComponent.GetHitbox(entity.State);
 
             if (battleComponent.GetHitbox(entity.State) != null
                 && (animatedSprite.SpriteList[0].CurrentFrame == hitBox.frame || hitBox.frame == -1)
                 && animatedSprite.Timer == 0)
             {
-
                 bool hit = false;
 
                 //List<Entity> hitEntities;
 
-                // todo - change to EntityList: bug when registering hit/hurt
-                foreach (Engine.Entity e in scene.EntitiesInScene)
+                foreach (Entity otherE in scene.EntitiesInScene) // use EntityList and check entities in same scene?
                 {
-                    if (e != entity && e.GetComponent<Engine.BattleComponent>() != null)
+                    //if (e != entity && e.GetComponent<BattleComponent>() != null)
+                    if (EntityMapper.ContainsKey(otherE.Id) && entity != otherE) // // check other entity is in system
                     {
-                        Engine.BattleComponent bc = e.GetComponent<Engine.BattleComponent>();
-                        if (bc.GetHurtbox(e.State) != null)
+                        BattleComponent bc = otherE.GetComponent<BattleComponent>();
+                        if (bc.GetHurtbox(otherE.State) != null)
                         {
                             
-                            HBox r1 = bc.GetHurtbox(e.State);
+                            HBox r1 = bc.GetHurtbox(otherE.State);
                             HBox r2 = battleComponent.GetHitbox(entity.State);
 
-                            Engine.TransformComponent t1 = e.GetComponent<Engine.TransformComponent>();
-                            Engine.TransformComponent t2 = entity.GetComponent<Engine.TransformComponent>();
+                            TransformComponent t1 = otherE.GetComponent<TransformComponent>();
+                            TransformComponent t2 = entity.GetComponent<TransformComponent>();
 
                             Rectangle r1a = new Rectangle((int)(r1.offset.X + t1.X), (int)(r1.offset.Y + t1.Y), (int)r1.size.X, (int)r1.size.Y);
                             Rectangle r2a = new Rectangle((int)(r2.offset.X + t2.X), (int)(r2.offset.Y + t2.Y), (int)r2.size.X, (int)r2.size.Y);
@@ -61,9 +62,9 @@ namespace AdventureGame.Engine
                                 if (battleComponent.weapon.hitSound != null)
                                     EngineGlobals.soundManager.PlaySoundEffect(battleComponent.weapon.hitSound);
                                 if (battleComponent.OnHit != null)
-                                    battleComponent.OnHit(entity, e, battleComponent.weapon, bc.weapon);
+                                    battleComponent.OnHit(entity, otherE, battleComponent.weapon, bc.weapon);
                                 if (bc.OnHurt != null)
-                                    bc.OnHurt(e, entity, bc.weapon, battleComponent.weapon);
+                                    bc.OnHurt(otherE, entity, bc.weapon, battleComponent.weapon);
 
                             }
                         }
@@ -118,11 +119,11 @@ namespace AdventureGame.Engine
         // todo - Ask Rik what this draw is for and why it's using CameraList?
         public override void Draw(GameTime gameTime, Scene scene)
         {
-            foreach (Engine.Camera c in scene.CameraList)
+            foreach (Camera c in scene.CameraList)
             {
                 if (scene.EntitiesInScene.Contains(c.ownerEntity))
                 {
-                    if (c.ownerEntity.GetComponent<Engine.BattleComponent>() != null)
+                    if (c.ownerEntity.GetComponent<BattleComponent>() != null)
                     {
                         int w = 64;
                         int h = 64;
@@ -131,10 +132,10 @@ namespace AdventureGame.Engine
 
                         UI.DrawRect(x, y, w, h);
 
-                        if (c.ownerEntity.GetComponent<Engine.BattleComponent>().weapon != null)
+                        if (c.ownerEntity.GetComponent<BattleComponent>().weapon != null)
                         {
-                            Engine.Image i = new Engine.Image(
-                                c.ownerEntity.GetComponent<Engine.BattleComponent>().weapon.image,
+                            Image i = new Image(
+                                c.ownerEntity.GetComponent<BattleComponent>().weapon.image,
                                 size: new Vector2(40, 40),
                                 position: new Vector2(x+((64-40)/2), y+((64-40)/2))
                             );
