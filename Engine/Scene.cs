@@ -112,9 +112,14 @@ namespace AdventureGame.Engine
         {
             // Reset player movement
             Entity player = _entityManager.GetLocalPlayer();
-            if (player != null && player.GetComponent<IntentionComponent>() != null)
-                player.GetComponent<IntentionComponent>().ResetAll();
+            if (player != null)
+            {
+                if (player.GetComponent<IntentionComponent>() != null)
+                    player.GetComponent<IntentionComponent>().ResetAll();
 
+                if (player.State.Contains("_"))
+                    player.State = "idle_" + player.State.Split("_")[1];
+            }
             OnExit();
         }
         public virtual void OnExit() { }
