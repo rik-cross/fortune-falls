@@ -23,22 +23,11 @@ namespace AdventureGame.Engine
             transformComponent.PreviousPosition = transformComponent.Position;
             physicsComponent.PreviousVelocity = physicsComponent.Velocity;
 
-            // Sprint
-            // todo - change so that methods are called ONCE (when sprint changes)
-            //if (intention.AnyChanged())
-            //{
-            //    Console.WriteLine("Physics - intention has changed");
-            //}   
-
+            // Start / stop sprint
             if (intention.Start("sprint"))
-            {
-                //Console.WriteLine("Physics - start sprint");
                 physicsComponent.StartSprint();
-            }
             else if (intention.Stop("sprint"))
-            {
                 physicsComponent.StopSprint();
-            }
 
             // Set the direction vector and string
             Vector2 direction = Vector2.Zero;

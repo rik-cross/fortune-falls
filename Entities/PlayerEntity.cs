@@ -45,48 +45,21 @@ namespace AdventureGame
 
             playerEntity.Tags.AddTag("player");
             playerEntity.State = defaultState;
+
+            // Add transform and sprites
             playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
-
             AddAllCharacterSprites();
-            AddComponents();
-            //playerEntity = MapPlayerInput(playerEntity);
-
-            return playerEntity;
-        }
-
-        // todo - how to pass speed etc when RemoveComponents is called and the AddComponents?xx
-        public static void AddComponents()
-        //    (string defaultState = "idle_right", float speed = 50, Entity player = null)
-        {
-            //Entity playerEntity = null;
-
-            //if (player == null)
-            //    playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
-
-            Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
-
-            if (playerEntity == null)
-                return;
-
-            //AddAllCharacterSprites();
-
-            // Testing - Set layer depth
-            //spriteComponent.GetSprite("idle_left").layerDepth = 0.4f;
-            //spriteComponent.GetSprite("idle_right").layerDepth = 0.4f;
-
-            //Vector2 offset = new Vector2(-41, -21);
-
-            // Set state
-            //playerEntity.State = defaultState;
-
-            // Add other components
             //playerEntity.AddComponent(new Engine.AnimatedSpriteComponent());
+
+            // Add movement components
             playerEntity.AddComponent(new Engine.PlayerControlComponent());
             MapPlayerInput(playerEntity);
 
             playerEntity.AddComponent(new Engine.IntentionComponent());
-            //playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
-            playerEntity.AddComponent(new Engine.PhysicsComponent());
+            playerEntity.AddComponent(new Engine.PhysicsComponent(baseSpeed: speed));
+            //playerEntity.AddComponent(new Engine.PhysicsComponent());
+
+            // Add other components
             playerEntity.AddComponent(new Engine.TutorialComponent());
             playerEntity.AddComponent(new Engine.SceneComponent());
 
@@ -115,45 +88,27 @@ namespace AdventureGame
                 offset: new Vector2((spriteSize.X - drawWidth) / 2, spriteSize.Y - drawHeight)
             ));
             */
+
             playerEntity.AddComponent(new Engine.HealthComponent());
             playerEntity.AddComponent(new Engine.DamageComponent("touch", 15)); // Remove
             playerEntity.AddComponent(new Engine.InventoryComponent(20));
             playerEntity.AddComponent(new Engine.KeyItemsComponent());
             playerEntity.AddComponent(new Engine.CanCollectComponent());
-
-            //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
+           //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
 
             playerEntity.AddComponent(new Engine.BattleComponent());
             playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(15, 20)));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_right", new HBox(new Vector2(20, 20), new Vector2(15, 0), frame: 6));
             playerEntity.GetComponent<Engine.BattleComponent>().SetHitbox("axe_left", new HBox(new Vector2(20, 20), new Vector2(-20, 0), frame: 6));
-
             //playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
 
             playerEntity.AddComponent(new Engine.DialogueComponent());
 
             //EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
+
+            return playerEntity;
         }
 
-        public static void RemoveComponents(Entity player = null)
-        {
-            Entity playerEntity = null;
-
-            if (player == null)
-                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
-
-            if (playerEntity == null)
-                return;
-
-            // Do not remove input of player or animated sprite in case of tutorial
-            playerEntity.RemoveAllComponents(new List<Component> {
-                playerEntity.GetComponent<InputComponent>() },
-                //playerEntity.GetComponent<AnimatedSpriteComponent>() },
-                true
-            );
-
-            //EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
-        }
 
         public static void UpdateSprites()
         {
@@ -175,6 +130,7 @@ namespace AdventureGame
             newAnimatedComponent.AnimatedSprites = exiAnimatedComponent.AnimatedSprites;
             newAnimatedComponent.Alpha = exiAnimatedComponent.Alpha;
         }
+
 
         // Create all the different character sprites for the player select scene
         public static void AddAllCharacterSprites(Entity player = null)
@@ -326,27 +282,9 @@ namespace AdventureGame
             UpdateSprites();
 
         }
-        
-        // Maps the input items to the player
-        public static void MapPlayerInput(Entity entity)
-        {
-            Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
 
-            // movement
-            controlComponent.Set("up", new InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
-            controlComponent.Set("down", new InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
-            controlComponent.Set("left", new InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
-            controlComponent.Set("right", new InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
-            controlComponent.Set("sprint", new InputItem(key: Keys.LeftShift, button: Buttons.B));
 
-            // world interaction
-            // todo - bug mouse buttons not working
-            controlComponent.Set("tool", new InputItem(key: Keys.E, button: Buttons.RightTrigger, mouseButton: MouseButtons.LeftMouseButton));
-            controlComponent.Set("interact", new InputItem(key: Keys.Enter, button: Buttons.A)); // or Keys.E?
-            controlComponent.Set("skip", new InputItem(key: Keys.Enter, button: Buttons.A, mouseButton: MouseButtons.LeftMouseButton));
-
-        }
-
+        // Sprint particle effect
         public static void CreatePlayerSprintEffect(Entity entity)
         {
             Vector2 offset;
@@ -365,7 +303,28 @@ namespace AdventureGame
             ));
         }
 
-        // Maps the input controller to the player
+
+        // Maps the input items to the player control
+        public static void MapPlayerInput(Entity entity)
+        {
+            Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
+
+            // movement
+            controlComponent.Set("up", new InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
+            controlComponent.Set("down", new InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
+            controlComponent.Set("left", new InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
+            controlComponent.Set("right", new InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
+            controlComponent.Set("sprint", new InputItem(key: Keys.LeftShift, button: Buttons.B));
+
+            // world interaction
+            // todo - bug mouse buttons not working
+            controlComponent.Set("tool", new InputItem(key: Keys.E, button: Buttons.RightTrigger, mouseButton: MouseButtons.LeftMouseButton));
+            controlComponent.Set("interact", new InputItem(key: Keys.Enter, button: Buttons.A)); // or Keys.E?
+            controlComponent.Set("skip", new InputItem(key: Keys.Enter, button: Buttons.A, mouseButton: MouseButtons.LeftMouseButton));
+        }
+
+
+        // Maps the input controller to the intentions
         public static void PlayerInputController(Entity entity)
         {
             Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
@@ -455,35 +414,6 @@ namespace AdventureGame
             {
                 intentionComponent.Set("tool", false);
             }
-
-            //// button 2 keys
-            //if (EngineGlobals.inputManager.IsDown(inputComponent.Input.button2))
-            //{
-            //    intentionComponent.button2 = true;
-            //}
-            //else
-            //{
-            //    intentionComponent.button2 = false;
-            //}
-
-
-            // todo? restrict directions to 4-way movement (optional e.g. movementDirections = 4 or 8)
-            // move to component e.g. characterControl or movement
-            /*
-            int movementDirections = 4;
-
-            // Only allow 4-way movement by using the newest X or Y direction
-            if (movementDirections == 4
-                && direction.X != Vector2.Zero.X
-                && direction.Y != Vector2.Zero.Y)
-            //&& physicsComponent.HasVelocity())
-            {
-                // Check for existing X velocity
-                if (physicsComponent.HasVelocityX())
-                {
-
-                }
-            }*/
 
         }
 
