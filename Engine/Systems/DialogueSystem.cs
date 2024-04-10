@@ -14,6 +14,7 @@ namespace AdventureGame.Engine
         {
             RequiredComponent<DialogueComponent>();
         }
+
         public void DialogueInputController(Entity e)
         {
             Engine.PlayerControlComponent controlComponent = e.GetComponent<Engine.PlayerControlComponent>();
@@ -36,9 +37,9 @@ namespace AdventureGame.Engine
                 }
             }
         }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             DialogueComponent dialogueComponent = entity.GetComponent<DialogueComponent>();
 
             // ensure that the top inputController is for dialogue
@@ -71,8 +72,6 @@ namespace AdventureGame.Engine
                     dialogueComponent.dialoguePages[0].onDialogueComplete(entity);
                 }
 
-                
-
                 if (dialogueComponent.dialoguePages.Count > 1 && dialogueComponent.dialoguePages[0].texture == dialogueComponent.dialoguePages[1].texture)
                 {
                     //dialogueComponent.dialoguePages[0].imageAlpha.Set(1);
@@ -92,7 +91,6 @@ namespace AdventureGame.Engine
                     // I'm not sure this is needed. They always start at 1.
                     //dialogueComponent.dialoguePages[0].imageAlpha.Value = 1;
                     //dialogueComponent.dialoguePages[0].textAlpha.Value = 1;
-
                 }
             }
 
@@ -116,6 +114,7 @@ namespace AdventureGame.Engine
             SpriteComponent spriteComponent = entity.GetComponent<SpriteComponent>();
             dialogueComponent.dialoguePages[0].texture = spriteComponent.GetSprite(entity.State).GetCurrentTexture();
         }
+
         public override void Draw(GameTime gameTime, Scene scene)
         {
             foreach (Entity entity in EntityList)
@@ -126,7 +125,6 @@ namespace AdventureGame.Engine
                 {
                     if (camera.ownerEntity == entity)
                     {
-
                         //
                         // Draw background
                         //
@@ -245,7 +243,6 @@ namespace AdventureGame.Engine
                                     (int)(camera.screenPosition.Y + camera.size.Y - 200 + Theme.BorderLarge + padding.Y),
                                     (int)(newSize.X + Theme.BorderLarge),
                                     (int)(newSize.Y)), Color.White * (float)dialogueComponent.dialoguePages[0].imageAlpha.Value);
-                            
                             
                         }
 

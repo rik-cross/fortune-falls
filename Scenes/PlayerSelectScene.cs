@@ -92,6 +92,7 @@ namespace AdventureGame
                     //sceneBelowCamera.SetWorldPosition(playerPosition, instant: true);
                     sceneBelowCamera.SetWorldPosition(mainMenuCamera.WorldPosition*-1, instant: true);
                     sceneBelowCamera.trackedEntity = player;
+                    sceneBelowCamera.ownerEntity = player;
                     sceneBelowCamera.SetZoom(8.0f, instant: false);
                 }
                 else

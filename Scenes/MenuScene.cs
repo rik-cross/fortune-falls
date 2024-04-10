@@ -54,11 +54,11 @@ namespace AdventureGame
             LoadMap("Maps/Map_Village", false); 
 
             _camera = new Engine.Camera(
-                    name: "main",
-                    size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                    zoom: 4.0f,
-                    backgroundColour: Color.Black
-                );
+                name: "main",
+                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
+                zoom: 4.0f,
+                backgroundColour: Color.Black
+            );
 
             //_camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
 
