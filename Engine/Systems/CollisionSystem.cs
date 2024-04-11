@@ -193,18 +193,12 @@ namespace AdventureGame.Engine
             // CHANGE to use broad-phasing, a grid or a quadtree?
 
             // Check for collider intersects
-            foreach (Entity otherEntity in scene.EntitiesInScene) // use EntityList and check entities in same scene?
+            foreach (Entity otherEntity in EntityList)
             {
-                //if (entity != otherEntity)
-                if (EntityMapper.ContainsKey(otherEntity.Id) && entity != otherEntity) // check other entity is in system
+                // Check the other entity is in the same scene
+                if (scene.EntityIdSet.Contains(otherEntity.Id) && entity != otherEntity)
                 {
                     ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();
-                    //CollisionHandlerComponent otherHandlerComponent = otherEntity.GetComponent<CollisionHandlerComponent>();
-                    //PhysicsComponent otherPhysicsComponent = otherEntity.GetComponent<PhysicsComponent>(); Broadphase?
-                    //TransformComponent otherTransformComponent = otherEntity.GetComponent<TransformComponent>();
-
-                    //if (otherColliderComponent == null)
-                    //    break;
 
                     // Check if the entities have collided
                     if (colliderComponent.Box.Intersects(otherColliderComponent.Box))

@@ -24,6 +24,7 @@ namespace AdventureGame.Engine
 
         //private ListMapper<Entity> EntityList; // combines a list and a dictionary
         public List<Entity> EntitiesInScene { get; set; } // Use a SortedSet? Then intersect with system.entitySet for system update / draw
+        public HashSet<int> EntityIdSet { get; private set; }
         //public Dictionary<Entity, int> EntityMapper { get; set; }
         public HashSet<Entity> EntitiesToAdd { get; private set; }
         public HashSet<Entity> EntitiesToRemove { get; private set; }
@@ -53,17 +54,20 @@ namespace AdventureGame.Engine
 
             _sceneContent = new ContentManager(Globals.content.ServiceProvider, Globals.content.RootDirectory);
 
-            EntitiesInScene = new List<Entity>();
-            EntitiesToAdd = new HashSet<Entity>();
-            EntitiesToRemove = new HashSet<Entity>();
-            CameraList = new List<Camera>();
-            CollisionTiles = new List<Rectangle>();
-
-            Map = null;
-            MapRenderer = null;
             InputSceneBelow = false;
             UpdateSceneBelow = false;
             DrawSceneBelow = false;
+
+            EntitiesInScene = new List<Entity>();
+            EntityIdSet = new HashSet<int>();
+            EntitiesToAdd = new HashSet<Entity>();
+            EntitiesToRemove = new HashSet<Entity>();
+
+            CollisionTiles = new List<Rectangle>();
+
+            CameraList = new List<Camera>();
+            Map = null;
+            MapRenderer = null;
             LightLevel = 1.0f;
             _alphaMask = Utils.LoadTexture("VFX/light.png");
 
@@ -84,7 +88,7 @@ namespace AdventureGame.Engine
             List<Entity> entitiesToKeep = new List<Entity>();
             foreach (Entity e in EntitiesInScene)
             {
-                if (!e.IsLocalPlayer())
+                if (!e.IsLocalPlayer()) // todo - allow local player to be deleted?
                 {
                     _entityManager.DeleteEntity(e);
                     count++;
@@ -110,7 +114,7 @@ namespace AdventureGame.Engine
 
         public void _OnExit()
         {
-            // Reset player movement
+            // Reset player movement - move to game scene's OnExit instead?
             Entity player = _entityManager.GetLocalPlayer();
             if (player != null)
             {
@@ -265,10 +269,13 @@ namespace AdventureGame.Engine
         // CHANGE to use an _entityMapper for all the Contains() calls
         public void AddEntity(Entity e)
         {
-            if (e != null && EntitiesInScene.Contains(e) == false)
+            if (e != null && EntityIdSet.Contains(e.Id) == false)
+            //if (e != null && EntitiesInScene.Contains(e) == false)
             {
+                EntityIdSet.Add(e.Id);
                 EntitiesInScene.Add(e);
-                EntitiesToAdd.Add(e);
+                EntitiesToAdd.Add(e); // todo remove from here??
+                //Console.WriteLine($"\nAdd Entity. List: {EntitiesInScene.Count}, id set: {EntityIdSet.Count}. {this}");
             }
         }
 
@@ -278,7 +285,7 @@ namespace AdventureGame.Engine
                 AddEntity(e);
         }
 
-        // NOT currently used
+        // Used by InventoryManager
         public void AddEntityNextTick(Entity e)
         {
             //_entityManager.Added.Add(e);
@@ -287,8 +294,11 @@ namespace AdventureGame.Engine
 
         public void RemoveEntity(Entity e)
         {
-            if (e != null && EntitiesInScene.Contains(e) == false)
+            if (e != null && EntityIdSet.Contains(e.Id))
+            //if (e != null && EntitiesInScene.Contains(e) == false)
+            {
                 EntitiesToRemove.Add(e);
+            }
 
             //if (e != null && e.Scene == this)
             //    EntitiesToDelete.Add(e);
@@ -301,7 +311,8 @@ namespace AdventureGame.Engine
 
         public bool IsEntityInScene(Entity e)
         {
-            return EntitiesInScene.Contains(e);
+            return EntityIdSet.Contains(e.Id);
+            //return EntitiesInScene.Contains(e);
         }
 
         public static int CompareY(Entity x, Entity y)
@@ -371,7 +382,7 @@ namespace AdventureGame.Engine
                 s.Input(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in EntitiesInScene) //  CHANGE to s.EntityList BUG
+                foreach (Entity e in EntitiesInScene) //  todo CHANGE to s.EntityList BUG
                     if (s.EntityMapper.ContainsKey(e.Id))
                         s.InputEntity(gameTime, this, e);
             }
@@ -393,7 +404,10 @@ namespace AdventureGame.Engine
 
             // Delete entities from the deleted set
             foreach (Entity e in _entityManager.Deleted)
+            {
+                EntityIdSet.Remove(e.Id);
                 EntitiesInScene.Remove(e);
+            }
             _entityManager.DeleteEntitiesFromGame();
 
 
@@ -424,7 +438,8 @@ namespace AdventureGame.Engine
             foreach (Entity e in EntitiesToAdd)
             {
                 // Change? Only used when dropping item from InventoryManager
-                if (!EntitiesInScene.Contains(e))
+                if (!EntityIdSet.Contains(e.Id))
+                //if (!EntitiesInScene.Contains(e))
                 {
                     AddEntity(e);
                     _systemManager.UpdateEntityLists(e); // A bit hacky...
@@ -581,7 +596,7 @@ namespace AdventureGame.Engine
                     if (!s.AboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in EntitiesInScene) // CHANGE to s.entityList BUG
+                        foreach (Entity e in EntitiesInScene) // todo CHANGE to s.entityList BUG
                             if (s.EntityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }
@@ -620,6 +635,7 @@ namespace AdventureGame.Engine
                 // MOVE so the light is only loaded once 
                 //var alphaMask = Utils.LoadTexture("VFX/light.png");
 
+                // todo change to LightSystem or LightSomething and call here?
                 foreach (Entity e in EntitiesInScene)
                 {
                     LightComponent lightComponent = e.GetComponent<LightComponent>();
@@ -659,7 +675,7 @@ namespace AdventureGame.Engine
                     if (s.AboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in EntitiesInScene) // CHANGE to s.entityList BUG
+                        foreach (Entity e in EntitiesInScene) // todo CHANGE to s.entityList BUG
                             if (s.EntityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }

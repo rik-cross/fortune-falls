@@ -45,7 +45,10 @@ namespace AdventureGame.Engine
                 {
                     int index = ActiveScene.EntitiesInScene.IndexOf(e);
                     if (index != -1)
+                    {
+                        ActiveScene.EntityIdSet.Remove(e.Id);
                         ActiveScene.EntitiesInScene.RemoveAt(index);
+                    }
                 }
                 ActiveScene.ClearEntitiesToRemove();
 
