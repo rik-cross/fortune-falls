@@ -34,22 +34,6 @@ namespace AdventureGame
             EngineGlobals.sceneManager.PreloadScene<VillageScene>();
             EngineGlobals.sceneManager.PreloadScene<PlayerSelectScene>();
 
-
-            //PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
-
-            // todo - here or somewhere else?
-            // todo - bug: player position needs to be set via transform component
-            // Create player entity
-            Vector2 playerPosition = new Vector2(175, 1190);
-            int playerX = 175;
-            int playerY = 1190;
-
-            Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
-
-            EngineGlobals.entityManager.SetLocalPlayer(player);
-
-            player.GetComponent<TransformComponent>().Position = playerPosition;
-
             // Load the map but do not create collision entities
             LoadMap("Maps/Map_Village", false); 
 
@@ -276,19 +260,32 @@ namespace AdventureGame
                 Globals.playerStr = Globals.allCharacters[0];
                 PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
 
-                // todo - bug: player position needs to be set via transform component
-                // Create player entity
-                Vector2 playerPosition = new Vector2(175, 1190);
-                int playerX = 175;
-                int playerY = 1190;
+                //// todo - bug: player position needs to be set via transform component
+                //// Create player entity
+                //Vector2 playerPosition = new Vector2(175, 1190);
+                //int playerX = 175;
+                //int playerY = 1190;
 
-                Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
+                //Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
 
-                EngineGlobals.entityManager.SetLocalPlayer(player);
+                //EngineGlobals.entityManager.SetLocalPlayer(player);
 
-                player.GetComponent<TransformComponent>().Position = playerPosition;
-                //player.State = "idle_right";
+                //player.GetComponent<TransformComponent>().Position = playerPosition;
+                ////player.State = "idle_right";
             }
+
+            //PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
+
+            // todo - here or somewhere else?
+            // todo - bug: player position needs to be set via transform component
+            // Create player entity
+            Vector2 playerPosition = new Vector2(175, 1190);
+            int playerX = 175;
+            int playerY = 1190;
+
+            Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
+            EngineGlobals.entityManager.SetLocalPlayer(player);
+            player.GetComponent<TransformComponent>().Position = playerPosition;
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<

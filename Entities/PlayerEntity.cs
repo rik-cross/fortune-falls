@@ -18,13 +18,13 @@ namespace AdventureGame
 
             // Todo turn into a static CheckEntityExists method?
             
-            // Check if the player entity already exists
-            if (!string.IsNullOrEmpty(idTag))
-            {
-                playerEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
-                if (playerEntity != null)
-                    return playerEntity;
-            }
+            //// Check if the player entity already exists
+            //if (!string.IsNullOrEmpty(idTag))
+            //{
+            //    playerEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
+            //    if (playerEntity != null)
+            //        return playerEntity;
+            //}
 
             // Otherwise create a new player entity
             playerEntity = EngineGlobals.entityManager.CreateEntity();
@@ -397,6 +397,7 @@ namespace AdventureGame
             // tool button
             // todo? if (battleComponent.DisableMovement) set all movement intentions to false
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")))
+            //    || EngineGlobals.inputManager.IsDown(Globals.primaryCursorInput))
             {
                 intentionComponent.Set("tool", true);
                 if (entity.State.Contains("_"))

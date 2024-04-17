@@ -42,13 +42,6 @@ namespace AdventureGame
         public static List<Engine.InputItem> leftInput = new List<Engine.InputItem>() { Engine.KeyboardInput.A, Engine.ControllerInput.LeftThumbLeft };
         public static List<Engine.InputItem> rightInput = new List<Engine.InputItem>() { Engine.KeyboardInput.D, Engine.ControllerInput.LeftThumbRight };
 
-        // todo remove player controls
-        // Player controls
-        public static List<Engine.InputItem> sprintInput = new List<Engine.InputItem>() { Engine.KeyboardInput.LeftShift, Engine.ControllerInput.LeftTrigger };
-        public static List<Engine.InputItem> button2Input = new List<Engine.InputItem>() { Engine.KeyboardInput.LeftShift, Engine.ControllerInput.LeftTrigger };
-        // todo - add other player controls here? e.g.
-        public static List<Engine.InputItem> primaryActionInput = new List<Engine.InputItem>() { Engine.MouseInput.LeftButton, Engine.ControllerInput.A };
-
         // Menu interaction
         public static List<Engine.InputItem> devToolsInput = new List<Engine.InputItem>() { Engine.KeyboardInput.T };
         public static List<Engine.InputItem> pauseInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Start };

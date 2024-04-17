@@ -112,6 +112,7 @@ namespace AdventureGame.Engine
             return ConvertTopLeftToCenter(new Rectangle(x, y, width, height));
         }
 
+        // todo turn into BuildingSystem / PlayerSystem / LightingSystem
         // Reduced the transparency of any building entities overlapping a player entity
         public static void SetBuildingAlpha(List<Entity> entityList)
         {

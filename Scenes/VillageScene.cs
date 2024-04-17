@@ -328,6 +328,8 @@ namespace AdventureGame
             }
 
             Globals.newGame = false;
+
+            //Console.WriteLine($"\nScene Entity list: {EntitiesInScene.Count}, id set: {EntityIdSet.Count}. {this}");
         }
 
         public override void OnExit()
@@ -352,7 +354,7 @@ namespace AdventureGame
         public override void Update(GameTime gameTime)
         {
             questMarker.Update(this); // todo: add this to Scene
-            Utilities.SetBuildingAlpha(EntitiesInScene);
+            Utilities.SetBuildingAlpha(EntitiesInScene); // todo only check entities near player
         }
 
         public override void Draw(GameTime gameTime)
