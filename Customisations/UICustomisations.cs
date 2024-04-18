@@ -76,6 +76,9 @@ namespace AdventureGame
             EmoteComponent animatedEmoteComponent = entity.GetComponent<EmoteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
+            if (scene.GetCameraByName("main") == null)
+                return;
+
             // adjusted dimensions
             Vector2 entityscreenPosition = scene.GetCameraByName("main").GetScreenPosition(transformComponent.Position);
             Vector2 entityScreenSize = transformComponent.Size * scene.GetCameraByName("main").zoom;

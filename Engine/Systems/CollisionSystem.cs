@@ -195,7 +195,7 @@ namespace AdventureGame.Engine
             // Check for collider intersects
             foreach (Entity otherEntity in EntityList)
             {
-                // Check the other entity is in the same scene
+                // Check if the other entity is in the same scene
                 if (scene.EntityIdSet.Contains(otherEntity.Id) && entity != otherEntity)
                 {
                     ColliderComponent otherColliderComponent = otherEntity.GetComponent<ColliderComponent>();

@@ -34,9 +34,9 @@ namespace AdventureGame.Engine
                 (int)(triggerComponent.size.Y)
             );
 
-            foreach (Entity otherE in scene.EntitiesInScene) // use EntityList and check entities in same scene?
+            foreach (Entity otherE in EntityList) // was scene.EntitiesInScene
             {
-                if (EntityMapper.ContainsKey(otherE.Id) && otherE != entity) // check other entity is in system
+                if (scene.EntityIdSet.Contains(otherE.Id) && otherE != entity)
                 {
                     TriggerComponent otherTriggerComponent = otherE.GetComponent<TriggerComponent>();
                     TransformComponent otherTransformComponent = otherE.GetComponent<TransformComponent>();

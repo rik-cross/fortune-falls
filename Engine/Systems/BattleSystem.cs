@@ -34,10 +34,11 @@ namespace AdventureGame.Engine
 
                 //List<Entity> hitEntities;
 
-                foreach (Entity otherE in scene.EntitiesInScene) // use EntityList and check entities in same scene?
+                // Check for hitbox/hurtbox intersects
+                foreach (Entity otherE in EntityList)
                 {
-                    //if (e != entity && e.GetComponent<BattleComponent>() != null)
-                    if (EntityMapper.ContainsKey(otherE.Id) && entity != otherE) // // check other entity is in system
+                    // Check if the other entity is in the same scene
+                    if (scene.EntityIdSet.Contains(otherE.Id) && entity != otherE)
                     {
                         BattleComponent bc = otherE.GetComponent<BattleComponent>();
                         if (bc.GetHurtbox(otherE.State) != null)
@@ -116,12 +117,11 @@ namespace AdventureGame.Engine
             }
         }
 
-        // todo - Ask Rik what this draw is for and why it's using CameraList?
         public override void Draw(GameTime gameTime, Scene scene)
         {
             foreach (Camera c in scene.CameraList)
             {
-                if (scene.EntitiesInScene.Contains(c.ownerEntity))
+                if (c.ownerEntity != null && scene.EntityIdSet.Contains(c.ownerEntity.Id))
                 {
                     if (c.ownerEntity.GetComponent<BattleComponent>() != null)
                     {

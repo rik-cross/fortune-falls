@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using S = System.Diagnostics.Debug;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using MonoGame.Extended.Graphics;
-using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -16,10 +13,12 @@ namespace AdventureGame.Engine
             RequiredComponent<TransformComponent>();
             AboveMap = true;
         }
+
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             AnimatedEmoteComponent animatedEmoteComponent = entity.GetComponent<AnimatedEmoteComponent>();
             animatedEmoteComponent._timer += 1;
+
             if (animatedEmoteComponent._timer >= animatedEmoteComponent._frameDelay)
             {
                 animatedEmoteComponent._timer = 0;
@@ -39,16 +38,15 @@ namespace AdventureGame.Engine
 
         public override void Draw(GameTime gameTime, Scene scene)
         {
-            
             //
             // Draws an image (with an optional background) above the attached entity.
             // Will draw component-specific or common draw method if one is specified.
             //
 
-            // todo - change to EntityList: bug when drawing scene below (Pause / DevTools)
-            foreach (Entity entity in scene.EntitiesInScene)
+            foreach (Entity entity in EntityList) // was scene.EntitiesInScene
             {
-                if (entity.GetComponent<AnimatedEmoteComponent>() != null && entity.GetComponent<TransformComponent>() != null)
+                // Check that the entity is in the scene given
+                if (scene.EntityIdSet.Contains(entity.Id))
                 {
                     //
                     // get the required components
