@@ -32,9 +32,9 @@ namespace AdventureGame.Engine
         }
 
         // Create a new entity and give it an id
-        public Entity CreateEntity()
+        public Entity CreateEntity(string idTag="")
         {
-            Entity e = new Entity(CheckOutId());
+            Entity e = new Entity(CheckOutId(), idTag);
             AddEntity(e);
             return e;
         }

@@ -22,13 +22,14 @@ namespace AdventureGame.Engine
 
         public List<TimedAction> TimedActionList = new List<TimedAction>(); // delete?
 
-        public Entity(int id)
+        public Entity(int id, string idTag="")
         {
             Id = id;
             GenerateGuid();
             ComponentFlags = new Flags();
             Owner = this;
             Tags = new Tags();
+            Tags.Id = idTag;
             State = "default";
             PrevState = State;
 

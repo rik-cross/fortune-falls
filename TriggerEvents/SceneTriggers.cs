@@ -70,54 +70,71 @@ namespace AdventureGame.Engine
                         if (EngineGlobals.sceneManager.IsActiveScene<VillageScene>())
                             villageScene = (VillageScene)EngineGlobals.sceneManager.ActiveScene;
 
-                        if (villageScene != null)
-                            villageScene.questMarker.visible = false;
-                        //EngineGlobals.sceneManager.ActiveScene.questMarker.visible = false;
+                        if (EngineGlobals.achievementManager.HasAchievement("Lumberjack"))
+                        {
+                            dialogueComponent.AddPage("Ahh, I told ya to be careful...", GameAssets.blacksmith_headshot);
+                            dialogueComponent.AddPage("Go check the house out, then come back. We'll find a way to make this right.", GameAssets.blacksmith_headshot);
 
-                        dialogueComponent.AddPage("You the newbie I heard about? Related to Barnie, I presume?",
-                        GameAssets.blacksmith_headshot);
+                            if (villageScene != null)
+                            {
+                                villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByIdTag("playershouseEntrance"));
+                                villageScene.questMarker.visible = true;
+                            }
+                                
+                        }
+                        else
+                        {
 
-                        dialogueComponent.AddPage("Welcome to Fortuna. I'm Magnus, the blacksmith.",
-                           GameAssets.blacksmith_headshot);
+                            if (villageScene != null)
+                                villageScene.questMarker.visible = false;
+                            //EngineGlobals.sceneManager.ActiveScene.questMarker.visible = false;
 
-                        dialogueComponent.AddPage("The place Barnie left you has seen better days. Take this axe for those trees.",
-                           GameAssets.blacksmith_headshot,
-                           () => {
-                               playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
-                               EngineGlobals.soundManager.PlaySoundEffect(GameAssets.sound_notification);
-                           }
-                        );
+                            dialogueComponent.AddPage("You the newbie I heard about? Related to Barnie, I presume?",
+                            GameAssets.blacksmith_headshot);
 
-                        dialogueComponent.AddPage("Take a few practice swings, let me see your form!",
-                           GameAssets.blacksmith_headshot,
-                           () => {
-                               playerEntity.GetComponent<TutorialComponent>().AddTutorial(
-                                    new Tutorial(
-                                        name: "Use Axe",
-                                        description: "Show the Blacksmith that you can use an axe",
-                                        condition: () => { return EngineGlobals.inputManager.IsPressed(controlComponent.Get("tool")); },
-                                        numberOfTimes: 3,
-                                        onStart: () => {
-                                            Engine.EmoteComponent weaponEmote;
-                                            if (Globals.IsControllerConnected)
-                                                weaponEmote = GameAssets.controllerWeaponEmote;
-                                            else
-                                                weaponEmote = GameAssets.keyboardWeaponEmote;
-                                            weaponEmote.alpha.Value = 1;
-                                            playerEntity.AddComponent<EmoteComponent>(weaponEmote);
-                                        },
-                                        onComplete: () => {
-                                            playerEntity.GetComponent<EmoteComponent>().alpha.Value = 0;
-                                            dialogueComponent.AddPage(
-                                                "That axe is on loan, return it when you are done. Barnie's place is north, just over the ridge there.",
-                                                GameAssets.blacksmith_headshot
-                                            );
-                                            npcEntity.State = "hammer_left";
-                                        }
-                                    )
-                               );
-                           }
-                       );
+                            dialogueComponent.AddPage("Welcome to Fortuna. I'm Magnus, the blacksmith.",
+                               GameAssets.blacksmith_headshot);
+
+                            dialogueComponent.AddPage("The place Barnie left you has seen better days. Take this axe for those trees.",
+                               GameAssets.blacksmith_headshot,
+                               () => {
+                                   playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
+                                   EngineGlobals.soundManager.PlaySoundEffect(GameAssets.sound_notification);
+                               }
+                            );
+
+                            dialogueComponent.AddPage("Take a few practice swings, let me see your form!",
+                               GameAssets.blacksmith_headshot,
+                               () => {
+                                   playerEntity.GetComponent<TutorialComponent>().AddTutorial(
+                                        new Tutorial(
+                                            name: "Use Axe",
+                                            description: "Show the Blacksmith that you can use an axe",
+                                            condition: () => { return EngineGlobals.inputManager.IsPressed(controlComponent.Get("tool")); },
+                                            numberOfTimes: 3,
+                                            onStart: () => {
+                                                Engine.EmoteComponent weaponEmote;
+                                                if (Globals.IsControllerConnected)
+                                                    weaponEmote = GameAssets.controllerWeaponEmote;
+                                                else
+                                                    weaponEmote = GameAssets.keyboardWeaponEmote;
+                                                weaponEmote.alpha.Value = 1;
+                                                playerEntity.AddComponent<EmoteComponent>(weaponEmote);
+                                            },
+                                            onComplete: () => {
+                                                playerEntity.GetComponent<EmoteComponent>().alpha.Value = 0;
+                                                dialogueComponent.AddPage(
+                                                    "That axe is on loan, return it when you are done. Barnie's place is north, just over the ridge there.",
+                                                    GameAssets.blacksmith_headshot
+                                                );
+                                                npcEntity.State = "hammer_left";
+                                            }
+                                        )
+                                   );
+                               }
+                           );
+                        }
+                        
                     } else
                     {
                         dialogueComponent.AddPage("Hope you find the axe useful. Go find your new place!",

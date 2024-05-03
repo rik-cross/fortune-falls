@@ -39,6 +39,17 @@ namespace AdventureGame.Engine
             {
                 if (achievements[i].remove == true) achievements.RemoveAt(i);
             }
-    }
+        }
+        public bool HasAchievement(string title)
+        {
+            foreach (Achievement ach in completedAchievements)
+            {
+                if (ach.Title == title)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

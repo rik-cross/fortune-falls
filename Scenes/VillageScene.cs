@@ -148,7 +148,7 @@ namespace AdventureGame
             AddEntity(playerHouse);
 
             // Player house - scene entrance trigger
-            Entity playerHouseEntrance = EngineGlobals.entityManager.CreateEntity();
+            Entity playerHouseEntrance = EngineGlobals.entityManager.CreateEntity("playershouseEntrance");
             playerHouseEntrance.AddComponent(new Engine.TransformComponent(688, 235, 16, 10));
             Engine.TriggerComponent pHouseTC = new TriggerComponent(
                 size: new Vector2(16, 10),
@@ -194,6 +194,27 @@ namespace AdventureGame
                         EngineGlobals.entityManager.GetLocalPlayer().After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
                         
                         EngineGlobals.log.Add("Your axe broke");
+
+                        // Get the blacksmith entity for EnginesGlobal.entityManager
+                        //Engine.Entity blacksmith = EngineGlobals.entityManager.GetEntityByIdTag("blacksmith");
+
+                        //// Get the Dialogue component or create one
+                        //Engine.DialogueComponent blacksmithDialogue;
+                        //if (blacksmith.GetComponent<Engine.DialogueComponent>() == null)
+                        //{
+                        //    blacksmith.AddComponent(new Engine.DialogueComponent());
+                        //}
+                        //blacksmithDialogue = blacksmith.GetComponent<Engine.DialogueComponent>();
+
+                        //// Clear the current dialogue
+                        //blacksmithDialogue.Clear();
+
+                        //// Add some dialogue
+                        //blacksmithDialogue.AddPage("Blah blah blah");
+                        //blacksmithDialogue.AddPage("Bleh bleh bleh");
+
+                        //EngineGlobals.log.Add(blacksmithDialogue.dialoguePages[0].text);
+
                     },
                     announce: false
                 )
