@@ -88,7 +88,7 @@ namespace AdventureGame
             EngineGlobals.soundManager = new SoundManager();
             EngineGlobals.achievementManager = new AchievementManager();
 
-            EngineGlobals.soundManager.Volume = 0.5f;
+            EngineGlobals.soundManager.Volume = 0.25f;
             EngineGlobals.soundManager.SFXVolume = 1.0f;
 
             EngineGlobals.log = new Log();
