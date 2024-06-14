@@ -13,7 +13,6 @@ namespace AdventureGame
 
         public TestScene()
         {
-            EngineGlobals.DEBUG = true;
         }
 
         public override void LoadContent()

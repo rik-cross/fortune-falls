@@ -13,6 +13,7 @@ namespace AdventureGame
         public override void Init()
         {
             DrawSceneBelow = true;
+            UpdateSceneBelow = false;
             backgroundColour = Color.Black * 0.5f;
 
             // title text

@@ -12,7 +12,6 @@ namespace AdventureGame
 
         public override void Init()
         {
-            EngineGlobals.DEBUG = false;
             UIButton.drawMethod = UICustomisations.DrawButton;
             UISlider.drawMethod = UICustomisations.DrawSlider;
 

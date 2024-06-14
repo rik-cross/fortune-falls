@@ -14,7 +14,6 @@ namespace AdventureGame
 
         public TestScene2()
         {
-            EngineGlobals.DEBUG = false;
             questMarker = new QuestMarker();
         }
 

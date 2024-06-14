@@ -25,6 +25,10 @@ namespace AdventureGame.Engine
             if (animatedEmoteComponent.alpha.Value == 0)
                 entity.RemoveComponent<EmoteComponent>();
 
+            //if (entity == EngineGlobals.entityManager.GetLocalPlayer())
+            //    if (entity.GetComponent<EmoteComponent>() != null)
+            //        S.WriteLine(entity.GetComponent<EmoteComponent>().alpha.Value);
+
         }
 
         public override void Draw(GameTime gameTime, Scene scene)
@@ -37,64 +41,68 @@ namespace AdventureGame.Engine
 
             foreach (Entity entity in EntityList) // was scene.EntitiesInScene
             {
-                //
-                // get the required components
-                //
 
-                EmoteComponent animatedEmoteComponent = entity.GetComponent<EmoteComponent>();
-                TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
-
-                //
-                // run overridden component-specific or common draw methods if specified
-                //
-
-                if (animatedEmoteComponent.componentSpecificDrawMethod != null)
+                if (scene.EntityIdSet.Contains(entity.Id))
                 {
-                    animatedEmoteComponent.componentSpecificDrawMethod(scene, entity);
-                    return;
+                    //
+                    // get the required components
+                    //
+
+                    EmoteComponent animatedEmoteComponent = entity.GetComponent<EmoteComponent>();
+                    TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
+
+                    //
+                    // run overridden component-specific or common draw methods if specified
+                    //
+
+                    if (animatedEmoteComponent.componentSpecificDrawMethod != null)
+                    {
+                        animatedEmoteComponent.componentSpecificDrawMethod(scene, entity);
+                        continue;
+                    }
+
+                    if (EmoteComponent.drawMethod != null)
+                    {
+                        EmoteComponent.drawMethod(scene, entity);
+                        continue;
+                    }
+
+                    //
+                    // draw default emote
+                    //
+
+                    // adjusted dimensions
+                    Vector2 entityscreenPosition = scene.GetCameraByName("main").GetScreenPosition(transformComponent.Position);
+                    Vector2 entityScreenSize = transformComponent.Size * scene.GetCameraByName("main").zoom;
+
+                    // calculate bottom-middle of entity
+                    Vector2 entityTopMiddle = new Vector2(
+                        entityscreenPosition.X + (entityScreenSize.X / 2),
+                        entityscreenPosition.Y
+                    );
+
+                    // draw background
+                    Globals.spriteBatch.FillRectangle(
+                        new Rectangle(
+                            (int)(entityTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
+                            (int)(entityTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - animatedEmoteComponent.heightAboveEntity),
+                            (int)animatedEmoteComponent.backgroundSize.X,
+                            (int)animatedEmoteComponent.backgroundSize.Y
+                        ), animatedEmoteComponent.backgroundColor * (float)animatedEmoteComponent.alpha.Value
+                    );
+
+                    // draw image
+                    Globals.spriteBatch.Draw(
+                        animatedEmoteComponent._texture,
+                        new Rectangle(
+                            (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
+                            (int)(entityTopMiddle.Y - animatedEmoteComponent.textureSize.Y - animatedEmoteComponent.heightAboveEntity - animatedEmoteComponent.borderSize),
+                            (int)animatedEmoteComponent.textureSize.X,
+                            (int)animatedEmoteComponent.textureSize.Y
+                        ),
+                        Color.White * (float)animatedEmoteComponent.alpha.Value
+                    );
                 }
-
-                if (EmoteComponent.drawMethod != null)
-                {
-                    EmoteComponent.drawMethod(scene, entity);
-                    return;
-                }
-
-                //
-                // draw default emote
-                //
-
-                // adjusted dimensions
-                Vector2 entityscreenPosition = scene.GetCameraByName("main").GetScreenPosition(transformComponent.Position);
-                Vector2 entityScreenSize = transformComponent.Size * scene.GetCameraByName("main").zoom;
-
-                // calculate bottom-middle of entity
-                Vector2 entityTopMiddle = new Vector2(
-                    entityscreenPosition.X + (entityScreenSize.X / 2),
-                    entityscreenPosition.Y
-                );
-
-                // draw background
-                Globals.spriteBatch.FillRectangle(
-                    new Rectangle(
-                        (int)(entityTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
-                        (int)(entityTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - animatedEmoteComponent.heightAboveEntity),
-                        (int)animatedEmoteComponent.backgroundSize.X,
-                        (int)animatedEmoteComponent.backgroundSize.Y
-                    ), animatedEmoteComponent.backgroundColor * (float)animatedEmoteComponent.alpha.Value
-                );
-
-                // draw image
-                Globals.spriteBatch.Draw(
-                    animatedEmoteComponent._texture,
-                    new Rectangle(
-                        (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
-                        (int)(entityTopMiddle.Y - animatedEmoteComponent.textureSize.Y - animatedEmoteComponent.heightAboveEntity - animatedEmoteComponent.borderSize),
-                        (int)animatedEmoteComponent.textureSize.X,
-                        (int)animatedEmoteComponent.textureSize.Y
-                    ),
-                    Color.White * (float)animatedEmoteComponent.alpha.Value
-                );
             }
         }
     }

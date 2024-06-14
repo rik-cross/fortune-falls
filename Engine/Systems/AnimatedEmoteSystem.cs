@@ -48,6 +48,7 @@ namespace AdventureGame.Engine
                 // Check that the entity is in the scene given
                 if (scene.EntityIdSet.Contains(entity.Id))
                 {
+                    
                     //
                     // get the required components
                     //
@@ -62,13 +63,13 @@ namespace AdventureGame.Engine
                     if (animatedEmoteComponent.componentSpecificDrawMethod != null)
                     {
                         animatedEmoteComponent.componentSpecificDrawMethod(scene, entity);
-                        return;
+                        continue;
                     }
 
                     if (AnimatedEmoteComponent.drawMethod != null)
                     {
                         AnimatedEmoteComponent.drawMethod(scene, entity);
-                        return;
+                        continue;
                     }
 
                     //

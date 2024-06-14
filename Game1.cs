@@ -125,6 +125,7 @@ namespace AdventureGame
             EngineGlobals.achievementManager.Update(gameTime);
             EngineGlobals.log.Update(gameTime);
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)

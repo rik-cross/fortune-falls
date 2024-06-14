@@ -12,7 +12,6 @@ namespace AdventureGame
 
         public override void Init()
         {
-            EngineGlobals.DEBUG = false;
             AddCamera("main");
             questMarker = new QuestMarker();
         }
@@ -277,13 +276,13 @@ namespace AdventureGame
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
 
             // add the player speak tutorial
+            Engine.EmoteComponent speakEmote;
             if (Globals.IsControllerConnected)
-                GameAssets.speakEmote = GameAssets.controllerInteractEmote;
+                speakEmote = GameAssets.controllerInteractEmote;
             else
-                GameAssets.speakEmote = GameAssets.keyboardInteractEmote;
-
-            GameAssets.speakEmote.alpha.Value = 1;
-            blacksmithEntity.AddComponent(GameAssets.speakEmote);
+                speakEmote = GameAssets.keyboardInteractEmote;
+            blacksmithEntity.AddComponent(speakEmote);
+            blacksmithEntity.GetComponent<EmoteComponent>().alpha.Value = 1;
 
             AddEntity(blacksmithEntity);
 
@@ -301,10 +300,13 @@ namespace AdventureGame
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
+            //GetCameraByName("main").SetZoom(1.0f);
+
             //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
 
             if (Globals.newGame)
             {
+                Console.WriteLine("test");
                 // TESTING - provide axe immediately
                 player.GetComponent<BattleComponent>().weapon = Weapons.axe;
 
@@ -337,7 +339,7 @@ namespace AdventureGame
                                 EngineGlobals.inputManager.IsDown(controlComponent.Get("left")) ||
                                 EngineGlobals.inputManager.IsDown(controlComponent.Get("right"));
                         },
-                        numberOfTimes: 60,
+                        numberOfTimes: 40,
                         onComplete: () =>
                         {
                             Console.WriteLine("Walk tutorial complete");
@@ -346,6 +348,90 @@ namespace AdventureGame
                         }
                     )
                 );
+
+                //
+                // TODO -- add sprint tutorial, only trigger if sprint hasn't been tried yet
+                //
+
+                Entity sprintTutorialEntity = EngineGlobals.entityManager.CreateEntity("sprintTutorial");
+                sprintTutorialEntity.AddComponent(new TransformComponent(180, 770, 600, 10));
+                sprintTutorialEntity.AddComponent(
+                    new Engine.TriggerComponent(
+                        new Vector2(600, 10),
+                        onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
+
+                            Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+                            if (otherEntity != playerEntity)
+                                return;
+                            
+                            playerEntity.GetComponent<TutorialComponent>().AddTutorial(
+                                new Engine.Tutorial(
+                                    name: "Sprint",
+                                    description: "Use controls to sprint",
+                                    onStart: () =>
+                                    {
+
+                                        // TODO
+                                        // entity.destroy should delegate to
+                                        // each component onDestroy method
+                                        // for the trigger, this should remove the deleted component's entity
+                                        // from any entity that has it as a currently collided entity.
+                                        playerEntity.GetComponent<Engine.TriggerComponent>().collidedEntities.Remove(sprintTutorialEntity);
+                                        sprintTutorialEntity.Destroy();
+
+                                        //Engine.EmoteComponent sprintEmote;
+                                        //if (Globals.IsControllerConnected)
+                                        //    sprintEmote = GameAssets.controllerSprintEmote;
+                                        //else
+                                        //    sprintEmote = GameAssets.keyboardSprintEmote;
+                                        
+                                        //sprintEmote.alpha.Value = 1;
+
+                                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
+
+                                        Engine.EmoteComponent sprintEmote;
+                                        if (Globals.IsControllerConnected)
+                                            sprintEmote = GameAssets.controllerSprintEmote;
+                                        else
+                                            sprintEmote = GameAssets.keyboardSprintEmote;
+                                        playerEntity.AddComponent(sprintEmote);
+                                        playerEntity.GetComponent<EmoteComponent>().alpha.Value = 1;
+
+                                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 1;
+                                        
+
+                                        //if (Globals.IsControllerConnected)
+                                        //    GameAssets.speakEmote = GameAssets.controllerInteractEmote;
+                                        //else
+                                        //    GameAssets.speakEmote = GameAssets.keyboardInteractEmote;
+
+                                        //GameAssets.speakEmote.alpha.Value = 1;
+                                        //playerEntity.AddComponent(GameAssets.speakEmote);
+
+                                    },
+                                    condition: () =>
+                                    {
+                                        return (EngineGlobals.inputManager.IsDown(controlComponent.Get("up")) ||
+                                            EngineGlobals.inputManager.IsDown(controlComponent.Get("down")) ||
+                                            EngineGlobals.inputManager.IsDown(controlComponent.Get("left")) ||
+                                            EngineGlobals.inputManager.IsDown(controlComponent.Get("right")));
+                                    },
+                                    numberOfTimes: 80,
+                                    onComplete: () =>
+                                    {
+                                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>() != null)
+                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                                    }
+                                )
+                            );
+
+                            return;
+                        }
+                    )
+                );
+                AddEntity(sprintTutorialEntity);
+
             }
 
             Globals.newGame = false;

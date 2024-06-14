@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using S = System.Diagnostics.Debug;
 
 namespace AdventureGame.Engine
 {
@@ -20,6 +21,7 @@ namespace AdventureGame.Engine
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
             TutorialComponent tutorialComponent = entity.GetComponent<TutorialComponent>();
+            //S.WriteLine(tutorialComponent.GetTutorials().Count);
             foreach (Tutorial t in tutorialComponent.GetTutorials())
             {
                 // start tutorial if not already started

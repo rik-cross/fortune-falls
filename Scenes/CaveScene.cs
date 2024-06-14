@@ -53,7 +53,6 @@ namespace AdventureGame
             // Add the player and minimap cameras
 
             //
-            EngineGlobals.DEBUG = false;
             //AddCamera("minimap");
         }
         public override void Input(GameTime gameTime)

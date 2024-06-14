@@ -27,7 +27,6 @@ namespace AdventureGame
 
         public override void Init()
         {
-            EngineGlobals.DEBUG = false;
 
             UIButton.drawMethod = UICustomisations.DrawButton;
 
@@ -319,7 +318,6 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
-            EngineGlobals.DEBUG = false;
             EngineGlobals.soundManager.PlaySong(Utils.LoadSong("Music/1_new_life_master.ogg"));
 
             if (Globals.IsControllerConnected)

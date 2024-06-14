@@ -26,6 +26,10 @@ namespace AdventureGame
         public static Texture2D button_a = Engine.Utils.LoadTexture("Emojis/button_a.png");
         public static Texture2D right_trigger = Engine.Utils.LoadTexture("Emojis/right_trigger.png");
         public static Texture2D key_axe = Engine.Utils.LoadTexture("Emojis/key.png");
+        // this is the texture for keyboard sprint
+        public static Texture2D xxx = Engine.Utils.LoadTexture("Emojis/key.png");
+        // this is the texture for controller sprint
+        public static Texture2D yyy = Engine.Utils.LoadTexture("Emojis/key.png");
 
         public static Texture2D texture_axe_broke = Engine.Utils.LoadTexture("Emojis/axeBroke.png");
 
@@ -56,6 +60,7 @@ namespace AdventureGame
         // components
 
         public static Engine.EmoteComponent speakEmote;
+        
 
         public static Engine.AnimatedEmoteComponent controllerMovementEmote = new Engine.AnimatedEmoteComponent(
             list_texture_controller_movement,
@@ -75,6 +80,24 @@ namespace AdventureGame
             textureSize: new Vector2(26*4, 13*4)
         );
 
+        public static Engine.EmoteComponent controllerSprintEmote = new Engine.EmoteComponent(
+            yyy,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawEmote,
+            textureSize: new Vector2(13 * 3, 13 * 3)
+        );
+
+        public static Engine.EmoteComponent keyboardSprintEmote = new Engine.EmoteComponent(
+            xxx,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawEmote,
+            textureSize: new Vector2(13 * 3, 13 * 3)
+        );
+
+        //public static Engine.EmoteComponent sprintEmote = keyboardSprintEmote;
+        
         public static Engine.EmoteComponent controllerInteractEmote = new Engine.EmoteComponent(
             button_a,
             borderSize: EmoteBorderSize,
