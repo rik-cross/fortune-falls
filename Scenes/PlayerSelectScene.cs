@@ -84,11 +84,7 @@ namespace AdventureGame
             {
                 if (Globals.newGame)
                 {
-                    //Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
-
                     sceneBelowCamera.SetZoom(mainMenuCamera.zoom, instant: true);
-                    //sceneBelowCamera.SetZoom(4.0f, instant: true);
-                    //sceneBelowCamera.SetWorldPosition(playerPosition, instant: true);
                     sceneBelowCamera.SetWorldPosition(mainMenuCamera.WorldPosition*-1, instant: true);
                     sceneBelowCamera.trackedEntity = player;
                     sceneBelowCamera.ownerEntity = player;

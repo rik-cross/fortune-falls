@@ -382,7 +382,7 @@ namespace AdventureGame
             string folder = "";
             string keyStr = "";
             Vector2 offset = new Vector2(-41, -21);
-
+            
             // Testing
             //characterStr = "spikeyhair";
 
