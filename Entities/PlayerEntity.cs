@@ -309,18 +309,37 @@ namespace AdventureGame
         {
             Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
 
-            // movement
-            controlComponent.Set("up", new InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
-            controlComponent.Set("down", new InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
-            controlComponent.Set("left", new InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
-            controlComponent.Set("right", new InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
-            controlComponent.Set("sprint", new InputItem(key: Keys.LeftShift, button: Buttons.B));
+            if (EngineGlobals.inputManager.IsControllerConnected())
+            {
+                // movement
+                controlComponent.Set("up", new InputItem(button: Buttons.LeftThumbstickUp));
+                controlComponent.Set("down", new InputItem(button: Buttons.LeftThumbstickDown));
+                controlComponent.Set("left", new InputItem(button: Buttons.LeftThumbstickLeft));
+                controlComponent.Set("right", new InputItem(button: Buttons.LeftThumbstickRight));
+                controlComponent.Set("sprint", new InputItem(button: Buttons.B));
 
-            // world interaction
-            // todo - bug mouse buttons not working
-            controlComponent.Set("tool", new InputItem(key: Keys.E, button: Buttons.RightTrigger, mouseButton: MouseButtons.LeftMouseButton));
-            controlComponent.Set("interact", new InputItem(key: Keys.Enter, button: Buttons.A)); // or Keys.E?
-            controlComponent.Set("skip", new InputItem(key: Keys.Enter, button: Buttons.A, mouseButton: MouseButtons.LeftMouseButton));
+                // world interaction
+                // todo - bug mouse buttons not working
+                controlComponent.Set("tool", new InputItem(button: Buttons.RightTrigger));
+                controlComponent.Set("interact", new InputItem(button: Buttons.A)); // or Keys.E?
+                controlComponent.Set("skip", new InputItem(button: Buttons.A));
+            } else
+            {
+                // movement
+                controlComponent.Set("up", new InputItem(key: Keys.W));
+                controlComponent.Set("down", new InputItem(key: Keys.S));
+                controlComponent.Set("left", new InputItem(key: Keys.A));
+                controlComponent.Set("right", new InputItem(key: Keys.D));
+                controlComponent.Set("sprint", new InputItem(key: Keys.LeftShift));
+
+                // world interaction
+                // todo - bug mouse buttons not working
+                controlComponent.Set("tool", new InputItem(key: Keys.E, mouseButton: MouseButtons.LeftMouseButton));
+                controlComponent.Set("interact", new InputItem(key: Keys.Enter)); // or Keys.E?
+                controlComponent.Set("skip", new InputItem(key: Keys.Enter, mouseButton: MouseButtons.LeftMouseButton));
+            }
+
+            
         }
 
 
