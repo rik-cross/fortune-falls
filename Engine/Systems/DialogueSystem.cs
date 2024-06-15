@@ -243,6 +243,23 @@ namespace AdventureGame.Engine
                                     (int)(camera.screenPosition.Y + camera.size.Y - 200 + Theme.BorderLarge + padding.Y),
                                     (int)(newSize.X + Theme.BorderLarge),
                                     (int)(newSize.Y)), Color.White * (float)dialogueComponent.dialoguePages[0].imageAlpha.Value);
+
+                            // draw button image
+
+                            Texture2D button;
+                            if (EngineGlobals.inputManager.IsControllerConnected())
+                                button = GameAssets.button_a;
+                            else
+                                button = GameAssets.enter;
+
+                            Globals.spriteBatch.Draw(button,
+                                new Rectangle(
+                                    (int)(camera.screenPosition.X + camera.size.X - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Width*3),
+                                    (int)(camera.screenPosition.Y + camera.size.Y - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Height*3),
+                                    button.Width * 3,
+                                    button.Height * 3
+                                ),
+                                Color.White * (float)dialogueComponent.alpha.Value);
                             
                         }
 

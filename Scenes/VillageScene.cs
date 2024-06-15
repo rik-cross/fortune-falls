@@ -300,7 +300,7 @@ namespace AdventureGame
             player.GetComponent<InputComponent>().Active = true; // todo - delete?
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
-            //player.GetComponent<TransformComponent>().Position = new Vector2(600, 600);
+            //player.GetComponent<TransformComponent>().Position = new Vector2(852, 613);
 
             //GetCameraByName("main").SetZoom(1.0f);
 
