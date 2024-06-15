@@ -106,6 +106,7 @@ namespace AdventureGame
             // Mid Town square
             Engine.Entity mainSquareTree = TreeEntity.Create(662, 623, "tree_01_large.png");
             mainSquareTree.Tags.Id = "mainSquareTree";
+            mainSquareTree.GetComponent<TransformComponent>().Size.Y -= 2;
             // todo: add another trigger component that is envoked when the tree is cut down
             AddEntity(mainSquareTree);
 
@@ -299,6 +300,7 @@ namespace AdventureGame
             player.GetComponent<InputComponent>().Active = true; // todo - delete?
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
+            //player.GetComponent<TransformComponent>().Position = new Vector2(600, 600);
 
             //GetCameraByName("main").SetZoom(1.0f);
 
@@ -462,6 +464,10 @@ namespace AdventureGame
         {
             questMarker.Update(this); // todo: add this to Scene
             Utilities.SetBuildingAlpha(EntitiesInScene); // todo only check entities near player
+            //S.WriteLine(
+            //    EngineGlobals.entityManager.GetEntityByIdTag("mainSquareTree").GetComponent<TransformComponent>().Bottom + "  " +
+            //    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Bottom
+            //);
         }
 
         public override void Draw(GameTime gameTime)
