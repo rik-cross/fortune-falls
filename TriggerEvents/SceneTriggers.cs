@@ -37,8 +37,10 @@ namespace AdventureGame.Engine
             if (EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))
             {
 
-                if (npcEntity.GetComponent<EmoteComponent>() != null)
-                    npcEntity.GetComponent<EmoteComponent>().Hide();
+                Globals.hasInteracted = true;
+
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>() != null)
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().Hide();
 
                 DialogueComponent dialogueComponent = playerEntity.GetComponent<DialogueComponent>();
                 if (dialogueComponent != null && !dialogueComponent.HasPages())

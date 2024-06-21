@@ -274,16 +274,27 @@ namespace AdventureGame
             //
             Engine.Entity blacksmithEntity = NPCEntity.Create(852, 598, 15, 20, idTag: "blacksmith");
 
+            blacksmithEntity.GetComponent<TriggerComponent>().onCollisionEnter = (e1, e2, d) => {
+                if (Globals.hasInteracted == true)
+                    return;
+                Engine.EmoteComponent speakEmote;
+                if (Globals.IsControllerConnected)
+                    speakEmote = GameAssets.controllerInteractEmote;
+                else
+                    speakEmote = GameAssets.keyboardInteractEmote;
+                speakEmote.alpha.Value = 1;
+                EngineGlobals.entityManager.GetLocalPlayer().AddComponent(speakEmote);
+            };
+            blacksmithEntity.GetComponent<TriggerComponent>().onCollisionExit = (e1, e2, d) => {
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.EmoteComponent>() != null)
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.EmoteComponent>().alpha.Value = 0;
+            };
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
 
             // add the player speak tutorial
-            Engine.EmoteComponent speakEmote;
-            if (Globals.IsControllerConnected)
-                speakEmote = GameAssets.controllerInteractEmote;
-            else
-                speakEmote = GameAssets.keyboardInteractEmote;
-            blacksmithEntity.AddComponent(speakEmote);
-            blacksmithEntity.GetComponent<EmoteComponent>().alpha.Value = 1;
+            
+            
+            //blacksmithEntity.GetComponent<EmoteComponent>().alpha.Value = 1;
 
             AddEntity(blacksmithEntity);
 
@@ -300,6 +311,7 @@ namespace AdventureGame
             player.GetComponent<InputComponent>().Active = true; // todo - delete?
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
+            
             //player.GetComponent<TransformComponent>().Position = new Vector2(852, 613);
 
             //GetCameraByName("main").SetZoom(1.0f);

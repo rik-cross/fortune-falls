@@ -75,6 +75,9 @@ namespace AdventureGame
         // Player settings
         public static int playerIndex = 0;
         public static string playerStr = allCharacters[playerIndex];
+
+        public static bool hasInteracted = false;
+
     }
 
 }
