@@ -7,6 +7,7 @@ namespace AdventureGame
 
     public class HomeScene : Scene
     {
+        public QuestMarker questMarker;
 
         public HomeScene()
         {
@@ -16,7 +17,7 @@ namespace AdventureGame
         public override void Init()
         {
             LightLevel = 1.0f;
-            
+            questMarker = new QuestMarker();
         }
 
         public override void LoadContent()
@@ -51,7 +52,7 @@ namespace AdventureGame
             // book trigger entity
             Engine.Entity bookTrigger = EngineGlobals.entityManager.CreateEntity();
             bookTrigger.Tags.AddTag("bookTrigger");
-            bookTrigger.AddComponent(new Engine.TransformComponent(38, 35, 25, 25));
+            bookTrigger.AddComponent(new Engine.TransformComponent(31, 33, 25, 25));
             bookTrigger.AddComponent(new Engine.TriggerComponent(
                 new Vector2(25, 25),
                 onCollide: (Entity triggerEntity, Entity otherEntity, float distance) =>
@@ -68,12 +69,15 @@ namespace AdventureGame
             ));
             AddEntity(bookTrigger);
 
+            questMarker.SetPOI(bookTrigger);
+            questMarker.visible = true;
+
         }
 
         public override void OnEnter()
         {
             AddCamera("main");
-            GetCameraByName("main").backgroundColour = Color.White;
+            //GetCameraByName("main").backgroundColour = Color.White;
         }
         public override void Input(GameTime gameTime)
         {
@@ -92,6 +96,13 @@ namespace AdventureGame
             // commented out DayNightCycle for testing
             //DayNightCycle.Update(gameTime);
             //lightLevel = DayNightCycle.GetLightLevel();
+            questMarker.Update(this);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+
+            questMarker.Draw();
         }
 
     }

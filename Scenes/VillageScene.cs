@@ -312,7 +312,7 @@ namespace AdventureGame
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
             
-            //player.GetComponent<TransformComponent>().Position = new Vector2(680, 290);
+            player.GetComponent<TransformComponent>().Position = new Vector2(680, 290);
 
             //GetCameraByName("main").SetZoom(1.0f);
 
