@@ -463,7 +463,7 @@ namespace AdventureGame
         public override void Input(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
-                EngineGlobals.sceneManager.ChangeScene<PauseScene>(false);
+                EngineGlobals.sceneManager.ChangeScene<ToBeContinuedScene>(false);
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
                 EngineGlobals.sceneManager.ChangeScene<InventoryScene2>(false);
