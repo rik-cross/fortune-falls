@@ -16,6 +16,7 @@ namespace AdventureGame
         public override void Init()
         {
             LightLevel = 1.0f;
+            
         }
 
         public override void LoadContent()
@@ -46,11 +47,33 @@ namespace AdventureGame
                 }
             ));
             AddEntity(homeTrigger);
+
+            // book trigger entity
+            Engine.Entity bookTrigger = EngineGlobals.entityManager.CreateEntity();
+            bookTrigger.Tags.AddTag("bookTrigger");
+            bookTrigger.AddComponent(new Engine.TransformComponent(38, 35, 25, 25));
+            bookTrigger.AddComponent(new Engine.TriggerComponent(
+                new Vector2(25, 25),
+                onCollide: (Entity triggerEntity, Entity otherEntity, float distance) =>
+                {
+                    if (otherEntity == EngineGlobals.entityManager.GetLocalPlayer())
+                    {
+                        PlayerControlComponent controlComponent = otherEntity.GetComponent<PlayerControlComponent>();
+                        if (controlComponent != null && EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))
+                        {
+                            EngineGlobals.sceneManager.ChangeScene<ToBeContinuedScene>(false);
+                        }
+                    }
+                }
+            ));
+            AddEntity(bookTrigger);
+
         }
 
         public override void OnEnter()
         {
             AddCamera("main");
+            GetCameraByName("main").backgroundColour = Color.White;
         }
         public override void Input(GameTime gameTime)
         {

@@ -156,7 +156,7 @@ namespace AdventureGame
                 onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
                     if (otherEntity.IsLocalPlayer()) //&& EngineGlobals.inputManager.IsPressed(otherEntity.GetComponent<InputComponent>().Input.button1))
                     {
-                        Vector2 playerPosition = new Vector2(50, 50);
+                        Vector2 playerPosition = new Vector2(104, 130);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
                         EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
                         // todo -- Alex, do we need something like this?
@@ -312,7 +312,7 @@ namespace AdventureGame
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
             
-            //player.GetComponent<TransformComponent>().Position = new Vector2(852, 613);
+            //player.GetComponent<TransformComponent>().Position = new Vector2(680, 290);
 
             //GetCameraByName("main").SetZoom(1.0f);
 
@@ -463,7 +463,7 @@ namespace AdventureGame
         public override void Input(GameTime gameTime)
         {
             if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
-                EngineGlobals.sceneManager.ChangeScene<ToBeContinuedScene>(false);
+                EngineGlobals.sceneManager.ChangeScene<PauseScene>(false);
 
             if (EngineGlobals.inputManager.IsPressed(Globals.inventoryInput))
                 EngineGlobals.sceneManager.ChangeScene<InventoryScene2>(false);
