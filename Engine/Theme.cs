@@ -5,13 +5,13 @@ namespace AdventureGame.Engine
 {
     public static class Theme
     {
-        public static Color ColorPrimary = Color.SaddleBrown;
-        public static Color ColorSecondary = Color.LightGray;
+        public static Color ColorPrimary = new Color(234, 212, 170);
+        public static Color ColorSecondary = new Color(194, 133, 105);
         public static Color ColorTertiary = Color.AntiqueWhite;
 
-        public static Color TextColorPrimary = Color.DarkSlateGray;
-        public static Color TextColorSecondary = Color.Gray;
-        public static Color TextColorTertiary = Color.Yellow;
+        public static Color TextColorPrimary = ColorPrimary;
+        public static Color TextColorSecondary = ColorSecondary;
+        public static Color TextColorTertiary = ColorTertiary;
 
         public static readonly SpriteFont FontTitle = Globals.content.Load<SpriteFont>("Fonts/Title");
         public static readonly SpriteFont FontSubtitle = Globals.content.Load<SpriteFont>("Fonts/Subtitle");

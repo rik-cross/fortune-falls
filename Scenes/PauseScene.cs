@@ -20,7 +20,7 @@ namespace AdventureGame
             _title = new Engine.Text(
                 caption: "Game Paused",
                 font: Theme.FontSubtitle,
-                colour: Theme.TextColorTertiary,
+                colour: Color.White,
                 anchor: Anchor.TopCenter,
                 padding: new Padding(top: 100),
                 outline: true,

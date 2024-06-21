@@ -199,7 +199,7 @@ namespace AdventureGame.Engine
                                 line.Substring(s, e),
                                 new Vector2(camera.screenPosition.X + (Theme.BorderLarge * 2) + xOffset,
                                     y),
-                                Theme.ColorPrimary * (float)dialogueComponent.dialoguePages[0].textAlpha.Value);
+                                Color.White * (float)dialogueComponent.dialoguePages[0].textAlpha.Value);
 
                             y += (int)(Theme.FontPrimary.MeasureString(currentRow).Y / 4 * 3);
                             acc += line.Length;

@@ -9,7 +9,7 @@ namespace AdventureGame
         /* textures that make up a rectangle
         *
         *   tl---t---tr
-        *   |         |
+        *   |    m    |
         *   bl---b---br
         *
         */
