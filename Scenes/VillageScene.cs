@@ -126,6 +126,23 @@ namespace AdventureGame
             AddEntity(BuildingEntity.Create(408, 314, "UpperTown07.png", colliderHeightPercentage: 0.65f));
             AddEntity(BuildingEntity.Create(472, 314, "UpperTown08.png", colliderHeightPercentage: 0.65f));
 
+            // Cave
+            Entity caveEntrance = EngineGlobals.entityManager.CreateEntity("caveEntrance");
+            caveEntrance.AddComponent(new Engine.TransformComponent(1150, 0, 60, 10));
+            Engine.TriggerComponent caveTC = new TriggerComponent(
+                size: new Vector2(60, 10),
+                onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
+                    if (otherEntity.IsLocalPlayer())
+                    {
+                        Vector2 playerPosition = new Vector2(392, 449);
+                        EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, CaveScene>(unloadCurrentScene: false);
+                        EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
+                        //EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
+                    }
+                });
+            caveEntrance.AddComponent(caveTC);
+            AddEntity(caveEntrance);
+
             // Player's House
             Entity playerHouse = BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f);
             TriggerComponent tc = new TriggerComponent(
@@ -312,7 +329,7 @@ namespace AdventureGame
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
             
-            player.GetComponent<TransformComponent>().Position = new Vector2(680, 290);
+            player.GetComponent<TransformComponent>().Position = new Vector2(1170, 20);
 
             //GetCameraByName("main").SetZoom(1.0f);
 

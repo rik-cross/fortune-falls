@@ -32,16 +32,17 @@ namespace AdventureGame
 
             //  cave entrance
             Engine.Entity caveExitEntity = EngineGlobals.entityManager.CreateEntity();
-            caveExitEntity.AddComponent(new Engine.TransformComponent(new Vector2(384, 464), new Vector2(32, 16)));
+            caveExitEntity.AddComponent(new Engine.TransformComponent(new Vector2(384, 474), new Vector2(32, 6)));
             Engine.TriggerComponent tc = caveExitEntity.AddComponent<Engine.TriggerComponent>(
-                new Engine.TriggerComponent(new Vector2(32, 16))
+                new Engine.TriggerComponent(new Vector2(32, 6))
             );
             tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
                 if (otherEntity.IsLocalPlayer())
                 {
-                    otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
-                    //EngineGlobals.sceneManager.SetActiveScene<VillageScene>();
-                    //EngineGlobals.sceneManager.SetPlayerScene<VillageScene>(new Vector2(505, 55));
+                    Vector2 playerPosition = new Vector2(1177, 16);
+                    EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(unloadCurrentScene: false);
+                    EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
+                    //EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
                 }
             };
             caveExitEntity.AddComponent(new Engine.LightComponent(radius: 150, offset: new Vector2(16, 16)));
