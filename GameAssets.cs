@@ -21,7 +21,7 @@ namespace AdventureGame
         // general images
         public static Texture2D marker = Engine.Utils.LoadTexture("UI/pointer.png");
         public static Texture2D texture_controller_movement = Engine.Utils.LoadTexture("Emojis/controller_movement.png");
-        public static Texture2D texture_keyboard_movement = Engine.Utils.LoadTexture("Emojis/keyboard_movement.png");
+        public static Texture2D texture_keyboard_movement = Engine.Utils.LoadTexture("Emojis/keyboard_movement2.png");
         public static Texture2D enter = Engine.Utils.LoadTexture("Emojis/enter.png");
         public static Texture2D button_a = Engine.Utils.LoadTexture("Emojis/button_a.png");
         public static Texture2D right_trigger = Engine.Utils.LoadTexture("Emojis/right_trigger.png");
@@ -40,9 +40,12 @@ namespace AdventureGame
         )[0];
         public static List<Texture2D> list_texture_keyboard_movement = Engine.Utilities.SplitTexture(
             texture_keyboard_movement,
-            new Microsoft.Xna.Framework.Vector2(26, 13)
+            new Microsoft.Xna.Framework.Vector2(24, 16)
         )[0];
-
+        public static List<Texture2D> list_texture_shift = Engine.Utilities.SplitTexture(
+            shift,
+            new Microsoft.Xna.Framework.Vector2(21, 9)
+        )[0];
 
         // emote images
         //public static Engine.Image emote_pickaxe = new Engine.Image(Engine.Utils.LoadTexture(contentLocation + "Emojis/emote_pickaxe.png"));
@@ -77,7 +80,7 @@ namespace AdventureGame
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
             drawMethod: UICustomisations.DrawAnimatedEmote,
-            textureSize: new Vector2(26*4, 13*4)
+            textureSize: new Vector2(24*4, 16*4)
         );
 
         public static Engine.EmoteComponent controllerSprintEmote = new Engine.EmoteComponent(
