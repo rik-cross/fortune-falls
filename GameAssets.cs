@@ -40,11 +40,11 @@ namespace AdventureGame
         )[0];
         public static List<Texture2D> list_texture_keyboard_movement = Engine.Utilities.SplitTexture(
             texture_keyboard_movement,
-            new Microsoft.Xna.Framework.Vector2(24, 16)
+            new Microsoft.Xna.Framework.Vector2(48, 32)
         )[0];
         public static List<Texture2D> list_texture_shift = Engine.Utilities.SplitTexture(
             shift,
-            new Microsoft.Xna.Framework.Vector2(21, 9)
+            new Microsoft.Xna.Framework.Vector2(42, 18)
         )[0];
 
         // emote images
