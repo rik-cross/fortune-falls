@@ -39,8 +39,8 @@ namespace AdventureGame.Engine
 
                 Globals.hasInteracted = true;
 
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>() != null)
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().Hide();
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().Hide();
 
                 DialogueComponent dialogueComponent = playerEntity.GetComponent<DialogueComponent>();
                 if (dialogueComponent != null && !dialogueComponent.HasPages())
@@ -115,16 +115,19 @@ namespace AdventureGame.Engine
                                             condition: () => { return EngineGlobals.inputManager.IsPressed(controlComponent.Get("tool")); },
                                             numberOfTimes: 3,
                                             onStart: () => {
-                                                Engine.EmoteComponent weaponEmote;
+                                                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                                                    EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<Engine.AnimatedEmoteComponent>();
+                                                Engine.AnimatedEmoteComponent weaponEmote;
                                                 if (Globals.IsControllerConnected)
                                                     weaponEmote = GameAssets.controllerWeaponEmote;
                                                 else
                                                     weaponEmote = GameAssets.keyboardWeaponEmote;
                                                 weaponEmote.alpha.Value = 1;
-                                                playerEntity.AddComponent<EmoteComponent>(weaponEmote);
+                                                EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(weaponEmote);
+                                                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
                                             },
                                             onComplete: () => {
-                                                playerEntity.GetComponent<EmoteComponent>().alpha.Value = 0;
+                                                playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                                                 dialogueComponent.AddPage(
                                                     "That axe is on loan, return it when you are done. Barnie's place is north, just over the ridge there.",
                                                     GameAssets.blacksmith_headshot

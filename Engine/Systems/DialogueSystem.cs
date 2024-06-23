@@ -248,16 +248,16 @@ namespace AdventureGame.Engine
 
                             Texture2D button;
                             if (EngineGlobals.inputManager.IsControllerConnected())
-                                button = GameAssets.button_a;
+                                button = GameAssets.buttona_single;
                             else
-                                button = GameAssets.enter;
+                                button = GameAssets.buttonenter_single;
 
                             Globals.spriteBatch.Draw(button,
                                 new Rectangle(
-                                    (int)(camera.screenPosition.X + camera.size.X - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Width*3),
-                                    (int)(camera.screenPosition.Y + camera.size.Y - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Height*3),
-                                    button.Width * 3,
-                                    button.Height * 3
+                                    (int)(camera.screenPosition.X + camera.size.X - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Width*2),
+                                    (int)(camera.screenPosition.Y + camera.size.Y - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Height*2),
+                                    button.Width * 2,
+                                    button.Height * 2
                                 ),
                                 Color.White * (float)dialogueComponent.alpha.Value);
                             

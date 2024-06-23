@@ -23,6 +23,7 @@ namespace AdventureGame
         public static Texture2D texture_controller_movement = Engine.Utils.LoadTexture("Emojis/controller_movement.png");
         public static Texture2D texture_keyboard_movement = Engine.Utils.LoadTexture("Emojis/keyboard_movement2.png");
         public static Texture2D enter = Engine.Utils.LoadTexture("Emojis/enter.png");
+        public static Texture2D e = Engine.Utils.LoadTexture("Emojis/key_e.png");
         public static Texture2D button_a = Engine.Utils.LoadTexture("Emojis/button_a.png");
         public static Texture2D right_trigger = Engine.Utils.LoadTexture("Emojis/right_trigger.png");
         public static Texture2D key_axe = Engine.Utils.LoadTexture("Emojis/key.png");
@@ -30,7 +31,7 @@ namespace AdventureGame
         public static Texture2D shift = Engine.Utils.LoadTexture("Emojis/shift.png");
         // this is the texture for controller sprint
         public static Texture2D button_b = Engine.Utils.LoadTexture("Emojis/button_b.png");
-
+        
         public static Texture2D texture_axe_broke = Engine.Utils.LoadTexture("Emojis/axeBroke.png");
 
         // image lists
@@ -46,6 +47,29 @@ namespace AdventureGame
             shift,
             new Microsoft.Xna.Framework.Vector2(42, 18)
         )[0];
+        public static List<Texture2D> list_texture_b = Engine.Utilities.SplitTexture(
+            button_b,
+            new Microsoft.Xna.Framework.Vector2(18, 18)
+        )[0];
+        public static List<Texture2D> list_texture_enter = Engine.Utilities.SplitTexture(
+            enter,
+            new Microsoft.Xna.Framework.Vector2(26, 26)
+        )[0];
+        public static List<Texture2D> list_texture_a = Engine.Utilities.SplitTexture(
+            button_a,
+            new Microsoft.Xna.Framework.Vector2(18, 18)
+        )[0];
+        public static List<Texture2D> list_key_e = Engine.Utilities.SplitTexture(
+            e,
+            new Microsoft.Xna.Framework.Vector2(18, 18)
+        )[0];
+        public static List<Texture2D> list_right_trigger = Engine.Utilities.SplitTexture(
+            right_trigger,
+            new Microsoft.Xna.Framework.Vector2(13, 13)
+        )[0];
+        // dialogue images
+        public static Texture2D buttona_single = list_texture_a[0];
+        public static Texture2D buttonenter_single = list_texture_enter[0];
 
         // emote images
         //public static Engine.Image emote_pickaxe = new Engine.Image(Engine.Utils.LoadTexture(contentLocation + "Emojis/emote_pickaxe.png"));
@@ -80,56 +104,60 @@ namespace AdventureGame
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
             drawMethod: UICustomisations.DrawAnimatedEmote,
-            textureSize: new Vector2(24*4, 16*4)
+            textureSize: new Vector2(24*3, 16*3)
         );
 
-        public static Engine.EmoteComponent controllerSprintEmote = new Engine.EmoteComponent(
-            button_b,
+        // sprint
+        public static Engine.AnimatedEmoteComponent keyboardSprintEmote = new Engine.AnimatedEmoteComponent(
+            list_texture_shift,
+            frameDelay: 40,
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
-            drawMethod: UICustomisations.DrawEmote,
-            textureSize: new Vector2(13 * 3, 13 * 3)
+            drawMethod: UICustomisations.DrawAnimatedEmote,
+            textureSize: new Vector2(42 * 2, 18 * 2)
+        );
+        public static Engine.AnimatedEmoteComponent controllerSprintEmote = new Engine.AnimatedEmoteComponent(
+            list_texture_b,
+            frameDelay: 40,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawAnimatedEmote,
+            textureSize: new Vector2(12 * 3, 12 * 3)
         );
 
-        public static Engine.EmoteComponent keyboardSprintEmote = new Engine.EmoteComponent(
-            shift,
+        // interact
+        public static Engine.AnimatedEmoteComponent keyboardInteractEmote = new Engine.AnimatedEmoteComponent(
+            list_texture_enter,
+            frameDelay: 40,
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
-            drawMethod: UICustomisations.DrawEmote,
-            textureSize: new Vector2(21 * 3, 9 * 3)
+            drawMethod: UICustomisations.DrawAnimatedEmote,
+            textureSize: new Vector2(26 * 2, 26 * 2)
+        );
+        public static Engine.AnimatedEmoteComponent controllerInteractEmote = new Engine.AnimatedEmoteComponent(
+            list_texture_a,
+            frameDelay: 40,
+            borderSize: EmoteBorderSize,
+            heightAboveEntity: EmoteHeightAboveEntity,
+            drawMethod: UICustomisations.DrawAnimatedEmote,
+            textureSize: new Vector2(12 * 3, 12 * 3)
         );
 
-        //public static Engine.EmoteComponent sprintEmote = keyboardSprintEmote;
-        
-        public static Engine.EmoteComponent controllerInteractEmote = new Engine.EmoteComponent(
-            button_a,
+        // weapon
+        public static Engine.AnimatedEmoteComponent keyboardWeaponEmote = new Engine.AnimatedEmoteComponent(
+            list_key_e,
+            frameDelay: 40,
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
-            drawMethod: UICustomisations.DrawEmote,
-            textureSize: new Vector2(13 * 3, 13 * 3)
+            drawMethod: UICustomisations.DrawAnimatedEmote,
+            textureSize: new Vector2(18 * 3, 18 * 3)
         );
-
-        public static Engine.EmoteComponent keyboardInteractEmote = new Engine.EmoteComponent(
-            enter,
+        public static Engine.AnimatedEmoteComponent controllerWeaponEmote = new Engine.AnimatedEmoteComponent(
+            list_right_trigger,
+            frameDelay: 40,
             borderSize: EmoteBorderSize,
             heightAboveEntity: EmoteHeightAboveEntity,
-            drawMethod: UICustomisations.DrawEmote,
-            textureSize: new Vector2(13 * 3, 13 * 3)
-        );
-
-        public static Engine.EmoteComponent controllerWeaponEmote = new Engine.EmoteComponent(
-            right_trigger,
-            borderSize: EmoteBorderSize,
-            heightAboveEntity: EmoteHeightAboveEntity,
-            drawMethod: UICustomisations.DrawEmote,
-            textureSize: new Vector2(13*3, 13*3)
-        );
-
-        public static Engine.EmoteComponent keyboardWeaponEmote = new Engine.EmoteComponent(
-            key_axe,
-            borderSize: EmoteBorderSize,
-            heightAboveEntity: EmoteHeightAboveEntity,
-            drawMethod: UICustomisations.DrawEmote,
+            drawMethod: UICustomisations.DrawAnimatedEmote,
             textureSize: new Vector2(13 * 3, 13 * 3)
         );
 

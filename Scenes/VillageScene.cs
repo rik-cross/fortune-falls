@@ -294,7 +294,7 @@ namespace AdventureGame
             blacksmithEntity.GetComponent<TriggerComponent>().onCollisionEnter = (e1, e2, d) => {
                 if (Globals.hasInteracted == true)
                     return;
-                Engine.EmoteComponent speakEmote;
+                Engine.AnimatedEmoteComponent speakEmote;
                 if (Globals.IsControllerConnected)
                     speakEmote = GameAssets.controllerInteractEmote;
                 else
@@ -303,8 +303,8 @@ namespace AdventureGame
                 EngineGlobals.entityManager.GetLocalPlayer().AddComponent(speakEmote);
             };
             blacksmithEntity.GetComponent<TriggerComponent>().onCollisionExit = (e1, e2, d) => {
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.EmoteComponent>() != null)
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.EmoteComponent>().alpha.Value = 0;
+                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>() != null)
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>().alpha.Value = 0;
             };
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
 
@@ -328,8 +328,9 @@ namespace AdventureGame
             player.GetComponent<InputComponent>().Active = true; // todo - delete?
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
-            
+
             //player.GetComponent<TransformComponent>().Position = new Vector2(1170, 20);
+            //player.GetComponent<TransformComponent>().Position = new Vector2(852, 613);
 
             //GetCameraByName("main").SetZoom(1.0f);
 
@@ -339,7 +340,7 @@ namespace AdventureGame
             {
                 Console.WriteLine("test");
                 // TESTING - provide axe immediately
-                player.GetComponent<BattleComponent>().weapon = Weapons.axe;
+                //player.GetComponent<BattleComponent>().weapon = Weapons.axe;
 
                 // Reset the input controller stack
                 Engine.InputComponent inputComponent = player.GetComponent<InputComponent>();
@@ -416,20 +417,20 @@ namespace AdventureGame
                                         //    sprintEmote = GameAssets.controllerSprintEmote;
                                         //else
                                         //    sprintEmote = GameAssets.keyboardSprintEmote;
-                                        
+
                                         //sprintEmote.alpha.Value = 1;
+                                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                                            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
 
-                                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
-
-                                        Engine.EmoteComponent sprintEmote;
+                                        Engine.AnimatedEmoteComponent sprintEmote;
                                         if (Globals.IsControllerConnected)
                                             sprintEmote = GameAssets.controllerSprintEmote;
                                         else
                                             sprintEmote = GameAssets.keyboardSprintEmote;
                                         playerEntity.AddComponent(sprintEmote);
-                                        playerEntity.GetComponent<EmoteComponent>().alpha.Value = 1;
+                                        playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
 
-                                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 1;
+                                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
                                         
 
                                         //if (Globals.IsControllerConnected)
@@ -451,8 +452,8 @@ namespace AdventureGame
                                     numberOfTimes: 80,
                                     onComplete: () =>
                                     {
-                                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>() != null)
-                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<EmoteComponent>().alpha.Value = 0;
+                                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                                     }
                                 )
                             );
