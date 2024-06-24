@@ -303,7 +303,8 @@ namespace AdventureGame
                 EngineGlobals.entityManager.GetLocalPlayer().AddComponent(speakEmote);
             };
             blacksmithEntity.GetComponent<TriggerComponent>().onCollisionExit = (e1, e2, d) => {
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>() != null)
+                AnimatedEmoteComponent ac = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>();
+                if (ac != null && (ac == GameAssets.controllerInteractEmote || ac == GameAssets.keyboardInteractEmote))
                     EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>().alpha.Value = 0;
             };
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
@@ -329,7 +330,7 @@ namespace AdventureGame
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
-            //player.GetComponent<TransformComponent>().Position = new Vector2(1170, 20);
+            player.GetComponent<TransformComponent>().Position = new Vector2(1170, 20);
             //player.GetComponent<TransformComponent>().Position = new Vector2(852, 613);
 
             //GetCameraByName("main").SetZoom(1.0f);

@@ -19,14 +19,14 @@ namespace AdventureGame.Engine
             if (dialoguePages.Count == 1)
             {
                 alpha.Value = 1;
-                newDialogue.script?.Invoke();
+                newDialogue.onDialogueStart?.Invoke(entity);
             }
         }
 
-        public void AddPage(string text, Texture2D texture = null, Action script = null)
+        public void AddPage(string text, Texture2D texture = null, Action<Entity> onDialogueStart = null, Action<Entity> onDialogueComplete = null)
             //Action<Entity, Entity, float> onDialogueComplete = null)
         {
-            Dialogue newDialogue = new Dialogue(text, texture: texture, script: script);
+            Dialogue newDialogue = new Dialogue(text, texture: texture, onDialogueStart: onDialogueStart, onDialogueComplete: onDialogueComplete);
             //Dialogue newDialogue = new Dialogue(text, texture: texture, onDialogueComplete: onDialogueComplete);
             AddPage(newDialogue);
         }

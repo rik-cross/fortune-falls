@@ -85,8 +85,8 @@ namespace AdventureGame.Engine
                 if (dialogueComponent.dialoguePages.Count > 0)
                 {
                     // execute script if there is one
-                    if (dialogueComponent.dialoguePages[0].script != null)
-                        dialogueComponent.dialoguePages[0].script();
+                    if (dialogueComponent.dialoguePages[0].onDialogueStart != null)
+                        dialogueComponent.dialoguePages[0].onDialogueStart(entity);
                     // show dialogue
                     // I'm not sure this is needed. They always start at 1.
                     //dialogueComponent.dialoguePages[0].imageAlpha.Value = 1;

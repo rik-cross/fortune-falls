@@ -19,13 +19,13 @@ namespace AdventureGame.Engine
         public DoubleAnimation textAlpha = new DoubleAnimation(0, 0.02f);
         public bool markForRemoval = false;
         //public Action<Entity, Entity, float> onDialogueComplete;
-        public Action script;
+        public Action<Entity> onDialogueStart;
         public Action<Entity> onDialogueComplete;
 
         public Dialogue(string text = null, Entity entity = null, Texture2D texture = null,
                         int tickDelay = 3, bool playTickSoundEffect = true,
                         SoundEffect tickSoundEffect = default,
-                        Action script = null,
+                        Action<Entity> onDialogueStart = null,
                         Action<Entity> onDialogueComplete = null)
         {
             this.text = text + " >";
@@ -35,7 +35,7 @@ namespace AdventureGame.Engine
             this.playTickSoundEffect = playTickSoundEffect;
             if (tickSoundEffect != default)
                 this.tickSoundEffect = tickSoundEffect;
-            this.script = script;
+            this.onDialogueStart = onDialogueStart;
             this.onDialogueComplete = onDialogueComplete;
         }
         public void Update()

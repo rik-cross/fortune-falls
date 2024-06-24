@@ -94,12 +94,12 @@ namespace AdventureGame.Engine
                             dialogueComponent.AddPage("You the newbie I heard about? Related to Barnie, I presume?",
                             GameAssets.blacksmith_headshot);
 
-                            dialogueComponent.AddPage("Welcome to Fortuna. I'm Magnus, the blacksmith.",
+                            dialogueComponent.AddPage("Welcome to [Town / Game name]. I'm Magnus, the blacksmith.",
                                GameAssets.blacksmith_headshot);
 
                             dialogueComponent.AddPage("The place Barnie left you has seen better days. Take this axe for those trees.",
-                               GameAssets.blacksmith_headshot,
-                               () => {
+                               texture: GameAssets.blacksmith_headshot,
+                               onDialogueStart: (Entity e) => {
                                    playerEntity.GetComponent<Engine.BattleComponent>().weapon = Weapons.axe;
                                    EngineGlobals.soundManager.PlaySoundEffect(GameAssets.sound_notification);
                                }
@@ -107,7 +107,7 @@ namespace AdventureGame.Engine
 
                             dialogueComponent.AddPage("Take a few practice swings, let me see your form!",
                                GameAssets.blacksmith_headshot,
-                               () => {
+                               onDialogueComplete: (Entity e) => {
                                    playerEntity.GetComponent<TutorialComponent>().AddTutorial(
                                         new Tutorial(
                                             name: "Use Axe",
@@ -127,7 +127,8 @@ namespace AdventureGame.Engine
                                                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
                                             },
                                             onComplete: () => {
-                                                playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                                                if (playerEntity.GetComponent<AnimatedEmoteComponent>() != null)
+                                                    playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                                                 dialogueComponent.AddPage(
                                                     "That axe is on loan, return it when you are done. Barnie's place is north, just over the ridge there.",
                                                     GameAssets.blacksmith_headshot
