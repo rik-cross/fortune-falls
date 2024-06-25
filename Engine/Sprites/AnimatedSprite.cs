@@ -18,6 +18,7 @@ namespace AdventureGame.Engine
         public int Timer { get; set; }
         public bool Completed { get; set; }
         public Action<Entity> OnComplete { get; set; }
+        //public Color Hue { get; set; }
 
         public AnimatedSprite(Sprite sprite,
             bool play = true, bool loop = true, int delay = 6,
@@ -28,6 +29,7 @@ namespace AdventureGame.Engine
             Loop = loop;
             AnimationDelay = delay;
             OnComplete = onComplete;
+            //Hue = hue;
 
             Reset();
         }

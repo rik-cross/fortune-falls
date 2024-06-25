@@ -13,11 +13,17 @@ namespace AdventureGame.Engine
         public Vector2 Offset { get; private set; }
         public bool FlipH { get; private set; }
         public bool FlipV { get; private set; }
+        public Color SpriteHue { get; set; }
         public int CurrentFrame;
 
         public Sprite(Texture2D texture, Vector2 size = default, Vector2 offset = default,
-            bool flipH = false, bool flipV = false)
+            bool flipH = false, bool flipV = false, Color spriteHue = default)
         {
+
+            if (spriteHue == default)
+                spriteHue = Color.White;
+            SpriteHue = spriteHue;
+
             TextureList = new List<Texture2D>() { texture };
 
             if (size != default)
@@ -36,8 +42,13 @@ namespace AdventureGame.Engine
         }
 
         public Sprite(List<Texture2D> textureList, Vector2 offset = default,
-            bool flipH = false, bool flipV = false)
+            bool flipH = false, bool flipV = false, Color spriteHue = default)
         {
+
+            if (spriteHue == default)
+                spriteHue = Color.White;
+            SpriteHue = spriteHue;
+
             TextureList = textureList;
             Size = new Vector2(textureList[0].Width, textureList[0].Height);
 

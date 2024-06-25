@@ -71,6 +71,10 @@ namespace AdventureGame
         {
             "One", "Two", "Three", "Four", "Five", "Six"
         };
+        public static Color[] characterHues = new Color[6]
+        {
+            Color.White, Color.White, Color.White, Color.White, Color.White, Color.White
+        };
 
         // Player settings
         public static int playerIndex = 0;

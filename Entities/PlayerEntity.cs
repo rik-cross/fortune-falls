@@ -161,10 +161,12 @@ namespace AdventureGame
             //}
 
             string playerStr;
+            Color hue;
 
             for (int i = 0; i < Globals.allCharacters.Length; i++)
             {
                 playerStr = Globals.allCharacters[i];
+                hue = Globals.characterHues[i];
 
                 Engine.AnimatedSpriteComponent animatedComponent = new AnimatedSpriteComponent();
 
@@ -197,24 +199,24 @@ namespace AdventureGame
                 keyStr = "_idle_strip9.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay);
-                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay, spriteHue: hue);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay, spriteHue: hue);
 
                 filePath = dir + folder + characterStr + keyStr;
                 animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay);
                 animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay);
 
                 filePath = dir + folder + toolStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay);
-                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_left", 0, 8, offset: offset, flipH: true, delay: spriteDelay, spriteHue: hue);
+                animatedComponent.AddAnimatedSprite(filePath, "idle_right", 0, 8, offset: offset, delay: spriteDelay, spriteHue: hue);
 
                 // Walk
                 folder = "WALKING/";
                 keyStr = "_walk_strip8.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay);
-                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay, spriteHue: hue);
+                animatedComponent.AddAnimatedSprite(filePath, "walk_right", 0, 7, offset: offset, delay: spriteDelay, spriteHue: hue);
 
                 filePath = dir + folder + characterStr + keyStr;
                 animatedComponent.AddAnimatedSprite(filePath, "walk_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay);
@@ -229,8 +231,8 @@ namespace AdventureGame
                 keyStr = "_run_strip8.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay);
-                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset, delay: spriteDelay);
+                animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay, spriteHue: hue);
+                animatedComponent.AddAnimatedSprite(filePath, "run_right", 0, 7, offset: offset, delay: spriteDelay, spriteHue: hue);
 
                 filePath = dir + folder + characterStr + keyStr;
                 animatedComponent.AddAnimatedSprite(filePath, "run_left", 0, 7, offset: offset, flipH: true, delay: spriteDelay);
@@ -245,8 +247,8 @@ namespace AdventureGame
                 keyStr = "_axe_strip10.png";
 
                 filePath = dir + folder + baseStr + keyStr;
-                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true, delay: spriteDelay+2);
-                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset, delay: spriteDelay+2);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true, delay: spriteDelay+2, spriteHue: hue);
+                animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset, delay: spriteDelay+2, spriteHue: hue);
 
                 filePath = dir + folder + characterStr + keyStr;
                 animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true, delay: spriteDelay+2);
@@ -415,6 +417,35 @@ namespace AdventureGame
 
             // tool button
             // todo? if (battleComponent.DisableMovement) set all movement intentions to false
+            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")))
+            //    || EngineGlobals.inputManager.IsDown(Globals.primaryCursorInput))
+            {
+                intentionComponent.Set("tool", true);
+                if (entity.State.Contains("_"))
+                {
+                    BattleComponent battleComponent = entity.GetComponent<Engine.BattleComponent>();
+                    if (battleComponent != null
+                        && battleComponent.weapon != null
+                        && battleComponent.weapon.name != null)
+                    {
+                        entity.State = battleComponent.weapon.name + "_" + entity.State.Split("_")[1];
+                    }
+                }
+            }
+            else
+            {
+                intentionComponent.Set("tool", false);
+            }
+
+        }
+
+        public static void PlayerInputControllerToolOnly(Entity entity)
+        {
+
+            Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
+            Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
+            Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
+            
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")))
             //    || EngineGlobals.inputManager.IsDown(Globals.primaryCursorInput))
             {

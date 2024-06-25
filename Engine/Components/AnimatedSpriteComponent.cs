@@ -38,8 +38,12 @@ namespace AdventureGame.Engine
             int startFrame, int endFrame, int totalRows = 1, int framesPerRow = -1,
             Vector2 offset = default, bool flipH = false, bool flipV = false,
             bool play = true, bool loop = true, int delay = 6,
-            Action<Entity> onComplete = null)
+            Action<Entity> onComplete = null, Color spriteHue = default)
         {
+
+            if (spriteHue == default)
+                spriteHue = Color.White;
+
             // Load the sprite sheet
             Texture2D spriteSheet = Utils.LoadTexture(filePath);
 
@@ -62,7 +66,7 @@ namespace AdventureGame.Engine
                 subTextures.Add(GetSubTexture(spriteSheet, x, y, frameWidth, frameHeight));
             }
 
-            Sprite sprite = new Sprite(subTextures, offset, flipH, flipV);
+            Sprite sprite = new Sprite(subTextures, offset, flipH, flipV, spriteHue: spriteHue);
             //AddToDictionary(key, sprite);
 
             if (AnimatedSprites.ContainsKey(key))
@@ -74,8 +78,12 @@ namespace AdventureGame.Engine
 
         public void AddAnimatedSprite(string key, Sprite sprite,
             bool play = true, bool loop = true, int delay = 6,
-            Action<Entity> onComplete = null)
+            Action<Entity> onComplete = null, Color spriteHue = default)
         {
+
+            if (spriteHue == default)
+                spriteHue = Color.White;
+
             if (AnimatedSprites.ContainsKey(key))
                 AnimatedSprites[key].SpriteList.Add(sprite);
             else

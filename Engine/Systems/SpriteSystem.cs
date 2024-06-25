@@ -32,7 +32,7 @@ namespace AdventureGame.Engine
                 && spriteComponent.SpriteDict.ContainsKey(entity.State))
             {
                 Sprite sprite = spriteComponent.SpriteDict[entity.State];
-                DrawSprite(entity, sprite, spriteComponent.Alpha, sprite.FlipH, sprite.FlipV);
+                DrawSprite(entity, sprite, spriteComponent.Alpha, sprite.FlipH, sprite.FlipV, Color.White);
             }
 
             // Check if the animated sprite component contains a relevant animated sprite
@@ -42,12 +42,13 @@ namespace AdventureGame.Engine
                 AnimatedSprite animatedSprite = animatedComponent.AnimatedSprites[entity.State];
                 foreach (Sprite sprite in animatedSprite.SpriteList)
                     DrawSprite(entity, sprite, animatedComponent.Alpha,
-                        sprite.FlipH, sprite.FlipV);
+                        sprite.FlipH, sprite.FlipV, sprite.SpriteHue);
             }
         }
 
-        private void DrawSprite(Entity entity, Sprite sprite, float alpha, bool h, bool v)
+        private void DrawSprite(Entity entity, Sprite sprite, float alpha, bool h, bool v, Color hue)
         {
+            AnimatedSpriteComponent asc = entity.GetComponent<AnimatedSpriteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             Texture2D currentTexture = sprite.TextureList[sprite.CurrentFrame];
 
@@ -68,7 +69,7 @@ namespace AdventureGame.Engine
                     (int)sprite.Size.Y
                 ),
                 sourceRectangle: null,
-                Color.White * alpha,
+                hue * alpha,
                 rotation: 0.0f,
                 origin: Vector2.Zero,
                 effects: se,
