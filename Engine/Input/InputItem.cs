@@ -11,7 +11,6 @@ namespace AdventureGame.Engine
 {
     public class InputItem
     {
-
         // stores a key (for keyboard input only)
         public Keys? key;
         // stores a button (for controller input only)

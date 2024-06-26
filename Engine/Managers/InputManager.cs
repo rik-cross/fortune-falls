@@ -29,7 +29,7 @@ namespace AdventureGame.Engine
         private Dictionary<Buttons, double> _gamePadStateDurations = new Dictionary<Buttons, double>();
 
         // Long press
-        private double gamePadLongPressAdjustment = 1.0;
+        private double _gamePadLongPressAdjustment = 1.0;
         public int longPressDuration = 50;
         public bool longPressEaseOut = true;
         public int longPressEaseOutAmount = 3;
@@ -86,20 +86,23 @@ namespace AdventureGame.Engine
             if (item == null)
                 return false;
 
-            if (item.key != null)
-                return _keyboardState.IsKeyDown((Keys)item.key);
+            if (item.key != null && _keyboardState.IsKeyDown((Keys)item.key))
+                return true;
 
-            if (item.button != null)
-                return _gamePadState[0].IsButtonDown((Buttons)item.button);
+            if (item.button != null && _gamePadState[0].IsButtonDown((Buttons)item.button))
+                return true;
 
             if (item.mouseButton != null)
             {
-                if (item.mouseButton == MouseButtons.LeftMouseButton)
-                    return _mouseState.LeftButton == ButtonState.Pressed;
-                else if (item.mouseButton == MouseButtons.RightMouseButton)
-                    return _mouseState.RightButton == ButtonState.Pressed;
-                else if (item.mouseButton == MouseButtons.MiddleMouseButton)
-                    return _mouseState.MiddleButton == ButtonState.Pressed;
+                if (item.mouseButton == MouseButtons.LeftMouseButton
+                    && _mouseState.LeftButton == ButtonState.Pressed)
+                    return true;
+                else if (item.mouseButton == MouseButtons.RightMouseButton
+                    && _mouseState.RightButton == ButtonState.Pressed)
+                    return true;
+                else if (item.mouseButton == MouseButtons.MiddleMouseButton
+                    && _mouseState.MiddleButton == ButtonState.Pressed)
+                    return true;
             }
 
             return false;
@@ -122,20 +125,28 @@ namespace AdventureGame.Engine
             if (item == null)
                 return false;
 
-            if (item.key != null)
-                return _keyboardState.IsKeyDown((Keys)item.key) && !_previousKeyboardState.IsKeyDown((Keys)item.key);
+            if (item.key != null && _keyboardState.IsKeyDown((Keys)item.key)
+                && !_previousKeyboardState.IsKeyDown((Keys)item.key))
+                return true;
 
-            if (item.button != null)
-                return _gamePadState[0].IsButtonDown((Buttons)item.button) && !_previousGamePadState[0].IsButtonDown((Buttons)item.button);
+            if (item.button != null && _gamePadState[0].IsButtonDown((Buttons)item.button)
+                && !_previousGamePadState[0].IsButtonDown((Buttons)item.button))
+                return true;
 
             if (item.mouseButton != null)
             {
-                if (item.mouseButton == MouseButtons.LeftMouseButton)
-                    return _mouseState.LeftButton == ButtonState.Pressed && _previousMouseState.LeftButton != ButtonState.Pressed;
-                else if (item.mouseButton == MouseButtons.RightMouseButton)
-                    return _mouseState.RightButton == ButtonState.Pressed && _previousMouseState.RightButton != ButtonState.Pressed;
-                else if (item.mouseButton == MouseButtons.MiddleMouseButton)
-                    return _mouseState.MiddleButton == ButtonState.Pressed && _previousMouseState.MiddleButton != ButtonState.Pressed;
+                if (item.mouseButton == MouseButtons.LeftMouseButton
+                    && _mouseState.LeftButton == ButtonState.Pressed
+                    && _previousMouseState.LeftButton != ButtonState.Pressed)
+                    return true;
+                else if (item.mouseButton == MouseButtons.RightMouseButton
+                    && _mouseState.RightButton == ButtonState.Pressed
+                    && _previousMouseState.RightButton != ButtonState.Pressed)
+                    return true;
+                else if (item.mouseButton == MouseButtons.MiddleMouseButton
+                    && _mouseState.MiddleButton == ButtonState.Pressed
+                    && _previousMouseState.MiddleButton != ButtonState.Pressed)
+                    return true;
             }
 
             return false;
@@ -158,20 +169,28 @@ namespace AdventureGame.Engine
             if (item == null)
                 return false;
 
-            if (item.key != null)
-                return !_keyboardState.IsKeyDown((Keys)item.key) && _previousKeyboardState.IsKeyDown((Keys)item.key);
+            if (item.key != null && !_keyboardState.IsKeyDown((Keys)item.key)
+                && _previousKeyboardState.IsKeyDown((Keys)item.key))
+                return true;
 
-            if (item.button != null)
-                return !_gamePadState[0].IsButtonDown((Buttons)item.button) && _previousGamePadState[0].IsButtonDown((Buttons)item.button);
+            if (item.button != null && !_gamePadState[0].IsButtonDown((Buttons)item.button)
+                && _previousGamePadState[0].IsButtonDown((Buttons)item.button))
+                return true;
 
             if (item.mouseButton != null)
             {
-                if (item.mouseButton == MouseButtons.LeftMouseButton)
-                    return _mouseState.LeftButton != ButtonState.Pressed && _previousMouseState.LeftButton == ButtonState.Pressed;
-                else if (item.mouseButton == MouseButtons.RightMouseButton)
-                    return _mouseState.RightButton != ButtonState.Pressed && _previousMouseState.RightButton == ButtonState.Pressed;
-                else if (item.mouseButton == MouseButtons.MiddleMouseButton)
-                    return _mouseState.MiddleButton != ButtonState.Pressed && _previousMouseState.MiddleButton == ButtonState.Pressed;
+                if (item.mouseButton == MouseButtons.LeftMouseButton
+                    && _mouseState.LeftButton != ButtonState.Pressed
+                    && _previousMouseState.LeftButton == ButtonState.Pressed)
+                    return true;
+                else if (item.mouseButton == MouseButtons.RightMouseButton
+                    && _mouseState.RightButton != ButtonState.Pressed
+                    && _previousMouseState.RightButton == ButtonState.Pressed)
+                    return true;
+                else if (item.mouseButton == MouseButtons.MiddleMouseButton
+                    && _mouseState.MiddleButton != ButtonState.Pressed
+                    && _previousMouseState.MiddleButton == ButtonState.Pressed)
+                    return true;
             }
 
             return false;
@@ -194,11 +213,13 @@ namespace AdventureGame.Engine
             if (item == null)
                 return false;
 
-            if (item.key != null)
-                return _keyboardStateDurations.ContainsKey((Keys)item.key) && _keyboardStateDurations[(Keys)item.key] == 50;
+            if (item.key != null && _keyboardStateDurations.ContainsKey((Keys)item.key)
+                && _keyboardStateDurations[(Keys)item.key] == longPressDuration)
+                return true;
 
-            if (item.button != null)
-                return _gamePadStateDurations.ContainsKey((Buttons)item.button) && _gamePadStateDurations[(Buttons)item.button] == 50;
+            if (item.button != null && _gamePadStateDurations.ContainsKey((Buttons)item.button)
+                && _gamePadStateDurations[(Buttons)item.button] == longPressDuration)
+                return true;
 
             return false;
         }
@@ -374,11 +395,11 @@ namespace AdventureGame.Engine
             foreach (Buttons button in ControllerInput.ButtonList)
             {
                 if (_gamePadState[0].IsButtonDown(button) && _previousGamePadState[0].IsButtonDown(button))
-                    _gamePadStateDurations[button] = Math.Min(longPressDuration, _gamePadStateDurations[button] + (1 / gamePadLongPressAdjustment));
+                    _gamePadStateDurations[button] = Math.Min(longPressDuration, _gamePadStateDurations[button] + (1 / _gamePadLongPressAdjustment));
                 else
                 {
                     if (longPressEaseOut && _gamePadStateDurations.ContainsKey(button))
-                        _gamePadStateDurations[button] = Math.Max(0, _gamePadStateDurations[button] - (longPressEaseOutAmount / gamePadLongPressAdjustment));
+                        _gamePadStateDurations[button] = Math.Max(0, _gamePadStateDurations[button] - (longPressEaseOutAmount / _gamePadLongPressAdjustment));
                     else
                         _gamePadStateDurations[button] = 0;
                 }

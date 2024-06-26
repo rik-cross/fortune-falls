@@ -1,6 +1,8 @@
 ﻿/*
  * Maps an input string to an InputItem
- * An InputItem can contain multiple inputs e.g. keyboard E, left mouseclick and controller A
+ * 
+ * An InputItem can contain multiple inputs
+ * e.g. Keys.E, Buttons.RightTrigger and MouseButtons.LeftMouseButton
  */
 
 using System;
@@ -11,9 +13,6 @@ namespace AdventureGame.Engine
     class PlayerControlComponent : Component
     {
         private Dictionary<string, InputItem> _inputs;
-
-        //if (input.pressed("sprint"))
-        //    intentionComponent.set("sprint", true)
 
         public PlayerControlComponent()
         {
