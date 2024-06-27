@@ -134,11 +134,11 @@ namespace AdventureGame.Engine
                 return;
             }
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.leftInput))
+            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("left")))
             {
                 currentValue = Math.Max(minValue, currentValue - stepValue);
             }
-            if (EngineGlobals.inputManager.IsPressed(Globals.rightInput))
+            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("right")))
             {
                 currentValue = Math.Min(maxValue, currentValue + stepValue);
             }

@@ -311,7 +311,7 @@ namespace AdventureGame
         {
             Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
 
-            // Movement
+            // Player movement
             controlComponent.Set("up", new InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
             controlComponent.Set("down", new InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
             controlComponent.Set("left", new InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
@@ -329,14 +329,11 @@ namespace AdventureGame
         // Maps the input controller to the intentions
         public static void PlayerInputController(Entity entity)
         {
-            Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
             Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
             Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
 
             // default state
             //entity.State = "idle_down";
-
-            // todo? InputManager: held, down?
 
             // sprint
             if (EngineGlobals.inputManager.IsPressed(controlComponent.Get("sprint")))
@@ -399,7 +396,6 @@ namespace AdventureGame
             // tool button
             // todo? if (battleComponent.DisableMovement) set all movement intentions to false
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")))
-            //    || EngineGlobals.inputManager.IsDown(Globals.primaryCursorInput))
             {
                 intentionComponent.Set("tool", true);
                 if (entity.State.Contains("_"))
@@ -422,13 +418,10 @@ namespace AdventureGame
 
         public static void PlayerInputControllerToolOnly(Entity entity)
         {
-
-            Engine.InputComponent inputComponent = entity.GetComponent<Engine.InputComponent>();
             Engine.PlayerControlComponent controlComponent = entity.GetComponent<Engine.PlayerControlComponent>();
             Engine.IntentionComponent intentionComponent = entity.GetComponent<Engine.IntentionComponent>();
             
             if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")))
-            //    || EngineGlobals.inputManager.IsDown(Globals.primaryCursorInput))
             {
                 intentionComponent.Set("tool", true);
                 if (entity.State.Contains("_"))

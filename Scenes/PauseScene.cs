@@ -115,7 +115,8 @@ namespace AdventureGame
             //if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput))
             //    EngineGlobals.sceneManager.RemoveScene(this, applyTransition: false);
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.pauseInput) || EngineGlobals.inputManager.IsPressed(Globals.backInput))
+            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("menuPause"))
+                || EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("back")))
             {
                 EngineGlobals.sceneManager.ChangeToSceneBelow();
             }

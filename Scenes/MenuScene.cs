@@ -240,6 +240,10 @@ namespace AdventureGame
                 padding: new Padding(bottom: 30, left: 30)
             );
 
+
+            // Initialise the UI input control
+            Globals.InitialiseUIControls();
+
         }
 
         public void LoadNewGameScene(UIButton button)

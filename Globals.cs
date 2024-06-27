@@ -32,36 +32,9 @@ namespace AdventureGame
         public static bool newGame = true;
         public static SoundEffect dialogueTickSound;
 
-
-        // todo - move to another static class for game / UI controls
         // Menu input controls
-        public static Dictionary<string, Engine.InputItem> MenuInputs = new Dictionary<string, Engine.InputItem>();
+        public static Engine.InputMapper uiInput = new Engine.InputMapper();
         public static bool IsControllerConnected = false; // todo? check controller is connected periodically after Game1 initialisation?
-
-        // Basic menu controls
-        //public static List<Engine.InputItem> upInput = new List<Engine.InputItem>() { Engine.KeyboardInput.W, Engine.ControllerInput.LeftThumbUp };
-        //public static List<Engine.InputItem> upInput = new List<Engine.InputItem>() { new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp) };
-        public static Engine.InputItem upInput = new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp);
-
-        public static List<Engine.InputItem> downInput = new List<Engine.InputItem>() { Engine.KeyboardInput.S, Engine.ControllerInput.LeftThumbDown };
-        public static List<Engine.InputItem> leftInput = new List<Engine.InputItem>() { Engine.KeyboardInput.A, Engine.ControllerInput.LeftThumbLeft };
-        public static List<Engine.InputItem> rightInput = new List<Engine.InputItem>() { Engine.KeyboardInput.D, Engine.ControllerInput.LeftThumbRight };
-        public static List<Engine.InputItem> backInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Back };
-        public static List<Engine.InputItem> selectInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Enter, Engine.ControllerInput.A };
-
-        // Menu windows
-        public static List<Engine.InputItem> devToolsInput = new List<Engine.InputItem>() { Engine.KeyboardInput.T };
-        public static List<Engine.InputItem> pauseInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.Start };
-        public static List<Engine.InputItem> inventoryInput = new List<Engine.InputItem>() { Engine.KeyboardInput.I, Engine.ControllerInput.DPadUp };
-
-        // Inventory menu
-        public static List<Engine.InputItem> cancelInput = new List<Engine.InputItem>() { Engine.KeyboardInput.Escape, Engine.ControllerInput.B };
-        public static List<Engine.InputItem> splitStackInput = new List<Engine.InputItem>() { Engine.KeyboardInput.LeftShift, Engine.ControllerInput.LeftTrigger };
-        public static List<Engine.InputItem> primaryCursorInput = new List<Engine.InputItem>() { Engine.MouseInput.LeftButton, Engine.ControllerInput.A };
-        public static List<Engine.InputItem> secondaryCursorInput = new List<Engine.InputItem>() { Engine.MouseInput.RightButton, Engine.ControllerInput.RightTrigger };
-
-        // Mouse left click = Interact / button1, Mouse right click = RightClick / buttonX
-
 
         // Character sprite sheets
         public static string characterDir = "Characters/Human/";
@@ -84,6 +57,30 @@ namespace AdventureGame
 
         public static bool hasInteracted = false;
 
-    }
+
+        // Called during MenuScene Init() to set all of the menu controls
+        public static void InitialiseUIControls()
+        {
+            // Basic menu controls
+            uiInput.Set("up", new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
+            uiInput.Set("down", new Engine.InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
+            uiInput.Set("left", new Engine.InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
+            uiInput.Set("right", new Engine.InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
+            uiInput.Set("back", new Engine.InputItem(key: Keys.Escape, button: Buttons.Back));
+            uiInput.Set("select", new Engine.InputItem(key: Keys.Enter, button: Buttons.A));
+
+            // Menu windows
+            uiInput.Set("menuDev", new Engine.InputItem(key: Keys.T, button: Buttons.RightStick));
+            uiInput.Set("menuPause", new Engine.InputItem(key: Keys.Escape, button: Buttons.Start));
+            uiInput.Set("menuInventory", new Engine.InputItem(key: Keys.I, button: Buttons.DPadUp));
+
+            // Inventory menu
+            uiInput.Set("inventoryCancel", new Engine.InputItem(key: Keys.Escape, button: Buttons.B));
+            uiInput.Set("inventorySplitStack", new Engine.InputItem(key: Keys.LeftShift, button: Buttons.LeftTrigger));
+            uiInput.Set("inventoryPrimarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.LeftMouseButton, button: Buttons.A));
+            uiInput.Set("inventorySecondarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.RightMouseButton, button: Buttons.RightTrigger));
+
+        }
+}
 
 }

@@ -129,7 +129,7 @@ namespace AdventureGame
         }
         public override void Input(GameTime gameTime)
         {
-            if (EngineGlobals.inputManager.IsPressed(Globals.backInput))
+            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("back")))
             {
                 EngineGlobals.sceneManager.ChangeToSceneBelow();
             }
