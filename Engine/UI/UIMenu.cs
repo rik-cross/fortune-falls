@@ -43,7 +43,7 @@ namespace AdventureGame.Engine
             if (_UIElements.Count == 0 || _selectedElementIndex == -1)
                 return;
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("down"))
+            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("down"))
                 && _UIElements.Count > 1)
             {
                 int count = _UIElements.Count;
@@ -62,7 +62,7 @@ namespace AdventureGame.Engine
                     }
                 }
             }
-            else if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("up"))
+            else if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("up"))
                 && _UIElements.Count > 1)
             {
                 int count = _UIElements.Count;

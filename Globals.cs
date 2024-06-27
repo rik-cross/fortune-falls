@@ -33,7 +33,7 @@ namespace AdventureGame
         public static SoundEffect dialogueTickSound;
 
         // Menu input controls
-        public static Engine.InputMapper uiInput = new Engine.InputMapper();
+        public static Engine.InputMapper UiInput = new Engine.InputMapper();
         public static bool IsControllerConnected = false; // todo? check controller is connected periodically after Game1 initialisation?
 
         // Character sprite sheets
@@ -62,23 +62,23 @@ namespace AdventureGame
         public static void InitialiseUIControls()
         {
             // Basic menu controls
-            uiInput.Set("up", new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
-            uiInput.Set("down", new Engine.InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
-            uiInput.Set("left", new Engine.InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
-            uiInput.Set("right", new Engine.InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
-            uiInput.Set("back", new Engine.InputItem(key: Keys.Escape, button: Buttons.Back));
-            uiInput.Set("select", new Engine.InputItem(key: Keys.Enter, button: Buttons.A));
+            UiInput.Set("up", new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
+            UiInput.Set("down", new Engine.InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
+            UiInput.Set("left", new Engine.InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
+            UiInput.Set("right", new Engine.InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
+            UiInput.Set("back", new Engine.InputItem(key: Keys.Escape, button: Buttons.Back));
+            UiInput.Set("select", new Engine.InputItem(key: Keys.Enter, button: Buttons.A));
 
             // Menu windows
-            uiInput.Set("menuDev", new Engine.InputItem(key: Keys.T, button: Buttons.RightStick));
-            uiInput.Set("menuPause", new Engine.InputItem(key: Keys.Escape, button: Buttons.Start));
-            uiInput.Set("menuInventory", new Engine.InputItem(key: Keys.I, button: Buttons.DPadUp));
+            UiInput.Set("menuDev", new Engine.InputItem(key: Keys.T, button: Buttons.RightStick));
+            UiInput.Set("menuPause", new Engine.InputItem(key: Keys.Escape, button: Buttons.Start));
+            UiInput.Set("menuInventory", new Engine.InputItem(key: Keys.I, button: Buttons.DPadUp));
 
             // Inventory menu
-            uiInput.Set("inventoryCancel", new Engine.InputItem(key: Keys.Escape, button: Buttons.B));
-            uiInput.Set("inventorySplitStack", new Engine.InputItem(key: Keys.LeftShift, button: Buttons.LeftTrigger));
-            uiInput.Set("inventoryPrimarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.LeftMouseButton, button: Buttons.A));
-            uiInput.Set("inventorySecondarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.RightMouseButton, button: Buttons.RightTrigger));
+            UiInput.Set("inventoryCancel", new Engine.InputItem(key: Keys.Escape, button: Buttons.B));
+            UiInput.Set("inventorySplitStack", new Engine.InputItem(key: Keys.LeftShift, button: Buttons.LeftTrigger));
+            UiInput.Set("inventoryPrimarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.LeftMouseButton, button: Buttons.A));
+            UiInput.Set("inventorySecondarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.RightMouseButton, button: Buttons.RightTrigger));
 
         }
 }

@@ -58,7 +58,7 @@ namespace AdventureGame
         }
         public override void Input(GameTime gameTime)
         {
-            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("menuPause")))
+            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("menuPause")))
             {
                 //EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
                 //    applyTransition: false, unloadCurrentScene: false);

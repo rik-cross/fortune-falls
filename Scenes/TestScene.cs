@@ -179,22 +179,22 @@ namespace AdventureGame
 
         public override void Input(GameTime gameTime)
         {
-            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("back")))
+            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("back")))
                 // EngineGlobals.sceneManager.RemoveScene(this);
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("menuPause")))
+            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("menuPause")))
             {
                 //EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
                 //    applyTransition: false, unloadCurrentScene: false);
             }
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("menuInventory")))
+            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("menuInventory")))
             {
                 //EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(
                 //    applyTransition: false, unloadCurrentScene: false);
             }
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.uiInput.Get("menuDev")))
+            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("menuDev")))
             {
                 //EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
                 //    applyTransition: false, unloadCurrentScene: false);
