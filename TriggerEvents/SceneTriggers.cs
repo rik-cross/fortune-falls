@@ -115,6 +115,17 @@ namespace AdventureGame.Engine
                                             condition: () => { return EngineGlobals.inputManager.IsPressed(controlComponent.Get("tool")); },
                                             numberOfTimes: 3,
                                             onStart: () => {
+
+                                                
+                                                Engine.InputComponent ic = playerEntity.GetComponent<InputComponent>();
+                                                if (playerEntity.GetComponent<IntentionComponent>() != null)
+                                                    playerEntity.GetComponent<IntentionComponent>().ResetAll();
+                                                if (playerEntity.State.Split("_").Length == 2 && (playerEntity.State.Split("_")[0] == "walk" || playerEntity.State.Split("_")[0] == "run"))
+                                                    playerEntity.State = "idle_" + playerEntity.State.Split("_")[1];
+                                                ic.PushController(PlayerEntity.PlayerInputControllerToolOnly);
+                                                ic.TopControllerLabel = "tool";
+                                                
+
                                                 if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
                                                     EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<Engine.AnimatedEmoteComponent>();
                                                 Engine.AnimatedEmoteComponent weaponEmote;
@@ -127,6 +138,10 @@ namespace AdventureGame.Engine
                                                 EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
                                             },
                                             onComplete: () => {
+
+                                                if (playerEntity.GetComponent<InputComponent>().TopControllerLabel == "tool")
+                                                    playerEntity.GetComponent<InputComponent>().PopController();
+
                                                 if (playerEntity.GetComponent<AnimatedEmoteComponent>() != null)
                                                     playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                                                 dialogueComponent.AddPage(
