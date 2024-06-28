@@ -140,19 +140,19 @@ namespace AdventureGame
             }
 
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("menuPause")))
+            if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuPause")))
             {
                 //EngineGlobals.sceneManager.SetActiveScene<PauseScene>(
                 //    applyTransition: false, unloadCurrentScene: false);
             }
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("menuInventory")))
+            if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuInventory")))
             {
                 //EngineGlobals.sceneManager.SetActiveScene<InventoryScene2>(
                 //    applyTransition: false, unloadCurrentScene: false);
             }
 
-            if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("menuDev")))
+            if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuDev")))
             {
                 //EngineGlobals.sceneManager.SetActiveScene<DevToolsScene>(
                 //    applyTransition: false, unloadCurrentScene: false);

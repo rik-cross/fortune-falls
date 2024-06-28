@@ -242,7 +242,7 @@ namespace AdventureGame
 
 
             // Initialise the UI input control
-            Globals.InitialiseUIControls();
+            Globals.SetCustomUIControls();
 
         }
 

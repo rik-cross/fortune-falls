@@ -369,7 +369,7 @@ namespace AdventureGame
             if (_currentSlot != -1)
             {
                 //Console.WriteLine($"Clicked slot {i}");
-                bool splitStack = _inputManager.IsDown(Globals.UiInput.Get("inventorySplitStack"));
+                bool splitStack = _inputManager.IsDown(Engine.UIInput.Get("inventorySplitStack"));
                 // _isSplitStack / _isDraggedItemStackSplit
                 InteractWithSlot(splitStack);
             }
@@ -381,7 +381,7 @@ namespace AdventureGame
         // Disabled when an item is being dragged or the cursor input is held down.
         public void OnCursorMove()
         {
-            if (_isItemDragged || _inputManager.IsDown(Globals.UiInput.Get("inventoryPrimarySelect")))
+            if (_isItemDragged || _inputManager.IsDown(Engine.UIInput.Get("inventoryPrimarySelect")))
                 return;
 
             //Console.WriteLine($"Hovered over slot {i}");
@@ -427,7 +427,7 @@ namespace AdventureGame
             {
                 Console.WriteLine($"Process click and drag slot {_currentSlot}");
 
-                if (_inputManager.IsDown(Globals.UiInput.Get("inventorySplitStack")))
+                if (_inputManager.IsDown(Engine.UIInput.Get("inventorySplitStack")))
                 {
                     _isDraggedItemStackSplit = true; // Here or above?
 
@@ -574,8 +574,8 @@ namespace AdventureGame
         }
         public override void Input(GameTime gameTime)
         {
-            if (_inputManager.IsPressed(Globals.UiInput.Get("menuInventory"))
-                || _inputManager.IsPressed(Globals.UiInput.Get("back")))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("menuInventory"))
+                || _inputManager.IsPressed(Engine.UIInput.Get("back")))
             {
                 _inputManager.HideCursor();
                 EngineGlobals.sceneManager.ChangeToSceneBelow();
@@ -585,16 +585,16 @@ namespace AdventureGame
             CalculateContainerDimensions();
 
             // Handle user input
-            if (_inputManager.IsPressed(Globals.UiInput.Get("up")))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("up")))
                 ChangeCurrentSlot("up");
-            if (_inputManager.IsPressed(Globals.UiInput.Get("down")))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("down")))
                 ChangeCurrentSlot("down");
-            if (_inputManager.IsPressed(Globals.UiInput.Get("left")))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("left")))
                 ChangeCurrentSlot("left");
-            if (_inputManager.IsPressed(Globals.UiInput.Get("right")))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("right")))
                 ChangeCurrentSlot("right");
 
-            if (_inputManager.IsPressed(Globals.UiInput.Get("inventoryCancel")))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("inventoryCancel")))
             {
                 DeselectItem();
                 CancelDraggedItem();
@@ -607,15 +607,15 @@ namespace AdventureGame
 
             // CHANGE so that a dragged item can be placed with selectInput??
             // Select an item (keyboard / controller)
-            if (_inputManager.IsPressed(Globals.UiInput.Get("select"))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("select"))
                 && !_isItemDragged)
             {
-                bool splitStack = _inputManager.IsDown(Globals.UiInput.Get("inventorySplitStack"));
+                bool splitStack = _inputManager.IsDown(Engine.UIInput.Get("inventorySplitStack"));
                 InteractWithSlot(splitStack);
             }
 
             // Select an item (mouse / controller cursor)
-            if (_inputManager.IsPressed(Globals.UiInput.Get("inventoryPrimarySelect")))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("inventoryPrimarySelect")))
             {
                 OnCursorClick();
             }
@@ -626,21 +626,21 @@ namespace AdventureGame
             // else if (cursorItem.ItemId == ItemId), try adding half to the cursor item
             // NEED to keep track of cursorItem (second click, drag and drop etc)
 
-            if (_inputManager.IsDown(Globals.UiInput.Get("inventoryPrimarySelect"))
+            if (_inputManager.IsDown(Engine.UIInput.Get("inventoryPrimarySelect"))
                 && _inputManager.HasCursorMoved)
             {
                 OnDragStart();
             }
 
             // Release a click and dragged item
-            if (_inputManager.IsReleased(Globals.UiInput.Get("inventoryPrimarySelect")))
+            if (_inputManager.IsReleased(Engine.UIInput.Get("inventoryPrimarySelect")))
             //&& isItemDragged)
             {
                 OnDragEnd();
             }
 
             // Drop an item
-            if (_inputManager.IsPressed(Globals.UiInput.Get("inventorySecondarySelect"))) // || _inputManager.IsDown(Globals.secondaryCursorInput))
+            if (_inputManager.IsPressed(Engine.UIInput.Get("inventorySecondarySelect"))) // || _inputManager.IsDown(Globals.secondaryCursorInput))
             {
                 DropOneItem();
             }

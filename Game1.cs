@@ -35,6 +35,7 @@ namespace AdventureGame
 
             Content.RootDirectory = "Content";
             IsMouseVisible = isMouseVisible; // todo
+            UIInput.InitialiseUIControls();
         }
 
         protected override void Initialize()

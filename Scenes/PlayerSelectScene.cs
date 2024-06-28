@@ -48,7 +48,7 @@ namespace AdventureGame
                     backgroundColour: Color.DarkSlateGray,
                     buttonSpecificUpdateMethod: (UISlider slider) => {
                         slider.HandleInput();
-                        if (EngineGlobals.inputManager.IsPressed(Globals.UiInput.Get("select")))
+                        if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("select")))
                         {
                             EngineGlobals.sceneManager.ChangeToSceneBelow();
                         }
