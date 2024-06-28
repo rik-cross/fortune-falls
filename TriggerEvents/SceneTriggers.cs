@@ -149,6 +149,9 @@ namespace AdventureGame.Engine
                                                     GameAssets.blacksmith_headshot
                                                 );
                                                 npcEntity.State = "hammer_left";
+
+                                                villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByIdTag("playersHouse"));
+                                                villageScene.questMarker.visible = true;
                                             }
                                         )
                                    );
