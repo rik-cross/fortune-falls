@@ -294,6 +294,7 @@ namespace AdventureGame
             blacksmithEntity.GetComponent<TriggerComponent>().onCollisionEnter = (e1, e2, d) => {
                 if (Globals.hasInteracted == true)
                     return;
+                questMarker.visible = false;
                 Engine.AnimatedEmoteComponent speakEmote;
                 if (Globals.IsControllerConnected)
                     speakEmote = GameAssets.controllerInteractEmote;
@@ -306,6 +307,7 @@ namespace AdventureGame
                 AnimatedEmoteComponent ac = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>();
                 if (ac != null && (ac == GameAssets.controllerInteractEmote || ac == GameAssets.keyboardInteractEmote))
                     EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>().alpha.Value = 0;
+                questMarker.visible = true;
             };
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
 
