@@ -283,12 +283,7 @@ namespace AdventureGame
             // todo - bug: player position needs to be set via transform component
             // Create player entity
             Vector2 playerPosition = new Vector2(175, 1190);
-            int playerX = 175;
-            int playerY = 1190;
-
-            Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
-            EngineGlobals.entityManager.SetLocalPlayer(player);
-            player.GetComponent<TransformComponent>().Position = playerPosition;
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = playerPosition;
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
@@ -334,7 +329,7 @@ namespace AdventureGame
             if (Globals.newGame)
             {
                 // Create player entity
-                PlayerEntity.Create(x: 0, y: 0, 15, 20, idTag: "localPlayer");
+                PlayerEntity.Create(x: 175, y: 1190, 15, 20, idTag: "localPlayer");
             }
             else
             {
