@@ -67,7 +67,7 @@ namespace AdventureGame
             // Player fishing
             //
             _mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
-            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(175, 1190), new Vector2(15, 20)));
+            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(176, 1190), new Vector2(15, 20)));
             //mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
@@ -282,7 +282,7 @@ namespace AdventureGame
             // todo - here or somewhere else?
             // todo - bug: player position needs to be set via transform component
             // Create player entity
-            Vector2 playerPosition = new Vector2(175, 1190);
+            Vector2 playerPosition = new Vector2(176, 1190);
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = playerPosition;
 
             // Transition to the PlayerSelectScene and load the VillageScene below
@@ -329,7 +329,7 @@ namespace AdventureGame
             if (Globals.newGame)
             {
                 // Create player entity
-                PlayerEntity.Create(x: 175, y: 1190, 15, 20, idTag: "localPlayer");
+                PlayerEntity.Create(x: 176, y: 1190, 15, 20, idTag: "localPlayer");
             }
             else
             {
