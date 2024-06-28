@@ -37,6 +37,9 @@ namespace AdventureGame
         public static string characterDir = "Characters/Human/";
         public static string characterBaseStr = "base";
         public static string characterToolStr = "tools";
+        public static string characterHandStr = "hand";
+        public static string characterSkinStr = "skin";
+        public static string characterBodyStr = "body";
         public static string[] allCharacters = new string[6] {
                 "longhair", "curlyhair", "bowlhair", "mophair", "shorthair", "spikeyhair" };
         public static string[] characterNames = new string[6]
@@ -45,7 +48,8 @@ namespace AdventureGame
         };
         public static Color[] characterHues = new Color[6]
         {
-            Color.White, Color.White, Color.White, Color.White, Color.White, Color.White
+            new Color(246, 226, 172), new Color(196, 139, 105), new Color(230,188,152),
+            new Color(255, 203, 147), new Color(142, 100, 77), new Color(246, 226, 172)
         };
 
         // Player settings
