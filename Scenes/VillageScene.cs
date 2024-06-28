@@ -144,7 +144,7 @@ namespace AdventureGame
             AddEntity(caveEntrance);
 
             // Player's House
-            Entity playerHouse = BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f);
+            Entity playerHouse = BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f, idTag: "playersHouse");
             TriggerComponent tc = new TriggerComponent(
                 size: new Vector2(170, 170),
                 offset: new Vector2(-40, -40),
@@ -186,12 +186,12 @@ namespace AdventureGame
 
             // Player's House trees
             AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false, "tree", "houseTree"));
-            //AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false, "tree", "houseTree"));
-            //AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false, "tree", "houseTree"));
-            //AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false, "tree", "houseTree"));
-            //AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false, "tree", "houseTree"));
-            //AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false, "tree", "houseTree"));
-            //AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false, "tree", "houseTree"));
 
             EngineGlobals.achievementManager.AddAchievement(
                 new Engine.Achievement(
@@ -330,6 +330,7 @@ namespace AdventureGame
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
+            player.GetComponent<TransformComponent>().Position = new Vector2(176, 1190);
             //player.GetComponent<TransformComponent>().Position = new Vector2(1170, 20);
             //player.GetComponent<TransformComponent>().Position = new Vector2(852, 613);
 
