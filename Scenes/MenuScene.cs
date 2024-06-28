@@ -71,6 +71,8 @@ namespace AdventureGame
             //mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
 
             Engine.AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
+
+            PlayerEntity.Create(x: 176, y: 1190, 15, 20, idTag: "localPlayer");
             CreatePlayerSprites();
 
             //string dir = "Characters/Players/long_hair/";
@@ -329,12 +331,12 @@ namespace AdventureGame
             if (Globals.newGame)
             {
                 // Create player entity
-                PlayerEntity.Create(x: 176, y: 1190, 15, 20, idTag: "localPlayer");
+                //PlayerEntity.Create(x: 176, y: 1190, 15, 20, idTag: "localPlayer");
             }
             else
             {
                 // Re-create the player sprites in case player has changed
-                CreatePlayerSprites();
+                //CreatePlayerSprites();
             }
         }
 
