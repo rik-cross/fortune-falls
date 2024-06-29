@@ -19,7 +19,6 @@ namespace AdventureGame
 
         private Engine.Camera _camera;
         private Engine.Entity _mainMenuPlayer;
-        private Engine.Entity _mainMenuCharacter1;
         private int _nextCatch;
         private int _frameOdo;
         private Random _random;
@@ -27,107 +26,40 @@ namespace AdventureGame
 
         public override void Init()
         {
-
             UIButton.drawMethod = UICustomisations.DrawButton;
-
-            EngineGlobals.sceneManager.PreloadScene<VillageScene>();
-            EngineGlobals.sceneManager.PreloadScene<PlayerSelectScene>();
+            LightLevel = 1.0f;
 
             // Load the map but do not create collision entities
-            LoadMap("Maps/Map_Village", false); 
+            LoadMap("Maps/Map_Village", false);
 
+            // Create the menu character entities
+            CreateMainMenuPlayer();
+            CreateOtherCharacters();
+
+            // Add the camera
             _camera = new Engine.Camera(
                 name: "main",
                 size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
                 zoom: 4.0f,
                 backgroundColour: Color.Black
             );
-
-            //_camera.SetWorldPosition(new Vector2(1280, 864), instant: true);
-
-
-            //camera.zoomIncrement = 0.005f;
-            //camera.SetZoom(3.0f);
-            //AddCamera(n);
             CameraList.Add(_camera);
 
-            LightLevel = 1.0f;
+            // Set the camera to the main menu player
+            Vector2 mainMenuPlayerPos = _mainMenuPlayer.GetComponent<TransformComponent>().Position;
+            _camera.SetWorldPosition(new Vector2(mainMenuPlayerPos.X + 100, mainMenuPlayerPos.Y + 30), instant: true);
 
-
-            // Character sprites
-            string dir = Globals.characterDir;
-            string characterStr = Globals.playerStr;
-            string baseStr = Globals.characterBaseStr;
-            string toolStr = Globals.characterToolStr;
-            string folder = "";
-            string keyStr = "";
-            Vector2 offset = new Vector2(-41, -21);
-
-            //
-            // Player fishing
-            //
-            _mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
-            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(new Vector2(176, 1190), new Vector2(15, 20)));
-            //mainMenuPlayer.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
-
-            Engine.AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
-
+            // Create the player entity
             PlayerEntity.Create(x: 176, y: 1190, 15, 20, idTag: "localPlayer");
-            CreatePlayerSprites();
 
-            //string dir = "Characters/Players/long_hair/";
-            //Vector2 offset = new Vector2(-41, -21);
+            // Preload the Village and PlayerSelect scenes
+            EngineGlobals.sceneManager.PreloadScene<VillageScene>();
+            EngineGlobals.sceneManager.PreloadScene<PlayerSelectScene>();
 
-            //Engine.SpriteComponent spriteComponent = mainMenuPlayer.AddComponent<Engine.SpriteComponent>();
-            //spriteComponent.AddAnimatedSprite(dir + "spr_waiting_strip9", "waiting", 0, 8, offset: offset);
-            //spriteComponent.AddAnimatedSprite(dir + "spr_casting_strip15", "casting", 0, 14, offset: offset);
-            //spriteComponent.AddAnimatedSprite(dir + "spr_caught_strip10", "caught", 0, 9, offset: offset);
+            // Set the UI input controls
+            Globals.SetCustomUIControls();
 
-            //spriteComponent.GetSprite("casting").OnComplete = (Engine.Entity e) => e.State = "waiting";
-            //spriteComponent.GetSprite("caught").OnComplete = (Engine.Entity e) => e.State = "casting";
-
-            _mainMenuPlayer.State = "casting";
-
-            _random = new Random();
-            _nextCatch = _random.Next(1500, 5000);
-            _frameOdo = 0;
-
-            AddEntity(_mainMenuPlayer);
-
-            //
-            // Character swimming
-            //
-            _mainMenuCharacter1 = EngineGlobals.entityManager.CreateEntity();
-            _mainMenuCharacter1.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(new Vector2(380, 1240), new Vector2(15, 20)));
-            //mainMenuCharacter1.AddComponent(new Engine.ColliderComponent(new Vector2(15, 20)));
-
-            Engine.AnimatedSpriteComponent animatedComponentC1 = _mainMenuCharacter1.AddComponent<AnimatedSpriteComponent>();
-
-            // Swimming
-            folder = "SWIMMING/";
-            keyStr = "_swimming_strip12.png";
-            characterStr = "bowlhair";
-            animatedComponentC1.AddAnimatedSprite(dir + folder + baseStr + keyStr,
-                "swimming", 0, 11, offset: offset, flipH: true);
-            animatedComponentC1.AddAnimatedSprite(dir + folder + characterStr + keyStr,
-                "swimming", 0, 11, offset: offset, flipH: true);
-            animatedComponentC1.AddAnimatedSprite(dir + folder + toolStr + keyStr,
-                "swimming", 0, 11, offset: offset, flipH: true);
-
-            //string dirPlayer2 = "Characters/Players/";
-            //Vector2 offsetPlayer2 = new Vector2(-41, -21);
-
-            //Engine.SpriteComponent spriteComponentP2 = mainMenuCharacter1.AddComponent<Engine.SpriteComponent>();
-            //spriteComponentP2.AddAnimatedSprite(dirPlayer2 + "spr_swimming_strip12", "swimming", 0, 11, offset: offsetPlayer2, flipH: true);
-
-            _mainMenuCharacter1.State = "swimming";
-
-            AddEntity(_mainMenuCharacter1);
-
-            Vector2 playerPos = _mainMenuPlayer.GetComponent<TransformComponent>().Position;
-            _camera.SetWorldPosition(new Vector2(playerPos.X + 100, playerPos.Y + 30), instant: true);
-
-            // title text
+            // Game title text
             _title = new Engine.Text(
                 caption: "Adventure Game",
                 font: Theme.FontTitle,
@@ -139,19 +71,7 @@ namespace AdventureGame
                 outlineThickness: 8
             );
 
-            // title text
-            _inputText = new Engine.Text(
-                caption: "Keyboard controls",
-                font: Theme.FontSecondary,
-                colour: Color.White,
-                anchor: Anchor.BottomLeft,
-                padding: new Padding(bottom: 0, left: 15),
-                outline: true,
-                outlineColour: Color.Black,
-                outlineThickness: 4
-            );
-
-            // title text
+            // Game version text
             _versionText = new Engine.Text(
                 caption: "v0.0",
                 font: Theme.FontSecondary,
@@ -163,6 +83,19 @@ namespace AdventureGame
                 outlineThickness: 4
             );
 
+            // Input method text
+            _inputText = new Engine.Text(
+                caption: "Keyboard controls",
+                font: Theme.FontSecondary,
+                colour: Color.White,
+                anchor: Anchor.BottomLeft,
+                padding: new Padding(bottom: 0, left: 15),
+                outline: true,
+                outlineColour: Color.Black,
+                outlineThickness: 4
+            );
+
+            // New game button
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 300),
@@ -176,6 +109,7 @@ namespace AdventureGame
                 )
             );
 
+            // Continue game button
             BtnContinue = new UIButton(
                 position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 250),
                 size: new Vector2(140, 45),
@@ -189,6 +123,7 @@ namespace AdventureGame
             );
             UIMenu.AddUIElement(BtnContinue);
 
+            // Options button
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 200),
@@ -202,6 +137,7 @@ namespace AdventureGame
                 )
             );
 
+            // Credits button
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 150),
@@ -215,6 +151,7 @@ namespace AdventureGame
                 )
             );
 
+            // Quit button
             UIMenu.AddUIElement(
                 new UIButton(
                     position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 100),
@@ -228,23 +165,19 @@ namespace AdventureGame
                 )
             );
 
-            // control images
-            _controllerImage = new Engine.Image(
-                Utils.LoadTexture("UI/xbox360.png"),
-                size: new Vector2(118, 76),
-                anchor: Anchor.BottomLeft,
-                padding: new Padding(bottom: 30, left: 30)
-            );
-            _keyboardImage = new Engine.Image(
-                Utils.LoadTexture("UI/keyboard.png"),
-                size: new Vector2(198, 63),
-                anchor: Anchor.BottomLeft,
-                padding: new Padding(bottom: 30, left: 30)
-            );
-
-
-            // Initialise the UI input control
-            Globals.SetCustomUIControls();
+            //// control images
+            //_controllerImage = new Engine.Image(
+            //    Utils.LoadTexture("UI/xbox360.png"),
+            //    size: new Vector2(118, 76),
+            //    anchor: Anchor.BottomLeft,
+            //    padding: new Padding(bottom: 30, left: 30)
+            //);
+            //_keyboardImage = new Engine.Image(
+            //    Utils.LoadTexture("UI/keyboard.png"),
+            //    size: new Vector2(198, 63),
+            //    anchor: Anchor.BottomLeft,
+            //    padding: new Padding(bottom: 30, left: 30)
+            //);
 
         }
 
@@ -356,7 +289,7 @@ namespace AdventureGame
             if (_frameOdo == _nextCatch)
             {
                 _frameOdo = 0;
-                _nextCatch = (int)_random.Next(1500, 5000);
+                _nextCatch = _random.Next(1500, 5000);
                 _mainMenuPlayer.State = "caught";
             }
         }
@@ -369,12 +302,8 @@ namespace AdventureGame
         }
 
         // Used to change the player style and re-create the sprites
-        public void CreatePlayerSprites()
+        public void CreateMainMenuPlayer()
         {
-            AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.GetComponent<AnimatedSpriteComponent>();
-            animatedComponent.ClearAllAnimatedSprites();
-            Console.WriteLine($"Main menu animated sprites {animatedComponent.AnimatedSprites.Count}");
-
             // Character sprites
             string dir = Globals.characterDir;
             string characterStr = Globals.playerStr;
@@ -383,9 +312,19 @@ namespace AdventureGame
             string folder = "";
             string keyStr = "";
             Vector2 offset = new Vector2(-41, -21);
+            //characterStr = "spikeyhair"; // Testing
 
-            // Testing
-            //characterStr = "spikeyhair";
+            // Create the main menu player entity
+            _mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
+            _mainMenuPlayer.AddComponent(new Engine.TransformComponent(
+                new Vector2(176, 1190), new Vector2(15, 20)));
+            AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
+            _mainMenuPlayer.State = "casting";
+
+            // Randomise the catch time
+            _random = new Random();
+            _nextCatch = _random.Next(1500, 5000);
+            _frameOdo = 0;
 
             // Waiting
             folder = "WAITING/";
@@ -418,6 +357,46 @@ namespace AdventureGame
             animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
                 "caught", 0, 9, offset: offset);
             animatedComponent.GetAnimatedSprite("caught").OnComplete = (Engine.Entity e) => e.State = "casting";
+
+            // Add entity
+            AddEntity(_mainMenuPlayer);
+        }
+
+        // Create the other characters for the main menu
+        public void CreateOtherCharacters()
+        {
+            // Character sprites
+            string dir = Globals.characterDir;
+            string characterStr = Globals.playerStr;
+            string baseStr = Globals.characterBaseStr;
+            string toolStr = Globals.characterToolStr;
+            string folder = "";
+            string keyStr = "";
+            Vector2 offset = new Vector2(-41, -21);
+
+            //
+            // Character swimming
+            //
+            Engine.Entity characterSwimming = EngineGlobals.entityManager.CreateEntity();
+            characterSwimming.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(
+                new Vector2(380, 1240),
+                new Vector2(15, 20)));
+
+            Engine.AnimatedSpriteComponent animatedSwimming = characterSwimming.AddComponent<AnimatedSpriteComponent>();
+
+            // Swimming
+            folder = "SWIMMING/";
+            keyStr = "_swimming_strip12.png";
+            characterStr = "bowlhair";
+            animatedSwimming.AddAnimatedSprite(dir + folder + baseStr + keyStr,
+                "swimming", 0, 11, offset: offset, flipH: true);
+            animatedSwimming.AddAnimatedSprite(dir + folder + characterStr + keyStr,
+                "swimming", 0, 11, offset: offset, flipH: true);
+            animatedSwimming.AddAnimatedSprite(dir + folder + toolStr + keyStr,
+                "swimming", 0, 11, offset: offset, flipH: true);
+
+            characterSwimming.State = "swimming";
+            AddEntity(characterSwimming);
         }
 
     }
