@@ -129,15 +129,16 @@ namespace AdventureGame
 
         public override void Input(GameTime gameTime)
         {
-
-            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Up))
-            {
-                GetCameraByName("main").SetZoom(8.0f);
-            }
-            if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Down))
-            {
-                GetCameraByName("main").SetZoom(2.0f);
-            }
+            // would need to set zoomIn/zoomOut in Globals>SetCustomUIControls()
+            // and instead use UIInput.Get("zoomIn")
+            //if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Up))
+            //{
+            //    GetCameraByName("main").SetZoom(8.0f);
+            //}
+            //if (EngineGlobals.inputManager.IsPressed(KeyboardInput.Down))
+            //{
+            //    GetCameraByName("main").SetZoom(2.0f);
+            //}
 
 
             if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuPause")))

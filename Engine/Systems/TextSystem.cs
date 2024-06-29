@@ -169,26 +169,26 @@ namespace AdventureGame.Engine
                             entity.RemoveComponent<TextComponent>();
                     }
                 }
-                else
-                {
-                    InputComponent inputComponent = entity.GetComponent<InputComponent>();
-                    if (inputComponent != null)
-                    {
+                //else
+                //{
+                //    InputComponent inputComponent = entity.GetComponent<InputComponent>();
+                //    if (inputComponent != null)
+                //    {
 
-                        Type w = inputComponent.Input.GetType();
-                        FieldInfo x = w.GetField(textComponent.input);
-                        var y = x.GetValue(inputComponent.Input);
-                        InputItem z = (InputItem)y;
+                //        Type w = inputComponent.Input.GetType();
+                //        FieldInfo x = w.GetField(textComponent.input);
+                //        var y = x.GetValue(inputComponent.Input);
+                //        InputItem z = (InputItem)y;
 
-                        if (EngineGlobals.inputManager.IsPressed(z))
-                        {
-                            textComponent.requiresPress = false;
-                            textComponent.outTimerLimit = 0;
-                        }
+                //        if (EngineGlobals.inputManager.IsPressed(z))
+                //        {
+                //            textComponent.requiresPress = false;
+                //            textComponent.outTimerLimit = 0;
+                //        }
 
-                    }
+                //    }
                     
-                }
+                //}
             }
                 
 

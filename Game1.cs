@@ -97,7 +97,10 @@ namespace AdventureGame
             Globals.dialogueTickSound = Utils.LoadSoundEffect("Sounds/blip.wav");
 
             if (EngineGlobals.inputManager.IsControllerConnected())
+            {
                 Globals.IsControllerConnected = true;
+                Globals.IsControllerSelected = true;
+            }
 
             // Create and add MenuScene to the scene stack
             if (Globals.TEST)

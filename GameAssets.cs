@@ -37,35 +37,35 @@ namespace AdventureGame
         // image lists
         public static List<Texture2D> list_texture_controller_movement = Engine.Utilities.SplitTexture(
             texture_controller_movement,
-            new Microsoft.Xna.Framework.Vector2(13, 13)
+            new Vector2(13, 13)
         )[0];
         public static List<Texture2D> list_texture_keyboard_movement = Engine.Utilities.SplitTexture(
             texture_keyboard_movement,
-            new Microsoft.Xna.Framework.Vector2(48, 32)
+            new Vector2(48, 32)
         )[0];
         public static List<Texture2D> list_texture_shift = Engine.Utilities.SplitTexture(
             shift,
-            new Microsoft.Xna.Framework.Vector2(42, 18)
+            new Vector2(42, 18)
         )[0];
         public static List<Texture2D> list_texture_b = Engine.Utilities.SplitTexture(
             button_b,
-            new Microsoft.Xna.Framework.Vector2(18, 18)
+            new Vector2(18, 18)
         )[0];
         public static List<Texture2D> list_texture_enter = Engine.Utilities.SplitTexture(
             enter,
-            new Microsoft.Xna.Framework.Vector2(26, 26)
+            new Vector2(26, 26)
         )[0];
         public static List<Texture2D> list_texture_a = Engine.Utilities.SplitTexture(
             button_a,
-            new Microsoft.Xna.Framework.Vector2(18, 18)
+            new Vector2(18, 18)
         )[0];
         public static List<Texture2D> list_key_e = Engine.Utilities.SplitTexture(
             e,
-            new Microsoft.Xna.Framework.Vector2(18, 18)
+            new Vector2(18, 18)
         )[0];
         public static List<Texture2D> list_right_trigger = Engine.Utilities.SplitTexture(
             right_trigger,
-            new Microsoft.Xna.Framework.Vector2(13, 13)
+            new Vector2(13, 13)
         )[0];
         // dialogue images
         public static Texture2D buttona_single = list_texture_a[0];

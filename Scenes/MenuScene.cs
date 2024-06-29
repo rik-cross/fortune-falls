@@ -321,7 +321,7 @@ namespace AdventureGame
         {
             EngineGlobals.soundManager.PlaySong(Utils.LoadSong("Music/1_new_life_master.ogg"));
 
-            if (Globals.IsControllerConnected)
+            if (Globals.IsControllerConnected && Globals.IsControllerSelected)
                 //inputImage = keyboardImage;
                 _inputText.Caption = "Controller";
             else

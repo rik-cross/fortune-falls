@@ -74,7 +74,6 @@ namespace AdventureGame
             ));
 
             playerEntity.AddComponent(new Engine.InputComponent(
-                null, //Engine.Inputs.controller,
                 PlayerInputController
             ));
 

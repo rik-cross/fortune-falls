@@ -32,6 +32,7 @@ namespace AdventureGame
         public static bool newGame = true;
         public static SoundEffect dialogueTickSound;
         public static bool IsControllerConnected = false; // todo? check controller is connected periodically after Game1 initialisation?
+        public static bool IsControllerSelected = false;
 
         // Character sprite sheets
         public static string characterDir = "Characters/Human/";

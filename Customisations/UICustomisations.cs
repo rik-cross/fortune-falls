@@ -245,17 +245,18 @@ namespace AdventureGame
 
         public static void SetControls(UIButton button)
         {
-            if (Globals.IsControllerConnected)
+            if (Globals.IsControllerSelected)
             {
-                Globals.IsControllerConnected = false;
-                button.text = "Keyboard";
+                Globals.IsControllerSelected = false;
+                button.text = "Controller";
             }
             else
             {
                 if (EngineGlobals.inputManager.IsControllerConnected())
                 {
                     Globals.IsControllerConnected = true;
-                    button.text = "Controller";
+                    Globals.IsControllerSelected = true;
+                    button.text = "Keyboard";
                 }
 
             }

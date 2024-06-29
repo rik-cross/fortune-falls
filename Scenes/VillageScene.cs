@@ -296,7 +296,7 @@ namespace AdventureGame
                     return;
                 questMarker.visible = false;
                 Engine.AnimatedEmoteComponent speakEmote;
-                if (Globals.IsControllerConnected)
+                if (Globals.IsControllerSelected)
                     speakEmote = GameAssets.controllerInteractEmote;
                 else
                     speakEmote = GameAssets.keyboardInteractEmote;
@@ -352,7 +352,7 @@ namespace AdventureGame
 
                 // add the player movement tutorial
                 Engine.AnimatedEmoteComponent movementEmote;
-                if (Globals.IsControllerConnected)
+                if (Globals.IsControllerSelected)
                     movementEmote = GameAssets.controllerMovementEmote;
                 else
                     movementEmote = GameAssets.keyboardMovementEmote;
@@ -427,7 +427,7 @@ namespace AdventureGame
                                             EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
 
                                         Engine.AnimatedEmoteComponent sprintEmote;
-                                        if (Globals.IsControllerConnected)
+                                        if (Globals.IsControllerSelected)
                                             sprintEmote = GameAssets.controllerSprintEmote;
                                         else
                                             sprintEmote = GameAssets.keyboardSprintEmote;

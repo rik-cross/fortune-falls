@@ -31,7 +31,7 @@ namespace AdventureGame
             float screenMiddle = Globals.ScreenHeight / 2;
 
             string t = "Controller";
-            if (Globals.IsControllerConnected)
+            if (Globals.IsControllerConnected && Globals.IsControllerSelected)
             {
                 t = "Keyboard";
             }

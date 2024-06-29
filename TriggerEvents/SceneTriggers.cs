@@ -129,7 +129,7 @@ namespace AdventureGame.Engine
                                                 if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
                                                     EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<Engine.AnimatedEmoteComponent>();
                                                 Engine.AnimatedEmoteComponent weaponEmote;
-                                                if (Globals.IsControllerConnected)
+                                                if (Globals.IsControllerSelected)
                                                     weaponEmote = GameAssets.controllerWeaponEmote;
                                                 else
                                                     weaponEmote = GameAssets.keyboardWeaponEmote;
