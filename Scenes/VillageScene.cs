@@ -21,8 +21,6 @@ namespace AdventureGame
             // Add map
             LoadMap("Maps/Map_Village");
 
-            //Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-
             //// Cave
             Entity caveEntrance = EngineGlobals.entityManager.CreateEntity("caveEntrance");
             caveEntrance.AddComponent(new Engine.TransformComponent(1150, 0, 60, 10));
@@ -240,157 +238,152 @@ namespace AdventureGame
 
         }
 
-        public override void OnEnter()
+        public void InitialisePlayer()
         {
             // Add player to scene and set player scene
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
-            player.GetComponent<InputComponent>().Active = true; // todo - delete?
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
-            // DONT set position here otherwise it is set each time the scene is entered
-            // e.g. from the PauseScene
-
             // Set the initial starting position of the player
             player.GetComponent<TransformComponent>().Position = new Vector2(176, 1190);
-            //player.GetComponent<TransformComponent>().Position = new Vector2(1170, 20);
-            //player.GetComponent<TransformComponent>().Position = new Vector2(852, 613);
 
             //GetCameraByName("main").SetZoom(1.0f);
 
-            //player.GetComponent<Engine.InputComponent>().inputControllerStack.Push(PlayerEntity.PlayerInputController);
+            // TESTING - provide axe immediately
+            //player.GetComponent<BattleComponent>().weapon = Weapons.axe;
 
+            // Reset the input controller stack
+            Engine.InputComponent inputComponent = player.GetComponent<InputComponent>();
+            inputComponent.Clear();
+            inputComponent.Active = true; // todo - delete?
+
+            // add the player movement tutorial
+            Engine.AnimatedEmoteComponent movementEmote;
+            if (Globals.IsControllerSelected)
+                movementEmote = GameAssets.controllerMovementEmote;
+            else
+                movementEmote = GameAssets.keyboardMovementEmote;
+            movementEmote.alpha.Value = 1;
+
+            Engine.PlayerControlComponent controlComponent = player.GetComponent<PlayerControlComponent>();
+
+            player.GetComponent<TutorialComponent>().AddTutorial(
+                new Engine.Tutorial(
+                    name: "Walk",
+                    description: "Use controls to walk around the world",
+                    onStart: () =>
+                    {
+                        player.AddComponent<AnimatedEmoteComponent>(movementEmote);
+                    },
+                    condition: () =>
+                    {
+                        return EngineGlobals.inputManager.IsDown(controlComponent.Get("up")) ||
+                            EngineGlobals.inputManager.IsDown(controlComponent.Get("down")) ||
+                            EngineGlobals.inputManager.IsDown(controlComponent.Get("left")) ||
+                            EngineGlobals.inputManager.IsDown(controlComponent.Get("right"));
+                    },
+                    numberOfTimes: 40,
+                    onComplete: () =>
+                    {
+                        Console.WriteLine("Walk tutorial complete");
+                        if (player.GetComponent<AnimatedEmoteComponent>() != null)
+                            player.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                    }
+                )
+            );
+
+            //
+            // TODO -- add sprint tutorial, only trigger if sprint hasn't been tried yet
+            //
+
+            Entity sprintTutorialEntity = EngineGlobals.entityManager.CreateEntity("sprintTutorial");
+            sprintTutorialEntity.AddComponent(new TransformComponent(180, 770, 600, 10));
+            sprintTutorialEntity.AddComponent(
+                new Engine.TriggerComponent(
+                    new Vector2(600, 10),
+                    onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
+
+                        Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+                        if (otherEntity != playerEntity)
+                            return;
+
+                        playerEntity.GetComponent<TutorialComponent>().AddTutorial(
+                            new Engine.Tutorial(
+                                name: "Sprint",
+                                description: "Use controls to sprint",
+                                onStart: () =>
+                                {
+
+                                    // TODO
+                                    // entity.destroy should delegate to
+                                    // each component onDestroy method
+                                    // for the trigger, this should remove the deleted component's entity
+                                    // from any entity that has it as a currently collided entity.
+                                    playerEntity.GetComponent<Engine.TriggerComponent>().collidedEntities.Remove(sprintTutorialEntity);
+                                    sprintTutorialEntity.Destroy();
+
+                                    //Engine.EmoteComponent sprintEmote;
+                                    //if (Globals.IsControllerConnected)
+                                    //    sprintEmote = GameAssets.controllerSprintEmote;
+                                    //else
+                                    //    sprintEmote = GameAssets.keyboardSprintEmote;
+
+                                    //sprintEmote.alpha.Value = 1;
+                                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
+
+                                    Engine.AnimatedEmoteComponent sprintEmote;
+                                    if (Globals.IsControllerSelected)
+                                        sprintEmote = GameAssets.controllerSprintEmote;
+                                    else
+                                        sprintEmote = GameAssets.keyboardSprintEmote;
+                                    playerEntity.AddComponent(sprintEmote);
+                                    playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
+
+                                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
+
+
+                                    //if (Globals.IsControllerConnected)
+                                    //    GameAssets.speakEmote = GameAssets.controllerInteractEmote;
+                                    //else
+                                    //    GameAssets.speakEmote = GameAssets.keyboardInteractEmote;
+
+                                    //GameAssets.speakEmote.alpha.Value = 1;
+                                    //playerEntity.AddComponent(GameAssets.speakEmote);
+
+                                },
+                                condition: () =>
+                                {
+                                    return (EngineGlobals.inputManager.IsDown(controlComponent.Get("up")) ||
+                                        EngineGlobals.inputManager.IsDown(controlComponent.Get("down")) ||
+                                        EngineGlobals.inputManager.IsDown(controlComponent.Get("left")) ||
+                                        EngineGlobals.inputManager.IsDown(controlComponent.Get("right")));
+                                },
+                                numberOfTimes: 80,
+                                onComplete: () =>
+                                {
+                                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                                }
+                            )
+                        );
+
+                        return;
+                    }
+                )
+            );
+            AddEntity(sprintTutorialEntity);
+        }
+
+        public override void OnEnter()
+        {
             if (Globals.newGame)
             {
-                Console.WriteLine("test");
-                // TESTING - provide axe immediately
-                //player.GetComponent<BattleComponent>().weapon = Weapons.axe;
-
-                // Reset the input controller stack
-                Engine.InputComponent inputComponent = player.GetComponent<InputComponent>();
-                inputComponent.Clear();
-
-                // add the player movement tutorial
-                Engine.AnimatedEmoteComponent movementEmote;
-                if (Globals.IsControllerSelected)
-                    movementEmote = GameAssets.controllerMovementEmote;
-                else
-                    movementEmote = GameAssets.keyboardMovementEmote;
-                movementEmote.alpha.Value = 1;
-
-                Engine.PlayerControlComponent controlComponent = player.GetComponent<PlayerControlComponent>();
-
-                player.GetComponent<TutorialComponent>().AddTutorial(
-                    new Engine.Tutorial(
-                        name: "Walk",
-                        description: "Use controls to walk around the world",
-                        onStart: () =>
-                        {
-                            player.AddComponent<AnimatedEmoteComponent>(movementEmote);
-                        },
-                        condition: () =>
-                        {
-                            return EngineGlobals.inputManager.IsDown(controlComponent.Get("up")) ||
-                                EngineGlobals.inputManager.IsDown(controlComponent.Get("down")) ||
-                                EngineGlobals.inputManager.IsDown(controlComponent.Get("left")) ||
-                                EngineGlobals.inputManager.IsDown(controlComponent.Get("right"));
-                        },
-                        numberOfTimes: 40,
-                        onComplete: () =>
-                        {
-                            Console.WriteLine("Walk tutorial complete");
-                            if (player.GetComponent<AnimatedEmoteComponent>() != null)
-                                player.GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
-                        }
-                    )
-                );
-
-                //
-                // TODO -- add sprint tutorial, only trigger if sprint hasn't been tried yet
-                //
-
-                Entity sprintTutorialEntity = EngineGlobals.entityManager.CreateEntity("sprintTutorial");
-                sprintTutorialEntity.AddComponent(new TransformComponent(180, 770, 600, 10));
-                sprintTutorialEntity.AddComponent(
-                    new Engine.TriggerComponent(
-                        new Vector2(600, 10),
-                        onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
-
-                            Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
-
-                            if (otherEntity != playerEntity)
-                                return;
-                            
-                            playerEntity.GetComponent<TutorialComponent>().AddTutorial(
-                                new Engine.Tutorial(
-                                    name: "Sprint",
-                                    description: "Use controls to sprint",
-                                    onStart: () =>
-                                    {
-
-                                        // TODO
-                                        // entity.destroy should delegate to
-                                        // each component onDestroy method
-                                        // for the trigger, this should remove the deleted component's entity
-                                        // from any entity that has it as a currently collided entity.
-                                        playerEntity.GetComponent<Engine.TriggerComponent>().collidedEntities.Remove(sprintTutorialEntity);
-                                        sprintTutorialEntity.Destroy();
-
-                                        //Engine.EmoteComponent sprintEmote;
-                                        //if (Globals.IsControllerConnected)
-                                        //    sprintEmote = GameAssets.controllerSprintEmote;
-                                        //else
-                                        //    sprintEmote = GameAssets.keyboardSprintEmote;
-
-                                        //sprintEmote.alpha.Value = 1;
-                                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                                            EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
-
-                                        Engine.AnimatedEmoteComponent sprintEmote;
-                                        if (Globals.IsControllerSelected)
-                                            sprintEmote = GameAssets.controllerSprintEmote;
-                                        else
-                                            sprintEmote = GameAssets.keyboardSprintEmote;
-                                        playerEntity.AddComponent(sprintEmote);
-                                        playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
-
-                                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
-                                        
-
-                                        //if (Globals.IsControllerConnected)
-                                        //    GameAssets.speakEmote = GameAssets.controllerInteractEmote;
-                                        //else
-                                        //    GameAssets.speakEmote = GameAssets.keyboardInteractEmote;
-
-                                        //GameAssets.speakEmote.alpha.Value = 1;
-                                        //playerEntity.AddComponent(GameAssets.speakEmote);
-
-                                    },
-                                    condition: () =>
-                                    {
-                                        return (EngineGlobals.inputManager.IsDown(controlComponent.Get("up")) ||
-                                            EngineGlobals.inputManager.IsDown(controlComponent.Get("down")) ||
-                                            EngineGlobals.inputManager.IsDown(controlComponent.Get("left")) ||
-                                            EngineGlobals.inputManager.IsDown(controlComponent.Get("right")));
-                                    },
-                                    numberOfTimes: 80,
-                                    onComplete: () =>
-                                    {
-                                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
-                                    }
-                                )
-                            );
-
-                            return;
-                        }
-                    )
-                );
-                AddEntity(sprintTutorialEntity);
-
+                Globals.newGame = false;
+                InitialisePlayer();
             }
-
-            Globals.newGame = false;
 
             //Console.WriteLine($"\nScene Entity list: {EntitiesInScene.Count}, id set: {EntityIdSet.Count}. {this}");
         }

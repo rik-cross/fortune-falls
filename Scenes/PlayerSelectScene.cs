@@ -51,6 +51,7 @@ namespace AdventureGame
                         if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("select")))
                         {
                             EngineGlobals.sceneManager.ChangeToSceneBelow();
+                            //EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
                         }
                         slider.text = Globals.characterNames[Globals.playerIndex];
                         slider.Init();
