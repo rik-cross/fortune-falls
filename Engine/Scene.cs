@@ -488,14 +488,9 @@ namespace AdventureGame.Engine
                 s.Update(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in s.EntityList) //  CHANGE to s.entityList BUG - working with EntityList
+                foreach (Entity e in EntitiesInScene)
                     if (s.EntityMapper.ContainsKey(e.Id))
                         s.UpdateEntity(gameTime, this, e);
-                /*
-                foreach (Entity e in s.entityList)
-                    if (EntityList.Contains(e)) // CHANGE so that EntityList only contains entities relevant to a specific scene
-                        s.UpdateEntity(gameTime, this, e);
-                */
             }
 
             // update the scene
@@ -505,12 +500,6 @@ namespace AdventureGame.Engine
             if (UIMenu != null && _sceneManager.IsActiveScene(this))
                 UIMenu.Update();
 
-            if (UpdateSceneBelow)
-            {
-                Scene sceneBelow = _sceneManager.SceneBelow;
-                if (sceneBelow != null)
-                    sceneBelow._Update(gameTime);
-            }
             frame++;
          }
 
@@ -584,7 +573,7 @@ namespace AdventureGame.Engine
                     if (!s.AboveMap)
                     {
                         // entity-specific draw
-                        foreach (Entity e in EntitiesInScene) // todo CHANGE to s.entityList BUG
+                        foreach (Entity e in EntitiesInScene)
                             if (s.EntityMapper.ContainsKey(e.Id))
                                 s.DrawEntity(gameTime, this, e);
                     }

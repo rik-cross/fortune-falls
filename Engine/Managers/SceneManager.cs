@@ -60,10 +60,14 @@ namespace AdventureGame.Engine
                 //foreach (Entity e in ActiveScene.EntityList)
                 //    e.PrevState = e.State;
 
-            }
+                // Update scene below may result in unneccessary duplicate update methods in Scene
+                if (ActiveScene.UpdateSceneBelow && SceneBelow != null)
+                {
+                    SceneBelow._Update(gameTime);
 
-            // todo - update scene below if stack is > 1 here??
-            // Repeat EntitiesToDelete code too??
+                    // Repeat EntitiesToDelete code too??
+                }
+            }
         }
 
         public void Draw(GameTime gameTime)
@@ -78,6 +82,7 @@ namespace AdventureGame.Engine
                 Transition._Draw(gameTime);
             else
             {
+                // Drawing scene below may result in unneccessary duplicate draw methods in Scene
                 if (ActiveScene.DrawSceneBelow && SceneBelow != null)
                 {
                     SceneBelow._Draw(gameTime);
