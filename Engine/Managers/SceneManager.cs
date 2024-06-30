@@ -24,8 +24,13 @@ namespace AdventureGame.Engine
 
         public void Input(GameTime gameTime)
         {
-            if (ActiveScene != null)
-                ActiveScene._Input(gameTime);
+            if (ActiveScene == null)
+                return;
+
+            ActiveScene._Input(gameTime);
+
+            if (ActiveScene.InputSceneBelow && SceneBelow != null)
+                SceneBelow._Input(gameTime);
         }
 
         public void Update(GameTime gameTime)
@@ -72,7 +77,13 @@ namespace AdventureGame.Engine
             if (Transition != null)
                 Transition._Draw(gameTime);
             else
+            {
+                if (ActiveScene.DrawSceneBelow && SceneBelow != null)
+                {
+                    SceneBelow._Draw(gameTime);
+                }
                 ActiveScene._Draw(gameTime);
+            }
         }
 
         // Preload a scene and add it to bottom of stack

@@ -368,13 +368,6 @@ namespace AdventureGame.Engine
 
         public virtual void _Input(GameTime gameTime)
         {
-            if(InputSceneBelow)
-            {
-                Scene sceneBelow = _sceneManager.SceneBelow;
-                if (sceneBelow != null)
-                    sceneBelow._Input(gameTime);
-            }
-
             // update each system
             foreach (System s in EngineGlobals.systemManager.systems)
             {
@@ -382,7 +375,7 @@ namespace AdventureGame.Engine
                 s.Input(gameTime, this);
 
                 // update each relevant entity of a system
-                foreach (Entity e in EntitiesInScene) //  todo CHANGE to s.EntityList BUG
+                foreach (Entity e in EntitiesInScene)
                     if (s.EntityMapper.ContainsKey(e.Id))
                         s.InputEntity(gameTime, this, e);
             }
@@ -523,13 +516,6 @@ namespace AdventureGame.Engine
 
         public void _Draw(GameTime gameTime)
         {
-            if (DrawSceneBelow)
-            {
-                Scene sceneBelow = _sceneManager.SceneBelow;
-                if (sceneBelow != null)
-                    sceneBelow._Draw(gameTime);
-            }
-
             BlendState blend = new BlendState
             {
                 AlphaBlendFunction = BlendFunction.ReverseSubtract,
