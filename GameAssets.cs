@@ -13,6 +13,9 @@ namespace AdventureGame
         public static int EmoteHeightAboveEntity = 12;
         public static int EmoteBorderSize = 12;
 
+        //public static Dictionary<string, List<Texture2D>> InputTextures = new Dictionary<string, List<Texture2D>>();
+        //public static Texture2D up = Globals.IsControllerSelected ?
+
         //private static string contentLocation = "../../../Content/";
 
         // spritesheets
@@ -169,6 +172,13 @@ namespace AdventureGame
             textureSize: new Vector2(13 * 3, 13 * 3)
         );
 
+
+        // Works only when the static class is first called, not once the controller option changes
+        //public static Engine.AnimatedEmoteComponent movementEmote = Globals.IsControllerSelected ?
+        //    controllerMovementEmote : keyboardMovementEmote;
+
+        //public static Engine.AnimatedEmoteComponent sprintEmote = Globals.IsControllerSelected ?
+        //    controllerSprintEmote : keyboardSprintEmote;
 
 
     }

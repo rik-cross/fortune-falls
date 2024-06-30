@@ -264,6 +264,7 @@ namespace AdventureGame
                 movementEmote = GameAssets.controllerMovementEmote;
             else
                 movementEmote = GameAssets.keyboardMovementEmote;
+            //movementEmote = GameAssets.movementEmote; // todo - see notes in GameAssets
             movementEmote.alpha.Value = 1;
 
             Engine.PlayerControlComponent controlComponent = player.GetComponent<PlayerControlComponent>();
