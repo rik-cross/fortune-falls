@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using S = System.Diagnostics.Debug;
+using System.Collections.Generic;
 
 namespace AdventureGame.Engine
 {
@@ -32,7 +33,7 @@ namespace AdventureGame.Engine
             {
                 bool hit = false;
 
-                //List<Entity> hitEntities;
+                List<Entity> hitEntities = new List<Entity>();
 
                 // Check for hitbox/hurtbox intersects
                 foreach (Entity otherE in EntityList)
@@ -55,20 +56,86 @@ namespace AdventureGame.Engine
 
                             if (r1a.Intersects(r2a) && battleComponent.weapon != null)
                             {
+                                hit = true;
+                                hitEntities.Add(otherE);
 
                                 // todo: add to a list, and then have the option
                                 // to only hit the one closest entity
+                                // also only play one hit sound
 
-                                hit = true;
-                                if (battleComponent.weapon.hitSound != null)
-                                    EngineGlobals.soundManager.PlaySoundEffect(battleComponent.weapon.hitSound);
-                                if (battleComponent.OnHit != null)
-                                    battleComponent.OnHit(entity, otherE, battleComponent.weapon, bc.weapon);
-                                if (bc.OnHurt != null)
-                                    bc.OnHurt(otherE, entity, bc.weapon, battleComponent.weapon);
+                                //if ()
+
+                                        
+                                //hit = true;
+                                //if (battleComponent.weapon.hitSound != null)
+                                //    EngineGlobals.soundManager.PlaySoundEffect(battleComponent.weapon.hitSound);
+                                //if (battleComponent.OnHit != null)
+                                //    battleComponent.OnHit(entity, otherE, battleComponent.weapon, bc.weapon);
+                                //if (bc.OnHurt != null)
+                                //    bc.OnHurt(otherE, entity, bc.weapon, battleComponent.weapon);
 
                             }
                         }
+                    }
+                }
+
+                if (hit)
+                {
+                    if (battleComponent.weapon.hitMultipleEntites == true)
+                    {
+                        foreach (Entity e in hitEntities)
+                        {
+                            BattleComponent bc = e.GetComponent<BattleComponent>();
+                            if (battleComponent.weapon.hitSound != null)
+                                EngineGlobals.soundManager.PlaySoundEffect(battleComponent.weapon.hitSound);
+                            if (battleComponent.OnHit != null)
+                                battleComponent.OnHit(entity, e, battleComponent.weapon, bc.weapon);
+                            if (bc.OnHurt != null)
+                                bc.OnHurt(e, entity, bc.weapon, battleComponent.weapon);
+                        }
+                    } else
+                    {
+                        // find closest entity
+                        double distance = 0;
+                        Entity closest = null;
+
+                        TransformComponent entityT = entity.GetComponent<TransformComponent>();
+                        HBox entityH = entity.GetComponent<BattleComponent>().GetHitbox(entity.State);
+                        Vector2 entityCenter = new Vector2(
+                            entityT.Position.X + entityH.offset.X + (entityH.size.X / 2),
+                            entityT.Position.Y + entityH.offset.Y + (entityH.size.Y / 2)
+                        );
+
+                        foreach (Entity e in hitEntities)
+                        {
+
+                            TransformComponent oentityT = e.GetComponent<TransformComponent>();
+                            HBox oentityH = e.GetComponent<BattleComponent>().GetHurtbox(e.State);
+                            Vector2 oentityCenter = new Vector2(
+                                oentityT.Position.X + oentityH.offset.X + (oentityH.size.X / 2),
+                                oentityT.Position.Y + oentityH.offset.Y + (oentityH.size.Y / 2)
+                            );
+
+                            double dist = Vector2.Distance(entityCenter, oentityCenter);
+                            if (dist <= distance || distance == 0)
+                            {
+                                closest = e;
+                                distance = dist;
+                            }
+                            
+                        }
+
+                        if (closest != null)
+                        {
+                            BattleComponent bc = closest.GetComponent<BattleComponent>();
+                            if (battleComponent.weapon.hitSound != null)
+                                EngineGlobals.soundManager.PlaySoundEffect(battleComponent.weapon.hitSound);
+                            if (battleComponent.OnHit != null)
+                                battleComponent.OnHit(entity, closest, battleComponent.weapon, bc.weapon);
+                            if (bc.OnHurt != null)
+                                bc.OnHurt(closest, entity, bc.weapon, battleComponent.weapon);
+                        }
+                      
                     }
                 }
 

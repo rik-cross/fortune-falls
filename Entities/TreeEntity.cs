@@ -16,13 +16,13 @@ namespace AdventureGame.Engine
             entity.Tags.AddTag("tree");
             if (additionalTag != null)
                 entity.Tags.AddTag(additionalTag);
+            
             // Add sprites
             string dir = "Objects/";
             Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();
 
             spriteComponent.AddSprite(dir + filename, "tree", 0, 1);
             spriteComponent.AddSprite(dir + filename, "tree_stump", 1, 1);
-
             // Set state
             entity.State = defaultState;
             if (isStump)

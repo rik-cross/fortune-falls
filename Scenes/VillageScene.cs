@@ -158,6 +158,8 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false, "tree", "houseTree"));
             AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false, "tree", "houseTree"));
 
+            AddEntity(TreeEntity2.Create(650, 250));
+
             // Player's house tree trigger - cut down all trees > break axe
             EngineGlobals.achievementManager.AddAchievement(
                 new Engine.Achievement(
@@ -387,6 +389,8 @@ namespace AdventureGame
             }
 
             //Console.WriteLine($"\nScene Entity list: {EntitiesInScene.Count}, id set: {EntityIdSet.Count}. {this}");
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
         }
 
         public override void OnExit()

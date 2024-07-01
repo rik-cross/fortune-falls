@@ -13,12 +13,14 @@ namespace AdventureGame.Engine
         public Texture2D image;
         public SoundEffect hitSound;
         public SoundEffect missSound;
-        public Weapon(string name, Texture2D image = null, SoundEffect hitSound = null, SoundEffect missSound = null)
+        public bool hitMultipleEntites;
+        public Weapon(string name, Texture2D image = null, SoundEffect hitSound = null, SoundEffect missSound = null, bool mult = false)
         {
             this.name = name;
             this.image = image;
             this.hitSound = hitSound;
             this.missSound = missSound;
+            this.hitMultipleEntites = mult;
         }
         
     }
