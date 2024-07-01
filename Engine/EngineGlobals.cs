@@ -17,7 +17,7 @@ namespace AdventureGame.Engine
         public static AchievementManager achievementManager;
         public static Log log;
         //public static List<System> systems = new List<System>();
-        public static bool DEBUG = true;
+        public static bool DEBUG = false;
         public static bool fullscreen;
         public static bool borderless;
     }

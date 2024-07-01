@@ -19,17 +19,29 @@ namespace AdventureGame.Engine
             
             // Add sprites
             string dir = "Objects/";
-            Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();
 
-            spriteComponent.AddSprite(dir + filename, "tree", 0, 1);
-            spriteComponent.AddSprite(dir + filename, "tree_stump", 1, 1);
+
+            //Engine.SpriteComponent spriteComponent = entity.AddComponent<SpriteComponent>();
+
+            Engine.AnimatedSpriteComponent animatedSpriteComponent = entity.AddComponent<Engine.AnimatedSpriteComponent>();
+            animatedSpriteComponent.AddAnimatedSprite(dir + filename, "tree", 0, 0, totalRows: 1, framesPerRow: 2);
+            animatedSpriteComponent.AddAnimatedSprite(dir + filename, "tree_stump", 1, 1, totalRows: 1, framesPerRow: 2);
+            if (filename == "tree_02.png")
+            {
+                animatedSpriteComponent.AddAnimatedSprite(dir + "tree_02_hit.png", "tree_hit", 0, 2, totalRows: 1, framesPerRow: 3, loop: true, onComplete: (entity) => { entity.State = "tree"; }, delay: 4);
+            }
+            //animatedSpriteComponent.AddAnimatedSprite("Objects/tree_02_hit.png", "hit", 0, 2, totalRows: 1, framesPerRow: 3);
+
+            //spriteComponent.AddSprite(dir + filename, "tree", 0, 1);
+            //spriteComponent.AddSprite(dir + filename, "tree_stump", 1, 1);
             // Set state
             entity.State = defaultState;
             if (isStump)
                 entity.NextState = "tree_stump";
 
             // Add transform and collider components
-            Vector2 size = spriteComponent.GetSpriteSize(defaultState);
+            //Vector2 size = spriteComponent.GetSpriteSize(defaultState);
+            Vector2 size = animatedSpriteComponent.GetSprite("tree").Size;
             entity.AddComponent(new Engine.TransformComponent(
                 position: new Vector2(x, y),
                 size: size
@@ -90,13 +102,33 @@ namespace AdventureGame.Engine
 
                         // Set the tree to it's next state or destroy the entity
                         if (string.IsNullOrEmpty(thisEnt.NextState))
-                            entity.Destroy();
+                            thisEnt.Destroy();
                         else
                             thisEnt.State = thisEnt.NextState;
+                    } else
+                    {
+                        thisEnt.State = "tree_hit";
+                        // Create particle effects
+
+                        Engine.TransformComponent tc = thisEnt.GetComponent<TransformComponent>();
+                        Engine.HBox hb = thisEnt.GetComponent<BattleComponent>().GetHurtbox("tree");
+                        Vector2 particlePos = new Vector2(hb.offset.X + (hb.size.X / 2), hb.offset.Y + (hb.size.Y / 2));
+                        //S.WriteLine(particlePos);
+                        thisEnt.AddComponent(new ParticleComponent(
+                            lifetime: 5,
+                            delayBetweenParticles: 3,
+                            particleSize: 7,
+                            particleColour: Color.LightGray,
+                            offset: particlePos,
+                            particleSpeed: 0.5
+                        ));
+
+                        
                     }
                 }
             };
-
+            //if (filename == "tree_02.png")
+            //    entity.State = "tree_hit";
             return entity;
         }
     }
