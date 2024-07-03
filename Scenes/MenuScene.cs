@@ -228,7 +228,12 @@ namespace AdventureGame
         public void LoadContinueGameScene(UIButton button)
         {
             EngineGlobals.soundManager.PlaySongFade(Utils.LoadSong("Music/2_i_passed_the_final_exam_master.ogg"));
-            EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
+            //EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
+
+            if (EngineGlobals.sceneManager.SceneBelow != null)
+                EngineGlobals.sceneManager.ChangeToSceneBelow<FadeSceneTransition>(false);
+            else
+                EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
         }
 
         public void LoadOptionsScene(UIButton button)
