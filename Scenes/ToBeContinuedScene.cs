@@ -54,7 +54,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 225),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 175),
                     size: new Vector2(140, 45),
                     text: "Main Menu",
                     textColour: Color.White,
@@ -69,6 +69,21 @@ namespace AdventureGame
                             menuScene.UIMenu.SetSelected(menuScene.BtnContinue);
                         }
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
+                    }
+                )
+            );
+
+            UIMenu.AddUIElement(
+                new UIButton(
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 225),
+                    size: new Vector2(140, 45),
+                    text: "Continue",
+                    textColour: Color.White,
+                    outlineColour: Color.White,
+                    outlineThickness: 2,
+                    backgroundColour: Color.DarkSlateGray,
+                    func: (UIButton button) => {
+                        EngineGlobals.sceneManager.ChangeToSceneBelow();
                     }
                 )
             );
