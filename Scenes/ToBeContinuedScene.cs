@@ -54,7 +54,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 175),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 125),
                     size: new Vector2(140, 45),
                     text: "Main Menu",
                     textColour: Color.White,
@@ -75,7 +75,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 225),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 175),
                     size: new Vector2(140, 45),
                     text: "Continue",
                     textColour: Color.White,
@@ -90,7 +90,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 275),
+                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight / 2 + 225),
                     size: new Vector2(140, 45),
                     text: "Quit",
                     textColour: Color.White,
