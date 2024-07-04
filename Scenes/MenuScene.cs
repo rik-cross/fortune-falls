@@ -191,7 +191,11 @@ namespace AdventureGame
                 Globals.newGame = true;
                 EngineGlobals.sceneManager.ResetScene<VillageScene>();
 
-                // todo? - move player code to PlayerSelect or VillageScene Init?
+                // Reset the player components
+                // todo - move to PlayerManager?
+                PlayerEntity.RemoveComponents();
+                PlayerEntity.AddComponents();
+                //Console.WriteLine(string.Join(", ", EngineGlobals.entityManager.GetLocalPlayer().Components));
 
                 // Reset the player character default sprite
                 Globals.playerIndex = 0;

@@ -46,9 +46,32 @@ namespace AdventureGame
             playerEntity.Tags.AddTag("player");
             playerEntity.State = defaultState;
 
-            // Add transform and sprites
+            // Add transform component
             playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
+
+            // Create all character sprites
             AddAllCharacterSprites();
+
+            // Add all other components
+            AddComponents();
+
+            return playerEntity;
+        }
+
+        public static void AddComponents(string defaultState = "idle_right", float speed = 50,
+            Entity player = null)
+        {
+            Entity playerEntity = null;
+
+            if (player == null)
+                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+            if (playerEntity == null)
+                return;
+
+            // Set state
+            playerEntity.State = defaultState;
+
             //playerEntity.AddComponent(new Engine.AnimatedSpriteComponent());
 
             // Add movement components
@@ -93,7 +116,7 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.InventoryComponent(20));
             playerEntity.AddComponent(new Engine.KeyItemsComponent());
             playerEntity.AddComponent(new Engine.CanCollectComponent());
-           //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
+            //playerEntity.AddComponent(new ParticleComponent(lifetime: 1000, offset: new Vector2(7, 10)));
 
             playerEntity.AddComponent(new Engine.BattleComponent());
             playerEntity.GetComponent<Engine.BattleComponent>().SetHurtbox("all", new HBox(new Vector2(15, 20)));
@@ -104,8 +127,24 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.DialogueComponent());
 
             //EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
+        }
 
-            return playerEntity;
+        public static void RemoveComponents(Entity playerEntity = null)
+        {
+            if (playerEntity == null)
+                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+
+            if (playerEntity == null)
+                return;
+
+            // Do not remove input of player or animated sprite in case of tutorial
+            playerEntity.RemoveAllComponents(new List<Component> {
+                playerEntity.GetComponent<InputComponent>() },
+                //playerEntity.GetComponent<AnimatedSpriteComponent>() },
+                true
+            );
+
+            //EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
         }
 
 
