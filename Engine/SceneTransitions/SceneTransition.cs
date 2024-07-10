@@ -8,19 +8,15 @@ namespace AdventureGame.Engine
 {
     public abstract class SceneTransition
     {
-        private SceneManager _sceneManager;
-
         protected Type NextScene { get; set; }
         protected Type NextSceneBelow { get; set; }
-
         protected bool UnloadCurrentScene { get; set; }
-        protected float Percentage { get; set; }
-        protected float Increment { get; set; }
+
         protected float TimeToCompleteTransition { get; set; }
         protected float TimeToChangeScene { get; set; }
-        protected float TimeElapsed { get; set; }
-        protected float FadeOutDuration { get; set; }
-        protected float FadeInDuration { get; set; }
+        protected float TimeElapsed { get; private set; }
+        protected float FadeOutDuration { get; private set; }
+        protected float FadeInDuration { get; private set; }
 
         public bool HasSceneChanged { get; private set; }
         public bool Finished { get; private set; }
@@ -28,12 +24,9 @@ namespace AdventureGame.Engine
 
         public SceneTransition()
         {
-            _sceneManager = EngineGlobals.sceneManager;
-            Percentage = 0;
-            Increment = 1.0f;
-
-            TimeToCompleteTransition = 2.0f;  // default: 2 second transition
-            TimeToChangeScene = 1.0f;         // default: 1 second to change scene
+            // Default: 2 second transition, 1 second to change scene
+            TimeToCompleteTransition = 2.0f;
+            TimeToChangeScene = 1.0f;
         }
 
         public void Init()
@@ -56,49 +49,23 @@ namespace AdventureGame.Engine
 
         public void Update(GameTime gameTime)
         {
-            //Console.WriteLine($"Scene transition update");
-
-            //Percentage += Increment * deltaTime;
-            Percentage = Math.Min(Percentage + Increment, 100);
-
-            //if (Percentage >= 50 && HasSceneChanged == false)
-            //if (TimeToCompleteTransition <= TimeToChangeScene && HasSceneChanged == false)
             if (TimeElapsed >= TimeToChangeScene && HasSceneChanged == false)
-            //if (FadeOutDuration <= 0 && HasSceneChanged == false)
             {
-                Console.WriteLine($"Transitioning to next scene");
-                Console.WriteLine($"Time elapsed (fade out) {TimeElapsed}");
+                Console.WriteLine($"Transitioning to next scene: fade out time {TimeElapsed}");
 
                 HasSceneChanged = true;
-
-                //_sceneManager.SetActiveScene(UnloadCurrentScene);
-
-                //if (NextScene == null)
-                //    _sceneManager.SetActiveScene(UnloadCurrentScene);
-                //else
-                //    _sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
-
-                _sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
+                EngineGlobals.sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
             }
 
-            //if (Percentage >= 100)
-            //if (TimeToCompleteTransition <= 0)
             if (TimeElapsed >= TimeToCompleteTransition)
-            //if (FadeInDuration <= 0)
             {
-                Console.WriteLine($"Time elapsed (fade in) {TimeElapsed - TimeToChangeScene}");
+                Console.WriteLine($"Transition ended: fade in time {TimeElapsed - TimeToChangeScene}");
                 Finished = true;
             }
 
+            // Update elapsed time
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //TimeToCompleteTransition -= deltaTime;
             TimeElapsed += deltaTime;
-
-            //if (FadeOutDuration >= 0)
-            //    FadeOutDuration -= deltaTime;
-            //else
-            //    FadeInDuration -= deltaTime;
-
         }
 
         public void _Draw(GameTime gameTime)
