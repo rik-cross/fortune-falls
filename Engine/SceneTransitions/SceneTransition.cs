@@ -25,7 +25,7 @@ namespace AdventureGame.Engine
         {
             _sceneManager = EngineGlobals.sceneManager;
             Percentage = 0;
-            Increment = 1.0f;
+            Increment = 1.5f;
             HasSceneChanged = false;
             Finished = false;
         }
@@ -70,10 +70,13 @@ namespace AdventureGame.Engine
                 HasSceneChanged = true;
 
                 //_sceneManager.SetActiveScene(UnloadCurrentScene);
-                if (NextScene == null)
-                    _sceneManager.SetActiveScene(UnloadCurrentScene);
-                else
-                    _sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
+
+                //if (NextScene == null)
+                //    _sceneManager.SetActiveScene(UnloadCurrentScene);
+                //else
+                //    _sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
+
+                _sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
             }
 
             if (Percentage >= 100)
