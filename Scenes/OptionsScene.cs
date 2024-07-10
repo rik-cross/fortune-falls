@@ -173,10 +173,12 @@ namespace AdventureGame
         {
             Scene sceneBelow = EngineGlobals.sceneManager.SceneBelow;
 
-            if (EngineGlobals.sceneManager.IsSceneOfType<MenuScene>(sceneBelow))
-                EngineGlobals.sceneManager.ChangeToSceneBelow<FadeSceneTransition>();
-            else
-                EngineGlobals.sceneManager.ChangeToSceneBelow();
+            //if (EngineGlobals.sceneManager.IsSceneOfType<MenuScene>(sceneBelow))
+            //    EngineGlobals.sceneManager.ChangeToSceneBelow<FadeSceneTransition>();
+            //else
+            //    EngineGlobals.sceneManager.ChangeToSceneBelow();
+
+            EngineGlobals.sceneManager.ChangeToSceneBelow<FadeSceneTransition>();
         }
 
         public void SetMute(UIButton button)

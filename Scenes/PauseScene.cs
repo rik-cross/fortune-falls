@@ -53,7 +53,7 @@ namespace AdventureGame
                     outlineThickness: 2,
                     backgroundColour: Color.DarkSlateGray,
                     func: (UIButton button) => {
-                        EngineGlobals.sceneManager.ChangeScene<OptionsScene>(false);
+                        EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, OptionsScene>(false);
                     }
                 )
             );

@@ -30,7 +30,7 @@ namespace AdventureGame
                     if (otherEntity.IsLocalPlayer())
                     {
                         Vector2 playerPosition = new Vector2(392, 449);
-                        EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, CaveScene>(unloadCurrentScene: false);
+                        EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, CaveScene>();
                         EngineGlobals.playerManager.ChangePlayerScene(playerPosition);
                         //EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/door.wav"));
                     }

@@ -10,6 +10,9 @@ namespace AdventureGame.Engine
     {
         private SceneManager _sceneManager;
 
+        protected Type NextScene { get; set; }
+        protected Type NextSceneBelow { get; set; }
+
         protected bool UnloadCurrentScene { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
@@ -27,8 +30,30 @@ namespace AdventureGame.Engine
             Finished = false;
         }
 
+        // Delete? Or set scenes to null
         public void StartTransition(bool unloadCurrentScene = true)
         {
+            UnloadCurrentScene = unloadCurrentScene;
+        }
+
+        public void StartTransition<TScene>(bool unloadCurrentScene = true)
+        {
+            NextScene = typeof(TScene);
+            NextSceneBelow = null;
+            UnloadCurrentScene = unloadCurrentScene;
+        }
+
+        public void StartTransition<TScene, TSceneBelow>(bool unloadCurrentScene = true)
+        {
+            NextScene = typeof(TScene);
+            NextSceneBelow = typeof(TSceneBelow);
+            UnloadCurrentScene = unloadCurrentScene;
+        }
+
+        public void StartTransition(Type scene, Type sceneBelow = null, bool unloadCurrentScene = true)
+        {
+            NextScene = scene;
+            NextSceneBelow = sceneBelow;
             UnloadCurrentScene = unloadCurrentScene;
         }
 
@@ -44,7 +69,11 @@ namespace AdventureGame.Engine
 
                 HasSceneChanged = true;
 
-                _sceneManager.SetActiveScene(UnloadCurrentScene);
+                //_sceneManager.SetActiveScene(UnloadCurrentScene);
+                if (NextScene == null)
+                    _sceneManager.SetActiveScene(UnloadCurrentScene);
+                else
+                    _sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
             }
 
             if (Percentage >= 100)
