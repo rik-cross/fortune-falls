@@ -16,6 +16,11 @@ namespace AdventureGame.Engine
         protected bool UnloadCurrentScene { get; set; }
         protected float Percentage { get; set; }
         protected float Increment { get; set; }
+        protected float TimeToCompleteTransition { get; set; }
+        protected float TimeToChangeScene { get; set; }
+        protected float TimeElapsed { get; set; }
+        protected float FadeOutDuration { get; set; }
+        protected float FadeInDuration { get; set; }
 
         public bool HasSceneChanged { get; private set; }
         public bool Finished { get; private set; }
@@ -25,47 +30,44 @@ namespace AdventureGame.Engine
         {
             _sceneManager = EngineGlobals.sceneManager;
             Percentage = 0;
-            Increment = 1.5f;
+            Increment = 1.0f;
+
+            TimeToCompleteTransition = 2.0f;  // default: 2 second transition
+            TimeToChangeScene = 1.0f;         // default: 1 second to change scene
+        }
+
+        public void Init()
+        {
+            TimeElapsed = 0.0f;
+            FadeOutDuration = TimeToChangeScene;
+            FadeInDuration = TimeToCompleteTransition - FadeOutDuration;
+
             HasSceneChanged = false;
             Finished = false;
         }
 
-        // Delete? Or set scenes to null
-        public void StartTransition(bool unloadCurrentScene = true)
-        {
-            UnloadCurrentScene = unloadCurrentScene;
-        }
-
-        public void StartTransition<TScene>(bool unloadCurrentScene = true)
-        {
-            NextScene = typeof(TScene);
-            NextSceneBelow = null;
-            UnloadCurrentScene = unloadCurrentScene;
-        }
-
-        public void StartTransition<TScene, TSceneBelow>(bool unloadCurrentScene = true)
-        {
-            NextScene = typeof(TScene);
-            NextSceneBelow = typeof(TSceneBelow);
-            UnloadCurrentScene = unloadCurrentScene;
-        }
-
-        public void StartTransition(Type scene, Type sceneBelow = null, bool unloadCurrentScene = true)
+        public void StartTransition(Type scene = null, Type sceneBelow = null, bool unloadCurrentScene = true)
         {
             NextScene = scene;
             NextSceneBelow = sceneBelow;
             UnloadCurrentScene = unloadCurrentScene;
+            Init();
         }
 
         public void Update(GameTime gameTime)
         {
             //Console.WriteLine($"Scene transition update");
 
+            //Percentage += Increment * deltaTime;
             Percentage = Math.Min(Percentage + Increment, 100);
 
-            if (Percentage >= 50 && HasSceneChanged == false)
+            //if (Percentage >= 50 && HasSceneChanged == false)
+            //if (TimeToCompleteTransition <= TimeToChangeScene && HasSceneChanged == false)
+            if (TimeElapsed >= TimeToChangeScene && HasSceneChanged == false)
+            //if (FadeOutDuration <= 0 && HasSceneChanged == false)
             {
                 Console.WriteLine($"Transitioning to next scene");
+                Console.WriteLine($"Time elapsed (fade out) {TimeElapsed}");
 
                 HasSceneChanged = true;
 
@@ -79,10 +81,23 @@ namespace AdventureGame.Engine
                 _sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
             }
 
-            if (Percentage >= 100)
+            //if (Percentage >= 100)
+            //if (TimeToCompleteTransition <= 0)
+            if (TimeElapsed >= TimeToCompleteTransition)
+            //if (FadeInDuration <= 0)
             {
+                Console.WriteLine($"Time elapsed (fade in) {TimeElapsed - TimeToChangeScene}");
                 Finished = true;
             }
+
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //TimeToCompleteTransition -= deltaTime;
+            TimeElapsed += deltaTime;
+
+            //if (FadeOutDuration >= 0)
+            //    FadeOutDuration -= deltaTime;
+            //else
+            //    FadeInDuration -= deltaTime;
 
         }
 

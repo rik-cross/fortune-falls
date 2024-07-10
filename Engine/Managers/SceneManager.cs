@@ -72,9 +72,6 @@ namespace AdventureGame.Engine
 
         public void Draw(GameTime gameTime)
         {
-            if (ActiveScene == null)
-                return;
-
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.graphicsDevice.Clear(Color.Black);
 
@@ -90,13 +87,15 @@ namespace AdventureGame.Engine
             //    ActiveScene._Draw(gameTime);
             //}
 
-            // Drawing scene below may result in unneccessary duplicate draw methods in Scene
-            if (ActiveScene.DrawSceneBelow && SceneBelow != null)
-            {
-                SceneBelow._Draw(gameTime);
-            }
 
-            ActiveScene._Draw(gameTime);
+            if (ActiveScene != null)
+            {
+                // CHECK - Drawing scene below may result in unneccessary duplicate draw methods in Scene
+                if (ActiveScene.DrawSceneBelow && SceneBelow != null)
+                    SceneBelow._Draw(gameTime);
+
+                ActiveScene._Draw(gameTime);
+            }
 
             if (Transition != null)
                 Transition._Draw(gameTime);
@@ -328,7 +327,7 @@ namespace AdventureGame.Engine
 
             if (unloadCurrentScene)
                 UnloadScene(ActiveScene);
-            else
+            else if (ActiveScene != null)
                 ActiveScene._OnExit();
 
             // Set active scene and scene below
@@ -356,7 +355,7 @@ namespace AdventureGame.Engine
 
             if (unloadCurrentScene)
                 UnloadScene(ActiveScene);
-            else
+            else if (ActiveScene != null)
                 ActiveScene._OnExit();
 
             // Try to load the next active scene

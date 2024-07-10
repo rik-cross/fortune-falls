@@ -10,8 +10,9 @@ namespace AdventureGame.Engine
     {
         public NoSceneTransition()
         {
-            Increment = 100.0f;
-            Percentage = 100.0f;
+            // Instantly complete the scene transition with no fade
+            TimeToCompleteTransition = 0.0f;
+            TimeToChangeScene = 0.0f;
         }
 
         public override void Draw(GameTime gameTime)

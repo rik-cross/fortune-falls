@@ -11,7 +11,9 @@ namespace AdventureGame.Engine
     {
         public FadeSceneTransition()
         {
-
+            // Testing 5s transition (fade out for 3s, fade in for 2s)
+            //TimeToCompleteTransition = 5.0f;
+            //TimeToChangeScene = 3.0f;
         }
 
         public override void Draw(GameTime gameTime)
@@ -24,15 +26,18 @@ namespace AdventureGame.Engine
             Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
             Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            float f;
-            if (Percentage < 50)
-                f = (Percentage / 50);
-            else
-                f = Math.Abs((100 - Percentage) / 50);
+            // Calculate alpha percentage of fade overlay colour
+            // Fading scene out will increase the fade alpha from 0 to 1
+            // Fading scene in will decrease the fade alpha from 1 to 0
+            float alpha = 0.0f;
+            if (TimeElapsed <= FadeOutDuration)
+                alpha = (TimeElapsed / FadeOutDuration);
+            else if (TimeElapsed <= TimeToCompleteTransition)
+                alpha = 1 - (TimeElapsed - FadeOutDuration) / FadeInDuration;
 
             Globals.spriteBatch.FillRectangle(
                 new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight),
-                Color.Black * f
+                Color.Black * alpha
             );
         }
 
