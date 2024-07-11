@@ -48,12 +48,11 @@ namespace AdventureGame.Engine
                     //Cutscene.Test();
 
                     // Set the idle state depending on which direction the player is
-                    npcEntity.PrevState = npcEntity.State;
-                    Console.WriteLine(npcEntity.PrevState);
+                    Console.WriteLine(npcEntity.PreviousState);
                     if (playerEntity.GetComponent<TransformComponent>().X > npcEntity.GetComponent<TransformComponent>().X)
-                        npcEntity.State = "idle_right";
+                        npcEntity.SetState("idle_right");
                     else
-                        npcEntity.State = "idle_left";
+                        npcEntity.SetState("idle_left");
 
                     // Try to get thumbnail image
                     ThumbnailComponent thumbnailComponent = npcEntity.GetComponent<ThumbnailComponent>();
@@ -75,7 +74,16 @@ namespace AdventureGame.Engine
                         if (EngineGlobals.achievementManager.HasAchievement("Lumberjack"))
                         {
                             dialogueComponent.AddPage("Ahh, I told ya to be careful...", GameAssets.blacksmith_headshot);
-                            dialogueComponent.AddPage("Go check the house out, then come back. We'll find a way to make this right.", GameAssets.blacksmith_headshot);
+                            dialogueComponent.AddPage("Go check the house out, then come back. We'll find a way to make this right.",
+                                GameAssets.blacksmith_headshot,
+                                onDialogueComplete: (Entity e) =>
+                                {
+                                    npcEntity.SetState(npcEntity.PreviousState);
+                                    // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
+                                    npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
+                                    npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
+                                }
+                            );
 
                             if (villageScene != null)
                             {
@@ -121,7 +129,7 @@ namespace AdventureGame.Engine
                                                 if (playerEntity.GetComponent<IntentionComponent>() != null)
                                                     playerEntity.GetComponent<IntentionComponent>().ResetAll();
                                                 if (playerEntity.State.Split("_").Length == 2 && (playerEntity.State.Split("_")[0] == "walk" || playerEntity.State.Split("_")[0] == "run"))
-                                                    playerEntity.State = "idle_" + playerEntity.State.Split("_")[1];
+                                                    playerEntity.SetState("idle_" + playerEntity.State.Split("_")[1]);
                                                 ic.PushController(PlayerEntity.PlayerInputControllerToolOnly);
                                                 ic.TopControllerLabel = "tool";
                                                 
@@ -148,7 +156,10 @@ namespace AdventureGame.Engine
                                                     "That axe is on loan, return it when you are done. Barnie's place is north, just over the ridge there.",
                                                     GameAssets.blacksmith_headshot
                                                 );
-                                                npcEntity.State = "hammer_left";
+                                                npcEntity.SetState(npcEntity.PreviousState);
+                                                // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
+                                                npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
+                                                npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
 
                                                 villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByIdTag("playersHouse"));
                                                 villageScene.questMarker.visible = true;
@@ -162,7 +173,14 @@ namespace AdventureGame.Engine
                     } else
                     {
                         dialogueComponent.AddPage("Hope you find the axe useful. Go find your new place!",
-                            GameAssets.blacksmith_headshot
+                            GameAssets.blacksmith_headshot,
+                            onDialogueComplete: (Entity e) =>
+                            {
+                                npcEntity.SetState(npcEntity.PreviousState);
+                                // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
+                                npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
+                                npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
+                            }
                         );
                     }
 

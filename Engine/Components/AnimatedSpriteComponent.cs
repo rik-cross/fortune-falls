@@ -121,6 +121,14 @@ namespace AdventureGame.Engine
             //return SpriteDict[state].size + SpriteDict[state].offset;
         }
 
+        public void SetAnimatedSpriteFrame(int frame, string state)
+        {
+            //if (string.IsNullOrEmpty(state))
+            //    state = LastState;
+            if (AnimatedSprites.ContainsKey(state))
+                AnimatedSprites[state].SetFrame(frame);
+        }
+
         public Sprite CloneSprite(Sprite sprite)
         {
             return new Sprite(sprite.TextureList, sprite.Offset, sprite.FlipH, sprite.FlipV);
