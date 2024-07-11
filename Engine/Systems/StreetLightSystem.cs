@@ -20,12 +20,12 @@ namespace AdventureGame.Engine
             {
                 if ((int)DayNightCycle.GetPercentage() == 70 && entity.State != "on")
                 {
-                    entity.State = "on";
+                    entity.SetState("on");
                     entity.GetComponent<LightComponent>().visible = true;
                 }
                 if ((int)DayNightCycle.GetPercentage() == 5 && entity.State != "idle")
                 {
-                    entity.State = "idle";
+                    entity.SetState("idle");
                     entity.GetComponent<LightComponent>().visible = false;
                 }
             }

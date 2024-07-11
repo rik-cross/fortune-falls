@@ -56,7 +56,7 @@ namespace AdventureGame
             animatedComponent.AddAnimatedSprite(dir + "spr_hammering_strip23.png", "hammer_right", 0, 22, 3, 10, offset);
 
             // Set state
-            npcEntity.State = "hammer_left";
+            npcEntity.SetState("hammer_left");
 
             //if (thumbnail != null)
             //npcEntity.AddComponent(new Engine.ThumbnailComponent(dir + thumbnail));

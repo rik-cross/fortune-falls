@@ -151,12 +151,12 @@ namespace AdventureGame.Engine
             {
                 // MOVE handle intention and state elsewhere?
                 intentionComponent.right = true;
-                entity.State = "walk_right";
+                entity.SetState("walk_right");
             }
             else
             {
                 intentionComponent.left = true;
-                entity.State = "walk_left";
+                entity.SetState("walk_left");
             }
         }
 
@@ -170,12 +170,12 @@ namespace AdventureGame.Engine
             if (yAmount > 0.0f)
             {
                 intentionComponent.down = true;
-                entity.State = "walk_down";
+                entity.SetState("walk_down");
             }
             else
             {
                 intentionComponent.up = true;
-                entity.State = "walk_up";
+                entity.SetState("walk_up");
             }
         }
 
@@ -190,13 +190,13 @@ namespace AdventureGame.Engine
             if (intentionComponent.left)
             {
                 intentionComponent.left = false;
-                entity.State = "idle_left";
+                entity.SetState("idle_left");
             }
 
             if (intentionComponent.right)
             {
                 intentionComponent.right = false;
-                entity.State = "idle_right";
+                entity.SetState("idle_right");
             }
         }
 
@@ -211,13 +211,13 @@ namespace AdventureGame.Engine
             if (intentionComponent.up)
             {
                 intentionComponent.up = false;
-                entity.State = "idle_up";
+                entity.SetState("idle_up");
             }
 
             if (intentionComponent.down)
             {
                 intentionComponent.down = false;
-                entity.State = "idle_down";
+                entity.SetState("idle_down");
             }
         }
     }

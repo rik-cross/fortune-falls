@@ -31,7 +31,7 @@ namespace AdventureGame
             }
 
             // Set state
-            entity.State = defaultState;
+            entity.SetState(defaultState);
 
             // Add other components
             Vector2 position = new Vector2(x, y);
@@ -51,8 +51,8 @@ namespace AdventureGame
                 onCollide: (Entity entity, Entity otherEntity, float distance) => {
                     if (otherEntity.IsPlayerType())
                     {
-                        otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
-                        entity.State = "door_open";
+                        otherEntity.SetState("idle_" + otherEntity.State.Split("_")[1]);
+                        entity.SetState("door_open");
                         //EngineGlobals.sceneManager.SetActiveScene<HomeScene>();
                         //EngineGlobals.sceneManager.SetPlayerScene<HomeScene>(new Vector2(114, 127));
                     }

@@ -320,7 +320,7 @@ namespace AdventureGame.Engine
         {
             /* 
              * Issue - OnRelease sets state position to 0 when outside the window
-            MouseState exactMouseState = Mouse.GetState();
+            MouseState exactMouseState = Mouse.State;
             Point position = new Point(exactMouseState.X, exactMouseState.Y);
             Console.WriteLine(position);
             return Globals.graphicsDevice.Viewport.Bounds.Contains(position);

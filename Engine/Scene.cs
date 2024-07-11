@@ -122,7 +122,7 @@ namespace AdventureGame.Engine
                     player.GetComponent<IntentionComponent>().ResetAll();
 
                 if (player.State.Contains("_"))
-                    player.State = "idle_" + player.State.Split("_")[1];
+                    player.SetState("idle_" + player.State.Split("_")[1]);
             }
             OnExit();
         }

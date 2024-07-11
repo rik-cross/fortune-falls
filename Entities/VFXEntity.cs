@@ -19,7 +19,7 @@ namespace AdventureGame
             animatedComponent.AddAnimatedSprite(dir + filename, defaultState, startFrame, endFrame);
 
             // Set state
-            vfxEntity.State = defaultState;
+            vfxEntity.SetState(defaultState);
 
             // Add other components
             Vector2 imageSize = animatedComponent.GetAnimatedSpriteSize(defaultState);

@@ -20,7 +20,7 @@ namespace AdventureGame.Engine
             spriteComponent.AddSprite(dir + filename, "no_berries", 1, 1);
 
             // Set state
-            entity.State = defaultState;
+            entity.SetState(defaultState);
 
             // Add other components
             Vector2 size = spriteComponent.GetSpriteSize(defaultState);
@@ -65,7 +65,7 @@ namespace AdventureGame.Engine
                             offset: new Vector2(13, 17),
                             particleSpeed: 0.5
                         ));
-                        thisEnt.State = "no_berries";
+                        thisEnt.SetState("no_berries");
 
                         InventoryComponent inventoryComponent = thisEnt.GetComponent<InventoryComponent>();
                         if (inventoryComponent != null && inventoryComponent.DropOnDestroy)

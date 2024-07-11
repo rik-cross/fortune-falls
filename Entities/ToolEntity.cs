@@ -56,11 +56,11 @@ namespace AdventureGame
             animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true);
             animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset);
 
-            animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
-            animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
+            animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.SetState("idle_left");
+            animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.SetState("idle_right");
 
             // Set state
-            toolEntity.State = "none"; // parameter?
+            toolEntity.SetState("none"); // parameter?
 
             // Add other components
             toolEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));

@@ -12,8 +12,16 @@ namespace AdventureGame.Engine
 
         public Entity Owner { get; set; }
         public Tags Tags { get; set; }
-        public string State { get; set; }
-        public string PrevState { get; set; }
+
+        public string State { get; private set; }
+
+        public void SetState(string state)
+        {
+            PreviousState = State;
+            State = state;
+        }
+
+        public string PreviousState { get; set; }
         public string NextState { get; set; }
 
         public List<Component> Components { get; set; } // Dictionary/HashSet?
@@ -31,7 +39,7 @@ namespace AdventureGame.Engine
             Tags = new Tags();
             Tags.Id = idTag;
             State = "default";
-            PrevState = State;
+            PreviousState = State;
 
             Components = new List<Component>();
             _entityManager = EngineGlobals.entityManager;
