@@ -150,13 +150,13 @@ namespace AdventureGame
             //AddEntity(playerHouseEntrance);
 
             // Player's House trees
-            AddEntity(TreeEntity.Create(650, 220, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(662, 230, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(674, 235, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(684, 228, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(696, 232, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(708, 227, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(720, 218, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(660, 220, "tree_02.png", false, "tree"));
+            AddEntity(TreeEntity.Create(672, 230, "tree_02.png", false, "tree"));
+            AddEntity(TreeEntity.Create(682, 218, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(690, 235, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(692, 223, "tree_02.png", false, "tree", "houseTree"));
+            AddEntity(TreeEntity.Create(698, 227, "tree_02.png", false, "tree"));
+            AddEntity(TreeEntity.Create(710, 218, "tree_02.png", false, "tree"));
 
             // Player's house tree trigger - cut down all trees > break axe
             EngineGlobals.achievementManager.AddAchievement(
