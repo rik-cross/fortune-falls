@@ -473,8 +473,8 @@ namespace AdventureGame.Engine
             //EntityList.Sort(CompareY);
             //EntityList.Sort(CompareDrawOrder);
 
-            //DrawOrderInsertionSort();
-            EntitiesInScene.Sort(CompareY);
+            DrawOrderInsertionSort();
+            //EntitiesInScene.Sort(CompareY);
 
 
             // update cameras

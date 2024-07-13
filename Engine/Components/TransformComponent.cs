@@ -7,9 +7,11 @@ namespace AdventureGame.Engine
         public Vector2 Position;
         public Vector2 PreviousPosition;
         public Vector2 Size;
+
+        // Properties for draw order
         public int DrawOrder { get; private set; }
         public int DrawOrderOffset { get; private set; }
-        public bool UpdateDrawOrder { get; set; }
+        public bool HasDrawOrderChanged { get; set; }
 
         // Properties to get and set the size and position
         public float Width
@@ -65,16 +67,16 @@ namespace AdventureGame.Engine
 
         public TransformComponent(Vector2 position, Vector2 size)
         {
-            this.Position = position;
-            this.PreviousPosition = position;
-            this.Size = size;
+            Position = position;
+            PreviousPosition = position;
+            Size = size;
             InitDrawOrder();
         }
 
         public TransformComponent(int x, int y, int w, int h)
         {
-            this.Position = new Vector2(x, y);
-            this.PreviousPosition = Position;
+            Position = new Vector2(x, y);
+            PreviousPosition = Position;
             this.Size = new Vector2(w, h);
             InitDrawOrder();
         }
@@ -91,18 +93,18 @@ namespace AdventureGame.Engine
         {
             DrawOrder = (int)Bottom;
             DrawOrderOffset = 0;
-            UpdateDrawOrder = true;
+            HasDrawOrderChanged = true;
         }
 
-        public void ChangeDrawOrder()
+        public void UpdateDrawOrder()
         {
             DrawOrder = (int)Bottom + DrawOrderOffset;
         }
 
-        public void ChangeDrawOrderOffset(int drawOrderOffset)
+        public void SetDrawOrderOffset(int drawOrderOffset)
         {
             DrawOrderOffset = drawOrderOffset;
-            ChangeDrawOrder();
+            UpdateDrawOrder();
         }
 
         public Vector2 GetCenter()

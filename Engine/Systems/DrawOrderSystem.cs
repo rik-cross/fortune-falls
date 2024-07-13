@@ -19,12 +19,12 @@ namespace AdventureGame.Engine
                 return;
             //Console.WriteLine($"Entity {entity.Id}, draw order {transform.DrawOrder}");
 
-            if (!transform.UpdateDrawOrder)
+            if (!transform.HasDrawOrderChanged)
                 return;
 
             // Todo Use the sprite offset to influence the draw order value?
 
-            transform.ChangeDrawOrder();
+            transform.UpdateDrawOrder();
             //Console.WriteLine($"Entity {entity.Id}, draw order {transform.DrawOrder}");
         }
 

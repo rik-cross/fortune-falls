@@ -24,7 +24,7 @@ namespace AdventureGame
 
             // Draw order offset
             if (drawOrderOffset != 0)
-                objectEntity.GetComponent<TransformComponent>().ChangeDrawOrderOffset(drawOrderOffset);
+                objectEntity.GetComponent<TransformComponent>().SetDrawOrderOffset(drawOrderOffset);
 
             // Add a collider component if required
             if (isSolid)

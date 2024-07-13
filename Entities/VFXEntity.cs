@@ -27,7 +27,7 @@ namespace AdventureGame
 
             // Set the draw order offset to be higher than the default position
             if (drawAbove)
-                vfxEntity.GetComponent<TransformComponent>().ChangeDrawOrderOffset(100);
+                vfxEntity.GetComponent<TransformComponent>().SetDrawOrderOffset(100);
 
             return vfxEntity;
         }

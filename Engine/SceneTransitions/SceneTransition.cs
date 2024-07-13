@@ -52,9 +52,12 @@ namespace AdventureGame.Engine
             if (TimeElapsed >= TimeToChangeScene && HasSceneChanged == false)
             {
                 Console.WriteLine($"Transitioning to next scene: fade out time {TimeElapsed}");
+                Console.WriteLine($"Running at {1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds} FPS");
 
                 HasSceneChanged = true;
                 EngineGlobals.sceneManager.SetSceneDuringTransition(NextScene, NextSceneBelow, UnloadCurrentScene);
+
+                Console.WriteLine($"Running at {1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds} FPS");
             }
 
             if (TimeElapsed >= TimeToCompleteTransition)
