@@ -90,9 +90,14 @@ namespace AdventureGame
             // Mid Town square
             Engine.Entity mainSquareTree = TreeEntity.Create(662, 623, "tree_01_large.png");
             mainSquareTree.Tags.Id = "mainSquareTree";
-            mainSquareTree.GetComponent<TransformComponent>().Size.Y -= 2;
+            mainSquareTree.GetComponent<TransformComponent>().SetDrawOrderOffset(-15);
             // todo: add another trigger component that is envoked when the tree is cut down
             AddEntity(mainSquareTree);
+
+            // Mid Town Campfire
+            AddEntity(ObjectEntity.Create(388, 678, "campfire.png"));
+            AddEntity(VFXEntity.Create(397, 677, "spr_deco_fire_01_strip4.png", 0, 3, "fire"));
+            AddEntity(VFXEntity.Create(378, 658, "chimneysmoke_05_strip30.png", 0, 29, "smoke"));
 
             //// High Town Buildings
             // High Town Farm
