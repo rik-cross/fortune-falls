@@ -169,7 +169,7 @@ namespace AdventureGame
                     "Lumberjack",
                     "Chopped down all trees around your home",
                     // todo: added IsACtiveScene to stop this becoming true on UnloadAllScenes
-                    () => { return EngineGlobals.entityManager.GetAllEntitiesByType("houseTree").Count == 0; },
+                    () => { return EngineGlobals.sceneManager.IsActiveScene<VillageScene>() && EngineGlobals.entityManager.GetAllEntitiesByType("houseTree").Count == 0; },
                     () => { 
                         // todo: should remove the bits that we don't want here.
                         AddEntity(playerHouseEntrance);
