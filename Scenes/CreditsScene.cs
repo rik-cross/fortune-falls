@@ -21,7 +21,7 @@ namespace AdventureGame
 
             // title text
             _title = new Engine.Text(
-                caption: "Credits",
+                caption: "Fortune Falls",
                 font: Theme.FontSubtitle,
                 colour: Color.White,
                 anchor: Anchor.TopCenter,
@@ -32,7 +32,7 @@ namespace AdventureGame
             );
 
             _creditsText = new List<string>() {
-                "Writers", "Alex Parry, Mac Bowley and Rik Cross", "rik-cross.github.com/adventure-game",
+                "Writers", "Alex Parry, Mac Bowley and Rik Cross", "rik-cross.github.com/fortune-falls",
                 "Graphics",  "Sunnyside World by danieldiggle", "danieldiggle.itch.io",
                 "Sound", "Lo-fi / Cozy Sim music packs by Rest!", "richarrest.itch.io"
             };

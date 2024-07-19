@@ -61,7 +61,7 @@ namespace AdventureGame
 
             // Game title text
             _title = new Engine.Text(
-                caption: "Adventure Game",
+                caption: "Fortune Falls",
                 font: Theme.FontTitle,
                 colour: Color.White,
                 anchor: Anchor.TopCenter,
@@ -73,7 +73,7 @@ namespace AdventureGame
 
             // Game version text
             _versionText = new Engine.Text(
-                caption: "v0.0",
+                caption: "v0.1",
                 font: Theme.FontSecondary,
                 colour: Color.White,
                 anchor: Anchor.BottomRight,

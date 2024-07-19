@@ -102,7 +102,7 @@ namespace AdventureGame.Engine
                             dialogueComponent.AddPage("You the newbie I heard about? Related to Barnie, I presume?",
                             GameAssets.blacksmith_headshot);
 
-                            dialogueComponent.AddPage("Welcome to [Town / Game name]. I'm Magnus, the blacksmith.",
+                            dialogueComponent.AddPage("Welcome to Fortune Falls! I'm Magnus, the blacksmith.",
                                GameAssets.blacksmith_headshot);
 
                             dialogueComponent.AddPage("The place Barnie left you has seen better days. Take this axe for those trees.",

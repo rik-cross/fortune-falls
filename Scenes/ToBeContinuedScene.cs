@@ -31,7 +31,7 @@ namespace AdventureGame
             );
 
             _thanks = new Engine.Text(
-                caption: "Thank you for playing [Adventure Game]",
+                caption: "Thank you for playing Fortune Falls",
                 font: Theme.FontSecondary,
                 colour: Color.White,
                 anchor: Anchor.TopCenter,
