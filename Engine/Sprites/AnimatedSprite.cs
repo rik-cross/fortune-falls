@@ -7,6 +7,7 @@ namespace AdventureGame.Engine
 {
     public class AnimatedSprite
     {
+        // todo: does it need to be a List?
         public List<Sprite> SpriteList { get; private set; }
         //public Entity ChildEntity { get; set; } // Todo: could be a list
 
@@ -14,26 +15,40 @@ namespace AdventureGame.Engine
         public bool Play { get; set; }
         public bool Loop { get; private set; }
         //public int CurrentFrame { get; set; }
-        public int AnimationDelay { get; private set; }
+        public int AnimationDelay { get; set; }
         public int Timer { get; set; }
-        public bool Completed { get; set; }
+        public bool Completed { get; set; } // todo: change to Ended??
         public Action<Entity> OnComplete { get; set; }
+        public Action<Entity> OnLoop { get; set; } // todo: change to OnReset (invoke) / OnStart
         //public Color Hue { get; set; }
+
+        public float TimeElapsed { get; set; } // change to Timer
+        public float FrameDuration { get; set; }
+        public float LoopDelay { get; set; }
 
         public AnimatedSprite(Sprite sprite,
             bool play = true, bool loop = true, int delay = 6,
-            Action<Entity> onComplete = null)
+            Action<Entity> onComplete = null,
+            //Action<Entity> onLoop = null,
+            float frameDuration = 0.1f,
+            float loopDelay = 0.0f)
         {
             SpriteList = new List<Sprite>() { sprite };
             Play = play;
             Loop = loop;
             AnimationDelay = delay;
             OnComplete = onComplete;
+            //OnLoop = onLoop;
             //Hue = hue;
+
+            TimeElapsed = 0.0f;
+            FrameDuration = frameDuration;
+            LoopDelay = loopDelay;
 
             Reset();
         }
 
+        // todo: delete?? not being used
         public AnimatedSprite(List<Sprite> spriteList,
             bool play = true, bool loop = true, int delay = 6,
             Action<Entity> onComplete = null)
@@ -47,13 +62,17 @@ namespace AdventureGame.Engine
             Reset();
         }
 
-        public void Reset()
+        public void Reset() // optional parameter to set frame? (of particular sprite?)
         {
             Timer = 0;
-            Completed = false;
+            Completed = false; // todo: needed?
+
+            //TimeElapsed = 0.0f;
 
             foreach (Sprite sprite in SpriteList)
                 sprite.CurrentFrame = 0;
+
+            // todo: invoke OnReset
         }
 
         public void NextFrame()

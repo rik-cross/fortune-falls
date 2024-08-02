@@ -29,6 +29,7 @@ namespace AdventureGame.Engine
 
             // Check if the sprite component contains a relevant sprite
             if (spriteComponent != null
+                && spriteComponent.IsVisible
                 && spriteComponent.SpriteDict.ContainsKey(entity.State))
             {
                 Sprite sprite = spriteComponent.SpriteDict[entity.State];
@@ -37,6 +38,7 @@ namespace AdventureGame.Engine
 
             // Check if the animated sprite component contains a relevant animated sprite
             if (animatedComponent != null
+                && animatedComponent.IsVisible
                 && animatedComponent.AnimatedSprites.ContainsKey(entity.State))
             {
                 AnimatedSprite animatedSprite = animatedComponent.AnimatedSprites[entity.State];
@@ -48,7 +50,7 @@ namespace AdventureGame.Engine
 
         private void DrawSprite(Entity entity, Sprite sprite, float alpha, bool h, bool v, Color hue)
         {
-            AnimatedSpriteComponent asc = entity.GetComponent<AnimatedSpriteComponent>();
+            //AnimatedSpriteComponent asc = entity.GetComponent<AnimatedSpriteComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
             Texture2D currentTexture = sprite.TextureList[sprite.CurrentFrame];
 

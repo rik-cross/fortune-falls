@@ -17,6 +17,8 @@ namespace AdventureGame.Engine
         public Dictionary<string, Sprite> SpriteDict { get; private set; }
         //public bool visible { get; set; }
 
+        public bool IsVisible { get; set; }
+
         /// <value>
         /// Sets the alpha opacity of all the <see cref="Sprite"/>s.
         /// </value>
@@ -33,6 +35,7 @@ namespace AdventureGame.Engine
         public SpriteComponent()
         {
             SpriteDict = new Dictionary<string, Sprite>();
+            IsVisible = true;
             Alpha = 1.0f;
         }
 

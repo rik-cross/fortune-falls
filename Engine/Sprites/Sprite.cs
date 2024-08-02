@@ -14,7 +14,10 @@ namespace AdventureGame.Engine
         public bool FlipH { get; private set; }
         public bool FlipV { get; private set; }
         public Color SpriteHue { get; set; }
-        public int CurrentFrame;
+        public int CurrentFrame { get; set; } // todo: should all frame info be in AnimatedSprite?
+        public int MaxFrame { get; set; } // todo: delete
+        public int StartFrame { get; set; }
+        public int EndFrame { get; set; }
 
         public Sprite(Texture2D texture, Vector2 size = default, Vector2 offset = default,
             bool flipH = false, bool flipV = false, Color spriteHue = default)
@@ -39,6 +42,7 @@ namespace AdventureGame.Engine
             FlipH = flipH;
             FlipV = flipV;
             CurrentFrame = 0;
+            MaxFrame = TextureList.Count - 1;
         }
 
         public Sprite(List<Texture2D> textureList, Vector2 offset = default,
@@ -60,6 +64,7 @@ namespace AdventureGame.Engine
             FlipH = flipH;
             FlipV = flipV;
             CurrentFrame = 0;
+            MaxFrame = TextureList.Count - 1;
         }
 
         public Texture2D GetCurrentTexture()

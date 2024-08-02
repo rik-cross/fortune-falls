@@ -13,32 +13,41 @@ namespace AdventureGame.Engine
     {
         public Dictionary<string, AnimatedSprite> AnimatedSprites { get; set; }
         //public bool visible { get; set; }
+        public bool IsVisible { get; set; }
         public float Alpha { get; set; }
         public string LastState { get; set; }
 
         public AnimatedSpriteComponent()
         {
             AnimatedSprites = new Dictionary<string, AnimatedSprite>();
+            IsVisible = true;
             Alpha = 1.0f;
         }
 
-        public void ClearAllAnimatedSprites()
+        public void RemoveAllAnimatedSprites()
         {
             AnimatedSprites.Clear();
         }
-        public void ClearAnimatedSprites(string key)
+
+        public void RemoveAnimatedSprite(string key)
         {
             AnimatedSprites.Remove(key);
         }
 
         // Add animated sprites using frames which start at 0.
         // Width and height calculated using framesPerRow.
-        // Todo change delay to speed (FPS)?
+        // Todo:
+        //  remove delay
+        //  remove startFrame and change endFrame to totalFrames
+        //  add startFrame = 0
+        //  add endFrame = -1, default is totalFrames - 1
         public void AddAnimatedSprite(string filePath, string key,
             int startFrame, int endFrame, int totalRows = 1, int framesPerRow = -1,
             Vector2 offset = default, bool flipH = false, bool flipV = false,
             bool play = true, bool loop = true, int delay = 6,
-            Action<Entity> onComplete = null, Color spriteHue = default)
+            Action<Entity> onComplete = null, Color spriteHue = default,
+            float frameDuration = 0.1f,
+            float loopDelay = 0.0f)
         {
 
             if (spriteHue == default)
@@ -73,9 +82,11 @@ namespace AdventureGame.Engine
                 AnimatedSprites[key].SpriteList.Add(sprite);
             else
                 AnimatedSprites.Add(key, new AnimatedSprite(
-                    sprite, play, loop, delay, onComplete));
+                    sprite, play, loop, delay, onComplete,
+                    frameDuration, loopDelay));
         }
 
+        // todo: delete?
         public void AddAnimatedSprite(string key, Sprite sprite,
             bool play = true, bool loop = true, int delay = 6,
             Action<Entity> onComplete = null, Color spriteHue = default)

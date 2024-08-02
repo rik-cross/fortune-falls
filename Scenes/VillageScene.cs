@@ -99,6 +99,26 @@ namespace AdventureGame
             AddEntity(VFXEntity.Create(397, 677, "spr_deco_fire_01_strip4.png", 0, 3, "fire"));
             AddEntity(VFXEntity.Create(378, 658, "chimneysmoke_05_strip30.png", 0, 29, "smoke"));
 
+            // TEST water foam / twinkle
+            AddEntity(VFXEntity.Create(32, 1088, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(48, 1088, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(64, 1088, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(80, 1088, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(32, 1104, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(48, 1104, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(64, 1104, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(80, 1104, "waterfall_02_strip4.png", 0, 3, "waterfall", 10));
+            AddEntity(VFXEntity.Create(32, 1072, "water_foam_strip4.png", 0, 3, "foam", 12));
+            AddEntity(VFXEntity.Create(48, 1088, "twinkle_strip4.png", 0, 3, "twinkle", 16));
+            AddEntity(VFXEntity.Create(64, 1104, "twinkle_strip4.png", 0, 3, "twinkle", 16, initialFrame: 2));
+
+            // initialFrame: 2, 
+            AddEntity(VFXEntity.Create(120, 1160, "chimneysmoke_05_strip30.png", 0, 29, "smoke", frameDuration: 0.1f, loopDelay: 2.0f));
+            AddEntity(VFXEntity.Create(80, 1160, "chimneysmoke_05_strip30.png", 0, 29, "smoke", frameDuration: 0.05f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(80, 1200, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.2f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(80, 1240, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.1f, loopDelay: 2.0f));
+
+
             //// High Town Buildings
             // High Town Farm
             AddEntity(BuildingEntity.Create(441, 0, "UpperFarm.png", colliderHeightPercentage: 0.6f));

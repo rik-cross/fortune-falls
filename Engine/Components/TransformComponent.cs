@@ -8,6 +8,8 @@ namespace AdventureGame.Engine
         public Vector2 PreviousPosition;
         public Vector2 Size;
 
+        // todo: change to DrawOrder to DrawY / DrawYOffset
+
         // Properties for draw order
         public int DrawOrder { get; private set; }
         public int DrawOrderOffset { get; private set; }
