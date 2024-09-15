@@ -457,7 +457,11 @@ namespace AdventureGame
 
             // tool button
             // todo? if (battleComponent.DisableMovement) set all movement intentions to false
-            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")))
+            if (EngineGlobals.inputManager.IsDown(controlComponent.Get("tool"))
+                && (
+                    !entity.State.Contains("walk") &&
+                    !entity.State.Contains("run")
+                ))
             {
                 intentionComponent.Set("tool", true);
                 if (entity.State.Contains("_"))
