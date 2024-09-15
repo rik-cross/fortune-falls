@@ -120,8 +120,8 @@ namespace AdventureGame.Engine
                                         new Tutorial(
                                             name: "Use Axe",
                                             description: "Show the Blacksmith that you can use an axe",
-                                            condition: () => { return EngineGlobals.inputManager.IsPressed(controlComponent.Get("tool")); },
-                                            numberOfTimes: 3,
+                                            condition: () => { return EngineGlobals.inputManager.IsDown(controlComponent.Get("tool")); },
+                                            numberOfTimes: 50,
                                             onStart: () => {
 
                                                 
