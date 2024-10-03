@@ -19,7 +19,8 @@ namespace AdventureGame.Engine
         public double particleDecay;
         public Vector2 offset;
         public int particlesAtOnce;
-        public ParticleComponent(int lifetime = 10, int delayBetweenParticles = 1, double particleSize = 10.0, Color particleColour = default, string particleShape = "circle", Vector2 offset = default, double particleSpeed = 1, double particleDecay = 0.3, int particlesAtOnce = 1)
+        public Action onComplete;
+        public ParticleComponent(int lifetime = 10, int delayBetweenParticles = 1, double particleSize = 10.0, Color particleColour = default, string particleShape = "circle", Vector2 offset = default, double particleSpeed = 1, double particleDecay = 0.3, int particlesAtOnce = 1, Action onComplete = null)
         {
             this.lifetime = lifetime;
             this.delayBetweenParticles = delayBetweenParticles;
@@ -35,6 +36,7 @@ namespace AdventureGame.Engine
             this.particles = new List<Particle>();
             this.timeSinceLastParticle = delayBetweenParticles;
             this.particlesAtOnce = particlesAtOnce;
+            this.onComplete = onComplete;
         }
     }
 }

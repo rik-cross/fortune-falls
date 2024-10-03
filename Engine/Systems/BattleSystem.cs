@@ -16,7 +16,9 @@ namespace AdventureGame.Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+
             BattleComponent battleComponent = entity.GetComponent<BattleComponent>();
+            
             AnimatedSpriteComponent animatedComponent = entity.GetComponent<AnimatedSpriteComponent>();
             if (animatedComponent == null)
                 return;
@@ -26,7 +28,7 @@ namespace AdventureGame.Engine
                 return;
 
             HBox hitBox = battleComponent.GetHitbox(entity.State);
-
+            //S.WriteLine(animatedSprite.SpriteList[0].CurrentFrame);
             if (battleComponent.GetHitbox(entity.State) != null
                 && (animatedSprite.SpriteList[0].CurrentFrame == hitBox.frame || hitBox.frame == -1)
                 && animatedSprite.Timer == 0)
@@ -34,7 +36,6 @@ namespace AdventureGame.Engine
                 bool hit = false;
 
                 List<Entity> hitEntities = new List<Entity>();
-
                 // Check for hitbox/hurtbox intersects
                 foreach (Entity otherE in EntityList)
                 {
@@ -53,9 +54,9 @@ namespace AdventureGame.Engine
 
                             Rectangle r1a = new Rectangle((int)(r1.offset.X + t1.X), (int)(r1.offset.Y + t1.Y), (int)r1.size.X, (int)r1.size.Y);
                             Rectangle r2a = new Rectangle((int)(r2.offset.X + t2.X), (int)(r2.offset.Y + t2.Y), (int)r2.size.X, (int)r2.size.Y);
-
                             if (r1a.Intersects(r2a) && battleComponent.weapon != null)
                             {
+                                
                                 hit = true;
                                 hitEntities.Add(otherE);
 

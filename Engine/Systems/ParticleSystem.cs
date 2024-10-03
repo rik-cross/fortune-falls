@@ -24,7 +24,13 @@ namespace AdventureGame.Engine
             // update particle component
             //S.WriteLine(pc.particles.Count);
             if (pc.lifetime <= 0 && pc.particles.Count == 0)
+            {
+                if (pc.onComplete != null)
+                {
+                    pc.onComplete();
+                }
                 entity.RemoveComponent<ParticleComponent>();
+            }
             if (pc.lifetime > 0)
             {
                 pc.timeSinceLastParticle += 1;

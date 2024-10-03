@@ -71,7 +71,7 @@ namespace AdventureGame.Engine
             battleComponent.SetHurtbox("tree", new Engine.HBox(colliderSize, colliderOffset));
             battleComponent.OnHurt = (Engine.Entity thisEnt, Engine.Entity otherEnt, Engine.Weapon thisWeapon, Engine.Weapon otherWeapon) =>
             {
-                if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe")
+                if (thisEnt.State != "tree_stump" && otherWeapon.name == "axe") // otherWeapon == Weapons.Axe
                 {
                     SoundEffect chopSoundEffect = Utils.LoadSoundEffect("Sounds/chop.wav");
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
@@ -89,7 +89,8 @@ namespace AdventureGame.Engine
                             particleSize: 15,
                             particleColour: Color.LightGray,
                             offset: new Vector2(13, 17),
-                            particleSpeed: 0.5
+                            particleSpeed: 0.5,
+                            onComplete: () => { S.WriteLine("tree destroyed"); thisEnt.Destroy(); }
                         ));
 
                         // Drop any inventory items

@@ -205,7 +205,6 @@ namespace AdventureGame
                             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() == GameAssets.keyboardWeaponEmote)
                         )
                         {
-                            S.WriteLine("remove emote");
                             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                         }
                     }
@@ -484,9 +483,9 @@ namespace AdventureGame
                 InitialisePlayer();
             }
 
-            //Console.WriteLine($"\nScene Entity list: {EntitiesInScene.Count}, id set: {EntityIdSet.Count}. {this}");
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
+
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
         }
 
         public override void OnExit()
