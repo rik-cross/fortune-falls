@@ -183,6 +183,75 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(698, 227, "tree_02.png", false, "tree"));
             AddEntity(TreeEntity.Create(710, 218, "tree_02.png", false, "tree"));
 
+            // axe use achievement
+            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>() == null)
+                EngineGlobals.entityManager.GetLocalPlayer().AddComponent(new TutorialComponent());
+
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>().AddTutorial(
+                new Tutorial(
+                    name: "Use axe",
+                    description: "Know how to use an axe",
+                    condition: () =>
+                    {
+                        return EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>() != null &&
+                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon == Weapons.axe &&
+                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<PlayerControlComponent>() != null &&
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<PlayerControlComponent>().Get("tool"));
+                    },
+                    onComplete: () =>
+                    {
+                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null &&
+                            (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() == GameAssets.controllerWeaponEmote ||
+                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() == GameAssets.keyboardWeaponEmote)
+                        )
+                        {
+                            S.WriteLine("remove emote");
+                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                        }
+                    }
+                )
+            );
+
+            // axe use tutorial entity
+            Entity axeTutorialEntity = EngineGlobals.entityManager.CreateEntity();
+            axeTutorialEntity.AddComponent(new Engine.TransformComponent(new Vector2(645, 225), new Vector2(100, 50)));
+            axeTutorialEntity.AddComponent(
+                new Engine.TriggerComponent(new Vector2(100, 50),
+                onCollisionEnter: (Entity e, Entity e2, float d) =>
+                {
+
+                    if (e2.IsLocalPlayer() == false)
+                        return;
+
+                    if (Globals.hasUsedAxe == true)
+                        return;
+
+                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>() == null)
+                        return;
+
+                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon != Weapons.axe)
+                        return;
+
+                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<Engine.AnimatedEmoteComponent>();
+                    Engine.AnimatedEmoteComponent weaponEmote;
+                    if (Globals.IsControllerSelected)
+                        weaponEmote = GameAssets.controllerWeaponEmote;
+                    else
+                        weaponEmote = GameAssets.keyboardWeaponEmote;
+                    weaponEmote.alpha.Value = 1;
+                    EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(weaponEmote);
+                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
+                },
+                onCollisionExit: (Entity e, Entity e2, float d) =>
+                {
+                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
+                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                }
+            )
+            );
+            AddEntity(axeTutorialEntity);
+
             // Player's house tree trigger - cut down all trees > break axe
             EngineGlobals.achievementManager.AddAchievement(
                 new Engine.Achievement(
@@ -251,6 +320,10 @@ namespace AdventureGame
                 if (ac != null && (ac == GameAssets.controllerInteractEmote || ac == GameAssets.keyboardInteractEmote))
                     EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>().alpha.Value = 0;
                 questMarker.visible = true;
+
+                // remove tutorial and show final dialogue
+                //...
+
             };
 
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;

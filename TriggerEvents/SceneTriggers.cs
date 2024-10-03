@@ -29,8 +29,8 @@ namespace AdventureGame.Engine
             if (playerEntity == null || !playerEntity.IsPlayerType())
                 return;
 
-            if (playerEntity.GetComponent<TutorialComponent>().GetTutorials().Count > 0)
-                return;
+            //if (playerEntity.GetComponent<TutorialComponent>().GetTutorials().Count > 0)
+            //    return;
 
             //InputComponent playerInputComponent = playerEntity.GetComponent<InputComponent>();
             PlayerControlComponent controlComponent = playerEntity.GetComponent<PlayerControlComponent>();
@@ -113,7 +113,21 @@ namespace AdventureGame.Engine
                                }
                             );
 
-                            dialogueComponent.AddPage("Take a few practice swings, let me see your form!",
+                            dialogueComponent.AddPage("That axe is on loan, return it when you are done. Barnie's place is north, just over the ridge there.",
+                                 texture: GameAssets.blacksmith_headshot,
+                                 onDialogueComplete: (Entity e) =>
+                                 {
+                                     npcEntity.SetState(npcEntity.PreviousState);
+                                     // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
+                                     npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
+                                     npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
+
+                                     villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByIdTag("playersHouse"));
+                                     villageScene.questMarker.visible = true;
+                                 }
+                            );
+
+                            /*dialogueComponent.AddPage("Take a few practice swings, let me see your form!",
                                GameAssets.blacksmith_headshot,
                                onDialogueComplete: (Entity e) => {
                                    playerEntity.GetComponent<TutorialComponent>().AddTutorial(
@@ -130,6 +144,8 @@ namespace AdventureGame.Engine
                                                     playerEntity.GetComponent<IntentionComponent>().ResetAll();
                                                 if (playerEntity.State.Split("_").Length == 2 && (playerEntity.State.Split("_")[0] == "walk" || playerEntity.State.Split("_")[0] == "run"))
                                                     playerEntity.SetState("idle_" + playerEntity.State.Split("_")[1]);
+                                                
+                                                //...remove
                                                 ic.PushController(PlayerEntity.PlayerInputControllerToolOnly);
                                                 ic.TopControllerLabel = "tool";
                                                 
@@ -147,6 +163,7 @@ namespace AdventureGame.Engine
                                             },
                                             onComplete: () => {
 
+                                                //...remove
                                                 if (playerEntity.GetComponent<InputComponent>().TopControllerLabel == "tool")
                                                     playerEntity.GetComponent<InputComponent>().PopController();
 
@@ -167,7 +184,7 @@ namespace AdventureGame.Engine
                                         )
                                    );
                                }
-                           );
+                           );*/
                         }
                         
                     } else

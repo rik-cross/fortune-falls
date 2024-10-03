@@ -58,7 +58,7 @@ namespace AdventureGame
         public static string playerStr = allCharacters[playerIndex];
 
         public static bool hasInteracted = false;
-
+        public static bool hasUsedAxe = false;
 
         // Called during MenuScene Init() to set all of the menu controls
         public static void SetCustomUIControls()

@@ -472,6 +472,8 @@ namespace AdventureGame
                         && battleComponent.weapon.name != null)
                     {
                         entity.SetState(battleComponent.weapon.name + "_" + entity.State.Split("_")[1]);
+                        if (battleComponent.weapon == Weapons.axe)
+                            Globals.hasUsedAxe = true;
                     }
                 }
             }
