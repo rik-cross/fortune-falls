@@ -77,12 +77,15 @@ namespace AdventureGame.Engine
                     EngineGlobals.soundManager.PlaySoundEffect(chopSoundEffect);
                     thisEnt.GetComponent<HealthComponent>().Health -= 25;
                     //thisEnt.State = "tree_shake";
-
+                    //S.WriteLine
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())
                     {
                         //thisEnt.State = "tree_fall";
-
+                        S.WriteLine("done");
                         // Create particle effects
+
+                        // TODO: create a new entity instead
+
                         thisEnt.AddComponent(new ParticleComponent(
                             lifetime: 20,
                             delayBetweenParticles: 3,
@@ -90,7 +93,7 @@ namespace AdventureGame.Engine
                             particleColour: Color.LightGray,
                             offset: new Vector2(13, 17),
                             particleSpeed: 0.5,
-                            onComplete: () => { S.WriteLine("tree destroyed"); thisEnt.Destroy(); }
+                            onComplete: () => { thisEnt.Destroy(); }
                         ));
 
                         // Drop any inventory items
@@ -103,7 +106,9 @@ namespace AdventureGame.Engine
 
                         // Set the tree to it's next state or destroy the entity
                         if (string.IsNullOrEmpty(thisEnt.NextState))
-                            thisEnt.Destroy();
+                        {
+                            //thisEnt.Destroy();
+                        }
                         else
                             thisEnt.SetState(thisEnt.NextState);
                     } else
