@@ -66,6 +66,11 @@ namespace AdventureGame.Engine
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             animatedSprite.TimeElapsed += deltaTime;
 
+            //if (entity.IsPlayerType())
+            //{
+            //    S.WriteLine(currentFrame);
+            //}
+
             //
             // Todo: change to EndFrame
             if (animatedSprite.TimeElapsed >= animatedSprite.FrameDuration)

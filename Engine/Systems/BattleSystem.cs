@@ -28,10 +28,10 @@ namespace AdventureGame.Engine
                 return;
 
             HBox hitBox = battleComponent.GetHitbox(entity.State);
-            //S.WriteLine(animatedSprite.SpriteList[0].CurrentFrame);
+
             if (battleComponent.GetHitbox(entity.State) != null
                 && (animatedSprite.SpriteList[0].CurrentFrame == hitBox.frame || hitBox.frame == -1)
-                && animatedSprite.Timer == 0)
+                && animatedSprite.TimeElapsed == 0)
             {
                 bool hit = false;
 
