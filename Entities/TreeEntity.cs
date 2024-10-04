@@ -80,10 +80,37 @@ namespace AdventureGame.Engine
                     //S.WriteLine
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())
                     {
-                      
-                        thisEnt.GetComponent<AnimatedSpriteComponent>().IsVisible = false;
+                        //thisEnt.State = "tree_fall";
+                        //S.WriteLine("done");
+                        // Create particle effects
 
-                        thisEnt.AddComponent(new ParticleComponent(
+                        // TODO: create a new entity instead
+                        // ...with a particle component
+                        // ...that destroys itself on complete
+
+                        Entity treeDust = EngineGlobals.entityManager.CreateEntity();
+
+                        //Scene playerScene = player.GetComponent<SceneComponent>().Scene;
+
+                        ParticleComponent particles = new ParticleComponent(
+                            lifetime: 20,
+                            delayBetweenParticles: 3,
+                            particleSize: 15,
+                            particleColour: Color.LightGray,
+                            offset: new Vector2(13, 17),
+                            particleSpeed: 0.5,
+                            onComplete: () => { treeDust.Destroy(); }
+                        );
+
+                        treeDust.AddComponent(particles);
+                        
+                        EngineGlobals.sceneManager.ActiveScene.AddEntityNextTick(
+                            treeDust
+                        );
+                        
+                        //thisEnt.GetComponent<AnimatedSpriteComponent>().IsVisible = false;
+
+                        /*thisEnt.AddComponent(new ParticleComponent(
                             lifetime: 20,
                             delayBetweenParticles: 3,
                             particleSize: 15,
@@ -91,7 +118,7 @@ namespace AdventureGame.Engine
                             offset: new Vector2(13, 17),
                             particleSpeed: 0.5,
                             onComplete: () => { thisEnt.Destroy(); }
-                        ));
+                        ));*/
 
                         // Drop any inventory items
                         InventoryComponent inventoryComponent = thisEnt.GetComponent<InventoryComponent>();
@@ -104,7 +131,7 @@ namespace AdventureGame.Engine
                         // Set the tree to it's next state or destroy the entity
                         if (string.IsNullOrEmpty(thisEnt.NextState))
                         {
-                            //thisEnt.Destroy();
+                            thisEnt.Destroy();
                         }
                         else
                             thisEnt.SetState(thisEnt.NextState);

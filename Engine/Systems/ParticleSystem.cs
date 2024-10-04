@@ -60,8 +60,10 @@ namespace AdventureGame.Engine
         }
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
+
             ParticleComponent pc = entity.GetComponent<ParticleComponent>();
             TransformComponent tc = entity.GetComponent<TransformComponent>();
+
             if (pc.particleShape == "circle")
             {
                 foreach (Particle p in pc.particles)
