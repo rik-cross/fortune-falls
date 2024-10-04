@@ -80,11 +80,8 @@ namespace AdventureGame.Engine
                     //S.WriteLine
                     if (!thisEnt.GetComponent<HealthComponent>().HasHealth())
                     {
-                        //thisEnt.State = "tree_fall";
-                        S.WriteLine("done");
-                        // Create particle effects
-
-                        // TODO: create a new entity instead
+                      
+                        thisEnt.GetComponent<AnimatedSpriteComponent>().IsVisible = false;
 
                         thisEnt.AddComponent(new ParticleComponent(
                             lifetime: 20,
