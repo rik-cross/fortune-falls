@@ -189,6 +189,9 @@ namespace AdventureGame.Engine
         // Check if the given scene is the active scene
         public bool IsActiveScene<TScene>()
         {
+            if (ActiveScene == null)
+                return false;
+
             return typeof(TScene) == ActiveScene.GetType();
         }
 
