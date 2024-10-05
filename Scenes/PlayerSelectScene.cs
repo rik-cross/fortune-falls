@@ -72,6 +72,10 @@ namespace AdventureGame
 
         public override void OnEnter()
         {
+
+            VillageScene vs = (VillageScene)EngineGlobals.sceneManager.GetScene<VillageScene>();
+            vs.questMarker.visible = false;
+
             Entity player = EngineGlobals.entityManager.GetLocalPlayer();
             if (player == null)
                 return;
@@ -101,6 +105,10 @@ namespace AdventureGame
 
         public override void OnExit()
         {
+
+            VillageScene vs = (VillageScene)EngineGlobals.sceneManager.GetScene<VillageScene>();
+            vs.questMarker.visible = true;
+
             // zoom back out
             EngineGlobals.sceneManager.SceneBelow.GetCameraByName("main").SetZoom(4.0f, instant: false);
         }

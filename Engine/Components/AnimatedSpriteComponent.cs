@@ -145,6 +145,13 @@ namespace AdventureGame.Engine
             return new Sprite(sprite.TextureList, sprite.Offset, sprite.FlipH, sprite.FlipV);
         }
 
+        public bool HasSpriteForState(string state)
+        {
+            if (AnimatedSprites.ContainsKey(state))
+                return true;
+            return false;
+        }
+
         public Sprite GetSprite(string state = "default", int index = 0)
         {
             //if (AnimatedSprites.ContainsKey(state))

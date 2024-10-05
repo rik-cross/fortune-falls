@@ -355,13 +355,19 @@ namespace AdventureGame.Engine
             for (int i = 1; i < EntitiesInScene.Count; ++i)
             {
                 Entity e = EntitiesInScene[i];
+
+                //if (e.GetComponent<TransformComponent>() == null)
+                //    continue;
+
                 int pos = i - 1;
                 //Console.WriteLine(string.Join(", ", e.Tags.Type));
-                while (pos >= 0 && EntitiesInScene[pos].GetComponent<TransformComponent>().DrawOrder > e.GetComponent<TransformComponent>().DrawOrder)
+                
+                while (pos >= 0 /*&& EntitiesInScene[pos].GetComponent<TransformComponent>() != null*/ && EntitiesInScene[pos].GetComponent<TransformComponent>().DrawOrder > e.GetComponent<TransformComponent>().DrawOrder)
                 {
                     EntitiesInScene[pos + 1] = EntitiesInScene[pos];
                     pos--;
                 }
+
                 EntitiesInScene[pos + 1] = e;
             }
         }
@@ -473,8 +479,8 @@ namespace AdventureGame.Engine
             //EntityList.Sort(CompareY);
             //EntityList.Sort(CompareDrawOrder);
 
-            //DrawOrderInsertionSort();
-            EntitiesInScene.Sort(CompareY);
+            DrawOrderInsertionSort();
+            //EntitiesInScene.Sort(CompareY);
 
 
             // update cameras

@@ -90,6 +90,15 @@ namespace AdventureGame.Engine
 
                         Entity treeDust = EngineGlobals.entityManager.CreateEntity();
 
+                        // draw order insertion function fails if an entity doesn't have a transform component
+                        Vector2 treeCenter = new Vector2(thisEnt.GetComponent<TransformComponent>().Center, thisEnt.GetComponent<TransformComponent>().Middle);
+
+                        treeDust.AddComponent(
+                            new TransformComponent(
+                                position: treeCenter,
+                                size: new Vector2(0, 0)
+                            )
+                        );
                         //Scene playerScene = player.GetComponent<SceneComponent>().Scene;
 
                         ParticleComponent particles = new ParticleComponent(
@@ -97,7 +106,6 @@ namespace AdventureGame.Engine
                             delayBetweenParticles: 3,
                             particleSize: 15,
                             particleColour: Color.LightGray,
-                            offset: new Vector2(13, 17),
                             particleSpeed: 0.5,
                             onComplete: () => { treeDust.Destroy(); }
                         );
@@ -137,7 +145,9 @@ namespace AdventureGame.Engine
                             thisEnt.SetState(thisEnt.NextState);
                     } else
                     {
-                        thisEnt.SetState("tree_hit");
+
+                        if (thisEnt.GetComponent<AnimatedSpriteComponent>().HasSpriteForState("tree_hit"))
+                            thisEnt.SetState("tree_hit");
                         // Create particle effects
 
                         Engine.TransformComponent tc = thisEnt.GetComponent<TransformComponent>();
