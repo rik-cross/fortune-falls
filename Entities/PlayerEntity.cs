@@ -439,7 +439,7 @@ namespace AdventureGame
             {
                 if (intentionComponent.Get("sprint"))
                 {
-                    if (entity.State.Contains("walk_"))
+                    if (entity.State.Contains("run_") == false)
                     {
                         CreatePlayerSprintEffect(entity);
                     }

@@ -191,6 +191,7 @@ namespace AdventureGame.Engine
         {
             if (ActiveScene == null)
                 return false;
+
             return typeof(TScene) == ActiveScene.GetType();
         }
 
