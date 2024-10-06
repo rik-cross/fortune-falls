@@ -47,6 +47,7 @@ namespace AdventureGame.Engine
         public SpriteComponent(string filePath, string key = "default")
         {
             SpriteDict = new Dictionary<string, Sprite>();
+            IsVisible = true;
             Alpha = 1.0f;
             LastState = key;
             AddSprite(filePath, key);
