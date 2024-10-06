@@ -41,6 +41,8 @@ namespace AdventureGame.Engine
         //  remove startFrame and change endFrame to totalFrames
         //  add startFrame = 0
         //  add endFrame = -1, default is totalFrames - 1
+        // OR
+        // startFrame should set the current frame of animation
         public void AddAnimatedSprite(string filePath, string key,
             int startFrame, int endFrame, int totalRows = 1, int framesPerRow = -1,
             Vector2 offset = default, bool flipH = false, bool flipV = false,

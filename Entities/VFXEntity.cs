@@ -12,6 +12,8 @@ namespace AdventureGame
             int initialFrame = -1,
             float frameDuration = 0.1f,
             float loopDelay = 0.0f,
+            bool flipH = false,
+            bool flipV = false,
             bool drawAbove = true,
             string idTag = null)
         {
@@ -29,7 +31,9 @@ namespace AdventureGame
                 startFrame,
                 endFrame,
                 frameDuration: frameDuration,
-                loopDelay: loopDelay
+                loopDelay: loopDelay,
+                flipH: flipH,
+                flipV: flipV
             );
 
             // Set custom delay
@@ -46,7 +50,7 @@ namespace AdventureGame
             {
                 // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
                 animatedComponent.LastState = defaultState;
-                animatedComponent.SetAnimatedSpriteFrame(2, defaultState);
+                animatedComponent.SetAnimatedSpriteFrame(initialFrame, defaultState);
                 //animatedComponent.GetAnimatedSprite(defaultState).SetFrame(2);
             }
 
