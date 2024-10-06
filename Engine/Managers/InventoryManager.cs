@@ -151,12 +151,13 @@ namespace AdventureGame.Engine
             int randomX = 0;
             int randomY = 0;
 
-            //if (entity.IsPlayerType() || entity.Tags.HasType("chest"))
-            //{
+            // todo: allow X and Y to be preset and/or in relation to item
             // Initialise the item position to below the bottom center of the entity
             itemX = (int)transformComponent.Center - item.Texture.Width / 2;
-            itemY = (int)transformComponent.Bottom;
+            //itemY = (int)transformComponent.Bottom;
+            itemY = (int)transformComponent.Bottom - item.Texture.Height - 5;
 
+            // todo: distribute items evenly
             if (dropMultiple)
             {
                 // Offset the item X and Y position by a pseudo-random amount
