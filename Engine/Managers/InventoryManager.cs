@@ -199,7 +199,7 @@ namespace AdventureGame.Engine
             Scene playerScene = player.GetComponent<SceneComponent>().Scene;
             if (playerScene != null)
             {
-                playerScene.AddEntityNextTick(ItemEntity.Create(itemX, itemY, item,
+                playerScene.AddEntity(ItemEntity.Create(itemX, itemY, item,
                     isCollectable, collectableByType, animation));
             }
         }

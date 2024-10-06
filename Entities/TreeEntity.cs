@@ -112,7 +112,7 @@ namespace AdventureGame.Engine
 
                         treeDust.AddComponent(particles);
                         
-                        EngineGlobals.sceneManager.ActiveScene.AddEntityNextTick(
+                        EngineGlobals.sceneManager.ActiveScene.AddEntity(
                             treeDust
                         );
                         

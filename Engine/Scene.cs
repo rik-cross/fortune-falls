@@ -266,30 +266,16 @@ namespace AdventureGame.Engine
             return null;
         }
 
-        // CHANGE to use an _entityMapper for all the Contains() calls
         public void AddEntity(Entity e)
         {
             if (e != null && EntityIdSet.Contains(e.Id) == false)
             //if (e != null && EntitiesInScene.Contains(e) == false)
             {
-                EntityIdSet.Add(e.Id);
-                EntitiesInScene.Add(e);
-                EntitiesToAdd.Add(e); // todo remove from here??
+                //EntityIdSet.Add(e.Id);
+                //EntitiesInScene.Add(e);
+                EntitiesToAdd.Add(e);
                 //Console.WriteLine($"\nAdd Entity. List: {EntitiesInScene.Count}, id set: {EntityIdSet.Count}. {this}");
             }
-        }
-
-        public void AddEntity(Entity[] eList)
-        {
-            foreach (Entity e in eList)
-                AddEntity(e);
-        }
-
-        // Used by InventoryManager
-        public void AddEntityNextTick(Entity e)
-        {
-            //_entityManager.Added.Add(e);
-            EntitiesToAdd.Add(e);
         }
 
         public void RemoveEntity(Entity e)
@@ -391,7 +377,8 @@ namespace AdventureGame.Engine
 
         public virtual void _Update(GameTime gameTime)
         {
-            // MOVE to SystemManager?
+            // todo: move nearly everything to SystemManager?
+
             // Call before deleting any entities
             foreach (System s in EngineGlobals.systemManager.systems)
             {
@@ -410,7 +397,7 @@ namespace AdventureGame.Engine
             _entityManager.DeleteEntitiesFromGame();
 
 
-            // Repeats for each entity whose components have changed
+            // Handles entities whose components have changed
             foreach (Entity e in _componentManager.ChangedEntities)
             {
                 // CHECK should this or the UpdateEntityList only be executed
@@ -418,35 +405,20 @@ namespace AdventureGame.Engine
 
                 _componentManager.RemoveQueuedComponents();
                 _systemManager.UpdateEntityLists(e);
-                //_systemManager.UpdateEntityLists(gameTime, this, e);
             }
             _componentManager.ClearRemovedComponents();
             _componentManager.ClearChangedEntities();
 
-
-            // Add entities from the added set
-            /*foreach (Entity e in _entityManager.Added)
-            //    AddEntity(e);
-            {
-                AddEntity(e);
-                Console.WriteLine($"Added entity {e.Id} from Added set");
-            }
-            _entityManager.AddEntitiesToGame();*/
-
-            // Should also be called when changing an entity's scene
+            // Add entities from the added set - also call when changing an entity's scene?
             foreach (Entity e in EntitiesToAdd)
             {
-                // Change? Only used when dropping item from InventoryManager
-                if (!EntityIdSet.Contains(e.Id))
-                //if (!EntitiesInScene.Contains(e))
+                if (e != null && EntityIdSet.Contains(e.Id) == false)
                 {
-                    AddEntity(e);
+                    EntityIdSet.Add(e.Id);
+                    EntitiesInScene.Add(e);
                     _systemManager.UpdateEntityLists(e); // A bit hacky...
                 }
 
-                //Console.WriteLine($"Added entity {e.Id} from Added set");
-
-                // Call after adding an entity to the scene
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
                     // Update each relevant entity of a system
@@ -483,9 +455,9 @@ namespace AdventureGame.Engine
             //EntitiesInScene.Sort(CompareY);
 
 
-            // update cameras
-            foreach (Camera c in CameraList)
-                c.Update(this);
+            //// update cameras
+            //foreach (Camera c in CameraList)
+            //    c.Update(this);
 
             // update each system
             foreach (System s in EngineGlobals.systemManager.systems)
@@ -501,6 +473,10 @@ namespace AdventureGame.Engine
 
             // update the scene
             Update(gameTime);
+
+            // update cameras
+            foreach (Camera c in CameraList)
+                c.Update(this);
 
             // Update the menu
             if (UIMenu != null && _sceneManager.IsActiveScene(this))

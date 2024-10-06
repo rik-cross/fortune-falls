@@ -15,6 +15,7 @@ namespace AdventureGame.Engine
         public ParticleSystem()
         {
             RequiredComponent<ParticleComponent>();
+            RequiredComponent<TransformComponent>();
         }
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
@@ -60,7 +61,6 @@ namespace AdventureGame.Engine
         }
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-
             ParticleComponent pc = entity.GetComponent<ParticleComponent>();
             TransformComponent tc = entity.GetComponent<TransformComponent>();
 
