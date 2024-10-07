@@ -210,10 +210,10 @@ namespace AdventureGame
             //AddEntity(playerHouseEntrance);
 
             // Player's House trees
-            AddEntity(TreeEntity.Create(678, 215, "tree_02.png", additionalTag: "houseTree"));
-            AddEntity(TreeEntity.Create(688, 217, "tree_02.png", additionalTag: "houseTree"));
-            AddEntity(TreeEntity.Create(660, 225, "tree_02.png"));
-            AddEntity(TreeEntity.Create(670, 240, "tree_02.png"));
+            AddEntity(TreeEntity.Create(678, 220, "tree_02.png", additionalTag: "houseTree"));
+            AddEntity(TreeEntity.Create(688, 222, "tree_02.png", additionalTag: "houseTree"));
+            AddEntity(TreeEntity.Create(660, 215, "tree_02.png"));
+            AddEntity(TreeEntity.Create(667, 240, "tree_02.png"));
             AddEntity(TreeEntity.Create(688, 243, "tree_02.png"));
             AddEntity(TreeEntity.Create(698, 227, "tree_02.png"));
             AddEntity(TreeEntity.Create(710, 218, "tree_02.png"));
