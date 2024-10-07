@@ -161,8 +161,18 @@ namespace AdventureGame.Engine
             if (dropMultiple)
             {
                 // Offset the item X and Y position by a pseudo-random amount
-                randomX = random.Next(0, 15);
-                randomY = random.Next(0, 4);
+                //randomX = random.Next(0, 15);
+                //randomY = random.Next(0, 4);
+
+                if (index % 2 == 0)
+                {
+                    itemX -= item.Texture.Width / 3;
+                }
+                else
+                {
+                    itemX += item.Texture.Width / 3;
+                }
+                itemY -= item.Texture.Height / 2;
             }
             //}
             //else

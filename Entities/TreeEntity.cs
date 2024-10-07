@@ -59,7 +59,9 @@ namespace AdventureGame.Engine
             // Add inventory component for drop items
             InventoryComponent inventory = entity.AddComponent<Engine.InventoryComponent>(
                 new Engine.InventoryComponent(3));
-            inventory.AddItem(new Item("wood", "Items/wood.png", quantity: 2, stackSize: 10));
+            inventory.AddItem(new Item("wood", "Items/wood.png", quantity: 1, stackSize: 10));
+            inventory.AddItem(new Item("wood", "Items/wood.png", quantity: 1, stackSize: 10));
+            inventory.AddItem(new Item("wood", "Items/wood.png", quantity: 1, stackSize: 10));
 
             //Random random = new Random();
             //for (int i = 0; i <= random.Next(1, 3); i++)
