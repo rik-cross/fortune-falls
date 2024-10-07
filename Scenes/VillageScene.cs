@@ -191,9 +191,9 @@ namespace AdventureGame
 
             // Player's house - scene entrance trigger
             Entity playerHouseEntrance = EngineGlobals.entityManager.CreateEntity("playershouseEntrance");
-            playerHouseEntrance.AddComponent(new Engine.TransformComponent(688, 235, 16, 10));
+            playerHouseEntrance.AddComponent(new Engine.TransformComponent(694, 231, 4, 10));
             Engine.TriggerComponent pHouseTC = new TriggerComponent(
-                size: new Vector2(16, 10),
+                size: new Vector2(4, 10),
                 //offset: new Vector2(15, 15),
                 onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
                     if (otherEntity.IsLocalPlayer()) //&& EngineGlobals.inputManager.IsPressed(otherEntity.GetComponent<InputComponent>().Input.button1))
@@ -210,13 +210,13 @@ namespace AdventureGame
             //AddEntity(playerHouseEntrance);
 
             // Player's House trees
-            AddEntity(TreeEntity.Create(660, 220, "tree_02.png", false, "tree"));
-            AddEntity(TreeEntity.Create(672, 230, "tree_02.png", false, "tree"));
-            AddEntity(TreeEntity.Create(682, 218, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(690, 235, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(692, 223, "tree_02.png", false, "tree", "houseTree"));
-            AddEntity(TreeEntity.Create(698, 227, "tree_02.png", false, "tree"));
-            AddEntity(TreeEntity.Create(710, 218, "tree_02.png", false, "tree"));
+            AddEntity(TreeEntity.Create(678, 215, "tree_02.png", additionalTag: "houseTree"));
+            AddEntity(TreeEntity.Create(688, 217, "tree_02.png", additionalTag: "houseTree"));
+            AddEntity(TreeEntity.Create(660, 225, "tree_02.png"));
+            AddEntity(TreeEntity.Create(670, 240, "tree_02.png"));
+            AddEntity(TreeEntity.Create(688, 243, "tree_02.png"));
+            AddEntity(TreeEntity.Create(698, 227, "tree_02.png"));
+            AddEntity(TreeEntity.Create(710, 218, "tree_02.png"));
 
             // axe use achievement
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>() == null)
@@ -519,7 +519,7 @@ namespace AdventureGame
             }
 
 
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
+            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
             EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
 
             //questMarker.visible = true;

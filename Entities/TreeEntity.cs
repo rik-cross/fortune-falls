@@ -10,7 +10,7 @@ namespace AdventureGame.Engine
     public static class TreeEntity
     {
         public static Engine.Entity Create(int x, int y, string filename,
-            bool isStump = true, string defaultState = "tree", string additionalTag=null)
+            bool hasStump = false, string defaultState = "tree", string additionalTag=null)
         {
             Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
             entity.Tags.AddTag("tree");
@@ -36,7 +36,7 @@ namespace AdventureGame.Engine
             //spriteComponent.AddSprite(dir + filename, "tree_stump", 1, 1);
             // Set state
             entity.SetState(defaultState);
-            if (isStump)
+            if (hasStump)
                 entity.NextState = "tree_stump";
 
             // Add transform and collider components
