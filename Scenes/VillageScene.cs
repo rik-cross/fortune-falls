@@ -100,6 +100,123 @@ namespace AdventureGame
             AddEntity(VFXEntity.Create(378, 658, "chimneysmoke_05_strip30.png", 0, 29, "smoke"));
 
             //// Water animations
+
+            // Top-right waterfall 1
+            AddEntity(VFXEntity.Create(928, 96, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(944, 96, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(960, 96, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(976, 96, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(928, 112, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(944, 112, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(960, 112, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(976, 112, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(928, 128, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(944, 128, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(960, 128, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(976, 128, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(928, 80, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(944, 80, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(960, 80, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(976, 80, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(928, 128, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(944, 128, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(960, 128, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(976, 128, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(976, 96, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.2f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(944, 112, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.1f, loopDelay: 2.0f));
+
+            // Top-right waterfall 2
+            AddEntity(VFXEntity.Create(896, 224, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(912, 224, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(928, 224, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(944, 224, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(896, 240, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(912, 240, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(928, 240, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(944, 240, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(896, 208, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(912, 208, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(928, 208, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(944, 208, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(896, 240, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(912, 240, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(928, 240, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(944, 240, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(944, 224, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.2f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(912, 240, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.1f, loopDelay: 2.0f));
+
+            // Mid-right waterfall
+            AddEntity(VFXEntity.Create(992, 512, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1008, 512, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1024, 512, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1040, 512, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(992, 528, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1008, 528, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1024, 528, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1040, 528, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(992, 496, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(1008, 496, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(1024, 496, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(1040, 496, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(992, 528, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(1008, 528, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(1024, 528, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(1040, 528, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(1040, 512, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.2f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(992, 528, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.1f, loopDelay: 2.0f));
+
+            AddEntity(VFXEntity.Create(1008, 592, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.2f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(1040, 672, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.1f, loopDelay: 2.0f));
+
+            // Bottom-right waterfall
+            AddEntity(VFXEntity.Create(1104, 864, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1120, 864, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1136, 864, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1152, 864, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1104, 880, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1120, 880, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1136, 880, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1152, 880, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1104, 896, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1120, 896, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1136, 896, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1152, 896, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1104, 912, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1120, 912, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1136, 912, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1152, 912, "waterfall_02_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(1104, 848, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(1120, 848, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(1136, 848, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(1152, 848, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(1104, 912, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(1120, 912, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(1136, 912, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(1152, 912, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(1104, 864, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.15f, loopDelay: 1.5f));
+            AddEntity(VFXEntity.Create(1152, 880, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.2f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(1120, 896, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.1f, loopDelay: 2.0f));
+
+            // Top-left waterfall
+            AddEntity(VFXEntity.Create(64, 400, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(80, 400, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(96, 400, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(112, 400, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(64, 416, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(80, 416, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(96, 416, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(112, 416, "waterfall_01_strip4.png", 0, 3, "waterfall"));
+            AddEntity(VFXEntity.Create(64, 384, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(80, 384, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(96, 384, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(112, 384, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(64, 416, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.13f));
+            AddEntity(VFXEntity.Create(80, 416, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.16f));
+            AddEntity(VFXEntity.Create(96, 416, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.12f));
+            AddEntity(VFXEntity.Create(112, 416, "water_foam_strip4.png", 0, 3, "foam", flipH: true, frameDuration: 0.15f));
+            AddEntity(VFXEntity.Create(64, 400, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.2f, loopDelay: 1.0f));
+            AddEntity(VFXEntity.Create(96, 416, "twinkle_strip4.png", 0, 3, "twinkle", frameDuration: 0.1f, loopDelay: 2.0f));
+
             // Mid-left waterfall
             AddEntity(VFXEntity.Create(64, 752, "waterfall_01_strip4.png", 0, 3, "waterfall"));
             AddEntity(VFXEntity.Create(80, 752, "waterfall_01_strip4.png", 0, 3, "waterfall"));
