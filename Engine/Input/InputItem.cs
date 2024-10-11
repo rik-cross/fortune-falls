@@ -8,6 +8,7 @@ namespace AdventureGame.Engine
      *   Encapulates an input, to be associated with an InputMethod   
      *   e.g. InputMethod.button1 = InputItem Enter
      */
+
     public class InputItem
     {
         // stores a key (for keyboard input only)

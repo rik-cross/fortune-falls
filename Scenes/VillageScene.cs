@@ -1,5 +1,6 @@
 ﻿using AdventureGame.Engine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 using System;
 using S = System.Diagnostics.Debug;
@@ -519,8 +520,8 @@ namespace AdventureGame
             }
 
 
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
+            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
+            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
 
             //questMarker.visible = true;
         }
@@ -541,7 +542,12 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuInventory")))
                 EngineGlobals.sceneManager.ChangeScene<InventoryScene2>(false);
 
-            if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuDev")))
+            // ctrl + alt + T  =  dev console
+            if (
+                EngineGlobals.inputManager.IsDown(Globals.ctrl) &&
+                EngineGlobals.inputManager.IsDown(Globals.alt) &&
+                EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuDev"))
+            )
                 EngineGlobals.sceneManager.ChangeScene<DevToolsScene>(false);
         }
 
