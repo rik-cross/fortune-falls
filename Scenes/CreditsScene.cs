@@ -87,7 +87,8 @@ namespace AdventureGame
 
         public override void Input(GameTime gameTime)
         {
-
+            if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("back")))
+                EngineGlobals.sceneManager.ChangeToSceneBelow<FadeSceneTransition>();
         }
 
         public override void Update(GameTime gameTime)
