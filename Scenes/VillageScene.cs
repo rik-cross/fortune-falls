@@ -661,9 +661,9 @@ namespace AdventureGame
 
             // ctrl + alt + T  =  dev console
             if (
-                EngineGlobals.inputManager.IsDown(Globals.ctrl) &&
-                EngineGlobals.inputManager.IsDown(Globals.alt) &&
-                EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuDev"))
+                EngineGlobals.inputManager.IsDown(Keys.LeftControl) &&
+                EngineGlobals.inputManager.IsDown(Keys.LeftAlt) &&
+                EngineGlobals.inputManager.IsPressed(Keys.T)
             )
                 EngineGlobals.sceneManager.ChangeScene<DevToolsScene>(false);
         }

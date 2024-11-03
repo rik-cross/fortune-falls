@@ -1,6 +1,7 @@
 ﻿using AdventureGame.Engine;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 using S = System.Diagnostics.Debug;
 
@@ -64,7 +65,12 @@ namespace AdventureGame
             if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuInventory")))
                 EngineGlobals.sceneManager.ChangeScene<InventoryScene2>(false);
 
-            if (EngineGlobals.inputManager.IsPressed(Engine.UIInput.Get("menuDev")))
+            // ctrl + alt + T  =  dev console
+            if (
+                EngineGlobals.inputManager.IsDown(Keys.LeftControl) &&
+                EngineGlobals.inputManager.IsDown(Keys.LeftAlt) &&
+                EngineGlobals.inputManager.IsPressed(Keys.T)
+            )
                 EngineGlobals.sceneManager.ChangeScene<DevToolsScene>(false);
         }
         public override void Update(GameTime gameTime)

@@ -86,29 +86,34 @@ namespace AdventureGame.Engine
             return GamePad.GetState(0).IsConnected;
         }
 
-        public bool IsDown(InputItem item)
+        public bool IsDown(Keys? key = null, Buttons? button = null, MouseButtons? mouseButton = null)
         {
-            if (item == null)
-                return false;
-
-            if (item.Key != null && _keyboardState.IsKeyDown((Keys)item.Key))
+            if (key != null && _keyboardState.IsKeyDown((Keys)key))
                 return true;
 
-            if (item.Button != null && _gamePadState[0].IsButtonDown((Buttons)item.Button))
+            if (button != null && _gamePadState[0].IsButtonDown((Buttons)button))
                 return true;
 
-            if (item.MouseButton != null)
+            if (mouseButton != null)
             {
-                if (item.MouseButton == MouseButtons.LeftMouseButton
+                if (mouseButton == MouseButtons.LeftMouseButton
                     && _mouseState.LeftButton == ButtonState.Pressed)
                     return true;
-                else if (item.MouseButton == MouseButtons.RightMouseButton
+                else if (mouseButton == MouseButtons.RightMouseButton
                     && _mouseState.RightButton == ButtonState.Pressed)
                     return true;
-                else if (item.MouseButton == MouseButtons.MiddleMouseButton
+                else if (mouseButton == MouseButtons.MiddleMouseButton
                     && _mouseState.MiddleButton == ButtonState.Pressed)
                     return true;
             }
+
+            return false;
+        }
+
+        public bool IsDown(InputItem item)
+        {
+            if (item != null)
+                return IsDown(item.Key, item.Button, item.MouseButton);
 
             return false;
         }
@@ -125,30 +130,35 @@ namespace AdventureGame.Engine
             return false;
         }
 
-        public bool IsPressed(InputItem item)
+        public bool IsComboDown(List<InputItem> items)
         {
-            if (item == null)
-                return false;
+            foreach (InputItem i in items)
+                if (!IsDown(i))
+                    return false;
+            return true;
+        }
 
-            if (item.Key != null && _keyboardState.IsKeyDown((Keys)item.Key)
-                && !_previousKeyboardState.IsKeyDown((Keys)item.Key))
+        public bool IsPressed(Keys? key = null, Buttons? button = null, MouseButtons? mouseButton = null)
+        {
+            if (key != null && _keyboardState.IsKeyDown((Keys)key)
+                && !_previousKeyboardState.IsKeyDown((Keys)key))
                 return true;
 
-            if (item.Button != null && _gamePadState[0].IsButtonDown((Buttons)item.Button)
-                && !_previousGamePadState[0].IsButtonDown((Buttons)item.Button))
+            if (button != null && _gamePadState[0].IsButtonDown((Buttons)button)
+                && !_previousGamePadState[0].IsButtonDown((Buttons)button))
                 return true;
 
-            if (item.MouseButton != null)
+            if (mouseButton != null)
             {
-                if (item.MouseButton == MouseButtons.LeftMouseButton
+                if (mouseButton == MouseButtons.LeftMouseButton
                     && _mouseState.LeftButton == ButtonState.Pressed
                     && _previousMouseState.LeftButton != ButtonState.Pressed)
                     return true;
-                else if (item.MouseButton == MouseButtons.RightMouseButton
+                else if (mouseButton == MouseButtons.RightMouseButton
                     && _mouseState.RightButton == ButtonState.Pressed
                     && _previousMouseState.RightButton != ButtonState.Pressed)
                     return true;
-                else if (item.MouseButton == MouseButtons.MiddleMouseButton
+                else if (mouseButton == MouseButtons.MiddleMouseButton
                     && _mouseState.MiddleButton == ButtonState.Pressed
                     && _previousMouseState.MiddleButton != ButtonState.Pressed)
                     return true;
@@ -157,46 +167,47 @@ namespace AdventureGame.Engine
             return false;
         }
 
-        public bool IsPressed(List<InputItem> items)
+        public bool IsPressed(InputItem item)
         {
-            foreach (InputItem i in items)
+            if (item != null)
+                return IsPressed(item.Key, item.Button, item.MouseButton);
+
+            return false;
+        }
+
+        public bool IsReleased(Keys? key = null, Buttons? button = null, MouseButtons? mouseButton = null)
+        {
+            if (key != null && !_keyboardState.IsKeyDown((Keys)key)
+                && _previousKeyboardState.IsKeyDown((Keys)key))
+                return true;
+
+            if (button != null && !_gamePadState[0].IsButtonDown((Buttons)button)
+                && _previousGamePadState[0].IsButtonDown((Buttons)button))
+                return true;
+
+            if (mouseButton != null)
             {
-                if (IsPressed(i))
-                {
+                if (mouseButton == MouseButtons.LeftMouseButton
+                    && _mouseState.LeftButton != ButtonState.Pressed
+                    && _previousMouseState.LeftButton == ButtonState.Pressed)
                     return true;
-                }
+                else if (mouseButton == MouseButtons.RightMouseButton
+                    && _mouseState.RightButton != ButtonState.Pressed
+                    && _previousMouseState.RightButton == ButtonState.Pressed)
+                    return true;
+                else if (mouseButton == MouseButtons.MiddleMouseButton
+                    && _mouseState.MiddleButton != ButtonState.Pressed
+                    && _previousMouseState.MiddleButton == ButtonState.Pressed)
+                    return true;
             }
+
             return false;
         }
 
         public bool IsReleased(InputItem item)
         {
-            if (item == null)
-                return false;
-
-            if (item.Key != null && !_keyboardState.IsKeyDown((Keys)item.Key)
-                && _previousKeyboardState.IsKeyDown((Keys)item.Key))
-                return true;
-
-            if (item.Button != null && !_gamePadState[0].IsButtonDown((Buttons)item.Button)
-                && _previousGamePadState[0].IsButtonDown((Buttons)item.Button))
-                return true;
-
-            if (item.MouseButton != null)
-            {
-                if (item.MouseButton == MouseButtons.LeftMouseButton
-                    && _mouseState.LeftButton != ButtonState.Pressed
-                    && _previousMouseState.LeftButton == ButtonState.Pressed)
-                    return true;
-                else if (item.MouseButton == MouseButtons.RightMouseButton
-                    && _mouseState.RightButton != ButtonState.Pressed
-                    && _previousMouseState.RightButton == ButtonState.Pressed)
-                    return true;
-                else if (item.MouseButton == MouseButtons.MiddleMouseButton
-                    && _mouseState.MiddleButton != ButtonState.Pressed
-                    && _previousMouseState.MiddleButton == ButtonState.Pressed)
-                    return true;
-            }
+            if (item != null)
+                return IsReleased(item.Key, item.Button, item.MouseButton);
 
             return false;
         }

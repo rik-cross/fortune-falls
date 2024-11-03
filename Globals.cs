@@ -60,9 +60,6 @@ namespace AdventureGame
         public static bool hasInteracted = false;
         public static bool hasUsedAxe = false;
 
-        public static Engine.InputItem ctrl = new Engine.InputItem(key: Keys.LeftControl);
-        public static Engine.InputItem alt = new Engine.InputItem(key: Keys.LeftAlt);
-
         // Called during MenuScene Init() to set all of the menu controls
         public static void SetCustomUIControls()
         {
