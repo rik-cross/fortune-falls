@@ -34,16 +34,5 @@ namespace AdventureGame.Engine
         {
             return _inputs.ContainsKey(input);
         }
-
-        // Set the basic menu controls
-        public static void InitialiseUIControls()
-        {
-            Set("up", new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
-            Set("down", new Engine.InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
-            Set("left", new Engine.InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
-            Set("right", new Engine.InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
-            Set("back", new Engine.InputItem(key: Keys.Escape, button: Buttons.Back));
-            Set("select", new Engine.InputItem(key: Keys.Enter, button: Buttons.A));
-        }
     }
 }

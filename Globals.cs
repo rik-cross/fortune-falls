@@ -63,6 +63,14 @@ namespace AdventureGame
         // Called during MenuScene Init() to set all of the menu controls
         public static void SetCustomUIControls()
         {
+            // Set the basic menu controls
+            Engine.UIInput.Set("up", new Engine.InputItem(key: Keys.W, button: Buttons.LeftThumbstickUp));
+            Engine.UIInput.Set("down", new Engine.InputItem(key: Keys.S, button: Buttons.LeftThumbstickDown));
+            Engine.UIInput.Set("left", new Engine.InputItem(key: Keys.A, button: Buttons.LeftThumbstickLeft));
+            Engine.UIInput.Set("right", new Engine.InputItem(key: Keys.D, button: Buttons.LeftThumbstickRight));
+            Engine.UIInput.Set("back", new Engine.InputItem(key: Keys.Escape, button: Buttons.Back));
+            Engine.UIInput.Set("select", new Engine.InputItem(key: Keys.Enter, button: Buttons.A));
+
             // Menu windows
             Engine.UIInput.Set("menuDev", new Engine.InputItem(key: Keys.T, button: Buttons.RightStick));
             Engine.UIInput.Set("menuPause", new Engine.InputItem(key: Keys.Escape, button: Buttons.Start));
