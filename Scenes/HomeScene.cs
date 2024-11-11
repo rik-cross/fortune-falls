@@ -78,6 +78,7 @@ namespace AdventureGame
         public override void OnEnter()
         {
             AddCamera("main");
+            Globals.beenInHouse = true;
             //GetCameraByName("main").backgroundColour = Color.White;
         }
         public override void Input(GameTime gameTime)

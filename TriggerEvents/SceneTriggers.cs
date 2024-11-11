@@ -73,17 +73,49 @@ namespace AdventureGame.Engine
 
                         if (EngineGlobals.achievementManager.HasAchievement("Lumberjack"))
                         {
-                            dialogueComponent.AddPage("Ahh, I told ya to be careful...", GameAssets.blacksmith_headshot);
-                            dialogueComponent.AddPage("Go check the house out, then come back. We'll find a way to make this right.",
-                                GameAssets.blacksmith_headshot,
-                                onDialogueComplete: (Entity e) =>
+
+                            if (Globals.haveBeenWarnedByBlacksmith == false) {
+                            
+                                if (Globals.beenInHouse == false) {
+                                    dialogueComponent.AddPage("Ahh, I told ya to be careful...", GameAssets.blacksmith_headshot);
+                                    dialogueComponent.AddPage("Go check the house out, then come back. We'll find a way to make this right.",
+                                        GameAssets.blacksmith_headshot,
+                                        onDialogueComplete: (Entity e) =>
+                                        {
+                                            npcEntity.SetState(npcEntity.PreviousState);
+                                        // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
+                                        npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
+                                            npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
+                                        }
+                                    );
+                                } else
                                 {
-                                    npcEntity.SetState(npcEntity.PreviousState);
-                                    // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
-                                    npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
-                                    npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
+                                    Globals.haveBeenWarnedByBlacksmith = true;
+                                    dialogueComponent.AddPage("Seriously?! I can't quite believe you broke my favourite axe...", GameAssets.blacksmith_headshot);
+                                    dialogueComponent.AddPage("At least you got to see your house, I guess.",
+                                        GameAssets.blacksmith_headshot,
+                                        onDialogueComplete: (Entity e) =>
+                                        {
+                                            npcEntity.SetState(npcEntity.PreviousState);
+                                            // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
+                                            npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
+                                            npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
+                                        }
+                                    );
                                 }
-                            );
+                            } else
+                            {
+                                dialogueComponent.AddPage("Don't you have another axe to break somewhere?",
+                                         GameAssets.blacksmith_headshot,
+                                         onDialogueComplete: (Entity e) =>
+                                         {
+                                             npcEntity.SetState(npcEntity.PreviousState);
+                                            // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
+                                            npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
+                                             npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
+                                         }
+                                     );
+                            }
 
                             if (villageScene != null)
                             {

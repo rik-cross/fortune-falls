@@ -59,6 +59,8 @@ namespace AdventureGame
 
         public static bool hasInteracted = false;
         public static bool hasUsedAxe = false;
+        public static bool haveBeenWarnedByBlacksmith = false;
+        public static bool beenInHouse = false;
 
         // Called during MenuScene Init() to set all of the menu controls
         public static void SetCustomUIControls()
@@ -81,6 +83,7 @@ namespace AdventureGame
             Engine.UIInput.Set("inventorySplitStack", new Engine.InputItem(key: Keys.LeftShift, button: Buttons.LeftTrigger));
             Engine.UIInput.Set("inventoryPrimarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.LeftMouseButton, button: Buttons.A));
             Engine.UIInput.Set("inventorySecondarySelect", new Engine.InputItem(mouseButton: Engine.MouseButtons.RightMouseButton, button: Buttons.RightTrigger));
+  
         }
 
 }
