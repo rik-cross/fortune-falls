@@ -268,7 +268,7 @@ namespace AdventureGame
                 _inputText.Caption = "Controller";
             else
                 //inputImage = controllerImage;
-                _inputText.Caption = "Keyboard";
+                _inputText.Caption = "Keyboard (WASD)";
 
             if (Globals.newGame)
             {

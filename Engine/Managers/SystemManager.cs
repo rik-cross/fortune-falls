@@ -54,6 +54,7 @@ namespace AdventureGame.Engine
             AddSystem(new BattleSystem());
             AddSystem(new ParticleSystem());
             AddSystem(new TutorialSystem());
+            AddSystem(new FootstepSoundSystem());
             //AddSystem(new HitboxSystem2());
         }
 

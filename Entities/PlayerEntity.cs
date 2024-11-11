@@ -127,6 +127,9 @@ namespace AdventureGame
             playerEntity.AddComponent(new Engine.DialogueComponent());
 
             //EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
+            List<int> l = new List<int>();
+            l.Add(3); l.Add(7);
+            playerEntity.AddComponent(new Engine.FootstepSoundComponent(l, SoundEffects.footstepSound));
         }
 
         public static void RemoveComponents(Entity playerEntity = null)

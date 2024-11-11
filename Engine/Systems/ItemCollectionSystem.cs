@@ -33,6 +33,7 @@ namespace AdventureGame.Engine
                     continue;
 
                 Console.WriteLine($"Item collection: {entity.Id} and {otherEntity.Id}");
+                EngineGlobals.soundManager.PlaySoundEffect(SoundEffects.itemPickupSound);
 
                 // Check if the item is active and has not been collected
                 if (collectableComponent.IsCollectableBy(entity.Tags)
