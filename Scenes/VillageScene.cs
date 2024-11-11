@@ -336,6 +336,12 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(698, 227, "tree_02.png"));
             AddEntity(TreeEntity.Create(710, 218, "tree_02.png"));
 
+            // other trees
+            AddEntity(TreeEntity.Create(1000, 900, "tree_02.png"));
+            AddEntity(TreeEntity.Create(1040, 905, "tree_02.png"));
+            AddEntity(TreeEntity.Create(1025, 970, "tree_02.png"));
+            AddEntity(TreeEntity.Create(1050, 1015, "tree_02.png"));
+
             // axe use achievement
             if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>() == null)
                 EngineGlobals.entityManager.GetLocalPlayer().AddComponent(new TutorialComponent());
