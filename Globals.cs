@@ -62,6 +62,20 @@ namespace AdventureGame
         public static bool haveBeenWarnedByBlacksmith = false;
         public static bool beenInHouse = false;
 
+        // Reset the player settings
+        public static void ResetPlayer()
+        {
+            // Player character default sprite
+            playerIndex = 0;
+            playerStr = allCharacters[0];
+
+            // Player triggers
+            hasInteracted = false;
+            hasUsedAxe = false;
+            haveBeenWarnedByBlacksmith = false;
+            beenInHouse = false;
+        }
+
         // Called during MenuScene Init() to set all of the menu controls
         public static void SetCustomUIControls()
         {

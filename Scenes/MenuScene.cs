@@ -189,18 +189,21 @@ namespace AdventureGame
             if (Globals.newGame == false)
             {
                 Globals.newGame = true;
-                EngineGlobals.sceneManager.ResetScene<VillageScene>();
 
                 // Reset the player components
                 // todo - move to PlayerManager?
                 PlayerEntity.RemoveComponents();
                 PlayerEntity.AddComponents();
-                //Console.WriteLine(string.Join(", ", EngineGlobals.entityManager.GetLocalPlayer().Components));
 
-                // Reset the player character default sprite
-                Globals.playerIndex = 0;
-                Globals.playerStr = Globals.allCharacters[0];
+                // Reset the player attributes
+                Globals.ResetPlayer();
                 PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
+
+                // Reset the completed achievements
+                EngineGlobals.achievementManager.ResetCompletedAchievements();
+
+                // Reset the VillageScene
+                EngineGlobals.sceneManager.ResetScene<VillageScene>();
 
                 //// todo - bug: player position needs to be set via transform component
                 //// Create player entity

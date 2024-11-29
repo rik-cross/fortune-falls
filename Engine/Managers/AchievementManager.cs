@@ -51,5 +51,10 @@ namespace AdventureGame.Engine
             }
             return false;
         }
+
+        public void ResetCompletedAchievements()
+        {
+            completedAchievements = new List<Achievement>();
+        }
     }
 }
