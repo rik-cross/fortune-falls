@@ -266,6 +266,8 @@ namespace AdventureGame
         {
             EngineGlobals.soundManager.PlaySong(Utils.LoadSong("Music/1_new_life_master.ogg"));
 
+            EngineGlobals.log.Clear();
+
             if (Globals.IsControllerConnected && Globals.IsControllerSelected)
                 //inputImage = keyboardImage;
                 _inputText.Caption = "Controller";
