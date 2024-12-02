@@ -84,3 +84,5 @@ Content/*/*/.DS_Store
 !Scenes/*.cs
 !TriggerEvents
 !TriggerEvents/*.cs
+!Builds/
+!Builds/*.zip
