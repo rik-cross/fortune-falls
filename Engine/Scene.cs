@@ -516,9 +516,10 @@ namespace AdventureGame.Engine
                 {
                     foreach (TiledMapLayer layer in Map.Layers)
                     {
-                        if (layer.Properties.ContainsValue("below"))
+                        if(layer.Properties.TryGetValue("type", out string propValue))
                         {
-                            MapRenderer.Draw(layer, c.getTransformMatrix());
+                            if (propValue == "below")
+                                MapRenderer.Draw(layer, c.getTransformMatrix());
                         }
                     }
 
@@ -526,9 +527,10 @@ namespace AdventureGame.Engine
                     {
                         foreach (TiledMapLayer layer in Map.Layers)
                         {
-                            if (layer.Properties.ContainsValue("collision"))
+                            if(layer.Properties.TryGetValue("type", out string propValue))
                             {
-                                MapRenderer.Draw(layer, c.getTransformMatrix());
+                                if (propValue == "collision")
+                                    MapRenderer.Draw(layer, c.getTransformMatrix());
                             }
                         }
                     }
@@ -567,9 +569,10 @@ namespace AdventureGame.Engine
                 {
                     foreach (TiledMapLayer layer in Map.Layers)
                     {
-                        if (layer.Properties.ContainsValue("above"))
+                        if(layer.Properties.TryGetValue("type", out string propValue))
                         {
-                            MapRenderer.Draw(layer, c.getTransformMatrix());
+                            if (propValue == "above")
+                                MapRenderer.Draw(layer, c.getTransformMatrix());
                         }
                     }
                 }
