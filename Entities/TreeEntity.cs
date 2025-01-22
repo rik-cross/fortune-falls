@@ -28,14 +28,14 @@ namespace Engine
             animatedSpriteComponent.AddAnimatedSprite(dir + filename, "tree_stump", 1, 1, totalRows: 1, framesPerRow: 2);
             if (filename == "tree_02.png")
             {
-                animatedSpriteComponent.AddAnimatedSprite(dir + "tree_02_hit.png", "tree_hit", 0, 2, totalRows: 1, framesPerRow: 3, loop: true, onComplete: (entity) => { entity.SetState("tree"); }, delay: 4);
+                animatedSpriteComponent.AddAnimatedSprite(dir + "tree_02_hit.png", "tree_hit", 0, 2, totalRows: 1, framesPerRow: 3, loop: true, onComplete: (entity) => { entity.State = "tree"; }, delay: 4);
             }
             //animatedSpriteComponent.AddAnimatedSprite("Objects/tree_02_hit.png", "hit", 0, 2, totalRows: 1, framesPerRow: 3);
 
             //spriteComponent.AddSprite(dir + filename, "tree", 0, 1);
             //spriteComponent.AddSprite(dir + filename, "tree_stump", 1, 1);
             // Set state
-            entity.SetState(defaultState);
+            entity.State = defaultState;
             if (hasStump)
                 entity.NextState = "tree_stump";
 
@@ -145,12 +145,12 @@ namespace Engine
                             thisEnt.Destroy();
                         }
                         else
-                            thisEnt.SetState(thisEnt.NextState);
+                            thisEnt.State = thisEnt.NextState;
                     } else
                     {
 
                         if (thisEnt.GetComponent<AnimatedSpriteComponent>().HasSpriteForState("tree_hit"))
-                            thisEnt.SetState("tree_hit");
+                            thisEnt.State = "tree_hit";
                         // Create particle effects
 
                         Engine.TransformComponent tc = thisEnt.GetComponent<TransformComponent>();

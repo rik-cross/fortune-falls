@@ -151,12 +151,12 @@ namespace Engine
             {
                 // MOVE handle intention and state elsewhere?
                 intentionComponent.right = true;
-                entity.SetState("walk_right");
+                entity.State = "walk_right";
             }
             else
             {
                 intentionComponent.left = true;
-                entity.SetState("walk_left");
+                entity.State = "walk_left";
             }
         }
 
@@ -170,12 +170,12 @@ namespace Engine
             if (yAmount > 0.0f)
             {
                 intentionComponent.down = true;
-                entity.SetState("walk_down");
+                entity.State = "walk_down";
             }
             else
             {
                 intentionComponent.up = true;
-                entity.SetState("walk_up");
+                entity.State = "walk_up";
             }
         }
 
@@ -190,13 +190,13 @@ namespace Engine
             if (intentionComponent.left)
             {
                 intentionComponent.left = false;
-                entity.SetState("idle_left");
+                entity.State = "idle_left";
             }
 
             if (intentionComponent.right)
             {
                 intentionComponent.right = false;
-                entity.SetState("idle_right");
+                entity.State = "idle_right";
             }
         }
 
@@ -211,13 +211,13 @@ namespace Engine
             if (intentionComponent.up)
             {
                 intentionComponent.up = false;
-                entity.SetState("idle_up");
+                entity.State = "idle_up";
             }
 
             if (intentionComponent.down)
             {
                 intentionComponent.down = false;
-                entity.SetState("idle_down");
+                entity.State = "idle_down";
             }
         }
     }

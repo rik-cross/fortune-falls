@@ -50,7 +50,7 @@ namespace Engine
                 if (entity.GetComponent<IntentionComponent>() != null)
                     entity.GetComponent<IntentionComponent>().ResetAll();
                 if (entity.State.Split("_").Length == 2 && (entity.State.Split("_")[0] == "walk" || entity.State.Split("_")[0] == "run"))
-                    entity.SetState("idle_" + entity.State.Split("_")[1]);
+                    entity.State = "idle_" + entity.State.Split("_")[1];
                 ic.PushController(DialogueInputController);
                 ic.TopControllerLabel = "dialogue";
             }

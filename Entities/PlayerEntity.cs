@@ -44,7 +44,7 @@ namespace AdventureGame
             }
 
             playerEntity.Tags.AddTag("player");
-            playerEntity.SetState(defaultState);
+            playerEntity.State = defaultState;
 
             // Add transform component
             playerEntity.AddComponent(new Engine.TransformComponent(x, y, width, height));
@@ -70,7 +70,7 @@ namespace AdventureGame
                 return;
 
             // Set state
-            playerEntity.SetState(defaultState);
+            playerEntity.State = defaultState;
 
             //playerEntity.AddComponent(new Engine.AnimatedSpriteComponent());
 
@@ -335,8 +335,8 @@ namespace AdventureGame
                 animatedComponent.AddAnimatedSprite(filePath, "axe_left", 0, 9, offset: offset, flipH: true, delay: spriteDelay + 2, spriteHue: hue);
                 animatedComponent.AddAnimatedSprite(filePath, "axe_right", 0, 9, offset: offset, delay: spriteDelay + 2, spriteHue: hue);
 
-                animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.SetState("idle_left");
-                animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.SetState("idle_right");
+                animatedComponent.GetAnimatedSprite("axe_left").OnComplete = (Engine.Entity e) => e.State = "idle_left";
+                animatedComponent.GetAnimatedSprite("axe_right").OnComplete = (Engine.Entity e) => e.State = "idle_right";
 
                 animatedSprites[playerStr] = animatedComponent;
                 //foreach(string s in animatedSprites.Keys)
@@ -446,16 +446,16 @@ namespace AdventureGame
                     {
                         CreatePlayerSprintEffect(entity);
                     }
-                    entity.SetState("run_" + direction);
+                    entity.State = "run_" + direction;
                 }
                 else
                 {
-                    entity.SetState("walk_" + direction);
+                    entity.State = "walk_" + direction;
                 }
             }
             else if (entity.State.Contains("walk_") || entity.State.Contains("run_"))
             {
-                entity.SetState("idle_" + direction);
+                entity.State = "idle_" + direction;
             }
 
             // tool button
@@ -474,7 +474,7 @@ namespace AdventureGame
                         && battleComponent.weapon != null
                         && battleComponent.weapon.name != null)
                     {
-                        entity.SetState(battleComponent.weapon.name + "_" + entity.State.Split("_")[1]);
+                        entity.State = battleComponent.weapon.name + "_" + entity.State.Split("_")[1];
                         if (battleComponent.weapon == Weapons.axe)
                             Globals.hasUsedAxe = true;
                     }
@@ -502,7 +502,7 @@ namespace AdventureGame
                         && battleComponent.weapon != null
                         && battleComponent.weapon.name != null)
                     {
-                        entity.SetState(battleComponent.weapon.name + "_" + entity.State.Split("_")[1]);
+                        entity.State = battleComponent.weapon.name + "_" + entity.State.Split("_")[1];
                     }
                 }
             }

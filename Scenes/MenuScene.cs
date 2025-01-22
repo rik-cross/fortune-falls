@@ -304,7 +304,7 @@ namespace AdventureGame
             {
                 _frameOdo = 0;
                 _nextCatch = _random.Next(1500, 5000);
-                _mainMenuPlayer.SetState("caught");
+                _mainMenuPlayer.State = "caught";
             }
         }
 
@@ -333,7 +333,7 @@ namespace AdventureGame
             _mainMenuPlayer.AddComponent(new Engine.TransformComponent(
                 new Vector2(176, 1190), new Vector2(15, 20)));
             AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
-            _mainMenuPlayer.SetState("casting");
+            _mainMenuPlayer.State = "casting";
 
             // Randomise the catch time
             _random = new Random();
@@ -359,7 +359,7 @@ namespace AdventureGame
                 "casting", 0, 14, offset: offset);
             animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
                 "casting", 0, 14, offset: offset);
-            animatedComponent.GetAnimatedSprite("casting").OnComplete = (Engine.Entity e) => e.SetState("waiting");
+            animatedComponent.GetAnimatedSprite("casting").OnComplete = (Engine.Entity e) => e.State = "waiting";
 
             // Caught
             folder = "CAUGHT/";
@@ -370,7 +370,7 @@ namespace AdventureGame
                 "caught", 0, 9, offset: offset);
             animatedComponent.AddAnimatedSprite(dir + folder + toolStr + keyStr,
                 "caught", 0, 9, offset: offset);
-            animatedComponent.GetAnimatedSprite("caught").OnComplete = (Engine.Entity e) => e.SetState("casting");
+            animatedComponent.GetAnimatedSprite("caught").OnComplete = (Engine.Entity e) => e.State = "casting";
 
             // Add entity
             AddEntity(_mainMenuPlayer);
@@ -409,7 +409,7 @@ namespace AdventureGame
             animatedSwimming.AddAnimatedSprite(dir + folder + toolStr + keyStr,
                 "swimming", 0, 11, offset: offset, flipH: true);
 
-            characterSwimming.SetState("swimming");
+            characterSwimming.State = "swimming";
             AddEntity(characterSwimming);
         }
 

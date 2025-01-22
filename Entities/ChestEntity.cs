@@ -26,7 +26,7 @@ namespace AdventureGame
             //spriteComponent.GetSprite("open_animation").OnComplete = DropLoot;
 
             // Set state
-            entity.SetState(defaultState);
+            entity.State = defaultState;
 
             // Add other components
             Vector2 size = spriteComponent.GetSpriteSize(defaultState);
@@ -59,7 +59,7 @@ namespace AdventureGame
             if (controlComponent != null && EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))
                 // && inventory.CanOpen())
             {
-                entity.SetState("open_animation");
+                entity.State = "open_animation";
                 entity.RemoveComponent<Engine.TriggerComponent>();
             }
         }
@@ -69,7 +69,7 @@ namespace AdventureGame
             InventoryComponent inventory = entity.GetComponent<Engine.InventoryComponent>();
             if (inventory != null) // && inventory.CanOpen()
             {
-                entity.SetState("open");
+                entity.State = "open";
                 EngineGlobals.inventoryManager.DropAllItems(inventory.InventoryItems, entity);
             }
         }

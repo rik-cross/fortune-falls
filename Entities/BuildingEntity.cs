@@ -37,7 +37,7 @@ namespace AdventureGame
             //spriteComponent.GetSprite(defaultState).layerDepth = 0.6f;
 
             // Set state
-            entity.SetState(defaultState);
+            entity.State = defaultState;
 
             // Add other components
             Vector2 position = new Vector2(x, y);

@@ -40,7 +40,7 @@ namespace AdventureGame
                 {
                     if (otherEntity.IsPlayerType())
                     {
-                        otherEntity.SetState("idle_" + otherEntity.State.Split("_")[1]);
+                        otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                         Vector2 playerPosition = new Vector2(690, 240);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>(false);
                         EngineGlobals.playerManager.ChangePlayerScene(playerPosition);

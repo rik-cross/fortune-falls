@@ -20,7 +20,7 @@ namespace AdventureGame
             spriteComponent.AddMultipleStaticSprites(dir + filename, spriteKeys);
 
             // Set state
-            entity.SetState("light_off");
+            entity.State = "light_off";
 
             // Add other components
             Vector2 size = spriteComponent.GetSpriteSize(entity.State);

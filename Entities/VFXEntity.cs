@@ -20,7 +20,7 @@ namespace AdventureGame
             Entity vfxEntity = EngineGlobals.entityManager.CreateEntity();
             vfxEntity.Tags.Id = idTag;
             vfxEntity.Tags.AddTag("VFX");
-            vfxEntity.SetState(defaultState);
+            vfxEntity.State = defaultState;
 
             // Add sprites
             string dir = "VFX/";

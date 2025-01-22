@@ -122,7 +122,7 @@ namespace Engine
                     player.GetComponent<IntentionComponent>().ResetAll();
 
                 if (player.State.Contains("_"))
-                    player.SetState("idle_" + player.State.Split("_")[1]);
+                    player.State = "idle_" + player.State.Split("_")[1];
             }
             OnExit();
         }

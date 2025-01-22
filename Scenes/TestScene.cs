@@ -37,7 +37,7 @@ namespace AdventureGame
             tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
                 if (otherEntity.IsLocalPlayer())
                 {
-                    otherEntity.SetState("idle_" + otherEntity.State.Split("_")[1]);
+                    otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                     //EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
                     //EngineGlobals.sceneManager.SetPlayerScene<CaveScene>(new Vector2(395, 430));
                 }

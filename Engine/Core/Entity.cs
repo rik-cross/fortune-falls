@@ -1,7 +1,8 @@
 ﻿/*
- *
- *
- *
+ * File: Entity.cs
+ * Project: MonoGame ECS Engine
+ * (c) 2025, Alex Parry, Mac Bowley and Rik Cross
+ * This source is subject to the MIT licence
  */
 
 using System;
@@ -11,59 +12,60 @@ namespace Engine
 {
     public class Entity
     {
-        public int Id { get; set; }
-        public Guid Guid { get; private set; }
-        public Flags ComponentFlags;
 
+        // TODO - add 'enabled' and other properties? Stored here or entity manager?
+
+        public readonly int Id;
+        // TODO - remove GUID?
+        public Guid Guid { get; private set; }
+        public Flags ComponentFlags = new Flags();
         public Entity Owner { get; set; }
         public Tags Tags { get; set; }
-
-        public string State { get; private set; }
-
-        public void SetState(string state)
-        {
-            PreviousState = State;
-            State = state;
+        // state properties
+        private string _state;
+        public string State {
+            get {
+                return _state;
+            }
+            set {
+                PreviousState = _state;
+                _state = value;
+            }
         }
-
-        public string PreviousState { get; set; }
+        public string PreviousState { get; private set; }
         public string NextState { get; set; }
 
-        public List<Component> Components { get; set; } // Dictionary/HashSet?
+        // TODO - are components stored in the entity?
+        // TODO - are components stored in a dictionary or equivalent?
+        public List<Component> Components { get; set; } = new List<Component>();
         private readonly EntityManager _entityManager;
         private readonly ComponentManager _componentManager;
 
-        public List<TimedAction> TimedActionList = new List<TimedAction>(); // delete?
+        public List<TimedAction> TimedActionList = new List<TimedAction>();
 
-        public Entity(int id, string idTag="")
+        public Entity(int id, string idTag="", string state="default")
         {
             Id = id;
-            GenerateGuid();
-            ComponentFlags = new Flags();
+            // TODO - can we remove the GUID?
+            Guid = Guid.NewGuid();
             Owner = this;
             Tags = new Tags();
+            // TODO - another way to create unique ID? name?
             Tags.Id = idTag;
-            State = "default";
-            PreviousState = State;
-
-            Components = new List<Component>();
+            State = state;
             _entityManager = EngineGlobals.entityManager;
             _componentManager = EngineGlobals.componentManager;
         }
 
-        // Generate a unique GUID for the entity
-        public void GenerateGuid()
-        {
-            Guid = Guid.NewGuid();
-        }
-
         // Return if the entity is the local player
+        // TODO - can we just use a tag?
         public bool IsLocalPlayer()
         {
             return _entityManager.IsLocalPlayer(this);
         }
 
         // Return if the entity has a player type Tag
+        // TODO: can we just use a tag?
         public bool IsPlayerType()
         {
             return _entityManager.IsPlayerType(this);
@@ -123,13 +125,11 @@ namespace Engine
         public void RemoveAllComponents(List<Component> componentsToKeep = null,
             bool instant = false)
         {
-            //Console.WriteLine($"Components count {Components.Count}");
             _componentManager.RemoveMultipleComponents(this, instant, componentsToKeep);
-            //Console.WriteLine($"Components count {Components.Count}");
         }
 
         // Reset entity components
-        public void Reset()
+        public void ResetComponents()
         {
             foreach(Component c in Components)
             {
@@ -144,8 +144,10 @@ namespace Engine
             _entityManager.DeleteEntity(this);
         }
 
+        // TODO - other callbacks? onCreate?
         public virtual void OnDestroy() { }
 
+        // TODO - after time, not no. of frames
         public void After(int frames, Action<Entity> f)
         {
             TimedActionList.Add(new TimedAction(this, frames, f));

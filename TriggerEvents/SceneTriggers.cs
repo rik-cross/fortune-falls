@@ -51,9 +51,9 @@ namespace Engine
                     // Set the idle state depending on which direction the player is
                     Console.WriteLine(npcEntity.PreviousState);
                     if (playerEntity.GetComponent<TransformComponent>().X > npcEntity.GetComponent<TransformComponent>().X)
-                        npcEntity.SetState("idle_right");
+                        npcEntity.State = "idle_right";
                     else
-                        npcEntity.SetState("idle_left");
+                        npcEntity.State = "idle_left";
 
                     // Try to get thumbnail image
                     ThumbnailComponent thumbnailComponent = npcEntity.GetComponent<ThumbnailComponent>();
@@ -83,7 +83,7 @@ namespace Engine
                                         GameAssets.blacksmith_headshot,
                                         onDialogueComplete: (Entity e) =>
                                         {
-                                            npcEntity.SetState(npcEntity.PreviousState);
+                                            npcEntity.State = npcEntity.PreviousState;
                                         // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
                                         npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
                                             npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
@@ -97,7 +97,7 @@ namespace Engine
                                         GameAssets.blacksmith_headshot,
                                         onDialogueComplete: (Entity e) =>
                                         {
-                                            npcEntity.SetState(npcEntity.PreviousState);
+                                            npcEntity.State = npcEntity.PreviousState;
                                             // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
                                             npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
                                             npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
@@ -110,7 +110,7 @@ namespace Engine
                                          GameAssets.blacksmith_headshot,
                                          onDialogueComplete: (Entity e) =>
                                          {
-                                             npcEntity.SetState(npcEntity.PreviousState);
+                                             npcEntity.State = npcEntity.PreviousState;
                                             // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
                                             npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
                                              npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
@@ -150,7 +150,7 @@ namespace Engine
                                  texture: GameAssets.blacksmith_headshot,
                                  onDialogueComplete: (Entity e) =>
                                  {
-                                     npcEntity.SetState(npcEntity.PreviousState);
+                                     npcEntity.State = npcEntity.PreviousState;
                                      // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
                                      npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
                                      npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
@@ -226,7 +226,7 @@ namespace Engine
                             GameAssets.blacksmith_headshot,
                             onDialogueComplete: (Entity e) =>
                             {
-                                npcEntity.SetState(npcEntity.PreviousState);
+                                npcEntity.State = npcEntity.PreviousState;
                                 // HACK without setting LastState manually, AnimatedSpriteSystem will Reset animation to frame 0
                                 npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
                                 npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
