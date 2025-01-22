@@ -5,7 +5,7 @@ using S = System.Diagnostics.Debug;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public static class TreeEntity
     {

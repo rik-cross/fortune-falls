@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AdventureGame.Engine.Components
+namespace Engine.Components
 {
     public class SpriteComponent2
     {

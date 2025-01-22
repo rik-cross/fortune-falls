@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using S = System.Diagnostics.Debug;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class WaterSystem : System
     {

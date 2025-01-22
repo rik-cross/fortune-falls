@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     class LightComponent : Component
     {

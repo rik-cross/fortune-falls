@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using S = System.Diagnostics.Debug;
+using AdventureGame;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public static class SceneTriggers //: TriggerEvents
     {

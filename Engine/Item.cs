@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class Item
     {

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     /// <summary>
     /// Creates single static <see cref="Sprite"/>s from an image or sprite sheet.

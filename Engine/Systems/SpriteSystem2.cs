@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AdventureGame.Engine.Systems
+namespace Engine.Systems
 {
     public class SpriteSystem2
     {

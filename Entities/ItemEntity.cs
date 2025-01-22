@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-using AdventureGame.Engine;
+using Engine;
 
 namespace AdventureGame
 {

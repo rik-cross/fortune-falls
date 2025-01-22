@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Tiled;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public static class Utils
     {

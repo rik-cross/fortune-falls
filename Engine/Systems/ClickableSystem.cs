@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class ClickableSystem : System
     {

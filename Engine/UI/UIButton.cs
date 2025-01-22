@@ -4,7 +4,7 @@ using MonoGame.Extended;
 
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class UIButton : UIElement
     {

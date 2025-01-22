@@ -2,7 +2,7 @@
 
 using System;
 
-using AdventureGame.Engine;
+using Engine;
 
 namespace AdventureGame
 {

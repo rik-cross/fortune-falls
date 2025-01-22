@@ -5,8 +5,9 @@ using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
 using S = System.Diagnostics.Debug;
+using AdventureGame;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class DialogueSystem : System
     {

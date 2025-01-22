@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class Image : SceneRenderable
     {

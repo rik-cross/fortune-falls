@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 using S = System.Diagnostics.Debug;
 using System.Collections.Generic;
+using AdventureGame;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class BattleSystem : System
     {

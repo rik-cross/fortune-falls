@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class HitboxSystem : System
     {

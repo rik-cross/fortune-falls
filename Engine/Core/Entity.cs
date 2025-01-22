@@ -1,8 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using S = System.Diagnostics.Debug;
+﻿/*
+ *
+ *
+ *
+ */
 
-namespace AdventureGame.Engine
+using System;
+using System.Collections.Generic;
+
+namespace Engine
 {
     public class Entity
     {

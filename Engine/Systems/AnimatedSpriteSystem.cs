@@ -5,7 +5,7 @@ using MonoGame.Extended;
 using S = System.Diagnostics.Debug;
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class AnimatedSpriteSystem : System
     {

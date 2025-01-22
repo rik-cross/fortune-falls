@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class InputSystem : System
     {

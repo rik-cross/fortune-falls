@@ -2,7 +2,7 @@
 
 using System.Linq;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class EventSystem : System
     {

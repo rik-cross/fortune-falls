@@ -3,7 +3,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.Graphics;
 using S = System.Diagnostics.Debug;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class HitboxSystem2 : System
     {

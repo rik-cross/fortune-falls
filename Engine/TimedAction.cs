@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class TimedAction
     {

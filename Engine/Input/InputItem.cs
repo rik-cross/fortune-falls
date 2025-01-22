@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     /*
      *   InputItem

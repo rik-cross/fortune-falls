@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using S = System.Diagnostics.Debug;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class Camera
     {

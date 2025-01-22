@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class ComponentManager
     {

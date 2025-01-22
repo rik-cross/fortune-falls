@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using System;
+using Engine;
 
-namespace AdventureGame.Engine
+namespace AdventureGame
 {
     public static class BushEntity
     {

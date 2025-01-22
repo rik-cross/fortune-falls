@@ -4,7 +4,7 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class ParticleComponent : Component
     {

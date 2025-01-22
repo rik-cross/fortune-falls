@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Audio;
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class Dialogue
     {

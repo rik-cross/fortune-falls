@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AdventureGame;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class QuestMarker
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using AdventureGame;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class InventoryManager
     {

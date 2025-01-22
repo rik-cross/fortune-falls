@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class Item2
     {

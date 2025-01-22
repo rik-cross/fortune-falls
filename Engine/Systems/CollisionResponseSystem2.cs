@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     // MOVE to a separate file?
     struct CollisionData

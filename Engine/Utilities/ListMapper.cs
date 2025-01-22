@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class ListMapper<T>
     {

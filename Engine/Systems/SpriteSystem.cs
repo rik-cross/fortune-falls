@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using S = System.Diagnostics.Debug;
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class SpriteSystem : System
     {

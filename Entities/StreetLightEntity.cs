@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using AdventureGame.Engine;
+using Engine;
 using System.Collections.Generic;
 
 namespace AdventureGame

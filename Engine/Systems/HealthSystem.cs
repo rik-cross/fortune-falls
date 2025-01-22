@@ -2,7 +2,7 @@
 
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class HealthSystem : System
     {

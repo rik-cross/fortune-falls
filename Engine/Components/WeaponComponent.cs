@@ -1,4 +1,4 @@
-﻿namespace AdventureGame.Engine
+﻿namespace Engine
 {
     public class WeaponComponent : Component
     {

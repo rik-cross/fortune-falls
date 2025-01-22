@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using S = System.Diagnostics.Debug;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class TutorialSystem : System
     {

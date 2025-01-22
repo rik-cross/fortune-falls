@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class DoubleAnimation : AnimatedValue<double>
     {

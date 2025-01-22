@@ -4,7 +4,7 @@ using S = System.Diagnostics.Debug;
 
 using Microsoft.Xna.Framework.Input;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     /*
      * Used for the UI input controls

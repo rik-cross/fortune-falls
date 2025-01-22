@@ -5,7 +5,7 @@ using MonoGame.Extended;
 using System;
 using S = System.Diagnostics.Debug;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class FadeSceneTransition : SceneTransition
     {

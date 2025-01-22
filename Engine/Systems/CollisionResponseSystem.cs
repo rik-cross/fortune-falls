@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     // Should this be CollisionMovementResponseSystem?
     // or a separate system(s) for resolving damage, sounds etc on collide?

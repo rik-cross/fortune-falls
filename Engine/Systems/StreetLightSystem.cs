@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using MonoGame.Extended;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class StreetLightSystem : System
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class Vector2Animation : AnimatedValue<Vector2>
     {

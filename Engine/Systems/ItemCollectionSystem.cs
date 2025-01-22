@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using AdventureGame;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class ItemCollectionSystem : System
     {

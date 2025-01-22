@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class Flags
     {

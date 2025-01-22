@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-using AdventureGame.Engine;
+using Engine;
 
 namespace AdventureGame
 {

@@ -8,7 +8,7 @@ using MonoGame.Extended.Graphics;
 
 using S = System.Diagnostics.Debug;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class ParticleSystem : System
     {

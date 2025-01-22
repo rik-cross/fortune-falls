@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class MapCollisionSystem : System
     {

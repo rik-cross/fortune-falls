@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class TextComponent : Component
     {

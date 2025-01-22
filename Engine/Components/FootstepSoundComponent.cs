@@ -8,7 +8,7 @@ using MonoGame.Extended.Graphics;
 using S = System.Diagnostics.Debug;
 using Microsoft.Xna.Framework.Audio;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class FootstepSoundComponent : Component
     {

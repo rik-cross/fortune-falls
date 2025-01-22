@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     // Could this store IntentionComponent (movement values)
     // and movement states e.g. walk_up?

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
 	/// <summary>
 	/// Defines the mouse buttons.

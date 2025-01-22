@@ -3,7 +3,7 @@ using S = System.Diagnostics.Debug;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class AnimatedEmoteSystem : System
     {

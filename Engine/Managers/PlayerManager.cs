@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     public class PlayerManager
     {

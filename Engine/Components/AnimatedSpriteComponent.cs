@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     /// <summary>
     /// Contains a dictionary of {State -> AnimatedSprite} pairings,

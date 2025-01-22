@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AdventureGame.Engine
+namespace Engine
 {
     class IntentionComponent : Component
     {
