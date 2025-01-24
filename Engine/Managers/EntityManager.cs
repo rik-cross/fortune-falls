@@ -156,7 +156,6 @@ namespace Engine
         {
             Disabled.Add(e);
         }
-
         // Add the entity to the deleted set
         public void DeleteEntity(Entity e)
         {

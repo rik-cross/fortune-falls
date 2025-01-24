@@ -17,15 +17,6 @@ namespace AdventureGame
             Engine.Entity playerEntity;
 
             // Todo turn into a static CheckEntityExists method?
-            
-            //// Check if the player entity already exists
-            //if (!string.IsNullOrEmpty(idTag))
-            //{
-            //    playerEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
-            //    if (playerEntity != null)
-            //        return playerEntity;
-            //}
-
             // Otherwise create a new player entity
             playerEntity = EngineGlobals.entityManager.CreateEntity();
 
@@ -44,6 +35,8 @@ namespace AdventureGame
             }
 
             playerEntity.Tags.AddTag("player");
+
+            
             playerEntity.State = defaultState;
 
             // Add transform component

@@ -1,8 +1,8 @@
 ﻿/*
- * File: Entity.cs
- * Project: MonoGame ECS Engine
- * (c) 2025, Alex Parry, Mac Bowley and Rik Cross
- * This source is subject to the MIT licence
+ *  File: Entity.cs
+ *  Project: MonoGame ECS Engine
+ *  (c) 2025, Alex Parry, Mac Bowley and Rik Cross
+ *  This source is subject to the MIT licence
  */
 
 using System;
@@ -13,11 +13,39 @@ namespace Engine
     public class Entity
     {
 
-        // TODO - add 'enabled' and other properties? Stored here or entity manager?
+        //
+        // attributes
+        //
 
         public readonly int Id;
-        // TODO - remove GUID?
-        public Guid Guid { get; private set; }
+        private string _name;
+        public string Name {
+            get {
+                return _name;
+            }
+            set {
+                if (value == null)
+                    return;
+                foreach(Entity e in _entityManager.GetAllEntities()) {
+                    if (e.Name == value) {
+                        return;
+                    }
+                }
+                _name = value;
+            } 
+        }
+        public bool Enabled {
+            get {
+                return !(_entityManager.Disabled.Contains(this));
+            }
+            set {
+                if (value == true)
+                    _entityManager.EnableEntity(this);
+                else
+                    _entityManager.DisableEntity(this);
+            }
+        }
+        // TODO - add string name, unique to all entities (can check)
         public Flags ComponentFlags = new Flags();
         public Entity Owner { get; set; }
         public Tags Tags { get; set; }
@@ -34,7 +62,9 @@ namespace Engine
         }
         public string PreviousState { get; private set; }
         public string NextState { get; set; }
-
+        public bool HasStateChanged() {
+            return !(PreviousState == State);
+        }
         // TODO - are components stored in the entity?
         // TODO - are components stored in a dictionary or equivalent?
         public List<Component> Components { get; set; } = new List<Component>();
@@ -43,18 +73,29 @@ namespace Engine
 
         public List<TimedAction> TimedActionList = new List<TimedAction>();
 
-        public Entity(int id, string idTag="", string state="default")
+        //
+        // methods
+        //
+
+        // TODO - make this the primary way of creating new entities
+        public Entity(int id, string idTag="", string name=null, string state="default")
         {
+
+            // link entity to global managers
+            _entityManager = EngineGlobals.entityManager;
+            _componentManager = EngineGlobals.componentManager;
+
             Id = id;
-            // TODO - can we remove the GUID?
-            Guid = Guid.NewGuid();
+            Name = name;
+
             Owner = this;
             Tags = new Tags();
             // TODO - another way to create unique ID? name?
             Tags.Id = idTag;
             State = state;
-            _entityManager = EngineGlobals.entityManager;
-            _componentManager = EngineGlobals.componentManager;
+
+            OnCreate();
+            
         }
 
         // Return if the entity is the local player
@@ -113,6 +154,8 @@ namespace Engine
             return null;
         }
 
+        // TODO - HasComponent<T>();
+
         // Remove a given component from the entity
         public void RemoveComponent<T>(bool instant = false) where T : Component
         {
@@ -144,14 +187,22 @@ namespace Engine
             _entityManager.DeleteEntity(this);
         }
 
-        // TODO - other callbacks? onCreate?
-        public virtual void OnDestroy() { }
-
         // TODO - after time, not no. of frames
         public void After(int frames, Action<Entity> f)
         {
             TimedActionList.Add(new TimedAction(this, frames, f));
         }
+
+        //
+        // callbacks
+        //
+
+        // TODO - other callbacks? onCreate? onComponentAdded / removed?
+        // Action or virtual methods?
+        // i.e. create new entities through subclassing or Create() methods
+        public virtual void OnCreate() { }
+        public virtual void OnDestroy() { }
+
     }
 
 }
