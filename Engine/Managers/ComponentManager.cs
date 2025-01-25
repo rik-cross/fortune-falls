@@ -77,7 +77,7 @@ namespace Engine
         {
             // Add component object to the list and entity to the component
             e.Components.Add(component);
-            component.entity = e;
+            component.ownerEntity = e;
 
             // Add component to the entity's flags
             e.ComponentFlags.SetFlags(GetComponentFlag(component));

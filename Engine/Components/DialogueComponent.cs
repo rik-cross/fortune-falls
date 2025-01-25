@@ -19,7 +19,7 @@ namespace Engine
             if (dialoguePages.Count == 1)
             {
                 alpha.Value = 1;
-                newDialogue.onDialogueStart?.Invoke(entity);
+                newDialogue.onDialogueStart?.Invoke(ownerEntity);
             }
         }
 
