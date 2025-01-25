@@ -1,4 +1,5 @@
 ﻿using System;
+using Engine;
 
 namespace AdventureGame
 {
@@ -8,7 +9,7 @@ namespace AdventureGame
         static void Main()
         {
             // create new game object
-            AdventureGame.Game1 game = new AdventureGame.Game1(
+            Engine.Game game = new Engine.Game(
                 title: "Fortune Falls",
                 screenWidth: 16 * 80,
                 screenHeight: 9 * 80,

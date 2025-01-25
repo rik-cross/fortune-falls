@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace AdventureGame
 {
-    public class Game1 : Game
+    public class Game1 : Microsoft.Xna.Framework.Game
     {
         private string _title;
         public Game1(
@@ -34,7 +34,10 @@ namespace AdventureGame
             Globals.graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
-            IsMouseVisible = isMouseVisible; // todo
+            IsMouseVisible = isMouseVisible;
+
+            
+
         }
 
         protected override void Initialize()
@@ -108,7 +111,6 @@ namespace AdventureGame
             else
             {
                 EngineGlobals.sceneManager.PreloadScene<MenuScene>();
-                //EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
                 EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, SplashScene>();
             }
                 
