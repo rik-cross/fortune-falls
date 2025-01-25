@@ -126,7 +126,6 @@ namespace Engine
         // Add the entity to the deleted set
         public void DeleteEntity(Entity e)
         {
-            // TODO - check in ID?
             Deleted.Add(e);
         }
 
@@ -137,6 +136,9 @@ namespace Engine
             {
                 Added.Remove(e);
                 Disabled.Remove(e);
+
+                // TODO -- do we need to remove entities from systems? scenes?
+                // i.e. are system.OnEntityRemovedFromScene, OnEntityDestroyed, etc. triggered?
 
                 // Remove the entity's components
                 EngineGlobals.componentManager.RemoveAllComponents(e);

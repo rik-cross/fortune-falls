@@ -1,7 +1,13 @@
-﻿using System;
+﻿/*
+ *  File: System.cs
+ *  Project: MonoGame ECS Engine
+ *  (c) 2025, Alex Parry, Mac Bowley and Rik Cross
+ *  This source is subject to the MIT licence
+ */
+
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using S = System.Diagnostics.Debug;
 
 namespace Engine
 {
@@ -15,6 +21,7 @@ namespace Engine
         public HashSet<string> ExcludedComponentSet { get; set; }
         public Dictionary<int, int> EntityMapper { get; set; }
         public List<Entity> EntityList { get; set; }
+        
         public bool AboveMap { get; set; }
 
         public System()
@@ -27,41 +34,63 @@ namespace Engine
             AboveMap = false;
         }
 
+        //
+        // input
+        // 
+
+        // Input() is a global method, called once per frame
         public virtual void Input(GameTime gameTime, Scene scene) { }
+        // InputEntity() is called once per frame, for each entity matching the system requirements
         public virtual void InputEntity(GameTime gameTime, Scene scene, Entity entity) { }
 
-        // Update is called once per frame
+        //
+        // update
+        //
+
+        // Update () is a global method, called once per frame
         public virtual void Update(GameTime gameTime, Scene scene) { }
-        
-        // UpdateEntity is called once per frame per Entity, after Update is called
+        // UpdateEntity() is called once per frame, for each entity matching the system requirements 
         public virtual void UpdateEntity(GameTime gameTime, Scene scene, Entity entity) { }
         
+        //
+        // draw
+        //
+
         // Draw is called once per frame, after DrawEntity is called
         public virtual void Draw(GameTime gameTime, Scene scene) { }
-        
-        // DrawEntity is called once per Entity per Camera
+        // InputEntity() is called once per frame,
+        // for each camera for each entity matching the system requirements
         public virtual void DrawEntity(GameTime gameTime, Scene scene, Entity entity) { }
+
+        //
+        // entity management
+        //
 
         // Called when an Entity is added to a scene
         public virtual void OnEntityAddedToScene(Entity entity) { }
-
+        // TODO - OnEntityRemovedFromScene?? Is this the same as destroyed?
+        // does destroying remove entities from scene, remove components, etc.?
+        // public virtual void OnEntityRemovedFromScene(Entity entity) {}
         // Called when an Entity is destroyed
         public virtual void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity) { }
 
-        // MOVE to SystemManager?
-        // Add a component's class name to the required components set
+        //
+        // component management
+        //
+
+        // systems only run on entities that have all required components
         public void RequiredComponent<T>() where T : Component
         {
             RequiredComponentSet.Add(typeof(T).Name);
         }
 
-        // Add a component's class name to the one of components set
+        // systems only run on entities that have at least one of the specified components
         public void OneOfComponent<T>() where T : Component
         {
             OneOfComponentSet.Add(typeof(T).Name);
         }
 
-        // Add a component's class name to the excluded components set
+        // systems do not run on entities that have any excluded components
         public void ExcludedComponent<T>() where T : Component
         {
             ExcludedComponentSet.Add(typeof(T).Name);
