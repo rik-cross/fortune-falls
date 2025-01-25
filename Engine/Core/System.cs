@@ -22,7 +22,7 @@ namespace Engine
         public Dictionary<int, int> EntityMapper { get; set; }
         public List<Entity> EntityList { get; set; }
         
-        public bool AboveMap { get; set; }
+        public bool DrawAboveMap { get; set; }
 
         public System()
         {
@@ -31,7 +31,7 @@ namespace Engine
             ExcludedComponentSet = new HashSet<string>();
             EntityMapper = new Dictionary<int, int>();
             EntityList = new List<Entity>();
-            AboveMap = false;
+            DrawAboveMap = false;
         }
 
         //
@@ -68,9 +68,9 @@ namespace Engine
 
         // Called when an Entity is added to a scene
         public virtual void OnEntityAddedToScene(Entity entity) { }
-        // TODO - OnEntityRemovedFromScene?? Is this the same as destroyed?
-        // does destroying remove entities from scene, remove components, etc.?
-        // public virtual void OnEntityRemovedFromScene(Entity entity) {}
+        // TODO - should this be OnEntityRemovedFromScene?
+        // destroyed entities should be removed from all scenes,
+        // or should have all components removed, which removed them from systems
         // Called when an Entity is destroyed
         public virtual void OnEntityDestroyed(GameTime gameTime, Scene scene, Entity entity) { }
 
@@ -95,7 +95,5 @@ namespace Engine
         {
             ExcludedComponentSet.Add(typeof(T).Name);
         }
-
     }
-
 }

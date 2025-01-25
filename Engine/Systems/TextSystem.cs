@@ -15,7 +15,7 @@ namespace Engine
         {
             RequiredComponent<TextComponent>();
             RequiredComponent<TransformComponent>();
-            AboveMap = true;
+            DrawAboveMap = true;
         }
 
         public override void DrawEntity(GameTime gameTime, Scene scene, Entity entity)

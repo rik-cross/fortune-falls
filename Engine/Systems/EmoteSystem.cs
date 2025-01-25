@@ -14,7 +14,7 @@ namespace Engine
         {
             RequiredComponent<EmoteComponent>();
             RequiredComponent<TransformComponent>();
-            AboveMap = true;
+            DrawAboveMap = true;
         }
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {

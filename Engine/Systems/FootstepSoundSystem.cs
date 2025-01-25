@@ -12,7 +12,6 @@ namespace Engine
             RequiredComponent<FootstepSoundComponent>();
             RequiredComponent<AnimatedSpriteComponent>();
             RequiredComponent<PhysicsComponent>();
-            //AboveMap = true;
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)

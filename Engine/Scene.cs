@@ -422,7 +422,7 @@ namespace Engine
                 {
                     // Update each relevant entity of a system
                     if (s.EntityMapper.ContainsKey(e.Id))
-                        s.OnEntityAddedToScene(e);// gameTime, this, e);
+                        s.OnEntityAddedToScene(e);
                 }
             }
             EntitiesToAdd.Clear();
@@ -553,7 +553,7 @@ namespace Engine
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
-                    if (!s.AboveMap)
+                    if (!s.DrawAboveMap)
                     {
                         // entity-specific draw
                         foreach (Entity e in EntitiesInScene)
@@ -633,7 +633,7 @@ namespace Engine
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
-                    if (s.AboveMap)
+                    if (s.DrawAboveMap)
                     {
                         // entity-specific draw
                         foreach (Entity e in EntitiesInScene) // todo CHANGE to s.entityList BUG

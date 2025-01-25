@@ -108,7 +108,6 @@ namespace Engine
                         // Add entity to the list and mapper
                         s.EntityList.Add(e);
                         s.EntityMapper[e.Id] = s.EntityList.Count - 1;
-                        //s.OnEntityAddedToScene(e);
 
                         /*
                         Console.WriteLine($"Add Entity {e.Id} to System {s}");
