@@ -29,13 +29,13 @@ namespace AdventureGame
             //
             // Add cave entrance
             //
-            Engine.Entity caveEntranceEntity = EngineGlobals.entityManager.CreateEntity();
+            Engine.Entity caveEntranceEntity = new Engine.Entity();
             caveEntranceEntity.AddComponent(new Engine.TransformComponent(new Vector2(496, 28), new Vector2(32, 6)));
             Engine.TriggerComponent tc = caveEntranceEntity.AddComponent<Engine.TriggerComponent>(
                 new Engine.TriggerComponent(new Vector2(32, 16))
             );
             tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
-                if (otherEntity.IsLocalPlayer())
+                if (otherEntity.Name == "player")
                 {
                     otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                     //EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
@@ -163,7 +163,7 @@ namespace AdventureGame
             //
             // Add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity.Create(227, 150, 15, 20, idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(227, 150, 15, 20, name: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
@@ -174,7 +174,7 @@ namespace AdventureGame
             // Test code only, remove once content loading works.
             //Engine.EmoteComponent ec = new Engine.EmoteComponent(GameAssets.emote_pickaxe);
             //ec.showBackground = false;
-            //EngineGlobals.entityManager.GetLocalPlayer().AddComponent(ec);
+            //EngineGlobals.entityManager.GetEntityByName("player").AddComponent(ec);
         }
 
         public override void Input(GameTime gameTime)
@@ -214,7 +214,7 @@ namespace AdventureGame
 
             // Make entities transparent if in front of player
             Utilities.SetBuildingAlpha(EntitiesInScene);
-            //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
+            //S.WriteLine(EngineGlobals.entityManager.GetEntityByName("player").State);
         }
 
         public override void Draw(GameTime gameTime)

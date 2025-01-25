@@ -31,14 +31,13 @@ namespace AdventureGame
             //
 
             // Home trigger entity
-            Engine.Entity homeTrigger = EngineGlobals.entityManager.CreateEntity();
-            homeTrigger.Tags.AddTag("homeTrigger");
+            Engine.Entity homeTrigger = new Engine.Entity(tags: ["homeTrigger"]);
             homeTrigger.AddComponent(new Engine.TransformComponent(128-32, 155, 16, 10));
             homeTrigger.AddComponent(new Engine.TriggerComponent(
                 new Vector2(32, 10),
                 onCollisionEnter: (Entity triggerEntity, Entity otherEntity, float distance) =>
                 {
-                    if (otherEntity.IsPlayerType())
+                    if (otherEntity.Name == "player")
                     {
                         otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                         Vector2 playerPosition = new Vector2(690, 240);
@@ -51,14 +50,13 @@ namespace AdventureGame
             AddEntity(homeTrigger);
 
             // book trigger entity
-            Engine.Entity bookTrigger = EngineGlobals.entityManager.CreateEntity();
-            bookTrigger.Tags.AddTag("bookTrigger");
+            Engine.Entity bookTrigger = new Engine.Entity(tags: ["bookTrigger"]);
             bookTrigger.AddComponent(new Engine.TransformComponent(31, 33, 25, 25));
             bookTrigger.AddComponent(new Engine.TriggerComponent(
                 new Vector2(25, 25),
                 onCollide: (Entity triggerEntity, Entity otherEntity, float distance) =>
                 {
-                    if (otherEntity == EngineGlobals.entityManager.GetLocalPlayer())
+                    if (otherEntity == EngineGlobals.entityManager.GetEntityByName("player"))
                     {
                         PlayerControlComponent controlComponent = otherEntity.GetComponent<PlayerControlComponent>();
                         if (controlComponent != null && EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))

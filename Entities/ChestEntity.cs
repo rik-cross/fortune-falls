@@ -10,8 +10,7 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, string filename,
             string defaultState = "closed", int inventorySize = 20, List<Item> items = null)
         {
-            Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
-            entity.Tags.AddTag("chest");
+            Engine.Entity entity = new Engine.Entity(tags: ["chest"]);
 
             // Add sprites
             string dir = "Objects/";
@@ -30,18 +29,18 @@ namespace AdventureGame
 
             // Add other components
             Vector2 size = spriteComponent.GetSpriteSize(defaultState);
-            entity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), size));
-
-            entity.AddComponent(new Engine.ColliderComponent(
-                size: new Vector2(size.X, size.Y * 0.6f),
-                offset: new Vector2(0, size.Y * (1 - 0.6f))
-            ));
-
-            entity.AddComponent(new Engine.TriggerComponent(
-                size: new Vector2(size.X + 20, size.Y),
-                offset: new Vector2(-10, 10),
-                onCollide: SwitchToOpenState
-            ));
+            entity.AddComponent(
+                new Engine.TransformComponent(new Vector2(x, y), size),
+                new Engine.ColliderComponent(
+                    size: new Vector2(size.X, size.Y * 0.6f),
+                    offset: new Vector2(0, size.Y * (1 - 0.6f))
+                ),
+                new Engine.TriggerComponent(
+                    size: new Vector2(size.X + 20, size.Y),
+                    offset: new Vector2(-10, 10),
+                    onCollide: SwitchToOpenState
+                )
+            );
 
             // Add inventory and items
             InventoryComponent inventory = entity.AddComponent<InventoryComponent>(

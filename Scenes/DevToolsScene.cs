@@ -150,9 +150,9 @@ namespace AdventureGame
             _textDisplayInput.Draw();
 
             // Draw the player's X,Y position
-            if (EngineGlobals.entityManager.GetLocalPlayer() != null)
+            if (EngineGlobals.entityManager.GetEntityByName("player") != null)
             {
-                Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+                Entity player = EngineGlobals.entityManager.GetEntityByName("player");
                 Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
 
                 //Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
@@ -485,7 +485,7 @@ namespace AdventureGame
 
         public void PlayerColliderToggle()
         {
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
             ColliderComponent collider = player.GetComponent<ColliderComponent>();
 
             if (collider == null)
@@ -536,7 +536,7 @@ namespace AdventureGame
             }
 
             // Move the player to the given position
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
             player.GetComponent<TransformComponent>().Position = new Vector2(x, y);
         }
 
@@ -551,7 +551,7 @@ namespace AdventureGame
             // Remove any extra information
             string itemId = _commandValue.Split()[0];
 
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
             InventoryComponent playerInventory = player.GetComponent<InventoryComponent>();
             int itemsCollected = 0;
             int quantityCollect = 0;
@@ -562,7 +562,7 @@ namespace AdventureGame
             Console.WriteLine(entitiesWithItem.Count());
             foreach (Entity e in entitiesWithItem)
             {
-                if (e.IsLocalPlayer())
+                if (e.Name == "player")
                     continue;
 
                 ItemComponent itemComponent = e.GetComponent<ItemComponent>();
@@ -613,7 +613,7 @@ namespace AdventureGame
             Console.WriteLine(entitiesWithInventory.Count());
             foreach (Entity e in entitiesWithInventory)
             {
-                if (e.IsLocalPlayer())
+                if (e.Name == "player")
                     continue;
 
                 InventoryComponent inventoryComponent = e.GetComponent<InventoryComponent>();

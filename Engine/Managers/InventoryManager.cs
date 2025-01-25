@@ -134,7 +134,7 @@ namespace Engine
         {
             Console.WriteLine("Drop the item on the in-game ground");
 
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
 
             if (IsItemValid(inventoryItems, index))
                 item = inventoryItems[index];

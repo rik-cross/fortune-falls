@@ -9,12 +9,7 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, string filename,
             List<string> spriteKeys = null, string defaultState = "default")
         {
-            Entity entity = EngineGlobals.entityManager.CreateEntity();
-
-            // Add tags
-            entity.Tags.Id = "player_house";
-            entity.Tags.AddTag("building");
-            entity.Tags.AddTag(filename);
+            Entity entity = new Engine.Entity(name: "playerHouse", tags: ["building", filename]);
 
             // Add sprites
             string dir = "Buildings/";
@@ -49,7 +44,7 @@ namespace AdventureGame
                 size: new Vector2(16, 10),
                 offset: new Vector2(25, 60),
                 onCollide: (Entity entity, Entity otherEntity, float distance) => {
-                    if (otherEntity.IsPlayerType())
+                    if (otherEntity.Name == "player")
                     {
                         otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                         entity.State = "door_open";

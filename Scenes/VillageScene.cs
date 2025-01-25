@@ -23,12 +23,12 @@ namespace AdventureGame
             LoadMap("Maps/Map_Village");
 
             //// Cave
-            Entity caveEntrance = EngineGlobals.entityManager.CreateEntity("caveEntrance");
+            Entity caveEntrance = new Engine.Entity(name: "caveEntrance");
             caveEntrance.AddComponent(new Engine.TransformComponent(1150, 0, 60, 10));
             Engine.TriggerComponent caveTC = new TriggerComponent(
                 size: new Vector2(60, 10),
                 onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
-                    if (otherEntity.IsLocalPlayer())
+                    if (otherEntity.Name == "player")
                     {
                         Vector2 playerPosition = new Vector2(392, 449);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, CaveScene>();
@@ -287,20 +287,20 @@ namespace AdventureGame
             AddEntity(BuildingEntity.Create(472, 314, "UpperTown08.png", colliderHeightPercentage: 0.65f));
 
             // Player's House
-            Entity playerHouse = BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f, idTag: "playersHouse");
+            Entity playerHouse = BuildingEntity.Create(664, 166, "PlayersHouse.png", colliderHeightPercentage: 0.6f, name: "playersHouse");
             TriggerComponent tc = new TriggerComponent(
                 size: new Vector2(170, 170),
                 offset: new Vector2(-40, -40),
                 onCollisionEnter: (Entity e1, Entity e2, float d) => {
-                    if (e2.IsLocalPlayer())
+                    if (e2.Name == "player")
                     {
                         GetCameraByName("main").trackedEntity = playerHouse;
                     }
                 },
                 onCollisionExit: (Entity e1, Entity e2, float d) => {
-                    if (e2.IsLocalPlayer())
+                    if (e2.Name == "player")
                     {
-                        GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                        GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player");
                     }
                 }
             );
@@ -308,13 +308,13 @@ namespace AdventureGame
             AddEntity(playerHouse);
 
             // Player's house - scene entrance trigger
-            Entity playerHouseEntrance = EngineGlobals.entityManager.CreateEntity("playershouseEntrance");
+            Entity playerHouseEntrance = new Engine.Entity(name: "playershouseEntrance");
             playerHouseEntrance.AddComponent(new Engine.TransformComponent(694, 231, 4, 10));
             Engine.TriggerComponent pHouseTC = new TriggerComponent(
                 size: new Vector2(4, 10),
                 //offset: new Vector2(15, 15),
                 onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
-                    if (otherEntity.IsLocalPlayer()) //&& EngineGlobals.inputManager.IsPressed(otherEntity.GetComponent<InputComponent>().Input.button1))
+                    if (otherEntity.Name == "player") //&& EngineGlobals.inputManager.IsPressed(otherEntity.GetComponent<InputComponent>().Input.button1))
                     {
                         Vector2 playerPosition = new Vector2(104, 130);
                         EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, HomeScene>(false);
@@ -343,68 +343,68 @@ namespace AdventureGame
             AddEntity(TreeEntity.Create(1050, 1015, "tree_02.png"));
 
             // axe use achievement
-            if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>() == null)
-                EngineGlobals.entityManager.GetLocalPlayer().AddComponent(new TutorialComponent());
+            if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<TutorialComponent>() == null)
+                EngineGlobals.entityManager.GetEntityByName("player").AddComponent(new TutorialComponent());
 
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TutorialComponent>().AddTutorial(
+            EngineGlobals.entityManager.GetEntityByName("player").GetComponent<TutorialComponent>().AddTutorial(
                 new Tutorial(
                     name: "Use axe",
                     description: "Know how to use an axe",
                     condition: () =>
                     {
-                        return EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>() != null &&
-                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon == Weapons.axe &&
-                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<PlayerControlComponent>() != null &&
-                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetLocalPlayer().GetComponent<PlayerControlComponent>().Get("tool"));
+                        return EngineGlobals.entityManager.GetEntityByName("player").GetComponent<BattleComponent>() != null &&
+                            EngineGlobals.entityManager.GetEntityByName("player").GetComponent<BattleComponent>().weapon == Weapons.axe &&
+                            EngineGlobals.entityManager.GetEntityByName("player").GetComponent<PlayerControlComponent>() != null &&
+                            EngineGlobals.inputManager.IsDown(EngineGlobals.entityManager.GetEntityByName("player").GetComponent<PlayerControlComponent>().Get("tool"));
                     },
                     onComplete: () =>
                     {
-                        if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null &&
-                            (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() == GameAssets.controllerWeaponEmote ||
-                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() == GameAssets.keyboardWeaponEmote)
+                        if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() != null &&
+                            (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() == GameAssets.controllerWeaponEmote ||
+                            EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() == GameAssets.keyboardWeaponEmote)
                         )
                         {
-                            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                            EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                         }
                     }
                 )
             );
 
             // axe use tutorial entity
-            Entity axeTutorialEntity = EngineGlobals.entityManager.CreateEntity();
+            Entity axeTutorialEntity = new Engine.Entity();
             axeTutorialEntity.AddComponent(new Engine.TransformComponent(new Vector2(645, 225), new Vector2(100, 50)));
             axeTutorialEntity.AddComponent(
                 new Engine.TriggerComponent(new Vector2(100, 50),
                 onCollisionEnter: (Entity e, Entity e2, float d) =>
                 {
 
-                    if (e2.IsLocalPlayer() == false)
+                    if (e2.Name != "player")
                         return;
 
                     if (Globals.hasUsedAxe == true)
                         return;
 
-                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>() == null)
+                    if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<BattleComponent>() == null)
                         return;
 
-                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon != Weapons.axe)
+                    if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<BattleComponent>().weapon != Weapons.axe)
                         return;
 
-                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<Engine.AnimatedEmoteComponent>();
+                    if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() != null)
+                        EngineGlobals.entityManager.GetEntityByName("player").RemoveComponent<Engine.AnimatedEmoteComponent>();
                     Engine.AnimatedEmoteComponent weaponEmote;
                     if (Globals.IsControllerSelected)
                         weaponEmote = GameAssets.controllerWeaponEmote;
                     else
                         weaponEmote = GameAssets.keyboardWeaponEmote;
                     weaponEmote.alpha.Value = 1;
-                    EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(weaponEmote);
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
+                    EngineGlobals.entityManager.GetEntityByName("player").AddComponent<AnimatedEmoteComponent>(weaponEmote);
+                    EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
                 },
                 onCollisionExit: (Entity e, Entity e2, float d) =>
                 {
-                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                    if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() != null)
+                        EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                 }
             )
             );
@@ -420,18 +420,15 @@ namespace AdventureGame
                     () => { 
                         // todo: should remove the bits that we don't want here.
                         AddEntity(playerHouseEntrance);
-                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = null;
+                        EngineGlobals.entityManager.GetEntityByName("player").GetComponent<BattleComponent>().weapon = null;
                         EngineGlobals.soundManager.PlaySoundEffect(Utils.LoadSoundEffect("Sounds/axeBreak.wav"));
 
                         GameAssets.AxeBrokeEmote.alpha.Value = 1;
-                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<EmoteComponent>();
-                        EngineGlobals.entityManager.GetLocalPlayer().AddComponent(GameAssets.AxeBrokeEmote);
-                        EngineGlobals.entityManager.GetLocalPlayer().After(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
+                        EngineGlobals.entityManager.GetEntityByName("player").RemoveComponent<EmoteComponent>();
+                        EngineGlobals.entityManager.GetEntityByName("player").AddComponent(GameAssets.AxeBrokeEmote);
+                        EngineGlobals.entityManager.GetEntityByName("player").AddTimedAction(300, (Entity e) => { if(e.GetComponent<EmoteComponent>() != null) e.GetComponent<EmoteComponent>().Hide(); });
                         
                         EngineGlobals.log.Add("Your axe broke");
-
-                        // Get the blacksmith entity for EnginesGlobal.entityManager
-                        //Engine.Entity blacksmith = EngineGlobals.entityManager.GetEntityByIdTag("blacksmith");
 
                         //// Get the Dialogue component or create one
                         //Engine.DialogueComponent blacksmithDialogue;
@@ -458,7 +455,7 @@ namespace AdventureGame
             //
             // Add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity.Create(852, 598, 15, 20, idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(852, 598, 15, 20, name: "blacksmith");
 
             blacksmithEntity.GetComponent<TriggerComponent>().onCollisionEnter = (e1, e2, d) => {
                 if (Globals.hasInteracted == true)
@@ -470,13 +467,13 @@ namespace AdventureGame
                 else
                     speakEmote = GameAssets.keyboardInteractEmote;
                 speakEmote.alpha.Value = 1;
-                EngineGlobals.entityManager.GetLocalPlayer().AddComponent(speakEmote);
+                EngineGlobals.entityManager.GetEntityByName("player").AddComponent(speakEmote);
             };
 
             blacksmithEntity.GetComponent<TriggerComponent>().onCollisionExit = (e1, e2, d) => {
-                AnimatedEmoteComponent ac = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>();
+                AnimatedEmoteComponent ac = EngineGlobals.entityManager.GetEntityByName("player").GetComponent<Engine.AnimatedEmoteComponent>();
                 if (ac != null && (ac == GameAssets.controllerInteractEmote || ac == GameAssets.keyboardInteractEmote))
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<Engine.AnimatedEmoteComponent>().alpha.Value = 0;
+                    EngineGlobals.entityManager.GetEntityByName("player").GetComponent<Engine.AnimatedEmoteComponent>().alpha.Value = 0;
                 questMarker.visible = true;
 
                 // remove tutorial and show final dialogue
@@ -497,7 +494,7 @@ namespace AdventureGame
         public void InitialisePlayer()
         {
             // Add player to scene and set player scene
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
             AddEntity(player);
             player.GetComponent<SceneComponent>().Scene = this;
 
@@ -554,14 +551,14 @@ namespace AdventureGame
             // TODO -- add sprint tutorial, only trigger if sprint hasn't been tried yet
             //
 
-            Entity sprintTutorialEntity = EngineGlobals.entityManager.CreateEntity("sprintTutorial");
+            Entity sprintTutorialEntity = new Engine.Entity(name: "sprintTutorial");
             sprintTutorialEntity.AddComponent(new TransformComponent(180, 770, 600, 10));
             sprintTutorialEntity.AddComponent(
                 new Engine.TriggerComponent(
                     new Vector2(600, 10),
                     onCollisionEnter: (Entity entity, Entity otherEntity, float d) => {
 
-                        Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                        Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player");
 
                         if (otherEntity != playerEntity)
                             return;
@@ -588,8 +585,8 @@ namespace AdventureGame
                                     //    sprintEmote = GameAssets.keyboardSprintEmote;
 
                                     //sprintEmote.alpha.Value = 1;
-                                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                                        EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<AnimatedEmoteComponent>();
+                                    if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() != null)
+                                        EngineGlobals.entityManager.GetEntityByName("player").RemoveComponent<AnimatedEmoteComponent>();
 
                                     Engine.AnimatedEmoteComponent sprintEmote;
                                     if (Globals.IsControllerSelected)
@@ -599,7 +596,7 @@ namespace AdventureGame
                                     playerEntity.AddComponent(sprintEmote);
                                     playerEntity.GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
 
-                                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
+                                    EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
 
 
                                     //if (Globals.IsControllerConnected)
@@ -621,8 +618,8 @@ namespace AdventureGame
                                 numberOfTimes: 80,
                                 onComplete: () =>
                                 {
-                                    if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                                        EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
+                                    if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() != null)
+                                        EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>().alpha.Value = 0;
                                 }
                             )
                         );
@@ -643,8 +640,8 @@ namespace AdventureGame
             }
 
 
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = new Vector2(630, 260);
-            //EngineGlobals.entityManager.GetLocalPlayer().GetComponent<BattleComponent>().weapon = Weapons.axe;
+            //EngineGlobals.entityManager.GetEntityByName("player").GetComponent<TransformComponent>().Position = new Vector2(630, 260);
+            //EngineGlobals.entityManager.GetEntityByName("player").GetComponent<BattleComponent>().weapon = Weapons.axe;
 
             //questMarker.visible = true;
         }
@@ -678,10 +675,6 @@ namespace AdventureGame
         {
             questMarker.Update(this); // todo: add this to Scene
             Utilities.SetBuildingAlpha(EntitiesInScene); // todo only check entities near player
-            //S.WriteLine(
-            //    EngineGlobals.entityManager.GetEntityByIdTag("mainSquareTree").GetComponent<TransformComponent>().Bottom + "  " +
-            //    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Bottom
-            //);
         }
 
         public override void Draw(GameTime gameTime)

@@ -8,11 +8,9 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, string filename,
             int drawOrderOffset = 0, bool isSolid = true, bool canWalkBehind = false,
             Vector2 colliderSize = default, Vector2 colliderOffset = default,
-            string idTag = null) // , bool isInteractive = false)
+            string name = null) // , bool isInteractive = false)
         {
-            Entity objectEntity = EngineGlobals.entityManager.CreateEntity();
-            objectEntity.Tags.Id = idTag;
-            objectEntity.Tags.AddTag("object");
+            Entity objectEntity = new Engine.Entity(name: name, tags: ["object"]);
 
             // Add sprites
             string dir = "Objects/";

@@ -62,7 +62,7 @@ namespace Engine
         private void ChangeScene()
         {
             Console.WriteLine($"Player scene change to {_playerNextScene}");
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
 
             SceneComponent sceneComponent = player.GetComponent<SceneComponent>();
             if (sceneComponent == null)

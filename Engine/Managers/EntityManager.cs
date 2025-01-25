@@ -31,14 +31,6 @@ namespace Engine
             _idPool = new List<int>();
         }
 
-        // Create a new entity and give it an id
-        public Entity CreateEntity(string idTag="")
-        {
-            Entity e = new Entity(CheckOutId(), idTag);
-            AddEntity(e);
-            return e;
-        }
-
         // Add the entity to the list and mapper
         public void AddEntity(Entity e)
         {
@@ -49,15 +41,6 @@ namespace Engine
 
             _entityList.Add(e);
             _entityMapper[e.Id] = _entityList.Count - 1;
-        }
-
-        // Add entities from the added set at the start of the game tick
-        public void AddEntitiesToGame()
-        {
-            //foreach (Entity e in Added)
-            //    AddEntity(e);
-
-            Added.Clear();
         }
 
         // Return the entity using the entity id
@@ -87,6 +70,13 @@ namespace Engine
             return null;
         }
 
+        public Entity GetEntityByName(string name) {
+            foreach(Entity e in _entityList)
+                if (e.Name == name)
+                    return e;
+            return null;
+        }
+
         public int CountEntitiesByTag(string id)
         {
             int r = 0;
@@ -94,30 +84,6 @@ namespace Engine
                 if (e.Tags.Id == id)
                     r+=1;
             return r;
-        }
-
-        // Set the local player entity
-        public void SetLocalPlayer(Entity e)
-        {
-            _localPlayer = e;
-        }
-
-        // Return the local player entity
-        public Entity GetLocalPlayer()
-        {
-            return _localPlayer;
-        }
-
-        // Return if the entity is the local player
-        public bool IsLocalPlayer(Entity e)
-        {
-            return e.Tags.Id == "localPlayer";
-        }
-
-        // Return if the entity has a player type Tag
-        public bool IsPlayerType(Entity e)
-        {
-            return e.Tags.HasType("player");
         }
 
         // Return a list of entities based on their type Tag
@@ -159,6 +125,7 @@ namespace Engine
         // Add the entity to the deleted set
         public void DeleteEntity(Entity e)
         {
+            // TODO - check in ID?
             Deleted.Add(e);
         }
 
@@ -167,7 +134,6 @@ namespace Engine
         {
             foreach (Entity e in Deleted)
             {
-                e.OnDestroy();
                 Added.Remove(e);
                 Disabled.Remove(e);
 

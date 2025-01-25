@@ -28,8 +28,8 @@ namespace Engine
 
         public static void Test()
         {
-            Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
-            Entity npcEntity = EngineGlobals.entityManager.GetEntityByIdTag("blacksmith");
+            Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player");
+            Entity npcEntity = EngineGlobals.entityManager.GetEntityByName("blacksmith");
 
             MoveSystem moveSystem = EngineGlobals.systemManager.GetSystem<MoveSystem>();
 

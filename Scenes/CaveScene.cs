@@ -32,13 +32,13 @@ namespace AdventureGame
             //
 
             //  cave entrance
-            Engine.Entity caveExitEntity = EngineGlobals.entityManager.CreateEntity();
+            Engine.Entity caveExitEntity = new Engine.Entity();
             caveExitEntity.AddComponent(new Engine.TransformComponent(new Vector2(384, 474), new Vector2(32, 6)));
             Engine.TriggerComponent tc = caveExitEntity.AddComponent<Engine.TriggerComponent>(
                 new Engine.TriggerComponent(new Vector2(32, 6))
             );
             tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
-                if (otherEntity.IsLocalPlayer())
+                if (otherEntity.Name == "player")
                 {
                     Vector2 playerPosition = new Vector2(1177, 16);
                     EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, VillageScene>();
@@ -76,7 +76,7 @@ namespace AdventureGame
         public override void Update(GameTime gameTime)
         {
             Utilities.SetBuildingAlpha(EntitiesInScene);
-            //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
+            //S.WriteLine(EngineGlobals.entityManager.GetEntityByName("player").State);
         }
 
         public override void Draw(GameTime gameTime)

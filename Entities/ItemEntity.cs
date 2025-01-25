@@ -18,8 +18,7 @@ namespace AdventureGame
             // Should isCollectable and collectableByType by database lookups?
             // Should this be stored in the Item?
 
-            Entity itemEntity = EngineGlobals.entityManager.CreateEntity();
-            itemEntity.Tags.AddTag("item");
+            Entity itemEntity = new Engine.Entity(tags: ["item"]);
 
             // How to handle sprite sheets dynamically?
             // How to add optional params? e.g. size

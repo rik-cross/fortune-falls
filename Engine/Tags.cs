@@ -11,6 +11,7 @@ namespace Engine
         // Entities can have multiple Type tags
         public List<string> Type { get; private set; } = new List<string>();
 
+
         public Tags() { }
 
         public Tags(string type, string id = default)

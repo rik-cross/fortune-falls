@@ -25,7 +25,7 @@ namespace Engine
             if (animatedEmoteComponent.alpha.Value == 0)
                 entity.RemoveComponent<EmoteComponent>();
 
-            //if (entity == EngineGlobals.entityManager.GetLocalPlayer())
+            //if (entity == EngineGlobals.entityManager.GetEntityByName("player"))
             //    if (entity.GetComponent<EmoteComponent>() != null)
             //        S.WriteLine(entity.GetComponent<EmoteComponent>().alpha.Value);
 

@@ -10,8 +10,7 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, string filename)
         {
 
-            Entity enemyEntity = EngineGlobals.entityManager.CreateEntity();
-            enemyEntity.Tags.AddTag("enemy");
+            Entity enemyEntity = new Engine.Entity(tags: ["enemy"]);
 
             string directory = "";
             string filePath = directory + filename;

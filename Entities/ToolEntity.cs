@@ -9,33 +9,10 @@ namespace AdventureGame
 
         public static Engine.Entity Create(string filePath, Entity owner,
             int x, int y, int width, int height, Vector2 offset, int layerDepthOffset,
-            string state, string idTag = null)
+            string state, string name = null)
         {
-            /*
-            Engine.Entity toolEntity = null;
-            
-            // Check if the tool entity already exists
-            if (!string.IsNullOrEmpty(idTag))
-                toolEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
 
-            // Otherwise create a new tool entity
-            if (toolEntity == null)
-            {
-                toolEntity = EngineGlobals.entityManager.CreateEntity();
-                toolEntity.Owner = owner;
-
-                if (!string.IsNullOrEmpty(idTag))
-                    toolEntity.Tags.Id = idTag;
-                toolEntity.Tags.AddTag("tool");
-            }
-            */
-
-            Engine.Entity toolEntity = EngineGlobals.entityManager.CreateEntity();
-            toolEntity.Owner = owner;
-
-            if (!string.IsNullOrEmpty(idTag))
-                toolEntity.Tags.Id = idTag;
-            toolEntity.Tags.AddTag("tool");
+            Engine.Entity toolEntity = new Engine.Entity(name: name, owner: owner, tags: ["tool"]);
 
             // Add sprites
             //string filePath = "";

@@ -9,37 +9,10 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, int width, int height,
             string defaultState = "default",
             //string filename = null, string thumbnail = null,
-            bool canMove = false, float speed = 100, string idTag = null)
+            bool canMove = false, float speed = 100, string name=null)
             // Action movementScript
         {
-            Engine.Entity npcEntity;
-
-            // Todo turn into a static CheckEntityExists method?
-
-            // Check if the NPC entity already exists
-            //if (!string.IsNullOrEmpty(idTag))
-            //{
-            //    npcEntity = EngineGlobals.entityManager.GetEntityByIdTag(idTag);
-            //    if (npcEntity != null)
-            //        return npcEntity;
-            //}
-
-            // Otherwise create a new NPC entity
-            npcEntity = EngineGlobals.entityManager.CreateEntity();
-
-            if (!string.IsNullOrEmpty(idTag))
-                npcEntity.Tags.Id = idTag;
-            else
-            {
-                // Generate a new unique NPC id
-                Guid guid = Guid.NewGuid();
-
-                // Generate a new guid if it already exists?
-
-                // Set the new NPC id
-                npcEntity.Tags.Id = "npc" + guid;
-            }
-            npcEntity.Tags.AddTag("npc");
+            Engine.Entity npcEntity = new Engine.Entity(name: name, tags: ["npc"]);
 
 
             // Add sprites

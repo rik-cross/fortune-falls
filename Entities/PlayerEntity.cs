@@ -12,31 +12,11 @@ namespace AdventureGame
         public static Dictionary<string, AnimatedSpriteComponent> animatedSprites = new Dictionary<string, AnimatedSpriteComponent>();
 
         public static Engine.Entity Create(int x, int y, int width, int height,
-            string defaultState = "idle_right", float speed = 50, string idTag = null)
+            string defaultState = "idle_right", float speed = 50)
         {
             Engine.Entity playerEntity;
 
-            // Todo turn into a static CheckEntityExists method?
-            // Otherwise create a new player entity
-            playerEntity = EngineGlobals.entityManager.CreateEntity();
-
-            if (!string.IsNullOrEmpty(idTag))
-            {
-                playerEntity.Tags.Id = idTag;
-                if (idTag == "localPlayer")
-                    EngineGlobals.entityManager.SetLocalPlayer(playerEntity);
-            }
-            else
-            {
-                // Generate a new unique player id
-                Guid guid = Guid.NewGuid();
-                // Generate a new player guid if it already exists?
-                playerEntity.Tags.Id = "player" + guid;
-            }
-
-            playerEntity.Tags.AddTag("player");
-
-            
+            playerEntity = new Engine.Entity(name: "player", tags: ["player"]);
             playerEntity.State = defaultState;
 
             // Add transform component
@@ -57,7 +37,7 @@ namespace AdventureGame
             Entity playerEntity = null;
 
             if (player == null)
-                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                playerEntity = EngineGlobals.entityManager.GetEntityByName("player");
 
             if (playerEntity == null)
                 return;
@@ -128,7 +108,7 @@ namespace AdventureGame
         public static void RemoveComponents(Entity playerEntity = null)
         {
             if (playerEntity == null)
-                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                playerEntity = EngineGlobals.entityManager.GetEntityByName("player");
 
             if (playerEntity == null)
                 return;
@@ -146,7 +126,7 @@ namespace AdventureGame
 
         public static void UpdateSprites()
         {
-            Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player");
             Globals.playerStr = Globals.allCharacters[Globals.playerIndex];
             //S.WriteLine(Globals.playerIndex + Globals.playerStr);
             //playerEntity.RemoveComponent<Engine.AnimatedSpriteComponent>();
@@ -169,13 +149,13 @@ namespace AdventureGame
         // Create all the different character sprites for the player select scene
         public static void AddAllCharacterSprites(Entity player = null)
         {
-            //Engine.Entity playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            //Engine.Entity playerEntity = EngineGlobals.entityManager.GetEntityByName("player");
             //Globals.playerStr = Globals.allCharacters[Globals.///];
 
             Entity playerEntity = null;
 
             if (player == null)
-                playerEntity = EngineGlobals.entityManager.GetLocalPlayer();
+                playerEntity = EngineGlobals.entityManager.GetEntityByName("player");
 
             if (playerEntity == null)
                 return;

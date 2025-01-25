@@ -12,13 +12,13 @@ namespace Engine
         // TO DO
         public static void NPC(Entity triggerEntity, Entity colliderEntity, float distance)
         {
-            if (colliderEntity.IsPlayerType())
+            if (colliderEntity.Name == "player")
             {
                 PlayerControlComponent controlComponent = colliderEntity.GetComponent<PlayerControlComponent>();
                 if (controlComponent != null
                     && EngineGlobals.inputManager.IsPressed(controlComponent.Get("interact")))
                 {
-                    LightComponent lightComponent = EngineGlobals.entityManager.GetEntityByIdTag("homeLight1").GetComponent<LightComponent>();
+                    LightComponent lightComponent = EngineGlobals.entityManager.GetEntityByName("homeLight1").GetComponent<LightComponent>();
                     lightComponent.visible = !lightComponent.visible;
                 }
             }
@@ -27,7 +27,7 @@ namespace Engine
         // Test for NPC interactions
         public static void BlacksmithDialogue(Entity npcEntity, Entity playerEntity, float distance)
         {
-            if (playerEntity == null || !playerEntity.IsPlayerType())
+            if (playerEntity == null || playerEntity.Name != "player")
                 return;
 
             //if (playerEntity.GetComponent<TutorialComponent>().GetTutorials().Count > 0)
@@ -40,8 +40,8 @@ namespace Engine
 
                 Globals.hasInteracted = true;
 
-                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                    EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().Hide();
+                if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() != null)
+                    EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>().Hide();
 
                 DialogueComponent dialogueComponent = playerEntity.GetComponent<DialogueComponent>();
                 if (dialogueComponent != null && !dialogueComponent.HasPages())
@@ -120,7 +120,7 @@ namespace Engine
 
                             if (villageScene != null)
                             {
-                                villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByIdTag("playershouseEntrance"));
+                                villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByName("playershouseEntrance"));
                                 villageScene.questMarker.visible = true;
                             }
                                 
@@ -155,7 +155,7 @@ namespace Engine
                                      npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
                                      npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
 
-                                     villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByIdTag("playersHouse"));
+                                     villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByName("playersHouse"));
                                      villageScene.questMarker.visible = true;
                                  }
                             );
@@ -183,16 +183,16 @@ namespace Engine
                                                 ic.TopControllerLabel = "tool";
                                                 
 
-                                                if (EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>() != null)
-                                                    EngineGlobals.entityManager.GetLocalPlayer().RemoveComponent<Engine.AnimatedEmoteComponent>();
+                                                if (EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>() != null)
+                                                    EngineGlobals.entityManager.GetEntityByName("player").RemoveComponent<Engine.AnimatedEmoteComponent>();
                                                 Engine.AnimatedEmoteComponent weaponEmote;
                                                 if (Globals.IsControllerSelected)
                                                     weaponEmote = GameAssets.controllerWeaponEmote;
                                                 else
                                                     weaponEmote = GameAssets.keyboardWeaponEmote;
                                                 weaponEmote.alpha.Value = 1;
-                                                EngineGlobals.entityManager.GetLocalPlayer().AddComponent<AnimatedEmoteComponent>(weaponEmote);
-                                                EngineGlobals.entityManager.GetLocalPlayer().GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
+                                                EngineGlobals.entityManager.GetEntityByName("player").AddComponent<AnimatedEmoteComponent>(weaponEmote);
+                                                EngineGlobals.entityManager.GetEntityByName("player").GetComponent<AnimatedEmoteComponent>().alpha.Value = 1;
                                             },
                                             onComplete: () => {
 
@@ -211,8 +211,6 @@ namespace Engine
                                                 npcEntity.GetComponent<AnimatedSpriteComponent>().LastState = npcEntity.State;
                                                 npcEntity.GetComponent<AnimatedSpriteComponent>().SetAnimatedSpriteFrame(5, npcEntity.State);
 
-                                                villageScene.questMarker.SetPOI(EngineGlobals.entityManager.GetEntityByIdTag("playersHouse"));
-                                                villageScene.questMarker.visible = true;
                                             }
                                         )
                                    );
@@ -280,7 +278,7 @@ namespace Engine
         public static void ChangeScene(Entity triggerEntity, Entity colliderEntity, float distance)
             // Scene nextScene, Vector2 playerPosition = default, bool player = true
         {
-            if (colliderEntity.IsPlayerType())
+            if (colliderEntity.Name == "player")
             {
                 //Vector2 playerPosition = new Vector2(playerX, playerY);
                 //EngineGlobals.sceneManager.SetActiveScene<T>();

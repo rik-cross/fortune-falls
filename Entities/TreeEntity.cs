@@ -12,8 +12,7 @@ namespace Engine
         public static Engine.Entity Create(int x, int y, string filename,
             bool hasStump = false, string defaultState = "tree", string additionalTag=null)
         {
-            Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
-            entity.Tags.AddTag("tree");
+            Engine.Entity entity = new Engine.Entity(tags: ["tree"]);
             if (additionalTag != null)
                 entity.Tags.AddTag(additionalTag);
             
@@ -91,7 +90,7 @@ namespace Engine
                         // ...with a particle component
                         // ...that destroys itself on complete
 
-                        Entity treeDust = EngineGlobals.entityManager.CreateEntity();
+                        Entity treeDust = new Engine.Entity();
 
                         // draw order insertion function fails if an entity doesn't have a transform component
                         Vector2 treeCenter = new Vector2(thisEnt.GetComponent<TransformComponent>().Center, thisEnt.GetComponent<TransformComponent>().Middle);

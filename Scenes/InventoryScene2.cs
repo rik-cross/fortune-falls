@@ -54,7 +54,7 @@ namespace AdventureGame
             _inventoryManager = EngineGlobals.inventoryManager;
 
             // CHANGE to any entity
-            _player = EngineGlobals.entityManager.GetLocalPlayer();
+            _player = EngineGlobals.entityManager.GetEntityByName("player");
             if (_player == null)
                 return;
 

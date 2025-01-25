@@ -15,10 +15,7 @@ namespace AdventureGame
             Action<Entity, Entity, float> onCollide = null,
             Action<Entity, Entity, float> onCollisionExit = null)
         {
-            Entity triggerEntity = EngineGlobals.entityManager.CreateEntity();
-
-            //triggerEntity.Tags.Id = triggerId;
-            triggerEntity.Tags.AddTag("trigger");
+            Entity triggerEntity = new Engine.Entity(tags: ["trigger"]);
 
             triggerEntity.AddComponent(new Engine.TransformComponent(new Vector2(x, y), triggerSize));
 

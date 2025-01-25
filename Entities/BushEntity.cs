@@ -10,8 +10,7 @@ namespace AdventureGame
         public static Engine.Entity Create(int x, int y, string filename,
             string defaultState = "berries", string dropItem = null)//, bool bare = false)
         {
-            Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
-            entity.Tags.AddTag("bush");
+            Engine.Entity entity = new Engine.Entity(tags: ["bush"]);
 
             // Add sprites
             string dir = "Objects/";

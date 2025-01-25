@@ -76,7 +76,7 @@ namespace AdventureGame
             VillageScene vs = (VillageScene)EngineGlobals.sceneManager.GetScene<VillageScene>();
             vs.questMarker.visible = false;
 
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
             if (player == null)
                 return;
 

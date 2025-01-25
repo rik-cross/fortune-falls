@@ -9,8 +9,7 @@ namespace AdventureGame
 
         public static Engine.Entity Create(int x, int y, string filename)
         {
-            Engine.Entity entity = Engine.EngineGlobals.entityManager.CreateEntity();
-            entity.Tags.AddTag("streetlight");
+            Engine.Entity entity = new Engine.Entity(tags: ["streetlight"]);
 
             // Add sprites
             string dir = "Objects/";

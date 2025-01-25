@@ -532,7 +532,7 @@ namespace Engine
 
             // Set the cameras to focus on the player again
             /*
-            Entity player = EngineGlobals.entityManager.GetLocalPlayer();
+            Entity player = EngineGlobals.entityManager.GetEntityByName("player");
             TransformComponent transformComponent = player.GetComponent<Engine.TransformComponent>();
             ActiveScene.GetCameraByName("main").SetWorldPosition(transformComponent.GetCenter(), instant: true);
             ActiveScene.GetCameraByName("minimap").SetWorldPosition(transformComponent.GetCenter(), instant: true);

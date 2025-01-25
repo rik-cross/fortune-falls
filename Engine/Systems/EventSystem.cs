@@ -49,7 +49,7 @@ namespace Engine
         }
         public static void OnCollisionExit(Entity thisEntity, Entity otherEntity, float distance)
         {
-            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetLocalPlayer();
+            EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").trackedEntity = EngineGlobals.entityManager.GetEntityByName("player");
             EngineGlobals.sceneManager.ActiveScene.GetCameraByName("main").SetZoom(3.0f);
         }
 

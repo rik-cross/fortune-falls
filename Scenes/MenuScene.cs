@@ -50,7 +50,7 @@ namespace AdventureGame
             _camera.SetWorldPosition(new Vector2(mainMenuPlayerPos.X + 100, mainMenuPlayerPos.Y + 30), instant: true);
 
             // Create the player entity
-            PlayerEntity.Create(x: 176, y: 1190, 15, 20, idTag: "localPlayer");
+            PlayerEntity.Create(x: 176, y: 1190, 15, 20);
 
             // Preload the Village and PlayerSelect scenes
             EngineGlobals.sceneManager.PreloadScene<VillageScene>();
@@ -210,13 +210,6 @@ namespace AdventureGame
                 //Vector2 playerPosition = new Vector2(175, 1190);
                 //int playerX = 175;
                 //int playerY = 1190;
-
-                //Engine.Entity player = PlayerEntity.Create(x: playerX, y: playerY, 15, 20, idTag: "localPlayer");
-
-                //EngineGlobals.entityManager.SetLocalPlayer(player);
-
-                //player.GetComponent<TransformComponent>().Position = playerPosition;
-                ////player.State = "idle_right";
             }
 
             //PlayerEntity.UpdateSprites();  // todo - move to PlayerScript
@@ -225,7 +218,7 @@ namespace AdventureGame
             // todo - bug: player position needs to be set via transform component
             // Create player entity
             Vector2 playerPosition = new Vector2(176, 1190);
-            EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Position = playerPosition;
+            EngineGlobals.entityManager.GetEntityByName("player").GetComponent<TransformComponent>().Position = playerPosition;
 
             // Transition to the PlayerSelectScene and load the VillageScene below
             EngineGlobals.sceneManager.ChangeScene<
@@ -277,13 +270,9 @@ namespace AdventureGame
 
             if (Globals.newGame)
             {
-                // Create player entity
-                //PlayerEntity.Create(x: 176, y: 1190, 15, 20, idTag: "localPlayer");
             }
             else
             {
-                // Re-create the player sprites in case player has changed
-                //CreatePlayerSprites();
             }
         }
 
@@ -329,7 +318,7 @@ namespace AdventureGame
             //characterStr = "spikeyhair"; // Testing
 
             // Create the main menu player entity
-            _mainMenuPlayer = EngineGlobals.entityManager.CreateEntity();
+            _mainMenuPlayer = new Engine.Entity();
             _mainMenuPlayer.AddComponent(new Engine.TransformComponent(
                 new Vector2(176, 1190), new Vector2(15, 20)));
             AnimatedSpriteComponent animatedComponent = _mainMenuPlayer.AddComponent<AnimatedSpriteComponent>();
@@ -391,7 +380,7 @@ namespace AdventureGame
             //
             // Character swimming
             //
-            Engine.Entity characterSwimming = EngineGlobals.entityManager.CreateEntity();
+            Engine.Entity characterSwimming = new Engine.Entity();
             characterSwimming.AddComponent<Engine.TransformComponent>(new Engine.TransformComponent(
                 new Vector2(380, 1240),
                 new Vector2(15, 20)));

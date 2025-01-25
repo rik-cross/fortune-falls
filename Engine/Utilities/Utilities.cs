@@ -119,7 +119,7 @@ namespace Engine
             foreach (Entity e in entityList)
             {
                 // only reduce alpha for entities overlapping players
-                if (e.IsPlayerType())
+                if (e.Name == "player")
                 {
                     foreach (Entity o in entityList)
                     {

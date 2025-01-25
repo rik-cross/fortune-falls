@@ -10,15 +10,9 @@ namespace AdventureGame
             List<string> spriteKeys = null, string defaultState = "default",
             float colliderHeightPercentage = 0.7f,
             TriggerComponent triggerComponent = null,
-            string idTag = null)
+            string name = null)
         {
-            Entity entity = EngineGlobals.entityManager.CreateEntity();
-
-            // Add tags
-            if (idTag != null)
-                entity.Tags.Id = idTag;
-            entity.Tags.AddTag("building");
-            entity.Tags.AddTag(filename);
+            Entity entity = new Engine.Entity(name: name, tags: ["building", filename]);
 
             // Add sprites
             string dir = "Buildings/";

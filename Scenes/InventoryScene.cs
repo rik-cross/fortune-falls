@@ -50,7 +50,7 @@ namespace AdventureGame
             _inventoryManager = EngineGlobals.inventoryManager;
 
             // CHANGE to any entity
-            _player = EngineGlobals.entityManager.GetLocalPlayer();
+            _player = EngineGlobals.entityManager.GetEntityByName("player");
             if (_player == null)
                 return;
 
@@ -539,7 +539,7 @@ namespace AdventureGame
             // Recalculate the container dimensions in case the screen size has changed 
             CalculateContainerDimensions();
 
-            //IntentionComponent intentionComponent = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<IntentionComponent>();
+            //IntentionComponent intentionComponent = EngineGlobals.entityManager.GetEntityByName("player").GetComponent<IntentionComponent>();
             //if (intentionComponent.up)
 
             // CHANGE to Keys.Up etc instead of WASD?

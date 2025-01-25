@@ -31,13 +31,13 @@ namespace AdventureGame
             //
             // Add cave entrance
             //
-            Engine.Entity caveEntranceEntity = EngineGlobals.entityManager.CreateEntity();
+            Engine.Entity caveEntranceEntity = new Engine.Entity();
             caveEntranceEntity.AddComponent(new Engine.TransformComponent(new Vector2(496, 28), new Vector2(32, 6)));
             Engine.TriggerComponent tc = caveEntranceEntity.AddComponent<Engine.TriggerComponent>(
                 new Engine.TriggerComponent(new Vector2(32, 16))
             );
             tc.onCollisionEnter = (Entity thisEntity, Entity otherEntity, float distance) => {
-                if (otherEntity.IsLocalPlayer())
+                if (otherEntity.Name == "player")
                 {
                     otherEntity.State = "idle_" + otherEntity.State.Split("_")[1];
                     //EngineGlobals.sceneManager.SetActiveScene<CaveScene>();
@@ -113,7 +113,7 @@ namespace AdventureGame
             //
             // Add NPCs
             //
-            Engine.Entity blacksmithEntity = NPCEntity.Create(227, 150, 15, 20, idTag: "blacksmith");
+            Engine.Entity blacksmithEntity = NPCEntity.Create(227, 150, 15, 20, name: "blacksmith");
             blacksmithEntity.GetComponent<TriggerComponent>().onCollide = SceneTriggers.BlacksmithDialogue;
             AddEntity(blacksmithEntity);
 
@@ -165,7 +165,7 @@ namespace AdventureGame
             questMarker.Update(this);
 
             Utilities.SetBuildingAlpha(EntitiesInScene);
-            //S.WriteLine(EngineGlobals.entityManager.GetLocalPlayer().State);
+            //S.WriteLine(EngineGlobals.entityManager.GetEntityByName("player").State);
 
             // why does this have to be 60? a lower number doesn't work
             if (frame == 60 && Globals.newGame)

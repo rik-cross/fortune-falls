@@ -15,11 +15,9 @@ namespace AdventureGame
             bool flipH = false,
             bool flipV = false,
             bool drawAbove = true,
-            string idTag = null)
+            string name = null)
         {
-            Entity vfxEntity = EngineGlobals.entityManager.CreateEntity();
-            vfxEntity.Tags.Id = idTag;
-            vfxEntity.Tags.AddTag("VFX");
+            Entity vfxEntity = new Engine.Entity(name: name, tags: ["VFX"]);
             vfxEntity.State = defaultState;
 
             // Add sprites

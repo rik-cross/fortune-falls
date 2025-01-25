@@ -88,7 +88,7 @@ namespace Engine
             List<Entity> entitiesToKeep = new List<Entity>();
             foreach (Entity e in EntitiesInScene)
             {
-                if (!e.IsLocalPlayer()) // todo - allow local player to be deleted?
+                if (e.Name != "player") // todo - allow local player to be deleted?
                 {
                     _entityManager.DeleteEntity(e);
                     count++;
@@ -115,10 +115,10 @@ namespace Engine
         public void _OnExit()
         {
             // Reset player movement - move to game scene's OnExit instead?
-            Entity player = _entityManager.GetLocalPlayer();
+            Entity player = _entityManager.GetEntityByName("player");
             if (player != null)
             {
-                if (player.GetComponent<IntentionComponent>() != null)
+                if (player.HasComponent<IntentionComponent>())
                     player.GetComponent<IntentionComponent>().ResetAll();
 
                 if (player.State.Contains("_"))
@@ -177,8 +177,7 @@ namespace Engine
 
             CollisionTiles.Add(rect);
 
-            Entity tileEntity = EngineGlobals.entityManager.CreateEntity();
-            tileEntity.Tags.AddTag("collision");
+            Entity tileEntity = new Entity(tags: ["collision"]);
             tileEntity.AddComponent(new TransformComponent(rect));
             tileEntity.AddComponent(new ColliderComponent(width, height));
             AddEntity(tileEntity);
@@ -217,8 +216,8 @@ namespace Engine
                     size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
                     zoom: Globals.globalZoomLevel,
                     backgroundColour: Color.Black,
-                    trackedEntity: EngineGlobals.entityManager.GetLocalPlayer(),
-                    ownerEntity: EngineGlobals.entityManager.GetLocalPlayer()
+                    trackedEntity: EngineGlobals.entityManager.GetEntityByName("player"),
+                    ownerEntity: EngineGlobals.entityManager.GetEntityByName("player")
                 );
 
                 CameraList.Add(playerCamera);
@@ -235,7 +234,7 @@ namespace Engine
                     backgroundColour: Color.Black,
                     borderColour: Color.Black,
                     borderThickness: 2,
-                    trackedEntity: EngineGlobals.entityManager.GetLocalPlayer()
+                    trackedEntity: EngineGlobals.entityManager.GetEntityByName("player")
                 );
 
                 CameraList.Add(minimapCamera);
@@ -673,9 +672,9 @@ namespace Engine
             // Draw the player's X,Y position
             if (EngineGlobals.DEBUG)
             {
-                if (_entityManager.GetLocalPlayer() != null)
+                if (_entityManager.GetEntityByName("player") != null)
                 {
-                    Entity player = _entityManager.GetLocalPlayer();
+                    Entity player = _entityManager.GetEntityByName("player");
                     Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
 
                     Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);

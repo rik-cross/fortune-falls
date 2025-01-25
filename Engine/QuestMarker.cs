@@ -68,7 +68,7 @@ namespace Engine
                 // if pointing at an entity, adjust position to just above top-middle
                 if (entity != null)
                 {
-                    float entityHeight = EngineGlobals.entityManager.GetLocalPlayer().GetComponent<TransformComponent>().Size.Y * c.zoom;
+                    float entityHeight = EngineGlobals.entityManager.GetEntityByName("player").GetComponent<TransformComponent>().Size.Y * c.zoom;
                     currentPosition.Y -= entityHeight / 2 + 20;
                 }
                 // bounce the marker
