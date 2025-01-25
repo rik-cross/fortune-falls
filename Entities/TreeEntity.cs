@@ -14,7 +14,7 @@ namespace Engine
         {
             Engine.Entity entity = new Engine.Entity(tags: ["tree"]);
             if (additionalTag != null)
-                entity.Tags.AddTag(additionalTag);
+                entity.Tags.AddTags(additionalTag);
             
             // Add sprites
             string dir = "Objects/";

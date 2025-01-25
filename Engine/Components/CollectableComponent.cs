@@ -29,7 +29,7 @@ namespace Engine
             if (collectableByType == default)
                 CollectableByType = new Tags("player");
             else
-                CollectableByType = new Tags(collectableByType);
+                CollectableByType = new Tags(collectableByType.ToArray());
 
             HasBeenCollected = hasBeenCollected;
             DestroyOnCollect = destroyOnCollect;
@@ -39,13 +39,13 @@ namespace Engine
         // Return whether an entity can collect the item
         public bool IsCollectableBy(string tag)
         {
-            return CollectableByType.HasType(tag);
+            return CollectableByType.HasTags(tag);
         }
 
         // Return whether any given entities can collect the item
         public bool IsCollectableBy(Tags tags)//List<string> tags)
         {
-            return IsCollectableBy(tags.Type);
+            return IsCollectableBy(tags.TagList);
         }
 
         // Return whether any given entities can collect the item
@@ -53,7 +53,7 @@ namespace Engine
         {
             foreach (string type in tags)
             {
-                if (CollectableByType.HasType(type))
+                if (CollectableByType.HasTags(type))
                     return true;
             }
             return false;

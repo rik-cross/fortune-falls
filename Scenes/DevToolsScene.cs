@@ -569,8 +569,8 @@ namespace AdventureGame
                 Item item = itemComponent.Item;
 
                 // Testing
-                if (item != null)
-                    Console.WriteLine($"Checking {item.ItemId} from entity {e.Id} {e.Tags.Type[0]}");
+                //if (item != null)
+                //    Console.WriteLine($"Checking {item.ItemId} from entity {e.Id} {e.Tags.Type[0]}");
 
                 // Try to add the item to the other entity's inventory
                 if (item != null && item.ItemId == itemId)

@@ -16,7 +16,7 @@ namespace Engine
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)
         {
-            if (entity.Tags.HasType("streetlight"))
+            if (entity.Tags.HasTags("streetlight"))
             {
                 if ((int)DayNightCycle.GetPercentage() == 70 && entity.State != "on")
                 {

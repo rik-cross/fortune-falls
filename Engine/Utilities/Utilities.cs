@@ -124,7 +124,7 @@ namespace Engine
                     foreach (Entity o in entityList)
                     {
                         // only reduce the alpha of buildings
-                        if (e != o && (o.Tags.HasType("building") || o.Tags.HasType("tree")))
+                        if (e != o && (o.Tags.HasTags("building") || o.Tags.HasTags("tree")))
                         {
                             // ensure required components are present
                             if (e.GetComponent<TransformComponent>() != null && o.GetComponent<TransformComponent>() != null 

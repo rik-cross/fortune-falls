@@ -1,82 +1,78 @@
-﻿using System.Collections.Generic;
+﻿/*
+ *  File: Tags.cs
+ *  Project: MonoGame ECS Engine
+ *  (c) 2025, Alex Parry, Mac Bowley and Rik Cross
+ *  This source is subject to the MIT licence
+ */
+
+using System.Collections.Generic;
 
 namespace Engine
 {
     public class Tags
     {
-        // An Id tag should be unique to an entity
-        public string Id { get; set; } // could be private set and check if id already exists
 
-        // A Type tag can be shared by multiple entities.
-        // Entities can have multiple Type tags
-        public List<string> Type { get; private set; } = new List<string>();
+        public List<string> TagList {get; private set;} = new List<string>();
 
-
-        public Tags() { }
-
-        public Tags(string type, string id = default)
+        // contructor, passing in 0 or more tags
+        public Tags(params string[] tags)
         {
-            Id = id;
-            Type.Add(type);
+            AddTags(tags);
         }
 
-        public Tags(List<string> type, string id = default)
+        // constructor, passing in a list of tags
+        public Tags(List<string> tags)
         {
-            Id = id;
-
-            if (type == null)
-                return;
-
-            if (Type.Count > 0)
-                Type.AddRange(type);
-            else
-                Type = type;
+            AddTags(tags);
         }
 
-        // Clear the Id tag
-        public void ClearId()
+        // clear all tags
+        public void ClearTags()
         {
-            Id = string.Empty;
+            TagList.Clear();
         }
 
-        // Clear the Type tags
-        public void ClearType()
+        // add 0 or more tags to the tag list
+        public void AddTags(params string[] tags)
         {
-            Type = new List<string>();
+            foreach (string t in tags)
+                if (t != null)
+                    TagList.Add(t.ToLower());
         }
 
-        // Add a tag to the Type list
-        public void AddTag(string type)
+        // add a list of tags to the tag list
+        public void AddTags(List<string> tags)
         {
-            if (!string.IsNullOrEmpty(type))
-                Type.Add(type);
+            if (tags != null)
+                AddTags(tags.ToArray());
         }
 
-        // Add a list of tags to the Type list
-        public void AddTags(List<string> type)
+        // remove 0 or more tags from the tag list
+        public void RemoveTags(params string[] tags)
         {
-            if (type == null)
-                return;
-
-            if (Type.Count > 0)
-                Type.AddRange(type);
-            else
-                Type = type;
+            foreach (string t in tags) {
+                TagList.Remove(t);
+            }
+        }
+        
+        public void RemoveTags(List<string> tags)
+        {
+            RemoveTags(tags.ToArray());
         }
 
-        // Remove a tag from the Type list
-        public void RemoveTag(string type)
+        // return whether 0 or more tags exist in the tag list
+        public bool HasTags(params string[] tags)
         {
-            if (Type != null)
-                Type.Remove(type);
+            foreach (string t in tags) {
+                if (!TagList.Contains(t.ToLower())) {
+                    return false;
+                }
+            }
+            return true;
         }
 
-        // Return whether a tag exists in the Type list
-        public bool HasType(string type)
-        {
-            if (Type != null)
-                return Type.Contains(type);
-            return false;
+        public bool HasTags(List<string> tags) {
+            return HasTags(tags.ToArray());
         }
 
     }

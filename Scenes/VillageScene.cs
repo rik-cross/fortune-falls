@@ -90,7 +90,7 @@ namespace AdventureGame
             //// Mid Town scenary
             // Mid Town square
             Engine.Entity mainSquareTree = TreeEntity.Create(662, 623, "tree_01_large.png");
-            mainSquareTree.Tags.Id = "mainSquareTree";
+            mainSquareTree.Name = "mainSquareTree";
             mainSquareTree.GetComponent<TransformComponent>().SetDrawOrderOffset(-15);
             // todo: add another trigger component that is envoked when the tree is cut down
             AddEntity(mainSquareTree);

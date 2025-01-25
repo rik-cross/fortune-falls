@@ -62,12 +62,13 @@ namespace Engine
         }
 
         // Return an entity using their id Tag
-        public Entity GetEntityByIdTag(string id)
+        public List<Entity> GetEntitiesByTag(string tag)
         {
+            List<Entity> entities = new List<Entity>();
             foreach(Entity e in _entityList)
-                if (e.Tags.Id == id)
-                    return e;
-            return null;
+                if (e.Tags.HasTags(tag))
+                    entities.Add(e);
+            return entities;
         }
 
         public Entity GetEntityByName(string name) {
@@ -77,11 +78,11 @@ namespace Engine
             return null;
         }
 
-        public int CountEntitiesByTag(string id)
+        public int CountEntitiesByTag(string tag)
         {
             int r = 0;
             foreach (Entity e in _entityList)
-                if (e.Tags.Id == id)
+                if (e.Tags.HasTags(tag))
                     r+=1;
             return r;
         }
@@ -92,7 +93,7 @@ namespace Engine
             List<Entity> entitiesByType = new List<Entity>();
             foreach (Entity e in _entityList)
             {
-                if (e.Tags.HasType(type))
+                if (e.Tags.HasTags(type))
                     entitiesByType.Add(e);
             }
             return entitiesByType;

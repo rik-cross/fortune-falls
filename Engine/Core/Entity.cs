@@ -20,7 +20,7 @@ namespace Engine
         // unique ID
         public readonly int Id;
 
-        // component information
+        // stored component information
         public List<Component> Components { get; set; } = new List<Component>();
         public Flags ComponentFlags = new Flags();
 
@@ -84,7 +84,7 @@ namespace Engine
         // methods
         //
 
-        public Entity(string name=null, string state="default", string[] tags=null, Entity owner=null)
+        public Entity(string name=null, string state="default", List<string> tags=default, Entity owner=null)
         {
 
             // link entity to global managers
@@ -103,12 +103,7 @@ namespace Engine
                 Owner = owner;
 
             // add tags
-            Tags = new Tags();
-            if (tags != null) {
-                foreach (string t in tags) {
-                    Tags.AddTag(t);
-                }
-            }
+            Tags = new Tags(tags: tags);
 
             _entityManager.AddEntity(this);
             

@@ -22,7 +22,7 @@ namespace Engine
 
             /*
             BEACH (Game1)
-            if (otherEntity.Tags.HasTag("player"))
+            if (otherEntity.Tags.HasTags("player"))
             {
 
                 Globals.beachScene.GetCameraByName("main").trackedEntity = null;
