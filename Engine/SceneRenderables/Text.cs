@@ -60,17 +60,17 @@ namespace Engine
             {
                 for (int i = 1; i < _outlineThickness; i++)
                 {
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y - i), _outlineColour * (float)Alpha2.Value);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y - i), _outlineColour * (float)Alpha2.Value);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y + i), _outlineColour * (float)Alpha2.Value);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y + i), _outlineColour * (float)Alpha2.Value);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y), _outlineColour * (float)Alpha2.Value);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y), _outlineColour * (float)Alpha2.Value);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y - i), _outlineColour * (float)Alpha2.Value);
-                    Globals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y + i), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y - i), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y - i), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y + i), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y + i), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X - i, Position.Y), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X + i, Position.Y), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y - i), _outlineColour * (float)Alpha2.Value);
+                    EngineGlobals.spriteBatch.DrawString(_font, _caption, new Vector2(Position.X, Position.Y + i), _outlineColour * (float)Alpha2.Value);
                 }
             }
-            Globals.spriteBatch.DrawString(_font, _caption, Position, _colour * (float)Alpha2.Value);
+            EngineGlobals.spriteBatch.DrawString(_font, _caption, Position, _colour * (float)Alpha2.Value);
 
         }
 
@@ -83,20 +83,6 @@ namespace Engine
             Size.Y = _font.MeasureString(_caption).Y;
             double diffX = Size.X - oldX;
             double diffY = Size.Y - oldY;
-            /*
-            // adjust for center
-            if (anchor == Anchor.topcenter || anchor == Anchor.middlecenter || anchor == Anchor.bottomcenter)
-                position.X -= (float)(diffX / 2);
-            // adjust for right
-            if (anchor == Anchor.topright || anchor == Anchor.middleright || anchor == Anchor.bottomright)
-                position.X -= (float)(diffX);
-            // adjust for middle
-            if (anchor == Anchor.middleleft || anchor == Anchor.middlecenter || anchor == Anchor.middleright)
-                position.Y -= (float)(diffY / 2);
-            // adjust for bottom
-            if (anchor == Anchor.bottomleft || anchor == Anchor.bottomcenter || anchor == Anchor.bottomright)
-                position.Y -= (float)(diffY);
-            */
         }
 
     }

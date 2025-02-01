@@ -26,19 +26,19 @@ namespace AdventureGame
         public static void DrawRect(float x, float y, float w, float h, float a = 1.0f, int borderWidth = 8)
         {
             // draw 4 corners
-            Globals.spriteBatch.Draw(tl, new Rectangle((int)x, (int)y, borderWidth, borderWidth), Color.White * a);
-            Globals.spriteBatch.Draw(tr, new Rectangle((int)x + (int)w - borderWidth, (int)y, borderWidth, borderWidth), Color.White * a);
-            Globals.spriteBatch.Draw(bl, new Rectangle((int)x, (int)y + (int)h - borderWidth, borderWidth, borderWidth), Color.White * a);
-            Globals.spriteBatch.Draw(br, new Rectangle((int)x + (int)w - borderWidth, (int)y + (int)h - borderWidth, borderWidth, borderWidth), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(tl, new Rectangle((int)x, (int)y, borderWidth, borderWidth), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(tr, new Rectangle((int)x + (int)w - borderWidth, (int)y, borderWidth, borderWidth), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(bl, new Rectangle((int)x, (int)y + (int)h - borderWidth, borderWidth, borderWidth), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(br, new Rectangle((int)x + (int)w - borderWidth, (int)y + (int)h - borderWidth, borderWidth, borderWidth), Color.White * a);
             
             // draw 4 sides
-            Globals.spriteBatch.Draw(l, new Rectangle((int)x, (int)y + borderWidth, borderWidth, (int)h - (borderWidth * 2)), Color.White * a);
-            Globals.spriteBatch.Draw(r, new Rectangle((int)x + (int)w - borderWidth, (int)y + borderWidth, borderWidth, (int)h - (borderWidth * 2)), Color.White * a);
-            Globals.spriteBatch.Draw(t, new Rectangle((int)x + borderWidth, (int)y, (int)w - (borderWidth * 2), borderWidth), Color.White * a);
-            Globals.spriteBatch.Draw(b, new Rectangle((int)x + borderWidth, (int)y + (int)h - borderWidth, (int)w - (borderWidth * 2), borderWidth), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(l, new Rectangle((int)x, (int)y + borderWidth, borderWidth, (int)h - (borderWidth * 2)), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(r, new Rectangle((int)x + (int)w - borderWidth, (int)y + borderWidth, borderWidth, (int)h - (borderWidth * 2)), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(t, new Rectangle((int)x + borderWidth, (int)y, (int)w - (borderWidth * 2), borderWidth), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(b, new Rectangle((int)x + borderWidth, (int)y + (int)h - borderWidth, (int)w - (borderWidth * 2), borderWidth), Color.White * a);
             
             // draw middle
-            Globals.spriteBatch.Draw(m, new Rectangle((int)x + borderWidth, (int)y + borderWidth, (int)w - (borderWidth * 2), (int)h - (borderWidth * 2)), Color.White * a);
+            EngineGlobals.spriteBatch.Draw(m, new Rectangle((int)x + borderWidth, (int)y + borderWidth, (int)w - (borderWidth * 2), (int)h - (borderWidth * 2)), Color.White * a);
         }
     }
 }

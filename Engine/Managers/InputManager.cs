@@ -316,13 +316,13 @@ namespace Engine
             // set the position to the min or max valid X / Y position
             if (newX < 0)
                 newX = 0;
-            else if (newX > Globals.ScreenWidth - CursorTexture.Width)
-                newX = Globals.ScreenWidth - CursorTexture.Width;
+            else if (newX > EngineGlobals.ScreenWidth - CursorTexture.Width)
+                newX = EngineGlobals.ScreenWidth - CursorTexture.Width;
 
             if (newY < 0)
                 newY = 0;
-            else if (newY > Globals.ScreenHeight - CursorTexture.Height)
-                newY = Globals.ScreenHeight - CursorTexture.Height;
+            else if (newY > EngineGlobals.ScreenHeight - CursorTexture.Height)
+                newY = EngineGlobals.ScreenHeight - CursorTexture.Height;
 
             CursorPosition = new Vector2(newX, newY);
         }
@@ -334,9 +334,9 @@ namespace Engine
             MouseState exactMouseState = Mouse.State;
             Point position = new Point(exactMouseState.X, exactMouseState.Y);
             Console.WriteLine(position);
-            return Globals.graphicsDevice.Viewport.Bounds.Contains(position);
+            return EngineGlobals.graphicsDevice.Viewport.Bounds.Contains(position);
             */
-            return Globals.graphicsDevice.Viewport.Bounds.Contains(_previousMouseState.X, _previousMouseState.Y);
+            return EngineGlobals.graphicsDevice.Viewport.Bounds.Contains(_previousMouseState.X, _previousMouseState.Y);
         }
 
         // CHECK tolerance etc.

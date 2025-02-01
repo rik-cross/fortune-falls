@@ -53,7 +53,7 @@ namespace Engine
         {
             // Create the new sub texture
             Rectangle rect = new Rectangle(x, y, width, height);
-            Texture2D subTexture = new Texture2D(Globals.graphicsDevice, rect.Width, rect.Height);
+            Texture2D subTexture = new Texture2D(EngineGlobals.graphicsDevice, rect.Width, rect.Height);
 
             // Set the texture data
             Color[] data = new Color[rect.Width * rect.Height];
@@ -83,7 +83,7 @@ namespace Engine
         public static Vector2 CenterVectorToContainer(int width, int height, Vector2 parent = default)
         {
             if (parent == default)
-                parent = new Vector2(Globals.ScreenWidth, Globals.ScreenHeight);
+                parent = new Vector2(EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight);
 
             return new Vector2(parent.X / 2 - width / 2, parent.Y / 2 - height / 2);
         }

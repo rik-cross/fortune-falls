@@ -33,7 +33,7 @@ namespace Engine
 
             Color color = hurtboxComponent.BorderColor;
             int lineWidth = 2;
-            //Globals.spriteBatch.DrawRectangle(hurtboxComponent.Rect, color, lineWidth);
+            //EngineGlobals.spriteBatch.DrawRectangle(hurtboxComponent.Rect, color, lineWidth);
         }
 
     }

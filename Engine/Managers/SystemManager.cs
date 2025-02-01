@@ -12,10 +12,10 @@ namespace Engine
         {
             systems = new List<System>();
             componentManager = EngineGlobals.componentManager;
-            RegisterSystems();
+            RegisterBuiltinSystems();
         }
 
-        public void AddSystem(System system)
+        public void RegisterSystem(System system)
         {
             // Add system to the systems list
             systems.Add(system);
@@ -26,36 +26,35 @@ namespace Engine
             system.ExcludedComponentFlags = componentManager.SystemComponents(system.ExcludedComponentSet);
         }
 
-        public void RegisterSystems()
+        public void RegisterBuiltinSystems()
         {
             // Todo allow systems to be registered in a custom order
 
             // Add all builtin systems
-            AddSystem(new InputSystem());
-            AddSystem(new IntentionSystem());
-            AddSystem(new MoveSystem()); // here or after Collision & DrawOrder?
-            AddSystem(new PhysicsSystem());
-            AddSystem(new HitboxSystem()); // here or after Collision & DrawOrder?
-            AddSystem(new HurtboxSystem());
-            AddSystem(new DamageSystem());
-            AddSystem(new HealthSystem());
-            AddSystem(new MapCollisionSystem());
-            AddSystem(new CollisionSystem());
-            AddSystem(new CollisionResponseSystem());
-            AddSystem(new DrawOrderSystem());
-            AddSystem(new TriggerSystem());
-            AddSystem(new SpriteSystem());
-            AddSystem(new AnimatedSpriteSystem());
-            AddSystem(new EmoteSystem());
-            AddSystem(new AnimatedEmoteSystem());
-            AddSystem(new ItemCollectionSystem());
-            AddSystem(new DialogueSystem());
-            AddSystem(new StreetLightSystem());
-            AddSystem(new BattleSystem());
-            AddSystem(new ParticleSystem());
-            AddSystem(new TutorialSystem());
-            AddSystem(new FootstepSoundSystem());
-            //AddSystem(new HitboxSystem2());
+            RegisterSystem(new InputSystem());
+            RegisterSystem(new IntentionSystem());
+            RegisterSystem(new MoveSystem());
+            RegisterSystem(new PhysicsSystem());
+            RegisterSystem(new HitboxSystem());
+            RegisterSystem(new HurtboxSystem());
+            RegisterSystem(new DamageSystem());
+            RegisterSystem(new HealthSystem());
+            RegisterSystem(new MapCollisionSystem());
+            RegisterSystem(new CollisionSystem());
+            RegisterSystem(new CollisionResponseSystem());
+            RegisterSystem(new DrawOrderSystem());
+            RegisterSystem(new TriggerSystem());
+            RegisterSystem(new SpriteSystem());
+            RegisterSystem(new AnimatedSpriteSystem());
+            RegisterSystem(new EmoteSystem());
+            RegisterSystem(new AnimatedEmoteSystem());
+            RegisterSystem(new ItemCollectionSystem());
+            RegisterSystem(new DialogueSystem());
+            RegisterSystem(new StreetLightSystem());
+            RegisterSystem(new BattleSystem());
+            RegisterSystem(new ParticleSystem());
+            RegisterSystem(new TutorialSystem());
+            RegisterSystem(new FootstepSoundSystem());
         }
 
         // Return a given system from the systems list

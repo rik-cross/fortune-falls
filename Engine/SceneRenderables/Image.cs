@@ -34,14 +34,14 @@ namespace Engine
             if (!Visible)
                 return;
 
-            Globals.spriteBatch.Draw(
+            EngineGlobals.spriteBatch.Draw(
                 _texture,
                 new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y),
                 _tint * Alpha
             );
 
             // Testing
-            /*Globals.spriteBatch.DrawRectangle(
+            /*EngineGlobals.spriteBatch.DrawRectangle(
                 new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y),
                 Color.BlueViolet, 1);*/
         }

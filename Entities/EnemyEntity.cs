@@ -16,7 +16,7 @@ namespace AdventureGame
             string filePath = directory + filename;
 
             enemyEntity.AddComponent(new Engine.SpriteComponent(filePath));
-            //enemyEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(Globals.content.Load<SpriteSheet>("enemy.sf", new JsonContentLoader()))));
+            //enemyEntity.AddComponent(new Engine.AnimationComponent(new AnimatedSprite(EngineGlobals.content.Load<SpriteSheet>("enemy.sf", new JsonContentLoader()))));
             //Vector2 imageSize = enemyEntity.GetComponent<SpriteComponent>().GetSpriteSize(); // RESIZE enemy sprite
             Vector2 imageSize = new Vector2(65, 50);
 

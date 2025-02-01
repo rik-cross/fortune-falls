@@ -18,7 +18,7 @@ namespace Engine
         private EntityManager _entityManager;
         private ComponentManager _componentManager;
         private SystemManager _systemManager;
-        private ContentManager _sceneContent; // Not used but could replace Globals.content
+        private ContentManager _sceneContent; // Not used but could replace EngineGlobals.content
 
         public Color backgroundColour = Color.Black;
 
@@ -52,7 +52,7 @@ namespace Engine
             _componentManager = EngineGlobals.componentManager;
             _systemManager = EngineGlobals.systemManager;
 
-            _sceneContent = new ContentManager(Globals.content.ServiceProvider, Globals.content.RootDirectory);
+            _sceneContent = new ContentManager(EngineGlobals.content.ServiceProvider, EngineGlobals.content.RootDirectory);
 
             InputSceneBelow = false;
             UpdateSceneBelow = false;
@@ -130,8 +130,8 @@ namespace Engine
 
         public void LoadMap(string newMapLocation, bool createColliders = true)
         {
-            Map = Globals.content.Load<TiledMap>(newMapLocation);
-            MapRenderer = new TiledMapRenderer(Globals.graphicsDevice, Map);
+            Map = EngineGlobals.content.Load<TiledMap>(newMapLocation);
+            MapRenderer = new TiledMapRenderer(EngineGlobals.graphicsDevice, Map);
 
             CollisionTiles.Clear();
             TiledMapObjectLayer collisionLayer = Map.GetLayer<TiledMapObjectLayer>("collision");
@@ -213,8 +213,8 @@ namespace Engine
                 // Main player camera
                 Engine.Camera playerCamera = new Engine.Camera(
                     name: "main",
-                    size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
-                    zoom: Globals.globalZoomLevel,
+                    size: new Vector2(EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight),
+                    zoom: EngineGlobals.globalZoomLevel,
                     backgroundColour: Color.Black,
                     trackedEntity: EngineGlobals.entityManager.GetEntityByName("player"),
                     ownerEntity: EngineGlobals.entityManager.GetEntityByName("player")
@@ -227,7 +227,7 @@ namespace Engine
                 // Minimap camera
                 Engine.Camera minimapCamera = new Engine.Camera(
                     name: "minimap",
-                    screenPosition: new Vector2(Globals.ScreenWidth - 320, Globals.ScreenHeight - 320),
+                    screenPosition: new Vector2(EngineGlobals.ScreenWidth - 320, EngineGlobals.ScreenHeight - 320),
                     size: new Vector2(300, 300),
                     followPercentage: 1.0f,
                     zoom: 0.5f,
@@ -493,23 +493,23 @@ namespace Engine
                 AlphaDestinationBlend = Blend.One,
             };
 
-            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
+            EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
 
             // scene background
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            Globals.spriteBatch.FillRectangle(new RectangleF(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), backgroundColour);
-            Globals.spriteBatch.End();
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.spriteBatch.FillRectangle(new RectangleF(0, 0, EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight), backgroundColour);
+            EngineGlobals.spriteBatch.End();
 
             foreach (Engine.Camera c in CameraList)
             {
                 // draw camera background
-                Globals.graphicsDevice.Viewport = c.getViewport();
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-                Globals.spriteBatch.FillRectangle(0, 0, c.size.X, c.size.Y, c.backgroundColour);
-                Globals.spriteBatch.End();
+                EngineGlobals.graphicsDevice.Viewport = c.getViewport();
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                EngineGlobals.spriteBatch.FillRectangle(0, 0, c.size.X, c.size.Y, c.backgroundColour);
+                EngineGlobals.spriteBatch.End();
 
                 // draw the map
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
 
                 if (Map != null)
                 {
@@ -534,7 +534,7 @@ namespace Engine
                         }
                     }
                 }
-                Globals.spriteBatch.End();
+                EngineGlobals.spriteBatch.End();
 
                 // todo
                 // Sort the entities to draw based on bottom Y position i.e. Y + Height position
@@ -547,9 +547,9 @@ namespace Engine
 
 
                 // draw systems below map
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
-                //Globals.spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
-                //Globals.spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                //EngineGlobals.spriteBatch.Begin(sortMode: SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                //EngineGlobals.spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
@@ -561,9 +561,9 @@ namespace Engine
                                 s.DrawEntity(gameTime, this, e);
                     }
                 }
-                Globals.spriteBatch.End();
+                EngineGlobals.spriteBatch.End();
 
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 if (Map != null)
                 {
                     foreach (TiledMapLayer layer in Map.Layers)
@@ -575,23 +575,23 @@ namespace Engine
                         }
                     }
                 }
-                Globals.spriteBatch.End();
+                EngineGlobals.spriteBatch.End();
 
                 // scene light level
-                Globals.graphicsDevice.SetRenderTarget(Globals.lightRenderTarget);
-                Globals.graphicsDevice.Viewport = c.getViewport();
-                Globals.graphicsDevice.Clear(Color.Transparent);
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-                Globals.spriteBatch.FillRectangle(
+                EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.lightRenderTarget);
+                EngineGlobals.graphicsDevice.Viewport = c.getViewport();
+                EngineGlobals.graphicsDevice.Clear(Color.Transparent);
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                EngineGlobals.spriteBatch.FillRectangle(
                     0, 0,
-                    Globals.ScreenWidth, Globals.ScreenHeight,
+                    EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight,
                     new Color(0, 0, 0, (int)(255 * (1 - LightLevel)))
                 );
-                Globals.spriteBatch.End();
+                EngineGlobals.spriteBatch.End();
 
                 // scene lighting
                 // (currently not a system, as lights need to be rendered at a specific time)
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix(), blendState: blend);
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix(), blendState: blend);
 
                 // MOVE so the light is only loaded once 
                 //var alphaMask = Utils.LoadTexture("VFX/light.png");
@@ -603,7 +603,7 @@ namespace Engine
                     TransformComponent transformComponent = e.GetComponent<TransformComponent>();
                     if (lightComponent != null && transformComponent != null && lightComponent.visible)
                     {
-                        Globals.spriteBatch.Draw(_alphaMask,
+                        EngineGlobals.spriteBatch.Draw(_alphaMask,
                             new Rectangle(
                                 //(int)transformComponent.position.X + (int)transformComponent.size.X / 2 - lightComponent.radius,
                                 //(int)transformComponent.position.Y + (int)transformComponent.size.X / 2 - lightComponent.radius,
@@ -618,18 +618,18 @@ namespace Engine
                     }
                 }
 
-                Globals.spriteBatch.End();
+                EngineGlobals.spriteBatch.End();
 
-                Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-                Globals.spriteBatch.Draw(Globals.lightRenderTarget, Globals.lightRenderTarget.Bounds, Color.White);
-                Globals.spriteBatch.End();
+                EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                EngineGlobals.spriteBatch.Draw(EngineGlobals.lightRenderTarget, EngineGlobals.lightRenderTarget.Bounds, Color.White);
+                EngineGlobals.spriteBatch.End();
 
-                Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-                Globals.graphicsDevice.Viewport = c.getViewport();
+                EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+                EngineGlobals.graphicsDevice.Viewport = c.getViewport();
 
                 // draw systems above map
-                Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
+                EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: c.getTransformMatrix());
                 // draw each system
                 foreach (System s in EngineGlobals.systemManager.systems)
                 {
@@ -641,33 +641,33 @@ namespace Engine
                                 s.DrawEntity(gameTime, this, e);
                     }
                 }
-                Globals.spriteBatch.End();
+                EngineGlobals.spriteBatch.End();
 
                 // draw the camera border
                 if (c.borderThickness > 0)
                 {
-                    Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-                    Globals.spriteBatch.DrawRectangle(0, 0, c.size.X, c.size.Y, c.borderColour, c.borderThickness);
-                    Globals.spriteBatch.End();
+                    EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    EngineGlobals.spriteBatch.DrawRectangle(0, 0, c.size.X, c.size.Y, c.borderColour, c.borderThickness);
+                    EngineGlobals.spriteBatch.End();
                 }
 
             }
 
-            Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.graphicsDevice.Viewport = new Viewport(0, 0, EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight);
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             // draw each system
             foreach (System s in EngineGlobals.systemManager.systems)
             {
                 // main system draw
                 s.Draw(gameTime, this);
             }
-            Globals.spriteBatch.End();
+            EngineGlobals.spriteBatch.End();
 
             // draw the scene
-            Globals.graphicsDevice.Viewport = new Viewport(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.graphicsDevice.Viewport = new Viewport(0, 0, EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight);
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             Draw(gameTime);
-            Globals.spriteBatch.End();
+            EngineGlobals.spriteBatch.End();
 
             // Draw the player's X,Y position
             if (EngineGlobals.DEBUG)
@@ -677,30 +677,30 @@ namespace Engine
                     Entity player = _entityManager.GetEntityByName("player");
                     Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
 
-                    Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-                    Globals.spriteBatch.DrawString(Theme.FontTertiary,
+                    EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    EngineGlobals.spriteBatch.DrawString(Theme.FontTertiary,
                         "X:" + Math.Round(playerPosition.X, 1).ToString() + "  Y:" + Math.Round(playerPosition.Y, 1).ToString(),
                         new Vector2(10, 10), Color.Black);
-                    Globals.spriteBatch.End();
+                    EngineGlobals.spriteBatch.End();
                 }
             }
 
 
             // Draw UI elements
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             if (UIMenu != null)
                 UIMenu.Draw();
 
             EngineGlobals.log.Draw(gameTime);
 
-            Globals.spriteBatch.End();
+            EngineGlobals.spriteBatch.End();
 
             // switch back to the main backbuffer
             // and draw the scene
-            Globals.graphicsDevice.SetRenderTarget(null);
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            Globals.spriteBatch.Draw(Globals.sceneRenderTarget, Globals.sceneRenderTarget.Bounds, Color.White);
-            Globals.spriteBatch.End();
+            EngineGlobals.graphicsDevice.SetRenderTarget(null);
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.spriteBatch.Draw(EngineGlobals.sceneRenderTarget, EngineGlobals.sceneRenderTarget.Bounds, Color.White);
+            EngineGlobals.spriteBatch.End();
 
         }
 

@@ -169,7 +169,7 @@ namespace Engine
                     re.size.X,
                     re.size.Y
                 );
-                Globals.spriteBatch.DrawRectangle(rect, Color.Blue);
+                EngineGlobals.spriteBatch.DrawRectangle(rect, Color.Blue);
             }
 
             if (battleComponent.GetHitbox(entity.State) != null)
@@ -182,7 +182,7 @@ namespace Engine
                     re.size.X,
                     re.size.Y
                 );
-                Globals.spriteBatch.DrawRectangle(rect, Color.Purple);
+                EngineGlobals.spriteBatch.DrawRectangle(rect, Color.Purple);
             }
         }
 

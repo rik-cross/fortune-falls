@@ -73,15 +73,15 @@ namespace Engine
 
         public void _Draw(GameTime gameTime)
         {
-            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-            Globals.spriteBatch.Begin();
+            EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+            EngineGlobals.spriteBatch.Begin();
             Draw(gameTime);
-            Globals.spriteBatch.End();
+            EngineGlobals.spriteBatch.End();
 
-            Globals.graphicsDevice.SetRenderTarget(null);
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            Globals.spriteBatch.Draw(Globals.sceneRenderTarget, Globals.sceneRenderTarget.Bounds, Color.White);
-            Globals.spriteBatch.End();
+            EngineGlobals.graphicsDevice.SetRenderTarget(null);
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.spriteBatch.Draw(EngineGlobals.sceneRenderTarget, EngineGlobals.sceneRenderTarget.Bounds, Color.White);
+            EngineGlobals.spriteBatch.End();
 
         }
 

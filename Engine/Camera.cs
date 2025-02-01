@@ -82,7 +82,7 @@ namespace Engine
         public void SetZoom(float newZoom, bool instant = false)
         {
             this.targetZoom = newZoom;
-            Globals.globalZoomLevel = targetZoom;
+            EngineGlobals.globalZoomLevel = targetZoom;
             if (instant == true)
             {
                 this.zoom = newZoom;

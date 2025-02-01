@@ -117,18 +117,18 @@ namespace Engine
                 a = 1.0f;
 
             // Draw background
-            Globals.spriteBatch.FillRectangle(position, size, backgroundColour*a);
+            EngineGlobals.spriteBatch.FillRectangle(position, size, backgroundColour*a);
 
             // Draw outline
-            //Globals.spriteBatch.DrawRectangle(position, size, outlineColour, outlineThickness);
+            //EngineGlobals.spriteBatch.DrawRectangle(position, size, outlineColour, outlineThickness);
 
             // Draw text
-            Globals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour * a);
+            EngineGlobals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour * a);
 
             // Draw active button indicator
             if (selected)
             {
-                Globals.spriteBatch.DrawRectangle(position, size, activeColour * a, outlineThickness);
+                EngineGlobals.spriteBatch.DrawRectangle(position, size, activeColour * a, outlineThickness);
             }
 
         }

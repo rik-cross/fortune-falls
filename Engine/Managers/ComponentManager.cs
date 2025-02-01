@@ -36,13 +36,6 @@ namespace Engine
             TotalComponents++;
             _allComponentsFlag.NewFlag();
             _componentFlagsByName.Add(componentName, new Flags(TotalComponents));
-
-            // Testing
-            //Flags componentFlags = _componentFlagsByName[componentName];
-            //Console.Write($"Register: {componentName}  Signature: {componentFlags.BitFlags}  ");
-            //Console.WriteLine(Convert.ToString((long)componentFlags.BitFlags, 2));
-            //Console.Write($"All components flag:{_allComponentsFlag.BitFlags}, ");
-            //Console.WriteLine(Convert.ToString((long)_allComponentsFlag.BitFlags, 2));
         }
 
         // Gets the component flag using the component

@@ -303,8 +303,8 @@ namespace Engine
             if (colliderComponent.IsSolid)
             {
                 color = colliderComponent.color;
-                Globals.spriteBatch.DrawRectangle(colliderComponent.Box, color, lineWidth);
-                Globals.spriteBatch.DrawRectangle(colliderComponent.Broadphase, Color.Black, lineWidth);
+                EngineGlobals.spriteBatch.DrawRectangle(colliderComponent.Box, color, lineWidth);
+                EngineGlobals.spriteBatch.DrawRectangle(colliderComponent.Broadphase, Color.Black, lineWidth);
             }
         }
 

@@ -171,26 +171,26 @@ namespace Engine
                 a = 1.0f;
 
             // Draw background
-            Globals.spriteBatch.FillRectangle(position, size, backgroundColour*a);
+            EngineGlobals.spriteBatch.FillRectangle(position, size, backgroundColour*a);
 
             // Draw outline
-            //Globals.spriteBatch.DrawRectangle(position, size, outlineColour, outlineThickness);
+            //EngineGlobals.spriteBatch.DrawRectangle(position, size, outlineColour, outlineThickness);
 
             // Draw value
             float t = size.X - outlineThickness * 2;
             float p = (float)((currentValue/(maxValue-minValue))*100);
             //S.WriteLine(p); TODO - slider draw is incorrect if min value > 0
-            Globals.spriteBatch.FillRectangle(new Vector2(position.X+outlineThickness, position.Y+outlineThickness), new Vector2(t/100*p,size.Y-outlineThickness*2), onColour * a);
-            Globals.spriteBatch.FillRectangle(new Vector2(position.X + outlineThickness + (t / 100 * p), position.Y + outlineThickness), new Vector2((t) - (t / 100 * p), size.Y - outlineThickness * 2), offColour * a);
+            EngineGlobals.spriteBatch.FillRectangle(new Vector2(position.X+outlineThickness, position.Y+outlineThickness), new Vector2(t/100*p,size.Y-outlineThickness*2), onColour * a);
+            EngineGlobals.spriteBatch.FillRectangle(new Vector2(position.X + outlineThickness + (t / 100 * p), position.Y + outlineThickness), new Vector2((t) - (t / 100 * p), size.Y - outlineThickness * 2), offColour * a);
 
             // Draw text
             
-            Globals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour*a);
+            EngineGlobals.spriteBatch.DrawString(font, text, new Vector2(position.X + textOffset.X, position.Y + textOffset.Y), textColour*a);
 
             // Draw active button indicator
             if (selected)
             {
-                Globals.spriteBatch.DrawRectangle(position, size, activeColour * a, outlineThickness);
+                EngineGlobals.spriteBatch.DrawRectangle(position, size, activeColour * a, outlineThickness);
             }
         }
 

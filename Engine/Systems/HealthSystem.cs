@@ -22,7 +22,7 @@ namespace Engine
             Engine.HealthComponent hc = entity.GetComponent<Engine.HealthComponent>();
             Engine.TransformComponent tc = entity.GetComponent<Engine.TransformComponent>();
 
-            Globals.spriteBatch.DrawString(Theme.FontSecondary, hc.Health.ToString(), new Vector2(tc.Position.X, tc.Position.Y-20), Color.White);
+            EngineGlobals.spriteBatch.DrawString(Theme.FontSecondary, hc.Health.ToString(), new Vector2(tc.Position.X, tc.Position.Y-20), Color.White);
         }
 
         public override void UpdateEntity(GameTime gameTime, Scene scene, Entity entity)

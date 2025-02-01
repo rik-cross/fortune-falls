@@ -17,14 +17,14 @@ namespace Engine
 
         public override void Draw(GameTime gameTime)
         {
-            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-            Globals.spriteBatch.End();
+            EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+            EngineGlobals.spriteBatch.End();
             
             if (EngineGlobals.sceneManager.ActiveScene != null)
                 EngineGlobals.sceneManager.ActiveScene._Draw(gameTime);
 
-            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
         }
 
     }

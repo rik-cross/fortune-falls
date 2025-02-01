@@ -208,7 +208,7 @@ namespace Engine
         {
             // Create the new sub texture
             Rectangle rect = new Rectangle(row * width, col * height, width, height);
-            Texture2D subTexture = new Texture2D(Globals.graphicsDevice, rect.Width, rect.Height);
+            Texture2D subTexture = new Texture2D(EngineGlobals.graphicsDevice, rect.Width, rect.Height);
 
             // Set the texture data
             Color[] data = new Color[rect.Width * rect.Height];

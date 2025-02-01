@@ -26,7 +26,7 @@ namespace Engine
 			string absolutePath = ProjectPath + ContentLocation + file;
 			using (var stream = File.OpenRead(absolutePath))
 			{
-				var texture = Texture2D.FromStream(Globals.graphicsDevice, stream);
+				var texture = Texture2D.FromStream(EngineGlobals.graphicsDevice, stream);
 				texture.Name = file;
 				LoadedAssets[file] = texture;
 

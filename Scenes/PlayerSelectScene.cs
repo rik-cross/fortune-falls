@@ -32,12 +32,12 @@ namespace AdventureGame
                 outlineColour: Color.Black
             );
 
-            float screenMiddle = Globals.ScreenHeight / 2;
+            float screenMiddle = EngineGlobals.ScreenHeight / 2;
 
             // player select slider
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 60, screenMiddle + 175),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 60, screenMiddle + 175),
                     size: new Vector2(120, 45),
                     text: Globals.characterNames[Globals.playerIndex],
                     textColour: Color.White,

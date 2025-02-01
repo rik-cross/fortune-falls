@@ -87,7 +87,7 @@ namespace Engine
                     );
 
                     // draw background
-                    Globals.spriteBatch.FillRectangle(
+                    EngineGlobals.spriteBatch.FillRectangle(
                         new Rectangle(
                             (int)(entityTopMiddle.X - (animatedEmoteComponent.backgroundSize.X / 2)),
                             (int)(entityTopMiddle.Y - animatedEmoteComponent.backgroundSize.Y - animatedEmoteComponent.heightAboveEntity),
@@ -97,7 +97,7 @@ namespace Engine
                     );
 
                     // draw image
-                    Globals.spriteBatch.Draw(
+                    EngineGlobals.spriteBatch.Draw(
                         animatedEmoteComponent._textures[animatedEmoteComponent._currentIndex],
                         new Rectangle(
                             (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),

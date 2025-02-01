@@ -54,7 +54,7 @@ namespace AdventureGame
             _font = Theme.FontTertiary;
             _padding = 10;
             _border = Theme.BorderSmall;
-            _containerOuter = new Rectangle(10, 50, 600, Globals.ScreenHeight - 100);
+            _containerOuter = new Rectangle(10, 50, 600, EngineGlobals.ScreenHeight - 100);
             _containerInner = new Rectangle(_containerOuter.X + (_border + _padding) / 2,
                 _containerOuter.Y + (_border + _padding) / 2,
                 _containerOuter.Width - _border - _padding,
@@ -102,12 +102,12 @@ namespace AdventureGame
 
         public static void RegisterTextInputEvent(System.EventHandler<TextInputEventArgs> method)
         {
-            Globals.gameWindow.TextInput += method;
+            EngineGlobals.gameWindow.TextInput += method;
         }
 
         public static void UnregisterTextInputEvent(System.EventHandler<TextInputEventArgs> method)
         {
-            Globals.gameWindow.TextInput -= method;
+            EngineGlobals.gameWindow.TextInput -= method;
         }
 
         public void OnInput(object sender, TextInputEventArgs e)
@@ -142,8 +142,8 @@ namespace AdventureGame
         public override void Draw(GameTime gameTime)
         {
             // Draw the outer container's background and border
-            Globals.spriteBatch.FillRectangle(_containerOuter, Color.White * 0.6f);
-            Globals.spriteBatch.DrawRectangle(_containerOuter, Theme.BorderColorPrimary, _border);
+            EngineGlobals.spriteBatch.FillRectangle(_containerOuter, Color.White * 0.6f);
+            EngineGlobals.spriteBatch.DrawRectangle(_containerOuter, Theme.BorderColorPrimary, _border);
 
             // Draw the text feed and input text
             _textDisplayOutput.Draw();
@@ -155,11 +155,11 @@ namespace AdventureGame
                 Entity player = EngineGlobals.entityManager.GetEntityByName("player");
                 Vector2 playerPosition = player.GetComponent<TransformComponent>().Position;
 
-                //Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-                Globals.spriteBatch.DrawString(Theme.FontTertiary,
+                //EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                EngineGlobals.spriteBatch.DrawString(Theme.FontTertiary,
                     "X:" + Math.Round(playerPosition.X, 1).ToString() + "  Y:" + Math.Round(playerPosition.Y, 1).ToString(),
                     new Vector2(10, 10), Color.Black);
-                //Globals.spriteBatch.End();
+                //EngineGlobals.spriteBatch.End();
             }
         }
 

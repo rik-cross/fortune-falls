@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using Engine;
-using Microsoft.Xna.Framework;
+﻿/*
+ *  File: SplashScene.cs
+ *  Project: Fortune Falls
+ *  (c) 2025, Alex Parry, Mac Bowley and Rik Cross
+ */
 
-using System;
-using S = System.Diagnostics.Debug;
+using Microsoft.Xna.Framework;
+using Engine;
 
 namespace AdventureGame
 {
@@ -15,20 +16,21 @@ namespace AdventureGame
         public override void Init()
         {
             line1 = new Engine.Text(
-                position: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
+                position: new Vector2(EngineGlobals.ScreenWidth / 2, EngineGlobals.ScreenHeight / 2),
                 caption: "Alex, Mac and Rik",
                 font: Theme.FontSecondary,
                 colour: Color.White,
                 anchor: Anchor.MiddleCenter,
+                padding: new Padding(top: -13),
                 alpha: 0
             );
             line2 = new Engine.Text(
-                position: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
+                position: new Vector2(EngineGlobals.ScreenWidth / 2, EngineGlobals.ScreenHeight / 2),
                 caption: "present",
                 font: Theme.FontSecondary,
                 colour: Color.White,
                 anchor: Anchor.MiddleCenter,
-                padding: new Padding(top: 25),
+                padding: new Padding(top: 13),
                 alpha: 0
             );
         }
@@ -38,7 +40,6 @@ namespace AdventureGame
         }
         public override void Update(GameTime gameTime)
         {
-
             line1.Alpha2.Update();
             line2.Alpha2.Update();
 
@@ -52,12 +53,9 @@ namespace AdventureGame
                 line1.Alpha2.Value = 0;
                 line2.Alpha2.Value = 0;
             }
-            //S.WriteLine(line1.Alpha2.Value);
             if (frame == 190)
             {
-                
-                EngineGlobals.sceneManager.ChangeScene<
-                    FadeSceneTransition, MenuScene>();
+                EngineGlobals.sceneManager.ChangeScene<FadeSceneTransition, MenuScene>();
             }
         }
         public override void Draw(GameTime gameTime)

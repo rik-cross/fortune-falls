@@ -24,15 +24,15 @@ namespace Engine
 
             // set variables
             _title = title;
-            Globals.ScreenWidth = screenWidth;
-            Globals.ScreenHeight = screenHeight;
+            EngineGlobals.ScreenWidth = screenWidth;
+            EngineGlobals.ScreenHeight = screenHeight;
             EngineGlobals.fullscreen = isFullScreen;
             EngineGlobals.borderless = isBorderless;
 
-            Globals.graphics = new GraphicsDeviceManager(this);
-            Globals.graphics.PreferredBackBufferWidth = Globals.ScreenWidth;
-            Globals.graphics.PreferredBackBufferHeight = Globals.ScreenHeight;
-            Globals.graphics.ApplyChanges();
+            EngineGlobals.graphics = new GraphicsDeviceManager(this);
+            EngineGlobals.graphics.PreferredBackBufferWidth = EngineGlobals.ScreenWidth;
+            EngineGlobals.graphics.PreferredBackBufferHeight = EngineGlobals.ScreenHeight;
+            EngineGlobals.graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
             IsMouseVisible = isMouseVisible;
@@ -48,36 +48,36 @@ namespace Engine
 
         protected override void LoadContent()
         {
-            Globals.gameWindow = Window;
-            Globals.gameWindow.Title = _title;
+            EngineGlobals.gameWindow = Window;
+            EngineGlobals.gameWindow.Title = _title;
 
-            Globals.content = Content;
-            Globals.graphicsDevice = GraphicsDevice;
-            Globals.spriteBatch = new SpriteBatch(GraphicsDevice);
+            EngineGlobals.content = Content;
+            EngineGlobals.graphicsDevice = GraphicsDevice;
+            EngineGlobals.spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Fullscreen
-            Globals.graphics.IsFullScreen = EngineGlobals.fullscreen;
-            Globals.gameWindow.IsBorderless = EngineGlobals.borderless;
+            EngineGlobals.graphics.IsFullScreen = EngineGlobals.fullscreen;
+            EngineGlobals.gameWindow.IsBorderless = EngineGlobals.borderless;
 
-            Globals.graphics.ApplyChanges();
+            EngineGlobals.graphics.ApplyChanges();
 
             // Todo move??
-            Globals.sceneRenderTarget = new RenderTarget2D(
-                Globals.graphicsDevice,
-                Globals.graphicsDevice.PresentationParameters.BackBufferWidth,
-                Globals.graphicsDevice.PresentationParameters.BackBufferHeight,
+            EngineGlobals.sceneRenderTarget = new RenderTarget2D(
+                EngineGlobals.graphicsDevice,
+                EngineGlobals.graphicsDevice.PresentationParameters.BackBufferWidth,
+                EngineGlobals.graphicsDevice.PresentationParameters.BackBufferHeight,
                 false,
-                Globals.graphicsDevice.PresentationParameters.BackBufferFormat,
+                EngineGlobals.graphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
             );
 
             // Todo move??
-            Globals.lightRenderTarget = new RenderTarget2D(
-                Globals.graphicsDevice,
-                Globals.graphicsDevice.PresentationParameters.BackBufferWidth,
-                Globals.graphicsDevice.PresentationParameters.BackBufferHeight,
+            EngineGlobals.lightRenderTarget = new RenderTarget2D(
+                EngineGlobals.graphicsDevice,
+                EngineGlobals.graphicsDevice.PresentationParameters.BackBufferWidth,
+                EngineGlobals.graphicsDevice.PresentationParameters.BackBufferHeight,
                 false,
-                Globals.graphicsDevice.PresentationParameters.BackBufferFormat,
+                EngineGlobals.graphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents
             );
 

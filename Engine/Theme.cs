@@ -13,12 +13,12 @@ namespace Engine
         public static Color TextColorSecondary = ColorSecondary;
         public static Color TextColorTertiary = ColorTertiary;
 
-        public static readonly SpriteFont FontTitle = Globals.content.Load<SpriteFont>("Fonts/Title");
-        public static readonly SpriteFont FontSubtitle = Globals.content.Load<SpriteFont>("Fonts/Subtitle");
+        public static readonly SpriteFont FontTitle = EngineGlobals.content.Load<SpriteFont>("Fonts/Title");
+        public static readonly SpriteFont FontSubtitle = EngineGlobals.content.Load<SpriteFont>("Fonts/Subtitle");
 
-        public static readonly SpriteFont FontPrimary = Globals.content.Load<SpriteFont>("Fonts/Large");
-        public static readonly SpriteFont FontSecondary = Globals.content.Load<SpriteFont>("Fonts/Medium");
-        public static readonly SpriteFont FontTertiary = Globals.content.Load<SpriteFont>("Fonts/Small");
+        public static readonly SpriteFont FontPrimary = EngineGlobals.content.Load<SpriteFont>("Fonts/Large");
+        public static readonly SpriteFont FontSecondary = EngineGlobals.content.Load<SpriteFont>("Fonts/Medium");
+        public static readonly SpriteFont FontTertiary = EngineGlobals.content.Load<SpriteFont>("Fonts/Small");
 
         public static Color BorderColorPrimary = Color.Black;
         public static Color BorderColorSecondary = Color.DarkGray;

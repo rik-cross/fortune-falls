@@ -99,7 +99,7 @@ namespace Engine
         {
             if (visible == false)
                 return;
-            Globals.spriteBatch.Draw(markerTexture, currentPosition, null, colour, currentAngle, new Vector2(markerTexture.Width / 2f, markerTexture.Height / 2f), new Vector2(markerTextureZoom, markerTextureZoom), SpriteEffects.None, 1.0f);
+            EngineGlobals.spriteBatch.Draw(markerTexture, currentPosition, null, colour, currentAngle, new Vector2(markerTexture.Width / 2f, markerTexture.Height / 2f), new Vector2(markerTextureZoom, markerTextureZoom), SpriteEffects.None, 1.0f);
         }
         public void SetPOI(Vector2 position)
         {

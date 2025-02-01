@@ -58,7 +58,7 @@ namespace AdventureGame
             );
 
             // draw image
-            Globals.spriteBatch.Draw(
+            EngineGlobals.spriteBatch.Draw(
                 animatedEmoteComponent._textures[animatedEmoteComponent._currentIndex],
                 new Rectangle(
                     (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
@@ -100,7 +100,7 @@ namespace AdventureGame
             );
 
             // draw image
-            Globals.spriteBatch.Draw(
+            EngineGlobals.spriteBatch.Draw(
                 animatedEmoteComponent._texture,
                 new Rectangle(
                     (int)(entityTopMiddle.X - (animatedEmoteComponent.textureSize.X / 2)),
@@ -128,18 +128,18 @@ namespace AdventureGame
             UI.DrawRect(button.position.X, button.position.Y, button.size.X, button.size.Y, a);
             
             // Draw text
-            Globals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour * a);
+            EngineGlobals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour * a);
             // Draw highlight if active
             if(button.selected)
             {
                 // Top left
-                Globals.spriteBatch.Draw(selectTopLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)button.position.Y - currentActiveBorder, 20, 20), Color.White * a);
+                EngineGlobals.spriteBatch.Draw(selectTopLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)button.position.Y - currentActiveBorder, 20, 20), Color.White * a);
                 // Top Right
-                Globals.spriteBatch.Draw(selectTopRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)button.position.Y - currentActiveBorder, 20, 20), Color.White*a);
+                EngineGlobals.spriteBatch.Draw(selectTopRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)button.position.Y - currentActiveBorder, 20, 20), Color.White*a);
                 // Bottom left
-                Globals.spriteBatch.Draw(selectBottomLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White*a);
+                EngineGlobals.spriteBatch.Draw(selectBottomLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White*a);
                 // Bottom right
-                Globals.spriteBatch.Draw(selectBottomRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White*a);
+                EngineGlobals.spriteBatch.Draw(selectBottomRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White*a);
             }
         }
 
@@ -161,30 +161,30 @@ namespace AdventureGame
             // Draw value
             float t = button.size.X - 8 * 2;
             float p = (float)(button.currentValue / (button.maxValue - button.minValue) * 100);
-            Globals.spriteBatch.FillRectangle(new Vector2(button.position.X + 8, button.position.Y + 8), new Vector2(t / 100 * p, button.size.Y - 8 * 2), button.onColour * a);
-            Globals.spriteBatch.FillRectangle(new Vector2(button.position.X + 8 + (t / 100 * p), button.position.Y + 8), new Vector2((t) - (t / 100 * p), button.size.Y - 8 * 2), button.offColour * a);
+            EngineGlobals.spriteBatch.FillRectangle(new Vector2(button.position.X + 8, button.position.Y + 8), new Vector2(t / 100 * p, button.size.Y - 8 * 2), button.onColour * a);
+            EngineGlobals.spriteBatch.FillRectangle(new Vector2(button.position.X + 8 + (t / 100 * p), button.position.Y + 8), new Vector2((t) - (t / 100 * p), button.size.Y - 8 * 2), button.offColour * a);
 
             // Draw text
-            Globals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour * a);
+            EngineGlobals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour * a);
             // Draw arrows
             if (button.active)
             {
                 if (button.currentValue > button.minValue)
-                    Globals.spriteBatch.DrawString(button.font, "<", new Vector2((button.position.X + 10), button.position.Y + button.textOffset.Y), button.textColour * a);
+                    EngineGlobals.spriteBatch.DrawString(button.font, "<", new Vector2((button.position.X + 10), button.position.Y + button.textOffset.Y), button.textColour * a);
                 if (button.currentValue < button.maxValue)
-                    Globals.spriteBatch.DrawString(button.font, ">", new Vector2((button.position.X + button.size.X - (button.font.MeasureString(">").X) - 10), button.position.Y + button.textOffset.Y), button.textColour * a);
+                    EngineGlobals.spriteBatch.DrawString(button.font, ">", new Vector2((button.position.X + button.size.X - (button.font.MeasureString(">").X) - 10), button.position.Y + button.textOffset.Y), button.textColour * a);
             }
             // Draw highlight if active
             if (button.selected)
             {
                 // Top left
-                Globals.spriteBatch.Draw(selectTopLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)button.position.Y - currentActiveBorder, 20, 20), Color.White * a);
+                EngineGlobals.spriteBatch.Draw(selectTopLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)button.position.Y - currentActiveBorder, 20, 20), Color.White * a);
                 // Top Right
-                Globals.spriteBatch.Draw(selectTopRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)button.position.Y - currentActiveBorder, 20, 20), Color.White * a);
+                EngineGlobals.spriteBatch.Draw(selectTopRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)button.position.Y - currentActiveBorder, 20, 20), Color.White * a);
                 // Bottom left
-                Globals.spriteBatch.Draw(selectBottomLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White * a);
+                EngineGlobals.spriteBatch.Draw(selectBottomLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White * a);
                 // Bottom right
-                Globals.spriteBatch.Draw(selectBottomRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White * a);
+                EngineGlobals.spriteBatch.Draw(selectBottomRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White * a);
             }
         }
 
@@ -198,35 +198,35 @@ namespace AdventureGame
             //S.WriteLine(c);
 
             // Draw background image
-            //Globals.spriteBatch.DrawRectangle(button.position, button.size, button.outlineColour, button.outlineThickness);
-            Globals.spriteBatch.Draw(labelLeft, new Rectangle((int)button.position.X, (int)button.position.Y, 12, (int)button.size.Y), Color.White);
-            Globals.spriteBatch.Draw(labelMiddle, new Rectangle((int)button.position.X + 12, (int)button.position.Y, (int)button.size.X - (2 * 12), (int)button.size.Y), Color.White);
-            Globals.spriteBatch.Draw(labelRight, new Rectangle((int)(button.position.X + button.size.X - 12), (int)button.position.Y, 12, (int)button.size.Y), Color.White);
+            //EngineGlobals.spriteBatch.DrawRectangle(button.position, button.size, button.outlineColour, button.outlineThickness);
+            EngineGlobals.spriteBatch.Draw(labelLeft, new Rectangle((int)button.position.X, (int)button.position.Y, 12, (int)button.size.Y), Color.White);
+            EngineGlobals.spriteBatch.Draw(labelMiddle, new Rectangle((int)button.position.X + 12, (int)button.position.Y, (int)button.size.X - (2 * 12), (int)button.size.Y), Color.White);
+            EngineGlobals.spriteBatch.Draw(labelRight, new Rectangle((int)(button.position.X + button.size.X - 12), (int)button.position.Y, 12, (int)button.size.Y), Color.White);
 
             // Draw text
             button.text = "Keyboard";
             if (button.currentValue == 1)
                 button.text = "Controller";
             button.Init();
-            Globals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour);
+            EngineGlobals.spriteBatch.DrawString(button.font, button.text, new Vector2(button.position.X + button.textOffset.X, button.position.Y + button.textOffset.Y + 1), button.textColour);
 
             // Draw arrows
             if (button.currentValue > button.minValue)
-                Globals.spriteBatch.DrawString(button.font, "<", new Vector2((button.position.X + 10), button.position.Y + button.textOffset.Y), button.textColour);
+                EngineGlobals.spriteBatch.DrawString(button.font, "<", new Vector2((button.position.X + 10), button.position.Y + button.textOffset.Y), button.textColour);
             if (EngineGlobals.inputManager.IsControllerConnected() && button.currentValue < button.maxValue)
-                Globals.spriteBatch.DrawString(button.font, ">", new Vector2((button.position.X + button.size.X - (button.font.MeasureString(">").X) - 10), button.position.Y + button.textOffset.Y), button.textColour);
+                EngineGlobals.spriteBatch.DrawString(button.font, ">", new Vector2((button.position.X + button.size.X - (button.font.MeasureString(">").X) - 10), button.position.Y + button.textOffset.Y), button.textColour);
 
             // Draw highlight if active
             if (button.selected)
             {
                 // Top left
-                Globals.spriteBatch.Draw(selectTopLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)button.position.Y - currentActiveBorder, 20, 20), Color.White);
+                EngineGlobals.spriteBatch.Draw(selectTopLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)button.position.Y - currentActiveBorder, 20, 20), Color.White);
                 // Top Right
-                Globals.spriteBatch.Draw(selectTopRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)button.position.Y - currentActiveBorder, 20, 20), Color.White);
+                EngineGlobals.spriteBatch.Draw(selectTopRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)button.position.Y - currentActiveBorder, 20, 20), Color.White);
                 // Bottom left
-                Globals.spriteBatch.Draw(selectBottomLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White);
+                EngineGlobals.spriteBatch.Draw(selectBottomLeft, new Rectangle((int)button.position.X - currentActiveBorder, (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White);
                 // Bottom right
-                Globals.spriteBatch.Draw(selectBottomRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White);
+                EngineGlobals.spriteBatch.Draw(selectBottomRight, new Rectangle((int)(button.position.X + button.size.X - 20 + currentActiveBorder), (int)(button.position.Y + button.size.Y - 20 + currentActiveBorder), 20, 20), Color.White);
             }
         }
 

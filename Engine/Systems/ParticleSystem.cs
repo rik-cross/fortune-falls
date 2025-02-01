@@ -68,7 +68,7 @@ namespace Engine
             {
                 foreach (Particle p in pc.particles)
                 {
-                    Globals.spriteBatch.DrawCircle(
+                    EngineGlobals.spriteBatch.DrawCircle(
                         new CircleF(
                             new Vector2(
                                 tc.Position.X + pc.offset.X + p.offset.X, tc.Position.Y + pc.offset.Y + p.offset.Y),

@@ -28,7 +28,7 @@ namespace AdventureGame
                 outlineColour: Color.Black
             );
 
-            float screenMiddle = Globals.ScreenHeight / 2;
+            float screenMiddle = EngineGlobals.ScreenHeight / 2;
 
             string t = "Controller";
             if (Globals.IsControllerConnected && Globals.IsControllerSelected)
@@ -38,7 +38,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle - 100),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, screenMiddle - 100),
                     size: new Vector2(140, 45),
                     text: t,
                     textColour: Color.White,
@@ -56,7 +56,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle - 50),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, screenMiddle - 50),
                     size: new Vector2(140, 45),
                     text: "Mute",
                     textColour: Color.White,
@@ -69,7 +69,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, screenMiddle),
                     size: new Vector2(140, 45),
                     text: "Music",
                     textColour: Color.White,
@@ -86,7 +86,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UISlider(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 50),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, screenMiddle + 50),
                     size: new Vector2(140, 45),
                     text: "SFX",
                     textColour: Color.White,
@@ -109,7 +109,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 100),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, screenMiddle + 100),
                     size: new Vector2(140, 45),
                     text: tt,
                     textColour: Color.White,
@@ -122,8 +122,8 @@ namespace AdventureGame
                             button.text = "Windowed";
                         else
                             button.text = "Fullscreen";
-                        Globals.graphics.IsFullScreen = EngineGlobals.fullscreen;
-                        Globals.graphics.ApplyChanges();
+                        EngineGlobals.graphics.IsFullScreen = EngineGlobals.fullscreen;
+                        EngineGlobals.graphics.ApplyChanges();
                     }
                 )
             );
@@ -136,7 +136,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 150),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, screenMiddle + 150),
                     size: new Vector2(140, 45),
                     text: l,
                     textColour: Color.White,
@@ -155,7 +155,7 @@ namespace AdventureGame
 
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, screenMiddle + 200),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, screenMiddle + 200),
                     size: new Vector2(140, 45),
                     text: "Back",
                     textColour: Color.White,

@@ -196,7 +196,7 @@ namespace Engine
                             int s = 0;
                             int e = Math.Clamp(ind - acc, 0, line.Length);
 
-                            Globals.spriteBatch.DrawString(Theme.FontPrimary,
+                            EngineGlobals.spriteBatch.DrawString(Theme.FontPrimary,
                                 line.Substring(s, e),
                                 new Vector2(camera.screenPosition.X + (Theme.BorderLarge * 2) + xOffset,
                                     y),
@@ -238,7 +238,7 @@ namespace Engine
 
                             // Draw the image
 
-                            Globals.spriteBatch.Draw(t,
+                            EngineGlobals.spriteBatch.Draw(t,
                                 new Rectangle(
                                     (int)(camera.screenPosition.X + (3 * Theme.BorderLarge) + padding.X),
                                     (int)(camera.screenPosition.Y + camera.size.Y - 200 + Theme.BorderLarge + padding.Y),
@@ -253,7 +253,7 @@ namespace Engine
                             else
                                 button = GameAssets.buttonenter_single;
 
-                            Globals.spriteBatch.Draw(button,
+                            EngineGlobals.spriteBatch.Draw(button,
                                 new Rectangle(
                                     (int)(camera.screenPosition.X + camera.size.X - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Width*2),
                                     (int)(camera.screenPosition.Y + camera.size.Y - (2 * Theme.BorderLarge) - Theme.BorderSmall - button.Height*2),

@@ -1,8 +1,12 @@
-﻿using Engine;
-using Microsoft.Xna.Framework;
+﻿/*
+ *  File: MenuScene.cs
+ *  Project: Fortune Falls
+ *  (c) 2025, Alex Parry, Mac Bowley and Rik Cross
+ */
 
+using Engine;
+using Microsoft.Xna.Framework;
 using System;
-using S = System.Diagnostics.Debug;
 
 namespace AdventureGame
 {
@@ -30,7 +34,7 @@ namespace AdventureGame
             LightLevel = 1.0f;
 
             // Load the map but do not create collision entities
-            LoadMap("Maps/Map_Village", false);
+            LoadMap("Maps/Map_Village", createColliders: false);
 
             // Create the menu character entities
             CreateMainMenuPlayer();
@@ -39,7 +43,7 @@ namespace AdventureGame
             // Add the camera
             _camera = new Engine.Camera(
                 name: "main",
-                size: new Vector2(Globals.ScreenWidth, Globals.ScreenHeight),
+                size: new Vector2(EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight),
                 zoom: 4.0f,
                 backgroundColour: Color.Black
             );
@@ -98,7 +102,7 @@ namespace AdventureGame
             // New game button
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 300),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, EngineGlobals.ScreenHeight - 300),
                     size: new Vector2(140, 45),
                     text: "New Game",
                     textColour: Color.White,
@@ -111,7 +115,7 @@ namespace AdventureGame
 
             // Continue game button
             BtnContinue = new UIButton(
-                position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 250),
+                position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, EngineGlobals.ScreenHeight - 250),
                 size: new Vector2(140, 45),
                 text: "Continue",
                 textColour: Color.White,
@@ -126,7 +130,7 @@ namespace AdventureGame
             // Options button
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 200),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, EngineGlobals.ScreenHeight - 200),
                     size: new Vector2(140, 45),
                     text: "Options",
                     textColour: Color.White,
@@ -140,7 +144,7 @@ namespace AdventureGame
             // Credits button
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 150),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, EngineGlobals.ScreenHeight - 150),
                     size: new Vector2(140, 45),
                     text: "Credits",
                     textColour: Color.White,
@@ -154,7 +158,7 @@ namespace AdventureGame
             // Quit button
             UIMenu.AddUIElement(
                 new UIButton(
-                    position: new Vector2((Globals.ScreenWidth / 2) - 70, Globals.ScreenHeight - 100),
+                    position: new Vector2((EngineGlobals.ScreenWidth / 2) - 70, EngineGlobals.ScreenHeight - 100),
                     size: new Vector2(140, 45),
                     text: "Quit",
                     textColour: Color.White,
@@ -164,20 +168,6 @@ namespace AdventureGame
                     func: UnloadMenuScene
                 )
             );
-
-            //// control images
-            //_controllerImage = new Engine.Image(
-            //    Utils.LoadTexture("UI/xbox360.png"),
-            //    size: new Vector2(118, 76),
-            //    anchor: Anchor.BottomLeft,
-            //    padding: new Padding(bottom: 30, left: 30)
-            //);
-            //_keyboardImage = new Engine.Image(
-            //    Utils.LoadTexture("UI/keyboard.png"),
-            //    size: new Vector2(198, 63),
-            //    anchor: Anchor.BottomLeft,
-            //    padding: new Padding(bottom: 30, left: 30)
-            //);
 
         }
 

@@ -179,7 +179,7 @@ namespace Engine
 
             if (anchorParent == default && anchor != Anchor.None)
             {
-                AnchorParent = new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
+                AnchorParent = new Rectangle(0, 0, EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight);
             }
             else if (anchorParent != default && anchor == Anchor.None)
             {
@@ -199,7 +199,7 @@ namespace Engine
 
         public void SetAnchorParentAsScreen(Anchor anchor = Anchor.None)
         {
-            AnchorParent = new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight);
+            AnchorParent = new Rectangle(0, 0, EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight);
 
             if (anchor != Anchor.None)
                 Anchor = anchor;

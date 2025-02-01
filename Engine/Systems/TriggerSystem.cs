@@ -103,9 +103,9 @@ namespace Engine
             TriggerComponent triggerComponent = entity.GetComponent<TriggerComponent>();
             TransformComponent transformComponent = entity.GetComponent<TransformComponent>();
 
-            Globals.spriteBatch.DrawRectangle(triggerComponent.rect, Color.Turquoise);
+            EngineGlobals.spriteBatch.DrawRectangle(triggerComponent.rect, Color.Turquoise);
 
-            Globals.spriteBatch.DrawString(Theme.FontSecondary, triggerComponent.collidedEntities.Count.ToString(),
+            EngineGlobals.spriteBatch.DrawString(Theme.FontSecondary, triggerComponent.collidedEntities.Count.ToString(),
                 new Vector2(
                     (int)(transformComponent.Position.X + triggerComponent.offset.X),
                     (int)(transformComponent.Position.Y + triggerComponent.offset.Y)

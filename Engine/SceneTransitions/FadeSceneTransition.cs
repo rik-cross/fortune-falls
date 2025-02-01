@@ -18,13 +18,13 @@ namespace Engine
 
         public override void Draw(GameTime gameTime)
         {
-            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-            Globals.spriteBatch.End();
+            EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+            EngineGlobals.spriteBatch.End();
             if (EngineGlobals.sceneManager.ActiveScene != null)
                 EngineGlobals.sceneManager.ActiveScene._Draw(gameTime);
 
-            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-            Globals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+            EngineGlobals.spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             // Calculate alpha percentage of fade overlay colour
             // Fading scene out will increase the fade alpha from 0 to 1
@@ -35,8 +35,8 @@ namespace Engine
             else if (TimeElapsed <= TimeToCompleteTransition)
                 alpha = 1 - (TimeElapsed - FadeOutDuration) / FadeInDuration;
 
-            Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight),
+            EngineGlobals.spriteBatch.FillRectangle(
+                new Rectangle(0, 0, EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight),
                 Color.Black * alpha
             );
         }

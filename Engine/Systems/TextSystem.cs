@@ -34,7 +34,7 @@ namespace Engine
             else
                 a = textComponent.frame * 0.02f;
 
-            Globals.spriteBatch.FillRectangle(
+            EngineGlobals.spriteBatch.FillRectangle(
                 new Rectangle(
                     (int)( (transformComponent.Position.X + (transformComponent.Size.X/2)) - ((textComponent.textWidth + textComponent.outerMargin * 2)/2) ),
                     (int)(transformComponent.Position.Y - transformComponent.Size.Y / 2 - textComponent.totalHeight - (textComponent.outerMargin*2)) + 10,
@@ -52,7 +52,7 @@ namespace Engine
             else
                 aa = textComponent.frame * 0.02f;
 
-            Globals.spriteBatch.DrawRectangle(
+            EngineGlobals.spriteBatch.DrawRectangle(
                 new Rectangle(
                     (int)((transformComponent.Position.X + (transformComponent.Size.X/2)) - ((textComponent.textWidth + textComponent.outerMargin * 2) / 2)),
                     (int)(transformComponent.Position.Y - transformComponent.Size.Y / 2 - textComponent.totalHeight - (textComponent.outerMargin*2)) + 10,
@@ -85,7 +85,7 @@ namespace Engine
                     else
                         t = line;
 
-                    Globals.spriteBatch.DrawString(
+                    EngineGlobals.spriteBatch.DrawString(
                         Theme.FontSecondary,
                         t,
                         new Vector2(
@@ -102,7 +102,7 @@ namespace Engine
             {
                 foreach (string line in textComponent.text)
                 {
-                    Globals.spriteBatch.DrawString(
+                    EngineGlobals.spriteBatch.DrawString(
                         Theme.FontSecondary,
                         line,
                         new Vector2(
@@ -118,7 +118,7 @@ namespace Engine
             {
                 foreach (string line in textComponent.text)
                 {
-                    Globals.spriteBatch.DrawString(
+                    EngineGlobals.spriteBatch.DrawString(
                         Theme.FontSecondary,
                         line,
                         new Vector2(

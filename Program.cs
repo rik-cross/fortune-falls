@@ -9,7 +9,7 @@ namespace AdventureGame
         static void Main()
         {
             // create new game object
-            Engine.Game game = new Engine.Game(
+            Engine.Game game = new (
                 title: "Fortune Falls",
                 screenWidth: 16 * 80,
                 screenHeight: 9 * 80,

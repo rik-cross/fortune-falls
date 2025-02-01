@@ -56,13 +56,13 @@ namespace Engine
             if (visible == false || items.Count == 0)
                 return;
 
-            int y = Globals.ScreenHeight / 2;
+            int y = EngineGlobals.ScreenHeight / 2;
 
             foreach (LogItem l in items)
             {
-                Globals.spriteBatch.DrawString(Theme.FontSecondary, l.text, new Vector2(35, y), Color.White * l.alpha) ;
+                EngineGlobals.spriteBatch.DrawString(Theme.FontSecondary, l.text, new Vector2(35, y), Color.White * l.alpha) ;
                 y += 30;
-                if (y > Globals.ScreenHeight - Theme.FontSecondary.MeasureString("Some Text").Y - 30)
+                if (y > EngineGlobals.ScreenHeight - Theme.FontSecondary.MeasureString("Some Text").Y - 30)
                     return;
             }
         }

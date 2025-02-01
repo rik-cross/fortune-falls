@@ -35,7 +35,7 @@ namespace Engine
 
             //TransformComponent transform = entity.GetComponent<TransformComponent>();
 
-            //Globals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
+            //EngineGlobals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
         }
     }
 }

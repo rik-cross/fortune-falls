@@ -22,7 +22,7 @@ namespace Engine
 
             // Testing 
             //TransformComponent transform = entity.GetComponent<TransformComponent>();
-            //Globals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
+            //EngineGlobals.spriteBatch.DrawRectangle(transform.GetRectangle(), Color.Black, 3);
 
             if (animatedComponent == null && spriteComponent == null)
                 return;
@@ -62,7 +62,7 @@ namespace Engine
             if (h == true && v == true)
                 se = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
 
-            Globals.spriteBatch.Draw(
+            EngineGlobals.spriteBatch.Draw(
                 currentTexture,
                 new Rectangle(
                     (int)(transformComponent.Position.X + sprite.Offset.X),

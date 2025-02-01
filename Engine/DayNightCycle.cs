@@ -114,13 +114,13 @@ namespace Engine
         {
 
             // Draw clock face
-            Globals.spriteBatch.Draw(dayNightOverlay, new Vector2(Globals.ScreenWidth - dayNightOverlay.Width - 20, 20), Color.White);
+            EngineGlobals.spriteBatch.Draw(dayNightOverlay, new Vector2(EngineGlobals.ScreenWidth - dayNightOverlay.Width - 20, 20), Color.White);
             // Draw clock hand
-            Globals.spriteBatch.Draw(dayNight, new Vector2(Globals.ScreenWidth - (dayNightOverlay.Width/2) - 20, 20+(dayNightOverlay.Height/2)), null, Color.White, (float)((Math.PI * 2) / 100 * GetPercentage()), new Vector2(32, 32), 1, SpriteEffects.None, 0);
+            EngineGlobals.spriteBatch.Draw(dayNight, new Vector2(EngineGlobals.ScreenWidth - (dayNightOverlay.Width/2) - 20, 20+(dayNightOverlay.Height/2)), null, Color.White, (float)((Math.PI * 2) / 100 * GetPercentage()), new Vector2(32, 32), 1, SpriteEffects.None, 0);
             // Draw year
-            Globals.spriteBatch.DrawString(Theme.FontTertiary, "Year " + year, new Vector2(Globals.ScreenWidth - (dayNightOverlay.Width) - 20 + (((dayNightOverlay.Width) - (Theme.FontTertiary.MeasureString("Year " + year).X)) / 2), 20 + dayNightOverlay.Height), Color.White);
+            EngineGlobals.spriteBatch.DrawString(Theme.FontTertiary, "Year " + year, new Vector2(EngineGlobals.ScreenWidth - (dayNightOverlay.Width) - 20 + (((dayNightOverlay.Width) - (Theme.FontTertiary.MeasureString("Year " + year).X)) / 2), 20 + dayNightOverlay.Height), Color.White);
             // Draw day
-            Globals.spriteBatch.DrawString(Theme.FontTertiary, "Day " + day, new Vector2(Globals.ScreenWidth - (dayNightOverlay.Width) - 20 + (((dayNightOverlay.Width) -(Theme.FontTertiary.MeasureString("Day " + day).X))/2), 20 + dayNightOverlay.Height + (Theme.FontTertiary.MeasureString("Year " + year).Y)), Color.White);
+            EngineGlobals.spriteBatch.DrawString(Theme.FontTertiary, "Day " + day, new Vector2(EngineGlobals.ScreenWidth - (dayNightOverlay.Width) - 20 + (((dayNightOverlay.Width) -(Theme.FontTertiary.MeasureString("Day " + day).X))/2), 20 + dayNightOverlay.Height + (Theme.FontTertiary.MeasureString("Year " + year).Y)), Color.White);
 
             // build date string
             // string date = day.ToString().PadLeft(2, '0');
@@ -135,7 +135,7 @@ namespace Engine
             //        pos -= 20;
             //    }
             //}
-            //Globals.spriteBatch.DrawString(Theme.FontTertiary, date, new Vector2(pos, 65), Color.White);
+            //EngineGlobals.spriteBatch.DrawString(Theme.FontTertiary, date, new Vector2(pos, 65), Color.White);
         }
 
 

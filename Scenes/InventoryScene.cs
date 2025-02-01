@@ -106,10 +106,10 @@ namespace AdventureGame
         // Used to recalculate the container dimensions in case the screen size changes
         public void CalculateContainerDimensions()
         {
-            _containerWidth = (int)(Globals.ScreenWidth * _containerRelativeSize);
-            _containerHeight = (int)(Globals.ScreenHeight * _containerRelativeSize);
-            _containerX = (Globals.ScreenWidth - _containerWidth) / 2;
-            _containerY = (Globals.ScreenHeight - _containerHeight) / 2;
+            _containerWidth = (int)(EngineGlobals.ScreenWidth * _containerRelativeSize);
+            _containerHeight = (int)(EngineGlobals.ScreenHeight * _containerRelativeSize);
+            _containerX = (EngineGlobals.ScreenWidth - _containerWidth) / 2;
+            _containerY = (EngineGlobals.ScreenHeight - _containerHeight) / 2;
             _innerX = _containerX + _containerBorder;
             _innerY = _containerY + _containerBorder;
 
@@ -684,7 +684,7 @@ namespace AdventureGame
                     barColour = Theme.HealthLevelLow;
 
                 // Draw the bar
-                Globals.spriteBatch.FillRectangle(
+                EngineGlobals.spriteBatch.FillRectangle(
                     new Rectangle(
                         x: barRect.X,
                         y: barRect.Y + (barRect.Height - barLevel),
@@ -693,7 +693,7 @@ namespace AdventureGame
                     barColour);
 
                 // Draw the bar's border
-                Globals.spriteBatch.DrawRectangle(barRect, Theme.BorderColorPrimary,
+                EngineGlobals.spriteBatch.DrawRectangle(barRect, Theme.BorderColorPrimary,
                     thickness: Theme.BorderTiny);
             }
         }
@@ -701,15 +701,15 @@ namespace AdventureGame
         public override void Draw(GameTime gameTime)
         {
             // Draw the background
-            Globals.spriteBatch.FillRectangle(
-                new Rectangle(0, 0, Globals.ScreenWidth, Globals.ScreenHeight), Color.Black * 0.5f
+            EngineGlobals.spriteBatch.FillRectangle(
+                new Rectangle(0, 0, EngineGlobals.ScreenWidth, EngineGlobals.ScreenHeight), Color.Black * 0.5f
             );
 
             // Draw the container
-            Globals.spriteBatch.FillRectangle(_containerRectangle, Color.DarkSlateGray);
+            EngineGlobals.spriteBatch.FillRectangle(_containerRectangle, Color.DarkSlateGray);
             
             // Draw the container's border
-            Globals.spriteBatch.DrawRectangle(
+            EngineGlobals.spriteBatch.DrawRectangle(
                 new Rectangle(
                     _containerX, _containerY,
                     _containerWidth, _containerHeight
@@ -719,7 +719,7 @@ namespace AdventureGame
 
             // Draw the inventory header text
             string inventoryText = "Inventory";
-            Globals.spriteBatch.DrawString(Theme.FontPrimary,
+            EngineGlobals.spriteBatch.DrawString(Theme.FontPrimary,
                 inventoryText,
                 new Vector2(_innerX + _slotPadding, _innerY + _slotPadding),
                 Theme.TextColorTertiary);
@@ -743,10 +743,10 @@ namespace AdventureGame
                 _slotRectangles[i] = slotRect;
 
                 // Draw the slot
-                Globals.spriteBatch.FillRectangle(slotRect, Theme.ColorSecondary);
+                EngineGlobals.spriteBatch.FillRectangle(slotRect, Theme.ColorSecondary);
                 
                 // Draw the slot's border
-                Globals.spriteBatch.DrawRectangle(slotRect, Theme.BorderColorPrimary,
+                EngineGlobals.spriteBatch.DrawRectangle(slotRect, Theme.BorderColorPrimary,
                     thickness: _slotBorder);
 
                 // Draw a border around the slot if it is the current or selected slot
@@ -764,7 +764,7 @@ namespace AdventureGame
                     if (_selectedSlot == i)
                         highlightColour = Theme.BorderHighlightSecondary;
 
-                    Globals.spriteBatch.DrawRectangle(highlightedRectangle, highlightColour,
+                    EngineGlobals.spriteBatch.DrawRectangle(highlightedRectangle, highlightColour,
                         thickness: _currentSlotBorder);
                 }
 
@@ -783,7 +783,7 @@ namespace AdventureGame
             // Draw the key items header text
             int xInitialPad = (_slotWidth + _slotPadding) * _columns + _slotWidth;
             string keyItemsText = "Key Items";
-            Globals.spriteBatch.DrawString(Theme.FontPrimary,
+            EngineGlobals.spriteBatch.DrawString(Theme.FontPrimary,
                 keyItemsText,
                 new Vector2(_innerX + _slotPadding + xInitialPad, _innerY + _slotPadding),
                 Theme.TextColorTertiary);
@@ -804,10 +804,10 @@ namespace AdventureGame
                 Rectangle slotRect = new Rectangle(slotX, slotY, _slotWidth, _slotHeight);
 
                 // Draw the slot
-                Globals.spriteBatch.FillRectangle(slotRect, Theme.ColorTertiary);
+                EngineGlobals.spriteBatch.FillRectangle(slotRect, Theme.ColorTertiary);
 
                 // Draw the slot's border
-                Globals.spriteBatch.DrawRectangle(slotRect, Theme.BorderColorPrimary,
+                EngineGlobals.spriteBatch.DrawRectangle(slotRect, Theme.BorderColorPrimary,
                     thickness: _slotBorder);
 
                 // Draw the item if it exists

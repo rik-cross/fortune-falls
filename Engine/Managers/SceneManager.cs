@@ -72,8 +72,8 @@ namespace Engine
 
         public void Draw(GameTime gameTime)
         {
-            Globals.graphicsDevice.SetRenderTarget(Globals.sceneRenderTarget);
-            Globals.graphicsDevice.Clear(Color.Black);
+            EngineGlobals.graphicsDevice.SetRenderTarget(EngineGlobals.sceneRenderTarget);
+            EngineGlobals.graphicsDevice.Clear(Color.Black);
 
             //if (Transition != null)
             //    Transition._Draw(gameTime);
@@ -513,22 +513,15 @@ namespace Engine
             }
         }
 
-        // todo - not currently used. Delete?
         public void SetScreenSize(int width, int height)
         {
-            /*
-            if (width < Globals.MinScreenWidth)
-                width = Globals.MinScreenWidth;
-            if (height < Globals.MinScreenHeight)
-                height = Globals.MinScreenHeight;
-            */
+        
+            EngineGlobals.graphics.PreferredBackBufferWidth = width;
+            EngineGlobals.graphics.PreferredBackBufferHeight = height;
+            EngineGlobals.graphics.ApplyChanges();
 
-            Globals.graphics.PreferredBackBufferWidth = width;
-            Globals.graphics.PreferredBackBufferHeight = height;
-            Globals.graphics.ApplyChanges();
-
-            Globals.ScreenWidth = Globals.graphics.PreferredBackBufferWidth;
-            Globals.ScreenHeight = Globals.graphics.PreferredBackBufferHeight;
+            EngineGlobals.ScreenWidth = EngineGlobals.graphics.PreferredBackBufferWidth;
+            EngineGlobals.ScreenHeight = EngineGlobals.graphics.PreferredBackBufferHeight;
 
             // Set the cameras to focus on the player again
             /*
